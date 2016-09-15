@@ -1,0 +1,65 @@
+<sidekick-wrapper>
+<section class="page profile-container league-page">
+  <loading-component *ngIf="!profileHeaderData && !hasError"></loading-component>
+  <error-component *ngIf="hasError"></error-component>
+  <div *ngIf="profileHeaderData">
+    <!-- <headline-component [title]="'About the MLB'"></headline-component> -->
+    <profile-header [profileHeaderData]="profileHeaderData"></profile-header>
+    <articles-module *ngIf="headlineData" [headlineData]="headlineData" [isLeague]="true"></articles-module>
+    <!-- <headline-component [title]="'Keep Up With Everything MLB'"></headline-component> -->
+    <video-module *ngIf="videoData" [firstVideo]="firstVideo"  [videoData]="videoData" [profileHeader]="profileHeaderData" [isProfilePage]="isProfilePage"></video-module>
+
+    <box-scores *ngIf="dateParam" [boxScores]="currentBoxScores" [calendarParams]="dateParam" (dateEmit)="getBoxScores($event)"></box-scores>
+    <responsive-widget *ngIf="dateParam" [embedPlace]="widgetPlace" [displayAtRes]="'640'"></responsive-widget>
+    <schedules *ngIf="schedulesData"
+        [profHeader]="profileHeaderData"
+        [data]="schedulesData"
+        [filter1]="scheduleFilter1"
+        [filter2]="scheduleFilter2"
+        [dropdownKey1]="selectedFilter1"
+        [dropdownKey2]="selectedFilter2"
+        (tabSelected)="scheduleTab($event)"
+        (selectedKeyFilter)="filterDropdown($event)"></schedules>
+    <responsive-widget *ngIf="schedulesData" [embedPlace]="widgetPlace" [displayAtRes]="'1024'"></responsive-widget>
+    <standings-module [data]="standingsData" (tabSelected)="standingsTabSelected($event)" (filterSelected)="standingsFilterSelected($event)" [scope]="scope"></standings-module>
+    <responsive-widget *ngIf="standingsData" [embedPlace]="widgetPlace" [displayAtRes]="'640'"></responsive-widget>
+
+    <transactions-module *ngIf="scope == sportLeagueAbbrv && transactionsData"
+      [data]="transactionsData"
+      [transactionFilter1]="transactionFilter1"
+      [dropdownKey1]="dropdownKey1"
+      (tabSwitched)="transactionsTab($event)"
+      (transactionKeyFilter)="transactionsFilterDropdown($event)"></transactions-module>
+
+    <draft-history-module *ngIf="profileData && scope == sportLeagueAbbrv.toLowerCase()" [profileData]="profileData"></draft-history-module>
+    <responsive-widget *ngIf="profileData" [embedPlace]="widgetPlace"></responsive-widget>
+    <mvp-module *ngIf="positionData && positionParams"
+      [title]="'Position'"
+      [mvpData]="positionData"
+      [query]="positionParams"
+      (tabSelectedListener)="positionDropdown($event)"
+      (dropdownPositionSelection)="positionDropdown($event)"></mvp-module>
+    <responsive-widget *ngIf="pitcherData" [embedPlace]="widgetPlace" [displayAtRes]="'640'"></responsive-widget>
+    <!-- <comparison-module [modelData]="comparisonModuleData" [profileName]="profileHeaderData.profileName" [scope]="scope"></comparison-module> -->
+    <responsive-widget *ngIf="comparisonModuleData" [embedPlace]="widgetPlace" [displayAtRes]="'1024'"></responsive-widget>
+    <!-- <headline-component [title]="'Other MLB Content You May Love'"></headline-component> -->
+    <div class="profile-carousel-container">
+      <images-media-carousel [imageData]="imageData" [copyright]="copyright" [imageTitle]="imageTitle" [profHeader]="profileHeaderData" [isProfilePage]="isProfilePage"></images-media-carousel>
+    </div>
+    <responsive-widget *ngIf="imageData" [embedPlace]="widgetPlace" [displayAtRes]="'640'"></responsive-widget>
+    <dyk-module *ngIf="dykData" [profileName]="profileHeaderData.profileName" [dykData]="dykData"></dyk-module>
+    <faq-module *ngIf="faqData" [profileName]="profileHeaderData.profileName" [faqData]="faqData"></faq-module>
+    <responsive-widget *ngIf="faqData" [embedPlace]="widgetPlace" ></responsive-widget>
+    <list-of-lists  *ngIf="listOfListsData" [profileHeaderData]="profileHeaderData" [listOfListsData]="listOfListsData" [profileType]="profileType"></list-of-lists>
+    <news-module *ngIf="newsDataArray" [newsDataArray]="newsDataArray" [profileName]="profileHeaderData.profileName"></news-module>
+    <responsive-widget *ngIf="newsDataArray" [embedPlace]="widgetPlace" [displayAtRes]="'640'"></responsive-widget>
+    <!-- <headline-component [title]="'Interact With MLB\'s Fans'"></headline-component> -->
+    <twitter-module *ngIf="twitterData" [profileName]="profileHeaderData.profileName" [twitterData]="twitterData"></twitter-module>
+    <responsive-widget *ngIf="twitterData" [embedPlace]="widgetPlace" [displayAtRes]="'1024'"></responsive-widget>
+    <!--Like Us On FB Module, only display if not on partner page-->
+    <section *ngIf="!partnerID">
+      <comment-module [profileName]="profileHeaderData.profileName"></comment-module>
+    </section>
+  </div>
+</section>
+</sidekick-wrapper>

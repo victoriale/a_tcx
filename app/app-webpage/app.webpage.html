@@ -1,0 +1,12 @@
+<div class="container-fluid vertical">
+  <div class="row">
+    <div class="col-xs-12">
+      <div id="partner" *ngIf="partnerScript" [innerHTML]="partnerScript | safeHtml"></div>
+      <header-component *ngIf="!hideHeader" partner="{{partnerID}}"></header-component>
+      <div id="webContainer" class='web-container container-fluid {{webRails}}' [style.padding-top]="shiftContainer | safeStyle">
+        <router-outlet></router-outlet>
+      </div>
+      <footer-component *ngIf="!hideHeader" [partner]="partnerID"></footer-component>
+    </div>
+  </div>
+</div>

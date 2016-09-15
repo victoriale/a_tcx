@@ -1,0 +1,82 @@
+.transactions {
+  .pane {
+    padding: 5px 15px 0 15px;
+  }
+
+  &-page {
+    &-title{
+      .flexDisplay;
+      .flexAlignItems(center);
+      .flexJustify(space-between);
+      margin: 0 0 15px 0;
+      @media @mobile {
+        display: block;
+        height: 60px;
+        margin: 5px 0 15px 0;
+      }
+      h4 {
+        margin: 0px;
+        .globalDefaultFont(18px, 400);
+        @media @mobile {
+          margin-bottom: 5px;
+        }
+      }
+    } //&-title
+
+    &-dropdown{
+      margin: 0px;
+      float: right;
+      .flexDisplay;
+      .flexAlignItems(center);
+      .globalDefaultFont(12px, 400);
+      .dropdown {
+        margin-left: 10px;
+        width: 90px;
+        &-hdr{
+          padding: 8px 5px 0;
+          height: 30px;
+          &-button{
+            padding: 1px 0;
+          }
+        }
+      }
+
+      .sort-title-text {
+        display: inline-block;
+        @media @mobile {
+          display: none;
+        }
+      }
+    } //&-dropdown
+
+    &-container{
+      width:100%;
+      .stats-table-title{
+        margin: 15px;
+      }
+    } //&-container
+
+    .no-data{
+      height: 70px;
+      margin: 5px auto;
+    } //no-data
+
+    //following attributes added so entire dropdown can be seen when there is no data to display
+    overflow: visible;
+    .side-scroller {
+      overflow: visible;
+    }
+    .pane {
+      overflow: visible;
+    }
+    .dropdown-caret-top {
+      z-index: 1001;
+    }
+    .dropdown-list {
+      z-index: 1000;
+    }
+    //END following attributes added so entire dropdown can be seen when there is no data to display
+
+  } //&-page
+
+} //transactions

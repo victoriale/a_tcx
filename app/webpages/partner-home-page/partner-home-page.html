@@ -1,0 +1,17 @@
+<div class="mhk">
+  <div class="mhk_banner">
+    <div class="mhk_banner_top">TAKE A LOOK AT OUR PARTNER WEBSITES</div>
+    <div class="mhk_banner_bottom">Keep Up With Your Favorite MLB Team</div>
+  </div>
+  <div class="mhk_container">
+    <div class="mhk_title">ACTIVE PARTNER WEBSITES</div>
+    <div *ngFor="let partnerData of partners" class="mhk_partners">
+        <h2>{{partnerData.name}}</h2>
+          <a *ngFor="let Data of partnerData.websites; let i=odd" href="{{Data.url}}"><div class="mhk_partner"  [ngClass]="{'odd': i == true}">
+            <div class="mhk_partner_text">{{Data.name}}</div>
+            <i class="fa fa-chevron-right"></i>
+          </div>
+        </a>
+    </div>
+  </div>
+</div>

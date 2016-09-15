@@ -1,0 +1,8 @@
+<sidekick-wrapper>
+<section class="page page-container">
+    <contactus-module *ngIf="contactusInput" [contactusInput]="contactusInput" (contactusOutput)="formSubmitted($event)"></contactus-module>
+    <div class="list-widget">
+      <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
+    </div>
+</section>
+</sidekick-wrapper>

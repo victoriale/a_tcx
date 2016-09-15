@@ -1,0 +1,140 @@
+.large {
+  display: block;
+  @media @mobile{
+    display: none;
+  }
+}
+
+.small {
+  display: none;
+  @media @mobile{
+    display: block;
+  }
+}
+
+.article-image-responsive {
+  .roundImageMain(121px);
+  @media @mobile{
+    .roundImageMain(71px);
+  }
+}
+
+.carousel-container {
+  width: 610px;
+  height: 345px;
+  @media @fluid {
+    height: 60vw;
+    width: ~"calc(100% + 20px)";
+    margin-left: -10px;
+  }
+}
+
+.articles-page {
+  width: 100%;
+  height: auto;
+  background-color: @white;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+
+  @media @mobile{
+    .expand, .images, .sm-images {
+      display: none;
+    }
+
+    .plcholder {
+      width: 100%;
+      height: 100% !important;
+    }
+
+    .grey-bar, .modal-grey-bar {
+      height: 25px !important;
+      &-title {
+        display: none !important;
+      }
+    }
+
+    .circles {
+      background-color: transparent !important;
+      border: none !important;
+      font-size: 45px !important;
+    }
+  }
+
+  &-content {
+    position: relative;
+    background-color: @white;
+    width: 960px;
+    @media @fluid {
+      width: 100%;
+      padding: 0 10px;
+    }
+    padding: 0 10px;
+    margin: 0 auto;
+    overflow: hidden;
+    top: 1px;
+  }
+  &-title {
+    .globalDefaultFont(40px, 800);
+    text-align: left;
+    margin-bottom: 20px;
+    padding-top: 25px;
+    @media @mobile{
+      .globalDefaultFont(20px, 800);
+      margin-bottom: 10px;
+      width: 100%;
+    }
+  }
+  .arpt {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    text-align: left;
+
+    &-author {
+      width: 200%;
+      height: 50px;
+      float: left;
+
+      &-image {
+        background-image: url("/app/public/mainLogo.jpg");
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        border-radius: 100%;
+        width: 50px;
+        height: 50px;
+        float: left;
+      }
+
+      &-text {
+        .globalDefaultFont(16px, 400);
+        width: 520px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        padding-top: 15px;
+        padding-left: 15px;
+        text-align: left;
+
+        &-name {
+          .globalDefaultModFont(16px, 700, @masterBrandColor);
+          text-align: left;
+        }
+      }
+    }
+
+    &-date {
+      .globalDefaultModFont(12px, 400, @bulletGrey);
+      width: 100%;
+      height: 11px;
+      text-transform: uppercase;
+      line-height: 10px;
+      float: left;
+      margin-top: 20px;
+      @media @mobile{
+        margin-top: 16px;
+      }
+    }
+  }
+}

@@ -1,0 +1,94 @@
+.mhk {
+  font-family: @globalFont;
+  &_banner {
+    width: 100%;
+    height: 24.306vw;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url('/app/public/homePage_hero2.png');
+    text-align: center;
+    position: relative;
+    margin-bottom: 2.986vw;
+
+    &_bottom {
+      position: relative;
+      top: 7vw;
+      font-size: 1.667vw;
+      color: @white;
+    } // END .mhk_banner_bottom
+
+    &_top {
+      position: relative;
+      top: 7.486vw;
+      font-size: 3.333vw;
+      color: @white;
+      text-align: center;
+      margin-bottom: 1.806vw;
+    } // END .mhk_banner_top
+  } // END .mhk_banner
+
+  &_container {
+    width: 69.444vw;
+    margin: 0 auto;
+  } // END .mhk_container
+
+  &_partners {
+    margin-bottom: 2.361vw;
+    color: @textEmphasisGrey;
+  } // END .mhk_partners
+
+  &_partner {
+    width: 100%;
+    height: 5.555vw;
+    border-left: 5px solid @strokeGrey;
+    cursor: pointer;
+    background: @white;
+    &.odd {
+      background: @highlightGrey;
+    }
+    &.even {
+      background: @white;
+    }
+
+    &_text {
+      font-size: 1.5vw;
+      color: @black;
+      font-weight: 800;
+      line-height: 5.555vw;
+      float: left;
+      margin-left: 2.292vw;
+    } // END .mhk_partner_text
+
+    .fa {
+      float: right;
+      font-size: 2.222vw;
+      color: @black;
+      line-height: 5.555vw;
+      margin-right: 2.431vw;
+    }
+
+    &:hover {
+      border-color: @masterBrandColor;
+
+      .fa {
+        color: @masterBrandColor;
+      }
+    }
+
+    &:active {
+      border-color: @black;
+
+      .fa {
+        color: @black;
+      }
+    }
+  } // END .mhk_partner
+
+  &_title {
+    font-size: 1.667vw;
+    color: @black;
+    font-weight: 800;
+    margin-bottom: 2.361vw;
+  } // END .mhk_title
+} // END .mhk

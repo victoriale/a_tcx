@@ -1,0 +1,18 @@
+<sidekick-wrapper>
+<section class="page page-module-container">
+  <backtab-component></backtab-component>
+  <title-component *ngIf="titleData" [titleData]="titleData"></title-component>
+  <loading-component *ngIf="!detailedDataArray && !isError"></loading-component>
+  <error-component *ngIf="isError"></error-component>
+  <div class="mod-info">
+    <slider-carousel *ngIf="carouselDataArray" [carouselData]="carouselDataArray" [footerStyle]="footerStyle"></slider-carousel>
+  </div>
+  <!--<div *ngFor="let itemData of detailedDataArray"> {{ itemData | json }}</div>-->
+  <div class="atborder">
+    <list-of-lists-item *ngFor="let itemData of detailedDataArray; let rowIndex = index" [item] = 'itemData' [rowIndex] = 'rowIndex'></list-of-lists-item>
+  </div>
+  <pagination-footer *ngIf="paginationParameters" [paginationParameters]="paginationParameters"></pagination-footer>
+  <no-data-box *ngIf="!detailedDataArray && errorData" [data]="errorData"></no-data-box>
+  <responsive-widget *ngIf="paginationParameters" embedPlace="widgetForPage"></responsive-widget>
+</section>
+</sidekick-wrapper>

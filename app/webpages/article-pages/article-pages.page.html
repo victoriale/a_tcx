@@ -1,0 +1,38 @@
+<div class="articles-page">
+    <div class="articles-page-content">
+        <div *ngIf="error">
+            <div class="loading-container">
+                <span class="loading-text">The article you are trying to reach is unavailable. You will be redirected to your previous page shortly.</span>
+            </div>
+        </div>
+        <loading-component *ngIf="!articleData && !error"></loading-component>
+    <span *ngIf="articleData">
+        <shareLinks-component [shareUrl]="rawUrl" [isMain]="true"></shareLinks-component>
+        <div class="articles-page-title">{{title}}</div>
+        <sidekick-wrapper-ai [aiSidekick]="aiSidekick" [scope]="scope">
+            <span *ngIf="imageData">
+                <div template="ngIf hasImages" class="carousel-container">
+                    <images-media-carousel [imageData]="imageData" [copyright]="copyright"
+                                           [imageTitle]="imageTitle"></images-media-carousel>
+                </div>
+            </span>
+            <div class="arpt">
+                <div class="arpt-date">{{date}}</div>
+            </div>
+            <article-content-component [articleType]="articleType"
+                                       [articleSubType]="articleSubType"
+                                       [articleData]="articleData"
+                                       [teamId]="teamId"
+                                       [imageLinks]="imageLinks"
+                                       [partnerId]="partnerId"
+                                       [scope]="scope"
+            ></article-content-component>
+            <disqus-component [comment]="comment"></disqus-component>
+            <sidekick-container-component></sidekick-container-component>
+            <recommendations-component [randomHeadlines]="randomHeadlines"
+                                       [images]="images"></recommendations-component>
+            <trending-component [scope]="scope" [currentArticleId]="eventID"></trending-component>
+        </sidekick-wrapper-ai>
+    </span>
+    </div>
+</div>

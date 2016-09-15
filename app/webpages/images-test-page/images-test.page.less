@@ -1,0 +1,100 @@
+.global-page{
+  width: 680px;
+  height: auto;
+  min-height: 800px;
+  border: none;
+  &-heading{
+    .globalDefaultFont(18px, 400);
+    position: relative;
+    border-top: 1px solid @strokeGrey;
+    line-height: 28px;
+    padding-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 3px;
+    width: 680px;
+    &-dropdown{
+      .globalDefaultFont(12px, 800);
+      margin: 0 0 0 20px;
+      position: absolute;
+      right: 20px;
+      top: 10px;
+    }
+    #sort_by{
+      .globalDefaultFont(12px, 400);
+      border: none;
+    }
+  }
+  &-desc{
+    .globalDefaultFont(14px, 400);
+    margin: 15px auto;
+    text-align: left;
+    width: 650px;
+    line-height: 20px;
+    &-headline{
+      .globalDefaultFont(18px, 700);
+      padding-bottom: 10px;
+      border-bottom: 1px solid @strokeGrey;
+    }
+  }
+  &-blocks{
+    &-block{
+      .inlineFlexDisplay;
+      .flexDirection(row);
+      .flexAlignItems(center);
+      border: solid 1px @strokeGrey;
+      border-left: solid 5px @highlightGrey;
+      box-sizing: border-box;
+      background-color: #f2f2f2;
+      width: 310px;
+      height: 70px;
+      margin: 10px;
+      & > span:first-child {
+        width: 48px;
+        height: 48px;
+        margin: 0 30px 0 31px;
+      }
+      & > span:nth-child(2){
+        & > div:first-child {
+          .globalDefaultModFont(12px, 800, @bulletGrey);
+        }
+        & > div:nth-child(2) {
+          .globalDefaultModFont(24px, 800, @black);
+        }
+      }
+    }
+  }//Blocks End
+  &-nat{
+    margin-top: 10px;
+    padding-bottom: 20px;
+    text-align: center;
+    & > div:first-child{
+      line-height: 24px;
+      .globalDefaultModFont(12px, 800, @bulletGrey);
+    }
+    & > div:nth-child(2){
+      line-height: 32px;
+      .globalDefaultModFont(24px, 800, @black);
+    }
+  }
+}
+
+.global-page-hr {
+  border: none;
+  height: 1px;
+  width: 650px;
+  color: @strokeGrey;
+  background-color: @strokeGrey;
+}
+
+
+.image-row {
+  background-color: #3366ff;
+  padding: 1em;
+}
+
+.test-page {
+  h4 {
+    margin-top: 2em;
+    margin-bottom: .5em;
+  }
+}

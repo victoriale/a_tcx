@@ -1,0 +1,33 @@
+<div class="content-wrapper">
+    <div class="wrapper">
+        <div class="inner-wrapper">
+            <main class='row'>
+                <section class='content-main eight-col'>
+                    <div class="page-container global-page test-page">
+                        <backtab-component></backtab-component>
+                        <title-component [titleData]="titleData"></title-component>
+                        <hr class="global-page-hr" />
+                        
+                        <h4>3 Color Gradient</h4>
+                        <div class="image-row" [ngStyle]="gradientStyles[0]">
+                            <circle-image [data]="testImages[0].imageData"></circle-image>
+                        </div>
+                        
+                        <h4>2 Color Gradient</h4>
+                        <div class="image-row" [ngStyle]="gradientStyles[1]">
+                            <circle-image [data]="testImages[0].imageData"></circle-image>
+                        </div>
+                        
+                        <div *ngFor="let dataItem of testImages; let isOdd=odd">
+                          <h4>{{dataItem.description}}</h4>
+                          <div class="image-row" [ngStyle]="isOdd ? gradientStyles[0] : gradientStyles[1]">
+                            <circle-image [data]="dataItem.imageData"></circle-image>
+                          </div>
+                        </div>
+                    </div>
+
+                </section>
+            </main>
+        </div>
+    </div>
+</div>

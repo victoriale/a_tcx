@@ -1,0 +1,40 @@
+<sidekick-wrapper>
+    <section class="page page-container">
+        <backtab-component></backtab-component>
+        <title-component [titleData]="titleData"></title-component>
+        <div class="au-heading" [innerHtml]="auHeaderTitle"></div>
+        <div class="au-content">
+            <div class="au-desc">
+                <p *ngFor="let paragraph of auContent" [innerHtml]="paragraph"></p>
+            </div>
+        </div>
+        <!--Blocks Start-->
+        <div class="au-blocks">
+            <div *ngFor="let auBlock of auBlocks" class="au-blocks-block">
+                <a *ngIf="auBlock.link" [routerLink]="auBlock.link.route">
+                    <div class="au-blocks-block-content">
+                        <div class="au-blocks-block-image">
+                            <circle-image [data]="auBlock.link.imageConfig"></circle-image>
+                        </div>
+                        <div class="au-blocks-block-title">{{auBlock.titleText}}</div>
+                        <div class="au-blocks-block-data">{{auBlock.dataText}}</div>
+                    </div>
+                </a>
+                <span *ngIf="!auBlock.link">
+                    <div class="au-blocks-block-content">
+                        <div *ngIf="auBlock.iconClass" class="au-blocks-block-icon">
+                            <i *ngIf="auBlock.iconClass" class="{{auBlock.iconClass}}"></i>
+                            <img *ngIf="!auBlock.iconClass" src="app/public/profile_placeholder.png" />
+                        </div>
+                        <div class="au-blocks-block-title">{{auBlock.titleText}}</div>
+                        <div class="au-blocks-block-data">{{auBlock.dataText}}</div>
+                    </div>
+                </span>
+            </div>
+        </div>
+        <!--Blocks End-->
+        <div class="list-widget">
+          <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
+        </div>
+    </section>
+</sidekick-wrapper>

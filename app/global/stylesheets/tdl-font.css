@@ -1,0 +1,492 @@
+@font-face {
+  font-family: "tdl";
+  src:url("/app/public/fonts/tdl.eot");
+  src:url("/app/public/fonts/tdl.eot?#iefix") format("embedded-opentype"),
+  url("/app/public/fonts/tdl.woff") format("woff"),
+  url("/app/public/fonts/tdl.ttf") format("truetype"),
+  url("/app/public/fonts/tdl.svg#tdl") format("svg");
+}
+
+
+[class^="fa-"]:before,
+[class*=" fa-"]:before {
+  font-family: "tdl" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+[data-icon]:before {
+  font-family: "tdl" !important;
+  content: attr(data-icon);
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.fa {
+  display: inline-block;
+  font: normal normal normal 14px/1 hrl;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /*transform: translate(0, 0);*/
+}
+
+.fa-lg {
+  font-size: 1.33333333em;
+  line-height: .75em;
+  vertical-align: -15%;
+}
+
+.fa-2x {
+  font-size: 2em
+}
+
+.fa-3x {
+  font-size: 3em
+}
+
+.fa-4x {
+  font-size: 4em
+}
+
+.fa-5x {
+  font-size: 5em
+}
+
+.fa-fw {
+  width: 1.28571429em;
+  text-align: center
+}
+
+.fa-ul {
+  padding-left: 0;
+  margin-left: 2.14285714em;
+  list-style-type: none
+}
+
+.fa-ul>li {
+  position: relative
+}
+
+.fa-li {
+  position: absolute;
+  left: -2.14285714em;
+  width: 2.14285714em;
+  top: .14285714em;
+  text-align: center
+}
+
+.fa-li.fa-lg {
+  left: -1.85714286em
+}
+
+.fa-border {
+  padding: .2em .25em .15em;
+  border: solid .08em #eee;
+  border-radius: .1em
+}
+
+.pull-right {
+  float: right
+}
+
+.pull-left {
+  float: left
+}
+
+.fa.pull-left {
+  margin-right: .3em
+}
+
+.fa.pull-right {
+  margin-left: .3em
+}
+
+.fa-spin {
+  -webkit-animation: fa-spin 2s infinite linear;
+  animation: fa-spin 2s infinite linear
+}
+
+.fa-pulse {
+  -webkit-animation: fa-spin 1s infinite steps(8);
+  animation: fa-spin 1s infinite steps(8)
+}
+
+@-webkit-keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg)
+  }
+
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg)
+  }
+}
+
+@keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg)
+  }
+
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg)
+  }
+}
+
+.fa-rotate-90 {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+  -webkit-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg)
+}
+
+.fa-rotate-180 {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+  -webkit-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg)
+}
+
+.fa-rotate-270 {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+  -webkit-transform: rotate(270deg);
+  -ms-transform: rotate(270deg);
+  transform: rotate(270deg)
+}
+
+.fa-flip-horizontal {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1);
+  -webkit-transform: scale(-1, 1);
+  -ms-transform: scale(-1, 1);
+  transform: scale(-1, 1)
+}
+
+.fa-flip-vertical {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1);
+  -webkit-transform: scale(1, -1);
+  -ms-transform: scale(1, -1);
+  transform: scale(1, -1)
+}
+
+:root .fa-rotate-90,:root .fa-rotate-180,:root .fa-rotate-270,:root .fa-flip-horizontal,:root .fa-flip-vertical {
+  filter: none
+}
+
+.fa-stack {
+  position: relative;
+  display: inline-block;
+  width: 2em;
+  height: 2em;
+  line-height: 2em;
+  vertical-align: middle
+}
+
+.fa-stack-1x,.fa-stack-2x {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  text-align: center
+}
+
+.fa-stack-1x {
+  line-height: inherit
+}
+
+.fa-stack-2x {
+  font-size: 2em
+}
+
+.fa-inverse {
+  color: #fff
+}
+
+
+/* Begin Aliases DO NOT DELETE */
+.fa-sort-up:before {
+  content: "\77";
+}
+.fa-sort-down:before {
+  content: "\78";
+}
+.fa-mail-forward:before {
+  content: "\79";
+}
+.fa-area-chart:before {
+  content: "\44";
+}
+.fa-remove:before {
+  content: "\38";
+}
+/* END Aliases */
+
+.fa-tdl-football:before {
+  content: "\61";
+}
+.fa-tdl-helmet:before {
+  content: "\62";
+}
+.fa-tdl-profiles:before {
+  content: "\63";
+}
+.fa-angle-down:before {
+  content: "\64";
+}
+.fa-angle-left:before {
+  content: "\65";
+}
+.fa-angle-right:before {
+  content: "\66";
+}
+.fa-angle-up:before {
+  content: "\67";
+}
+.fa-calendar-o:before {
+  content: "\68";
+}
+.fa-calendar-times-o:before {
+  content: "\69";
+}
+.fa-chevron-down:before {
+  content: "\6a";
+}
+.fa-chevron-left:before {
+  content: "\6b";
+}
+.fa-chevron-right:before {
+  content: "\6c";
+}
+.fa-chevron-up:before {
+  content: "\6d";
+}
+.fa-eye:before {
+  content: "\6f";
+}
+.fa-circle:before {
+  content: "\6e";
+}
+.fa-caret-down:before {
+  content: "\70";
+}
+.fa-caret-left:before {
+  content: "\71";
+}
+.fa-caret-right:before {
+  content: "\72";
+}
+.fa-caret-up:before {
+  content: "\73";
+}
+.fa-trophy:before {
+  content: "\74";
+}
+.fa-stack-overflow:before {
+  content: "\75";
+}
+.fa-stack-exchange:before {
+  content: "\76";
+}
+.fa-sort-asc:before {
+  content: "\77";
+}
+.fa-sort-desc:before {
+  content: "\78";
+}
+.fa-arrows-alt:before {
+  content: "\7a";
+}
+.fa-expand:before {
+  content: "\41";
+}
+.fa-compress:before {
+  content: "\42";
+}
+.fa-map-marker:before {
+  content: "\43";
+}
+.fa-phone:before {
+  content: "\45";
+}
+.fa-folder-open-o:before {
+  content: "\46";
+}
+.fa-list-ul:before {
+  content: "\47";
+}
+.fa-th-large:before {
+  content: "\48";
+}
+.fa-sort:before {
+  content: "\49";
+}
+.fa-facebook:before {
+  content: "\4a";
+}
+.fa-twitter:before {
+  content: "\4b";
+}
+.fa-pinterest:before {
+  content: "\4d";
+}
+.fa-pinterest-p:before {
+  content: "\4e";
+}
+.fa-search:before {
+  content: "\4f";
+}
+.fa-linkedin:before {
+  content: "\50";
+}
+.fa-reply:before {
+  content: "\51";
+}
+.fa-calendar:before {
+  content: "\52";
+}
+.fa-heart:before {
+  content: "\53";
+}
+.fa-file:before {
+  content: "\54";
+}
+.fa-file-image-o:before {
+  content: "\55";
+}
+.fa-arrow-right:before {
+  content: "\56";
+}
+.fa-arrow-left:before {
+  content: "\57";
+}
+.fa-arrow-down:before {
+  content: "\58";
+}
+.fa-arrow-up:before {
+  content: "\59";
+}
+.fa-newspaper-o:before {
+  content: "\5a";
+}
+.fa-comments-o:before {
+  content: "\30";
+}
+.fa-heartbeat:before {
+  content: "\31";
+}
+.fa-clock-o:before {
+  content: "\32";
+}
+.fa-bell-o:before {
+  content: "\33";
+}
+.fa-refresh:before {
+  content: "\34";
+}
+.fa-bars:before {
+  content: "\35";
+}
+.fa-play:before {
+  content: "\36";
+}
+.fa-heart-o:before {
+  content: "\37";
+}
+.fa-times:before {
+  content: "\38";
+}
+.fa-share-alt:before {
+  content: "\39";
+}
+.fa-angle-double-left:before {
+  content: "\21";
+}
+.fa-angle-double-right:before {
+  content: "\22";
+}
+.fa-info-circle:before {
+  content: "\23";
+}
+.fa-copyright:before {
+  content: "\24";
+}
+.fa-fontawesome-webfont:before {
+  content: "\25";
+}
+.fa-share:before {
+  content: "\79";
+}
+.fa-cog:before {
+  content: "\4c";
+}
+.fa-tdball:before {
+  content: "\27";
+}
+.fa-tdrushing:before {
+  content: "\28";
+}
+.fa-tdpoints:before {
+  content: "\29";
+}
+.fa-tdrecyards:before {
+  content: "\2a";
+}
+.fa-tdrushat:before {
+  content: "\2b";
+}
+.fa-area-chart:before {
+  content: "\44";
+}
+.fa-search-icon-01:before {
+  content: "\26";
+}
+.fa-field-goal-pct-made:before {
+  content: "\2d";
+}
+.fa-field-goals-made:before {
+  content: "\2e";
+}
+.fa-games-started:before {
+  content: "\2f";
+}
+.fa-gross-punting-yds:before {
+  content: "\3a";
+}
+.fa-interceptions:before {
+  content: "\3b";
+}
+.fa-longest-return:before {
+  content: "\3c";
+}
+.fa-passer-rating:before {
+  content: "\3d";
+}
+.fa-receptions:before {
+  content: "\3e";
+}
+.fa-rushing-attempts:before {
+  content: "\3f";
+}
+.fa-years-experience:before {
+  content: "\40";
+}
+.fa-total-tackles:before {
+  content: "\5b";
+}
+.fa-total-sacks:before {
+  content: "\5d";
+}
+.fa-age:before {
+  content: "\2c";
+}

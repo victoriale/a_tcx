@@ -1,0 +1,5 @@
+<sidekick-wrapper>
+<section class="page page-container">
+    <search-page-module *ngIf="searchPageInput && searchPageFilters" [searchPageInput]="searchPageInput" [dropdownFilter]= "searchPageFilters" (selectedKeyFilter)="filterSwitch($event)"></search-page-module>
+</section>
+</sidekick-wrapper>

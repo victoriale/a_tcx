@@ -11,7 +11,6 @@ import {GlobalFunctions} from "../../global/global-functions";
 import {GeoLocation} from "../../global/global-service";
 import {Router, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 import {ResponsiveWidget} from '../../fe-core/components/responsive-widget/responsive-widget.component';
-import {PartnerHomePage} from '../partner-home-page/partner-home-page';
 
 import {DeepDiveBlock1} from '../../fe-core/modules/deep-dive-blocks/deep-dive-block-1/deep-dive-block-1.module';
 import {DeepDiveBlock2} from '../../fe-core/modules/deep-dive-blocks/deep-dive-block-2/deep-dive-block-2.module';
@@ -28,7 +27,6 @@ declare var jQuery: any;
     templateUrl: './app/webpages/deep-dive-page/deep-dive.page.html',
 
     directives: [
-      PartnerHomePage,
       ROUTER_DIRECTIVES,
       SidekickWrapper,
       WidgetCarouselModule,

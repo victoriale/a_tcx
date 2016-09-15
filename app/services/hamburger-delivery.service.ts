@@ -28,23 +28,23 @@ export class HamburgerDeliveryService {
       },
       {
         menuTitle: division + " Teams",
-        url: [partnerUrl +'-home',params ,'Pick-team-page']//todo
+        url: [partnerUrl +'-home',params ,'Home-page']
       },
       {
         menuTitle: division + " Players",
-        url: [partnerUrl +'-home',params ,'Directory-page-starts-with', {type: "players", startsWith: "a", page: "1"}]//todo
+        url: [partnerUrl +'-home',params ,'Home-page']
       },
       {
         menuTitle: division + " League",
-        url: [partnerUrl +'-home',params ,'League-page']//todo
+        url: [partnerUrl +'-home',params ,'Home-page']
       },
       {
         menuTitle: division + " Schedule",
-        url: [partnerUrl +'-home',params ,'Schedules-page-league', {pageNum:1, year: null}]//todo
+        url: [partnerUrl +'-home',params ,'Home-page']
       },
       {
         menuTitle: division + " Standings",
-        url: [partnerUrl +'-home',params ,'Standings-page-league', {type: division}]
+        url: [partnerUrl +'-home',params ,'Home-page']
     }];
     var menuInfo = [{
         menuTitle: "About Us",

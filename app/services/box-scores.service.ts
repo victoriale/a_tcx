@@ -115,7 +115,7 @@ export class BoxScoresService {
         url: VerticalGlobalFunctions.formatAiArticleRoute(p, val.event),
         teaser: teaser,
         imageConfig:{
-          imageClass: "image-320x180-sm",
+          imageClass: "sixteen-nine",
           imageUrl: homeImage,
           hoverText: "View Article",
           urlRouteArray: VerticalGlobalFunctions.formatAiArticleRoute(p, val.event)

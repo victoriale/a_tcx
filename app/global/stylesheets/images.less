@@ -1,0 +1,33 @@
+.aspect-ratio(@aspectRatio) {
+  position: relative;
+  width: 100%;
+  &:before {
+    display: block;
+    content: "";
+    padding-top: @aspectRatio;
+  }
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+  }
+}
+/* 16:9 Aspect Ratio */
+.sixteen-nine {
+  .aspect-ratio(56.25%);
+}
+/* 4:3 Aspect Ratio */
+.four-three {
+  .aspect-ratio(75%);
+}
+/* 3:2 Aspect Ratio */
+.three-two {
+  .aspect-ratio(66.66%);
+}
+/* 8:5 Aspect Ratio */
+.eight-five {
+  .aspect-ratio(62.5%);
+}

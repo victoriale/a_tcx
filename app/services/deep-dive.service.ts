@@ -44,6 +44,7 @@ export class DeepDiveService {
             })
     }
 
+  // Top Article of Article Stacks
   getDeepDiveBatchService(scope, limit, startNum, state?){
   //Configure HTTP Headers
   var headers = this.setToken();
@@ -70,6 +71,39 @@ export class DeepDiveService {
     })
   }
 
+  // Top Article of Article Stacks
+  transformToArticleStack(data){
+    var sampleImage = "/app/public/placeholder_XL.png";
+    var topData = data.data[0];
+    var date = topData.publishedDate != null ? GlobalFunctions.formatDate(topData.publishedDate) : null;
+    var teaser = topData.teaser.substring(0, 360);//provided by design to limit characters
+    var pub;
+    if(topData.author){
+      pub = topData.author ? topData.author : "";
+      pub += topData.publisher ? ", " : "";
+    }
+    if(topData.publisher){
+      pub += topData.publisher ? topData.publisher : "";
+    }
+    if(topData.author == null && topData.publisher == null){
+      pub = "N/A";
+    }
+    var articleStackData = {
+        articleStackRoute: VerticalGlobalFunctions.formatSynRoute('story', topData.id),
+        keyword: topData.keyword.replace('-', ' '),
+        date: date != null ? date.month + " " + date.day + ", " + date.year: "",
+        headline: topData.title,
+        provider1: "<span class='text-light'>Written By: </span><span class='text-master'>" + pub + "</span>",
+        provider2: "",
+        description: teaser,
+        imageConfig: {
+          imageClass: "sixteen-nine",
+          imageUrl: topData.imagePath != null ? GlobalSettings.getImageUrl(topData.imagePath) : sampleImage,
+          urlRouteArray: VerticalGlobalFunctions.formatSynRoute('story', topData.id)
+        }
+    };
+    return articleStackData;
+  }
 
   getDeepDiveVideoBatchService(scope, limit, startNum, state?){
   //Configure HTTP Headers
@@ -228,7 +262,7 @@ export class DeepDiveService {
           description: val.title,
           images:  val.imagePath != null ? GlobalSettings.getImageUrl(val.imagePath) : sampleImage,
           imageConfig: {
-            imageClass: "image-100x56",
+            imageClass: "sixteen-nine",
             imageUrl: val.imagePath != null ? GlobalSettings.getImageUrl(val.imagePath) : sampleImage,
             /*hoverText: "View",*/
             urlRouteArray: VerticalGlobalFunctions.formatSynRoute('story', val.id)
@@ -256,7 +290,7 @@ export class DeepDiveService {
           provider2: '',
           description: dataLists.displayHeadline,
           imageConfig: {
-          imageClass: "image-100x56",
+          imageClass: "sixteen-nine",
           /*hoverText: "View",*/
           imageUrl: val.image_url != null ? GlobalSettings.getImageUrl(val.image_url) : sampleImage,
           urlRouteArray: VerticalGlobalFunctions.formatAiArticleRoute(key, val.event_id)
@@ -286,7 +320,7 @@ export class DeepDiveService {
           provider2: '',
           description: eventType.metaHeadline,
           imageConfig: {
-            imageClass: "image-100x56",
+            imageClass: "sixteen-nine",
             /*hoverText: "View",*/
             imageUrl: val.image_url != null ? GlobalSettings.getImageUrl(val.image_url) : sampleImage,//TODO
             urlRouteArray: VerticalGlobalFunctions.formatAiArticleRoute(key, val.event_id)
@@ -295,29 +329,6 @@ export class DeepDiveService {
       articleStackArray.push(s);
     });
     return articleStackArray;
-  }
-
-  transformToArticleStack(data){
-    var sampleImage = "/app/public/placeholder_XL.png";
-    var topData = data.data[0];
-    var date = topData.publishedDate != null ? GlobalFunctions.formatDate(topData.publishedDate) : null;
-    var limitDesc = topData.teaser.substring(0, 360);//provided by design to limit characters
-    var articleStackData = {
-        articleStackRoute: VerticalGlobalFunctions.formatSynRoute('story', topData.id),
-        keyword: topData.keyword.replace('-', ' '),
-        date: date != null ? date.month + " " + date.day + ", " + date.year: "",
-        headline: topData.title,
-        provider1: topData.author != null ? "<span style='font-weight: 400;'>By</span> " + topData.author : "",
-        provider2: topData.publisher != null ? "Published By: " + topData.publisher : "",
-        description: limitDesc,
-        imageConfig: {
-          imageClass: "image-320x180",
-          imageUrl: topData.imagePath != null ? GlobalSettings.getImageUrl(topData.imagePath) : sampleImage,
-          /*hoverText: "View Article",*/
-          urlRouteArray: VerticalGlobalFunctions.formatSynRoute('story', topData.id)
-        }
-    };
-    return articleStackData;
   }
 
   transformToRecArticles(data){
@@ -370,8 +381,8 @@ export class DeepDiveService {
       scope = 'NFL';
     }
     var lines = ['Find Your <br> Favorite Player', 'Find Your <br> Favorite Team', 'Check Out The Latest <br> With the ' + scope.toUpperCase()];
-    let pickATeam = ['Pick-team-page'];
-    let leaguePage = ['League-page'];
+    let pickATeam = ['Disclaimer-page'];
+    let leaguePage = ['Disclaimer-page'];
     var tileLink = [pickATeam, pickATeam, leaguePage];
     var dataStack = [];
     // create array of imagePaths

@@ -8,17 +8,15 @@ ToC
   @Vendor Prefixes
   @Module Box Shadow
 */
-
 //Media Queries for responsive
-@mobile:      ~"(max-width: 639px)";
+/** 4 official sizes were given by design, last updated: sept. 2016 **/
+@mobile:      ~"(max-width: 767px)";  // < 768px
+@tablet:      ~"(min-width: 768px)";  // > 768px
+@desktop-m:   ~"(min-width: 992px)";  // > 992px
+@desktop-l:   ~"(min-width: 1280px)"; // > 1280px
+
 @small-grid:  ~"(min-width: 576px) and (max-width: 640px)";
-@tablet:      ~"(min-width: 640px)";
-@desktop:     ~"(min-width: 768px)";
-@desktop-m:   ~"(min-width: 1000px)";
-@desktop-l:   ~"(min-width: 1317px)";
-@desktop-xl:  ~"(min-width: 1760px)";
 @fluid:       ~"(max-width: 999px)";
-// @desktop-xl:  ~"only screen and (min-width: 1500px)";
 
 /***********/
 /* @Colors */

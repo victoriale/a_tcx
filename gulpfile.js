@@ -11,6 +11,8 @@ const cleanCSS = require('gulp-clean-css');
 // const minify = require('gulp-minify');
 const reload = browserSync.reload;
 const rename = require('gulp-rename'); //for dev
+// const sass = require('gulp-sass'); // require for compile sass to css
+// const minifyCss = require('gulp-minify-css');// require for compile sass to css
 
 // clean the contents of the distribution directory
 gulp.task('clean', function () {
@@ -171,3 +173,22 @@ gulp.task('compile-tests', ['clean'], function () {
     .pipe(typescript(tscConfig.compilerOptions))
     .pipe(gulp.dest('dist'));
 });
+
+/****
+//Gulp Tasks for compile sass to css bootstrap 4, can use for automatic build, but we should only manually compile it once atm
+// add gulp tasks styles and default into build before run gulp
+// require npm install --save gulp gulp-sass gulp-minify-css
+gulp.task('styles', function() {
+  gulp.src('./scss/style.scss')
+    .pipe(sass().on('error', sass.logError))
+    .pipe(minifyCss({compatibility: 'ie9'}))
+    .pipe(gulp.dest('./css/'))
+});
+
+// Watch task
+gulp.task('default',function() {
+  // run task initially, after that watch
+  gulp.start('styles');
+  gulp.watch('./scss/*.scss',['styles']);
+});
+*8***/

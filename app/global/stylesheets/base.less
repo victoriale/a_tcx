@@ -8,15 +8,17 @@ ToC
   @Vendor Prefixes
   @Module Box Shadow
 */
-//Media Queries for responsive
-/** 4 official breakpoints were given by design, last updated: sept. 2016 **/
-@mobile:      ~"(max-width: 767px)";  // < 768px   bootstrap: sm
-@tablet:      ~"(min-width: 768px)";  // > 768px   bootstrap: md
-@desktop-m:   ~"(min-width: 992px)";  // > 992px   bootstrap: lg
-@desktop-l:   ~"(min-width: 1280px)"; // > 1280px  bootstrap: xl
 
+//Media Queries for responsive
+@mobile:      ~"(max-width: 639px)";
 @small-grid:  ~"(min-width: 576px) and (max-width: 640px)";
+@tablet:      ~"(min-width: 640px)";
+@desktop:     ~"(min-width: 768px)";
+@desktop-m:   ~"(min-width: 1000px)";
+@desktop-l:   ~"(min-width: 1317px)";
+@desktop-xl:  ~"(min-width: 1760px)";
 @fluid:       ~"(max-width: 999px)";
+// @desktop-xl:  ~"only screen and (min-width: 1500px)";
 
 /***********/
 /* @Colors */
@@ -92,7 +94,7 @@ ToC
 @masterLargeImageShadow: rgba(0,0,0,0.25);
 @masterSmallImageShadow: @strokeGrey;
 // Master Vertical Brand Colors
-@masterBrandColor: @tcxBlue;
+@masterBrandColor: @touchDownLoyalBlue;
 @masterBrandColorLink: #3098ff;
 @lightMasterBrandColor: @touchDownLoyalLightBlue;
 @masterImageHover: @touchDownLoyalImageHover;

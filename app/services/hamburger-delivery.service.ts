@@ -27,37 +27,55 @@ export class HamburgerDeliveryService {
         url: [partnerUrl +'-home',params ,'Home-page']
       },
       {
-        menuTitle: division + " Teams",
+        menuTitle: "Trending",
         url: [partnerUrl +'-home',params ,'Home-page']
       },
       {
-        menuTitle: division + " Players",
+        menuTitle: "Breaking",
         url: [partnerUrl +'-home',params ,'Home-page']
       },
       {
-        menuTitle: division + " League",
+        menuTitle: "Sports",
         url: [partnerUrl +'-home',params ,'Home-page']
       },
       {
-        menuTitle: division + " Schedule",
+        menuTitle: "Business",
         url: [partnerUrl +'-home',params ,'Home-page']
       },
       {
-        menuTitle: division + " Standings",
+        menuTitle: "Politics",
         url: [partnerUrl +'-home',params ,'Home-page']
-    }];
-    var menuInfo = [{
-        menuTitle: "About Us",
-        url: ['About-us-page']
       },
       {
-        menuTitle: "Contact Us",
-        url: ['Contact-us-page']
+        menuTitle: "Entertainment",
+        url: [partnerUrl +'-home',params ,'Home-page']
       },
       {
-        menuTitle: "Disclaimer",
-        url: ['Disclaimer-page']
-    }];
+        menuTitle: "Food",
+        url: [partnerUrl +'-home',params ,'Home-page']
+      },
+      {
+        menuTitle: "Health",
+        url: [partnerUrl +'-home',params ,'Home-page']
+      },
+      {
+        menuTitle: "Lifestyle",
+        url: [partnerUrl +'-home',params ,'Home-page']
+      },
+      {
+        menuTitle: "Real Estate",
+        url: [partnerUrl +'-home',params ,'Home-page']
+      },
+      {
+        menuTitle: "Travel",
+        url: [partnerUrl +'-home',params ,'Home-page']
+      },
+      {
+        menuTitle: "Weather",
+        url: [partnerUrl +'-home',params ,'Home-page']
+      }
+    ];
+    var menuInfo = [];
 
     return {menuData: menuData, menuInfo: menuInfo};
   }

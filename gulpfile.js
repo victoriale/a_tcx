@@ -53,28 +53,36 @@ gulp.task('copy:libs', ['clean'], function() {
   return gulp.src([
       'node_modules/core-js/client/core.min.js',
       'node_modules/core-js/client/core.min.js.map',
-      // 'node_modules/es6-shim/es6-shim.min.js',
-      'node_modules/systemjs/dist/system-polyfills.js',
-      'node_modules/systemjs/dist/system-polyfills.js.map',
       'node_modules/reflect-metadata/Reflect.js',
       'node_modules/reflect-metadata/Reflect.js.map',
-      'node_modules/symbol-observable/*.js',
-      'node_modules/symbol-observable/*.map',
-      'node_modules/@angular/**/*.js',
-      'node_modules/@angular/**/*.map',
       'node_modules/systemjs/dist/system.src.js',
+      'node_modules/moment/moment.js',
+      'node_modules/moment-timezone/builds/moment-timezone-with-data-2010-2020.js',
+      'node_modules/zone.js/dist/zone.js',
+      'node_modules/fuse.js/src/fuse.min.js',
+      'node_modules/hammerjs/hammer.min.js',
+      'node_modules/hammerjs/hammer.min.js.map',
+      'node_modules/@angular/core/bundles/core.umd.js',
+      'node_modules/@angular/common/bundles/common.umd.js',
+      'node_modules/@angular/compiler/bundles/compiler.umd.js',
+      'node_modules/@angular/platform-browser/bundles/platform-browser.umd.js',
+      'node_modules/@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.js',
+      'node_modules/@angular/http/bundles/http.umd.js',
+      'node_modules/@angular/router/bundles/router.umd.js',
+      'node_modules/@angular/forms/bundles/forms.umd.js',
       'node_modules/rxjs/**/*.js',
       'node_modules/rxjs/**/*.map',
+      'node_modules/symbol-observable/*.js',
+      'node_modules/symbol-observable/*.map',
+      'node_modules/es6-shim/es6-shim.min.js',
+      'node_modules/systemjs/dist/system-polyfills.js',
+      'node_modules/systemjs/dist/system-polyfills.js.map',
+      'node_modules/@angular/**/*.js',
+      'node_modules/@angular/**/*.map',
       'node_modules/node-uuid/uuid.js',
       'node_modules/immutable/dist/immutable.js',
       'node_modules/highcharts/highcharts.js',
-      'node_modules/moment/moment.js',
-      'node_modules/hammerjs/hammer.min.js',
-      'node_modules/hammerjs/hammer.min.js.map',
-      // 'node_modules/moment-timezone/moment-timezone.js',//load only one moment timezone otherwise problems will occur
-      'node_modules/moment-timezone/builds/moment-timezone-with-data-2010-2020.js',
-      'node_modules/fuse.js/src/fuse.min.js',
-      'node_modules/zone.js/dist/zone.js',
+      'node_modules/moment-timezone/moment-timezone.js',//load only one moment timezone otherwise problems will occur
       'system.config.js'
     ])
     .pipe(gulp.dest('dist/lib'));
@@ -115,14 +123,14 @@ gulp.task('less', ['clean'], function() {
         .pipe(gulp.dest('dist/app/global/stylesheets'));
 });
 
-// Run browsersync for development
+// Run gulp browsersync for development
 gulp.task('serve', ['build'], function() {
-  browserSync({
-    server: {
-      baseDir: 'dist',
-        middleware: [ historyApiFallback() ]
-    }
-  });
+    browserSync({
+        server: {
+            baseDir: 'dist',
+            middleware: [ historyApiFallback() ]
+        }
+    });
 
   gulp.watch(['app/**/*', 'index.html', 'master.css'], ['buildAndReload']);
 });
@@ -139,14 +147,14 @@ gulp.task('test', ['build-tests']);
   *BELOW ARE ALL FOR DEV BUILD TO RUN FOR DEVELOPMENT
   *
   */
-// Run browsersync for development
+// Run gulp browsersync for development
 gulp.task('dev', ['dev-build'], function() {
-  browserSync({
-    server: {
-      baseDir: 'dist',
-        middleware: [ historyApiFallback() ]
-    }
-  });
+    browserSync({
+        server: {
+            baseDir: 'dist',
+            middleware: [ historyApiFallback() ]
+        }
+    });
 
   gulp.watch(['app/**/*', 'dev-index.html', 'master.css'], ['dev-buildAndReload']);
 });
@@ -156,18 +164,14 @@ gulp.task('copy:dev-assets', ['clean'], function() {
     .pipe(rename('index.html'))
     .pipe(gulp.dest('dist'));
 
-  return gulp.src(['app/**/*', 'master.css', '!app/**/*.ts', '!app/**/*.less'], { base : './' })
+  gulp.src('systemjs.config.js')
+    .pipe(rename('systemjs.config.js'))
     .pipe(gulp.dest('dist'));
+
+  return gulp.src(['app/**/*', 'master.css', '!app/**/*.ts', '!app/**/*.less'], { base : './' })
+    .pipe(gulp.dest('dist'))
 });
 gulp.task('dev-build', ['compile', 'less', 'copy:libs', 'copy:dev-assets', 'minify-css']);
 gulp.task('dev-buildAndReload', ['dev-build'], reload);
 
 gulp.task('default', ['build']);
-
-//GULP TASKS for TESTING
-gulp.task('compile-tests', ['clean'], function () {
-  return gulp
-    .src(['app/main.ts', 'app/**/*.spec.ts'])
-    .pipe(typescript(tscConfig.compilerOptions))
-    .pipe(gulp.dest('dist'));
-});

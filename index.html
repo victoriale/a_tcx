@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Angular 2 QuickStart</title>
+    <title>TCX</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="shortcut icon" href="/app/public/mainLogo.jpg" /> -->
+
     <!-- 1. Load libraries -->
      <!-- Polyfill(s) for older browsers -->
     <script src="node_modules/core-js/client/shim.min.js"></script>
@@ -15,8 +17,51 @@
     <script>
       System.import('app').catch(function(err){ console.error(err); });
     </script>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-83024705-1', 'auto');
+      // ga('send', 'pageview');
+    </script>
+    <link href="/app/global/stylesheets/master.css" rel="stylesheet">
+    <script src="lib/core.min.js"></script>
+    <script src="lib/Reflect.js"></script>
+    <script src="lib/system.src.js"></script>
+    <script src="lib/moment.js"></script>
+    <script src="lib/moment-timezone-with-data-2010-2020.js"></script>
+    <script src="lib/zone.js"></script>
+    <script src="lib/fuse.min.js"></script>
+    <script src="lib/hammer.min.js"></script>
+    <script src="lib/highcharts.js"></script>
+    <script src="lib/bundle.js"></script>
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <!-- social share button on home page -->
+    <script type="text/javascript">var switchTo5x=true;</script>
+    <script type="text/javascript" src="https://ws.sharethis.com/button/buttons.js"></script>
+    <script src="//code.jquery.com/jquery-2.2.3.min.js"></script>
+    <script>
+        // setup DisQus config for initial load
+        var disqus_config = function () {
+            this.page.identifier = (window.location.pathname + " ").replace("/"," ");
+            this.page.url = window.location.href + "#!newthread";
+        };
+    </script>
+    <script type="text/javascript">
+      if ( window.stLight ) {
+        stLight.options({publisher: "ab81b5e8-9aea-4921-9930-26ce6925e901", doNotHash: false, doNotCopy: false, hashAddressBar: false, onhover: false});
+      }
+      else {
+        window.stButtons = {
+          locateElements: function() {}
+        };
+      }
+    </script>
   </head>
   <!-- 3. Display the application -->
+  <!-- TODO -->
   <body>
     <my-app>Loading...</my-app>
   </body>

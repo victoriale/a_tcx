@@ -18,4 +18,6 @@ import { DeepDivePage } from "../webpages/deep-dive-page/deep-dive-page";
     providers: []
 })
 
-export class DeepDiveNgModule{}
+export class DeepDiveNgModule{
+
+}

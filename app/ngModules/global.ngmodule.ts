@@ -4,7 +4,6 @@ import { NgModule }from '@angular/core';
 import { HeaderComponent } from "../fe-core/components/header/header.component";
 import { CircleImage } from "../fe-core/components/images/circle-image/circle-image";
 import { HoverImage } from '../fe-core/components/images/hover-image';
-import { ImageData } from '../fe-core/components/images/image-data';
 
 @NgModule({
     imports: [
@@ -13,11 +12,12 @@ import { ImageData } from '../fe-core/components/images/image-data';
     declarations: [
       HeaderComponent,
       HoverImage,
-      ImageData
+      CircleImage
     ],
     exports:[
       HeaderComponent,
-      HoverImage
+      HoverImage,
+      CircleImage
     ],
     providers: [
 

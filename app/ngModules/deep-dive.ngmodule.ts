@@ -24,4 +24,6 @@ import { BoxScoresService } from '../services/box-scores.service';
     ]
 })
 
-export class DeepDiveNgModule{}
+export class DeepDiveNgModule{
+
+}

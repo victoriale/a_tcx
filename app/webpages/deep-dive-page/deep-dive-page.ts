@@ -8,7 +8,7 @@ import {Component, OnInit} from '@angular/core';
 
 export class DeepDivePage implements OnInit {
     title="Everything that is deep dive will go in this page. Please Change according to your requirement";
-    test: any;
+    test: any = "testing";
     ngOnInit() {
       var testImage = "/app/public/profile_placeholder.png";
       this.test = {
@@ -16,7 +16,7 @@ export class DeepDivePage implements OnInit {
                     mainImage: {
                       imageUrl: testImage,
                       urlRouteArray: '/syndicated-article',
-                      hoverText: "<p>Test</p> Profile",
+                      hoverText: "<p>Test</p> Image",
                       imageClass: "border-large"
                   },
                   subImages: [

@@ -13,7 +13,7 @@ declare var moment;
 export class DeepDivePage implements OnInit {
     title="Everything that is deep dive will go in this page. Please Change according to your requirement";
     test: any = "testing";
-    
+
     scope = 'nfl';
 
     //Box Scores
@@ -57,7 +57,6 @@ export class DeepDivePage implements OnInit {
       }
 
       this.getBoxScores();
-      console.log('1. deep-dive-page - ngOnInit - dateParam - ',this.dateParam);
     }
 
     //api for Box Scores

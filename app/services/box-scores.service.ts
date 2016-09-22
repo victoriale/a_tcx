@@ -17,6 +17,7 @@ export interface gameDayInfoInterface {
   eventId: number;
   eventDate: string; // date of event
   eventStartTime: number; // event start time
+  liveStatus?: string;
   eventStatus: string; // pregame | live | postgame | delayed
   segmentType: string; // innings | quarter | halves | periods
   lastUpdated?: string; //
@@ -110,13 +111,10 @@ export class BoxScoresService {
     let chosenDate = date;
 
     var callURL = this._apiUrl;
-    console.log('1. box-scores.service - getBoxScoresService - callURL - ',callURL);
     return this.http.get(callURL)
       .map(res => res.json())
       .map(data => {
-        console.log('2. box-scores.service - getBoxScoresService - data - ',data);
         var transformedBoxScoresData = this.transformBoxScores(data);
-        console.log('4. box-scores.service - getBoxScoresService - transformedBoxScoresData - ',transformedBoxScoresData);
 
         return {
           transformedBoxScoresData: transformedBoxScoresData,
@@ -132,20 +130,19 @@ export class BoxScoresService {
 
     if(boxScoresData == null) {
       boxScoresData = {};
-      boxScoresData['transformedDate'] = {};
+      boxScoresData['transformedBoxScoresData'] = {};
     }
 
-    if ( boxScoresData == null || boxScoresData.transformedDate[scopedDateParam.date] == null ) {
+    if ( boxScoresData == null || boxScoresData.transformedBoxScoresData[scopedDateParam.date] == null ) {
       this.getBoxScoresService(scopedDateParam.profile, scopedDateParam.date, scopedDateParam.teamId)
         .subscribe(data => {
-          let currentBoxScores = {
-            moduleTitle: this.moduleHeader(data.date, profileName)
-          }
-          console.log('subscribe(data.date) - ',data.date);
-        })
+            let currentBoxScores = {
+              moduleTitle: this.moduleHeader(data.date, profileName),
+              gameInfo: this.formatGameInfo(data.transformedBoxScoresData[data.date], scopedDateParam.teamId, scopedDateParam.profile)
+            }
+        }) //subscribe
     }
-
-  }
+  } // END getBoxScores
 
   // modifies data to get header data for modules
   aiHeadLine(data) {}
@@ -161,7 +158,6 @@ export class BoxScoresService {
     var convertedDate = month + ' ' + day + ordinal + ', ' + year;
 
     moduleTitle = "Box Scores <span class='mod-info'> - " + team + ' : ' +convertedDate + '</span>';
-    console.log(moduleTitle);
     return {
       moduleTitle: moduleTitle,
       hasIcon: false,
@@ -177,32 +173,105 @@ export class BoxScoresService {
 
   // form box scores data
   transformBoxScores(data){
-    console.log('3. box-scores.service - transformBoxScores - data - ',data);
-    let boxScoresData = data.data;
-    let currWeekGameDates = {};
-    for ( var gameDate in boxScoresData ) {
-      let gameDayInfo:gameDayInfoInterface = data.data[gameDate];
-      let currGameDate = moment(Number(gameDate)).tz('America/New_York').format('YYYY-MM-DD');
 
-      if(currWeekGameDates[currGameDate] == null){
-        currWeekGameDates[currGameDate] = [];
-        currWeekGameDates[currGameDate].push(gameDayInfo);
-      }else{
-        currWeekGameDates[currGameDate].push(gameDayInfo);
-      }
-    } // END for ( var gameDate in data.data )
     var transformedData: boxScoresInterface = {
       currentScope: 'nfl',
       aiContent: data.aiContent,
       data: data.data
     } // var transformedData: boxScoresInterface
-    console.log('currWeekGameDates - ',currWeekGameDates);
-    return transformedData;
+
+    let boxScoresData = transformedData.data;
+
+    var boxScoreObj = {};
+    var newBoxScores = {};
+    let currWeekGameDates = {};
+
+    for ( var gameDate in boxScoresData ) {
+      let gameDayInfo:gameDayInfoInterface = data.data[gameDate];
+
+      let currGameDate = moment(Number(gameDate)).tz('America/New_York').format('YYYY-MM-DD');
+      //let aiContent = boxScoresData.aiContent;
+
+      // game info
+      if (gameDayInfo) {
+        boxScoreObj[gameDate] = {};
+
+        gameDayInfo['gameInfo'] = {
+          eventId: gameDayInfo.eventId,
+          timeLeft: gameDayInfo.liveDataPoints.nfl.timeLeft,
+          live: gameDayInfo.liveStatus == 'Y'?true:false,
+          startDateTime: gameDayInfo.eventDate,
+          startDateTimestamp: gameDayInfo.eventStartTime,
+          dataPointCategories:[
+            gameDayInfo.dataPoint1Label,
+            gameDayInfo.dataPoint2Label,
+            gameDayInfo.dataPoint3Label
+          ]
+        }
+
+        // home team info
+        // boxScoreObj[gameDate]['homeTeamInfo']= {
+        //   name: boxScoresData[gameDate].fullNameHome,
+        //   id: boxScoresData[gameDate].idHome,
+        //   firstName: boxScoresData[gameDate].firstNameHome,
+        //   lastName: boxScoresData[gameDate].nicknameHome,
+        //   abbreviation: boxScoresData[gameDate].abbreviationHome,
+        //   logo: boxScoresData[gameDate].logoUrlHome,
+        //   dataP1:boxScoresData[gameDate].dataPoint1Home,
+        //   dataP2:boxScoresData[gameDate].dataPoint2Home,
+        //   dataP3:boxScoresData[gameDate].dataPoint3Home,
+        //   //dataP2:boxScoresData[gameDate].team1Possession != ''? boxScoresData[gameDate].team1Possession:null,
+        //   teamRecord: boxScoresData[gameDate].winsHome != null ? boxScoresData[gameDate].lossHome + '-' + boxScoresData[gameDate].tieHome: null,
+        // }
+
+        // away team info
+        // boxScoreObj[gameDate]['awayTeamInfo']= {
+        //   name: boxScoresData[gameDate].fullNameAway,
+        //   id: boxScoresData[gameDate].idAway,
+        //   firstName: boxScoresData[gameDate].firstNameAway,
+        //   lastName: boxScoresData[gameDate].nicknameAway,
+        //   abbreviation: boxScoresData[gameDate].abbreviationAway,
+        //   logo: boxScoresData[gameDate].logoUrlAway,
+        //   dataP1:boxScoresData[gameDate].dataPoint1Away,
+        //   dataP2:boxScoresData[gameDate].dataPoint2Away,
+        //   dataP3:boxScoresData[gameDate].dataPoint3Away,
+        //   //dataP2:boxScoresData[gameDate].team1Possession != ''? boxScoresData[gameDate].team1Possession:null,
+        //   teamRecord: boxScoresData[gameDate].winsAway != null ? boxScoresData[gameDate].lossAway + '-' + boxScoresData[gameDate].tieAway: null,
+        // };
+
+        // team in possession
+        // if( boxScoresData[gameDate].eventPossession == 0 ){
+        //   boxScoresData[gameDate]['gameInfo']['verticalContent'] = "Possession: " + boxScoresData[gameDate].team1Abbreviation;
+        // } else{
+        //   boxScoresData[gameDate]['gameInfo']['verticalContent'] = "Possession: " + boxScoresData[gameDate].team2Abbreviation;
+        // }
+
+        // put games on the same date into an array
+        if(currWeekGameDates[currGameDate] == null){
+          currWeekGameDates[currGameDate] = [];
+          currWeekGameDates[currGameDate].push(gameDayInfo);
+        } else{
+          currWeekGameDates[currGameDate].push(gameDayInfo);
+        }
+
+      } //if (boxScoresData[gameDate])
+
+      return newBoxScores;
+    } // END for ( var gameDate in data.data )
   }
 
   formatSchedule(data, teamId?, profile?){}
 
-  formatGameInfo(game, teamId?, profile?){}
+  formatGameInfo(game, teamId?, profile?){
+    var gameArray: Array<any> = [];
+    let self = this;
+    var twoBoxes = [];// used to put two games into boxes
+
+    if(teamId == 'nfl' || teamId == 'fbs' || teamId == 'ncaaf'){
+      teamId = null;
+    }
+
+  }
 
   formatGameInfoSmall(game, teamId?, profile?){}
 

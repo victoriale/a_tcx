@@ -7,6 +7,10 @@ import { DeepDivePage } from "../webpages/deep-dive-page/deep-dive-page";
 import { BoxScoresModule } from '../fe-core/modules/box-scores/box-scores.module';
 import { BoxScoresService } from '../services/box-scores.service';
 import { GameInfo } from '../fe-core/components/game-info/game-info.component';
+import { CalendarCarousel } from '../fe-core/components/carousels/calendar/calendar-carousel';
+
+//pipes
+import { StatHyphenValuePipe } from '../fe-core/pipes/stat-hyphen.pipe';
 
 @NgModule({
     imports:[
@@ -16,7 +20,8 @@ import { GameInfo } from '../fe-core/components/game-info/game-info.component';
     declarations:[
       DeepDivePage,
       BoxScoresModule,
-      GameInfo
+      GameInfo,
+      StatHyphenValuePipe
     ],
     exports:[
       DeepDivePage

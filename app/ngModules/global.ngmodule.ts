@@ -1,6 +1,5 @@
 import {CommonModule} from "@angular/common";
 import { NgModule }from '@angular/core';
-import { HttpModule }    from '@angular/http';
 import { routing  } from '../app.routing';
 
 import { HeaderComponent } from "../fe-core/components/header/header.component";
@@ -13,7 +12,7 @@ import { ModuleHeader } from "../fe-core/components/module-header/module-header.
 @NgModule({
     imports: [
       CommonModule,
-      HttpModule,
+
       routing
     ],
     declarations: [

@@ -8,8 +8,18 @@ import {SyndicateArticleService} from "../../services/syndicate-article.service"
 
 export class SyndicatedArticlePage{
     dummyData:any;
+    public articleType:string;
+    public articleID:string;
     title:string="Here we have syndicate article page";
-    constructor(private _synService:SyndicateArticleService){}
+    constructor(private _synService:SyndicateArticleService){
+        this.articleType="story";
+        if (this.articleType == "story") {
+            this._synService.getDummyData(this.articleID)
+        }
+        else {
+            this._synService.getDummyData(this.articleID);
+        }
+    }
     ngOnInit(){
         this.dummyData=this._synService.dummyData;
 

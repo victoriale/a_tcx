@@ -10,6 +10,10 @@ import { ArticleStacktopComponent } from '../fe-core/components/article-stacktop
 import { ArticleStackModule } from '../fe-core/modules/article-stack/article-stack.module';
 import { VideoStackComponent } from '../fe-core/components/video-stack/video-stack.component';
 
+//Box Scores
+import { BoxScoresModule } from '../fe-core/modules/box-scores/box-scores.module';
+import { BoxScoresService } from '../services/box-scores.service';
+
 @NgModule({
     imports:[
       CommonModule,
@@ -22,6 +26,7 @@ import { VideoStackComponent } from '../fe-core/components/video-stack/video-sta
       ArticleStacktopComponent,
       ArticleStackModule,
       VideoStackComponent,
+      BoxScoresModule
     ],
     exports:[
       DeepDivePage,
@@ -30,7 +35,9 @@ import { VideoStackComponent } from '../fe-core/components/video-stack/video-sta
       ArticleStackModule,
       VideoStackComponent,
     ],
-    providers: []
+    providers: [
+      BoxScoresService
+    ]
 })
 
 export class DeepDiveNgModule{

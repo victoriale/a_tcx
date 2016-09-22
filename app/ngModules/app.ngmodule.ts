@@ -9,6 +9,7 @@ import { AppComponent }  from '../app-domain/app.component';
 import {GlobalModule} from "./global.ngmodule";
 import { DeepDiveNgModule } from "./deep-dive.ngmodule";
 import { SyndicatedArticleNgModule } from "./syndicated-article.ngmodule";
+import {HttpModule} from "@angular/http";
 
 @NgModule({
   imports: [
@@ -22,7 +23,7 @@ import { SyndicatedArticleNgModule } from "./syndicated-article.ngmodule";
   declarations: [
     AppComponent
   ],
-  providers: [],
+  providers: [HttpModule],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

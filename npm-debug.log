@@ -1,0 +1,410 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'i' ]
+2 info using npm@2.15.8
+3 info using node@v4.4.7
+4 verbose readDependencies loading dependencies from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/package.json
+5 warn package.json VerticalTitle@1.0.0 No description
+6 warn package.json VerticalTitle@1.0.0 No repository field.
+7 warn package.json VerticalTitle@1.0.0 No README data
+8 verbose install where, deps [ '/Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend',
+8 verbose install   [ '@angular/common',
+8 verbose install     '@angular/compiler',
+8 verbose install     '@angular/core',
+8 verbose install     '@angular/forms',
+8 verbose install     '@angular/http',
+8 verbose install     '@angular/platform-browser',
+8 verbose install     '@angular/platform-browser-dynamic',
+8 verbose install     '@angular/router',
+8 verbose install     '@angular/upgrade',
+8 verbose install     'core-js',
+8 verbose install     'es6-promise',
+8 verbose install     'es6-shim',
+8 verbose install     'fuse.js',
+8 verbose install     'gulp-clean-css',
+8 verbose install     'gulp-minify',
+8 verbose install     'hammerjs',
+8 verbose install     'highcharts',
+8 verbose install     'jquery',
+8 verbose install     'moment',
+8 verbose install     'moment-timezone',
+8 verbose install     'reflect-metadata',
+8 verbose install     'rxjs',
+8 verbose install     'systemjs',
+8 verbose install     'systemjs-builder',
+8 verbose install     'tsd',
+8 verbose install     'zone.js',
+8 verbose install     'bootstrap',
+8 verbose install     'browser-sync',
+8 verbose install     'concurrently',
+8 verbose install     'connect-history-api-fallback',
+8 verbose install     'del',
+8 verbose install     'gulp',
+8 verbose install     'gulp-concat',
+8 verbose install     'gulp-connect',
+8 verbose install     'gulp-less',
+8 verbose install     'gulp-rename',
+8 verbose install     'gulp-typescript',
+8 verbose install     'http-server',
+8 verbose install     'lite-server',
+8 verbose install     'symbol-observable',
+8 verbose install     'typescript' ] ]
+9 verbose install where, peers [ '/Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend',
+9 verbose install   [] ]
+10 verbose installManyTop reading for lifecycle /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/package.json
+11 info preinstall VerticalTitle@1.0.0
+12 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/bootstrap/package.json
+13 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/browser-sync/package.json
+14 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/concurrently/package.json
+15 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/connect-history-api-fallback/package.json
+16 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/core-js/package.json
+17 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/del/package.json
+18 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/es6-promise/package.json
+19 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/es6-shim/package.json
+20 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/fuse.js/package.json
+21 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/gulp/package.json
+22 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/gulp-clean-css/package.json
+23 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/gulp-concat/package.json
+24 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/gulp-connect/package.json
+25 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/gulp-less/package.json
+26 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/gulp-minify/package.json
+27 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/gulp-rename/package.json
+28 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/gulp-typescript/package.json
+29 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/hammerjs/package.json
+30 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/highcharts/package.json
+31 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/http-server/package.json
+32 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/jasmine-core/package.json
+33 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/jquery/package.json
+34 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/karma/package.json
+35 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/karma-chrome-launcher/package.json
+36 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/karma-coverage/package.json
+37 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/karma-jasmine/package.json
+38 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/karma-spec-reporter/package.json
+39 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/lite-server/package.json
+40 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/moment/package.json
+41 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/moment-timezone/package.json
+42 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/reflect-metadata/package.json
+43 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/remap-istanbul/package.json
+44 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/rxjs/package.json
+45 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/symbol-observable/package.json
+46 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/systemjs/package.json
+47 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/systemjs-builder/package.json
+48 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/tsd/package.json
+49 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/typescript/package.json
+50 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/zone.js/package.json
+51 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/@angular/common/package.json
+52 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/@angular/compiler/package.json
+53 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/@angular/core/package.json
+54 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/@angular/forms/package.json
+55 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/@angular/http/package.json
+56 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/@angular/platform-browser/package.json
+57 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/@angular/platform-browser-dynamic/package.json
+58 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/@angular/router/package.json
+59 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/@angular/router-deprecated/package.json
+60 verbose installManyTop reading scoped package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/@angular/upgrade/package.json
+61 info package.json fuse.js@2.5.0 license should be a valid SPDX license expression
+62 info package.json gulp-rename@1.2.2 No license field.
+63 info package.json highcharts@4.2.6 license should be a valid SPDX license expression
+64 info package.json tsd@0.6.5 No license field.
+65 info package.json @angular/router-deprecated@2.0.0-rc.2 No description
+66 verbose readDependencies loading dependencies from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/package.json
+67 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/bootstrap/package.json
+68 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/browser-sync/package.json
+69 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/concurrently/package.json
+70 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/connect-history-api-fallback/package.json
+71 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/core-js/package.json
+72 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/del/package.json
+73 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/es6-promise/package.json
+74 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/es6-shim/package.json
+75 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/fuse.js/package.json
+76 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/gulp/package.json
+77 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/gulp-clean-css/package.json
+78 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/gulp-concat/package.json
+79 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/gulp-connect/package.json
+80 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/gulp-less/package.json
+81 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/gulp-minify/package.json
+82 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/gulp-rename/package.json
+83 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/gulp-typescript/package.json
+84 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/hammerjs/package.json
+85 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/highcharts/package.json
+86 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/http-server/package.json
+87 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/jasmine-core/package.json
+88 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/jquery/package.json
+89 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/karma/package.json
+90 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/karma-chrome-launcher/package.json
+91 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/karma-coverage/package.json
+92 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/karma-jasmine/package.json
+93 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/karma-spec-reporter/package.json
+94 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/lite-server/package.json
+95 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/moment/package.json
+96 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/moment-timezone/package.json
+97 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/reflect-metadata/package.json
+98 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/remap-istanbul/package.json
+99 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/rxjs/package.json
+100 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/symbol-observable/package.json
+101 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/systemjs/package.json
+102 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/systemjs-builder/package.json
+103 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/tsd/package.json
+104 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/typescript/package.json
+105 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/zone.js/package.json
+106 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/@angular/common/package.json
+107 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/@angular/compiler/package.json
+108 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/@angular/core/package.json
+109 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/@angular/forms/package.json
+110 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/@angular/http/package.json
+111 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/@angular/platform-browser/package.json
+112 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/@angular/platform-browser-dynamic/package.json
+113 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/@angular/router/package.json
+114 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/@angular/router-deprecated/package.json
+115 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/@angular/upgrade/package.json
+116 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/.bin/browser-sync/package.json
+117 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/.bin/concurrent/package.json
+118 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/.bin/concurrently/package.json
+119 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/.bin/gulp/package.json
+120 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/.bin/hs/package.json
+121 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/.bin/http-server/package.json
+122 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/.bin/karma/package.json
+123 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/.bin/lite-server/package.json
+124 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/.bin/remap-istanbul/package.json
+125 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/.bin/tsc/package.json
+126 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/.bin/tsd/package.json
+127 verbose targetResolver reading package data from /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/.bin/tsserver/package.json
+128 verbose already installed skipping systemjs@^0.19.8 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+129 verbose already installed skipping systemjs-builder@^0.15.23 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+130 verbose already installed skipping tsd@^0.6.5 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+131 verbose already installed skipping zone.js@^0.6.12 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+132 verbose already installed skipping bootstrap@^3.3.6 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+133 verbose already installed skipping browser-sync@^2.16.0 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+134 verbose already installed skipping concurrently@^2.2.0 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+135 verbose already installed skipping connect-history-api-fallback@^1.3.0 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+136 verbose already installed skipping del@^2.1.0 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+137 verbose already installed skipping gulp@^3.9.0 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+138 verbose already installed skipping gulp-concat@^2.6.0 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+139 verbose already installed skipping gulp-connect@^5.0.0 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+140 verbose already installed skipping gulp-less@^3.0.5 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+141 verbose already installed skipping gulp-rename@^1.2.2 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+142 verbose already installed skipping gulp-typescript@^2.8.0 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+143 verbose already installed skipping http-server@^0.9.0 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+144 verbose already installed skipping lite-server@^2.0.1 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+145 verbose already installed skipping symbol-observable@^1.0.2 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+146 verbose already installed skipping typescript@^1.7.5 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+147 verbose already installed skipping @angular/common@2.0.0 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+148 verbose already installed skipping @angular/compiler@2.0.0 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+149 verbose already installed skipping @angular/core@2.0.0 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+150 verbose already installed skipping @angular/forms@2.0.0 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+151 verbose already installed skipping @angular/http@2.0.0 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+152 verbose already installed skipping @angular/platform-browser@2.0.0 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+153 verbose already installed skipping @angular/platform-browser-dynamic@2.0.0 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+154 verbose already installed skipping @angular/router@3.0.0 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+155 verbose already installed skipping @angular/upgrade@2.0.0 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+156 verbose already installed skipping core-js@^2.4.1 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+157 verbose already installed skipping es6-promise@^3.0.2 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+158 verbose already installed skipping es6-shim@^0.35.0 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+159 verbose already installed skipping fuse.js@^2.2.0 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+160 verbose already installed skipping gulp-clean-css@^2.0.10 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+161 verbose already installed skipping gulp-minify@0.0.12 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+162 verbose already installed skipping hammerjs@^2.0.8 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+163 verbose already installed skipping highcharts@^4.2.3 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+164 verbose already installed skipping jquery@^2.2.1 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+165 verbose already installed skipping moment@^2.12.0 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+166 verbose already installed skipping moment-timezone@^0.5.4 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+167 verbose already installed skipping reflect-metadata@^0.1.2 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+168 verbose already installed skipping rxjs@5.0.0-beta.6 /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+169 silly install resolved []
+170 info build /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+171 info linkStuff VerticalTitle@1.0.0
+172 silly linkStuff VerticalTitle@1.0.0 has /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal as its parent node_modules
+173 verbose linkBins VerticalTitle@1.0.0
+174 verbose linkMans VerticalTitle@1.0.0
+175 verbose rebuildBundles VerticalTitle@1.0.0
+176 verbose rebuildBundles [ '.bin',
+176 verbose rebuildBundles   '@angular',
+176 verbose rebuildBundles   'bootstrap',
+176 verbose rebuildBundles   'browser-sync',
+176 verbose rebuildBundles   'concurrently',
+176 verbose rebuildBundles   'connect-history-api-fallback',
+176 verbose rebuildBundles   'core-js',
+176 verbose rebuildBundles   'del',
+176 verbose rebuildBundles   'es6-promise',
+176 verbose rebuildBundles   'es6-shim',
+176 verbose rebuildBundles   'fuse.js',
+176 verbose rebuildBundles   'gulp',
+176 verbose rebuildBundles   'gulp-clean-css',
+176 verbose rebuildBundles   'gulp-concat',
+176 verbose rebuildBundles   'gulp-connect',
+176 verbose rebuildBundles   'gulp-less',
+176 verbose rebuildBundles   'gulp-minify',
+176 verbose rebuildBundles   'gulp-rename',
+176 verbose rebuildBundles   'gulp-typescript',
+176 verbose rebuildBundles   'hammerjs',
+176 verbose rebuildBundles   'highcharts',
+176 verbose rebuildBundles   'http-server',
+176 verbose rebuildBundles   'jasmine-core',
+176 verbose rebuildBundles   'jquery',
+176 verbose rebuildBundles   'karma',
+176 verbose rebuildBundles   'karma-chrome-launcher',
+176 verbose rebuildBundles   'karma-coverage',
+176 verbose rebuildBundles   'karma-jasmine',
+176 verbose rebuildBundles   'karma-spec-reporter',
+176 verbose rebuildBundles   'lite-server',
+176 verbose rebuildBundles   'moment',
+176 verbose rebuildBundles   'moment-timezone',
+176 verbose rebuildBundles   'reflect-metadata',
+176 verbose rebuildBundles   'remap-istanbul',
+176 verbose rebuildBundles   'rxjs',
+176 verbose rebuildBundles   'symbol-observable',
+176 verbose rebuildBundles   'systemjs',
+176 verbose rebuildBundles   'systemjs-builder',
+176 verbose rebuildBundles   'tsd',
+176 verbose rebuildBundles   'typescript',
+176 verbose rebuildBundles   'zone.js' ]
+177 verbose rebuild bundle /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/jasmine-core
+178 info build /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/jasmine-core
+179 info preinstall jasmine-core@2.5.1
+180 info linkStuff jasmine-core@2.5.1
+181 silly linkStuff jasmine-core@2.5.1 has /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules as its parent node_modules
+182 verbose linkBins jasmine-core@2.5.1
+183 verbose linkMans jasmine-core@2.5.1
+184 verbose rebuildBundles jasmine-core@2.5.1
+185 info install jasmine-core@2.5.1
+186 info postinstall jasmine-core@2.5.1
+187 verbose rebuild bundle /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/karma
+188 info build /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/karma
+189 info preinstall karma@0.13.22
+190 info linkStuff karma@0.13.22
+191 silly linkStuff karma@0.13.22 has /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules as its parent node_modules
+192 verbose linkBins karma@0.13.22
+193 verbose link bins [ { karma: './bin/karma' },
+193 verbose link bins   '/Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/.bin',
+193 verbose link bins   false ]
+194 verbose linkMans karma@0.13.22
+195 verbose rebuildBundles karma@0.13.22
+196 verbose rebuildBundles [ '.bin',
+196 verbose rebuildBundles   'batch',
+196 verbose rebuildBundles   'bluebird',
+196 verbose rebuildBundles   'body-parser',
+196 verbose rebuildBundles   'chokidar',
+196 verbose rebuildBundles   'colors',
+196 verbose rebuildBundles   'connect',
+196 verbose rebuildBundles   'di',
+196 verbose rebuildBundles   'dom-serialize',
+196 verbose rebuildBundles   'expand-braces',
+196 verbose rebuildBundles   'glob',
+196 verbose rebuildBundles   'graceful-fs',
+196 verbose rebuildBundles   'http-proxy',
+196 verbose rebuildBundles   'isbinaryfile',
+196 verbose rebuildBundles   'lodash',
+196 verbose rebuildBundles   'log4js',
+196 verbose rebuildBundles   'mime',
+196 verbose rebuildBundles   'minimatch',
+196 verbose rebuildBundles   'optimist',
+196 verbose rebuildBundles   'rimraf',
+196 verbose rebuildBundles   'socket.io',
+196 verbose rebuildBundles   'source-map',
+196 verbose rebuildBundles   'useragent' ]
+197 silly gentlyRm /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/.bin/karma is being purged
+198 verbose gentlyRm don't care about contents; nuking /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/.bin/karma
+199 silly vacuum-fs purging /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/.bin/karma
+200 silly vacuum-fs quitting because other entries in /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/.bin
+201 info install karma@0.13.22
+202 info postinstall karma@0.13.22
+203 verbose rebuild bundle /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/karma-chrome-launcher
+204 info build /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/karma-chrome-launcher
+205 info preinstall karma-chrome-launcher@0.2.3
+206 info linkStuff karma-chrome-launcher@0.2.3
+207 silly linkStuff karma-chrome-launcher@0.2.3 has /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules as its parent node_modules
+208 verbose linkBins karma-chrome-launcher@0.2.3
+209 verbose linkMans karma-chrome-launcher@0.2.3
+210 verbose rebuildBundles karma-chrome-launcher@0.2.3
+211 verbose rebuildBundles [ '.bin', 'fs-access', 'which' ]
+212 info install karma-chrome-launcher@0.2.3
+213 info postinstall karma-chrome-launcher@0.2.3
+214 verbose rebuild bundle /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/karma-coverage
+215 info build /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/karma-coverage
+216 info preinstall karma-coverage@0.5.5
+217 info linkStuff karma-coverage@0.5.5
+218 silly linkStuff karma-coverage@0.5.5 has /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules as its parent node_modules
+219 verbose linkBins karma-coverage@0.5.5
+220 verbose linkMans karma-coverage@0.5.5
+221 verbose rebuildBundles karma-coverage@0.5.5
+222 verbose rebuildBundles [ '.bin', 'dateformat', 'istanbul', 'minimatch', 'source-map' ]
+223 info install karma-coverage@0.5.5
+224 info postinstall karma-coverage@0.5.5
+225 verbose rebuild bundle /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/karma-jasmine
+226 info build /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/karma-jasmine
+227 info preinstall karma-jasmine@0.3.8
+228 info linkStuff karma-jasmine@0.3.8
+229 silly linkStuff karma-jasmine@0.3.8 has /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules as its parent node_modules
+230 verbose linkBins karma-jasmine@0.3.8
+231 verbose linkMans karma-jasmine@0.3.8
+232 verbose rebuildBundles karma-jasmine@0.3.8
+233 info install karma-jasmine@0.3.8
+234 info postinstall karma-jasmine@0.3.8
+235 verbose rebuild bundle /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/karma-spec-reporter
+236 info build /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/karma-spec-reporter
+237 info preinstall karma-spec-reporter@0.0.26
+238 info linkStuff karma-spec-reporter@0.0.26
+239 silly linkStuff karma-spec-reporter@0.0.26 has /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules as its parent node_modules
+240 verbose linkBins karma-spec-reporter@0.0.26
+241 verbose linkMans karma-spec-reporter@0.0.26
+242 verbose rebuildBundles karma-spec-reporter@0.0.26
+243 verbose rebuildBundles [ 'colors' ]
+244 info install karma-spec-reporter@0.0.26
+245 info postinstall karma-spec-reporter@0.0.26
+246 verbose rebuild bundle /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/remap-istanbul
+247 info build /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/remap-istanbul
+248 info preinstall remap-istanbul@0.6.4
+249 info linkStuff remap-istanbul@0.6.4
+250 silly linkStuff remap-istanbul@0.6.4 has /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules as its parent node_modules
+251 verbose linkBins remap-istanbul@0.6.4
+252 verbose link bins [ { 'remap-istanbul': './bin/remap-istanbul' },
+252 verbose link bins   '/Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/.bin',
+252 verbose link bins   false ]
+253 verbose linkMans remap-istanbul@0.6.4
+254 verbose rebuildBundles remap-istanbul@0.6.4
+255 verbose rebuildBundles [ '.bin',
+255 verbose rebuildBundles   'amdefine',
+255 verbose rebuildBundles   'gulp-util',
+255 verbose rebuildBundles   'istanbul',
+255 verbose rebuildBundles   'source-map',
+255 verbose rebuildBundles   'through2' ]
+256 silly gentlyRm /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/.bin/remap-istanbul is being purged
+257 verbose gentlyRm don't care about contents; nuking /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/.bin/remap-istanbul
+258 silly vacuum-fs purging /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/.bin/remap-istanbul
+259 silly vacuum-fs quitting because other entries in /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend/node_modules/.bin
+260 info install remap-istanbul@0.6.4
+261 info postinstall remap-istanbul@0.6.4
+262 info install VerticalTitle@1.0.0
+263 info postinstall VerticalTitle@1.0.0
+264 verbose unsafe-perm in lifecycle true
+265 info VerticalTitle@1.0.0 Failed to exec postinstall script
+266 verbose stack Error: VerticalTitle@1.0.0 postinstall: `typings install`
+266 verbose stack spawn ENOENT
+266 verbose stack     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/spawn.js:17:16)
+266 verbose stack     at emitTwo (events.js:87:13)
+266 verbose stack     at ChildProcess.emit (events.js:172:7)
+266 verbose stack     at maybeClose (internal/child_process.js:827:16)
+266 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:211:5)
+267 verbose pkgid VerticalTitle@1.0.0
+268 verbose cwd /Users/Caleb.Banzhaf/Desktop/WorkProjects/HomeRunLoyal/tcx-frontend
+269 error Darwin 15.6.0
+270 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "i"
+271 error node v4.4.7
+272 error npm  v2.15.8
+273 error file sh
+274 error code ELIFECYCLE
+275 error errno ENOENT
+276 error syscall spawn
+277 error VerticalTitle@1.0.0 postinstall: `typings install`
+277 error spawn ENOENT
+278 error Failed at the VerticalTitle@1.0.0 postinstall script 'typings install'.
+278 error This is most likely a problem with the VerticalTitle package,
+278 error not with npm itself.
+278 error Tell the author that this fails on your system:
+278 error     typings install
+278 error You can get information on how to open an issue for this project with:
+278 error     npm bugs VerticalTitle
+278 error Or if that isn't available, you can get their info via:
+278 error
+278 error     npm owner ls VerticalTitle
+278 error There is likely additional logging output above.
+279 verbose exit [ 1, true ]

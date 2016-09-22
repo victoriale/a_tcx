@@ -10,16 +10,16 @@
       // our app is within the app folder
       app: 'app',
       // angular bundles
-      '@angular/core': 'lib/core.umd.js',
-      '@angular/common': 'lib/common.umd.js',
-      '@angular/compiler': 'lib/compiler.umd.js',
-      '@angular/platform-browser': 'lib/platform-browser.umd.js',
+      '@angular/core':              'lib/core.umd.js',
+      '@angular/common':            'lib/common.umd.js',
+      '@angular/compiler':          'lib/compiler.umd.js',
+      '@angular/platform-browser':  'lib/platform-browser.umd.js',
       '@angular/platform-browser-dynamic': 'lib/platform-browser-dynamic.umd.js',
-      '@angular/http': 'lib/http.umd.js',
-      '@angular/router': 'lib/router.umd.js',
-      '@angular/forms': 'lib/forms.umd.js',
+      '@angular/http':              'lib/http.umd.js',
+      '@angular/router':            'lib/router.umd.js',
+      '@angular/forms':             'lib/forms.umd.js',
       // other libraries
-      'symbol-observable':  'lib',
+      'symbol-observable':          'lib',
       'rxjs':                       'lib',
       'angular2-in-memory-web-api': 'lib/angular2-in-memory-web-api'
     },

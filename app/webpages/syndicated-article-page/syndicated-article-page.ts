@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import {SyndicateArticleService} from "../../services/syndicate-article.service";
 
 @Component({
     selector: 'syndicated-article-page',
@@ -7,11 +6,5 @@ import {SyndicateArticleService} from "../../services/syndicate-article.service"
 })
 
 export class SyndicatedArticlePage{
-    dummyData:any;
-    title:string="Here we have syndicate article page";
-    constructor(private _synService:SyndicateArticleService){}
-    ngOnInit(){
-        this.dummyData=this._synService.dummyData;
-
-    }
+    title:string="Here we have syndicate article page"
 }

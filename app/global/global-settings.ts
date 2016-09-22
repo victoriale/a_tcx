@@ -1,7 +1,4 @@
-import {Injectable} from '@angular/core';
-// import {Router} from '@angular/router-deprecated';
 
-@Injectable()
 
 export class GlobalSettings {
     private static _env = window.location.hostname.split('.')[0];

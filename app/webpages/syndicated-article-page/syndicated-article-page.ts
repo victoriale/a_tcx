@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {SyndicateArticleService} from "../../services/syndicate-article.service";
 
 @Component({
     selector: 'syndicated-article-page',
@@ -6,5 +7,22 @@ import {Component} from '@angular/core';
 })
 
 export class SyndicatedArticlePage{
-    title:string="Here we have syndicate article page"
+    dummyData:any;
+    public articleType:string;
+    public articleID:string;
+    title:string="Here we have syndicate article page";
+    constructor(private _synService:SyndicateArticleService){
+        this.articleType="story";
+        if (this.articleType == "story") {
+            this._synService.getDummyData(this.articleID)
+        }
+        else {
+            this._synService.getDummyData(this.articleID);
+        }
+    }
+    ngOnInit(){
+        this.dummyData=this._synService.dummyData;
+
+    }
 }
+

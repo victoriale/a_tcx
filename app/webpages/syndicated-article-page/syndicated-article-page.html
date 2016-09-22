@@ -1,2 +1,23 @@
+
 <!--Header Component imported from Global feature module-->
-<header-component [title]="title"></header-component>
+<!--<header-component [title]="title"></header-component>
+<span *ngIf="dummyData">
+          <shareLinks-component  [shareUrl]="dummyData.articleUrl" [isMain]="true"></shareLinks-component>
+</span>-->
+<div class="container-fluid">
+    <div class="syndicated-articles-page">
+        <div class="syndicated-articles-page-content">
+
+        <span *ngIf="dummyData">
+          <shareLinks-component  [shareUrl]="dummyData.articleUrl" [isMain]="true"></shareLinks-component>
+            <syndicate-article [title]="dummyData.title" [articleDate]="dummyData.publishedDate" [author]="dummyData.author" [publisher]="dummyData.publisher" [teaser]="dummyData.teaser" [imageData]="dummyData.imagePathData"></syndicate-article>
+            <disqus-component></disqus-component>
+        </span>
+
+
+
+        </div>
+    </div>
+</div>
+
+

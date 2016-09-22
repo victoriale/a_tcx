@@ -2,6 +2,7 @@
 import {SyndicateArticleData} from "../fe-core/interfaces/syndicate-article.data";
 
 export class SyndicateArticleService{
+
   dummyData: SyndicateArticleData={
         articleId: 1,
         title: "Static Article Title",
@@ -14,7 +15,10 @@ export class SyndicateArticleService{
         articleUrl: "",
         provider:"Anonymous",
   }
+ getDummyData(articleId){
+       return this.dummyData;
 
+ }
 
 
 }

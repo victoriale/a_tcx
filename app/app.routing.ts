@@ -16,7 +16,7 @@ const appRoutes: Routes = [
     component: DeepDivePage
   },
   {
-    path: 'syndicated-article',
+    path: 'news/:articleType/:articleID',
     component: SyndicatedArticlePage
   }
 ];

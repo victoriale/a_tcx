@@ -14,20 +14,20 @@ export class DeepDivePage implements OnInit {
     title="Everything that is deep dive will go in this page. Please Change according to your requirement";
     test: any = "testing";
 
-    scope = 'nfl';
+    scope = 'nfl'; //TODO - get URL Param
 
     //Box Scores
     boxScoresData:any;
     currentBoxScores:any;
     dateParam:any;
+    displayTest:any = 'test';
 
     constructor( private _boxScoresService: BoxScoresService ) {
       //Box Scores
       var currentUnixDate = new Date().getTime();
       //convert currentDate(users local time) to Unix and push it into boxScoresAPI as YYYY-MM-DD in EST using moment timezone (America/New_York)
       this.dateParam ={
-        profile:'league',//current profile page
-        teamId: this.scope,
+        profile: this.scope,//current profile page
         date: moment.tz( currentUnixDate , 'America/New_York' ).format('YYYY-MM-DD')
       }
     }
@@ -64,7 +64,7 @@ export class DeepDivePage implements OnInit {
       if ( dateParams != null ) {
         this.dateParam = dateParams;
       }
-      this._boxScoresService.getBoxScores(this.boxScoresData, 'league', this.dateParam, (boxScoresData, currentBoxScores) => {
+      this._boxScoresService.getBoxScores(this.boxScoresData, this.scope, this.dateParam, (boxScoresData, currentBoxScores) => {
           this.boxScoresData = boxScoresData;
           this.currentBoxScores = currentBoxScores;
       });

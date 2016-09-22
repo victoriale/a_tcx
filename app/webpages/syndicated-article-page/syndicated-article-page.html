@@ -9,11 +9,13 @@
         <div class="syndicated-articles-page-content">
 
         <span *ngIf="dummyData">
-          <shareLinks-component  [shareUrl]="dummyData.articleUrl" [isMain]="true"></shareLinks-component>
+          <shareLinks-component  [shareUrl]="dummyData.articleUrl"></shareLinks-component>
             <syndicate-article [title]="dummyData.title" [articleDate]="dummyData.publishedDate" [author]="dummyData.author" [publisher]="dummyData.publisher" [teaser]="dummyData.teaser" [imageData]="dummyData.imagePathData"></syndicate-article>
             <disqus-component></disqus-component>
         </span>
+        <recommendations-component [recommendedData]="recommendedData"></recommendations-component>
 
+        <syndicated-trending-component [trendingData]="trendingData"></syndicated-trending-component>
 
 
         </div>

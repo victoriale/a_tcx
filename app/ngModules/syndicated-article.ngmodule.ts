@@ -6,18 +6,22 @@ import {SyndicateArticleService} from "../services/syndicate-article.service";
 import {ShareLinksComponent} from "../fe-core/components/syndicate-components/shareLinks/shareLinks.component";
 import {MainArticle} from "../fe-core/components/syndicate-components/syndicate-article/main-article.component";
 import {DisqusComponent} from "../fe-core/components/syndicate-components/disqus/disqus.component";
+import {SyndicatedTrendingComponent} from "../fe-core/components/syndicate-components/trending-articles/trending-articles.component";
+import {RecommendationsComponent} from "../fe-core/components/syndicate-components/recommendations/recommendations.component";
+import {routing} from "../app.routing";
 
 
 @NgModule({
     imports:[
         CommonModule,
-        GlobalModule
+        GlobalModule,
+        routing
     ],
     declarations:[
-        SyndicatedArticlePage, ShareLinksComponent,MainArticle, DisqusComponent
+        SyndicatedArticlePage, ShareLinksComponent,MainArticle, DisqusComponent, SyndicatedTrendingComponent, RecommendationsComponent
     ],
     exports:[
-        SyndicatedArticlePage, ShareLinksComponent,MainArticle, DisqusComponent
+        SyndicatedArticlePage, ShareLinksComponent,MainArticle, DisqusComponent, SyndicatedTrendingComponent, RecommendationsComponent
     ],
     providers: [SyndicateArticleService]
 })

@@ -111,13 +111,14 @@ export class BoxScoresService {
 
   // call to get data
   getBoxScoresService(scope, date, teamId?){
+
+    var headers = this.setToken();
     let chosenDate = date;
 
     var callURL = this._apiUrl+'/boxScores/league/'+scope+'/'+date+'/addAi';
-    return this.http.get(callURL)
+    return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
-        console.log('1. box-scores.service - data(original call) - ', data);
         var transformedDate = this.transformBoxScores(data);
 
         return {
@@ -148,6 +149,7 @@ export class BoxScoresService {
               gameInfo: this.formatGameInfo(data.transformedDate[data.date],scopedDateParam.teamId, scopedDateParam.profile),
               gameInfoMobile: this.formatGameInfoMobile(data.transformedDate[data.date],scopedDateParam.teamId, scopedDateParam.profile),
               schedule: scopedDateParam.profile != 'league' && data.transformedDate[data.date] != null ? this.formatSchedule(data.transformedDate[data.date][0], scopedDateParam.scope, scopedDateParam.profile) : null,
+              //aiContent: scopedDateParam.profile == 'league' ? this.aiHeadline(data.aiArticle) : null //TODO
             }
             currentBoxScores = currentBoxScores.gameInfo != null ? currentBoxScores :null;
             callback(data, currentBoxScores);
@@ -156,7 +158,16 @@ export class BoxScoresService {
     }
     else {
       if( boxScoresData.transformedDate[dateParam.date] != null ){
-        let currentBoxScores = {}
+        let currentBoxScores = {
+          scoreBoard: dateParam.profile != 'league' && boxScoresData.transformedDate[dateParam.date] != null ? this.formatScoreBoard(boxScoresData.transformedDate[dateParam.date][0]) : null,
+          moduleTitle: this.moduleHeader(dateParam.date, profileName),
+          gameInfo: this.formatGameInfo(boxScoresData.transformedDate[dateParam.date],dateParam.teamId, dateParam.profile),
+          gameInfoSmall: this.formatGameInfoMobile(boxScoresData.transformedDate[dateParam.date],dateParam.teamId, dateParam.profile),
+          schedule: dateParam.profile != 'league' && boxScoresData.transformedDate[dateParam.date] != null? this.formatSchedule(boxScoresData.transformedDate[dateParam.date][0], dateParam.teamId, dateParam.profile) : null,
+          //aiContent: dateParam.profile == 'league' ? this.aiHeadline(boxScoresData.aiArticle) : null, //TODO
+        };
+        currentBoxScores = currentBoxScores.gameInfo != null ? currentBoxScores :null;
+        callback(boxScoresData, currentBoxScores);
       }
     }
   } // END getBoxScores
@@ -183,7 +194,23 @@ export class BoxScoresService {
   } // moduleHeader
 
   // get data for the week carousel
-  weekCarousel(profile, date, teamId?) {}
+  weekCarousel(profile, date, teamId?) {
+    //Configure HTTP Headers
+    var headers = this.setToken();
+
+    //player profile are treated as teams
+    // if(profile == 'player'){
+    //   profile = 'team'
+    // }
+
+    var callURL = 'http://dev-touchdownloyal-api.synapsys.us/league/gameDatesWeekly/nfl/2016-09-22'; //TODO when API is sestup
+    return this.http.get(callURL, {headers: headers})
+      .map(res => res.json())
+      .map(data => {
+        return data;
+      })
+
+  }
 
   // get data for monthly calendar dropdown
   validateMonth(profile, date, teamId?) {}
@@ -224,7 +251,6 @@ export class BoxScoresService {
             gameDayInfo.dataPoint3Label
           ]
         }
-        //console.log('box-scores.service - transformedData - gameDayInfo[gameInfo] - ',gameDayInfo['gameInfo']);
 
         // home team info
         gameDayInfo['homeTeamInfo'] = {
@@ -240,7 +266,6 @@ export class BoxScoresService {
           //dataP2:boxScoresData[gameDate].team1Possession != ''? boxScoresData[gameDate].team1Possession:null,
           teamRecord: gameDayInfo.winsHome != null ? gameDayInfo.winsHome + '-' + gameDayInfo.lossHome + '-' + gameDayInfo.tiesHome: null
         }
-        //console.log('box-scores.service - transformedData - gameDayInfo[homeTeamInfo] - ',gameDayInfo['homeTeamInfo']);
 
         // away team info
         gameDayInfo['awayTeamInfo'] = {
@@ -256,7 +281,6 @@ export class BoxScoresService {
           //dataP2:boxScoresData[gameDate].team1Possession != ''? boxScoresData[gameDate].team1Possession:null,
           teamRecord: gameDayInfo.winsAway != null ? gameDayInfo.winsAway + '-' + gameDayInfo.lossAway + '-' + gameDayInfo.tiesAway: null,
         }
-        //console.log('box-scores.service - transformedData - gameDayInfo[awayTeamInfo] - ',gameDayInfo['awayTeamInfo']);
 
         // team in possession
         if( gameDayInfo.liveDataPoints.nfl.teamInPossesion == 0 ){ // TODO nfl needs to be scope variable
@@ -275,7 +299,6 @@ export class BoxScoresService {
       } //if (boxScoresData[gameDate])
     } // END for ( var gameDate in data.data )
 
-    console.log('2. box-scores.service - transformedData - newBoxScores - ',newBoxScores);
     return newBoxScores;
   }
 
@@ -312,8 +335,6 @@ export class BoxScoresService {
       awayRecord: homeData.teamRecord
     };
 
-    console.log('4. box-scores.service - formatSchedule - home:[right] -', [right]);
-    console.log('4. box-scores.service - formatSchedule - away:[left] -', [left]);
     return {
       home:[right],
       away:[left]
@@ -335,7 +356,6 @@ export class BoxScoresService {
       return Number(a.gameInfo.startDateTimestamp) - Number(b.gameInfo.startDateTimestamp);
     });
     sortedGames.forEach(function(data,i){
-      console.log('sortedGames - ', game);
       //var info:GameInfoInput; //TODO
       var info;
       let awayData = data.awayTeamInfo;
@@ -410,7 +430,6 @@ export class BoxScoresService {
         gameArray.push(twoBoxes);
       }
     })
-    console.log('3. box-scores.service - formatGameInfo - gameArray - ',gameArray);
     return gameArray;
   }
 
@@ -505,7 +524,6 @@ export class BoxScoresService {
         gameArray.push(twoBoxes);
       }
       })
-      console.log('3. box-scores.service - formatGameInfoMobile - gameArray - ',gameArray);
       return gameArray;
 
   }

@@ -7,7 +7,7 @@ import { DeepDivePage } from "../webpages/deep-dive-page/deep-dive-page";
 import { BoxScoresModule } from '../fe-core/modules/box-scores/box-scores.module';
 import { BoxScoresService } from '../services/box-scores.service';
 import { GameInfo } from '../fe-core/components/game-info/game-info.component';
-import { CalendarCarousel } from '../fe-core/components/carousels/calendar/calendar-carousel';
+import { CalendarCarousel } from '../fe-core/components/carousels/calendar/calendar-carousel.component';
 
 //pipes
 import { StatHyphenValuePipe } from '../fe-core/pipes/stat-hyphen.pipe';
@@ -19,9 +19,11 @@ import { StatHyphenValuePipe } from '../fe-core/pipes/stat-hyphen.pipe';
     ],
     declarations:[
       DeepDivePage,
+      StatHyphenValuePipe,
+      //BoxScores
       BoxScoresModule,
       GameInfo,
-      StatHyphenValuePipe
+      CalendarCarousel
     ],
     exports:[
       DeepDivePage

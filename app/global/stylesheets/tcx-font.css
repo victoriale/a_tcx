@@ -1,16 +1,16 @@
 @font-face {
-  font-family: "tdl";
+  font-family: "tcx";
   src:url("/app/public/fonts/tcx.eot");
   src:url("/app/public/fonts/tcx.eot?#iefix") format("embedded-opentype"),
   url("/app/public/fonts/tcx.woff") format("woff"),
   url("/app/public/fonts/tcx.ttf") format("truetype"),
-  url("/app/public/fonts/tcx.svg#tdl") format("svg");
+  url("/app/public/fonts/tcx.svg#tcx") format("svg");
 }
 
 
 [class^="fa-"]:before,
 [class*=" fa-"]:before {
-  font-family: "tdl" !important;
+  font-family: "tcx" !important;
   font-style: normal !important;
   font-weight: normal !important;
   font-variant: normal !important;
@@ -20,7 +20,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 [data-icon]:before {
-  font-family: "tdl" !important;
+  font-family: "tcx" !important;
   content: attr(data-icon);
   font-style: normal !important;
   font-weight: normal !important;
@@ -232,13 +232,13 @@
 }
 /* END Aliases */
 
-.fa-tdl-football:before {
+.fa-tcx-football:before {
   content: "\61";
 }
-.fa-tdl-helmet:before {
+.fa-tcx-helmet:before {
   content: "\62";
 }
-.fa-tdl-profiles:before {
+.fa-tcx-profiles:before {
   content: "\63";
 }
 .fa-angle-down:before {

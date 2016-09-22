@@ -1,78 +1,118 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Rx';
-import {Http, Headers} from '@angular/http';
-import {GlobalFunctions} from '../global/global-functions';
-import {VerticalGlobalFunctions} from '../global/vertical-global-functions';
-import {GlobalSettings} from '../global/global-settings';
 
 @Injectable()
 export class HamburgerDeliveryService {
-  static createMenu(division, partner?){
-    var params;
-    var partnerUrl;
-    var divisionUrl;
-    if (division != null) {
-      divisionUrl = division.toLowerCase();
-    }
-    if (partner == null || partner == false){
-      partnerUrl = "Default";
-      params = {scope: divisionUrl};
-    }
-    else {
-      partnerUrl = "Partner";
-      params = {scope: divisionUrl, partner_id: partner};
-    }
+  static createMenu(){
+    // var params;
+    // var partnerUrl;
+    // var divisionUrl;
+    // if (division != null) {
+    //   divisionUrl = division.toLowerCase();
+    // }
+    // if (partner == null || partner == false){
+    //   partnerUrl = "Default";
+    //   params = {scope: divisionUrl};
+    // }
+    // else {
+    //   partnerUrl = "Partner";
+    //   params = {scope: divisionUrl, partner_id: partner};
+    // }
     var menuData = [{
         menuTitle: "Home",
-        url: [partnerUrl +'-home',params ,'Home-page']
+        url: '/deep-dive'
       },
       {
         menuTitle: "Trending",
-        url: [partnerUrl +'-home',params ,'Home-page']
+        url: '/deep-dive'
       },
       {
         menuTitle: "Breaking",
-        url: [partnerUrl +'-home',params ,'Home-page']
+        url: '/deep-dive'
       },
       {
         menuTitle: "Sports",
-        url: [partnerUrl +'-home',params ,'Home-page']
+        url: '/deep-dive',
+        nesterChildren: [
+          {
+            menuTitle: "NFL",
+            url: '/deep-dive'
+          },
+          {
+            menuTitle: "NCAAF",
+            url: '/deep-dive'
+          },
+          {
+            menuTitle: "NBA",
+            url: '/deep-dive'
+          },
+          {
+            menuTitle: "NCAAM",
+            url: '/deep-dive'
+          },
+          {
+            menuTitle: "MLB",
+            url: '/deep-dive'
+          },
+          {
+            menuTitle: "NHL",
+            url: '/deep-dive'
+          }
+        ]
       },
       {
         menuTitle: "Business",
-        url: [partnerUrl +'-home',params ,'Home-page']
+        url: '/deep-dive'
       },
       {
         menuTitle: "Politics",
-        url: [partnerUrl +'-home',params ,'Home-page']
+        url: '/deep-dive'
       },
       {
         menuTitle: "Entertainment",
-        url: [partnerUrl +'-home',params ,'Home-page']
+        url: '/deep-dive',
+        nesterChildren: [
+          {
+            menuTitle: "TVs",
+            url: '/deep-dive'
+          },
+          {
+            menuTitle: "Movies",
+            url: '/deep-dive'
+          },
+          {
+            menuTitle: "Music",
+            url: '/deep-dive'
+          },
+          {
+            menuTitle: "Celebrities",
+            url: '/deep-dive'
+          }
+        ]
       },
       {
         menuTitle: "Food",
-        url: [partnerUrl +'-home',params ,'Home-page']
+        url: '/deep-dive'
       },
       {
         menuTitle: "Health",
-        url: [partnerUrl +'-home',params ,'Home-page']
+        url: '/deep-dive'
       },
       {
         menuTitle: "Lifestyle",
-        url: [partnerUrl +'-home',params ,'Home-page']
+        url: '/deep-dive'
       },
       {
         menuTitle: "Real Estate",
-        url: [partnerUrl +'-home',params ,'Home-page']
+        url: '/deep-dive'
       },
       {
         menuTitle: "Travel",
-        url: [partnerUrl +'-home',params ,'Home-page']
+        url: '/deep-dive'
       },
       {
         menuTitle: "Weather",
-        url: [partnerUrl +'-home',params ,'Home-page']
+        url: '/deep-dive'
       }
     ];
     var menuInfo = [];

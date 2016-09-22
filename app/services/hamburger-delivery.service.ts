@@ -32,7 +32,33 @@ export class HamburgerDeliveryService {
       },
       {
         menuTitle: "Sports",
-        url: '/deep-dive'
+        url: '/deep-dive',
+        nesterChildren: [
+          {
+            menuTitle: "NFL",
+            url: '/deep-dive'
+          },
+          {
+            menuTitle: "NCAAF",
+            url: '/deep-dive'
+          },
+          {
+            menuTitle: "NBA",
+            url: '/deep-dive'
+          },
+          {
+            menuTitle: "NCAAM",
+            url: '/deep-dive'
+          },
+          {
+            menuTitle: "MLB",
+            url: '/deep-dive'
+          },
+          {
+            menuTitle: "NHL",
+            url: '/deep-dive'
+          }
+        ]
       },
       {
         menuTitle: "Business",
@@ -44,7 +70,25 @@ export class HamburgerDeliveryService {
       },
       {
         menuTitle: "Entertainment",
-        url: '/deep-dive'
+        url: '/deep-dive',
+        nesterChildren: [
+          {
+            menuTitle: "TVs",
+            url: '/deep-dive'
+          },
+          {
+            menuTitle: "Movies",
+            url: '/deep-dive'
+          },
+          {
+            menuTitle: "Music",
+            url: '/deep-dive'
+          },
+          {
+            menuTitle: "Celebrities",
+            url: '/deep-dive'
+          }
+        ]
       },
       {
         menuTitle: "Food",

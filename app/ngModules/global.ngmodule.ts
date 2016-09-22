@@ -7,6 +7,7 @@ import { RectangleImage } from "../fe-core/components/images/rectangle-image/rec
 import { CircleImage } from "../fe-core/components/images/circle-image/circle-image";
 import { HoverImage } from "../fe-core/components/images/hover-image";
 import { FooterComponent } from "../fe-core/components/footer/footer.component";
+
 @NgModule({
     imports: [
       CommonModule,
@@ -19,15 +20,13 @@ import { FooterComponent } from "../fe-core/components/footer/footer.component";
       RectangleImage,
       FooterComponent
     ],
-    exports:[
+    exports: [
       HeaderComponent,
       HoverImage,
       CircleImage,
       RectangleImage,
       FooterComponent
     ],
-    providers: [
-
-    ]
+    providers: []
 })
 export class GlobalModule { }

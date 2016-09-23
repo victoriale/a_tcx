@@ -18,8 +18,8 @@ export class SyndicatedArticlePage{
         if (this.articleType == "story") {
             this.dummyData= this._synService.getDummyData(this.articleID);
             this.recommendedData=this._synService.getRecommendDummyData();
-            this.trendingData=this._synService.getTrendingData();
-            console.log(this.trendingData);
+            this.trendingData=this._synService.getTrendingData(this.articleID);
+           
 
         }
         else {

@@ -5,6 +5,12 @@ import { GlobalModule } from './global.ngmodule';
 //providers
 import { DeepDiveService } from '../services/deep-dive.service';
 import { BoxScoresService } from '../services/box-scores.service';
+
+import {SideScrollSchedule} from '../fe-core/modules/side-scroll-schedules/side-scroll-schedules.module';
+import {ScheduleBox} from '../fe-core/components/schedule-box/schedule-box.component';
+import {SideScroll} from '../fe-core/components/side-scroll/side-scroll.component';
+import { SchedulesService } from '../services/schedules.service';
+
 //deep-dive blocks
 import { DeepDiveBlock1 } from '../fe-core/modules/deep-dive-blocks/deep-dive-block-1/deep-dive-block-1.module';
 
@@ -31,6 +37,9 @@ import { StatHyphenValuePipe } from '../fe-core/pipes/stat-hyphen.pipe';
     ],
     declarations:[
       DeepDivePage,
+      SideScrollSchedule,
+      ScheduleBox,
+      SideScroll,
       StackRowsComponent,
       ArticleStacktopComponent,
       ArticleStackModule,
@@ -54,7 +63,8 @@ import { StatHyphenValuePipe } from '../fe-core/pipes/stat-hyphen.pipe';
     ],
     providers: [
       DeepDiveService,
-      BoxScoresService
+      BoxScoresService,
+      SchedulesService
     ]
 })
 

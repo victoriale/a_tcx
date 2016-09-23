@@ -3,9 +3,11 @@
 
    <br><br>
    larrousel goes here<br>
-   side scroller goes here<br>
    <br>
-
+   
+   <div class="deep-dive-module">
+     <side-scroll-schedules *ngIf="sideScrollData" [sideScrollData]="sideScrollData" (count)="scrollCheck($event)" [scrollLength]="scrollLength" [scope]="changeScopeVar" (changeScope)="changeScope($event)"></side-scroll-schedules>
+   </div>
    <deep-dive-block-1></deep-dive-block-1>
 
    <box-scores [boxScores]="currentBoxScores" [calendarParams]="dateParam"></box-scores>

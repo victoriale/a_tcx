@@ -7,6 +7,7 @@ import { GlobalFunctions } from '../global/global-functions';
 
 
 declare var moment;
+var prevGame;
 
 export interface boxScoresInterface {
   currentScope: string; //league
@@ -114,11 +115,14 @@ export class BoxScoresService {
 
     var headers = this.setToken();
     let chosenDate = date;
+    // console.log('3. box-scores.service - getBoxScoresService - chosenDate ', chosenDate);
 
     var callURL = this._apiUrl+'/boxScores/league/'+scope+'/'+date+'/addAi';
+    // console.log('getBoxScoresService - callURL - ',callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
+        // console.log('3. box-scores.service - getBoxScoresService - data ', data);
         var transformedDate = this.transformBoxScores(data);
 
         return {
@@ -132,17 +136,25 @@ export class BoxScoresService {
 
   // function for BoxScoresService to use on profile pages
   getBoxScores(boxScoresData, profileName: string, dateParam, callback: Function) {
-    let scopedDateParam = dateParam;
+    // console.log('2. box-scores.service - getBoxScores - boxScoresData ', boxScoresData);
 
+    let scopedDateParam = dateParam;
     if(boxScoresData == null) {
       boxScoresData = {};
       boxScoresData['transformedDate'] = {};
     }
 
+
+    // check if curr or prev game exists in transformed boxscore
+    // if(boxScoresData.transformedDate[dateParam] == null){
+    //   scopedDateParam.date = boxScoresData.prevGameDate;
+    // }else{
+    //   scopedDateParam = dateParam;
+    // }
+
     if ( boxScoresData == null || boxScoresData.transformedDate[scopedDateParam.date] == null ) {
       this.getBoxScoresService(scopedDateParam.scope, scopedDateParam.date)
         .subscribe(data => {
-
           if(data.transformedDate[data.date] != null && data.transformedDate[data.date][0] != null) {
             let currentBoxScores = {
               moduleTitle: this.moduleHeader(data.date, profileName),
@@ -150,7 +162,8 @@ export class BoxScoresService {
               gameInfoMobile: this.formatGameInfoMobile(data.transformedDate[data.date],scopedDateParam.teamId, scopedDateParam.profile),
               schedule: scopedDateParam.profile != 'league' && data.transformedDate[data.date] != null ? this.formatSchedule(data.transformedDate[data.date][0], scopedDateParam.scope, scopedDateParam.profile) : null,
               //aiContent: scopedDateParam.profile == 'league' ? this.aiHeadline(data.aiArticle) : null //TODO
-            }
+            };
+            // console.log('currentBoxScores - ',currentBoxScores);
             currentBoxScores = currentBoxScores.gameInfo != null ? currentBoxScores :null;
             callback(data, currentBoxScores);
           }
@@ -159,13 +172,13 @@ export class BoxScoresService {
     else {
       if( boxScoresData.transformedDate[dateParam.date] != null ){
         let currentBoxScores = {
-          scoreBoard: dateParam.profile != 'league' && boxScoresData.transformedDate[dateParam.date] != null ? this.formatScoreBoard(boxScoresData.transformedDate[dateParam.date][0]) : null,
           moduleTitle: this.moduleHeader(dateParam.date, profileName),
           gameInfo: this.formatGameInfo(boxScoresData.transformedDate[dateParam.date],dateParam.teamId, dateParam.profile),
           gameInfoSmall: this.formatGameInfoMobile(boxScoresData.transformedDate[dateParam.date],dateParam.teamId, dateParam.profile),
           schedule: dateParam.profile != 'league' && boxScoresData.transformedDate[dateParam.date] != null? this.formatSchedule(boxScoresData.transformedDate[dateParam.date][0], dateParam.teamId, dateParam.profile) : null,
           //aiContent: dateParam.profile == 'league' ? this.aiHeadline(boxScoresData.aiArticle) : null, //TODO
         };
+
         currentBoxScores = currentBoxScores.gameInfo != null ? currentBoxScores :null;
         callback(boxScoresData, currentBoxScores);
       }
@@ -194,7 +207,7 @@ export class BoxScoresService {
   } // moduleHeader
 
   // get data for the week carousel
-  weekCarousel(profile, date, teamId?) {
+  weekCarousel(scope, date, teamId?) {
     //Configure HTTP Headers
     var headers = this.setToken();
 
@@ -203,7 +216,7 @@ export class BoxScoresService {
     //   profile = 'team'
     // }
 
-    var callURL = 'http://dev-touchdownloyal-api.synapsys.us/league/gameDatesWeekly/nfl/2016-09-22'; //TODO when API is sestup
+    var callURL = 'http://dev-touchdownloyal-api.synapsys.us/league/gameDatesWeekly/'+scope+'/'+date; //TODO when API is sestup
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
@@ -246,9 +259,9 @@ export class BoxScoresService {
           startDateTime: gameDayInfo.eventDate,
           startDateTimestamp: gameDayInfo.eventStartTime,
           dataPointCategories:[
-            gameDayInfo.dataPoint1Label,
+            gameDayInfo.dataPoint3Label,
             gameDayInfo.dataPoint2Label,
-            gameDayInfo.dataPoint3Label
+            gameDayInfo.dataPoint1Label
           ]
         }
 
@@ -260,9 +273,9 @@ export class BoxScoresService {
           lastName: gameDayInfo.nicknameHome,
           abbreviation: gameDayInfo.abbreviationHome,
           logo: gameDayInfo.logoUrlHome,
-          dataP1: gameDayInfo.dataPoint1Home,
-          dataP2: gameDayInfo.dataPoint2Home,
-          dataP3: gameDayInfo.dataPoint3Home,
+          dataPoint1Home: gameDayInfo.dataPoint1Home,
+          dataPoint2Home: gameDayInfo.dataPoint2Home,
+          dataPoint3Home: gameDayInfo.dataPoint3Home,
           //dataP2:boxScoresData[gameDate].team1Possession != ''? boxScoresData[gameDate].team1Possession:null,
           teamRecord: gameDayInfo.winsHome != null ? gameDayInfo.winsHome + '-' + gameDayInfo.lossHome + '-' + gameDayInfo.tiesHome: null
         }
@@ -275,19 +288,19 @@ export class BoxScoresService {
           lastName: gameDayInfo.nicknameAway,
           abbreviation: gameDayInfo.abbreviationAway,
           logo: gameDayInfo.logoUrlAway,
-          dataP1: gameDayInfo.dataPoint1Away,
-          dataP2: gameDayInfo.dataPoint2Away,
-          dataP3: gameDayInfo.dataPoint3Away,
+          dataPoint1Away: gameDayInfo.dataPoint1Away,
+          dataPoint2Away: gameDayInfo.dataPoint2Away,
+          dataPoint3Away: gameDayInfo.dataPoint3Away,
           //dataP2:boxScoresData[gameDate].team1Possession != ''? boxScoresData[gameDate].team1Possession:null,
           teamRecord: gameDayInfo.winsAway != null ? gameDayInfo.winsAway + '-' + gameDayInfo.lossAway + '-' + gameDayInfo.tiesAway: null,
         }
 
         // team in possession
-        if( gameDayInfo.liveDataPoints.nfl.teamInPossesion == 0 ){ // TODO nfl needs to be scope variable
-          gameDayInfo['gameInfo']['verticalContent'] = "Possession: " + gameDayInfo.abbreviationHome;
-        } else{
-          gameDayInfo['gameInfo']['verticalContent'] = "Possession: " + gameDayInfo.abbreviationAway;
-        }
+        // if( gameDayInfo.liveDataPoints.nfl.teamInPossesion == 0 ){ // TODO nfl needs to be scope variable
+        //   gameDayInfo['gameInfo']['verticalContent'] = "Possession: " + gameDayInfo.abbreviationHome;
+        // } else{
+        //   gameDayInfo['gameInfo']['verticalContent'] = "Possession: " + gameDayInfo.abbreviationAway;
+        // }
 
         // organize games by date and put them into newBoxScores
         if(typeof newBoxScores[currGameDate] == 'undefined'){
@@ -298,7 +311,7 @@ export class BoxScoresService {
         }
       } //if (boxScoresData[gameDate])
     } // END for ( var gameDate in data.data )
-
+    // console.log('4. transformBoxScores - newBoxScores - ',newBoxScores);
     return newBoxScores;
   }
 
@@ -347,7 +360,7 @@ export class BoxScoresService {
     let self = this;
     var twoBoxes = [];// used to put two games into boxes
 
-    if(scope == 'nfl' || scope == 'fbs' || scope == 'ncaaf'){ //TODO
+    if(scope == 'nfl' || scope == 'fbs' || scope == 'nfl'){ //TODO
       scope = null;
     }
 
@@ -363,6 +376,7 @@ export class BoxScoresService {
       let gameInfo = data.gameInfo;
       let homeLink = ''; //TODO
       let awayLink = ''; //TODO
+
       //var aiContent = data.aiContent != null ? self.formatArticle(data):null; //TODO
       //var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo), homeLink); //TODO
       //var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo), awayLink); //TODO
@@ -404,18 +418,18 @@ export class BoxScoresService {
           //homeImageConfig:link1,
           homeLink: homeLink,
           homeRecord: homeRecord,
-          DP1:homeData.dataPoint1Home,
-          DP2:homeData.dataPoint2Home,
-          DP3:homeData.dataPoint3Home
+          dataPoint1:homeData.dataPoint1Home,
+          dataPoint2:homeData.dataPoint2Home,
+          dataPoint3:homeData.dataPoint3Home
         },
         awayData:{
           awayTeamName:awayData.lastName,
           //awayImageConfig:link2,
           awayLink: awayLink,
           awayRecord: awayRecord,
-          DP1:awayData.dataPoint1Away,
-          DP2:awayData.dataPoint2Away,
-          DP3:awayData.dataPoint3Away
+          dataPoint1:awayData.dataPoint1Away,
+          dataPoint2:awayData.dataPoint2Away,
+          dataPoint3:awayData.dataPoint3Away
         }
       };  //info
 
@@ -439,7 +453,7 @@ export class BoxScoresService {
     let self = this;
     var twoBoxes = [];// used to put two games into boxes
 
-    if(scope == 'nfl' || scope == 'fbs' || scope == 'ncaaf'){ //TODO
+    if(scope == 'nfl' || scope == 'fbs' || scope == 'nfl'){ //TODO
       scope = null;
     }
 

@@ -69,4 +69,10 @@ export class DeepDivePage implements OnInit {
           this.currentBoxScores = currentBoxScores;
       });
     }
+
+    private getDataCarousel() {
+      this._deepDiveData.getCarouselData(this.scope, this.carouselData, '25', '1', this.geoLocation, (carData)=>{
+        this.carouselData = carData;
+      })
+    }
   }

@@ -9,7 +9,7 @@ import { CircleImage } from "../fe-core/components/images/circle-image/circle-im
 import { HoverImage } from "../fe-core/components/images/hover-image";
 import { FooterComponent } from "../fe-core/components/footer/footer.component";
 import { ModuleHeader } from "../fe-core/components/module-header/module-header.component";
-import { SideScroll } from "../fe-core/components/side-scroll/side-scroll.component";
+import { Larousel } from '../fe-core/components/larousel/larousel';
 import {SanitizeStyle, SanitizeHtml, SanitizeRUrl} from '../fe-core/pipes/safe.pipe';
 
 @NgModule({
@@ -27,7 +27,7 @@ import {SanitizeStyle, SanitizeHtml, SanitizeRUrl} from '../fe-core/pipes/safe.p
       FooterComponent,
 
       //modules
-      SideScroll,
+      Larousel,
       ModuleHeader,
 
       //pipes
@@ -42,8 +42,12 @@ import {SanitizeStyle, SanitizeHtml, SanitizeRUrl} from '../fe-core/pipes/safe.p
       //RectangleImage,
       FooterComponent,
       ModuleHeader,
-      SideScroll
+      Larousel
     ],
-    providers: []
+    providers: [
+      SanitizeStyle,
+      SanitizeHtml,
+      SanitizeRUrl
+  ]
 })
 export class GlobalModule { }

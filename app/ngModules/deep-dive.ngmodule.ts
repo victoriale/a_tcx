@@ -7,6 +7,8 @@ import { DeepDivePage } from "../webpages/deep-dive-page/deep-dive-page";
 import { BoxScoresModule } from '../fe-core/modules/box-scores/box-scores.module';
 import { BoxScoresService } from '../services/box-scores.service';
 
+//larousel
+
 @NgModule({
     imports:[
       CommonModule,
@@ -14,7 +16,7 @@ import { BoxScoresService } from '../services/box-scores.service';
     ],
     declarations:[
       DeepDivePage,
-      BoxScoresModule
+      BoxScoresModule,
     ],
     exports:[
       DeepDivePage

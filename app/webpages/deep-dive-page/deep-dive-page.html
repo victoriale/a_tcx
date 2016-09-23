@@ -1,5 +1,15 @@
+<!-- <article-stacktop-component></article-stacktop-component> -->
+<!-- <article-stack-module></article-stack-module> -->
+
    <br><br>
    larrousel goes here<br>
-   side scroller goes here<br>
    <br>
-  <box-scores *ngIf="dateParam" [boxScores]="currentBoxScores" [calendarParams]="dateParam" (dateEmit)="getBoxScores($event)"></box-scores>
+
+
+
+   <div class="deep-dive-module">
+     <side-scroll-schedules *ngIf="sideScrollData" [sideScrollData]="sideScrollData" (count)="scrollCheck($event)" [scrollLength]="scrollLength" [scope]="changeScopeVar" (changeScope)="changeScope($event)"></side-scroll-schedules>
+   </div>
+   <deep-dive-block-1></deep-dive-block-1>
+
+   <box-scores *ngIf="dateParam" [boxScores]="currentBoxScores" [calendarParams]="dateParam" (dateEmit)="getBoxScores($event)"></box-scores>

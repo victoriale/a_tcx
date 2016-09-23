@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Rx';
-import {Http, Headers} from '@angular/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
+import { Http, Headers } from '@angular/http';
 
 import { VideoStackData } from "../fe-core/interfaces/deep-dive.data";
 

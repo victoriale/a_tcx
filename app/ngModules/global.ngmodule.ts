@@ -11,6 +11,10 @@ import { CircleImage } from "../fe-core/components/images/circle-image/circle-im
 import { HoverImage } from "../fe-core/components/images/hover-image";
 import { FooterComponent } from "../fe-core/components/footer/footer.component";
 import { ModuleHeader } from "../fe-core/components/module-header/module-header.component";
+import {VerticalGlobalFunctions} from "../global/vertical-global-functions";
+import {ImagesMedia} from "../fe-core/components/carousels/images-media-carousel/images-media-carousel.component";
+import {CircleButton} from "../fe-core/components/buttons/circle/circle.button";
+import {LoadingComponent} from "../fe-core/components/loading/loading.component";
 
 //Pipes
 
@@ -30,6 +34,11 @@ import { ModuleHeader } from "../fe-core/components/module-header/module-header.
       RectangleImage,
       FooterComponent,
       ModuleHeader,
+      ImagesMedia,
+      CircleButton,
+      LoadingComponent
+
+
     ],
     exports:[
       HeaderComponent,
@@ -37,8 +46,12 @@ import { ModuleHeader } from "../fe-core/components/module-header/module-header.
       CircleImage,
       RectangleImage,
       FooterComponent,
-      ModuleHeader
+      ModuleHeader,
+      ImagesMedia,
+      CircleButton,
+      LoadingComponent
+
     ],
-    providers: []
+    providers: [VerticalGlobalFunctions]
 })
 export class GlobalModule { }

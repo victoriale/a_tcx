@@ -1,8 +1,12 @@
 
 import {SyndicateArticleData, RecommendArticleData} from "../fe-core/interfaces/syndicate-article.data";
+import {Inject} from "@angular/core";
+import {VerticalGlobalFunctions} from "../global/vertical-global-functions";
+
 
 export class SyndicateArticleService{
 
+ constructor(@Inject private VerticalGlobalFunctions:VerticalGlobalFunctions){}
   dummyData: SyndicateArticleData={
         articleId: 1,
         title: "Static Article Title",
@@ -10,7 +14,7 @@ export class SyndicateArticleService{
         publishedDate: "Sept 21 2016",
         author:"Anonymous",
         publisher:"Anonymous",
-        imagePathData:"http://media.caranddriver.com/images/media/51/25-cars-worth-waiting-for-lp-ford-gt-photo-658253-s-original.jpg",
+        imagePathData:["http://media.caranddriver.com/images/media/51/25-cars-worth-waiting-for-lp-ford-gt-photo-658253-s-original.jpg"],
         teaser:"Lorem Ipsum is simply dummy text of the printing and typesetting industry, scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. I",
         articleUrl: "",
         provider:"Anonymous",
@@ -168,6 +172,7 @@ export class SyndicateArticleService{
       ]
   }
  getDummyData(articleId){
+
        return this.dummyData;
 
  }
@@ -175,9 +180,17 @@ export class SyndicateArticleService{
      return this.recommendationsDummyData.data;
  }
 
- getTrendingData(){
+ getTrendingData(currentArticleId){
+      this.trendingData.data.forEach(function(val, index){
+
+         val["newsRoute"]= VerticalGlobalFunctions.formatNewsRoute(val.articleId);
+
+     })
+
      return this.trendingData.data;
  }
+
+
 
 
 }

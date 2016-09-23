@@ -53,15 +53,6 @@ export class VerticalGlobalFunctions {
    * @param {teamId} teamId - team ID the required field needed to successfully navigate to team profile
    * @returns the teamName => boston-red-sox,  teamId => ##, routeName => 'Team-page'
    */
-  static formatNewsRoute(articleId: string): Array<any> {
-    var articleRoute: Array<any>;
-    if(articleId != null) {
-      articleRoute = ['Syndicated-article-page', {articleType: 'story', eventID: articleId}];//NOTE: if Team-page is on the same level as the rest of the route-outlets
-    } else{
-      articleRoute = null;
-    }
-    return articleRoute ? articleRoute : ['Error-page'];
-  }
 
   /**
      * - Pass in datapoints to required parameters and formats
@@ -565,5 +556,15 @@ export class VerticalGlobalFunctions {
     let randomStockPhotoSelection = stockPhotoArray[Math.floor(Math.random()*stockPhotoArray.length)];
     var relPath = relativePath != null ? this._proto + "//" + GlobalSettings._imageUrl + relativePath: this._proto + "//" + GlobalSettings._imageUrl+randomStockPhotoSelection;
     return relPath;
+  }
+  static formatNewsRoute(articleId: string): Array<any> {
+      var articleRoute: Array<any>;
+      if(articleId != null) {
+          articleRoute = ['/news','story', articleId];
+
+      } else{
+          articleRoute = null;
+      }
+      return articleRoute ? articleRoute : ['Error-page'];
   }
 }

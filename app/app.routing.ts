@@ -17,6 +17,7 @@ const appRoutes: Routes = [
   },
   {
     path: 'news/:articleType/:articleID',
+
     component: SyndicatedArticlePage
   }
 ];

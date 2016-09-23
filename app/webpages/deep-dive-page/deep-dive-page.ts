@@ -6,8 +6,7 @@ declare var moment;
 
 @Component({
     selector: "deep-dive-page",
-    templateUrl: 'app/webpages/deep-dive-page/deep-dive-page.html',
-
+    templateUrl: 'app/webpages/deep-dive-page/deep-dive-page.html'
 })
 
 export class DeepDivePage implements OnInit {
@@ -27,7 +26,8 @@ export class DeepDivePage implements OnInit {
       var currentUnixDate = new Date().getTime();
       //convert currentDate(users local time) to Unix and push it into boxScoresAPI as YYYY-MM-DD in EST using moment timezone (America/New_York)
       this.dateParam ={
-        profile: this.scope,//current profile page
+        scope: this.scope,//current profile page
+        teamId: '',
         date: moment.tz( currentUnixDate , 'America/New_York' ).format('YYYY-MM-DD')
       }
     }
@@ -56,7 +56,7 @@ export class DeepDivePage implements OnInit {
         ],
       }
 
-      this.getBoxScores();
+      this.getBoxScores(this.dateParam);;
     }
 
     //api for Box Scores

@@ -12,6 +12,8 @@ import { HoverImage } from "../fe-core/components/images/hover-image";
 import { FooterComponent } from "../fe-core/components/footer/footer.component";
 import { ModuleHeader } from "../fe-core/components/module-header/module-header.component";
 
+//Pipes
+
 
 @NgModule({
     imports: [
@@ -28,7 +30,6 @@ import { ModuleHeader } from "../fe-core/components/module-header/module-header.
       RectangleImage,
       FooterComponent,
       ModuleHeader,
-
     ],
     exports:[
       HeaderComponent,
@@ -36,8 +37,7 @@ import { ModuleHeader } from "../fe-core/components/module-header/module-header.
       CircleImage,
       RectangleImage,
       FooterComponent,
-      ModuleHeader,
-
+      ModuleHeader
     ],
     providers: []
 })

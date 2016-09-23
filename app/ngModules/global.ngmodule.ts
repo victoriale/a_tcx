@@ -10,6 +10,7 @@ import { RectangleImage } from "../fe-core/components/images/rectangle-image/rec
 import { CircleImage } from "../fe-core/components/images/circle-image/circle-image";
 import { HoverImage } from "../fe-core/components/images/hover-image";
 import { FooterComponent } from "../fe-core/components/footer/footer.component";
+
 import { ModuleHeader } from "../fe-core/components/module-header/module-header.component";
 
 //Pipes
@@ -31,7 +32,7 @@ import { ModuleHeader } from "../fe-core/components/module-header/module-header.
       FooterComponent,
       ModuleHeader,
     ],
-    exports:[
+    exports: [
       HeaderComponent,
       HoverImage,
       CircleImage,

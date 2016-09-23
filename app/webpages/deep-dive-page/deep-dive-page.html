@@ -2,4 +2,4 @@
    larrousel goes here<br>
    side scroller goes here<br>
    <br>
-   <box-scores [boxScores]="currentBoxScores" [calendarParams]="dateParam"></box-scores>
+  <box-scores *ngIf="dateParam" [boxScores]="currentBoxScores" [calendarParams]="dateParam" (dateEmit)="getBoxScores($event)"></box-scores>

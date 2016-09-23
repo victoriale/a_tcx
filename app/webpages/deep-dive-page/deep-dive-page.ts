@@ -19,7 +19,6 @@ export class DeepDivePage implements OnInit {
     boxScoresData:any;
     currentBoxScores:any;
     dateParam:any;
-    displayTest:any = 'test';
 
     constructor( private _boxScoresService: BoxScoresService ) {
       //Box Scores
@@ -28,6 +27,7 @@ export class DeepDivePage implements OnInit {
       this.dateParam ={
         scope: this.scope,//current profile page
         teamId: '',
+        //date: '2016-09-22'
         date: moment.tz( currentUnixDate , 'America/New_York' ).format('YYYY-MM-DD')
       }
     }
@@ -56,11 +56,12 @@ export class DeepDivePage implements OnInit {
         ],
       }
 
-      this.getBoxScores(this.dateParam);;
+      this.getBoxScores(this.dateParam);
     }
 
     //api for Box Scores
     private getBoxScores(dateParams?) {
+      // console.log('1. deep-dive-page, getBoxScores - dateParams - ',dateParams);
       if ( dateParams != null ) {
         this.dateParam = dateParams;
       }

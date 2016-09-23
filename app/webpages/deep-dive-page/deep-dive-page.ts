@@ -3,10 +3,11 @@ import {Component, OnInit} from '@angular/core';
 import { BoxScoresService } from '../../services/box-scores.service';
 
 declare var moment;
+declare var jQuery: any;
 
 @Component({
     selector: "deep-dive-page",
-    templateUrl: 'app/webpages/deep-dive-page/deep-dive-page.html'
+    templateUrl: 'app/webpages/deep-dive-page/deep-dive-page.html',
 })
 
 export class DeepDivePage implements OnInit {
@@ -14,6 +15,7 @@ export class DeepDivePage implements OnInit {
     test: any = "testing";
 
     scope = 'nfl'; //TODO - get URL Param
+    blockIndex: number = 1;
 
     //Box Scores
     boxScoresData:any;
@@ -29,6 +31,13 @@ export class DeepDivePage implements OnInit {
         scope: this.scope,//current profile page
         teamId: '',
         date: moment.tz( currentUnixDate , 'America/New_York' ).format('YYYY-MM-DD')
+      }
+    }
+
+    private onScroll(event) {
+      if (jQuery(document).height() - window.innerHeight - jQuery("footer").height() <= jQuery(window).scrollTop()) {
+        //fire when scrolled into footer
+        this.blockIndex = this.blockIndex + 1;
       }
     }
 

@@ -2,19 +2,28 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GlobalModule } from './global.ngmodule';
 import { SyndicatedArticlePage } from "../webpages/syndicated-article-page/syndicated-article-page";
+import {SyndicateArticleService} from "../services/syndicate-article.service";
+import {ShareLinksComponent} from "../fe-core/components/syndicate-components/shareLinks/shareLinks.component";
+import {MainArticle} from "../fe-core/components/syndicate-components/syndicate-article/main-article.component";
+import {DisqusComponent} from "../fe-core/components/syndicate-components/disqus/disqus.component";
+import {SyndicatedTrendingComponent} from "../fe-core/components/syndicate-components/trending-articles/trending-articles.component";
+import {RecommendationsComponent} from "../fe-core/components/syndicate-components/recommendations/recommendations.component";
+import {routing} from "../app.routing";
+
 
 @NgModule({
     imports:[
-      CommonModule,
-      GlobalModule
+        CommonModule,
+        GlobalModule,
+        routing
     ],
     declarations:[
-      SyndicatedArticlePage
+        SyndicatedArticlePage, ShareLinksComponent,MainArticle, DisqusComponent, SyndicatedTrendingComponent, RecommendationsComponent
     ],
     exports:[
-      SyndicatedArticlePage
+        SyndicatedArticlePage, ShareLinksComponent,MainArticle, DisqusComponent, SyndicatedTrendingComponent, RecommendationsComponent
     ],
-    providers: []
+    providers: [SyndicateArticleService]
 })
 
 export class SyndicatedArticleNgModule{}

@@ -22,7 +22,7 @@ export class DeepDivePage implements OnInit {
     safeCall: boolean = true;
     ssMax: number;
     callCount: number = 1;
-    callLimit:number = 5;
+    callLimit:number = 25;
 
     blockIndex: number = 1;
 

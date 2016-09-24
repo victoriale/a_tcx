@@ -24,7 +24,7 @@ import { VideoStackComponent } from '../fe-core/components/video-stack/video-sta
 import { BoxScoresModule } from '../fe-core/modules/box-scores/box-scores.module';
 import { GameInfo } from '../fe-core/components/game-info/game-info.component';
 import { CalendarCarousel } from '../fe-core/components/carousels/calendar/calendar-carousel.component';
-
+import { DatePicker } from '../fe-core/components/date-picker/date-picker.component';;
 //pipes
 import { StatHyphenValuePipe } from '../fe-core/pipes/stat-hyphen.pipe';
 
@@ -46,6 +46,7 @@ import { StatHyphenValuePipe } from '../fe-core/pipes/stat-hyphen.pipe';
       BoxScoresModule,
       StatHyphenValuePipe,
       BoxScoresModule,
+      DatePicker,
       GameInfo,
       CalendarCarousel,
       DeepDiveBlock1

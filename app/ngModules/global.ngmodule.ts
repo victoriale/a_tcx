@@ -5,17 +5,20 @@ import { routing  } from '../app.routing';
 
 import { HeaderComponent } from "../fe-core/components/header/header.component";
 import { Search } from "../fe-core/components/search/search.component";
-import {HamburgerMenuComponent, MenuData} from '../fe-core/components/hamburger-menu/hamburger-menu.component';
+import { HamburgerMenuComponent, MenuData } from '../fe-core/components/hamburger-menu/hamburger-menu.component';
 import { RectangleImage } from "../fe-core/components/images/rectangle-image/rectangle-image";
 import { CircleImage } from "../fe-core/components/images/circle-image/circle-image";
 import { HoverImage } from "../fe-core/components/images/hover-image";
 import { FooterComponent } from "../fe-core/components/footer/footer.component";
 
 import { ModuleHeader } from "../fe-core/components/module-header/module-header.component";
-import {VerticalGlobalFunctions} from "../global/vertical-global-functions";
 import {ImagesMedia} from "../fe-core/components/carousels/images-media-carousel/images-media-carousel.component";
 import {CircleButton} from "../fe-core/components/buttons/circle/circle.button";
 import {LoadingComponent} from "../fe-core/components/loading/loading.component";
+import { CircleImageData } from "../fe-core/components/images/image-data";
+
+import {ScrollerFunctions} from '../global/scroller-functions';
+import {VerticalGlobalFunctions} from "../global/vertical-global-functions";
 
 //Pipes
 
@@ -38,8 +41,6 @@ import {LoadingComponent} from "../fe-core/components/loading/loading.component"
       ImagesMedia,
       CircleButton,
       LoadingComponent
-
-
     ],
     exports: [
       HeaderComponent,
@@ -51,8 +52,10 @@ import {LoadingComponent} from "../fe-core/components/loading/loading.component"
       ImagesMedia,
       CircleButton,
       LoadingComponent
-
     ],
-    providers: [VerticalGlobalFunctions]
+    providers: [
+      VerticalGlobalFunctions,
+      ScrollerFunctions
+    ]
 })
 export class GlobalModule { }

@@ -25,7 +25,9 @@ import { VideoStackComponent } from '../fe-core/components/video-stack/video-sta
 import { BoxScoresModule } from '../fe-core/modules/box-scores/box-scores.module';
 import { GameInfo } from '../fe-core/components/game-info/game-info.component';
 import { CalendarCarousel } from '../fe-core/components/carousels/calendar/calendar-carousel.component';
-import { DatePicker } from '../fe-core/components/date-picker/date-picker.component';;
+import { DatePicker } from '../fe-core/components/date-picker/date-picker.component';
+import { GameArticle } from '../fe-core/components/game-article/game-article.component';
+
 //pipes
 import { StatHyphenValuePipe } from '../fe-core/pipes/stat-hyphen.pipe';
 
@@ -50,6 +52,7 @@ import { StatHyphenValuePipe } from '../fe-core/pipes/stat-hyphen.pipe';
       BoxScoresModule,
       DatePicker,
       GameInfo,
+      GameArticle,
       CalendarCarousel,
       DeepDiveBlock1
     ],
@@ -58,8 +61,7 @@ import { StatHyphenValuePipe } from '../fe-core/pipes/stat-hyphen.pipe';
       StackRowsComponent,
       ArticleStacktopComponent,
       ArticleStackModule,
-      VideoStackComponent,
-      DeepDiveBlock1
+      VideoStackComponent
     ],
     providers: [
       DeepDiveService,
@@ -68,6 +70,4 @@ import { StatHyphenValuePipe } from '../fe-core/pipes/stat-hyphen.pipe';
     ]
 })
 
-export class DeepDiveNgModule{
-
-}
+export class DeepDiveNgModule{}

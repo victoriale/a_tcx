@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { routing } from '../app.routing';
 import { GlobalModule } from './global.ngmodule';
+import { FormsModule } from '@angular/forms';
 //providers
 import { DeepDiveService } from '../services/deep-dive.service';
 import { BoxScoresService } from '../services/box-scores.service';
@@ -25,7 +26,7 @@ import { VideoStackComponent } from '../fe-core/components/video-stack/video-sta
 import { BoxScoresModule } from '../fe-core/modules/box-scores/box-scores.module';
 import { GameInfo } from '../fe-core/components/game-info/game-info.component';
 import { CalendarCarousel } from '../fe-core/components/carousels/calendar/calendar-carousel.component';
-
+import { DatePicker } from '../fe-core/components/date-picker/date-picker.component';;
 //pipes
 import { StatHyphenValuePipe } from '../fe-core/pipes/stat-hyphen.pipe';
 
@@ -33,7 +34,8 @@ import { StatHyphenValuePipe } from '../fe-core/pipes/stat-hyphen.pipe';
     imports:[
       CommonModule,
       GlobalModule,
-      routing
+      routing,
+      FormsModule
     ],
     declarations:[
       DeepDivePage,
@@ -47,6 +49,7 @@ import { StatHyphenValuePipe } from '../fe-core/pipes/stat-hyphen.pipe';
       BoxScoresModule,
       StatHyphenValuePipe,
       BoxScoresModule,
+      DatePicker,
       GameInfo,
       CalendarCarousel,
       DeepDiveVideoModule,

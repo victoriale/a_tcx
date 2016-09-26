@@ -19,6 +19,16 @@ import { CircleImageData } from "../fe-core/components/images/image-data";
 
 import {ScrollerFunctions} from '../global/scroller-functions';
 import {VerticalGlobalFunctions} from "../global/vertical-global-functions";
+import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
+import {SanitizeScript, SanitizeHtml, SanitizeRUrl} from "../fe-core/pipes/safe.pipe";
+import {SidekickWrapperAI} from "../fe-core/components/sidekick-wrapper-ai/sidekick-wrapper-ai.component";
+import {WidgetModule} from "../fe-core/modules/widget/widget.module";
+import {WidgetCarouselModule} from "../fe-core/modules/widget/widget-carousel.module";
+import {sanitizeHtml} from "@angular/platform-browser/src/security/html_sanitizer";
+import {sanitizeUrl} from "@angular/platform-browser/src/security/url_sanitizer";
+import {GlobalSettings} from "../global/global-settings";
+import {GlobalFunctions} from "../global/global-functions";
+
 
 //Pipes
 
@@ -27,7 +37,10 @@ import {VerticalGlobalFunctions} from "../global/vertical-global-functions";
     imports: [
       CommonModule,
       HttpModule,
-      routing
+      routing,
+
+
+
     ],
     declarations: [
       HeaderComponent,
@@ -40,7 +53,14 @@ import {VerticalGlobalFunctions} from "../global/vertical-global-functions";
       ModuleHeader,
       ImagesMedia,
       CircleButton,
-      LoadingComponent
+      LoadingComponent,
+      SanitizeScript,
+      SidekickWrapperAI,
+      WidgetModule,
+      WidgetCarouselModule,
+     SanitizeHtml,
+        SanitizeRUrl
+
     ],
     exports: [
       HeaderComponent,
@@ -51,11 +71,24 @@ import {VerticalGlobalFunctions} from "../global/vertical-global-functions";
       ModuleHeader,
       ImagesMedia,
       CircleButton,
-      LoadingComponent
+      LoadingComponent,
+      SanitizeScript,
+      SidekickWrapperAI,
+      WidgetModule,
+      WidgetCarouselModule,
+     SanitizeRUrl,
+        SanitizeHtml
+
+
     ],
     providers: [
       VerticalGlobalFunctions,
-      ScrollerFunctions
+      ScrollerFunctions,
+      SanitizeScript,
+      GlobalSettings,
+      GlobalFunctions
+
+
     ]
 })
 export class GlobalModule { }

@@ -7,10 +7,10 @@
    </section><!-- deep-dive-container1 ends -->
    <!-- Place modules and deep dive blocks in deep-dive-container 2 -->
    <section class="deep-dive-container2">
-     <div class="deep-dive-container2a">
+     <div class="deep-dive-container2a col-sm-12 col-lg-9">
        <!-- Side Scroller should place inside deep-dive-module -->
        <div class="deep-dive-module">
-         <side-scroll-schedules *ngIf="sideScrollData" [sideScrollData]="sideScrollData" (count)="scrollCheck($event)" [scrollLength]="scrollLength" [scope]="changeScopeVar" (changeScope)="changeScope($event)"></side-scroll-schedules>
+         <side-scroll-schedules *ngIf="sideScrollData" [sideScrollData]="sideScrollData" [scopeList]="scopeList" (count)="scrollCheck($event)" [scrollLength]="scrollLength" [topScope]="topScope" [scope]="changeScopeVar" (changeScope)="changeScope($event)"></side-scroll-schedules>
        </div>
 
        <!-- Deep dive blocks -->
@@ -27,7 +27,7 @@
        </box-scores>
       </div>
       <!-- Ads should place inside deep-dive-container-2b -->
-      <div class="deep-dive-container2b">
+      <div class="deep-dive-container2b col-lg-3">
         <!-- <div class="widget_wrapper"><widget-carousel-module></widget-carousel-module></div> -->
       </div>
   </section><!-- deep-dive-container2 ends -->

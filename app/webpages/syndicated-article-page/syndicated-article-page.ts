@@ -82,7 +82,7 @@ export class SyndicatedArticlePage{
                     this.imageTitle = ["", ""];
                 }
                 else {
-                    console.log("imageExist");
+                    
                     this.imageData = [GlobalSettings.getImageUrl(data.data.imagePath)];
                     this.copyright = ["USA Today Sports Images"];
                     this.imageTitle = [""];

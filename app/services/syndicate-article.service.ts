@@ -264,11 +264,11 @@ export class SyndicateArticleService{
         }
         //this is the sidkeick url
         var callURL = this._articleUrl + "sidekick-regional/" + scope + "/" + state + "/" + batch + "/" + limit;//TODO won't need uppercase after ai fixes
-        console.log("url and data",callURL);
+
         return this._http.get(callURL)
             .map(res => res.json())
             .map(data => {
-                console.log(data);
+                
                 return data;
             });
     }

@@ -107,6 +107,12 @@ export class SchedulesService {
           data.data[scope][n].currentStockValue = Number(data.data[scope][n].currentStockValue).toFixed(2);
           data.data[scope][n].stockChangeAmount = Number(data.data[scope][n].stockChangeAmount).toFixed(2);
           data.data[scope][n].stockChangePercent = Number(data.data[scope][n].stockChangePercent).toFixed(2);
+          if (data.data[scope][n].logoUrl == "" || data.data[scope][n].logoUrl == null) {
+            data.data[scope][n].logoUrl = "http://www.investkit.com/public/no_image.png";
+          }
+          else {
+            data.data[scope][n].logoUrl = "http://images.investkit.com/images/" + data.data[scope][n].logoUrl;
+          }
           output.blocks.push(data.data[scope][n]);
         }
         return output;

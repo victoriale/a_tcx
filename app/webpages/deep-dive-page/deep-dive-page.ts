@@ -19,7 +19,7 @@ export class DeepDivePage implements OnInit {
     sideScrollData: any;
     scrollLength: number;
     topScope: string = "finance";
-    changeScopeVar: string = "nyse";
+    changeScopeVar: string = "all";
     safeCall: boolean = true;
     ssMax: number;
     callCount: number = 1;
@@ -59,16 +59,10 @@ export class DeepDivePage implements OnInit {
         this.safeCall = false;
         let changeScope = this.changeScopeVar.toLowerCase() == 'ncaaf'?'fbs':this.changeScopeVar.toLowerCase();
         this._schedulesService.setupSlideScroll(this.topScope, this.sideScrollData, changeScope, 'league', 'pregame', this.callLimit, this.callCount, (sideScrollData) => {
+          console.log(sideScrollData);
           if (this.topScope == "finance") {
             this.scopeList = sideScrollData.scopeList.reverse();
-            if(this.sideScrollData == null){
               this.sideScrollData = sideScrollData;
-            }
-            else{
-              sideScrollData.blocks.forEach(function(val,i){
-                self.sideScrollData.push(val);
-              })
-            }
           }
           else if (this.topScope == "weather") {
             this.scopeList = ["10 Day", "5 Day", "Hourly"];
@@ -83,7 +77,6 @@ export class DeepDivePage implements OnInit {
               })
             }
           }
-
 
           this.safeCall = true;
           this.callCount++;
@@ -101,6 +94,10 @@ export class DeepDivePage implements OnInit {
 
     ngOnInit() {
       this.getBoxScores(this.dateParam);
+      this.getSideScroll();
+    }
+    changeScope($event) {
+      this.changeScopeVar = $event;
       this.getSideScroll();
     }
 

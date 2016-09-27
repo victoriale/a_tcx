@@ -17,9 +17,9 @@ export class DeepDivePage implements OnInit {
 
     //side scroller
     sideScrollData: any;
-    scrollLength: number;
+    scrollLength: number = 0;
     topScope: string = "finance";
-    changeScopeVar: string = "nyse";
+    changeScopeVar: string = "all";
     safeCall: boolean = true;
     ssMax: number;
     callCount: number = 1;
@@ -61,14 +61,8 @@ export class DeepDivePage implements OnInit {
         this._schedulesService.setupSlideScroll(this.topScope, this.sideScrollData, changeScope, 'league', 'pregame', this.callLimit, this.callCount, (sideScrollData) => {
           if (this.topScope == "finance") {
             this.scopeList = sideScrollData.scopeList.reverse();
-            if(this.sideScrollData == null){
               this.sideScrollData = sideScrollData;
-            }
-            else{
-              sideScrollData.blocks.forEach(function(val,i){
-                self.sideScrollData.push(val);
-              })
-            }
+              this.scrollLength = this.sideScrollData.blocks.length;
           }
           else if (this.topScope == "weather") {
             this.scopeList = ["10 Day", "5 Day", "Hourly"];
@@ -76,6 +70,7 @@ export class DeepDivePage implements OnInit {
           else if (this.topScope == "football") {
             if(this.sideScrollData == null){
               this.sideScrollData = sideScrollData;
+              this.scrollLength = this.sideScrollData.length;
             }
             else{
               sideScrollData.forEach(function(val,i){
@@ -84,10 +79,9 @@ export class DeepDivePage implements OnInit {
             }
           }
 
-
           this.safeCall = true;
           this.callCount++;
-          this.scrollLength = this.sideScrollData.length;
+
         }, null, null)
       }
     }
@@ -101,6 +95,10 @@ export class DeepDivePage implements OnInit {
 
     ngOnInit() {
       this.getBoxScores(this.dateParam);
+      this.getSideScroll();
+    }
+    changeScope($event) {
+      this.changeScopeVar = $event;
       this.getSideScroll();
     }
 

@@ -76,8 +76,8 @@
   }
   .carousel, .container{
     @media @mobile{
-      width:320px;
-      min-height:180px;
+      width: calc(100vw);
+      height: calc(56.25vw);
     }
 
     @media @tablet{
@@ -328,7 +328,7 @@
       float: none;
     }
     .deep_recs-articles {
-      width:100%;
+      max-width:100%;
     }
     .deep_recs-articles-item-content {
       margin:5px 10px 15px 10px;

@@ -140,7 +140,7 @@ export class SyndicatedArticlePage{
     getRecomendationData(){
         var startNum=Math.floor((Math.random() * 49) + 1);
         var state = 'KS'; //needed to uppoercase for ai to grab data correctly
-        this._synservice.getRecArticleData(this.scope, this.geoLocation,startNum, 3)
+        this._synservice.getRecArticleData(this.scope, this.geoLocation,startNum, 6)
 
             .subscribe(data => {
                 this.recomendationData = this._synservice.transformToRecArticles(data);

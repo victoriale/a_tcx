@@ -33,7 +33,7 @@
     .globalDefaultFont(35px, 800);
     text-align: left;
     @media @mobile{
-      .globalDefaultFont(20px, 800);
+      .globalDefaultFont(22px, 800);
       //margin-left:-10px;
     }
 
@@ -76,7 +76,8 @@
   }
   .carousel, .container{
     @media @mobile{
-      width:101%;
+      width:320px;
+      min-height:180px;
     }
 
     @media @tablet{
@@ -153,8 +154,8 @@
   }
   @media @mobile {
     .carousel-container {
-      height:60vw;
-      width: 100%;
+      height:auto;
+      width: auto;
       margin-left:-10px;
     }
     .feature-btn.images {
@@ -220,8 +221,9 @@
   }
   @media @mobile {
     .content-exerpt {
-      margin-bottom:15px;
+      margin:10px 0px;
       width:calc(100vw - 6rem);
+      .globalDefaultFont(14px,400);
 
     }
 
@@ -248,7 +250,7 @@
     background: linear-gradient(to top, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);
   }
   .arpt {
-    .globalDefaultFont(10px, 400);
+    .globalDefaultFont(12px, 400);
     position: relative;
     width: 100%;
     text-align: left;
@@ -256,20 +258,16 @@
     //margin:18px 0 20px ;
     &-author {
       @media @mobile {
-        display: none;
+        display: block;
       }
     }
     @media @mobile {
-      margin:15px 0px;
+
       &-date {
         display:block;
         margin-top: 5px;
 
-        p{
-          display: none !important;
-          margin:22px 0px 18px 0px;
 
-        }
       }
     }
     @media @tablet{
@@ -293,6 +291,11 @@
       color:@homeRunLoyalRed;
       vertical-align: bottom;
       margin-right: 5px;
+      @media @mobile {
+        position: relative;
+        top: 5px;
+      }
+
     }
     div{
       font-weight: 400;

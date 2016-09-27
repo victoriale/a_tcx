@@ -17,7 +17,7 @@ export class DeepDivePage implements OnInit {
 
     //side scroller
     sideScrollData: any;
-    scrollLength: number;
+    scrollLength: number = 0;
     topScope: string = "finance";
     changeScopeVar: string = "all";
     safeCall: boolean = true;
@@ -63,6 +63,7 @@ export class DeepDivePage implements OnInit {
           if (this.topScope == "finance") {
             this.scopeList = sideScrollData.scopeList.reverse();
               this.sideScrollData = sideScrollData;
+              this.scrollLength = this.sideScrollData.blocks.length;
           }
           else if (this.topScope == "weather") {
             this.scopeList = ["10 Day", "5 Day", "Hourly"];
@@ -70,6 +71,7 @@ export class DeepDivePage implements OnInit {
           else if (this.topScope == "football") {
             if(this.sideScrollData == null){
               this.sideScrollData = sideScrollData;
+              this.scrollLength = this.sideScrollData.length;
             }
             else{
               sideScrollData.forEach(function(val,i){
@@ -80,7 +82,7 @@ export class DeepDivePage implements OnInit {
 
           this.safeCall = true;
           this.callCount++;
-          this.scrollLength = this.sideScrollData.length;
+
         }, null, null)
       }
     }

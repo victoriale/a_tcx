@@ -16,6 +16,7 @@ import {CircleButton} from "../fe-core/components/buttons/circle/circle.button";
 import {LoadingComponent} from "../fe-core/components/loading/loading.component";
 import { CircleImageData } from "../fe-core/components/images/image-data";
 import { ScrollableContent } from "../fe-core/components/scrollable-content/scrollable-content.component";
+import { SearchBoxModule } from "../fe-core/modules/search-box-module/search-box-module.module";
 
 import {ScrollerFunctions} from '../global/scroller-functions';
 import {VerticalGlobalFunctions} from "../global/vertical-global-functions";
@@ -41,7 +42,8 @@ import {VerticalGlobalFunctions} from "../global/vertical-global-functions";
       ImagesMedia,
       CircleButton,
       LoadingComponent,
-      ScrollableContent
+      ScrollableContent,
+      SearchBoxModule
     ],
     exports: [
       HeaderComponent,
@@ -53,7 +55,8 @@ import {VerticalGlobalFunctions} from "../global/vertical-global-functions";
       ImagesMedia,
       CircleButton,
       LoadingComponent,
-      ScrollableContent
+      ScrollableContent,
+      SearchBoxModule
     ],
     providers: [
       VerticalGlobalFunctions,

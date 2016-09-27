@@ -9,6 +9,7 @@
    </div>
 
    <deep-dive-block-1></deep-dive-block-1>
+
    <box-scores
      *ngIf="dateParam"
      [boxScores]="currentBoxScores"
@@ -17,3 +18,5 @@
      [scroll]="scroll"
      (dateEmit)="getBoxScores($event)">
    </box-scores>
+
+  <!-- <search-box-module></search-box-module> -->

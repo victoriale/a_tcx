@@ -150,7 +150,7 @@ export class SchedulesService {
 
   transformSlideScroll(scope,data){
     let self = this;
-    var modifiedArray = [];
+    var modifiedArray = {blocks: []};
     var newData:scheduleBoxInput;
     //run through and convert data to what is needed for the component
     data.forEach(function(val,index){
@@ -198,7 +198,7 @@ export class SchedulesService {
         inning: val.eventQuarter != null ? "Current: Quarter " + Number(val.eventQuarter) + "<sup>" + GlobalFunctions.Suffix(Number(val.eventQuarter)) + "</sup>": null
       }
 
-      modifiedArray.push(newData);
+      modifiedArray.blocks.push(newData);
     });
     return modifiedArray;
   }

@@ -10,12 +10,12 @@ import { RectangleImage } from "../fe-core/components/images/rectangle-image/rec
 import { CircleImage } from "../fe-core/components/images/circle-image/circle-image";
 import { HoverImage } from "../fe-core/components/images/hover-image";
 import { FooterComponent } from "../fe-core/components/footer/footer.component";
-
 import { ModuleHeader } from "../fe-core/components/module-header/module-header.component";
 import {ImagesMedia} from "../fe-core/components/carousels/images-media-carousel/images-media-carousel.component";
 import {CircleButton} from "../fe-core/components/buttons/circle/circle.button";
 import {LoadingComponent} from "../fe-core/components/loading/loading.component";
 import { CircleImageData } from "../fe-core/components/images/image-data";
+import { ScrollableContent } from "../fe-core/components/scrollable-content/scrollable-content.component";
 
 import {ScrollerFunctions} from '../global/scroller-functions';
 import {VerticalGlobalFunctions} from "../global/vertical-global-functions";
@@ -59,7 +59,8 @@ import {GlobalFunctions} from "../global/global-functions";
       WidgetModule,
       WidgetCarouselModule,
      SanitizeHtml,
-        SanitizeRUrl
+        SanitizeRUrl,
+      ScrollableContent
 
     ],
     exports: [
@@ -72,14 +73,14 @@ import {GlobalFunctions} from "../global/global-functions";
       ImagesMedia,
       CircleButton,
       LoadingComponent,
+
       SanitizeScript,
       SidekickWrapperAI,
       WidgetModule,
       WidgetCarouselModule,
      SanitizeRUrl,
-        SanitizeHtml
-
-
+        SanitizeHtml,
+      ScrollableContent
     ],
     providers: [
       VerticalGlobalFunctions,

@@ -18,11 +18,13 @@ export class DeepDivePage implements OnInit {
     //side scroller
     sideScrollData: any;
     scrollLength: number;
+    topScope: string = "weather";
     changeScopeVar: string = "nfl";
     safeCall: boolean = true;
     ssMax: number;
     callCount: number = 1;
     callLimit:number = 25;
+    scopeList: Array<string>;
 
     blockIndex: number = 1;
 
@@ -57,6 +59,13 @@ export class DeepDivePage implements OnInit {
         this.safeCall = false;
         let changeScope = this.changeScopeVar.toLowerCase() == 'ncaaf'?'fbs':this.changeScopeVar.toLowerCase();
         this._schedulesService.setupSlideScroll(this.sideScrollData, changeScope, 'league', 'pregame', this.callLimit, this.callCount, (sideScrollData) => {
+          if (this.topScope != "weather") {
+            this.scopeList = ["AMEX", "NYSE", "NASDAQ", "ALL"];
+          }
+          else {
+            this.scopeList = ["10 Day", "5 Day", "Hourly"];
+          }
+
           if(this.sideScrollData == null){
             this.sideScrollData = sideScrollData;
           }

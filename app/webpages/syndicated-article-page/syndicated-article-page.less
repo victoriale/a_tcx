@@ -8,8 +8,6 @@
     }
     .arpt{
 
-      .globalDefaultFont(14px,400) !important;
-
       margin: 0px;
       p {
         display: inline-flex !important;
@@ -30,7 +28,7 @@
     display: inline-flex;
   }
   .articles-page-title {
-    .globalDefaultFont(35px, 800);
+    .globalDefaultFont(40px, 800);
     text-align: left;
     @media @mobile{
       .globalDefaultFont(22px, 800);
@@ -76,18 +74,22 @@
   }
   .carousel, .container{
     @media @mobile{
-      width:320px;
-      min-height:180px;
+      width: calc(100vw);
+      height: calc(56.25vw);
     }
 
     @media @tablet{
+      width: calc(96.25vw);
+      position: relative;
+      height: calc(53.25vw);
+      padding: 0px;
+      margin-top: 15px;
 
-      margin-left: 5px;
     }
   }
   .carousel-container {
     width: 100%;
-    height: 400px;
+    //height: 400px;
     @media (max-width: 1023px){
       width: calc(100% - 5rem);
       //margin-left: 2px;
@@ -183,8 +185,8 @@
     background-color: @white;
     width: 980px;
 
-    @media (max-width: 1023px) {
-      width: 640px;
+    @media @tablet {
+      width: calc(100vw);
       padding: 15px;
     }
     @media @mobile {
@@ -233,8 +235,9 @@
   }
   @media @tablet{
     .content-exerpt{
-      width:95.5%;
-      .globalDefaultFont(16px,400);
+      width:calc(96vw);
+      margin:15px 0;
+      .globalDefaultFont(14px,400);
     }
     .grey-bar-counter{
 
@@ -254,7 +257,11 @@
     position: relative;
     width: 100%;
     text-align: left;
+    &-date{
+      @media @tablet{
 
+      }
+    }
     //margin:18px 0 20px ;
     &-author {
       @media @mobile {
@@ -271,8 +278,8 @@
       }
     }
     @media @tablet{
-      .globalDefaultFont(14px,400);
-      //margin: 15px 0px 0px;
+      //.globalDefaultFont(14px,400);
+      //margin: 5px 0px;
       p {
         display: inline-flex !important;
       }
@@ -328,7 +335,7 @@
       float: none;
     }
     .deep_recs-articles {
-      width:100%;
+      max-width:100%;
     }
     .deep_recs-articles-item-content {
       margin:5px 10px 15px 10px;

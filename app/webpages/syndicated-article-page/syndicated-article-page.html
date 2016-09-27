@@ -25,11 +25,11 @@
             <div class="videoFrame" *ngIf="articleType == 'video'">
               <iframe *ngIf="iframeUrl" width="100%" height="100%"  [src]="iframeUrl | safeRUrl" frameborder="0" allowfullscreen></iframe>
             </div>
-            <div class="arpt" *ngIf="articleType == 'story'">
+            <div class="arpt" *ngIf="articleType == 'story'" style="margin-top: 15px">
                 <span class="arpt-author" >Written By: <b>{{articleData.publisher}}</b></span>
-                <span class="arpt-date">Posted: on   {{" "+ articleData.publishedDate}}</span>
+                <span class="arpt-date" style="float: right">Posted: on   {{" "+ articleData.publishedDate}}</span>
             </div>
-            <div class="arpt" *ngIf="articleType == 'video'">
+            <div class="arpt" *ngIf="articleType == 'video'" style="margin-top: 15px">
 
                 <span class="arpt-date">Posted: on {{" "+ formatDate(articleData.pubDate)}}</span>
             </div>
@@ -48,9 +48,9 @@
                         <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
             -->
 
-            <div class="recomendation-heading"><div><i class="fa fa-heart-o"></i> Other Stories You Will Love</div></div>
+           <!-- <div class="recomendation-heading"><div><i class="fa fa-heart-o"></i> Other Stories You Will Love</div></div>-->
              <recommendations-component [randomHeadlines]="recomendationData"
-                                        [isDeepDive]="true"></recommendations-component>
+                                        [isDeepDive]="false"></recommendations-component>
 
 
             <!-- <syndicated-trending-component *ngIf="geoLocation" [geoLocation]="KS" [currentArticleId]="articleData.id"></syndicated-trending-component>-->

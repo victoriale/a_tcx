@@ -1,5 +1,6 @@
 import { ModuleWithProviders }  from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, ActivatedRoute } from '@angular/router';
+
 
 import {DeepDiveNgModule} from "./ngModules/deep-dive.ngmodule";
 import {DeepDivePage} from "./webpages/deep-dive-page/deep-dive-page";
@@ -17,8 +18,9 @@ const appRoutes: Routes = [
   },
   {
     path: 'news/:articleType/:articleID',
+      //redirectTo: 'news/:articleType/:articleID',
+    component: SyndicatedArticlePage,
 
-    component: SyndicatedArticlePage
   }
 ];
 

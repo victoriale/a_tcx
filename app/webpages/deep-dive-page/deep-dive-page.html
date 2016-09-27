@@ -1,5 +1,19 @@
-<!--Header Component imported from Global feature module-->
-  <larousel></larousel>
-   <circle-image></circle-image>
-   <!-- <rectangle-image></rectangle-image> -->
-   <box-scores></box-scores>
+<!-- <article-stacktop-component></article-stacktop-component> -->
+<!-- <article-stack-module></article-stack-module> -->
+
+   <br><br>
+   larrousel goes here<br>
+   <br>
+   <div class="deep-dive-module">
+     <side-scroll-schedules *ngIf="sideScrollData" [sideScrollData]="sideScrollData" [scopeList]="scopeList" (count)="scrollCheck($event)" [scrollLength]="scrollLength" [topScope]="topScope" [scope]="changeScopeVar" (changeScope)="changeScope($event)"></side-scroll-schedules>
+   </div>
+
+   <deep-dive-block-1></deep-dive-block-1>
+   <box-scores
+     *ngIf="dateParam"
+     [boxScores]="currentBoxScores"
+     [calendarParams]="dateParam"
+     [maxHeight]="maxHeight"
+     [scroll]="scroll"
+     (dateEmit)="getBoxScores($event)">
+   </box-scores>

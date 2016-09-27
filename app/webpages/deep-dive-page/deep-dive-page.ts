@@ -1,70 +1,105 @@
 
 import {Component, OnInit} from '@angular/core';
 import { BoxScoresService } from '../../services/box-scores.service';
+import { SchedulesService } from '../../services/schedules.service';
 
 declare var moment;
+declare var jQuery: any;
 
 @Component({
     selector: "deep-dive-page",
     templateUrl: 'app/webpages/deep-dive-page/deep-dive-page.html',
-
 })
 
 export class DeepDivePage implements OnInit {
     title="Everything that is deep dive will go in this page. Please Change according to your requirement";
     test: any = "testing";
 
-    scope = 'nfl';
+    //side scroller
+    sideScrollData: any;
+    scrollLength: number;
+    topScope: string = "weather";
+    changeScopeVar: string = "nfl";
+    safeCall: boolean = true;
+    ssMax: number;
+    callCount: number = 1;
+    callLimit:number = 25;
+    scopeList: Array<string>;
+
+    blockIndex: number = 1;
 
     //Box Scores
     boxScoresData:any;
     currentBoxScores:any;
     dateParam:any;
 
-    constructor( private _boxScoresService: BoxScoresService ) {
+    constructor( private _boxScoresService: BoxScoresService, private _schedulesService:SchedulesService) {
       //Box Scores
       var currentUnixDate = new Date().getTime();
       //convert currentDate(users local time) to Unix and push it into boxScoresAPI as YYYY-MM-DD in EST using moment timezone (America/New_York)
       this.dateParam ={
-        profile:'league',//current profile page
-        teamId: this.scope,
+        scope: this.changeScopeVar,//current profile page
+        teamId: '',
+        //date: '2016-09-22'
         date: moment.tz( currentUnixDate , 'America/New_York' ).format('YYYY-MM-DD')
       }
     }
 
-    ngOnInit() {
-      var testImage = "/app/public/profile_placeholder.png";
-      this.test = {
-        imageClass: "image-150",
-        mainImage: {
-          imageUrl: testImage,
-          urlRouteArray: '/syndicated-article',
-          hoverText: "<p>Test</p> Image",
-          imageClass: "border-large"
-        },
-        subImages: [
-          {
-            imageUrl: testImage,
-            urlRouteArray: '/syndicated-article',
-            hoverText: "<i class='fa fa-mail-forward'></i>",
-            imageClass: "image-50-sub image-round-lower-right"
-          },
-          {
-            text: "#1",
-          imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
-          }
-        ],
+    private onScroll(event) {
+      if (jQuery(document).height() - window.innerHeight - jQuery("footer").height() <= jQuery(window).scrollTop()) {
+        //fire when scrolled into footer
+        this.blockIndex = this.blockIndex + 1;
       }
+    }
 
-      this.getBoxScores();
+    //api for Schedules
+    private getSideScroll(){
+      let self = this;
+      if(this.safeCall){
+        this.safeCall = false;
+        let changeScope = this.changeScopeVar.toLowerCase() == 'ncaaf'?'fbs':this.changeScopeVar.toLowerCase();
+        this._schedulesService.setupSlideScroll(this.sideScrollData, changeScope, 'league', 'pregame', this.callLimit, this.callCount, (sideScrollData) => {
+          if (this.topScope != "weather") {
+            this.scopeList = ["AMEX", "NYSE", "NASDAQ", "ALL"];
+          }
+          else {
+            this.scopeList = ["10 Day", "5 Day", "Hourly"];
+          }
+
+          if(this.sideScrollData == null){
+            this.sideScrollData = sideScrollData;
+          }
+          else{
+            sideScrollData.forEach(function(val,i){
+              self.sideScrollData.push(val);
+            })
+          }
+          this.safeCall = true;
+          this.callCount++;
+          this.scrollLength = this.sideScrollData.length;
+        }, null, null)
+      }
+    }
+
+    private scrollCheck(event){
+      let maxScroll = this.sideScrollData.length;
+      if(event >= (maxScroll - this.ssMax)){
+       this.getSideScroll();
+      }
+    }
+
+    ngOnInit() {
+      this.getBoxScores(this.dateParam);
+      this.getSideScroll();
     }
 
     //api for Box Scores
     private getBoxScores(dateParams?) {
+      // console.log('1. deep-dive-page, getBoxScores - dateParams - ',dateParams);
       if ( dateParams != null ) {
         this.dateParam = dateParams;
       }
-      this._boxScoresService.getBoxScores(this.boxScoresData, 'league', this.dateParam, (boxScoresData, currentBoxScores) => {
+      this._boxScoresService.getBoxScores(this.boxScoresData, this.changeScopeVar, this.dateParam, (boxScoresData, currentBoxScores) => {
           this.boxScoresData = boxScoresData;
           this.currentBoxScores = currentBoxScores;
       });

@@ -1,0 +1,61 @@
+<div class="syndicated-articles-page">
+    <div class="syndicated-articles-page-content">
+        <div *ngIf="error">
+            <div class="loading-container">
+                <span class="loading-text">The syndicated-article you are trying to reach is unavailable. You will be redirected to your previous page shortly.</span>
+            </div>
+        </div>
+
+        <span *ngIf="articleData">
+      <shareLinks-component *ngIf="articleData.articleUrl" [shareUrl]="articleData.articleUrl" ></shareLinks-component>
+         <shareLinks-component *ngIf="articleData.videoLink" [shareUrl]="articleData.videoLink"></shareLinks-component>
+
+
+
+      <div class="articles-page-title" [innerHTML]="articleData.title | safeHtml"></div>
+
+  <!--      <sidekick-wrapper-ai [aiSidekick]="aiSidekick" [syndicated]="true">-->
+
+            <span>
+                <div class="carousel-container" *ngIf="articleType == 'story'">
+                  <images-media-carousel [imageData]="imageData" [copyright]="copyright"
+                                         [imageTitle]="imageTitle"></images-media-carousel>
+                </div>
+            </span>
+            <div class="videoFrame" *ngIf="articleType == 'video'">
+              <iframe *ngIf="iframeUrl" width="100%" height="100%"  [src]="iframeUrl | safeRUrl" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="arpt" *ngIf="articleType == 'story'" style="margin-top: 15px">
+                <span class="arpt-author" >Written By: <b>{{articleData.publisher}}</b></span>
+                <span class="arpt-date">Posted: on   {{" "+ articleData.publishedDate}}</span>
+            </div>
+            <div class="arpt" *ngIf="articleType == 'video'" style="margin-top: 15px">
+
+                <span class="arpt-date">Posted: on {{" "+ formatDate(articleData.pubDate)}}</span>
+            </div>
+            <div class="content-exerpt" *ngIf="articleType == 'story'"  [innerHTML]="articleData.teaser | safeHtml">
+            </div>
+            <div class="content-exerpt" *ngIf="articleType == 'video'"  [innerHTML]="articleData.description | safeHtml">
+            </div>
+<!--
+            <div class="bottom-shader" *ngIf="articleType == 'story'"></div>
+-->
+<!--
+            <a *ngIf="articleType == 'story'" class="readMore mod-page-btn" [href]="articleData.articleUrl">Read the Full Article <i class="fa fa-arrow-right"></i></a>
+-->
+            <disqus-component *ngIf="!checkPartner"></disqus-component>
+<!--
+                        <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
+            -->
+
+           <!-- <div class="recomendation-heading"><div><i class="fa fa-heart-o"></i> Other Stories You Will Love</div></div>-->
+             <recommendations-component [randomHeadlines]="recomendationData"
+                                        [isDeepDive]="false"></recommendations-component>
+
+
+            <!-- <syndicated-trending-component *ngIf="geoLocation" [geoLocation]="KS" [currentArticleId]="articleData.id"></syndicated-trending-component>-->
+           <syndicated-trending-component [geoLocation]="geoLocation" [currentArticleId]="articleData.id" [scope]="scope"></syndicated-trending-component>
+        <!--</sidekick-wrapper-ai>-->
+    </span>
+    </div>
+</div>

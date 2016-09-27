@@ -79,7 +79,6 @@ export class SchedulesService {
 
     callURL += '/'+limit+'/'+ pageNum;  //default pagination limit: 5; page: 1
     //optional week parameters
-    console.log(callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
@@ -87,15 +86,51 @@ export class SchedulesService {
       });
   }
 
+  //Call made for slider carousel using BoxScore scheduler
+  getFinanceData(scope, profile, eventStatus, limit, pageNum, id?){
+    if (scope != "all") {
+      scope = scope.toUpperCase();
+    }
+    //Configure HTTP Headers
+    var headers = this.setToken();
 
-  setupSlideScroll(data, scope, profile, eventStatus, limit, pageNum, callback: Function, year?, week?){
-    //(scope, profile, eventStatus, limit, pageNum, id?)
-    this.getBoxSchedule(scope, 'league', eventStatus, limit, pageNum)
-    .subscribe( data => {
-      console.log(data);
-      var formattedData = this.transformSlideScroll(scope, data.data);
-      callback(formattedData);
-    })
+    var callURL = "http://dev-finance-api.synapsys.us/call_controller.php?action=tcx&option=tcx_side_scroll";
+    //optional week parameters
+    return this.http.get(callURL, {headers: headers})
+      .map(res => res.json())
+      .map(data => {
+        var output = {scopeList: [], blocks: []}
+        for (var i =0; i< data.data.scopeList.length; i++) {
+          output.scopeList.push(data.data.scopeList[i]);
+        }
+        for (var n =0; n< data.data[scope].length; n++) {
+          data.data[scope][n].currentStockValue = Number(data.data[scope][n].currentStockValue).toFixed(2);
+          data.data[scope][n].stockChangeAmount = Number(data.data[scope][n].stockChangeAmount).toFixed(2);
+          data.data[scope][n].stockChangePercent = Number(data.data[scope][n].stockChangePercent).toFixed(2);
+          output.blocks.push(data.data[scope][n]);
+        }
+        return output;
+      });
+  }
+
+
+  setupSlideScroll(topScope, data, scope, profile, eventStatus, limit, pageNum, callback: Function, year?, week?){
+    if (topScope == "finance") {
+      //(scope, profile, eventStatus, limit, pageNum, id?)
+      this.getFinanceData(scope, 'league', eventStatus, limit, pageNum)
+      .subscribe( data => {
+        callback(data);
+      })
+    }
+    else if (topScope == "football") {
+      //(scope, profile, eventStatus, limit, pageNum, id?)
+      this.getBoxSchedule(scope, 'league', eventStatus, limit, pageNum)
+      .subscribe( data => {
+        var formattedData = this.transformSlideScroll(scope, data.data);
+        callback(formattedData);
+      })
+    }
+
   }
 
   transformSlideScroll(scope,data){

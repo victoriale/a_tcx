@@ -18,8 +18,8 @@ export class DeepDivePage implements OnInit {
     //side scroller
     sideScrollData: any;
     scrollLength: number;
-    topScope: string = "weather";
-    changeScopeVar: string = "nfl";
+    topScope: string = "finance";
+    changeScopeVar: string = "nyse";
     safeCall: boolean = true;
     ssMax: number;
     callCount: number = 1;
@@ -58,22 +58,33 @@ export class DeepDivePage implements OnInit {
       if(this.safeCall){
         this.safeCall = false;
         let changeScope = this.changeScopeVar.toLowerCase() == 'ncaaf'?'fbs':this.changeScopeVar.toLowerCase();
-        this._schedulesService.setupSlideScroll(this.sideScrollData, changeScope, 'league', 'pregame', this.callLimit, this.callCount, (sideScrollData) => {
-          if (this.topScope != "weather") {
-            this.scopeList = ["AMEX", "NYSE", "NASDAQ", "ALL"];
+        this._schedulesService.setupSlideScroll(this.topScope, this.sideScrollData, changeScope, 'league', 'pregame', this.callLimit, this.callCount, (sideScrollData) => {
+          if (this.topScope == "finance") {
+            this.scopeList = sideScrollData.scopeList.reverse();
+            if(this.sideScrollData == null){
+              this.sideScrollData = sideScrollData;
+            }
+            else{
+              sideScrollData.blocks.forEach(function(val,i){
+                self.sideScrollData.push(val);
+              })
+            }
           }
-          else {
+          else if (this.topScope == "weather") {
             this.scopeList = ["10 Day", "5 Day", "Hourly"];
           }
+          else if (this.topScope == "football") {
+            if(this.sideScrollData == null){
+              this.sideScrollData = sideScrollData;
+            }
+            else{
+              sideScrollData.forEach(function(val,i){
+                self.sideScrollData.push(val);
+              })
+            }
+          }
 
-          if(this.sideScrollData == null){
-            this.sideScrollData = sideScrollData;
-          }
-          else{
-            sideScrollData.forEach(function(val,i){
-              self.sideScrollData.push(val);
-            })
-          }
+
           this.safeCall = true;
           this.callCount++;
           this.scrollLength = this.sideScrollData.length;

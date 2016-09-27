@@ -66,6 +66,8 @@ export class DeepDivePage implements OnInit {
           }
           else if (this.topScope == "weather") {
             this.scopeList = ["10 Day", "5 Day", "Hourly"];
+            this.sideScrollData = sideScrollData;
+            this.scrollLength = this.sideScrollData.length;
           }
           else if (this.topScope == "football") {
             if(this.sideScrollData == null){

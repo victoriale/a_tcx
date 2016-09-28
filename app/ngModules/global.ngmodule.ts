@@ -20,9 +20,12 @@ import { CircleButton } from "../fe-core/components/buttons/circle/circle.button
 import { LoadingComponent } from "../fe-core/components/loading/loading.component";
 import { CircleImageData } from "../fe-core/components/images/image-data";
 import { ScrollableContent } from "../fe-core/components/scrollable-content/scrollable-content.component";
+
+import { SearchBoxModule } from "../fe-core/modules/search-box-module/search-box-module.module";
 import { WidgetModule } from "../fe-core/modules/widget/widget.module";
 import { WidgetCarouselModule } from "../fe-core/modules/widget/widget-carousel.module";
 import { SidekickWrapperAI } from "../fe-core/components/sidekick-wrapper-ai/sidekick-wrapper-ai.component";
+
 
 //Pipes
 import {SanitizeScript, SanitizeHtml, SanitizeRUrl} from "../fe-core/pipes/safe.pipe";
@@ -48,6 +51,8 @@ import { routing  } from '../app.routing';
       ImagesMedia,
       CircleButton,
       LoadingComponent,
+      ScrollableContent,
+      SearchBoxModule,
       SanitizeScript,
       SidekickWrapperAI,
       WidgetModule,
@@ -55,7 +60,6 @@ import { routing  } from '../app.routing';
       SanitizeHtml,
       ScrollableContent,
       SanitizeRUrl,
-
     ],
     exports: [
       HeaderComponent,
@@ -67,6 +71,8 @@ import { routing  } from '../app.routing';
       ImagesMedia,
       CircleButton,
       LoadingComponent,
+      ScrollableContent,
+      SearchBoxModule,
       SanitizeScript,
       SidekickWrapperAI,
       WidgetModule,

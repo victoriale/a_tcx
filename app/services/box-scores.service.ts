@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { Headers, Http } from '@angular/http';
@@ -348,6 +349,7 @@ export class BoxScoresService {
         // LIVE DATA THAT NEEDS TO ADJUST BASED ON SPORT
         gameDayInfo['gameInfo']['verticalContent'] = {
           teamInPossesion:  "Possession: " + gameDayInfo.liveDataPoints[scope].teamInPossesion,
+          liveSegmentNumber: gameDayInfo.liveDataPoints[scope].liveSegmentNumber,
           timeLeft: gameDayInfo.liveDataPoints[scope].timeLeft,
           liveYardLine: gameDayInfo.liveDataPoints[scope].liveYardLine,
           overTime: gameDayInfo.liveDataPoints[scope].liveYardLine
@@ -444,25 +446,44 @@ export class BoxScoresService {
 
       //determine if a game is live or not and display correct game time
       var currentTime = new Date().getTime();
-      var inningTitle = '';
+      var segmentTitle = '';
+      var liveStatus;
+      var liveStat1;
+      var liveStat2;
+      var liveStat3;
+      var liveStat4;
+      // live stats display above game info in box scores
       var verticalContentLive;
       if(gameInfo.live){
         verticalContentLive = gameInfo.verticalContent;
-        // let inningHalf = gameInfo.inningHalf != null ? GlobalFunctions.toTitleCase(gameInfo.inningHalf) : '';
-        inningTitle = gameInfo.inningsPlayed != null ? gameInfo.inningsPlayed +  GlobalFunctions.Suffix(gameInfo.inningsPlayed) + " Quarter: " + "<span class='gameTime'>"+gameInfo.timeLeft+"</span>" : '';
-      } else{
+        liveStatus = true,
+        liveStat1 = gameInfo.verticalContent.liveSegmentNumber != null ? "Quarter: " + gameInfo.verticalContent.liveSegmentNumber : null;
+        liveStat2 = gameInfo.verticalContent.timeLeft != null ? "Time Left: " + gameInfo.verticalContent.timeLeft : null;
+        liveStat3 = gameInfo.verticalContent.teamInPossesion != null ? gameInfo.verticalContent.teamInPossesion : null,
+        liveStat4 = gameInfo.verticalContent.liveYardLine != null ? "@ " + gameInfo.verticalContent.liveYardLine : "@ " + gameInfo.verticalContent.liveYardLine, //TODO
+        segmentTitle = gameInfo.segmentsPlayed != null ? gameInfo.segmentsPlayed +  GlobalFunctions.Suffix(gameInfo.segmentsPlayed) + " Quarter: " + "<span class='gameTime'>"+gameInfo.timeLeft+"</span>" : '';
+      }
+      else{
         verticalContentLive = "";
+        liveStatus = false
         if((currentTime < gameInfo.startDateTimestamp) && !gameInfo.live){
-          inningTitle = moment(gameDate.startDateTimestamp).tz('America/New_York').format('h:mm A z');
+          segmentTitle = moment(gameDate.startDateTimestamp).tz('America/New_York').format('h:mm A z');
         }else{
-          inningTitle = 'Final';
+          segmentTitle = 'Final';
         }
       }
 
       info = {
-        gameHappened:gameInfo.inningsPlayed != null ?  true : false,
-        //inning will display the Inning the game is on otherwise if returning null then display the date Time the game is going to be played
-        inning:inningTitle,
+        gameHappened:gameInfo.segmentsPlayed != null ?  true : false,
+        //segment will display the segment the game is on otherwise if returning null then display the date Time the game is going to be played
+        segment:'Final',
+        liveStatus: liveStatus,
+        liveStat1: liveStat1,
+        liveStat2: liveStat2,
+        liveStat3: liveStat3,
+        liveStat4: liveStat4,
+
+
         dataPointCategories:gameInfo.dataPointCategories,
         verticalContent:verticalContentLive,
         homeData:{
@@ -538,24 +559,24 @@ export class BoxScoresService {
 
       //determine if a game is live or not and display correct game time
       var currentTime = new Date().getTime();
-      var inningTitle = '';
+      var segmentTitle = '';
       var verticalContentLive;
       if(gameInfo.live){
         verticalContentLive = gameInfo.verticalContent;
         // let inningHalf = gameInfo.inningHalf != null ? GlobalFunctions.toTitleCase(gameInfo.inningHalf) : '';
-        inningTitle = gameInfo.inningsPlayed != null ? gameInfo.inningsPlayed +  GlobalFunctions.Suffix(gameInfo.inningsPlayed) + " Quarter: " + "<span class='gameTime'>"+gameInfo.timeLeft+"</span>" : '';
+        segmentTitle = gameInfo.segmentsPlayed != null ? gameInfo.segmentsPlayed +  GlobalFunctions.Suffix(gameInfo.segmentsPlayed) + " Quarter: " + "<span class='gameTime'>"+gameInfo.timeLeft+"</span>" : '';
       } else{
         verticalContentLive = "";
         if((currentTime < gameInfo.startDateTimestamp) && !gameInfo.live){
-          inningTitle = moment(gameDate.startDateTimestamp).tz('America/New_York').format('h:mm A z');
+          segmentTitle = moment(gameDate.startDateTimestamp).tz('America/New_York').format('h:mm A z');
         } else{
-          inningTitle = 'Final';
+          segmentTitle = 'Final';
         }
       }
       info = {
-        gameHappened:gameInfo.inningsPlayed != null ?  true : false,
-        //inning will display the Inning the game is on otherwise if returning null then display the date Time the game is going to be played
-        inning:inningTitle,
+        gameHappened:gameInfo.segmentsPlayed != null ?  true : false,
+        //segment will display the segment the game is on otherwise if returning null then display the date Time the game is going to be played
+        segment:segmentTitle,
         dataPointCategories:gameInfo.dataPointCategories,
         verticalContent:verticalContentLive,
         homeData:{

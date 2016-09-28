@@ -38,7 +38,7 @@ export class DeepDivePage implements OnInit {
     currentBoxScores:any;
     dateParam:any;
 
-    constructor( private _boxScoresService: BoxScoresService, private _schedulesService:SchedulesService, private _deepDiveData: DeepDiveService,) {
+    constructor( private _boxScoresService: BoxScoresService, private _schedulesService:SchedulesService, private _deepDiveData: DeepDiveService) {
       //Box Scores
       var currentUnixDate = new Date().getTime();
       //convert currentDate(users local time) to Unix and push it into boxScoresAPI as YYYY-MM-DD in EST using moment timezone (America/New_York)

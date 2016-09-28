@@ -137,14 +137,15 @@ export class SchedulesService {
     //Configure HTTP Headers
     var headers = this.setToken();
 
-    var callURL = "http://dev-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=nba&action=tcx&option=tcx_side_scroll&perPage=50&pageNum=1";
+    var callURL = "http://dev-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=" + scope.toLowerCase() + "&action=tcx&option=tcx_side_scroll&perPage=50&pageNum=1";
+    console.log(callURL);
     //optional week parameters
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
         var output = {scopeList: [], blocks: []}
         for (var i =0; i < data.data.scopeList.length; i++) {
-          output.scopeList.push(data.data.scopeList[i]);
+          output.scopeList.push(data.data.scopeList[i].toUpperCase());
         }
         for (var n = 0; n < data.data.data.length; n++) {
           switch(data.data.data[n].eventStatus) {

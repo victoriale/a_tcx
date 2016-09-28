@@ -138,7 +138,6 @@ export class SchedulesService {
     var headers = this.setToken();
 
     var callURL = "http://dev-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=" + scope.toLowerCase() + "&action=tcx&option=tcx_side_scroll&perPage=50&pageNum=1";
-    console.log(callURL);
     //optional week parameters
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())

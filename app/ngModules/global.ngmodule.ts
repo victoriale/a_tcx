@@ -28,7 +28,7 @@ import { SidekickWrapperAI } from "../fe-core/components/sidekick-wrapper-ai/sid
 import {Larousel} from '../fe-core/components/larousel/larousel';
 
 //Pipes
-import {SanitizeScript, SanitizeHtml, SanitizeRUrl} from "../fe-core/pipes/safe.pipe";
+import {SanitizeScript, SanitizeHtml, SanitizeRUrl, SanitizeStyle} from "../fe-core/pipes/safe.pipe";
 
 //router
 import { routing  } from '../app.routing';

@@ -58,6 +58,32 @@ export class DeepDiveService {
     })
   }
 
+  getDeepDiveAiBatchService(scope, key?, page?, count?, state?){
+    //Configure HTTP Headers
+    var callURL = 'http://dev-touchdownloyal-ai.synapsys.us/';
+    var headers = this.setToken();
+    if(scope == null){
+      scope = 'nfl';
+    }
+    if(key == null){
+      key == "postgame-report";
+    }
+    callURL += 'articles?articleType=' + key + '&affiliation=' + scope;
+    if(page == null || count == null){
+      page = 1;
+      count = 1;
+    }
+    if(state == null){
+      state = 'CA';
+    }
+    callURL += '&page=' + page + '&count=' + count + '&state=' + state + '&isUnix=1';
+    return this.http.get(callURL, {headers: headers})
+      .map(res => res.json())
+      .map(data => {
+        return data;
+      })
+  }
+
   getCarouselData(scope, data, limit, batch, state, callback:Function) {
     //always returns the first batch of articles
        this.getDeepDiveBatchService(scope, limit, batch, state)
@@ -126,5 +152,71 @@ export class DeepDiveService {
     });
     return videoBatchArray;
   }// transformDeepDiveVideoBatchData ENDS
+
+  // Top Article of Article Stacks
+  transformToArticleStack(data){
+    var sampleImage = "/app/public/placeholder_XL.png";
+    var topData = data.data[0];
+    var date = topData.publishedDate != null ? GlobalFunctions.formatDate(topData.publishedDate) : null;
+    var teaser = topData.teaser.substring(0, 360);//provided by design to limit characters
+    var pub;
+    if(topData.author){
+      pub = topData.author ? topData.author : "";
+      pub += topData.publisher ? ", " : "";
+    }
+    if(topData.publisher){
+      pub += topData.publisher ? topData.publisher : "";
+    }
+    if(topData.author == null && topData.publisher == null){
+      pub = "N/A";
+    }
+    var articleStackData = {
+        id: "1",
+        articleUrl: ['/deep-dive'],
+        keyword: topData.keyword.replace('-', ' '),
+        timeStamp: date != null ? date.month + " " + date.day + ", " + date.year: "",
+        title: topData.title,
+        author: "Author",
+        publisher: "Publisher",
+        teaser: teaser,
+        imageConfig: {
+          imageClass: "embed-responsive-16by9",
+          imageUrl: topData.imagePath != null ? GlobalSettings.getImageUrl(topData.imagePath) : sampleImage,
+          urlRouteArray: ['/deep-dive']
+        }
+    };
+    return articleStackData;
+  }
+
+  transformToAiArticleRow(data, key){
+    data = data.data;
+    var sampleImage = "/app/public/placeholder_XL.png";
+    var articleStackArray = [];
+    data.forEach(function(val, index){
+      for(var p in val.article_data){
+        var dataLists = val.article_data[p];
+      }
+      var date = moment(Number(val.last_updated) * 1000);
+      date = GlobalFunctions.formatAPMonth(date.month()) + date.format(' Do, YYYY');
+      var s = {
+          id: "1",
+          articleUrl: ['/deep-dive'],//TODO
+          keyword: key.replace('-', ' ').toUpperCase(),
+          timeStamp: date,
+          author: '',
+          publisher: '',
+          teaser: dataLists.displayHeadline,
+          imageConfig: {
+            imageClass: "embed-responsive-16by9",
+            /*hoverText: "View",*/
+            imageUrl: val.image_url != null ? GlobalSettings.getImageUrl(val.image_url) : sampleImage,
+            urlRouteArray: ['/deep-dive']
+          }
+      }
+      articleStackArray.push(s);
+    });
+    return articleStackArray;
+  }// transformToAiArticleRow ENDS
+
 
 }// DeepDiveService ENDS

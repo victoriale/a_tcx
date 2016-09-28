@@ -20,7 +20,7 @@ import { ScrollableContent } from "../fe-core/components/scrollable-content/scro
 import {ScrollerFunctions} from '../global/scroller-functions';
 import {VerticalGlobalFunctions} from "../global/vertical-global-functions";
 import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
-import {SanitizeScript, SanitizeHtml, SanitizeRUrl} from "../fe-core/pipes/safe.pipe";
+import {SanitizeScript, SanitizeHtml, SanitizeRUrl, SanitizeStyle} from "../fe-core/pipes/safe.pipe";
 import {SidekickWrapperAI} from "../fe-core/components/sidekick-wrapper-ai/sidekick-wrapper-ai.component";
 import {WidgetModule} from "../fe-core/modules/widget/widget.module";
 import {WidgetCarouselModule} from "../fe-core/modules/widget/widget-carousel.module";
@@ -57,36 +57,41 @@ import {Larousel} from '../fe-core/components/larousel/larousel';
       WidgetCarouselModule,
       SanitizeHtml,
       SanitizeRUrl,
+      SanitizeStyle,
+      SanitizeScript,
       ScrollableContent,
-	    // Larousel
+	    Larousel
     ],
     exports: [
+      //Component
       HeaderComponent,
       HoverImage,
       CircleImage,
       RectangleImage,
       FooterComponent,
       ModuleHeader,
-      ImagesMedia,
       CircleButton,
       LoadingComponent,
-
       SanitizeScript,
       SidekickWrapperAI,
+      ScrollableContent,
+      ImagesMedia,
       WidgetModule,
       WidgetCarouselModule,
-     SanitizeRUrl,
-        SanitizeHtml,
-      ScrollableContent
+      Larousel,
+
+      //Pipes
+      SanitizeHtml,
+      SanitizeRUrl,
+      SanitizeStyle,
+      SanitizeScript
     ],
     providers: [
+      //global Functions
       VerticalGlobalFunctions,
       ScrollerFunctions,
-      SanitizeScript,
       GlobalSettings,
-      GlobalFunctions
-
-
+      GlobalFunctions,
     ]
 })
 export class GlobalModule { }

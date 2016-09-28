@@ -60,7 +60,7 @@ export class DeepDiveService {
   }
 
   // http://dev-touchdownloyal-api.synapsys.us/articleBatch/nfl/5/1
-  var callURL = this._footballAPI + '/articleBatch/';
+  var callURL = 'http://dev-touchdownloyal-api.synapsys.us' + '/articleBatch/';
   if(scope != null){
     callURL += scope;
   } else {
@@ -70,9 +70,11 @@ export class DeepDiveService {
     state = 'CA';
   }
   callURL += '/' + limit + '/' + startNum + '/' + state;
+  console.log(callURL);
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
+      console.log(data);
       return data;
     })
   }

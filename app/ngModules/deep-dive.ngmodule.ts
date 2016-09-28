@@ -61,7 +61,8 @@ import { StatHyphenValuePipe } from '../fe-core/pipes/stat-hyphen.pipe';
       StackRowsComponent,
       ArticleStacktopComponent,
       ArticleStackModule,
-      VideoStackComponent
+      VideoStackComponent,
+      ScheduleBox
     ],
     providers: [
       DeepDiveService,

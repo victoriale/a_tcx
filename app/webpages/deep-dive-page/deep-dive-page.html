@@ -3,6 +3,9 @@
 
    <br><br>
    larrousel goes here<br>
+   <div [ngStyle]="{'width':'100%', 'height': 'auto'}" class="carWrapper">
+     <larousel *ngIf="carouselData" [carData]="carouselData"></larousel>
+   </div>
    <br>
    <div class="deep-dive-module">
      <side-scroll-schedules *ngIf="sideScrollData" [sideScrollData]="sideScrollData" [scopeList]="scopeList" (count)="scrollCheck($event)" [scrollLength]="scrollLength" [topScope]="topScope" [scope]="changeScopeVar" (changeScope)="changeScope($event)"></side-scroll-schedules>

@@ -581,7 +581,7 @@ export class VerticalGlobalFunctions {
   static formatNewsRoute(articleId: string): Array<any> {
     var articleRoute: Array<any>;
     if (articleId != null) {
-      articleRoute = ['/news', 'story',articleId];//NOTE: if Team-page is on the same level as the rest of the route-outlets
+      articleRoute = ['../../', {articleID:articleId, articleType:"story"}];//NOTE: if Team-page is on the same level as the rest of the route-outlets
     } else {
       articleRoute = null;
     }

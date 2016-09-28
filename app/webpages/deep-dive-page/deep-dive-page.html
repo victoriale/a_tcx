@@ -16,21 +16,6 @@
        <!-- Deep dive blocks -->
        <deep-dive-block-1></deep-dive-block-1>
 
-<<<<<<< HEAD
-   <deep-dive-block-1></deep-dive-block-1>
-
-   <box-scores
-     *ngIf="dateParam"
-     [boxScores]="currentBoxScores"
-     [calendarParams]="dateParam"
-     [maxHeight]="maxHeight"
-     [scroll]="scroll"
-     (dateEmit)="getBoxScores($event)">
-   </box-scores>
-
-  <!-- <search-box-module></search-box-module> -->
-=======
-       <!-- Please place box-scores in deep-dive-block-1 module-->
        <box-scores
          *ngIf="dateParam"
          [boxScores]="currentBoxScores"
@@ -39,6 +24,8 @@
          [scroll]="scroll"
          (dateEmit)="getBoxScores($event)">
        </box-scores>
+
+        <!-- <search-box-module></search-box-module> -->
       </div>
       <!-- Ads should place inside deep-dive-container-2b -->
       <div class="deep-dive-container2b col-lg-3">
@@ -46,5 +33,3 @@
       </div>
   </section><!-- deep-dive-container2 ends -->
 </section>
-<!-- PAGE ENDS -->
->>>>>>> origin/develop

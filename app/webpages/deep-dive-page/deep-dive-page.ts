@@ -20,6 +20,8 @@ export class DeepDivePage implements OnInit {
     scrollLength: number = 0;
     topScope: string = "finance";
     changeScopeVar: string = "all";
+
+    boxScoresTempVar: string = "nfl";
     safeCall: boolean = true;
     ssMax: number;
     callCount: number = 1;
@@ -38,7 +40,7 @@ export class DeepDivePage implements OnInit {
       var currentUnixDate = new Date().getTime();
       //convert currentDate(users local time) to Unix and push it into boxScoresAPI as YYYY-MM-DD in EST using moment timezone (America/New_York)
       this.dateParam ={
-        scope: this.changeScopeVar,//current profile page
+        scope: this.boxScoresTempVar,//current profile page
         teamId: '',
         //date: '2016-09-22'
         date: moment.tz( currentUnixDate , 'America/New_York' ).format('YYYY-MM-DD')
@@ -108,7 +110,7 @@ export class DeepDivePage implements OnInit {
       if ( dateParams != null ) {
         this.dateParam = dateParams;
       }
-      this._boxScoresService.getBoxScores(this.boxScoresData, this.changeScopeVar, this.dateParam, (boxScoresData, currentBoxScores) => {
+      this._boxScoresService.getBoxScores(this.boxScoresData, this.boxScoresTempVar, this.dateParam, (boxScoresData, currentBoxScores) => {
           this.boxScoresData = boxScoresData;
           this.currentBoxScores = currentBoxScores;
       });

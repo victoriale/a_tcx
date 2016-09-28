@@ -8,43 +8,47 @@ import {SyndicatedArticlePage} from "./webpages/syndicated-article-page/syndicat
 
 const relativeChildRoutes = [
   {
-    //category is top level deep dive page that are groupings of other deep dive pages (ex: sports)
-    path: '',
-    redirectTo:'deep-dive',
-    match:'full'
-  },
-  {
-    //category is top level deep dive page that are groupings of other deep dive pages (ex: sports)
-    path: 'deep-dive',
-    component: DeepDivePage,
-  },
-  {
-    //category is top level deep dive page that are groupings of other deep dive pages (ex: sports)
-    path: 'deep-dive/:category',
-    component: DeepDivePage,
+    path: ':category/:articlCategory/article/:articleType/:articleID',
+    //redirectTo: 'news/:articleType/:articleID',
+    component: SyndicatedArticlePage,
   },
   {
     //added article category
-    path: 'deep-dive/:category/:articleCategory',
+    path: ':category/:articleCategory',
     component: DeepDivePage,
   },
   {
-    path: 'deep-dive/:category/:articlCategory/news/:articleType/:articleID',
-    //redirectTo: 'news/:articleType/:articleID',
-    component: SyndicatedArticlePage,
-  }
+    //category is top level deep dive page that are groupings of other deep dive pages (ex: sports)
+    path: ':category',
+    component: DeepDivePage,
+  },
+  {
+    //category is top level deep dive page that are groupings of other deep dive pages (ex: sports)
+    path: '',
+    component: DeepDivePage,
+  },
 ]
 
 const appRoutes: Routes = [
   {
-    path: ':partner_id',
+    path: 'deep-dive',
     component: AppComponent,
     children: relativeChildRoutes
   },
   {
-    path: '',
+    path: ':partner_id/news',
     component: AppComponent,
     children: relativeChildRoutes
+  },
+  {
+    path: ':partner_id',
+    redirectTo:':partner_id/news',
+    pathMatch:'full'
+  },
+  {
+    path: '',
+    redirectTo:'deep-dive',
+    pathMatch:'full'
   },
 ];
 

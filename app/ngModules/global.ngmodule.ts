@@ -57,7 +57,7 @@ import { routing  } from '../app.routing';
       SanitizeStyle,
       SanitizeScript,
       ScrollableContent,
-	  Larousel
+	    Larousel
     ],
     exports: [
       HeaderComponent,

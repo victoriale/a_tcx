@@ -19,6 +19,7 @@ import { DeepDivePage } from "../webpages/deep-dive-page/deep-dive-page";
 import { StackRowsComponent } from '../fe-core/components/stack-rows/stack-rows.component';
 import { ArticleStacktopComponent } from '../fe-core/components/article-stacktop/article-stacktop.component';
 import { ArticleStackModule } from '../fe-core/modules/article-stack/article-stack.module';
+import { DeepDiveVideoModule } from '../fe-core/modules/video-deep-dive/video-deep-dive.module';
 import { VideoStackComponent } from '../fe-core/components/video-stack/video-stack.component';
 
 //Box Scores
@@ -54,6 +55,7 @@ import { StatHyphenValuePipe } from '../fe-core/pipes/stat-hyphen.pipe';
       GameInfo,
       GameArticle,
       CalendarCarousel,
+      DeepDiveVideoModule,
       DeepDiveBlock1
     ],
     exports:[
@@ -62,7 +64,8 @@ import { StatHyphenValuePipe } from '../fe-core/pipes/stat-hyphen.pipe';
       ArticleStacktopComponent,
       ArticleStackModule,
       VideoStackComponent,
-      ScheduleBox
+      DeepDiveVideoModule,
+      DeepDiveBlock1
     ],
     providers: [
       DeepDiveService,

@@ -56,10 +56,10 @@ export class DeepDivePage implements OnInit {
     }
 
     ngOnInit() {
-      console.log('get partnerId Service',GlobalSettings.getPartnerId());
       this.routeSubscription = this._activatedRoute.params.subscribe(
           (params) => {
-              console.log(params);
+            console.log('Partner:',GlobalSettings.getPartnerId());
+            console.log('sectionFront parameters:',params);
           }
       );
 

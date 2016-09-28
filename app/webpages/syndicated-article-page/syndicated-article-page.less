@@ -1,4 +1,10 @@
 .syndicated-articles-page {
+
+  &_leftPane{
+    @media @desktop-l{
+      width:70%;
+    }
+  }
   @media (min-width: 1023px){
     .deep_recs-articles-item {
       width: 190px;
@@ -30,9 +36,16 @@
   .articles-page-title {
     .globalDefaultFont(40px, 800);
     text-align: left;
+    @media @desktop-l{
+      width: 100%;
+    }
     @media @mobile{
       .globalDefaultFont(22px, 800);
       //margin-left:-10px;
+    }
+
+    @media @desktop-m{
+      .globalDefaultFont(50px, 800);
     }
 
   }
@@ -74,26 +87,27 @@
   }
   .carousel, .container{
     @media @mobile{
-      width: calc(100vw);
-      height: calc(56.25vw);
+      height:0;
+      padding-bottom: 56.25%;
+      width: 102%;
     }
 
     @media @tablet{
-      width: calc(96.25vw);
-      position: relative;
-      height: calc(53.25vw);
-      padding: 0px;
+      height:0;
+      padding-bottom: 56.25%;
       margin-top: 15px;
+      width:100%;
 
     }
   }
   .carousel-container {
     width: 100%;
-    //height: 400px;
-    @media (max-width: 1023px){
-      width: calc(100% - 5rem);
-      //margin-left: 2px;
+
+    @media @mobile{
+      width:102%;
     }
+    //height: 400px;
+
     .sm-images {
       display:none;
     }
@@ -216,11 +230,16 @@
   .content-exerpt {
     margin-bottom:30px;
     line-height: 1.2;
+    @media @desktop-l{
+      width:100%;
+    }
     p {
       line-height: 1.2;
 
     }
+
   }
+
   @media @mobile {
     .content-exerpt {
       margin:10px 0px;
@@ -235,7 +254,7 @@
   }
   @media @tablet{
     .content-exerpt{
-      width:calc(96vw);
+      width:100%;
       margin:15px 0;
       .globalDefaultFont(14px,400);
     }
@@ -253,13 +272,14 @@
     background: linear-gradient(to top, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);
   }
   .arpt {
+
     .globalDefaultFont(12px, 400);
     position: relative;
     width: 100%;
     text-align: left;
     &-date{
       @media @tablet{
-
+        float:right;
       }
     }
     //margin:18px 0 20px ;
@@ -364,8 +384,6 @@
   .artcom {
     width: 100%;
     margin-top: 20px;
-
-    width: 95.5%;
 
 
 

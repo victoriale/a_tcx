@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { Http, Headers } from '@angular/http';
 
-import { VideoStackData } from "../fe-core/interfaces/deep-dive.data";
-import {GlobalFunctions} from "../global/global-functions";
-import {GlobalSettings} from "../global/global-settings";
+import { VideoStackData, ArticleStackData } from "../fe-core/interfaces/deep-dive.data";
+import { GlobalFunctions } from "../global/global-functions";
+import { GlobalSettings } from "../global/global-settings";
 
 declare var moment;
 
@@ -51,6 +51,7 @@ export class DeepDiveService {
     state = 'CA';
   }
   callURL += '/' + limit + '/' + startNum + '/' + state;
+  console.log(callURL);
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
@@ -154,69 +155,30 @@ export class DeepDiveService {
   }// transformDeepDiveVideoBatchData ENDS
 
   // Top Article of Article Stacks
-  transformToArticleStack(data){
+  transformToArticleStack(data: Array<ArticleStackData>){
     var sampleImage = "/app/public/placeholder_XL.png";
-    var topData = data.data[0];
-    var date = topData.publishedDate != null ? GlobalFunctions.formatDate(topData.publishedDate) : null;
-    var teaser = topData.teaser.substring(0, 360);//provided by design to limit characters
-    var pub;
-    if(topData.author){
-      pub = topData.author ? topData.author : "";
-      pub += topData.publisher ? ", " : "";
-    }
-    if(topData.publisher){
-      pub += topData.publisher ? topData.publisher : "";
-    }
-    if(topData.author == null && topData.publisher == null){
-      pub = "N/A";
-    }
-    var articleStackData = {
-        id: "1",
-        articleUrl: ['/deep-dive'],
-        keyword: topData.keyword.replace('-', ' '),
-        timeStamp: date != null ? date.month + " " + date.day + ", " + date.year: "",
-        title: topData.title,
-        author: "Author",
-        publisher: "Publisher",
-        teaser: teaser,
-        imageConfig: {
-          imageClass: "embed-responsive-16by9",
-          imageUrl: topData.imagePath != null ? GlobalSettings.getImageUrl(topData.imagePath) : sampleImage,
-          urlRouteArray: ['/deep-dive']
-        }
-    };
-    return articleStackData;
-  }
-
-  transformToAiArticleRow(data, key){
-    data = data.data;
-    var sampleImage = "/app/public/placeholder_XL.png";
+    // var topData = data.data[0];
     var articleStackArray = [];
     data.forEach(function(val, index){
-      for(var p in val.article_data){
-        var dataLists = val.article_data[p];
-      }
-      var date = moment(Number(val.last_updated) * 1000);
-      date = GlobalFunctions.formatAPMonth(date.month()) + date.format(' Do, YYYY');
-      var s = {
+      var articleStackData = {
           id: "1",
-          articleUrl: ['/deep-dive'],//TODO
-          keyword: key.replace('-', ' ').toUpperCase(),
-          timeStamp: date,
-          author: '',
-          publisher: '',
-          teaser: dataLists.displayHeadline,
+          articleUrl: '/deep-dive',
+          keyword: "Keyword",
+          timeStamp: "Sept. 28th 2016",
+          title: "Title here",
+          author: "Author",
+          publisher: ", Publisher",
+          teaser: "Teaser here",
           imageConfig: {
             imageClass: "embed-responsive-16by9",
-            /*hoverText: "View",*/
-            imageUrl: val.image_url != null ? GlobalSettings.getImageUrl(val.image_url) : sampleImage,
-            urlRouteArray: ['/deep-dive']
+            imageUrl: sampleImage,
+            urlRouteArray: '/deep-dive'
           }
-      }
-      articleStackArray.push(s);
-    });
+        }
+        console.log("articleStackData", articleStackData);
+        articleStackArray.push(articleStackData);
+      });
     return articleStackArray;
-  }// transformToAiArticleRow ENDS
-
+  }// transformToArticleStack ENDS
 
 }// DeepDiveService ENDS

@@ -25,10 +25,10 @@ import { SearchBoxModule } from "../fe-core/modules/search-box-module/search-box
 import { WidgetModule } from "../fe-core/modules/widget/widget.module";
 import { WidgetCarouselModule } from "../fe-core/modules/widget/widget-carousel.module";
 import { SidekickWrapperAI } from "../fe-core/components/sidekick-wrapper-ai/sidekick-wrapper-ai.component";
-
+import {Larousel} from '../fe-core/components/larousel/larousel';
 
 //Pipes
-import {SanitizeScript, SanitizeHtml, SanitizeRUrl} from "../fe-core/pipes/safe.pipe";
+import {SanitizeScript, SanitizeHtml, SanitizeRUrl, SanitizeStyle} from "../fe-core/pipes/safe.pipe";
 
 //router
 import { routing  } from '../app.routing';
@@ -51,15 +51,16 @@ import { routing  } from '../app.routing';
       ImagesMedia,
       CircleButton,
       LoadingComponent,
-      ScrollableContent,
       SearchBoxModule,
-      SanitizeScript,
       SidekickWrapperAI,
       WidgetModule,
       WidgetCarouselModule,
       SanitizeHtml,
-      ScrollableContent,
       SanitizeRUrl,
+      SanitizeStyle,
+      SanitizeScript,
+      ScrollableContent,
+	    Larousel
     ],
     exports: [
       HeaderComponent,
@@ -71,15 +72,16 @@ import { routing  } from '../app.routing';
       ImagesMedia,
       CircleButton,
       LoadingComponent,
-      ScrollableContent,
       SearchBoxModule,
-      SanitizeScript,
       SidekickWrapperAI,
       WidgetModule,
       WidgetCarouselModule,
-      SanitizeRUrl,
+      ScrollableContent,
       SanitizeHtml,
-      ScrollableContent
+      SanitizeRUrl,
+      SanitizeStyle,
+      SanitizeScript,
+      Larousel
     ],
     providers: [
       VerticalGlobalFunctions,
@@ -87,8 +89,6 @@ import { routing  } from '../app.routing';
       SanitizeScript,
       GlobalSettings,
       GlobalFunctions
-
-
     ]
 })
 export class GlobalModule { }

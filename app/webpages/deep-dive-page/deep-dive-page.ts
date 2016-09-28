@@ -2,6 +2,7 @@
 import {Component, OnInit} from '@angular/core';
 import { BoxScoresService } from '../../services/box-scores.service';
 import { SchedulesService } from '../../services/schedules.service';
+import { DeepDiveService } from '../../services/deep-dive.service';
 
 declare var moment;
 declare var jQuery: any;
@@ -14,6 +15,8 @@ declare var jQuery: any;
 export class DeepDivePage implements OnInit {
     title="Everything that is deep dive will go in this page. Please Change according to your requirement";
     test: any = "testing";
+
+    carouselData: any;
 
     //side scroller
     sideScrollData: any;
@@ -35,7 +38,7 @@ export class DeepDivePage implements OnInit {
     currentBoxScores:any;
     dateParam:any;
 
-    constructor( private _boxScoresService: BoxScoresService, private _schedulesService:SchedulesService) {
+    constructor( private _boxScoresService: BoxScoresService, private _schedulesService:SchedulesService, private _deepDiveData: DeepDiveService) {
       //Box Scores
       var currentUnixDate = new Date().getTime();
       //convert currentDate(users local time) to Unix and push it into boxScoresAPI as YYYY-MM-DD in EST using moment timezone (America/New_York)
@@ -137,6 +140,7 @@ export class DeepDivePage implements OnInit {
     ngOnInit() {
       this.getBoxScores(this.dateParam);
       this.getSideScroll();
+      this.getDataCarousel();
     }
     changeScope($event) {
       this.changeScopeVar = $event;
@@ -153,5 +157,11 @@ export class DeepDivePage implements OnInit {
           this.boxScoresData = boxScoresData;
           this.currentBoxScores = currentBoxScores;
       });
+    }
+
+    private getDataCarousel() {
+      this._deepDiveData.getCarouselData('nfl', this.carouselData, '25', '1', 'CA', (carData)=>{
+        this.carouselData = carData;
+      })
     }
   }

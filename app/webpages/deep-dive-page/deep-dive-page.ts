@@ -20,8 +20,8 @@ export class DeepDivePage implements OnInit {
     scrollLength: number = 0;
     boxScoresTempVar: string = "nfl";
 
-    topScope: string = "football";
-    changeScopeVar: string = "nfl";
+    topScope: string = "finance";
+    changeScopeVar: string = "all";
     safeCall: boolean = true;
     ssMax: number;
     callCount: number = 1;
@@ -74,6 +74,42 @@ export class DeepDivePage implements OnInit {
           else if (this.topScope == "football") {
             if(this.sideScrollData == null){
               this.scopeList = ["NCAAF", "NFL", "ALL"];
+              this.sideScrollData = sideScrollData;
+              this.scrollLength = this.sideScrollData.blocks.length;
+            }
+            else{
+              sideScrollData.forEach(function(val,i){
+                self.sideScrollData.push(val);
+              })
+            }
+          }
+          else if (this.topScope == "basketball") {
+            if(this.sideScrollData == null){
+              this.scopeList = ["NCAAB", "NBA", "ALL"];
+              this.sideScrollData = sideScrollData;
+              this.scrollLength = this.sideScrollData.blocks.length;
+            }
+            else{
+              sideScrollData.forEach(function(val,i){
+                self.sideScrollData.push(val);
+              })
+            }
+          }
+          else if (this.topScope == "baseball") {
+            if(this.sideScrollData == null){
+              this.scopeList = [];
+              this.sideScrollData = sideScrollData;
+              this.scrollLength = this.sideScrollData.blocks.length;
+            }
+            else{
+              sideScrollData.forEach(function(val,i){
+                self.sideScrollData.push(val);
+              })
+            }
+          }
+          else if (this.topScope == "sports") {
+            if(this.sideScrollData == null){
+              this.scopeList = ["ALL"];
               this.sideScrollData = sideScrollData;
               this.scrollLength = this.sideScrollData.blocks.length;
             }

@@ -107,12 +107,22 @@ export class SchedulesService {
           data.data[scope][n].currentStockValue = Number(data.data[scope][n].currentStockValue).toFixed(2);
           data.data[scope][n].stockChangeAmount = Number(data.data[scope][n].stockChangeAmount).toFixed(2);
           data.data[scope][n].stockChangePercent = Number(data.data[scope][n].stockChangePercent).toFixed(2);
+          data.data[scope][n].profileUrl = "http://www.investkit.com/" + data.data[scope][n].companySymbol + "/" + data.data[scope][n].fullCompanyName.replace(/ /g, "-") + "/company/" + data.data[scope][n].companyId;
           if (data.data[scope][n].logoUrl == "" || data.data[scope][n].logoUrl == null) {
             data.data[scope][n].logoUrl = "http://www.investkit.com/public/no_image.png";
           }
           else {
             data.data[scope][n].logoUrl = "http://images.investkit.com/images/" + data.data[scope][n].logoUrl;
           }
+          data.data[scope][n].imageConfig = {
+            imageClass: "image-44",
+            mainImage: {
+              url: data.data[scope][n].profileUrl,
+              imageUrl: data.data[scope][n].logoUrl,
+              imageClass: "border-1",
+              hoverText: "<p>View</p> Profile"
+          }
+          };
           output.blocks.push(data.data[scope][n]);
         }
         return output;
@@ -136,12 +146,28 @@ export class SchedulesService {
         callback(formattedData);
       })
     }
+    else if (topScope == "basketball") {
+      //(scope, profile, eventStatus, limit, pageNum, id?)
+      this.getBoxSchedule(scope, 'league', eventStatus, limit, pageNum)
+      .subscribe( data => {
+        var formattedData = this.transformSlideScroll(scope, data.data);
+        callback(formattedData);
+      })
+    }
+    else if (topScope == "weather") {
+      //(scope, profile, eventStatus, limit, pageNum, id?)
+      this.getBoxSchedule(scope, 'league', eventStatus, limit, pageNum)
+      .subscribe( data => {
+        var formattedData = this.transformSlideScroll(scope, data.data);
+        callback(formattedData);
+      })
+    }
 
   }
 
   transformSlideScroll(scope,data){
     let self = this;
-    var modifiedArray = [];
+    var modifiedArray = {blocks: []};
     var newData:scheduleBoxInput;
     //run through and convert data to what is needed for the component
     data.forEach(function(val,index){
@@ -189,7 +215,7 @@ export class SchedulesService {
         inning: val.eventQuarter != null ? "Current: Quarter " + Number(val.eventQuarter) + "<sup>" + GlobalFunctions.Suffix(Number(val.eventQuarter)) + "</sup>": null
       }
 
-      modifiedArray.push(newData);
+      modifiedArray.blocks.push(newData);
     });
     return modifiedArray;
   }

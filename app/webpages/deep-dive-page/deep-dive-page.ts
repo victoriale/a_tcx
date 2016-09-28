@@ -69,11 +69,50 @@ export class DeepDivePage implements OnInit {
           }
           else if (this.topScope == "weather") {
             this.scopeList = ["10 Day", "5 Day", "Hourly"];
+            this.sideScrollData = sideScrollData;
+            this.scrollLength = this.sideScrollData.blocks.length;
           }
           else if (this.topScope == "football") {
             if(this.sideScrollData == null){
+              this.scopeList = ["NCAAF", "NFL", "ALL"];
               this.sideScrollData = sideScrollData;
-              this.scrollLength = this.sideScrollData.length;
+              this.scrollLength = this.sideScrollData.blocks.length;
+            }
+            else{
+              sideScrollData.forEach(function(val,i){
+                self.sideScrollData.push(val);
+              })
+            }
+          }
+          else if (this.topScope == "basketball") {
+            if(this.sideScrollData == null){
+              this.scopeList = ["NCAAB", "NBA", "ALL"];
+              this.sideScrollData = sideScrollData;
+              this.scrollLength = this.sideScrollData.blocks.length;
+            }
+            else{
+              sideScrollData.forEach(function(val,i){
+                self.sideScrollData.push(val);
+              })
+            }
+          }
+          else if (this.topScope == "baseball") {
+            if(this.sideScrollData == null){
+              this.scopeList = [];
+              this.sideScrollData = sideScrollData;
+              this.scrollLength = this.sideScrollData.blocks.length;
+            }
+            else{
+              sideScrollData.forEach(function(val,i){
+                self.sideScrollData.push(val);
+              })
+            }
+          }
+          else if (this.topScope == "sports") {
+            if(this.sideScrollData == null){
+              this.scopeList = ["ALL"];
+              this.sideScrollData = sideScrollData;
+              this.scrollLength = this.sideScrollData.blocks.length;
             }
             else{
               sideScrollData.forEach(function(val,i){

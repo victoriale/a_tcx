@@ -114,6 +114,15 @@ export class SchedulesService {
           else {
             data.data[scope][n].logoUrl = "http://images.investkit.com/images/" + data.data[scope][n].logoUrl;
           }
+          data.data[scope][n].imageConfig = {
+            imageClass: "image-44",
+            mainImage: {
+              url: data.data[scope][n].profileUrl,
+              imageUrl: data.data[scope][n].logoUrl,
+              imageClass: "border-1",
+              hoverText: "<p>View</p> Profile"
+          }
+          };
           output.blocks.push(data.data[scope][n]);
         }
         return output;
@@ -130,6 +139,14 @@ export class SchedulesService {
       })
     }
     else if (topScope == "football") {
+      //(scope, profile, eventStatus, limit, pageNum, id?)
+      this.getBoxSchedule(scope, 'league', eventStatus, limit, pageNum)
+      .subscribe( data => {
+        var formattedData = this.transformSlideScroll(scope, data.data);
+        callback(formattedData);
+      })
+    }
+    else if (topScope == "basketball") {
       //(scope, profile, eventStatus, limit, pageNum, id?)
       this.getBoxSchedule(scope, 'league', eventStatus, limit, pageNum)
       .subscribe( data => {

@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { Http, Headers } from '@angular/http';
 
-import { VideoStackData } from "../fe-core/interfaces/deep-dive.data";
-import {GlobalFunctions} from "../global/global-functions";
-import {GlobalSettings} from "../global/global-settings";
+import { VideoStackData, ArticleStackData } from "../fe-core/interfaces/deep-dive.data";
+import { GlobalFunctions } from "../global/global-functions";
+import { GlobalSettings } from "../global/global-settings";
 
 declare var moment;
 
@@ -56,6 +56,32 @@ export class DeepDiveService {
     .map(data => {
       return data;
     })
+  }
+
+  getDeepDiveAiBatchService(scope, key?, page?, count?, state?){
+    //Configure HTTP Headers
+    var callURL = 'http://dev-touchdownloyal-ai.synapsys.us/';
+    var headers = this.setToken();
+    if(scope == null){
+      scope = 'nfl';
+    }
+    if(key == null){
+      key == "postgame-report";
+    }
+    callURL += 'articles?articleType=' + key + '&affiliation=' + scope;
+    if(page == null || count == null){
+      page = 1;
+      count = 1;
+    }
+    if(state == null){
+      state = 'CA';
+    }
+    callURL += '&page=' + page + '&count=' + count + '&state=' + state + '&isUnix=1';
+    return this.http.get(callURL, {headers: headers})
+      .map(res => res.json())
+      .map(data => {
+        return data;
+      })
   }
 
   getCarouselData(scope, data, limit, batch, state, callback:Function) {
@@ -126,5 +152,31 @@ export class DeepDiveService {
     });
     return videoBatchArray;
   }// transformDeepDiveVideoBatchData ENDS
+
+  // Top Article of Article Stacks
+  transformToArticleStack(data: Array<ArticleStackData>){
+    var sampleImage = "/app/public/placeholder_XL.png";
+    // var topData = data.data[0];
+    var articleStackArray = [];
+    data.forEach(function(val, index){
+      var articleStackData = {
+          id: "1",
+          articleUrl: '/deep-dive',
+          keyword: "Keyword",
+          timeStamp: "Sept. 28th 2016",
+          title: "Title here",
+          author: "Author",
+          publisher: ", Publisher",
+          teaser: "Teaser here",
+          imageConfig: {
+            imageClass: "embed-responsive-16by9",
+            imageUrl: sampleImage,
+            urlRouteArray: '/deep-dive'
+          }
+        }
+        articleStackArray.push(articleStackData);
+      });
+    return articleStackArray;
+  }// transformToArticleStack ENDS
 
 }// DeepDiveService ENDS

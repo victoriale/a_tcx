@@ -1,8 +1,10 @@
 <section class="deep-dive-page container-fluid">
   <!-- Place Top Carousel Here in deep-dive-container-1, it should always take full width -->
   <section class="deep-dive-container1">
-     <br><br>
-     larrousel goes here<br>
+     <br>
+     	<div [ngStyle]="{'width':'100%', 'height': 'auto'}" class="carWrapper">
+	     <larousel *ngIf="carouselData" [carData]="carouselData"></larousel>
+	   </div>
      <br>
    </section><!-- deep-dive-container1 ends -->
    <!-- Place modules and deep dive blocks in deep-dive-container 2 -->
@@ -16,7 +18,6 @@
        <!-- Deep dive blocks -->
        <deep-dive-block-1></deep-dive-block-1>
 
-       <!-- Please place box-scores in deep-dive-block-1 module-->
        <box-scores
          *ngIf="dateParam"
          [boxScores]="currentBoxScores"
@@ -25,6 +26,8 @@
          [scroll]="scroll"
          (dateEmit)="getBoxScores($event)">
        </box-scores>
+
+      <search-box-module></search-box-module>
       </div>
       <!-- Ads should place inside deep-dive-container-2b -->
       <div class="deep-dive-container2b col-lg-3">
@@ -32,4 +35,3 @@
       </div>
   </section><!-- deep-dive-container2 ends -->
 </section>
-<!-- PAGE ENDS -->

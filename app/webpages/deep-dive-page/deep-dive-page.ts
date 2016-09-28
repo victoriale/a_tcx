@@ -2,6 +2,7 @@
 import {Component, OnInit} from '@angular/core';
 import { BoxScoresService } from '../../services/box-scores.service';
 import { SchedulesService } from '../../services/schedules.service';
+import { DeepDiveService } from '../../services/deep-dive.service';
 
 declare var moment;
 declare var jQuery: any;
@@ -15,9 +16,13 @@ export class DeepDivePage implements OnInit {
     title="Everything that is deep dive will go in this page. Please Change according to your requirement";
     test: any = "testing";
 
+    carouselData: any;
+
     //side scroller
     sideScrollData: any;
     scrollLength: number = 0;
+    boxScoresTempVar: string = "nfl";
+
     topScope: string = "finance";
     changeScopeVar: string = "all";
     safeCall: boolean = true;
@@ -33,12 +38,12 @@ export class DeepDivePage implements OnInit {
     currentBoxScores:any;
     dateParam:any;
 
-    constructor( private _boxScoresService: BoxScoresService, private _schedulesService:SchedulesService) {
+    constructor( private _boxScoresService: BoxScoresService, private _schedulesService:SchedulesService, private _deepDiveData: DeepDiveService) {
       //Box Scores
       var currentUnixDate = new Date().getTime();
       //convert currentDate(users local time) to Unix and push it into boxScoresAPI as YYYY-MM-DD in EST using moment timezone (America/New_York)
       this.dateParam ={
-        scope: this.changeScopeVar,//current profile page
+        scope: this.boxScoresTempVar,//current profile page
         teamId: '',
         //date: '2016-09-22'
         date: moment.tz( currentUnixDate , 'America/New_York' ).format('YYYY-MM-DD')
@@ -135,6 +140,7 @@ export class DeepDivePage implements OnInit {
     ngOnInit() {
       this.getBoxScores(this.dateParam);
       this.getSideScroll();
+      this.getDataCarousel();
     }
     changeScope($event) {
       this.changeScopeVar = $event;
@@ -147,9 +153,15 @@ export class DeepDivePage implements OnInit {
       if ( dateParams != null ) {
         this.dateParam = dateParams;
       }
-      this._boxScoresService.getBoxScores(this.boxScoresData, this.changeScopeVar, this.dateParam, (boxScoresData, currentBoxScores) => {
+      this._boxScoresService.getBoxScores(this.boxScoresData, this.boxScoresTempVar, this.dateParam, (boxScoresData, currentBoxScores) => {
           this.boxScoresData = boxScoresData;
           this.currentBoxScores = currentBoxScores;
       });
+    }
+
+    private getDataCarousel() {
+      this._deepDiveData.getCarouselData('nfl', this.carouselData, '25', '1', 'CA', (carData)=>{
+        this.carouselData = carData;
+      })
     }
   }

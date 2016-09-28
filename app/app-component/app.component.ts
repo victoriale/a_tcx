@@ -10,7 +10,6 @@ export class AppComponent {
   constructor(private _activatedRoute:ActivatedRoute){
     this._activatedRoute.params.subscribe(
         (params:any) => {
-            console.log(params);
             GlobalSettings.storePartnerId(params.partner_id);
         }
     );

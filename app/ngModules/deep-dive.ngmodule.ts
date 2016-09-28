@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { routing } from '../app.routing';
 import { GlobalModule } from './global.ngmodule';
 import { FormsModule } from '@angular/forms';
+
 //providers
 import { DeepDiveService } from '../services/deep-dive.service';
 import { BoxScoresService } from '../services/box-scores.service';

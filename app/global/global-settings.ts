@@ -3,6 +3,7 @@
 export class GlobalSettings {
     private static _env = window.location.hostname.split('.')[0];
     private static _proto = window.location.protocol;
+    private static _partnerId:string = '';
 
     private static _newsUrl:string = 'newsapi.synapsys.us';
 
@@ -48,6 +49,14 @@ export class GlobalSettings {
       }else{
         return false;
       }
+    }
+
+    static storePartnerId(partnerId) {
+      this._partnerId = partnerId;
+    }
+
+    static getPartnerId():string {
+        return this._partnerId;
     }
 
     static getDynamicWidet():string {

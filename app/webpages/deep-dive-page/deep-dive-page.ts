@@ -1,8 +1,10 @@
 
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import { BoxScoresService } from '../../services/box-scores.service';
 import { SchedulesService } from '../../services/schedules.service';
 import { DeepDiveService } from '../../services/deep-dive.service';
+import { ActivatedRoute } from '@angular/router';
+import { GlobalSettings } from "../../global/global-settings";
 
 declare var moment;
 declare var jQuery: any;
@@ -38,7 +40,10 @@ export class DeepDivePage implements OnInit {
     currentBoxScores:any;
     dateParam:any;
 
-    constructor( private _boxScoresService: BoxScoresService, private _schedulesService:SchedulesService, private _deepDiveData: DeepDiveService) {
+    //Used for route subscription and unsubscribing when view is destroyed (double check since angular2 does it for you)
+    routeSubscription:any;
+
+    constructor( private _boxScoresService: BoxScoresService, private _schedulesService:SchedulesService, private _deepDiveData: DeepDiveService, private _activatedRoute: ActivatedRoute) {
       //Box Scores
       var currentUnixDate = new Date().getTime();
       //convert currentDate(users local time) to Unix and push it into boxScoresAPI as YYYY-MM-DD in EST using moment timezone (America/New_York)
@@ -48,6 +53,23 @@ export class DeepDivePage implements OnInit {
         //date: '2016-09-22'
         date: moment.tz( currentUnixDate , 'America/New_York' ).format('YYYY-MM-DD')
       }
+    }
+
+    ngOnInit() {
+      console.log('get partnerId Service',GlobalSettings.getPartnerId());
+      this.routeSubscription = this._activatedRoute.params.subscribe(
+          (params) => {
+              console.log(params);
+          }
+      );
+
+      this.getBoxScores(this.dateParam);
+      this.getSideScroll();
+      this.getDataCarousel();
+    }
+
+    ngOnDestroy(){
+      this.routeSubscription.unsubscribe();
     }
 
     private onScroll(event) {
@@ -137,11 +159,6 @@ export class DeepDivePage implements OnInit {
       }
     }
 
-    ngOnInit() {
-      this.getBoxScores(this.dateParam);
-      this.getSideScroll();
-      this.getDataCarousel();
-    }
     changeScope($event) {
       this.changeScopeVar = $event;
       this.getSideScroll();

@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule }   from '@angular/forms';
 import { routing } from '../app.routing';
 //Root Component
-import { AppComponent }  from '../app-domain/app.component';
+import { AppDomain }  from '../app-domain/app.domain';
 
 //NgModules
 import {GlobalModule} from "./global.ngmodule";
@@ -21,9 +21,9 @@ import {HttpModule, Headers, Http} from "@angular/http";
     SyndicatedArticleNgModule,
   ],
   declarations: [
-    AppComponent
+    AppDomain
   ],
   providers: [HttpModule],
-  bootstrap: [ AppComponent ]
+  bootstrap: [ AppDomain ]
 })
 export class AppModule { }

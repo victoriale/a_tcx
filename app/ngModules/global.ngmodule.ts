@@ -1,3 +1,6 @@
+//spits out router-outlet for our deepdive websites
+import { AppComponent }  from '../app-component/app.component';
+
 import {CommonModule} from "@angular/common";
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
@@ -40,6 +43,7 @@ import { routing  } from '../app.routing';
       routing,
     ],
     declarations: [
+      AppComponent,
       HeaderComponent,
       Search,
       HamburgerMenuComponent,
@@ -88,7 +92,7 @@ import { routing  } from '../app.routing';
       ScrollerFunctions,
       SanitizeScript,
       GlobalSettings,
-      GlobalFunctions
+      GlobalFunctions,
     ]
 })
 export class GlobalModule { }

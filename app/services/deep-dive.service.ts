@@ -51,7 +51,6 @@ export class DeepDiveService {
     state = 'CA';
   }
   callURL += '/' + limit + '/' + startNum + '/' + state;
-  console.log(callURL);
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
@@ -175,7 +174,6 @@ export class DeepDiveService {
             urlRouteArray: '/deep-dive'
           }
         }
-        console.log("articleStackData", articleStackData);
         articleStackArray.push(articleStackData);
       });
     return articleStackArray;

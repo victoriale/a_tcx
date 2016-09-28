@@ -8,7 +8,12 @@ import {SyndicatedArticlePage} from "./webpages/syndicated-article-page/syndicat
 
 const relativeChildRoutes = [
   {
-    path: ':category/:articlCategory/article/:articleType/:articleID',
+    path: ':category/:articleCategory/article/:articleType/:articleID',
+    //redirectTo: 'news/:articleType/:articleID',
+    component: SyndicatedArticlePage,
+  },
+  {
+    path: ':category/article/:articleType/:articleID',
     //redirectTo: 'news/:articleType/:articleID',
     component: SyndicatedArticlePage,
   },

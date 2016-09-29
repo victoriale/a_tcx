@@ -167,8 +167,8 @@ export class SchedulesService {
           let time = moment(Number(data.data.data[n].startTime)).tz('America/New_York').format('h:mm A z');
           data.data.data[n].date = date + " &bull; " + time;
           data.data.data[n].reportLink = "http://www.hoopsloyal.com/";
-          data.data.data[n].homeTeamName = data.data.data[n].fullNameHome;
-          data.data.data[n].awayTeamName = data.data.data[n].fullNameAway;
+          data.data.data[n].homeTeamName = data.data.data[n].lastNameHome;
+          data.data.data[n].awayTeamName = data.data.data[n].lastNameAway;
           data.data.data[n].awayProfileUrl = "http://www.hoopsloyal.com/" + data.data.currentScope + "/team/" + data.data.data[n].fullNameAway.replace(/ /g, "-") + "/" + data.data.data[n].idAway;
           data.data.data[n].homeProfileUrl = "http://www.hoopsloyal.com/" + data.data.currentScope + "/team/" + data.data.data[n].fullNameHome.replace(/ /g, "-") + "/" + data.data.data[n].idHome;
           if (data.data.data[n].logoUrlAway == "" || data.data.data[n].logoUrlAway == null) {
@@ -280,12 +280,28 @@ export class SchedulesService {
 
       newData = {
         date: date + " &bull; " + time,
-        awayImageConfig: self.imageData('image-44', 'border-1', GlobalSettings.getImageUrl(val.team2Logo), VerticalGlobalFunctions.formatTeamRoute(val.team2FullName, val.team2Id)),
-        homeImageConfig: self.imageData('image-44', 'border-1', GlobalSettings.getImageUrl(val.team1Logo), VerticalGlobalFunctions.formatTeamRoute(val.team1FullName, val.team1Id)),
+        awayImageConfig: {
+          imageClass: "image-44",
+          mainImage: {
+            url: "http://touchdownloyal.com/" + scope + "/team/" + val.team1FullName + "/" + val.team1Id,
+            imageUrl: GlobalSettings.getImageUrl(val.team1Logo),
+            imageClass: "border-1",
+            hoverText: "<p>View</p> Profile"
+          }
+        },
+        homeImageConfig: {
+          imageClass: "image-44",
+          mainImage: {
+            url: "http://touchdownloyal.com/" + scope + "/team/" + val.team2FullName + "/" + val.team2Id,
+            imageUrl: GlobalSettings.getImageUrl(val.team2Logo),
+            imageClass: "border-1",
+            hoverText: "<p>View</p> Profile"
+          }
+        },
         awayTeamName: scope =='fbs' ? val.team2Abbreviation: team2FullName.replace(val.team2Market+" ",''),
         homeTeamName: scope =='fbs' ? val.team1Abbreviation: team1FullName.replace(val.team1Market+" ",''),
-        awayLink: VerticalGlobalFunctions.formatTeamRoute(val.team2FullName, val.team2Id),
-        homeLink: VerticalGlobalFunctions.formatTeamRoute(val.team1FullName, val.team1Id),
+        awayLink: "http://touchdownloyal.com/" + scope + "/team/" + val.team2FullName + "/" + val.team2Id,
+        homeLink: "http://touchdownloyal.com/" + scope + "/team/" + val.team1FullName + "/" + val.team1Id,
         reportDisplay: reportText,
         reportLink: reportUrl,
         isLive: val.eventStatus == 'inprogress' ? 'schedule-live' : '',

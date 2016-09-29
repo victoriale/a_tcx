@@ -25,8 +25,8 @@ export class DeepDivePage implements OnInit {
     scrollLength: number = 0;
     boxScoresTempVar: string = "nfl";
 
-    topScope: string = "basketball";
-    changeScopeVar: string = "nba";
+    topScope: string = "weather";
+    changeScopeVar: string = "nfl";
     safeCall: boolean = true;
     ssMax: number;
     callCount: number = 1;
@@ -97,16 +97,9 @@ export class DeepDivePage implements OnInit {
             this.scrollLength = this.sideScrollData.blocks.length;
           }
           else if (this.topScope == "football") {
-            if(this.sideScrollData == null){
-              this.scopeList = ["NCAAF", "NFL", "ALL"];
-              this.sideScrollData = sideScrollData;
-              this.scrollLength = this.sideScrollData.blocks.length;
-            }
-            else{
-              sideScrollData.forEach(function(val,i){
-                self.sideScrollData.push(val);
-              })
-            }
+            this.scopeList = ["NCAAF", "NFL"];
+            this.sideScrollData = sideScrollData;
+            this.scrollLength = this.sideScrollData.blocks.length;
           }
           else if (this.topScope == "basketball") {
             if(this.sideScrollData == null){

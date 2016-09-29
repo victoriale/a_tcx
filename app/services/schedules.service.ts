@@ -129,6 +129,84 @@ export class SchedulesService {
       });
   }
 
+  //Call made for slider carousel using BoxScore scheduler
+  getBasketballSchedule(scope, profile, eventStatus, limit, pageNum, id?){
+    if (scope != "all") {
+      scope = scope.toUpperCase();
+    }
+    //Configure HTTP Headers
+    var headers = this.setToken();
+
+    var callURL = "http://dev-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=" + scope.toLowerCase() + "&action=tcx&option=tcx_side_scroll&perPage=50&pageNum=1";
+    //optional week parameters
+    return this.http.get(callURL, {headers: headers})
+      .map(res => res.json())
+      .map(data => {
+        var output = {scopeList: [], blocks: []}
+        for (var i =0; i < data.data.scopeList.length; i++) {
+          output.scopeList.push(data.data.scopeList[i].toUpperCase());
+        }
+        for (var n = 0; n < data.data.data.length; n++) {
+          switch(data.data.data[n].eventStatus) {
+              case "pre-event":
+                  data.data.data[n].reportDisplay = "PRE GAME REPORT";
+                  break;
+              case "post-event":
+                  data.data.data[n].reportDisplay = "POST GAME REPORT";
+                  break;
+              case "cancelled":
+                  data.data.data[n].reportDisplay = "GAME IS CANCELED";
+                  break;
+              case "postponed":
+                  data.data.data[n].reportDisplay = "PRE GAME REPORT";
+                  break;
+              default:
+                  data.data.data[n].reportDisplay = "Game Report";
+          }
+          let date = moment(Number(data.data.data[n].startTime)).tz('America/New_York').format('MMMM D, YYYY');
+          let time = moment(Number(data.data.data[n].startTime)).tz('America/New_York').format('h:mm A z');
+          data.data.data[n].date = date + " &bull; " + time;
+          data.data.data[n].reportLink = "http://www.hoopsloyal.com/";
+          data.data.data[n].homeTeamName = data.data.data[n].fullNameHome;
+          data.data.data[n].awayTeamName = data.data.data[n].fullNameAway;
+          data.data.data[n].awayProfileUrl = "http://www.hoopsloyal.com/" + data.data.currentScope + "/team/" + data.data.data[n].fullNameAway.replace(/ /g, "-") + "/" + data.data.data[n].idAway;
+          data.data.data[n].homeProfileUrl = "http://www.hoopsloyal.com/" + data.data.currentScope + "/team/" + data.data.data[n].fullNameHome.replace(/ /g, "-") + "/" + data.data.data[n].idHome;
+          if (data.data.data[n].logoUrlAway == "" || data.data.data[n].logoUrlAway == null) {
+            data.data.data[n].logoUrlAway = "http://www.investkit.com/public/no_image.png";
+          }
+          else {
+            data.data.data[n].logoUrlAway = "http://prod-sports-images.synapsys.us/" + data.data.data[n].logoUrlAway;
+          }
+          if (data.data.data[n].logoUrlHome == "" || data.data.data[n].logoUrlHome == null) {
+            data.data.data[n].logoUrlHome = "http://www.investkit.com/public/no_image.png";
+          }
+          else {
+            data.data.data[n].logoUrlHome = "http://prod-sports-images.synapsys.us/" + data.data.data[n].logoUrlHome;
+          }
+          data.data.data[n].awayImageConfig = {
+            imageClass: "image-44",
+            mainImage: {
+              url: data.data.data[n].awayProfileUrl,
+              imageUrl: data.data.data[n].logoUrlAway,
+              imageClass: "border-1",
+              hoverText: "<p>View</p> Profile"
+          }
+          };
+          data.data.data[n].homeImageConfig = {
+            imageClass: "image-44",
+            mainImage: {
+              url: data.data.data[n].homeProfileUrl,
+              imageUrl: data.data.data[n].logoUrlHome,
+              imageClass: "border-1",
+              hoverText: "<p>View</p> Profile"
+          }
+          };
+          output.blocks.push(data.data.data[n]);
+        }
+        return output;
+      });
+  }
+
 
   setupSlideScroll(topScope, data, scope, profile, eventStatus, limit, pageNum, callback: Function, year?, week?){
     if (topScope == "finance") {
@@ -148,10 +226,9 @@ export class SchedulesService {
     }
     else if (topScope == "basketball") {
       //(scope, profile, eventStatus, limit, pageNum, id?)
-      this.getBoxSchedule(scope, 'league', eventStatus, limit, pageNum)
+      this.getBasketballSchedule(scope, 'league', eventStatus, limit, pageNum)
       .subscribe( data => {
-        var formattedData = this.transformSlideScroll(scope, data.data);
-        callback(formattedData);
+        callback(data);
       })
     }
     else if (topScope == "weather") {

@@ -28,7 +28,8 @@ import { SearchBoxModule } from "../fe-core/modules/search-box-module/search-box
 import { WidgetModule } from "../fe-core/modules/widget/widget.module";
 import { WidgetCarouselModule } from "../fe-core/modules/widget/widget-carousel.module";
 import { SidekickWrapperAI } from "../fe-core/components/sidekick-wrapper-ai/sidekick-wrapper-ai.component";
-import {Larousel} from '../fe-core/components/larousel/larousel';
+import { Larousel } from '../fe-core/components/larousel/larousel';
+import { NewsBox } from '../fe-core/components/news-box/news-box';
 
 //Pipes
 import {SanitizeScript, SanitizeHtml, SanitizeRUrl, SanitizeStyle} from "../fe-core/pipes/safe.pipe";
@@ -64,7 +65,8 @@ import { routing  } from '../app.routing';
       SanitizeStyle,
       SanitizeScript,
       ScrollableContent,
-	    Larousel
+	    Larousel,
+      NewsBox
     ],
     exports: [
       HeaderComponent,
@@ -85,7 +87,8 @@ import { routing  } from '../app.routing';
       SanitizeRUrl,
       SanitizeStyle,
       SanitizeScript,
-      Larousel
+      Larousel,
+      NewsBox
     ],
     providers: [
       VerticalGlobalFunctions,

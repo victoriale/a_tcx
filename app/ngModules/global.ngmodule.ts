@@ -23,18 +23,21 @@ import { CircleButton } from "../fe-core/components/buttons/circle/circle.button
 import { LoadingComponent } from "../fe-core/components/loading/loading.component";
 import { CircleImageData } from "../fe-core/components/images/image-data";
 import { ScrollableContent } from "../fe-core/components/scrollable-content/scrollable-content.component";
-
+import { DropdownComponent } from "../fe-core/components/dropdown/dropdown.component";
 import { SearchBoxModule } from "../fe-core/modules/search-box-module/search-box-module.module";
 import { WidgetModule } from "../fe-core/modules/widget/widget.module";
 import { WidgetCarouselModule } from "../fe-core/modules/widget/widget-carousel.module";
 import { SidekickWrapperAI } from "../fe-core/components/sidekick-wrapper-ai/sidekick-wrapper-ai.component";
-import {Larousel} from '../fe-core/components/larousel/larousel';
+import { Larousel } from '../fe-core/components/larousel/larousel';
+import { NewsBox } from '../fe-core/components/news-box/news-box';
+
 
 //Pipes
 import {SanitizeScript, SanitizeHtml, SanitizeRUrl, SanitizeStyle} from "../fe-core/pipes/safe.pipe";
 
 //router
 import { routing  } from '../app.routing';
+
 
 @NgModule({
     imports: [
@@ -64,7 +67,10 @@ import { routing  } from '../app.routing';
       SanitizeStyle,
       SanitizeScript,
       ScrollableContent,
-	    Larousel
+      DropdownComponent,
+	    Larousel,
+      NewsBox
+
     ],
     exports: [
       HeaderComponent,
@@ -85,7 +91,10 @@ import { routing  } from '../app.routing';
       SanitizeRUrl,
       SanitizeStyle,
       SanitizeScript,
-      Larousel
+      Larousel,
+      DropdownComponent,
+      Search,
+      NewsBox
     ],
     providers: [
       VerticalGlobalFunctions,

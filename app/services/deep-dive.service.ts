@@ -58,32 +58,6 @@ export class DeepDiveService {
     })
   }
 
-  getDeepDiveAiBatchService(scope, key?, page?, count?, state?){
-    //Configure HTTP Headers
-    var callURL = 'http://dev-touchdownloyal-ai.synapsys.us/';
-    var headers = this.setToken();
-    if(scope == null){
-      scope = 'nfl';
-    }
-    if(key == null){
-      key == "postgame-report";
-    }
-    callURL += 'articles?articleType=' + key + '&affiliation=' + scope;
-    if(page == null || count == null){
-      page = 1;
-      count = 1;
-    }
-    if(state == null){
-      state = 'CA';
-    }
-    callURL += '&page=' + page + '&count=' + count + '&state=' + state + '&isUnix=1';
-    return this.http.get(callURL, {headers: headers})
-      .map(res => res.json())
-      .map(data => {
-        return data;
-      })
-  }
-
   getCarouselData(scope, data, limit, batch, state, callback:Function) {
     //always returns the first batch of articles
        this.getDeepDiveBatchService(scope, limit, batch, state)
@@ -91,92 +65,91 @@ export class DeepDiveService {
          var transformedData = this.carouselTransformData(data.data);
          callback(transformedData);
        })
-
    }
 
- carouselTransformData(arrayData){
-      var transformData = [];
-      arrayData.forEach(function(val,index){
-        var curdate = new Date();
-        var curmonthdate = curdate.getDate();
-        var date = moment(Number(val.publishedDate));
-        date = GlobalFunctions.formatAPMonth(date.month()) + date.format(' Do, YYYY') + date.format('hh:mm A') + ' ET';
-        let carData = {
-          image_url: GlobalSettings.getImageUrl(val['imagePath']),
-          title:  "<span> Today's News </span>" + val['title'],
-          keyword: val['keyword'],
-          teaser: val['teaser'].substr(0,200).replace('_',': ').replace(/<p[^>]*>/g, ""),
-          id:val['id'],
-          articlelink: ['/'],
-          date: date,
-        };
-        transformData.push(carData);
-      });
+   carouselTransformData(arrayData){
+        var transformData = [];
+        arrayData.forEach(function(val,index){
+          var curdate = new Date();
+          var curmonthdate = curdate.getDate();
+          var date = moment(Number(val.publishedDate));
+          date = GlobalFunctions.formatAPMonth(date.month()) + date.format(' Do, YYYY') + date.format('hh:mm A') + ' ET';
+          let carData = {
+            image_url: GlobalSettings.getImageUrl(val['imagePath']),
+            title:  "<span> Today's News </span>" + val['title'],
+            keyword: val['keyword'],
+            teaser: val['teaser'].substr(0,200).replace('_',': ').replace(/<p[^>]*>/g, ""),
+            id:val['id'],
+            articlelink: ['/'],
+            date: date,
+          };
+          transformData.push(carData);
+        });
 
-      return transformData;
-  }
-
-  getDeepDiveVideoBatchService(category: string, limit: number, page: number, location?: string){//TODO
-    var headers = this.setToken();
-
-    if(category === null || typeof category == 'undefined'){
-      category = 'fbs';
+        return transformData;
     }
-    if(limit === null || typeof limit == 'undefined'){
-      limit = 5;
-      page = 1;
-    }
-    var callURL = this._footballAPI + 'videoBatch/' + category + '/' + limit + '/' + page;
-    return this.http.get(callURL, {headers: headers})
-      .map(res => res.json())
-      .map(data => {
-        return data;
-    })
-  }// getDeepDiveVideoBatchService ENDS
 
-  transformDeepDiveVideoBatchData(data: Array<VideoStackData>){
-    var sampleImage = "/app/public/placeholder_XL.png";
-    var videoBatchArray = [];
-    data.forEach(function(val, index){
-      var date =  moment(Number(val.timeStamp));
-      date = GlobalFunctions.formatAPMonth(date.month()) + date.format(' Do, YYYY');
-      var d = {
-        id: val.id,
-        keyword: val.keyword ? val.keyword : "", //TODO maybe return the page category when available
-        title: val.title ? val.title : "No Title",
-        timeStamp: date,
-        videoThumbnail: val.videoThumbnail ? val.videoThumbnail : sampleImage,
-        videoUrl: ['/deep-dive']
+    getDeepDiveVideoBatchService(category: string, limit: number, page: number, location?: string){//TODO
+      var headers = this.setToken();
+
+      if(category === null || typeof category == 'undefined'){
+        category = 'fbs';
       }
-      videoBatchArray.push(d);
-    });
-    return videoBatchArray;
-  }// transformDeepDiveVideoBatchData ENDS
+      if(limit === null || typeof limit == 'undefined'){
+        limit = 5;
+        page = 1;
+      }
+      var callURL = this._footballAPI + 'videoBatch/' + category + '/' + limit + '/' + page;
+      return this.http.get(callURL, {headers: headers})
+        .map(res => res.json())
+        .map(data => {
+          return data;
+      })
+    }// getDeepDiveVideoBatchService ENDS
 
-  // Top Article of Article Stacks
-  transformToArticleStack(data: Array<ArticleStackData>){
-    var sampleImage = "/app/public/placeholder_XL.png";
-    // var topData = data.data[0];
-    var articleStackArray = [];
-    data.forEach(function(val, index){
-      var articleStackData = {
-          id: "1",
-          articleUrl: '/deep-dive',
-          keyword: "Keyword",
-          timeStamp: "Sept. 28th 2016",
-          title: "Title here",
-          author: "Author",
-          publisher: ", Publisher",
-          teaser: "Teaser here",
-          imageConfig: {
-            imageClass: "embed-responsive-16by9",
-            imageUrl: sampleImage,
-            urlRouteArray: '/deep-dive'
-          }
+    transformDeepDiveVideoBatchData(data: Array<VideoStackData>){
+      var sampleImage = "/app/public/placeholder_XL.png";
+      var videoBatchArray = [];
+      data.forEach(function(val, index){
+        var date =  moment(Number(val.timeStamp));
+        date = GlobalFunctions.formatAPMonth(date.month()) + date.format(' Do, YYYY');
+        var d = {
+          id: val.id,
+          keyword: val.keyword ? val.keyword : "", //TODO maybe return the page category when available
+          title: val.title ? val.title : "No Title",
+          timeStamp: date,
+          videoThumbnail: val.videoThumbnail ? val.videoThumbnail : sampleImage,
+          videoUrl: ['/deep-dive']
         }
-        articleStackArray.push(articleStackData);
+        videoBatchArray.push(d);
       });
-    return articleStackArray;
-  }// transformToArticleStack ENDS
+      return videoBatchArray;
+    }// transformDeepDiveVideoBatchData ENDS
+
+    // Top Article of Article Stacks
+    transformToArticleStack(data: Array<ArticleStackData>){
+      var sampleImage = "/app/public/placeholder_XL.png";
+      // var topData = data.data[0];
+      var articleStackArray = [];
+      data.forEach(function(val, index){
+        var articleStackData = {
+            id: "1",
+            articleUrl: '/deep-dive',
+            keyword: "Keyword",
+            timeStamp: "Sept. 28th 2016",
+            title: "Title here",
+            author: "Author",
+            publisher: ", Publisher",
+            teaser: "Teaser here",
+            imageConfig: {
+              imageClass: "embed-responsive-16by9",
+              imageUrl: sampleImage,
+              urlRouteArray: '/deep-dive'
+            }
+          }
+          articleStackArray.push(articleStackData);
+        });
+      return articleStackArray;
+    }// transformToArticleStack ENDS
 
 }// DeepDiveService ENDS

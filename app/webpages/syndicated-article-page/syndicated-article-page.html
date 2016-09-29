@@ -19,7 +19,7 @@
             <div class="syndicated-articles-page_leftPane">
             <span>
                 <div class="carousel-container" *ngIf="articleType == 'story'">
-                  <images-media-carousel [imageData]="imageData" [copyright]="copyright"
+                  <images-media-carousel *ngIf="isStockPhoto" [imageData]="imageData" [copyright]="copyright"
                                          [imageTitle]="imageTitle"></images-media-carousel>
                 </div>
             </span>

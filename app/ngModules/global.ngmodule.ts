@@ -68,7 +68,7 @@ import { routing  } from '../app.routing';
       SanitizeScript,
       ScrollableContent,
       DropdownComponent,
-	    Larousel,
+      Larousel,
       NewsBox
 
     ],

@@ -1,9 +1,7 @@
 <section class="deep-dive-page container-fluid">
   <!-- Place Top Carousel Here in deep-dive-container-1, it should always take full width -->
   <section class="deep-dive-container1">
-     	<div [ngStyle]="{'width':'100%', 'height': 'auto'}" class="carWrapper">
-	     <news-box *ngIf="carouselData" [carData]="carouselData"></news-box>
-	   </div>
+     <news-box *ngIf="carouselData" [carData]="carouselData"></news-box>
    </section><!-- deep-dive-container1 ends -->
    <!-- Place modules and deep dive blocks in deep-dive-container 2 -->
    <section class="deep-dive-container2">

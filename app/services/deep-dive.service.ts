@@ -76,7 +76,8 @@ export class DeepDiveService {
           date = GlobalFunctions.formatAPMonth(date.month()) + date.format(' Do, YYYY') + date.format('hh:mm A') + ' ET';
           let carData = {
             image_url: GlobalSettings.getImageUrl(val['imagePath']),
-            title:  "<span> Today's News </span>" + val['title'],
+            title:  "<span> Today's News </span>",
+            headline: val['title'],
             keyword: val['keyword'],
             teaser: val['teaser'].substr(0,200).replace('_',': ').replace(/<p[^>]*>/g, ""),
             id:val['id'],

@@ -159,6 +159,7 @@ export class DeepDiveService {
         var articleStackData = {
             id: "1",
             articleUrl: '/deep-dive',
+            keyUrl: '/deep-dive',
             keyword: "Keyword",
             timeStamp: "Sept. 28th 2016",
             title: "Title here",

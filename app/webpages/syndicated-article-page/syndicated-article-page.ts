@@ -27,6 +27,7 @@ export class SyndicatedArticlePage{
     public imageTitle: Array<string>;
     public copyright: Array<string>;
     @Input() scope: string;
+    isStockPhoto:boolean=true;
     iframeUrl: any;
     constructor(
 

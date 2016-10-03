@@ -78,15 +78,9 @@ import { routing  } from '../app.routing';
       SanitizeScript,
       ScrollableContent,
       DropdownComponent,
-<<<<<<< HEAD
 	    Larousel,
       NewsBox,
       SectionNameComponent
-=======
-      Larousel,
-      NewsBox
->>>>>>> origin/develop
-
     ],
     exports: [
       HeaderComponent,

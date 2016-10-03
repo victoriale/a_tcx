@@ -21,6 +21,27 @@ export class DeepDiveService {
       return headers;
   }
 
+  setSectionFrontAPI(category){
+    switch(category){
+      case 'nfl':
+      break;
+      case 'ncaaf':
+      break;
+      case 'mlb':
+      break;
+      case 'nba':
+      break;
+      case 'ncaam':
+      break;
+      case 'finance':
+      break;
+      case 'realestate':
+      break;
+      case 'weather':
+      break;
+    }
+  }
+
   getDeepDiveArticleService(articleID){
   //Configure HTTP Headers
   var headers = this.setToken();

@@ -16,6 +16,12 @@ declare var moment;
 export interface boxScoresInterface {
   currentScope: string; //league
   aiContent?: any;
+  previousGameDate: {
+    event_date: string;
+  };
+  nextGameDate: {
+    event_date: string;
+  };
   data: Array<{gameDayInfoInterface}>
 } // end boxscores interface
 
@@ -122,7 +128,7 @@ export class BoxScoresService {
     // console.log('3. box-scores.service - getBoxScoresService - chosenDate ', chosenDate);
 
     var callURL = this._apiUrl+'/boxScores/league/'+scope+'/'+date+'/addAi';
-    // console.log('getBoxScoresService - callURL - ',callURL);
+    console.log('getBoxScoresService - callURL - ',callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {

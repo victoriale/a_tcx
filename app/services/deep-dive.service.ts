@@ -67,13 +67,12 @@ export class DeepDiveService {
        })
    }
 
-   carouselTransformData(arrayData){
+   carouselTransformData(arrayData:Array<ArticleStackData>){
         var transformData = [];
         arrayData.forEach(function(val,index){
           var curdate = new Date();
           var curmonthdate = curdate.getDate();
-          var date = moment(Number(val.publishedDate));
-          date = GlobalFunctions.formatAPMonth(date.month()) + date.format(' Do, YYYY') + date.format('hh:mm A') + ' ET';
+          var timeStamp = moment(Number(val.publishedDate)).format("MMMM Do, YYYY h:mm:ss a");
           let carData = {
             image_url: GlobalSettings.getImageUrl(val['imagePath']),
             title:  "<span> Today's News: </span>",
@@ -82,7 +81,7 @@ export class DeepDiveService {
             teaser: val['teaser'].replace('_',': ').replace(/<p[^>]*>/g, ""),
             id:val['id'],
             articlelink: ['/'],
-            date: date,
+            timeStamp: timeStamp,
           };
           if(carData['teaser'].length >= 200){
             carData['teaser'].substr(0,200) + '...';

@@ -31,7 +31,7 @@ export class Scroller{
     }
 
     // Setup Scroller
-    this.scrollbarHeightRatio = 0.90;
+    this.scrollbarHeightRatio = 0.98;
     this.scrollbarBaseHeight = scrollContainer.offsetHeight * this.scrollbarHeightRatio;
     this.contentRatio = scrollContainer.offsetHeight / this.scrollContentWrapper.scrollHeight;
     this.scrollerHeight = this.contentRatio * this.scrollbarBaseHeight;

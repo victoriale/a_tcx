@@ -32,6 +32,7 @@ export class DeepDivePage implements OnInit {
     callCount: number = 1;
     callLimit:number = 25;
     scopeList: Array<string>;
+    currentCategory:string;
 
     blockIndex: number = 1;
 
@@ -57,9 +58,10 @@ export class DeepDivePage implements OnInit {
 
     ngOnInit() {
       this.routeSubscription = this._activatedRoute.params.subscribe(
-          (params) => {
+          (param:any) => {
+              this.currentCategory= param['category'];
             console.log('Partner:',GlobalSettings.getPartnerId());
-            console.log('sectionFront parameters:',params);
+            console.log('sectionFront parameters:',param);
           }
       );
 

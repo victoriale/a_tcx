@@ -9,6 +9,7 @@ import { VerticalGlobalFunctions } from "../global/vertical-global-functions";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { GlobalSettings } from "../global/global-settings";
 import { GlobalFunctions } from "../global/global-functions";
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 //components
 import { HeaderComponent } from "../fe-core/components/header/header.component";
 import { Search } from "../fe-core/components/search/search.component";
@@ -44,6 +45,8 @@ import { routing  } from '../app.routing';
       CommonModule,
       HttpModule,
       routing,
+      FormsModule,
+      ReactiveFormsModule
     ],
     declarations: [
       AppComponent,

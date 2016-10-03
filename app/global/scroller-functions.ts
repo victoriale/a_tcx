@@ -53,6 +53,7 @@ export class Scroller{
     }
 
     this.scrollerElement.className = 'scrollable-item-scroller';
+    this.scrollerElement.classList.add('menucheck');
 
     if (this.contentRatio < 1) {
         this.scrollerElement.style.height = this.scrollerHeight + 'px';

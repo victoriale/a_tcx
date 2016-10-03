@@ -122,7 +122,8 @@ export class DeepDiveService {
           title: val.title ? val.title : "No Title",
           timeStamp: date,
           videoThumbnail: val.videoThumbnail ? val.videoThumbnail : sampleImage,
-          videoUrl: ['/deep-dive']
+          videoUrl: ['/deep-dive'],
+          keyUrl: ['/deep-dive']
         }
         videoBatchArray.push(d);
       });

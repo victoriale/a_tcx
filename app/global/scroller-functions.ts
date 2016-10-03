@@ -31,7 +31,7 @@ export class Scroller{
     }
 
     // Setup Scroller
-    this.scrollbarHeightRatio = 0.90;
+    this.scrollbarHeightRatio = 0.98;
     this.scrollbarBaseHeight = scrollContainer.offsetHeight * this.scrollbarHeightRatio;
     this.contentRatio = scrollContainer.offsetHeight / this.scrollContentWrapper.scrollHeight;
     this.scrollerHeight = this.contentRatio * this.scrollbarBaseHeight;
@@ -53,6 +53,7 @@ export class Scroller{
     }
 
     this.scrollerElement.className = 'scrollable-item-scroller';
+    this.scrollerElement.classList.add('menucheck');
 
     if (this.contentRatio < 1) {
         this.scrollerElement.style.height = this.scrollerHeight + 'px';

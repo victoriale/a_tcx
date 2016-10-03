@@ -1,5 +1,5 @@
 import { ModuleWithProviders }  from '@angular/core';
-import { Routes, RouterModule, ActivatedRoute } from '@angular/router';
+import { Routes, RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { AppComponent }  from './app-component/app.component';
 
 import {DeepDiveNgModule} from "./ngModules/deep-dive.ngmodule";

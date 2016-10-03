@@ -9,7 +9,12 @@ import { VerticalGlobalFunctions } from "../global/vertical-global-functions";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { GlobalSettings } from "../global/global-settings";
 import { GlobalFunctions } from "../global/global-functions";
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 /*** COMPONENTS ***/
+import { HeaderComponent } from "../fe-core/components/header/header.component";
+import { Search } from "../fe-core/components/search/search.component";
+import { HamburgerMenuComponent, MenuData } from '../fe-core/components/hamburger-menu/hamburger-menu.component';
+import { RectangleImage } from "../fe-core/components/images/rectangle-image/rectangle-image";
 import { CircleImage } from "../fe-core/components/images/circle-image/circle-image";
 import { RectangleImage } from "../fe-core/components/images/rectangle-image/rectangle-image";
 import { HoverImage } from "../fe-core/components/images/hover-image";
@@ -47,6 +52,8 @@ import { routing  } from '../app.routing';
       CommonModule,
       HttpModule,
       routing,
+      FormsModule,
+      ReactiveFormsModule
     ],
     declarations: [
       AppComponent,
@@ -71,9 +78,14 @@ import { routing  } from '../app.routing';
       SanitizeScript,
       ScrollableContent,
       DropdownComponent,
+<<<<<<< HEAD
 	    Larousel,
       NewsBox,
       SectionNameComponent
+=======
+      Larousel,
+      NewsBox
+>>>>>>> origin/develop
 
     ],
     exports: [

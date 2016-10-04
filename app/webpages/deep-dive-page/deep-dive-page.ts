@@ -16,7 +16,7 @@ declare var jQuery: any;
 export class DeepDivePage implements OnInit {
     title = "Everything that is deep dive will go in this page. Please Change according to your requirement";
     test: any = "testing";
-
+    scope: string;
     carouselData: any;
 
     //side scroller
@@ -55,6 +55,7 @@ export class DeepDivePage implements OnInit {
     }
 
     ngOnInit() {
+      this.scope = this.changeScopeVar ? this.changeScopeVar : this.topScope;
       this.routeSubscription = this._activatedRoute.params.subscribe(
           (params) => {
             console.log('Partner:',GlobalSettings.getPartnerId());

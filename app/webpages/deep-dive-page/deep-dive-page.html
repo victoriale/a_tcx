@@ -10,7 +10,6 @@
        <div class="deep-dive-module">
          <side-scroll-schedules *ngIf="sideScrollData" [sideScrollData]="sideScrollData" [scopeList]="scopeList" (count)="scrollCheck($event)" [scrollLength]="scrollLength" [topScope]="topScope" [scope]="changeScopeVar" (changeScope)="changeScope($event)"></side-scroll-schedules>
        </div>
-       <section-name-component></section-name-component>
        <!-- Deep dive blocks -->
        <deep-dive-block-1 [scope]="scope"></deep-dive-block-1>
 

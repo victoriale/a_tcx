@@ -23,6 +23,7 @@ import { CircleButton } from "../fe-core/components/buttons/circle/circle.button
 
 import { ModuleHeader } from "../fe-core/components/module-header/module-header.component";
 import { FooterComponent } from "../fe-core/components/footer/footer.component";
+import { ArticleBlockComponent } from "../fe-core/components/article-block/article-block.component";
 import { DropdownComponent } from "../fe-core/components/dropdown/dropdown.component";
 import { LoadingComponent } from "../fe-core/components/loading/loading.component";
 import { ScrollableContent } from "../fe-core/components/scrollable-content/scrollable-content.component";
@@ -34,6 +35,7 @@ import { NewsBox } from '../fe-core/components/news-box/news-box';
 import { WidgetCarouselModule } from "../fe-core/modules/widget/widget-carousel.module";
 import { WidgetModule } from "../fe-core/modules/widget/widget.module";
 import { SearchBoxModule } from "../fe-core/modules/search-box-module/search-box-module.module";
+import { DeepDiveRecommendation } from "../fe-core/modules/deep-dive-recommendation/deep-dive-recommendation.module";
 
 
 //Pipes
@@ -76,7 +78,9 @@ import { routing  } from '../app.routing';
       DropdownComponent,
 	    Larousel,
       NewsBox,
-      SectionNameComponent
+      SectionNameComponent,
+      ArticleBlockComponent,
+      DeepDiveRecommendation
     ],
     exports: [
       HeaderComponent,
@@ -101,7 +105,9 @@ import { routing  } from '../app.routing';
       DropdownComponent,
       Search,
       NewsBox,
-      SectionNameComponent
+      SectionNameComponent,
+      ArticleBlockComponent,
+      DeepDiveRecommendation
     ],
     providers: [
       VerticalGlobalFunctions,

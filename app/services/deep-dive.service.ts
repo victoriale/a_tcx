@@ -77,7 +77,6 @@ export class DeepDiveService {
         page = 1;
       }
       callURL += '/videoBatch/' + category + '/' + limit + '/' + page;
-      console.log("callURL", callURL);
       return this.http.get(callURL, {headers: headers})
         .map(res => res.json())
         .map(data => {

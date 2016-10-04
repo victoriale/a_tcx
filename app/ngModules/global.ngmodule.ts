@@ -12,6 +12,7 @@ import { GlobalFunctions } from "../global/global-functions";
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 /*** COMPONENTS ***/
 import { HeaderComponent } from "../fe-core/components/header/header.component";
+import { SectionNameComponent } from "../fe-core/components/section-name/section-name.component";
 import { Search } from "../fe-core/components/search/search.component";
 import { HamburgerMenuComponent, MenuData } from '../fe-core/components/hamburger-menu/hamburger-menu.component';
 import { RectangleImage } from "../fe-core/components/images/rectangle-image/rectangle-image";
@@ -24,7 +25,6 @@ import { ModuleHeader } from "../fe-core/components/module-header/module-header.
 import { FooterComponent } from "../fe-core/components/footer/footer.component";
 import { DropdownComponent } from "../fe-core/components/dropdown/dropdown.component";
 import { LoadingComponent } from "../fe-core/components/loading/loading.component";
-import { SectionNameComponent } from "../fe-core/components/section-name/section-name.component";
 import { ScrollableContent } from "../fe-core/components/scrollable-content/scrollable-content.component";
 import { SidekickWrapperAI } from "../fe-core/components/sidekick-wrapper-ai/sidekick-wrapper-ai.component";
 import { Larousel } from '../fe-core/components/larousel/larousel';

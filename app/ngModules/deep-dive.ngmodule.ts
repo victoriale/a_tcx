@@ -19,7 +19,8 @@ import { DeepDiveBlock1 } from '../fe-core/modules/deep-dive-blocks/deep-dive-bl
 import { DeepDivePage } from "../webpages/deep-dive-page/deep-dive-page";
 import { StackRowsComponent } from '../fe-core/components/stack-rows/stack-rows.component';
 import { ArticleStacktopComponent } from '../fe-core/components/article-stacktop/article-stacktop.component';
-import { ArticleStackModule } from '../fe-core/modules/article-stack/article-stack.module';
+import { ArticleStack1Module } from '../fe-core/modules/article-stack-style-1/article-stack.module';
+import { ArticleStack2Module } from '../fe-core/modules/article-stack-style-2/article-stack.module';
 import { DeepDiveVideoModule } from '../fe-core/modules/video-deep-dive/video-deep-dive.module';
 import { VideoStackComponent } from '../fe-core/components/video-stack/video-stack.component';
 
@@ -47,7 +48,8 @@ import { StatHyphenValuePipe } from '../fe-core/pipes/stat-hyphen.pipe';
       SideScroll,
       StackRowsComponent,
       ArticleStacktopComponent,
-      ArticleStackModule,
+      ArticleStack1Module,
+      ArticleStack2Module,
       VideoStackComponent,
       BoxScoresModule,
       StatHyphenValuePipe,
@@ -63,7 +65,8 @@ import { StatHyphenValuePipe } from '../fe-core/pipes/stat-hyphen.pipe';
       DeepDivePage,
       StackRowsComponent,
       ArticleStacktopComponent,
-      ArticleStackModule,
+      ArticleStack1Module,
+      ArticleStack2Module,
       VideoStackComponent,
       DeepDiveVideoModule,
       DeepDiveBlock1

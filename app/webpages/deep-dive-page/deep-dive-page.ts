@@ -1,4 +1,3 @@
-
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import { BoxScoresService } from '../../services/box-scores.service';
 import { SchedulesService } from '../../services/schedules.service';
@@ -15,9 +14,9 @@ declare var jQuery: any;
 })
 
 export class DeepDivePage implements OnInit {
-    title="Everything that is deep dive will go in this page. Please Change according to your requirement";
+    title = "Everything that is deep dive will go in this page. Please Change according to your requirement";
     test: any = "testing";
-
+    scope: string;
     carouselData: any;
 
     //side scroller
@@ -30,15 +29,16 @@ export class DeepDivePage implements OnInit {
     safeCall: boolean = true;
     ssMax: number;
     callCount: number = 1;
-    callLimit:number = 25;
+    callLimit: number = 25;
     scopeList: Array<string>;
+    currentCategory:string;
 
     blockIndex: number = 1;
 
     //Box Scores
-    boxScoresData:any;
-    currentBoxScores:any;
-    dateParam:any;
+    boxScoresData: any;
+    currentBoxScores: any;
+    dateParam: any;
 
     //Used for route subscription and unsubscribing when view is destroyed (double check since angular2 does it for you)
     routeSubscription:any;
@@ -56,10 +56,12 @@ export class DeepDivePage implements OnInit {
     }
 
     ngOnInit() {
+      this.scope = this.changeScopeVar ? this.changeScopeVar : this.topScope;
       this.routeSubscription = this._activatedRoute.params.subscribe(
-          (params) => {
+          (param:any) => {
+              this.currentCategory= param['category'];
             console.log('Partner:',GlobalSettings.getPartnerId());
-            console.log('sectionFront parameters:',params);
+            console.log('sectionFront parameters:',param);
           }
       );
 

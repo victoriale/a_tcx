@@ -33,6 +33,10 @@ export class GlobalSettings {
     private static _estYear: string = " 2016";
     private static _copyrightInfo: string = "USA Today Sports Images";
 
+    private static _tdlAPI: string = '-touchdownloyal-api.synapsys.us/tcx';
+    private static _hrlAPI: string = '-homerunloyal-api.synapsys.us/tcx';
+    private static _tcxAPI: string = '-tcxmedia-api.synapsys.us/tcx';
+
     static getEnv(env:string):string {
       if (env == "localhost"){
           env = "dev";
@@ -49,6 +53,31 @@ export class GlobalSettings {
       }else{
         return false;
       }
+    }
+
+    static getCategoryAPI(category:string):string{
+      var _apiURL;
+      switch(category){
+        //FOOTBALL
+        case 'nfl':
+        case 'ncaaf':
+          _apiURL = this._proto + "//" + this.getEnv(this._env) + this._tdlAPI;
+          break;
+        //BASKETBALL
+        case 'nba':
+        case 'ncaab':
+          _apiURL = this._proto + "//" + this.getEnv(this._env) + this._tcxAPI;
+          break;
+        //BASEBALL
+        case 'mlb':
+          _apiURL = this._proto + "//" + this.getEnv(this._env) + this._hrlAPI;
+          break;
+        //OTHERS
+        default:
+          _apiURL = this._proto + "//" + this.getEnv(this._env) + this._tcxAPI;
+          break;
+      }
+      return _apiURL;
     }
 
     static storePartnerId(partnerId) {

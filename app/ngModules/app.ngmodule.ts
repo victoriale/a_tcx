@@ -11,6 +11,7 @@ import { DeepDiveNgModule } from "./deep-dive.ngmodule";
 import { SyndicatedArticleNgModule } from "./syndicated-article.ngmodule";
 import {HttpModule, Headers, Http} from "@angular/http";
 import {SearchPageNgModule} from "./search-page.ngmodule";
+import {SearchService} from "../services/search.service";
 
 @NgModule({
   imports: [
@@ -25,7 +26,7 @@ import {SearchPageNgModule} from "./search-page.ngmodule";
   declarations: [
     AppDomain
   ],
-  providers: [HttpModule],
+  providers: [HttpModule, SearchService],
   bootstrap: [ AppDomain ]
 })
 export class AppModule { }

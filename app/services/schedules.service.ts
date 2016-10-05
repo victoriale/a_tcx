@@ -115,7 +115,7 @@ export class SchedulesService {
             data.data[scope][n].logoUrl = "http://images.investkit.com/images/" + data.data[scope][n].logoUrl;
           }
           data.data[scope][n].imageConfig = {
-            imageClass: "image-44",
+            imageClass: "image-70",
             mainImage: {
               url: data.data[scope][n].profileUrl,
               imageUrl: data.data[scope][n].logoUrl,
@@ -184,7 +184,7 @@ export class SchedulesService {
             data.data.data[n].logoUrlHome = "http://prod-sports-images.synapsys.us/" + data.data.data[n].logoUrlHome;
           }
           data.data.data[n].awayImageConfig = {
-            imageClass: "image-44",
+            imageClass: "image-70",
             mainImage: {
               url: data.data.data[n].awayProfileUrl,
               imageUrl: data.data.data[n].logoUrlAway,
@@ -193,7 +193,7 @@ export class SchedulesService {
           }
           };
           data.data.data[n].homeImageConfig = {
-            imageClass: "image-44",
+            imageClass: "image-70",
             mainImage: {
               url: data.data.data[n].homeProfileUrl,
               imageUrl: data.data.data[n].logoUrlHome,
@@ -281,7 +281,7 @@ export class SchedulesService {
       newData = {
         date: date + " &bull; " + time,
         awayImageConfig: {
-          imageClass: "image-44",
+          imageClass: "image-70",
           mainImage: {
             url: "http://touchdownloyal.com/" + scope + "/team/" + val.team1FullName + "/" + val.team1Id,
             imageUrl: GlobalSettings.getImageUrl(val.team1Logo),
@@ -290,7 +290,7 @@ export class SchedulesService {
           }
         },
         homeImageConfig: {
-          imageClass: "image-44",
+          imageClass: "image-70",
           mainImage: {
             url: "http://touchdownloyal.com/" + scope + "/team/" + val.team2FullName + "/" + val.team2Id,
             imageUrl: GlobalSettings.getImageUrl(val.team2Logo),

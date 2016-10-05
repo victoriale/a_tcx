@@ -8,8 +8,12 @@ import {SyndicatedArticlePage} from "./webpages/syndicated-article-page/syndicat
 import {SearchPage} from "./webpages/search-page/search-page";
 
 const relativeChildRoutes = [
-    {
+   /* {
         path:'search/:userInput',
+        component: SearchPage
+    },*/
+    {
+        path:'search/articles/:userInput',
         component: SearchPage
     },
     {

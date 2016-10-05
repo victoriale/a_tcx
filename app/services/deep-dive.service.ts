@@ -12,7 +12,6 @@ declare var moment;
 export class DeepDiveService {
   private _baseballAPI: string = "http://dev-homerunloyal-api.synapsys.us/tcx/";
   private _footballAPI: string = "http://dev-touchdownloyal-api.synapsys.us/tcx/";
-
   constructor(public http: Http){}
 
   //Function to set custom headers
@@ -24,7 +23,7 @@ export class DeepDiveService {
   getDeepDiveArticleService(articleID){
   //Configure HTTP Headers
   var headers = this.setToken();
-  var callURL = this._footballAPI + '/article/' + articleID;
+  var callURL = this._footballAPI + '/article/' + articleID;//TODO
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
@@ -67,34 +66,9 @@ export class DeepDiveService {
        })
    }
 
-   carouselTransformData(arrayData:Array<ArticleStackData>){
-        var transformData = [];
-        arrayData.forEach(function(val,index){
-          var curdate = new Date();
-          var curmonthdate = curdate.getDate();
-          var timeStamp = moment(Number(val.publishedDate)).format("MMMM Do, YYYY h:mm:ss a");
-          let carData = {
-            image_url: GlobalSettings.getImageUrl(val['imagePath']),
-            title:  "<span> Today's News: </span>",
-            headline: val['title'],
-            keyword: val['keyword'],
-            teaser: val['teaser'].replace('_',': ').replace(/<p[^>]*>/g, ""),
-            id:val['id'],
-            articlelink: ['/'],
-            timeStamp: timeStamp,
-          };
-          if(carData['teaser'].length >= 200){
-            carData['teaser'].substr(0,200) + '...';
-          }
-          transformData.push(carData);
-        });
-
-        return transformData;
-    }
-
-    getDeepDiveVideoBatchService(category: string, limit: number, page: number, location?: string){//TODO
+    getDeepDiveVideoBatchService(category: string, limit: number, page: number, location?: string){
       var headers = this.setToken();
-
+      var callURL = GlobalSettings.getCategoryAPI(category);
       if(category === null || typeof category == 'undefined'){
         category = 'fbs';
       }
@@ -102,7 +76,7 @@ export class DeepDiveService {
         limit = 5;
         page = 1;
       }
-      var callURL = this._footballAPI + 'videoBatch/' + category + '/' + limit + '/' + page;
+      callURL += '/videoBatch/' + category + '/' + limit + '/' + page;
       return this.http.get(callURL, {headers: headers})
         .map(res => res.json())
         .map(data => {
@@ -122,7 +96,8 @@ export class DeepDiveService {
           title: val.title ? val.title : "No Title",
           timeStamp: date,
           videoThumbnail: val.videoThumbnail ? val.videoThumbnail : sampleImage,
-          videoUrl: ['/deep-dive']
+          videoUrl: ['/deep-dive'],
+          keyUrl: ['/deep-dive']
         }
         videoBatchArray.push(d);
       });
@@ -155,5 +130,30 @@ export class DeepDiveService {
         });
       return articleStackArray;
     }// transformToArticleStack ENDS
+
+     carouselTransformData(arrayData:Array<ArticleStackData>){
+          var transformData = [];
+          arrayData.forEach(function(val,index){
+            var curdate = new Date();
+            var curmonthdate = curdate.getDate();
+            var timeStamp = moment(Number(val.publishedDate)).format("MMMM Do, YYYY h:mm:ss a");
+            let carData = {
+              image_url: GlobalSettings.getImageUrl(val['imagePath']),
+              title:  "<span> Today's News: </span>",
+              headline: val['title'],
+              keyword: val['keyword'],
+              teaser: val['teaser'].replace('_',': ').replace(/<p[^>]*>/g, ""),
+              id:val['id'],
+              articlelink: ['/'],
+              timeStamp: timeStamp,
+            };
+            if(carData['teaser'].length >= 200){
+              carData['teaser'].substr(0,200) + '...';
+            }
+            transformData.push(carData);
+          });
+
+          return transformData;
+      }
 
 }// DeepDiveService ENDS

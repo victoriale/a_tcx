@@ -29,12 +29,13 @@ export class SyndicatedArticlePage{
     @Input() scope: string;
     isStockPhoto:boolean=true;
     iframeUrl: any;
+    paramsub;
     constructor(
 
         private _synservice:SyndicateArticleService, private GlobalSetting:GlobalSettings, private activateRoute:ActivatedRoute, private GlobalFunctions:GlobalFunctions
 
     ){
-        activateRoute.params.subscribe(
+        this.paramsub=activateRoute.params.subscribe(
             (param :any)=> {this.articleID= param['articleID'], this.articleType= param['articleType']}
 
         );
@@ -103,6 +104,9 @@ export class SyndicatedArticlePage{
                 this.iframeUrl = this.articleData.videoLink + "&autoplay=on";
             }
         )
+    }
+    ngOnDestroy(){
+        this.paramsub.unsubscribe();
     }
 
     /*getGeoLocation() {

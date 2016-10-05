@@ -24,7 +24,7 @@ export class DeepDivePage implements OnInit {
     scrollLength: number = 0;
     boxScoresTempVar: string = "nfl";
 
-    topScope: string = "sports";
+    topScope: string = "weather";
     changeScopeVar: string = "nfl";
     safeCall: boolean = true;
     ssMax: number;

@@ -23,7 +23,7 @@ const relativeChildRoutes = [
         component: SyndicatedArticlePage,
     },
     {
-        //added article category
+        //added article category with subarticles
         path: ':category/:articleCategory',
         component: DeepDivePage,
     },
@@ -33,14 +33,10 @@ const relativeChildRoutes = [
         component: DeepDivePage,
     },
     {
-        //category is top level deep dive page that are groupings of other deep dive pages (ex: sports)
         path: '',
         component: DeepDivePage,
     },
-
-
-
-    ]
+  ];
 
 const appRoutes: Routes = [
     {

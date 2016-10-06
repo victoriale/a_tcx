@@ -224,8 +224,7 @@ export class DeepDivePage implements OnInit {
 
               case "weather":
                 this.topScope = "weather";
-                this.changeScopeVar = "nfl"; //TODO: add weather api in properly
-                // this.changeScopeVar = "hourly";
+                this.changeScopeVar = "hourly";
                 break;
 
               case "finance":

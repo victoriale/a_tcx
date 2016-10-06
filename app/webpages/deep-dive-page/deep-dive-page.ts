@@ -22,6 +22,7 @@ export class DeepDivePage implements OnInit {
     //side scroller
     sideScrollData: any;
     scrollLength: number = 0;
+    selectedLocation: string = "wichita-ks";
     boxScoresTempVar: string = "nfl";
 
     topScope: string;
@@ -83,8 +84,7 @@ export class DeepDivePage implements OnInit {
 
               case "weather":
                 this.topScope = "weather";
-                this.changeScopeVar = "nfl"; //TODO: add weather api in properly
-                // this.changeScopeVar = "hourly";
+                this.changeScopeVar = "hourly";
                 break;
 
               case "finance":
@@ -121,14 +121,14 @@ export class DeepDivePage implements OnInit {
       if(this.safeCall && this.topScope != null){
         this.safeCall = false;
         let changeScope = this.changeScopeVar.toLowerCase() == 'ncaaf'?'fbs':this.changeScopeVar.toLowerCase();
-        this._schedulesService.setupSlideScroll(this.topScope, this.sideScrollData, changeScope, 'league', 'pregame', this.callLimit, this.callCount, (sideScrollData) => {
+        this._schedulesService.setupSlideScroll(this.topScope, this.sideScrollData, changeScope, 'league', 'pregame', this.callLimit, this.callCount, this.selectedLocation, (sideScrollData) => {
           if (this.topScope == "finance") {
             this.scopeList = sideScrollData.scopeList.reverse();
               this.sideScrollData = sideScrollData;
               this.scrollLength = this.sideScrollData.blocks.length;
           }
           else if (this.topScope == "weather") {
-            this.scopeList = ["10 Day", "5 Day", "Hourly"];
+            this.scopeList = sideScrollData.scopeList.reverse();
             this.sideScrollData = sideScrollData;
             this.scrollLength = this.sideScrollData.blocks.length;
           }
@@ -190,6 +190,11 @@ export class DeepDivePage implements OnInit {
 
     changeScope($event) {
       this.changeScopeVar = $event;
+      this.getSideScroll();
+    }
+
+    changeLocation($event) {
+      this.selectedLocation = $event;
       this.getSideScroll();
     }
 

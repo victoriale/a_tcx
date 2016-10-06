@@ -8,7 +8,7 @@
      <div class="deep-dive-container2a col-sm-12 col-xl-9">
        <!-- Side Scroller should place inside deep-dive-module -->
        <div class="deep-dive-module">
-         <side-scroll-schedules *ngIf="sideScrollData" [sideScrollData]="sideScrollData" [scopeList]="scopeList" (count)="scrollCheck($event)" [scrollLength]="scrollLength" [topScope]="topScope" [scope]="changeScopeVar" (changeScope)="changeScope($event)"></side-scroll-schedules>
+         <side-scroll-schedules *ngIf="sideScrollData" [sideScrollData]="sideScrollData" [scopeList]="scopeList" (count)="scrollCheck($event)" [scrollLength]="scrollLength" [topScope]="topScope" [scope]="changeScopeVar" (changeScope)="changeScope($event)" (changeLocation)="changeLocation($event)"></side-scroll-schedules>
        </div>
        <!-- Deep dive blocks -->
        <deep-dive-block-1 [scope]="scope"></deep-dive-block-1>

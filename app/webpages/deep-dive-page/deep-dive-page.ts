@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SchedulesService } from '../../services/schedules.service';
 import { DeepDiveService } from '../../services/deep-dive.service';
 import { ActivatedRoute } from '@angular/router';
@@ -44,7 +44,10 @@ export class DeepDivePage implements OnInit {
 
     private getDeepDiveType(category:string): string{
       var _typeValue;
-      switch(category.toLowerCase()){
+      // if(category !== null || typeof category !== 'undefined'){
+      //   category = category.toLowerCase();
+      // }
+      switch(category){
         case 'sports':
           _typeValue = "deep-dive-type1";
           if(this.scope == 'nfl' || this.scope == 'ncaaf') {
@@ -77,6 +80,8 @@ export class DeepDivePage implements OnInit {
         case 'lifestyle':
         case 'politics':
         case 'travel':
+        case 'banking':
+        case 'health':
           _typeValue = "deep-dive-type3";
           break;
         case 'breakingnews':
@@ -84,6 +89,7 @@ export class DeepDivePage implements OnInit {
           this.sectionNameTitle = "breaking news";
           break;
         default:
+          _typeValue = "deep-dive-type-main";
           break;
       }
       return _typeValue;
@@ -190,9 +196,9 @@ export class DeepDivePage implements OnInit {
     ngOnInit(){
       this.routeSubscription = this._activatedRoute.params.subscribe(
           (param:any) => {
-            this.category = param['category'];
+            this.category = param['category'] ? param['category'] : 'all';
             this.scope = param['articleCategory'] ? param['articleCategory'] : param['category'];
-            console.log('Partner:',GlobalSettings.getPartnerId());
+            console.log('Partner:', GlobalSettings.getPartnerId());
             console.log('sectionFront parameters:',param);
             switch(param.category) {
               case "nfl":
@@ -231,7 +237,7 @@ export class DeepDivePage implements OnInit {
       );
       this.getSideScroll();
       this.getDataCarousel();
-      this.deepDiveType = this.getDeepDiveType(this.category);
+      this.deepDiveType = this.getDeepDiveType(this.category.toLowerCase());
       this.sectionFrontName();
     }
   }

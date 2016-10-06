@@ -6,25 +6,22 @@
    <!-- Place modules and deep dive blocks in deep-dive-container 2 -->
    <section class="deep-dive-container2">
      <div class="deep-dive-container2a col-sm-12 col-xl-9">
-       <!-- Side Scroller should place inside deep-dive-module -->
-       <div class="deep-dive-module">
-         <side-scroll-schedules *ngIf="sideScrollData" [sideScrollData]="sideScrollData" [scopeList]="scopeList" (count)="scrollCheck($event)" [scrollLength]="scrollLength" [topScope]="topScope" [scope]="changeScopeVar" (changeScope)="changeScope($event)" (changeLocation)="changeLocation($event)"></side-scroll-schedules>
+       <!--TODO Page Section Name shouldn't be on general Deep Dive page -->
+       <div *ngIf="sectionName" class="deep-dive-module">
+         <section-name-component [secName]="sectionName"></section-name-component>
        </div>
-       <!-- Deep dive blocks -->
-       <deep-dive-block-1 [scope]="scope"></deep-dive-block-1>
-
-       <box-scores
-         *ngIf="dateParam"
-         [boxScores]="currentBoxScores"
-         [calendarParams]="dateParam"
-         [maxHeight]="maxHeight"
-         [scroll]="scroll"
-         (dateEmit)="getBoxScores($event)">
-       </box-scores>
-      </div>
-      <!-- Ads should place inside deep-dive-container-2b -->
-      <div class="deep-dive-container2b col-xl-3">
-        <div class="widget_wrapper"><widget-carousel-module></widget-carousel-module></div>
-      </div>
+       <!--TODO should only be in type1 and 2 category-->
+       <div *ngIf="sideScrollData" class="deep-dive-module">
+         <side-scroll-schedules [sideScrollData]="sideScrollData" [scopeList]="scopeList" (count)="scrollCheck($event)" [scrollLength]="scrollLength" [topScope]="topScope" [scope]="changeScopeVar" (changeScope)="changeScope($event)" (changeLocation)="changeLocation($event)"></side-scroll-schedules>
+       </div>
+       <!-- Deep dive block type 1 sports-->
+       <deep-dive-block-1 *ngIf="deepDiveType == 'deep-dive-type1'" [scope]="scope"></deep-dive-block-1>
+       <deep-dive-block-2 *ngIf="deepDiveType == 'deep-dive-type2'" [scope]="scope"></deep-dive-block-2>
+       <deep-dive-block-3 *ngIf="deepDiveType == 'deep-dive-type3'" [scope]="scope"></deep-dive-block-3>
+    </div>
+    <!-- Ads should place inside deep-dive-container-2b -->
+    <div class="deep-dive-container2b col-xl-3">
+      <div class="widget_wrapper"><widget-carousel-module></widget-carousel-module></div>
+    </div>
   </section><!-- deep-dive-container2 ends -->
 </section>

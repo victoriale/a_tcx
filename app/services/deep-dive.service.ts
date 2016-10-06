@@ -105,7 +105,7 @@ export class DeepDiveService {
     }// transformDeepDiveVideoBatchData ENDS
 
     // Top Article of Article Stacks
-    transformToArticleStack(data: Array<ArticleStackData>){
+    transformToArticleStack(data: Array<ArticleStackData>, scope){
       var sampleImage = "/app/public/placeholder_XL.png";
       // var topData = data.data[0];
       var articleStackArray = [];
@@ -114,7 +114,7 @@ export class DeepDiveService {
             id: "1",
             articleUrl: '/deep-dive',
             keyUrl: '/deep-dive',
-            keyword: "Keyword",
+            keyword: scope.toUpperCase(),
             timeStamp: "Sept. 28th 2016",
             title: "Title here",
             author: "Author",

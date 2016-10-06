@@ -37,7 +37,6 @@ import { WidgetModule } from "../fe-core/modules/widget/widget.module";
 import { SearchBoxModule } from "../fe-core/modules/search-box-module/search-box-module.module";
 import { DeepDiveRecommendation } from "../fe-core/modules/deep-dive-recommendation/deep-dive-recommendation.module";
 
-
 //Pipes
 import {SanitizeScript, SanitizeHtml, SanitizeRUrl, SanitizeStyle} from "../fe-core/pipes/safe.pipe";
 

@@ -55,24 +55,24 @@ export class GlobalSettings {
       }
     }
 
-    static getCategoryAPI(category:string):string{
+    static getCategoryAPI(category:string): string{
       var _apiURL;
-      switch(category){
-        //FOOTBALL
+      switch(category.toLowerCase()){
+        //FOOTBALL URL
         case 'nfl':
         case 'ncaaf':
           _apiURL = this._proto + "//" + this.getEnv(this._env) + this._tdlAPI;
           break;
-        //BASKETBALL
+        //BASKETBALL URL
         case 'nba':
         case 'ncaab':
           _apiURL = this._proto + "//" + this.getEnv(this._env) + this._tcxAPI;
           break;
-        //BASEBALL
+        //BASEBALL URL
         case 'mlb':
           _apiURL = this._proto + "//" + this.getEnv(this._env) + this._hrlAPI;
           break;
-        //OTHERS
+        //OTHERS TCX URL
         default:
           _apiURL = this._proto + "//" + this.getEnv(this._env) + this._tcxAPI;
           break;

@@ -418,3 +418,11 @@
 .fa-fontawesome-webfont-1:before {
   content: "\45";
 }
+/*Bastketball Icon*/
+.fa-dribble:before {
+  content: "\48";
+}
+/*Baseball Icon*/
+.fa-strikeouts-01:before {
+  content: "\4d";
+}

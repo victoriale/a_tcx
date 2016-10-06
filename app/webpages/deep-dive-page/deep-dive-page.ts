@@ -41,6 +41,39 @@ export class DeepDivePage implements OnInit {
             this.scope = param['articleCategory'] ? param['articleCategory'] : param['category'];
             console.log('Partner:',GlobalSettings.getPartnerId());
             console.log('sectionFront parameters:',param);
+            switch(param.category) {
+              case "nfl":
+              case "ncaaf":
+                this.topScope = "football";
+                this.changeScopeVar = param.category;
+                break;
+
+              case "nba":
+              case "ncaam":
+                this.topScope = "basketball";
+                this.changeScopeVar = param.category;
+                break;
+
+              case "mlb":
+                this.topScope = "baseball";
+                this.changeScopeVar = param.category;
+                break;
+
+              case "weather":
+                this.topScope = "weather";
+                this.changeScopeVar = "nfl"; //TODO: add weather api in properly
+                // this.changeScopeVar = "hourly";
+                break;
+
+              case "finance":
+                this.topScope = "finance";
+                this.changeScopeVar = "all";
+                break;
+
+              default:
+                this.topScope = null;
+                this.changeScopeVar = null;
+            }
           }
       );
       this.getSideScroll();
@@ -60,12 +93,12 @@ export class DeepDivePage implements OnInit {
           break;
         case 'business':
         case 'finance':
-        case 'real estate':
+        case 'realestate':
         case 'weather':
           _typeValue = "deep-dive-type2";
           break;
         case 'automotive':
-        case 'breaking news':
+        case 'breakingnews':
         case 'entertainment':
         case 'food':
         case 'IPO':
@@ -90,7 +123,7 @@ export class DeepDivePage implements OnInit {
     //api for Schedules
     private getSideScroll(){
       let self = this;
-      if(this.safeCall){
+      if(this.safeCall && this.topScope != null){
         this.safeCall = false;
         let changeScope = this.changeScopeVar.toLowerCase() == 'ncaaf'?'fbs':this.changeScopeVar.toLowerCase();
         this._schedulesService.setupSlideScroll(this.topScope, this.sideScrollData, changeScope, 'league', 'pregame', this.callLimit, this.callCount, (sideScrollData) => {

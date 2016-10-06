@@ -20,8 +20,13 @@ export class DeepDivePage implements OnInit {
     //side scroller
     sideScrollData: any;
     scrollLength: number = 0;
-    topScope: string = "sports";
-    changeScopeVar: string = "nfl";
+
+    selectedLocation: string = "wichita-ks";
+    boxScoresTempVar: string = "nfl";
+
+    topScope: string;
+    changeScopeVar: string;
+
     safeCall: boolean = true;
     ssMax: number;
     callCount: number = 1;
@@ -115,14 +120,14 @@ export class DeepDivePage implements OnInit {
       if(this.safeCall && this.topScope != null){
         this.safeCall = false;
         let changeScope = this.changeScopeVar.toLowerCase() == 'ncaaf'?'fbs':this.changeScopeVar.toLowerCase();
-        this._schedulesService.setupSlideScroll(this.topScope, this.sideScrollData, changeScope, 'league', 'pregame', this.callLimit, this.callCount, (sideScrollData) => {
+        this._schedulesService.setupSlideScroll(this.topScope, this.sideScrollData, changeScope, 'league', 'pregame', this.callLimit, this.callCount, this.selectedLocation, (sideScrollData) => {
           if (this.topScope == "finance") {
             this.scopeList = sideScrollData.scopeList.reverse();
               this.sideScrollData = sideScrollData;
               this.scrollLength = this.sideScrollData.blocks.length;
           }
           else if (this.topScope == "weather") {
-            this.scopeList = ["10 Day", "5 Day", "Hourly"];
+            this.scopeList = sideScrollData.scopeList.reverse();
             this.sideScrollData = sideScrollData;
             this.scrollLength = this.sideScrollData.blocks.length;
           }
@@ -187,6 +192,11 @@ export class DeepDivePage implements OnInit {
       this.getSideScroll();
     }
 
+    changeLocation($event) {
+      this.selectedLocation = $event;
+      this.getSideScroll();
+    }
+
     private getDataCarousel() {
       this._deepDiveData.getCarouselData('nfl', this.carouselData, '25', '1', 'CA', (carData)=>{
         this.carouselData = carData;
@@ -220,8 +230,7 @@ export class DeepDivePage implements OnInit {
 
               case "weather":
                 this.topScope = "weather";
-                this.changeScopeVar = "nfl"; //TODO: add weather api in properly
-                // this.changeScopeVar = "hourly";
+                this.changeScopeVar = "hourly";
                 break;
 
               case "finance":

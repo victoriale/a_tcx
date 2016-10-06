@@ -12,7 +12,7 @@
        </div>
        <!--TODO should only be in type1 and 2 category-->
        <div *ngIf="sideScrollData" class="deep-dive-module">
-         <side-scroll-schedules [sideScrollData]="sideScrollData" [scopeList]="scopeList" (count)="scrollCheck($event)" [scrollLength]="scrollLength" [topScope]="topScope" [scope]="changeScopeVar" (changeScope)="changeScope($event)"></side-scroll-schedules>
+         <side-scroll-schedules [sideScrollData]="sideScrollData" [scopeList]="scopeList" (count)="scrollCheck($event)" [scrollLength]="scrollLength" [topScope]="topScope" [scope]="changeScopeVar" (changeScope)="changeScope($event)" (changeLocation)="changeLocation($event)"></side-scroll-schedules>
        </div>
        <deep-dive-block-main *ngIf="deepDiveType == 'deep-dive-type-main'"></deep-dive-block-main>
        <!-- Deep dive block type 1 sports-->

@@ -129,6 +129,50 @@ export class SchedulesService {
       });
   }
 
+  getWeatherData(scope, selectedLocation){
+    //Configure HTTP Headers
+    var headers = this.setToken();
+
+    var callURL = "http://dev-tcxmedia-api.synapsys.us/sidescroll/weather/" + selectedLocation + "/" + scope.toLowerCase();
+    //optional week parameters
+    return this.http.get(callURL, {headers: headers})
+      .map(res => res.json())
+      .map(data => {
+        var output = {scopeList: [], blocks: [], current: {}}
+        output.current.city = data.city;
+        output.current.currentCondition = data.currentCondition;
+        output.current.currentIcon = data.currentIcon;
+        output.current.currentScope = data.currentScope;
+        output.current.currentTemperature = ((data.currentTemperature * (9/5)) - 459.67).toFixed(0);
+        output.current.state = data.state;
+        output.current.zipcode = data.zipcode;
+        for (var i =0; i< data.scopeList.length; i++) {
+          output.scopeList.push(data.scopeList[i]);
+        }
+        for (var n =0; n< data.data.length; n++) {
+          // if (data.data[scope][n].logoUrl == "" || data.data[scope][n].logoUrl == null) {
+          //   data.data[scope][n].logoUrl = "http://www.investkit.com/public/no_image.png";
+          // }
+          // else {
+          //   data.data[scope][n].logoUrl = "http://images.investkit.com/images/" + data.data[scope][n].logoUrl;
+          // }
+
+          //convert from kelvin to farenheight
+          if (scope.toLowerCase() == "hourly") {
+            data.data[n].unixTimestamp = moment.unix(data.data[n].unixTimestamp).format("h:mm a");
+            data.data[n].temperature  = ((data.data[n].temperature * (9/5)) - 459.67).toFixed(0);
+
+          }
+          else {
+            data.data[n].unixTimestamp = moment.unix(data.data[n].unixTimestamp).format("MMM Do YYYY");
+            data.data[n].temperature  = ((data.data[n].temperatureHigh * (9/5)) - 459.67).toFixed(0) + "&deg; <span class='small-temp'>/ " + ((data.data[n].temperatureLow * (9/5)) - 459.67).toFixed(0) + "&deg;</span>";
+          }
+          output.blocks.push(data.data[n]);
+        }
+        return output;
+      });
+  }
+
   //Call made for slider carousel using BoxScore scheduler
   getBasketballSchedule(scope, profile, eventStatus, limit, pageNum, id?){
     if (scope != "all") {
@@ -208,7 +252,7 @@ export class SchedulesService {
   }
 
 
-  setupSlideScroll(topScope, data, scope, profile, eventStatus, limit, pageNum, callback: Function, year?, week?){
+  setupSlideScroll(topScope, data, scope, profile, eventStatus, limit, pageNum, selectedLocation, callback: Function, year?, week?){
     if (topScope == "finance") {
       //(scope, profile, eventStatus, limit, pageNum, id?)
       this.getFinanceData(scope, 'league', eventStatus, limit, pageNum)
@@ -233,13 +277,32 @@ export class SchedulesService {
     }
     else if (topScope == "weather") {
       //(scope, profile, eventStatus, limit, pageNum, id?)
-      this.getBoxSchedule(scope, 'league', eventStatus, limit, pageNum)
+      this.getWeatherData(scope, selectedLocation)
       .subscribe( data => {
-        var formattedData = this.transformSlideScroll(scope, data.data);
-        callback(formattedData);
+        callback(data);
       })
     }
 
+  }
+
+  getLocationAutocomplete(query, callback: Function){
+    this.callLocationAutocomplete(query)
+    .subscribe( data => {
+      callback(data);
+    })
+  }
+
+  callLocationAutocomplete(query){
+    //Configure HTTP Headers
+    var headers = this.setToken();
+
+    var callURL = "http://dev-tcxmedia-api.synapsys.us/sidescroll/weather/availableLocations/" + query;
+    //optional week parameters
+    return this.http.get(callURL, {headers: headers})
+      .map(res => res.json())
+      .map(data => {
+        return data;
+      });
   }
 
   transformSlideScroll(scope,data){

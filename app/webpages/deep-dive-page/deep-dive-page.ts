@@ -24,8 +24,8 @@ export class DeepDivePage implements OnInit {
     scrollLength: number = 0;
     boxScoresTempVar: string = "nfl";
 
-    topScope: string = "weather";
-    changeScopeVar: string = "nfl";
+    topScope: string;
+    changeScopeVar: string;
     safeCall: boolean = true;
     ssMax: number;
     callCount: number = 1;
@@ -63,6 +63,39 @@ export class DeepDivePage implements OnInit {
             this.scope = param['category'];
             console.log('Partner:',GlobalSettings.getPartnerId());
             console.log('sectionFront parameters:',param);
+            switch(param.category) {
+              case "nfl":
+              case "ncaaf":
+                this.topScope = "football";
+                this.changeScopeVar = param.category;
+                break;
+
+              case "nba":
+              case "ncaam":
+                this.topScope = "basketball";
+                this.changeScopeVar = param.category;
+                break;
+
+              case "mlb":
+                this.topScope = "baseball";
+                this.changeScopeVar = param.category;
+                break;
+
+              case "weather":
+                this.topScope = "weather";
+                this.changeScopeVar = "nfl"; //TODO: add weather api in properly
+                // this.changeScopeVar = "hourly";
+                break;
+
+              case "finance":
+                this.topScope = "finance";
+                this.changeScopeVar = "all";
+                break;
+
+              default:
+                this.topScope = null;
+                this.changeScopeVar = null;
+            }
           }
       );
 
@@ -85,7 +118,7 @@ export class DeepDivePage implements OnInit {
     //api for Schedules
     private getSideScroll(){
       let self = this;
-      if(this.safeCall){
+      if(this.safeCall && this.topScope != null){
         this.safeCall = false;
         let changeScope = this.changeScopeVar.toLowerCase() == 'ncaaf'?'fbs':this.changeScopeVar.toLowerCase();
         this._schedulesService.setupSlideScroll(this.topScope, this.sideScrollData, changeScope, 'league', 'pregame', this.callLimit, this.callCount, (sideScrollData) => {

@@ -6,7 +6,11 @@
    <!-- Place modules and deep dive blocks in deep-dive-container 2 -->
    <section class="deep-dive-container2">
      <div class="deep-dive-container2a col-sm-12 col-xl-9">
-       <!-- Side Scroller should place inside deep-dive-module -->
+       <!--TODO Page Section Name shouldn't be on general Deep Dive page -->
+       <div class="deep-dive-module">
+         <section-name-component *ngIf="sectionName" [secName]="sectionName"></section-name-component>
+       </div>
+       <!--TODO should only be in type1 and 2 category-->
        <div class="deep-dive-module">
          <side-scroll-schedules *ngIf="sideScrollData" [sideScrollData]="sideScrollData" [scopeList]="scopeList" (count)="scrollCheck($event)" [scrollLength]="scrollLength" [topScope]="topScope" [scope]="changeScopeVar" (changeScope)="changeScope($event)"></side-scroll-schedules>
        </div>

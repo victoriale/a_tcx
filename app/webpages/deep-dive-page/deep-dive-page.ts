@@ -56,10 +56,11 @@ export class DeepDivePage implements OnInit {
     }
 
     ngOnInit() {
-      this.scope = this.changeScopeVar ? this.changeScopeVar : this.topScope;
+      // this.scope = this.changeScopeVar ? this.changeScopeVar : this.topScope;
+      //TODO
       this.routeSubscription = this._activatedRoute.params.subscribe(
           (param:any) => {
-              this.currentCategory= param['category'];
+            this.scope = param['category'];
             console.log('Partner:',GlobalSettings.getPartnerId());
             console.log('sectionFront parameters:',param);
           }

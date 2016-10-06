@@ -3,6 +3,8 @@ import { SchedulesService } from '../../services/schedules.service';
 import { DeepDiveService } from '../../services/deep-dive.service';
 import { ActivatedRoute } from '@angular/router';
 import { GlobalSettings } from "../../global/global-settings";
+import { GlobalFunctions } from "../../global/global-functions";
+import { SectionNameData } from "../../fe-core/interfaces/deep-dive.data";
 
 declare var moment;
 declare var jQuery: any;
@@ -31,55 +33,10 @@ export class DeepDivePage implements OnInit {
     category: string;
     //Used for route subscription and unsubscribing when view is destroyed (double check since angular2 does it for you)
     routeSubscription:any;
-
+    sectionName: SectionNameData;
+    sectionNameIcon: string;
+    sectionNameTitle: string = this.category;
     constructor(private _schedulesService:SchedulesService, private _deepDiveData: DeepDiveService, private _activatedRoute: ActivatedRoute) {}
-
-    ngOnInit(){
-      this.routeSubscription = this._activatedRoute.params.subscribe(
-          (param:any) => {
-            this.category = param['category'];
-            this.scope = param['articleCategory'] ? param['articleCategory'] : param['category'];
-            console.log('Partner:',GlobalSettings.getPartnerId());
-            console.log('sectionFront parameters:',param);
-            switch(param.category) {
-              case "nfl":
-              case "ncaaf":
-                this.topScope = "football";
-                this.changeScopeVar = param.category;
-                break;
-
-              case "nba":
-              case "ncaam":
-                this.topScope = "basketball";
-                this.changeScopeVar = param.category;
-                break;
-
-              case "mlb":
-                this.topScope = "baseball";
-                this.changeScopeVar = param.category;
-                break;
-
-              case "weather":
-                this.topScope = "weather";
-                this.changeScopeVar = "nfl"; //TODO: add weather api in properly
-                // this.changeScopeVar = "hourly";
-                break;
-
-              case "finance":
-                this.topScope = "finance";
-                this.changeScopeVar = "all";
-                break;
-
-              default:
-                this.topScope = null;
-                this.changeScopeVar = null;
-            }
-          }
-      );
-      this.getSideScroll();
-      this.getDataCarousel();
-      this.deepDiveType = this.getDeepDiveType(this.category);
-    }
 
     ngOnDestroy(){
       this.routeSubscription.unsubscribe();
@@ -90,15 +47,30 @@ export class DeepDivePage implements OnInit {
       switch(category.toLowerCase()){
         case 'sports':
           _typeValue = "deep-dive-type1";
+          if(this.scope == 'nfl' || this.scope == 'ncaaf') {
+            this.sectionNameTitle = "football";
+            this.sectionNameIcon = "fa-tdl-football";
+          } else if(this.scope == 'nba' || this.scope == 'ncaab') {
+            this.sectionNameTitle = "basketball";
+            this.sectionNameIcon = "fa-dribble";
+          } else if(this.scope == "mlb") {
+            this.sectionNameTitle = "baseball";
+            this.sectionNameIcon = "fa-strikeouts-01";
+          } else {
+            this.sectionNameTitle = "sports";
+            this.sectionNameIcon = "fa-futbol-o";
+          }
           break;
         case 'business':
         case 'finance':
-        case 'realestate':
         case 'weather':
           _typeValue = "deep-dive-type2";
           break;
+        case 'realestate':
+          _typeValue = "deep-dive-type2";
+          this.sectionNameTitle = "real estate";
+          break;
         case 'automotive':
-        case 'breakingnews':
         case 'entertainment':
         case 'food':
         case 'IPO':
@@ -107,10 +79,21 @@ export class DeepDivePage implements OnInit {
         case 'travel':
           _typeValue = "deep-dive-type3";
           break;
+        case 'breakingnews':
+          _typeValue = "deep-dive-type3";
+          this.sectionNameTitle = "breaking news";
+          break;
         default:
           break;
       }
       return _typeValue;
+    }
+
+    private sectionFrontName(){
+      return this.sectionName = {
+         icon: this.sectionNameIcon,
+         title: GlobalFunctions.toTitleCase(this.sectionNameTitle)
+       }
     }
 
     private onScroll(event) {
@@ -198,10 +181,57 @@ export class DeepDivePage implements OnInit {
       this.getSideScroll();
     }
 
-
     private getDataCarousel() {
       this._deepDiveData.getCarouselData('nfl', this.carouselData, '25', '1', 'CA', (carData)=>{
         this.carouselData = carData;
       })
+    }
+
+    ngOnInit(){
+      this.routeSubscription = this._activatedRoute.params.subscribe(
+          (param:any) => {
+            this.category = param['category'];
+            this.scope = param['articleCategory'] ? param['articleCategory'] : param['category'];
+            console.log('Partner:',GlobalSettings.getPartnerId());
+            console.log('sectionFront parameters:',param);
+            switch(param.category) {
+              case "nfl":
+              case "ncaaf":
+                this.topScope = "football";
+                this.changeScopeVar = param.category;
+                break;
+
+              case "nba":
+              case "ncaam":
+                this.topScope = "basketball";
+                this.changeScopeVar = param.category;
+                break;
+
+              case "mlb":
+                this.topScope = "baseball";
+                this.changeScopeVar = param.category;
+                break;
+
+              case "weather":
+                this.topScope = "weather";
+                this.changeScopeVar = "nfl"; //TODO: add weather api in properly
+                // this.changeScopeVar = "hourly";
+                break;
+
+              case "finance":
+                this.topScope = "finance";
+                this.changeScopeVar = "all";
+                break;
+
+              default:
+                this.topScope = null;
+                this.changeScopeVar = null;
+            }
+          }
+      );
+      this.getSideScroll();
+      this.getDataCarousel();
+      this.deepDiveType = this.getDeepDiveType(this.category);
+      this.sectionFrontName();
     }
   }

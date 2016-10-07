@@ -7,32 +7,38 @@ export class GlobalSettings {
 
     private static _newsUrl:string = 'newsapi.synapsys.us';
 
-    private static _apiUrl:string = '-touchdownloyal-api.synapsys.us';
-    private static _articleUrl:string = '-touchdownloyal-ai.synapsys.us/';
+    private static _apiUrl:string = '-tcxmedia-api.synapsys.us/tcx';
+    private static _articleUrl:string = '-tcxmedia-ai.synapsys.us/tcx';
 
     private static _partnerApiUrl: string = 'apireal.synapsys.us/listhuv/?action=get_partner_data&domain=';
+
+    //two different api since there is a possibility that these urls are going to change
     private static _widgetUrl: string = 'w1.synapsys.us';
     private static _geoUrl: string = 'w1.synapsys.us';
 
-    private static _dynamicApiUrl: string = 'dw.synapsys.us/list_creator_api.php';
-
+    //main domain for all our images
     public static _imageUrl:string = 'images.synapsys.us';
-    private static _recUrl:string = '-homerunloyal-ai.synapsys.us/sidekick-regional';
-    private static _homepageUrl:string = '.touchdownloyal.com';
-    private static _homepageLinkName:string = 'touchdownloyal';
-    private static _partnerHomepageUrl:string = '.mytouchdownzone.com';
-    private static _partnerHomepageLinkName:string = 'mytouchdownzone';
 
+    //this changes per vertical
+    private static _homepageUrl:string = '.tcxmedia.com';
+    private static _homepageLinkName:string = 'tcxmedia';
+    private static _partnerHomepageUrl:string = '.tcxzone.com';
+    private static _partnerHomepageLinkName:string = 'tcxzone';
+
+    //links from our share providers that do not change
     private static _siteTwitterUrl:string = 'https://twitter.com/touchdownloyal';
     private static _siteFacebookUrl:string = 'https://www.facebook.com/touchdownloyal';
     private static _siteGoogleUrl:string = 'https://plus.google.com/share?url=';
 
+    //base titles that will be used to displayed different when on white labeled partner domains
     private static _baseTitle: string = "TCX";
     private static _basePartnerTitle: string = "MyTCX";
 
+    //copyright info that is to be manually change whenever a copyright info is needed to be updated
     private static _estYear: string = " 2016";
     private static _copyrightInfo: string = "USA Today Sports Images";
 
+    //this is proned to be removed but used as dummy data
     private static _tdlAPI: string = '-touchdownloyal-api.synapsys.us/tcx';
     private static _hrlAPI: string = '-homerunloyal-api.synapsys.us/tcx';
     private static _tcxAPI: string = '-tcxmedia-api.synapsys.us/tcx';
@@ -55,9 +61,85 @@ export class GlobalSettings {
       }
     }
 
+    static getTCXscope(section){
+      var category = {
+        'nfl':{
+          scope:'nfl',
+          topScope: 'football',
+          displayName: 'football',
+          verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
+          aiApi:this.getVerticalEnv('-touchdownloyal-ai.synapsys.us'),
+          tcxApi: this.getApiUrl(),
+          showEventSlider: true,
+          showBoxScores:true,
+          icon:'/dummyIcon/nfl.jpg',
+        },
+        'ncaaf':{
+          scope:'ncaaf',
+          topScope: 'football',
+          displayName: 'football',
+          verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
+          aiApi:this.getVerticalEnv('-touchdownloyal-ai.synapsys.us'),
+          tcxApi: this.getApiUrl(),
+          showEventSlider: true,
+          showBoxScores:true,
+          icon:'/dummyIcon/ncaaf.jpg'
+        },
+        'mlb':{
+          scope:'mlb',
+          topScope: 'baseball',
+          displayName: 'baseball',
+          verticalApi: this.getVerticalEnv('-homerunloyal-api.synapsys.us'),
+          aiApi:this.getVerticalEnv('-homerunloyal-ai.synapsys.us'),
+          tcxApi: this.getApiUrl(),
+          showEventSlider: true,
+          showBoxScores:true,
+          icon:'/dummyIcon/mlb.jpg'
+        },
+        'nba':{
+          scope:'nba',
+          topScope: 'basketball',
+          displayName: 'basketball',
+          verticalApi: this.getVerticalEnv('-sports-api.synapsys.us'),
+          aiApi:this.getVerticalEnv('-sports-ai'),
+          tcxApi: this.getApiUrl(),
+          showEventSlider: true,
+          showBoxScores:true,
+          icon:'/dummyIcon/nba.jpg'
+        },
+        'ncaam':{
+          scope:'ncaaf',
+          topScope:'basketball',
+          displayName:'basketball',
+          verticalApi:this.getVerticalEnv('-sports-api.synapsys.us'),
+          aiApi: this.getVerticalEnv('-sports-ai'),
+          tcxApi: this.getApiUrl(),
+          showEventSlider: true,
+          showBoxScores:true,
+          icon:'/dummyIcon/ncaam.jpg'
+        },
+        'weather':{
+          scope:'weather',
+          topScope: 'weather',
+          displayName: 'weather',
+          verticalApi: this.getVerticalEnv('-weather-api.synapsys.us'),
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: true,
+          showBoxScores:true,
+          icon:'/dummyIcon/weather.jpg'
+        },
+      }
+      return category;
+    }
+
+    static getVerticalEnv(api){
+      return this._proto + "//" + this.getEnv(this._env) + api
+    }
+
     static getCategoryAPI(category:string): string{
       var _apiURL;
-      switch(category.toLowerCase()){
+      switch(category){
         //FOOTBALL URL
         case 'nfl':
         case 'ncaaf':
@@ -88,13 +170,8 @@ export class GlobalSettings {
         return this._partnerId;
     }
 
-    static getDynamicWidet():string {
-        return this._proto + "//" + this._dynamicApiUrl;
-    }
-
     static getApiUrl():string {
         return this._proto + "//" + this.getEnv(this._env) + this._apiUrl;
-
     }
 
     static getPartnerApiUrl(partnerID):string {
@@ -114,26 +191,6 @@ export class GlobalSettings {
         return relPath;
     }
 
-    static getBackgroundImageUrl(relativePath):string {
-        var relPath = relativePath != null ? this._proto + "//" + this._imageUrl + relativePath: '/app/public/drk-linen.png';
-        return relPath;
-    }
-
-    static getArticleUrl():string {
-        return this._proto + "//" + this.getEnv(this._env) + this._articleUrl;
-    }
-
-    static getRecommendUrl():string {
-        return this._proto + "//" + this.getEnv(this._env) + this._articleUrl;
-    }
-
-    static getTrendingUrl():string {
-        return this._proto + "//" + this.getEnv(this._env) + this._articleUrl;
-    }
-    static getRecUrl():string {
-        return this._proto + "//" + this.getEnv(this._env) + this._recUrl;
-    }
-
     static getHeadlineUrl():string {
         return this._proto + "//" + this.getEnv(this._env) + this._articleUrl;
     }
@@ -141,14 +198,6 @@ export class GlobalSettings {
     static getNewsUrl():string {
         //[https:]//[prod]-homerunloyal-api.synapsys.us
         return this._proto + "//" + this._newsUrl;
-    }
-
-    static getHomePageLinkName() {
-      return this._homepageLinkName;
-    }
-
-    static getPartnerHomePageLinkName() {
-      return this._partnerHomepageLinkName;
     }
 
     static getHomePage(partnerId: string, includePartnerId?: boolean) {
@@ -198,54 +247,6 @@ export class GlobalSettings {
         return "/app/public/mainLogo.jpg";
     }
 
-    /**
-     * This should be called by classes in their constructor function, so that the
-     * 'subscribe' function actually gets called and the partnerID and scope can be located from the route
-     *
-     * @param{Router} router
-     * @param {Function} subscribeListener - takes a single parameter that represents the partnerID: (partnerID) => {}
-     */
-
-    //static getPartnerID(router: Router, subscribeListener: Function)
-    // static getParentParams(router: Router, subscribeListener: Function) {
-    //     if ( !subscribeListener ) return;
-    //
-    //     router.root.subscribe (
-    //         route => {
-    //             let partnerID = null;
-    //             let scope = route.instruction.params["scope"];
-    //             if ( route && route.instruction && route.instruction.params["partner_id"] != null ) {
-    //               partnerID = route.instruction.params["partner_id"];
-    //             }else if(window.location.hostname.split(".")[0].toLowerCase() == "football"){
-    //               partnerID = window.location.hostname.split(".")[1] + "." + window.location.hostname.split(".")[2];
-    //             }
-    //
-    //             if ( scope == null ) {
-    //               scope = this.getSportLeagueAbbrv();
-    //             }
-    //
-    //             subscribeListener({
-    //               partnerID: partnerID == '' ? null : partnerID,
-    //               scope: this.getScope(scope)
-    //             });
-    //         }
-    //     )
-    // }
-
-    //converts URL route scope from NCAAF to FBS
-    //NCAAF is for display purpose and returning FBS is for API requirements
-    //lowercase is for common practice
-    // static getScope(scope?) {
-    //   switch(scope) {
-    //     case ( this.getCollegeDivisionFullAbbrv().toLowerCase() ) :
-    //     case ( this.getCollegeDivisionFullAbbrv() ) :
-    //     return this.getCollegeDivisionAbbrv().toLowerCase();
-    //
-    //     default:
-    //     return this.getSportLeagueAbbrv().toLowerCase();
-    //   }
-    // }
-
     static getPageTitle(subtitle?: string, profileName?: string) {
       if(this.getHomeInfo().isPartner){
         this._baseTitle = this._basePartnerTitle;
@@ -263,32 +264,6 @@ export class GlobalSettings {
       return this._basePartnerTitle;
     }
 
-    // static getSportLeagueAbbrv() {
-    //   return this._sportLeagueAbbrv;
-    // }
-    // static getSportLeagueFull() {
-    //   return this._sportLeagueFull;
-    // }
-    // static getSportLeagueChampionship() {
-    //   return this._sportLeagueChampionship;
-    // }
-    // static getSportLeagueSegments() {
-    //   return this._sportLeagueSegments;
-    // }
-    //
-    // static getCollegeDivisionAbbrv() {
-    //   return this._collegeDivisionAbbrv;
-    // }
-    // static getCollegeDivisionFullAbbrv() {
-    //   return this._collegeDivisionFullAbbrv;
-    // }
-    // static getCollegeDivisionChampionship() {
-    //   return this._collegeDivisionChampionship;
-    // }
-    // static getCollegeDivisionSegments() {
-    //   return this._collegeDivisionSegments;
-    // }
-
     static getCopyrightInfo() {
         return this._copyrightInfo;
     }
@@ -301,9 +276,7 @@ export class GlobalSettings {
     static getSiteGoogleUrl(partnerId: string) {
       return this._siteGoogleUrl + this.getHomePage(partnerId);
 	  }
-    // static getSportName() {
-    //   return this._sportName;
-    // }
+
     static getEstYear() {
       return this._estYear;
     }

@@ -227,11 +227,13 @@ export class DeepDivePage implements OnInit {
                 this.topScope = null;
                 this.changeScopeVar = null;
             }
+
+            //run functions to gather deep dive module data
+            this.getSideScroll();
+            this.getDataCarousel();
+            this.deepDiveType = this.getDeepDiveType(this.category);
+            this.sectionFrontName();
           }
       );
-      this.getSideScroll();
-      this.getDataCarousel();
-      this.deepDiveType = this.getDeepDiveType(this.category);
-      this.sectionFrontName();
     }
   }

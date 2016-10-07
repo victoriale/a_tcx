@@ -14,6 +14,7 @@ import { SideScroll } from '../fe-core/components/side-scroll/side-scroll.compon
 import { SchedulesService } from '../services/schedules.service';
 
 //deep-dive blocks
+import { DeepDiveBlockMain } from '../fe-core/modules/deep-dive-blocks/deep-dive-block-main/deep-dive-block-main.module';
 import { DeepDiveBlock1 } from '../fe-core/modules/deep-dive-blocks/deep-dive-block-1/deep-dive-block-1.module';
 import { DeepDiveBlock2 } from '../fe-core/modules/deep-dive-blocks/deep-dive-block-2/deep-dive-block-2.module';
 import { DeepDiveBlock3 } from '../fe-core/modules/deep-dive-blocks/deep-dive-block-3/deep-dive-block-3.module';
@@ -61,6 +62,7 @@ import { StatHyphenValuePipe } from '../fe-core/pipes/stat-hyphen.pipe';
       GameArticle,
       CalendarCarousel,
       DeepDiveVideoModule,
+      DeepDiveBlockMain,
       DeepDiveBlock1,
       DeepDiveBlock2,
       DeepDiveBlock3
@@ -73,6 +75,7 @@ import { StatHyphenValuePipe } from '../fe-core/pipes/stat-hyphen.pipe';
       ArticleStack2Module,
       VideoStackComponent,
       DeepDiveVideoModule,
+      DeepDiveBlockMain,
       DeepDiveBlock1,
       DeepDiveBlock2,
       DeepDiveBlock3

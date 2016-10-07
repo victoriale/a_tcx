@@ -210,6 +210,8 @@ export class DeepDivePage implements OnInit {
             this.scope = param['articleCategory'] ? param['articleCategory'] : param['category'];
             console.log('Partner:', GlobalSettings.getPartnerId());
             console.log('sectionFront parameters:',param);
+
+            //for side scroller 
             switch(param.category) {
               case "nfl":
               case "ncaaf":

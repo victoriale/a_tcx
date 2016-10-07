@@ -42,6 +42,7 @@ import {SanitizeScript, SanitizeHtml, SanitizeRUrl, SanitizeStyle} from "../fe-c
 
 //router
 import { routing  } from '../app.routing';
+import {InputBar} from "../fe-core/components/input-bar/input-bar.component";
 
 
 @NgModule({
@@ -79,7 +80,8 @@ import { routing  } from '../app.routing';
       NewsBox,
       SectionNameComponent,
       ArticleBlockComponent,
-      DeepDiveRecommendation
+      DeepDiveRecommendation,
+      InputBar,
     ],
     exports: [
       HeaderComponent,
@@ -106,7 +108,8 @@ import { routing  } from '../app.routing';
       NewsBox,
       SectionNameComponent,
       ArticleBlockComponent,
-      DeepDiveRecommendation
+      DeepDiveRecommendation,
+      InputBar
     ],
     providers: [
       VerticalGlobalFunctions,

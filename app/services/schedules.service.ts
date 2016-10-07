@@ -283,8 +283,8 @@ export class SchedulesService {
               default:
                   data.data[n].reportDisplay = "GAME REPORT";
           }
-          let date = moment.unix(Number(data.data[n].eventDate)).tz('America/New_York').format('MMMM D, YYYY');
-          let time = moment.unix(Number(data.data[n].eventDate)).tz('America/New_York').format('h:mm A z');
+          let date = moment(Number(data.data[n].eventDate)).tz('America/New_York').format('MMMM D, YYYY');
+          let time = moment(Number(data.data[n].eventDate)).tz('America/New_York').format('h:mm A z');
           data.data[n].date = date + " &bull; " + time;
           data.data[n].reportLink = "http://www.homerunloyal.com/";
           data.data[n].homeTeamName = data.data[n].abbreviationHome;

@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SchedulesService } from '../../services/schedules.service';
 import { DeepDiveService } from '../../services/deep-dive.service';
 import { ActivatedRoute } from '@angular/router';
@@ -20,8 +20,13 @@ export class DeepDivePage implements OnInit {
     //side scroller
     sideScrollData: any;
     scrollLength: number = 0;
-    topScope: string = "sports";
-    changeScopeVar: string = "nfl";
+
+    selectedLocation: string = "wichita-ks";
+    boxScoresTempVar: string = "nfl";
+
+    topScope: string;
+    changeScopeVar: string;
+
     safeCall: boolean = true;
     ssMax: number;
     callCount: number = 1;
@@ -44,7 +49,10 @@ export class DeepDivePage implements OnInit {
 
     private getDeepDiveType(category:string): string{
       var _typeValue;
-      switch(category.toLowerCase()){
+      // if(category !== null || typeof category !== 'undefined'){
+      //   category = category.toLowerCase();
+      // }
+      switch(category){
         case 'sports':
           _typeValue = "deep-dive-type1";
           if(this.scope == 'nfl' || this.scope == 'ncaaf') {
@@ -77,6 +85,8 @@ export class DeepDivePage implements OnInit {
         case 'lifestyle':
         case 'politics':
         case 'travel':
+        case 'banking':
+        case 'health':
           _typeValue = "deep-dive-type3";
           break;
         case 'breakingnews':
@@ -84,6 +94,7 @@ export class DeepDivePage implements OnInit {
           this.sectionNameTitle = "breaking news";
           break;
         default:
+          _typeValue = "deep-dive-type-main";
           break;
       }
       return _typeValue;
@@ -109,14 +120,14 @@ export class DeepDivePage implements OnInit {
       if(this.safeCall && this.topScope != null){
         this.safeCall = false;
         let changeScope = this.changeScopeVar.toLowerCase() == 'ncaaf'?'fbs':this.changeScopeVar.toLowerCase();
-        this._schedulesService.setupSlideScroll(this.topScope, this.sideScrollData, changeScope, 'league', 'pregame', this.callLimit, this.callCount, (sideScrollData) => {
+        this._schedulesService.setupSlideScroll(this.topScope, this.sideScrollData, changeScope, 'league', 'pregame', this.callLimit, this.callCount, this.selectedLocation, (sideScrollData) => {
           if (this.topScope == "finance") {
             this.scopeList = sideScrollData.scopeList.reverse();
               this.sideScrollData = sideScrollData;
               this.scrollLength = this.sideScrollData.blocks.length;
           }
           else if (this.topScope == "weather") {
-            this.scopeList = ["10 Day", "5 Day", "Hourly"];
+            this.scopeList = sideScrollData.scopeList.reverse();
             this.sideScrollData = sideScrollData;
             this.scrollLength = this.sideScrollData.blocks.length;
           }
@@ -181,6 +192,11 @@ export class DeepDivePage implements OnInit {
       this.getSideScroll();
     }
 
+    changeLocation($event) {
+      this.selectedLocation = $event;
+      this.getSideScroll();
+    }
+
     private getDataCarousel() {
       this._deepDiveData.getCarouselData('nfl', this.carouselData, '25', '1', 'CA', (carData)=>{
         this.carouselData = carData;
@@ -190,9 +206,9 @@ export class DeepDivePage implements OnInit {
     ngOnInit(){
       this.routeSubscription = this._activatedRoute.params.subscribe(
           (param:any) => {
-            this.category = param['category'];
+            this.category = param['category'] ? param['category'] : 'all';
             this.scope = param['articleCategory'] ? param['articleCategory'] : param['category'];
-            console.log('Partner:',GlobalSettings.getPartnerId());
+            console.log('Partner:', GlobalSettings.getPartnerId());
             console.log('sectionFront parameters:',param);
             switch(param.category) {
               case "nfl":
@@ -214,8 +230,7 @@ export class DeepDivePage implements OnInit {
 
               case "weather":
                 this.topScope = "weather";
-                this.changeScopeVar = "nfl"; //TODO: add weather api in properly
-                // this.changeScopeVar = "hourly";
+                this.changeScopeVar = "hourly";
                 break;
 
               case "finance":
@@ -227,13 +242,11 @@ export class DeepDivePage implements OnInit {
                 this.topScope = null;
                 this.changeScopeVar = null;
             }
-
-            //run functions to gather deep dive module data
-            this.getSideScroll();
-            this.getDataCarousel();
-            this.deepDiveType = this.getDeepDiveType(this.category);
-            this.sectionFrontName();
           }
       );
+      this.getSideScroll();
+      this.getDataCarousel();
+      this.deepDiveType = this.getDeepDiveType(this.category.toLowerCase());
+      this.sectionFrontName();
     }
   }

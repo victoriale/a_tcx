@@ -426,3 +426,6 @@
 .fa-strikeouts-01:before {
   content: "\4d";
 }
+.fa-play-circle:before {
+  content: "\50";
+}

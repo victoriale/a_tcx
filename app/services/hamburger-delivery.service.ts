@@ -24,95 +24,95 @@ export class HamburgerDeliveryService {
       },
       {
         menuTitle: "Trending",
-        url: '/deep-dive'
+        url: '/deep-dive/trending'
       },
       {
         menuTitle: "Breaking",
-        url: '/deep-dive'
+        url: '/deep-dive/breaking'
       },
       {
         menuTitle: "Sports",
-        url: '/deep-dive',
+        url: '/deep-dive/sports',
         nesterChildren: [
           {
             menuTitle: "NFL",
-            url: '/deep-dive'
+            url: '/deep-dive/sports/nfl'
           },
           {
             menuTitle: "NCAAF",
-            url: '/deep-dive'
+            url: '/deep-dive/sports/ncaaf'
           },
           {
             menuTitle: "NBA",
-            url: '/deep-dive'
+            url: '/deep-dive/sports/nba'
           },
           {
             menuTitle: "NCAAM",
-            url: '/deep-dive'
+            url: '/deep-dive/sports/ncaam'
           },
           {
             menuTitle: "MLB",
-            url: '/deep-dive'
+            url: '/deep-dive/sports/mlb'
           },
           {
             menuTitle: "NHL",
-            url: '/deep-dive'
+            url: '/deep-dive/sports/nhl'
           }
         ]
       },
       {
         menuTitle: "Business",
-        url: '/deep-dive'
+        url: '/deep-dive/business'
       },
       {
         menuTitle: "Politics",
-        url: '/deep-dive'
+        url: '/deep-dive/politics'
       },
       {
         menuTitle: "Entertainment",
-        url: '/deep-dive',
+        url: '/deep-dive/entertainment',
         nesterChildren: [
           {
             menuTitle: "TVs",
-            url: '/deep-dive'
+            url: '/deep-dive/entertainment/tvs'
           },
           {
             menuTitle: "Movies",
-            url: '/deep-dive'
+            url: '/deep-dive/entertainment/movies'
           },
           {
             menuTitle: "Music",
-            url: '/deep-dive'
+            url: '/deep-dive/entertainment/music'
           },
           {
             menuTitle: "Celebrities",
-            url: '/deep-dive'
+            url: '/deep-dive/entertainment/celebrities'
           }
         ]
       },
       {
         menuTitle: "Food",
-        url: '/deep-dive'
+        url: '/deep-dive/food'
       },
       {
         menuTitle: "Health",
-        url: '/deep-dive'
+        url: '/deep-dive/health'
       },
       {
         menuTitle: "Lifestyle",
-        url: '/deep-dive'
+        url: '/deep-dive/lifestyle'
       },
       {
         menuTitle: "Real Estate",
-        url: '/deep-dive'
+        url: '/deep-dive/real-estate'
       },
       {
         menuTitle: "Travel",
-        url: '/deep-dive'
+        url: '/deep-dive/travel'
       },
       {
         menuTitle: "Weather",
-        url: '/deep-dive'
+        url: '/deep-dive/weather'
       }
     ];
     var menuInfo = [];

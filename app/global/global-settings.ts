@@ -7,31 +7,41 @@ export class GlobalSettings {
 
     private static _newsUrl:string = 'newsapi.synapsys.us';
 
-    private static _apiUrl:string = '-touchdownloyal-api.synapsys.us';
-    private static _articleUrl:string = '-touchdownloyal-ai.synapsys.us/';
+    private static _apiUrl:string = '-tcxmedia-api.synapsys.us/tcx';
+    private static _articleUrl:string = '-tcxmedia-ai.synapsys.us/tcx';
 
     private static _partnerApiUrl: string = 'apireal.synapsys.us/listhuv/?action=get_partner_data&domain=';
+
+    //two different api since there is a possibility that these urls are going to change
     private static _widgetUrl: string = 'w1.synapsys.us';
     private static _geoUrl: string = 'w1.synapsys.us';
 
-    private static _dynamicApiUrl: string = 'dw.synapsys.us/list_creator_api.php';
-
+    //main domain for all our images
     public static _imageUrl:string = 'images.synapsys.us';
-    private static _recUrl:string = '-homerunloyal-ai.synapsys.us/sidekick-regional';
-    private static _homepageUrl:string = '.touchdownloyal.com';
-    private static _homepageLinkName:string = 'touchdownloyal';
-    private static _partnerHomepageUrl:string = '.mytouchdownzone.com';
-    private static _partnerHomepageLinkName:string = 'mytouchdownzone';
 
+    //this changes per vertical
+    private static _homepageUrl:string = '.tcxmedia.com';
+    private static _homepageLinkName:string = 'tcxmedia';
+    private static _partnerHomepageUrl:string = '.tcxzone.com';
+    private static _partnerHomepageLinkName:string = 'tcxzone';
+
+    //links from our share providers that do not change
     private static _siteTwitterUrl:string = 'https://twitter.com/touchdownloyal';
     private static _siteFacebookUrl:string = 'https://www.facebook.com/touchdownloyal';
     private static _siteGoogleUrl:string = 'https://plus.google.com/share?url=';
 
+    //base titles that will be used to displayed different when on white labeled partner domains
     private static _baseTitle: string = "TCX";
     private static _basePartnerTitle: string = "MyTCX";
 
+    //copyright info that is to be manually change whenever a copyright info is needed to be updated
     private static _estYear: string = " 2016";
     private static _copyrightInfo: string = "USA Today Sports Images";
+
+    //this is proned to be removed but used as dummy data
+    private static _tdlAPI: string = '-touchdownloyal-api.synapsys.us/tcx';
+    private static _hrlAPI: string = '-homerunloyal-api.synapsys.us/tcx';
+    private static _tcxAPI: string = '-tcxmedia-api.synapsys.us/tcx';
 
     static getEnv(env:string):string {
       if (env == "localhost"){
@@ -51,6 +61,288 @@ export class GlobalSettings {
       }
     }
 
+    static getTCXscope(section){
+      var category = {
+        //BELOW are categories SNTMedia actually has Verticals built specifically for that category
+        'nfl':{
+          scope:'nfl',
+          topScope: 'football',
+          displayName: 'football',
+          verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
+          aiApi:this.getVerticalEnv('-touchdownloyal-ai.synapsys.us'),
+          tcxApi: this.getApiUrl(),
+          showEventSlider: true,
+          showBoxScores:true,
+          icon:'/dummyIcon/nfl.jpg',
+        },
+        'ncaaf':{
+          scope:'ncaaf',
+          topScope: 'football',
+          displayName: 'football',
+          verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
+          aiApi:this.getVerticalEnv('-touchdownloyal-ai.synapsys.us'),
+          tcxApi: this.getApiUrl(),
+          showEventSlider: true,
+          showBoxScores:true,
+          icon:'/dummyIcon/ncaaf.jpg'
+        },
+        'mlb':{
+          scope:'mlb',
+          topScope: 'baseball',
+          displayName: 'baseball',
+          verticalApi: this.getVerticalEnv('-homerunloyal-api.synapsys.us'),
+          aiApi:this.getVerticalEnv('-homerunloyal-ai.synapsys.us'),
+          tcxApi: this.getApiUrl(),
+          showEventSlider: true,
+          showBoxScores:true,
+          icon:'/dummyIcon/mlb.jpg'
+        },
+        'nba':{
+          scope:'nba',
+          topScope: 'basketball',
+          displayName: 'basketball',
+          verticalApi: this.getVerticalEnv('-sports-api.synapsys.us'),
+          aiApi:this.getVerticalEnv('-sports-ai'),
+          tcxApi: this.getApiUrl(),
+          showEventSlider: true,
+          showBoxScores:true,
+          icon:'/dummyIcon/nba.jpg'
+        },
+        'ncaam':{
+          scope:'ncaaf',
+          topScope:'basketball',
+          displayName:'basketball',
+          verticalApi:this.getVerticalEnv('-sports-api.synapsys.us'),
+          aiApi: this.getVerticalEnv('-sports-ai'),
+          tcxApi: this.getApiUrl(),
+          showEventSlider: true,
+          showBoxScores:true,
+          icon:'/dummyIcon/ncaam.jpg'
+        },
+        'business':{
+          scope:'finance',
+          topScope: 'business',
+          displayName: 'business',
+          verticalApi: this.getVerticalEnv('-finance-api.synapsys.us'),
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: true,
+          showBoxScores:false,
+          icon:'/dummyIcon/business.jpg'
+        },
+        'realestate':{
+          scope:'realestate',
+          topScope: 'realestate',
+          displayName: 'realestate',
+          verticalApi: this.getVerticalEnv('-joyfulhome-api.synapsys.us'),//dev api is maybe api2.joyfulhome.com
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: false,
+          showBoxScores:false,
+          icon:'/dummyIcon/realestate.jpg'
+        },
+        //ABOVE are categories SNTMedia actually has Verticals built specifically for that category
+
+        //BELOW are categories SNTMedia do no have specific verticals for therefore will not have anything linking to a category specific site
+        'sports':{
+          scope:'sports',
+          topScope: 'sports',
+          displayName: 'sports',
+          verticalApi: null,
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: true,
+          showBoxScores:true,
+          icon:'/dummyIcon/sports.jpg',
+        },
+        'weather':{
+          scope:'weather',
+          topScope: 'weather',
+          displayName: 'weather',
+          verticalApi: this.getVerticalEnv('-weather-api.synapsys.us'),
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: true,
+          showBoxScores:false,
+          icon:'/dummyIcon/weather.jpg'
+        },
+        'trending':{
+          scope:'trending',
+          topScope: 'trending',
+          displayName: 'trending',
+          verticalApi: null,
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: false,
+          showBoxScores:false,
+          icon:'/dummyIcon/trending.jpg'
+        },
+        'breaking':{
+          scope:'breaking',
+          topScope: 'breaking',
+          displayName: 'breaking',
+          verticalApi: null,
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: false,
+          showBoxScores:false,
+          icon:'/dummyIcon/breaking.jpg'
+        },
+        'entertainment':{
+          scope:'entertainment',
+          topScope: 'entertainment',
+          displayName: 'entertainment',
+          verticalApi: null,
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: false,
+          showBoxScores:false,
+          icon:'/dummyIcon/entertainment.jpg'
+        },
+        'tv':{
+          scope:'tv',
+          topScope: 'entertainment',
+          displayName: 'tv',
+          verticalApi: null,
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: false,
+          showBoxScores:false,
+          icon:'/dummyIcon/tv.jpg'
+        },
+        'movies':{
+          scope:'movies',
+          topScope: 'entertainment',
+          displayName: 'movies',
+          verticalApi: null,
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: false,
+          showBoxScores:false,
+          icon:'/dummyIcon/movies.jpg'
+        },
+        'music':{
+          scope:'music',
+          topScope: 'entertainment',
+          displayName: 'music',
+          verticalApi: null,
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: false,
+          showBoxScores:false,
+          icon:'/dummyIcon/music.jpg'
+        },
+        'celeberties':{
+          scope:'celeberties',
+          topScope: 'entertainment',
+          displayName: 'celeberties',
+          verticalApi: null,
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: false,
+          showBoxScores:false,
+          icon:'/dummyIcon/celeberties.jpg'
+        },
+        'lifestyle':{
+          scope:'lifestyle',
+          topScope: 'lifestyle',
+          displayName: 'lifestyle',
+          verticalApi: null,
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: false,
+          showBoxScores:false,
+          icon:'/dummyIcon/lifestyle.jpg'
+        },
+        'food':{
+          scope:'food',
+          topScope: 'food',
+          displayName: 'food',
+          verticalApi: null,
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: false,
+          showBoxScores:false,
+          icon:'/dummyIcon/food.jpg'
+        },
+        'travel':{
+          scope:'travel',
+          topScope: 'travel',
+          displayName: 'travel',
+          verticalApi: null,
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: false,
+          showBoxScores:false,
+          icon:'/dummyIcon/travel.jpg'
+        },
+        'politics':{
+          scope:'politics',
+          topScope: 'politics',
+          displayName: 'politics',
+          verticalApi: null,
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: false,
+          showBoxScores:false,
+          icon:'/dummyIcon/politics.jpg'
+        },
+        'health':{
+          scope:'health',
+          topScope: 'health',
+          displayName: 'health',
+          verticalApi: null,
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: false,
+          showBoxScores:false,
+          icon:'/dummyIcon/health.jpg'
+        },
+        'automotive':{
+          scope:'automotive',
+          topScope: 'automotive',
+          displayName: 'automotive',
+          verticalApi: null,
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: false,
+          showBoxScores:false,
+          icon:'/dummyIcon/automotive.jpg'
+        },
+        //ABOVE are categories SNTMedia do no have specific verticals for therefore will not have anything linking to a category specific site
+      }
+      return category;
+    }
+
+    static getVerticalEnv(api){
+      return this._proto + "//" + this.getEnv(this._env) + api
+    }
+
+    static getCategoryAPI(category:string): string{
+      var _apiURL;
+      switch(category){
+        //FOOTBALL URL
+        case 'nfl':
+        case 'ncaaf':
+          _apiURL = this._proto + "//" + this.getEnv(this._env) + this._tdlAPI;
+          break;
+        //BASKETBALL URL
+        case 'nba':
+        case 'ncaab':
+          _apiURL = this._proto + "//" + this.getEnv(this._env) + this._tcxAPI;
+          break;
+        //BASEBALL URL
+        case 'mlb':
+          _apiURL = this._proto + "//" + this.getEnv(this._env) + this._hrlAPI;
+          break;
+        //OTHERS TCX URL
+        default:
+          _apiURL = this._proto + "//" + this.getEnv(this._env) + this._tcxAPI;
+          break;
+      }
+      return _apiURL;
+    }
+
     static storePartnerId(partnerId) {
       this._partnerId = partnerId;
     }
@@ -59,13 +351,8 @@ export class GlobalSettings {
         return this._partnerId;
     }
 
-    static getDynamicWidet():string {
-        return this._proto + "//" + this._dynamicApiUrl;
-    }
-
     static getApiUrl():string {
         return this._proto + "//" + this.getEnv(this._env) + this._apiUrl;
-
     }
 
     static getPartnerApiUrl(partnerID):string {
@@ -85,26 +372,6 @@ export class GlobalSettings {
         return relPath;
     }
 
-    static getBackgroundImageUrl(relativePath):string {
-        var relPath = relativePath != null ? this._proto + "//" + this._imageUrl + relativePath: '/app/public/drk-linen.png';
-        return relPath;
-    }
-
-    static getArticleUrl():string {
-        return this._proto + "//" + this.getEnv(this._env) + this._articleUrl;
-    }
-
-    static getRecommendUrl():string {
-        return this._proto + "//" + this.getEnv(this._env) + this._articleUrl;
-    }
-
-    static getTrendingUrl():string {
-        return this._proto + "//" + this.getEnv(this._env) + this._articleUrl;
-    }
-    static getRecUrl():string {
-        return this._proto + "//" + this.getEnv(this._env) + this._recUrl;
-    }
-
     static getHeadlineUrl():string {
         return this._proto + "//" + this.getEnv(this._env) + this._articleUrl;
     }
@@ -112,14 +379,6 @@ export class GlobalSettings {
     static getNewsUrl():string {
         //[https:]//[prod]-homerunloyal-api.synapsys.us
         return this._proto + "//" + this._newsUrl;
-    }
-
-    static getHomePageLinkName() {
-      return this._homepageLinkName;
-    }
-
-    static getPartnerHomePageLinkName() {
-      return this._partnerHomepageLinkName;
     }
 
     static getHomePage(partnerId: string, includePartnerId?: boolean) {
@@ -169,54 +428,6 @@ export class GlobalSettings {
         return "/app/public/mainLogo.jpg";
     }
 
-    /**
-     * This should be called by classes in their constructor function, so that the
-     * 'subscribe' function actually gets called and the partnerID and scope can be located from the route
-     *
-     * @param{Router} router
-     * @param {Function} subscribeListener - takes a single parameter that represents the partnerID: (partnerID) => {}
-     */
-
-    //static getPartnerID(router: Router, subscribeListener: Function)
-    // static getParentParams(router: Router, subscribeListener: Function) {
-    //     if ( !subscribeListener ) return;
-    //
-    //     router.root.subscribe (
-    //         route => {
-    //             let partnerID = null;
-    //             let scope = route.instruction.params["scope"];
-    //             if ( route && route.instruction && route.instruction.params["partner_id"] != null ) {
-    //               partnerID = route.instruction.params["partner_id"];
-    //             }else if(window.location.hostname.split(".")[0].toLowerCase() == "football"){
-    //               partnerID = window.location.hostname.split(".")[1] + "." + window.location.hostname.split(".")[2];
-    //             }
-    //
-    //             if ( scope == null ) {
-    //               scope = this.getSportLeagueAbbrv();
-    //             }
-    //
-    //             subscribeListener({
-    //               partnerID: partnerID == '' ? null : partnerID,
-    //               scope: this.getScope(scope)
-    //             });
-    //         }
-    //     )
-    // }
-
-    //converts URL route scope from NCAAF to FBS
-    //NCAAF is for display purpose and returning FBS is for API requirements
-    //lowercase is for common practice
-    // static getScope(scope?) {
-    //   switch(scope) {
-    //     case ( this.getCollegeDivisionFullAbbrv().toLowerCase() ) :
-    //     case ( this.getCollegeDivisionFullAbbrv() ) :
-    //     return this.getCollegeDivisionAbbrv().toLowerCase();
-    //
-    //     default:
-    //     return this.getSportLeagueAbbrv().toLowerCase();
-    //   }
-    // }
-
     static getPageTitle(subtitle?: string, profileName?: string) {
       if(this.getHomeInfo().isPartner){
         this._baseTitle = this._basePartnerTitle;
@@ -234,32 +445,6 @@ export class GlobalSettings {
       return this._basePartnerTitle;
     }
 
-    // static getSportLeagueAbbrv() {
-    //   return this._sportLeagueAbbrv;
-    // }
-    // static getSportLeagueFull() {
-    //   return this._sportLeagueFull;
-    // }
-    // static getSportLeagueChampionship() {
-    //   return this._sportLeagueChampionship;
-    // }
-    // static getSportLeagueSegments() {
-    //   return this._sportLeagueSegments;
-    // }
-    //
-    // static getCollegeDivisionAbbrv() {
-    //   return this._collegeDivisionAbbrv;
-    // }
-    // static getCollegeDivisionFullAbbrv() {
-    //   return this._collegeDivisionFullAbbrv;
-    // }
-    // static getCollegeDivisionChampionship() {
-    //   return this._collegeDivisionChampionship;
-    // }
-    // static getCollegeDivisionSegments() {
-    //   return this._collegeDivisionSegments;
-    // }
-
     static getCopyrightInfo() {
         return this._copyrightInfo;
     }
@@ -272,9 +457,7 @@ export class GlobalSettings {
     static getSiteGoogleUrl(partnerId: string) {
       return this._siteGoogleUrl + this.getHomePage(partnerId);
 	  }
-    // static getSportName() {
-    //   return this._sportName;
-    // }
+
     static getEstYear() {
       return this._estYear;
     }

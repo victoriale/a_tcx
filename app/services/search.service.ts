@@ -167,7 +167,7 @@ export class SearchService{
         let searchRoute: Array<any>;
         //Build search Route
         if ( term ) {
-            searchRoute = ['Search-page', {query: term}];
+            searchRoute = ['search', 'articles',{query: term}];
         }else{
             searchRoute = null;
         }

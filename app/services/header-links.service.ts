@@ -20,23 +20,23 @@ export class HeaderLinksService {
     // }
     var menuData = [{
         menuTitle: "SPORTS",
-        url: '/deep-dive'
+        url: '/deep-dive/sports'
       },
       {
         menuTitle: "ENTERTAINMENT",
-        url: '/deep-dive'
+        url: '/deep-dive/entertainment'
       },
       {
         menuTitle: "BUSINESS",
-        url: '/deep-dive'
+        url: '/deep-dive/business'
       },
       {
         menuTitle: "REAL ESTATE",
-        url: '/deep-dive'
+        url: '/deep-dive/real-esate'
       },
       {
         menuTitle: "WEATHER",
-        url: '/deep-dive'
+        url: '/deep-dive/weather'
       }
     ];
 

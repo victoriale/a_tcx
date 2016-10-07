@@ -10,34 +10,39 @@ import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { GlobalSettings } from "../global/global-settings";
 import { GlobalFunctions } from "../global/global-functions";
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
-//components
+/*** COMPONENTS ***/
 import { HeaderComponent } from "../fe-core/components/header/header.component";
+import { SectionNameComponent } from "../fe-core/components/section-name/section-name.component";
 import { Search } from "../fe-core/components/search/search.component";
 import { HamburgerMenuComponent, MenuData } from '../fe-core/components/hamburger-menu/hamburger-menu.component';
 import { RectangleImage } from "../fe-core/components/images/rectangle-image/rectangle-image";
 import { CircleImage } from "../fe-core/components/images/circle-image/circle-image";
 import { HoverImage } from "../fe-core/components/images/hover-image";
-import { FooterComponent } from "../fe-core/components/footer/footer.component";
-import { ModuleHeader } from "../fe-core/components/module-header/module-header.component";
 import { ImagesMedia } from "../fe-core/components/carousels/images-media-carousel/images-media-carousel.component";
 import { CircleButton } from "../fe-core/components/buttons/circle/circle.button";
-import { LoadingComponent } from "../fe-core/components/loading/loading.component";
-import { CircleImageData } from "../fe-core/components/images/image-data";
-import { ScrollableContent } from "../fe-core/components/scrollable-content/scrollable-content.component";
+
+import { ModuleHeader } from "../fe-core/components/module-header/module-header.component";
+import { FooterComponent } from "../fe-core/components/footer/footer.component";
+import { ArticleBlockComponent } from "../fe-core/components/article-block/article-block.component";
 import { DropdownComponent } from "../fe-core/components/dropdown/dropdown.component";
-import { SearchBoxModule } from "../fe-core/modules/search-box-module/search-box-module.module";
-import { WidgetModule } from "../fe-core/modules/widget/widget.module";
-import { WidgetCarouselModule } from "../fe-core/modules/widget/widget-carousel.module";
+import { LoadingComponent } from "../fe-core/components/loading/loading.component";
+import { ScrollableContent } from "../fe-core/components/scrollable-content/scrollable-content.component";
 import { SidekickWrapperAI } from "../fe-core/components/sidekick-wrapper-ai/sidekick-wrapper-ai.component";
 import { Larousel } from '../fe-core/components/larousel/larousel';
 import { NewsBox } from '../fe-core/components/news-box/news-box';
 
+/*** MODULES ***/
+import { WidgetCarouselModule } from "../fe-core/modules/widget/widget-carousel.module";
+import { WidgetModule } from "../fe-core/modules/widget/widget.module";
+import { SearchBoxModule } from "../fe-core/modules/search-box-module/search-box-module.module";
+import { DeepDiveRecommendation } from "../fe-core/modules/deep-dive-recommendation/deep-dive-recommendation.module";
 
 //Pipes
 import {SanitizeScript, SanitizeHtml, SanitizeRUrl, SanitizeStyle} from "../fe-core/pipes/safe.pipe";
 
 //router
 import { routing  } from '../app.routing';
+import {InputBar} from "../fe-core/components/input-bar/input-bar.component";
 
 
 @NgModule({
@@ -71,9 +76,12 @@ import { routing  } from '../app.routing';
       SanitizeScript,
       ScrollableContent,
       DropdownComponent,
-      Larousel,
-      NewsBox
-
+	    Larousel,
+      NewsBox,
+      SectionNameComponent,
+      ArticleBlockComponent,
+      DeepDiveRecommendation,
+      InputBar,
     ],
     exports: [
       HeaderComponent,
@@ -97,7 +105,11 @@ import { routing  } from '../app.routing';
       Larousel,
       DropdownComponent,
       Search,
-      NewsBox
+      NewsBox,
+      SectionNameComponent,
+      ArticleBlockComponent,
+      DeepDiveRecommendation,
+      InputBar
     ],
     providers: [
       VerticalGlobalFunctions,

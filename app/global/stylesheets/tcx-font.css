@@ -232,261 +232,200 @@
 }
 /* END Aliases */
 
-.fa-tcx-football:before {
-  content: "\61";
-}
-.fa-tcx-helmet:before {
-  content: "\62";
-}
-.fa-tcx-profiles:before {
-  content: "\63";
-}
-.fa-angle-down:before {
-  content: "\64";
-}
-.fa-angle-left:before {
-  content: "\65";
-}
-.fa-angle-right:before {
-  content: "\66";
-}
-.fa-angle-up:before {
-  content: "\67";
-}
-.fa-calendar-o:before {
+.fa-tdl-football:before {
   content: "\68";
 }
-.fa-calendar-times-o:before {
-  content: "\69";
-}
-.fa-chevron-down:before {
-  content: "\6a";
-}
-.fa-chevron-left:before {
-  content: "\6b";
-}
-.fa-chevron-right:before {
-  content: "\6c";
-}
-.fa-chevron-up:before {
-  content: "\6d";
-}
-.fa-eye:before {
-  content: "\6f";
-}
-.fa-circle:before {
-  content: "\6e";
-}
-.fa-caret-down:before {
+/*Business Icon*/
+.fa-fontawesome-webfont-3:before {
   content: "\70";
 }
-.fa-caret-left:before {
+.fa-clock:before {
   content: "\71";
 }
-.fa-caret-right:before {
+.fa-search-icon-01:before {
   content: "\72";
 }
-.fa-caret-up:before {
-  content: "\73";
-}
-.fa-trophy:before {
-  content: "\74";
-}
-.fa-stack-overflow:before {
+.fa-phone:before {
   content: "\75";
 }
-.fa-stack-exchange:before {
+.fa-phone-square:before {
   content: "\76";
 }
-.fa-sort-asc:before {
-  content: "\77";
-}
-.fa-sort-desc:before {
+.fa-list-ul:before {
   content: "\78";
 }
-.fa-arrows-alt:before {
-  content: "\7a";
-}
-.fa-expand:before {
-  content: "\41";
-}
-.fa-compress:before {
-  content: "\42";
-}
-.fa-map-marker:before {
+.fa-pinterest-p:before {
   content: "\43";
 }
-.fa-phone:before {
-  content: "\45";
-}
-.fa-folder-open-o:before {
-  content: "\46";
-}
-.fa-list-ul:before {
-  content: "\47";
-}
-.fa-th-large:before {
-  content: "\48";
-}
-.fa-sort:before {
-  content: "\49";
-}
-.fa-facebook:before {
-  content: "\4a";
-}
-.fa-twitter:before {
-  content: "\4b";
-}
-.fa-pinterest:before {
-  content: "\4d";
-}
-.fa-pinterest-p:before {
-  content: "\4e";
-}
-.fa-search:before {
-  content: "\4f";
-}
 .fa-linkedin:before {
-  content: "\50";
-}
-.fa-reply:before {
-  content: "\51";
-}
-.fa-calendar:before {
-  content: "\52";
-}
-.fa-heart:before {
-  content: "\53";
-}
-.fa-file:before {
-  content: "\54";
-}
-.fa-file-image-o:before {
-  content: "\55";
-}
-.fa-arrow-right:before {
-  content: "\56";
-}
-.fa-arrow-left:before {
-  content: "\57";
-}
-.fa-arrow-down:before {
-  content: "\58";
-}
-.fa-arrow-up:before {
-  content: "\59";
-}
-.fa-newspaper-o:before {
-  content: "\5a";
-}
-.fa-comments-o:before {
-  content: "\30";
-}
-.fa-heartbeat:before {
-  content: "\31";
-}
-.fa-clock-o:before {
-  content: "\32";
-}
-.fa-bell-o:before {
-  content: "\33";
-}
-.fa-refresh:before {
-  content: "\34";
-}
-.fa-bars:before {
-  content: "\35";
-}
-.fa-play:before {
-  content: "\36";
-}
-.fa-heart-o:before {
-  content: "\37";
-}
-.fa-times:before {
-  content: "\38";
-}
-.fa-share-alt:before {
-  content: "\39";
-}
-.fa-angle-double-left:before {
-  content: "\21";
-}
-.fa-angle-double-right:before {
-  content: "\22";
-}
-.fa-info-circle:before {
-  content: "\23";
-}
-.fa-copyright:before {
-  content: "\24";
-}
-.fa-fontawesome-webfont:before {
-  content: "\25";
-}
-.fa-share:before {
-  content: "\79";
-}
-.fa-cog:before {
-  content: "\4c";
-}
-.fa-tdball:before {
-  content: "\27";
-}
-.fa-tdrushing:before {
-  content: "\28";
-}
-.fa-tdpoints:before {
-  content: "\29";
-}
-.fa-tdrecyards:before {
-  content: "\2a";
-}
-.fa-tdrushat:before {
-  content: "\2b";
-}
-.fa-area-chart:before {
   content: "\44";
 }
-.fa-search-icon-01:before {
+.fa-file:before {
+  content: "\49";
+}
+.fa-file-image-o:before {
+  content: "\4a";
+}
+.fa-newspaper-o:before {
+  content: "\4e";
+}
+.fa-share-alt:before {
+  content: "\66";
+}
+.fa-cutlery:before {
+  content: "\6a";
+}
+.fa-briefcase-case-two:before {
+  content: "\64";
+}
+.fa-pin-map:before {
+  content: "\6d";
+}
+.fa-list-bullet:before {
+  content: "\77";
+}
+.fa-call-phone:before {
+  content: "\41";
+}
+.fa-futbol-o:before {
+  content: "\42";
+}
+.fa-diamond:before {
+  content: "\4b";
+}
+.fa-heartbeat:before {
+  content: "\4c";
+}
+.fa-copyright:before {
+  content: "\4f";
+}
+.fa-university:before {
+  content: "\5a";
+}
+.fa-caret-left:before {
+  content: "\30";
+}
+.fa-caret-down:before {
+  content: "\31";
+}
+.fa-caret-up:before {
+  content: "\32";
+}
+.fa-arrow-right-1:before {
+  content: "\33";
+}
+.fa-angle-double-right-1:before {
+  content: "\34";
+}
+.fa-angle-double-left-1:before {
+  content: "\35";
+}
+.fa-angle-left-1:before {
+  content: "\36";
+}
+.fa-angle-right-1:before {
+  content: "\37";
+}
+.fa-angle-down:before {
+  content: "\38";
+}
+.fa-angle-up:before {
+  content: "\39";
+}
+.fa-bars:before {
+  content: "\21";
+}
+.fa-calendar-1:before {
+  content: "\22";
+}
+.fa-circle-1:before {
+  content: "\23";
+}
+.fa-cog:before {
+  content: "\24";
+}
+.fa-film:before {
+  content: "\25";
+}
+.fa-home-1:before {
   content: "\26";
 }
-.fa-field-goal-pct-made:before {
-  content: "\2d";
+.fa-heart:before {
+  content: "\27";
 }
-.fa-field-goals-made:before {
-  content: "\2e";
+.fa-play-1:before {
+  content: "\28";
 }
-.fa-games-started:before {
-  content: "\2f";
+.fa-sort:before {
+  content: "\29";
 }
-.fa-gross-punting-yds:before {
-  content: "\3a";
+.fa-square-1:before {
+  content: "\2a";
 }
-.fa-interceptions:before {
-  content: "\3b";
+.fa-search:before {
+  content: "\2b";
 }
-.fa-longest-return:before {
-  content: "\3c";
+.fa-calendar-times-o:before {
+  content: "\65";
 }
-.fa-passer-rating:before {
-  content: "\3d";
+.fa-calendar-o:before {
+  content: "\67";
 }
-.fa-receptions:before {
-  content: "\3e";
+.fa-cloud-1:before {
+  content: "\69";
 }
-.fa-rushing-attempts:before {
-  content: "\3f";
+.fa-folder-open:before {
+  content: "\6c";
 }
-.fa-years-experience:before {
-  content: "\40";
+.fa-twitter:before {
+  content: "\6e";
 }
-.fa-total-tackles:before {
-  content: "\5b";
+.fa-spinner-1:before {
+  content: "\73";
 }
-.fa-total-sacks:before {
-  content: "\5d";
+.fa-th-large:before {
+  content: "\79";
 }
-.fa-age:before {
-  content: "\2c";
+.fa-folder-open-o:before {
+  content: "\62";
+}
+.fa-linkedin-1:before {
+  content: "\7a";
+}
+.fa-plane:before {
+  content: "\46";
+}
+.fa-times:before {
+  content: "\47";
+}
+.fa-reply:before {
+  content: "\63";
+}
+.fa-arrows-alt:before {
+  content: "\6b";
+}
+/*Newspaper*/
+.fa-fontawesome-webfont:before {
+  content: "\6f";
+}
+.fa-facebook-1:before {
+  content: "\74";
+}
+.fa-auto-shape:before {
+  content: "\61";
+}
+/*Uppercase Google Plus*/
+.fa-fontawesome-webfont-1:before {
+  content: "\45";
+}
+/*Bastketball Icon*/
+.fa-dribble:before {
+  content: "\48";
+}
+/*Baseball Icon*/
+.fa-strikeouts-01:before {
+  content: "\4d";
+}
+.fa-play-circle:before {
+  content: "\50";
 }

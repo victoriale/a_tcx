@@ -12,7 +12,6 @@ declare var moment;
 export class DeepDiveService {
   private _baseballAPI: string = "http://dev-homerunloyal-api.synapsys.us/tcx/";
   private _footballAPI: string = "http://dev-touchdownloyal-api.synapsys.us/tcx/";
-
   constructor(public http: Http){}
 
   //Function to set custom headers
@@ -21,10 +20,31 @@ export class DeepDiveService {
       return headers;
   }
 
+  setSectionFrontAPI(category){
+    switch(category){
+      case 'nfl':
+      break;
+      case 'ncaaf':
+      break;
+      case 'mlb':
+      break;
+      case 'nba':
+      break;
+      case 'ncaam':
+      break;
+      case 'finance':
+      break;
+      case 'realestate':
+      break;
+      case 'weather':
+      break;
+    }
+  }
+
   getDeepDiveArticleService(articleID){
   //Configure HTTP Headers
   var headers = this.setToken();
-  var callURL = this._footballAPI + '/article/' + articleID;
+  var callURL = this._footballAPI + '/article/' + articleID;//TODO
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
@@ -67,34 +87,9 @@ export class DeepDiveService {
        })
    }
 
-   carouselTransformData(arrayData:Array<ArticleStackData>){
-        var transformData = [];
-        arrayData.forEach(function(val,index){
-          var curdate = new Date();
-          var curmonthdate = curdate.getDate();
-          var timeStamp = moment(Number(val.publishedDate)).format("MMMM Do, YYYY h:mm:ss a");
-          let carData = {
-            image_url: GlobalSettings.getImageUrl(val['imagePath']),
-            title:  "<span> Today's News: </span>",
-            headline: val['title'],
-            keyword: val['keyword'],
-            teaser: val['teaser'].replace('_',': ').replace(/<p[^>]*>/g, ""),
-            id:val['id'],
-            articlelink: ['/'],
-            timeStamp: timeStamp,
-          };
-          if(carData['teaser'].length >= 200){
-            carData['teaser'].substr(0,200) + '...';
-          }
-          transformData.push(carData);
-        });
-
-        return transformData;
-    }
-
-    getDeepDiveVideoBatchService(category: string, limit: number, page: number, location?: string){//TODO
+    getDeepDiveVideoBatchService(category: string, limit: number, page: number, location?: string){
       var headers = this.setToken();
-
+      var callURL = GlobalSettings.getCategoryAPI(category);
       if(category === null || typeof category == 'undefined'){
         category = 'fbs';
       }
@@ -102,7 +97,7 @@ export class DeepDiveService {
         limit = 5;
         page = 1;
       }
-      var callURL = this._footballAPI + 'videoBatch/' + category + '/' + limit + '/' + page;
+      callURL += '/videoBatch/' + category + '/' + limit + '/' + page;
       return this.http.get(callURL, {headers: headers})
         .map(res => res.json())
         .map(data => {
@@ -115,14 +110,15 @@ export class DeepDiveService {
       var videoBatchArray = [];
       data.forEach(function(val, index){
         var date =  moment(Number(val.timeStamp));
-        date = GlobalFunctions.formatAPMonth(date.month()) + date.format(' Do, YYYY');
+        date = GlobalFunctions.formatAPMonth(date.month()) + date.format(' DD, YYYY');
         var d = {
           id: val.id,
           keyword: val.keyword ? val.keyword : "", //TODO maybe return the page category when available
           title: val.title ? val.title : "No Title",
           timeStamp: date,
           videoThumbnail: val.videoThumbnail ? val.videoThumbnail : sampleImage,
-          videoUrl: ['/deep-dive']
+          videoUrl: ['/deep-dive'],
+          keyUrl: ['/deep-dive']
         }
         videoBatchArray.push(d);
       });
@@ -130,7 +126,7 @@ export class DeepDiveService {
     }// transformDeepDiveVideoBatchData ENDS
 
     // Top Article of Article Stacks
-    transformToArticleStack(data: Array<ArticleStackData>){
+    transformToArticleStack(data: Array<ArticleStackData>, scope){
       var sampleImage = "/app/public/placeholder_XL.png";
       // var topData = data.data[0];
       var articleStackArray = [];
@@ -138,8 +134,9 @@ export class DeepDiveService {
         var articleStackData = {
             id: "1",
             articleUrl: '/deep-dive',
-            keyword: "Keyword",
-            timeStamp: "Sept. 28th 2016",
+            keyUrl: '/deep-dive',
+            keyword: scope.toUpperCase(),
+            timeStamp: "Sept. 28, 2016",
             title: "Title here",
             author: "Author",
             publisher: ", Publisher",
@@ -154,5 +151,30 @@ export class DeepDiveService {
         });
       return articleStackArray;
     }// transformToArticleStack ENDS
+
+     carouselTransformData(arrayData:Array<ArticleStackData>){
+          var transformData = [];
+          arrayData.forEach(function(val,index){
+            var curdate = new Date();
+            var curmonthdate = curdate.getDate();
+            var timeStamp = moment(Number(val.publishedDate)).format("MMMM Do, YYYY h:mm:ss a");
+            let carData = {
+              image_url: GlobalSettings.getImageUrl(val['imagePath']),
+              title:  "<span> Today's News: </span>",
+              headline: val['title'],
+              keyword: val['keyword'],
+              teaser: val['teaser'].replace('_',': ').replace(/<p[^>]*>/g, ""),
+              id:val['id'],
+              articlelink: ['/'],
+              timeStamp: timeStamp,
+            };
+            if(carData['teaser'].length >= 200){
+              carData['teaser'].substr(0,200) + '...';
+            }
+            transformData.push(carData);
+          });
+
+          return transformData;
+      }
 
 }// DeepDiveService ENDS

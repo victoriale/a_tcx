@@ -8,8 +8,12 @@ import {SyndicatedArticlePage} from "./webpages/syndicated-article-page/syndicat
 import {SearchPage} from "./webpages/search-page/search-page";
 
 const relativeChildRoutes = [
-    {
+   /* {
         path:'search/:userInput',
+        component: SearchPage
+    },*/
+    {
+        path:'search/articles/:userInput',
         component: SearchPage
     },
     {
@@ -23,7 +27,7 @@ const relativeChildRoutes = [
         component: SyndicatedArticlePage,
     },
     {
-        //added article category
+        //added article category with subarticles
         path: ':category/:articleCategory',
         component: DeepDivePage,
     },
@@ -33,14 +37,10 @@ const relativeChildRoutes = [
         component: DeepDivePage,
     },
     {
-        //category is top level deep dive page that are groupings of other deep dive pages (ex: sports)
         path: '',
         component: DeepDivePage,
     },
-
-
-
-    ]
+  ];
 
 const appRoutes: Routes = [
     {

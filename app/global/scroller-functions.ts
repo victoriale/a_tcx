@@ -31,7 +31,7 @@ export class Scroller{
     }
 
     // Setup Scroller
-    this.scrollbarHeightRatio = 0.90;
+    this.scrollbarHeightRatio = 0.98;
     this.scrollbarBaseHeight = scrollContainer.offsetHeight * this.scrollbarHeightRatio;
     this.contentRatio = scrollContainer.offsetHeight / this.scrollContentWrapper.scrollHeight;
     this.scrollerHeight = this.contentRatio * this.scrollbarBaseHeight;
@@ -53,15 +53,23 @@ export class Scroller{
     }
 
     this.scrollerElement.className = 'scrollable-item-scroller';
+    this.scrollerElement.classList.add('menucheck');
 
     if (this.contentRatio < 1) {
         this.scrollerElement.style.height = this.scrollerHeight + 'px';
-
+        this.scrollerElement.classList.remove('hide-scroll');
+        this.scrollContainer.classList.remove('hide-scroll');
         // append scroller to scrollContainer div
         if ( !this.scrollerAlreadyOnPage ) {
           this.scrollerElement.style.top = this.scrollOffset.toString();
           this.createScroller();
         }
+    }
+    else {// if scrollable content is too big to need a scroller, remove scrollbar
+      if (this.scrollerAlreadyOnPage) {
+        this.scrollerElement.classList.add('hide-scroll');
+        this.scrollContainer.classList.add('hide-scroll');
+      }
     }
   }
 
@@ -94,7 +102,7 @@ export class Scroller{
     this.scrollContainer.appendChild(this.scrollerElement);
 
     // show scroll path divot
-    this.scrollContainer.className += ' showScroll';
+    this.scrollContainer.classList.add('showScroll');
 
     // attach related draggable listeners
     this.scrollerElement.addEventListener('mousedown', function(evt){

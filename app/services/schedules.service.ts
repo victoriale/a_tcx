@@ -68,7 +68,7 @@ export class SchedulesService {
     //Configure HTTP Headers
     var headers = this.setToken();
 
-    var callURL = this._apiUrl+'/boxScores/schedule/'+profile;
+    var callURL = "http://prod-touchdownloyal-api.synapsys.us"+'/boxScores/schedule/'+profile;
     if(profile == 'league'){//if league call then add scope
       callURL += '/'+ scope;
     }
@@ -329,6 +329,7 @@ export class SchedulesService {
 
 
   setupSlideScroll(topScope, data, scope, profile, eventStatus, limit, pageNum, selectedLocation, callback: Function, year?, week?){
+
     if (topScope == "finance") {
       //(scope, profile, eventStatus, limit, pageNum, id?)
       this.getFinanceData(scope, 'league', eventStatus, limit, pageNum)

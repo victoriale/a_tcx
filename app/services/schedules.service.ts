@@ -160,7 +160,7 @@ export class SchedulesService {
           //convert from kelvin to farenheight
           if (scope.toLowerCase() == "hourly") {
             data.data[n].unixTimestamp = moment.unix(data.data[n].unixTimestamp).format("h:mm a");
-            data.data[n].temperature  = ((data.data[n].temperature * (9/5)) - 459.67).toFixed(0);
+            data.data[n].temperature  = ((data.data[n].temperature * (9/5)) - 459.67).toFixed(0) + "&deg;";
 
           }
           else {

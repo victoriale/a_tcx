@@ -215,7 +215,7 @@ export class DeepDivePage implements OnInit {
                 this.changeScopeVar = "hourly";
                 break;
 
-              case "finance":
+              case "business":
                 this.topScope = "finance";
                 this.changeScopeVar = "all";
                 break;

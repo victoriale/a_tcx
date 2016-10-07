@@ -16,6 +16,12 @@ declare var moment;
 export interface boxScoresInterface {
   currentScope: string; //league
   aiContent?: any;
+  previousGameDate: {
+    event_date: string;
+  };
+  nextGameDate: {
+    event_date: string;
+  };
   data: Array<{gameDayInfoInterface}>
 } // end boxscores interface
 
@@ -122,12 +128,11 @@ export class BoxScoresService {
     // console.log('3. box-scores.service - getBoxScoresService - chosenDate ', chosenDate);
 
     var callURL = this._apiUrl+'/boxScores/league/'+scope+'/'+date+'/addAi';
-    // console.log('getBoxScoresService - callURL - ',callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
         // console.log('3. box-scores.service - getBoxScoresService - data ', data);
-        var transformedDate = this.transformBoxScores(data, scope);
+        var transformedDate = this.transformBoxScores(data.data, scope);
         return {
           transformedDate: transformedDate,
           aiArticle: data.aiContent != null ? data.aiContent : null,
@@ -285,7 +290,6 @@ export class BoxScoresService {
 
   // form box scores data
   transformBoxScores(data, scope?){
-
     var transformedData: boxScoresInterface = {
       currentScope: scope,
       aiContent: data.aiContent,
@@ -296,7 +300,6 @@ export class BoxScoresService {
     var boxScoreObj = {};
     var newBoxScores = {};
     let currWeekGameDates = {};
-
     for ( var gameDate in boxScoresData ) {
       let gameDayInfo:gameDayInfoInterface = data.data[gameDate];
       let currGameDate = moment(Number(gameDate)).tz('America/New_York').format('YYYY-MM-DD');

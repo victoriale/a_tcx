@@ -259,7 +259,7 @@ export class SchedulesService {
     //Configure HTTP Headers
     var headers = this.setToken();
 
-    var callURL = "http://dev-homerunloyal-api.synapsys.us/tcx/league/schedule/pre-event/5/1";
+    var callURL = "http://dev-homerunloyal-api.synapsys.us/tcx/league/schedule/pre-event/50/1";
     //optional week parameters
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())

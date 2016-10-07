@@ -211,23 +211,30 @@ export class DeepDivePage implements OnInit {
             console.log('Partner:', GlobalSettings.getPartnerId());
             console.log('sectionFront parameters:',param);
 
-            //for side scroller 
-            switch(param.category) {
-              case "nfl":
-              case "ncaaf":
-                this.topScope = "football";
-                this.changeScopeVar = param.category;
-                break;
+            //for side scroller
+            switch(param['category']) {
+              case "sports":
+                switch(param['articleCategory']) {
+                  case "nfl":
+                    this.topScope = "football";
+                    this.changeScopeVar = param['articleCategory'];
+                    break;
 
-              case "nba":
-              case "ncaam":
-                this.topScope = "basketball";
-                this.changeScopeVar = param.category;
-                break;
+                  case "nba":
+                  case "ncaam":
+                    this.topScope = "basketball";
+                    this.changeScopeVar = param['articleCategory'];
+                    break;
 
-              case "mlb":
-                this.topScope = "baseball";
-                this.changeScopeVar = param.category;
+                  case "mlb":
+                    this.topScope = "baseball";
+                    this.changeScopeVar = param['articleCategory'];
+                    break;
+
+                  default:
+                    this.topScope = null;
+                    this.changeScopeVar = null;
+                }
                 break;
 
               case "weather":

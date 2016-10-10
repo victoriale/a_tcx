@@ -63,6 +63,7 @@ export class GlobalSettings {
 
     static getTCXscope(section){
       var category = {
+        //BELOW are categories SNTMedia actually has Verticals built specifically for that category
         'nfl':{
           scope:'nfl',
           topScope: 'football',
@@ -118,6 +119,42 @@ export class GlobalSettings {
           showBoxScores:true,
           icon:'/dummyIcon/ncaam.jpg'
         },
+        'business':{
+          scope:'finance',
+          topScope: 'business',
+          displayName: 'business',
+          verticalApi: this.getVerticalEnv('-finance-api.synapsys.us'),
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: true,
+          showBoxScores:false,
+          icon:'/dummyIcon/business.jpg'
+        },
+        'realestate':{
+          scope:'realestate',
+          topScope: 'realestate',
+          displayName: 'realestate',
+          verticalApi: this.getVerticalEnv('-joyfulhome-api.synapsys.us'),//dev api is maybe api2.joyfulhome.com
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: false,
+          showBoxScores:false,
+          icon:'/dummyIcon/realestate.jpg'
+        },
+        //ABOVE are categories SNTMedia actually has Verticals built specifically for that category
+
+        //BELOW are categories SNTMedia do no have specific verticals for therefore will not have anything linking to a category specific site
+        'sports':{
+          scope:'sports',
+          topScope: 'sports',
+          displayName: 'sports',
+          verticalApi: null,
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: true,
+          showBoxScores:true,
+          icon:'/dummyIcon/sports.jpg',
+        },
         'weather':{
           scope:'weather',
           topScope: 'weather',
@@ -126,9 +163,153 @@ export class GlobalSettings {
           aiApi: null,
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
-          showBoxScores:true,
+          showBoxScores:false,
           icon:'/dummyIcon/weather.jpg'
         },
+        'trending':{
+          scope:'trending',
+          topScope: 'trending',
+          displayName: 'trending',
+          verticalApi: null,
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: false,
+          showBoxScores:false,
+          icon:'/dummyIcon/trending.jpg'
+        },
+        'breaking':{
+          scope:'breaking',
+          topScope: 'breaking',
+          displayName: 'breaking',
+          verticalApi: null,
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: false,
+          showBoxScores:false,
+          icon:'/dummyIcon/breaking.jpg'
+        },
+        'entertainment':{
+          scope:'entertainment',
+          topScope: 'entertainment',
+          displayName: 'entertainment',
+          verticalApi: null,
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: false,
+          showBoxScores:false,
+          icon:'/dummyIcon/entertainment.jpg'
+        },
+        'tv':{
+          scope:'tv',
+          topScope: 'entertainment',
+          displayName: 'tv',
+          verticalApi: null,
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: false,
+          showBoxScores:false,
+          icon:'/dummyIcon/tv.jpg'
+        },
+        'movies':{
+          scope:'movies',
+          topScope: 'entertainment',
+          displayName: 'movies',
+          verticalApi: null,
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: false,
+          showBoxScores:false,
+          icon:'/dummyIcon/movies.jpg'
+        },
+        'music':{
+          scope:'music',
+          topScope: 'entertainment',
+          displayName: 'music',
+          verticalApi: null,
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: false,
+          showBoxScores:false,
+          icon:'/dummyIcon/music.jpg'
+        },
+        'celeberties':{
+          scope:'celeberties',
+          topScope: 'entertainment',
+          displayName: 'celeberties',
+          verticalApi: null,
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: false,
+          showBoxScores:false,
+          icon:'/dummyIcon/celeberties.jpg'
+        },
+        'lifestyle':{
+          scope:'lifestyle',
+          topScope: 'lifestyle',
+          displayName: 'lifestyle',
+          verticalApi: null,
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: false,
+          showBoxScores:false,
+          icon:'/dummyIcon/lifestyle.jpg'
+        },
+        'food':{
+          scope:'food',
+          topScope: 'food',
+          displayName: 'food',
+          verticalApi: null,
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: false,
+          showBoxScores:false,
+          icon:'/dummyIcon/food.jpg'
+        },
+        'travel':{
+          scope:'travel',
+          topScope: 'travel',
+          displayName: 'travel',
+          verticalApi: null,
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: false,
+          showBoxScores:false,
+          icon:'/dummyIcon/travel.jpg'
+        },
+        'politics':{
+          scope:'politics',
+          topScope: 'politics',
+          displayName: 'politics',
+          verticalApi: null,
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: false,
+          showBoxScores:false,
+          icon:'/dummyIcon/politics.jpg'
+        },
+        'health':{
+          scope:'health',
+          topScope: 'health',
+          displayName: 'health',
+          verticalApi: null,
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: false,
+          showBoxScores:false,
+          icon:'/dummyIcon/health.jpg'
+        },
+        'automotive':{
+          scope:'automotive',
+          topScope: 'automotive',
+          displayName: 'automotive',
+          verticalApi: null,
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: false,
+          showBoxScores:false,
+          icon:'/dummyIcon/automotive.jpg'
+        },
+        //ABOVE are categories SNTMedia do no have specific verticals for therefore will not have anything linking to a category specific site
       }
       return category;
     }

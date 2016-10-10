@@ -137,42 +137,15 @@ export class DeepDivePage implements OnInit {
             this.scrollLength = this.sideScrollData.blocks.length;
           }
           else if (this.topScope == "basketball") {
-            if(this.sideScrollData == null){
               this.scopeList = sideScrollData.scopeList.reverse();
               this.sideScrollData = sideScrollData;
               this.scrollLength = this.sideScrollData.blocks.length;
-            }
-            else{
-              sideScrollData.forEach(function(val,i){
-                self.sideScrollData.push(val);
-              })
-            }
           }
           else if (this.topScope == "baseball") {
-            if(this.sideScrollData == null){
               this.scopeList = [];
               this.sideScrollData = sideScrollData;
               this.scrollLength = this.sideScrollData.blocks.length;
-            }
-            else{
-              sideScrollData.forEach(function(val,i){
-                self.sideScrollData.push(val);
-              })
-            }
           }
-          else if (this.topScope == "sports") {
-            if(this.sideScrollData == null){
-              this.scopeList = ["ALL"];
-              this.sideScrollData = sideScrollData;
-              this.scrollLength = this.sideScrollData.blocks.length;
-            }
-            else{
-              sideScrollData.forEach(function(val,i){
-                self.sideScrollData.push(val);
-              })
-            }
-          }
-
           this.safeCall = true;
           this.callCount++;
 
@@ -211,23 +184,30 @@ export class DeepDivePage implements OnInit {
             console.log('Partner:', GlobalSettings.getPartnerId());
             console.log('sectionFront parameters:',param);
 
-            //for side scroller 
-            switch(param.category) {
-              case "nfl":
-              case "ncaaf":
-                this.topScope = "football";
-                this.changeScopeVar = param.category;
-                break;
+            //for side scroller
+            switch(param['category']) {
+              case "sports":
+                switch(param['articleCategory']) {
+                  case "nfl":
+                    this.topScope = "football";
+                    this.changeScopeVar = param['articleCategory'];
+                    break;
 
-              case "nba":
-              case "ncaam":
-                this.topScope = "basketball";
-                this.changeScopeVar = param.category;
-                break;
+                  case "nba":
+                  case "ncaam":
+                    this.topScope = "basketball";
+                    this.changeScopeVar = param['articleCategory'];
+                    break;
 
-              case "mlb":
-                this.topScope = "baseball";
-                this.changeScopeVar = param.category;
+                  case "mlb":
+                    this.topScope = "baseball";
+                    this.changeScopeVar = param['articleCategory'];
+                    break;
+
+                  default:
+                    this.topScope = null;
+                    this.changeScopeVar = null;
+                }
                 break;
 
               case "weather":
@@ -235,7 +215,7 @@ export class DeepDivePage implements OnInit {
                 this.changeScopeVar = "hourly";
                 break;
 
-              case "finance":
+              case "business":
                 this.topScope = "finance";
                 this.changeScopeVar = "all";
                 break;
@@ -244,11 +224,13 @@ export class DeepDivePage implements OnInit {
                 this.topScope = null;
                 this.changeScopeVar = null;
             }
+
+            this.getSideScroll();
+            this.getDataCarousel();
+            this.deepDiveType = this.getDeepDiveType(this.category.toLowerCase());
+            this.sectionFrontName();
           }
       );
-      this.getSideScroll();
-      this.getDataCarousel();
-      this.deepDiveType = this.getDeepDiveType(this.category.toLowerCase());
-      this.sectionFrontName();
+
     }
   }

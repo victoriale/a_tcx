@@ -146,6 +146,14 @@ export class SchedulesService {
         output.current['currentTemperature'] = ((data.currentTemperature * (9/5)) - 459.67).toFixed(0);
         output.current['state'] = data.state;
         output.current['zipcode'] = data.zipcode;
+        output.blocks.push(
+          {
+            unixTimestamp: moment().format("h:mm A") + " CST",
+            temperature: output.current['currentTemperature'] + "&deg;",
+            icon: output.current['currentIcon'],
+            condition: output.current['currentCondition']
+          }
+        );
         for (var n =0; n< data.data.length; n++) {
           //convert from kelvin to farenheight
           if (scope.toLowerCase() == "hourly") {

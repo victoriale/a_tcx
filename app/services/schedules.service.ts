@@ -101,7 +101,7 @@ export class SchedulesService {
       .map(data => {
         var output = {scopeList: [], blocks: []}
         for (var i =0; i< data.data.scopeList.length; i++) {
-          output.scopeList.push(data.data.scopeList[i]);
+          output.scopeList.push(data.data.scopeList[i].toUpperCase());
         }
         for (var n =0; n< data.data[scope].length; n++) {
           data.data[scope][n].currentStockValue = Number(data.data[scope][n].currentStockValue).toFixed(2);

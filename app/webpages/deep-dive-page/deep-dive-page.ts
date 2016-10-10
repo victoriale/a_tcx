@@ -127,7 +127,7 @@ export class DeepDivePage implements OnInit {
               this.scrollLength = this.sideScrollData.blocks.length;
           }
           else if (this.topScope == "weather") {
-            this.scopeList = sideScrollData.scopeList.reverse();
+            this.scopeList = ["10 Day", "5 Day", "Hourly"];
             this.sideScrollData = sideScrollData;
             this.scrollLength = this.sideScrollData.blocks.length;
           }

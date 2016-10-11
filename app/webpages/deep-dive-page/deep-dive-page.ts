@@ -21,7 +21,7 @@ export class DeepDivePage implements OnInit {
     sideScrollData: any;
     scrollLength: number = 0;
 
-    selectedLocation: string = "wichita-ks";
+    selectedLocation: string = "wichita-ks"; //todo: need geolocation
     boxScoresTempVar: string = "nfl";
 
     topScope: string;

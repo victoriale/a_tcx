@@ -438,3 +438,9 @@
 .fa-arrow-left:before {
   content: "\53";
 }
+.fa-sliders:before {
+  content: "\54";
+}
+.fa-arrow-right-thin:before {
+  content: "\55";
+}

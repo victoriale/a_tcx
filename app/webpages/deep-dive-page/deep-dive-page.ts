@@ -23,7 +23,7 @@ export class DeepDivePage implements OnInit {
     sideScrollData: any;
     scrollLength: number = 0;
 
-    selectedLocation: string = "wichita-ks"; //todo: need geolocation
+    selectedLocation: string = "san%20francisco-ca"; // default city for weather if geolocation returns nothin
     boxScoresTempVar: string = "nfl";
 
     topScope: string;

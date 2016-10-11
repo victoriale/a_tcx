@@ -45,7 +45,7 @@ export class DeepDivePage implements OnInit {
     sectionNameTitle: string = this.category;
     geoLocation:string;
 
-    constructor(private _schedulesService:SchedulesService, private _deepDiveData: DeepDiveService, private _activatedRoute: ActivatedRoute, private _geoLocation: GeoLocation,) {
+    constructor(private _schedulesService:SchedulesService, private _deepDiveData: DeepDiveService, private _activatedRoute: ActivatedRoute, private _geoLocation: GeoLocation) {
       this.getGeoLocation();
     }
 
@@ -60,12 +60,14 @@ export class DeepDivePage implements OnInit {
                 geoLocationData => {
                   this.geoLocation = geoLocationData[0].state;
                   this.geoLocation = this.geoLocation.toLowerCase();
-                  // this.callModules();
+                  this.selectedLocation = geoLocationData[0].city.replace(/ /g, "%20") + "-" + geoLocationData[0].state;
                   console.log("Geo Location", this.geoLocation);//keep this for now
+                  this.getSideScroll();
                 },
                 err => {
+                  console.log("Geo Location Error",err);
                   this.geoLocation = defaultState;
-                  // this.callModules();
+                  this.getSideScroll();
                 }
             );
     }
@@ -251,7 +253,6 @@ export class DeepDivePage implements OnInit {
                 this.changeScopeVar = null;
             }
 
-            this.getSideScroll();
             this.getDataCarousel();
             this.deepDiveType = this.getDeepDiveType(this.category.toLowerCase());
             this.sectionFrontName();

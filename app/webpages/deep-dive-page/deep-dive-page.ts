@@ -21,7 +21,7 @@ export class DeepDivePage implements OnInit {
     sideScrollData: any;
     scrollLength: number = 0;
 
-    selectedLocation: string = "wichita-ks";
+    selectedLocation: string = "wichita-ks"; //todo: need geolocation
     boxScoresTempVar: string = "nfl";
 
     topScope: string;
@@ -71,8 +71,11 @@ export class DeepDivePage implements OnInit {
           break;
         case 'business':
         case 'finance':
+          _typeValue = "deep-dive-type2";
+          break;
         case 'weather':
           _typeValue = "deep-dive-type2";
+          this.sectionNameTitle = "weather";
           break;
         case 'realestate':
           _typeValue = "deep-dive-type2";

@@ -127,22 +127,22 @@ export class DeepDivePage implements OnInit {
               this.scrollLength = this.sideScrollData.blocks.length;
           }
           else if (this.topScope == "weather") {
-            this.scopeList = sideScrollData.scopeList.reverse();
+            this.scopeList = ["10 Day", "5 Day", "Hourly"];
             this.sideScrollData = sideScrollData;
             this.scrollLength = this.sideScrollData.blocks.length;
           }
           else if (this.topScope == "football") {
-            this.scopeList = ["NCAAF", "NFL"];
+            this.scopeList = ["MLB", "NCAAB", "NBA", "NCAAF", "NFL"];
             this.sideScrollData = sideScrollData;
             this.scrollLength = this.sideScrollData.blocks.length;
           }
           else if (this.topScope == "basketball") {
-              this.scopeList = sideScrollData.scopeList.reverse();
+              this.scopeList = ["MLB", "NCAAB", "NBA", "NCAAF", "NFL"];
               this.sideScrollData = sideScrollData;
               this.scrollLength = this.sideScrollData.blocks.length;
           }
           else if (this.topScope == "baseball") {
-              this.scopeList = [];
+              this.scopeList = ["MLB", "NCAAB", "NBA", "NCAAF", "NFL"];
               this.sideScrollData = sideScrollData;
               this.scrollLength = this.sideScrollData.blocks.length;
           }

@@ -4,6 +4,8 @@ import { DeepDiveService } from '../../services/deep-dive.service';
 import { ActivatedRoute } from '@angular/router';
 import { GlobalSettings } from "../../global/global-settings";
 import { GlobalFunctions } from "../../global/global-functions";
+import { GeoLocation } from "../../global/global-service";
+
 import { SectionNameData } from "../../fe-core/interfaces/deep-dive.data";
 
 declare var moment;
@@ -41,10 +43,31 @@ export class DeepDivePage implements OnInit {
     sectionName: SectionNameData;
     sectionNameIcon: string;
     sectionNameTitle: string = this.category;
-    constructor(private _schedulesService:SchedulesService, private _deepDiveData: DeepDiveService, private _activatedRoute: ActivatedRoute) {}
+    geoLocation:string;
+
+    constructor(private _schedulesService:SchedulesService, private _deepDiveData: DeepDiveService, private _activatedRoute: ActivatedRoute, private _geoLocation: GeoLocation,) {
+      this.getGeoLocation();
+    }
 
     ngOnDestroy(){
       this.routeSubscription.unsubscribe();
+    }
+    //Subscribe to getGeoLocation in geo-location.service.ts. On Success call getNearByCities function.
+    getGeoLocation() {
+      var defaultState = 'ca';
+        this._geoLocation.getGeoLocation()
+            .subscribe(
+                geoLocationData => {
+                  this.geoLocation = geoLocationData[0].state;
+                  this.geoLocation = this.geoLocation.toLowerCase();
+                  // this.callModules();
+                  console.log("Geo Location", this.geoLocation);//keep this for now
+                },
+                err => {
+                  this.geoLocation = defaultState;
+                  // this.callModules();
+                }
+            );
     }
 
     private getDeepDiveType(category:string): string{

@@ -9,6 +9,7 @@ import { VerticalGlobalFunctions } from "../global/vertical-global-functions";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { GlobalSettings } from "../global/global-settings";
 import { GlobalFunctions } from "../global/global-functions";
+import { GeoLocation } from "../global/global-service";
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 /*** COMPONENTS ***/
 import { HeaderComponent } from "../fe-core/components/header/header.component";
@@ -117,6 +118,7 @@ import {InputBar} from "../fe-core/components/input-bar/input-bar.component";
       SanitizeScript,
       GlobalSettings,
       GlobalFunctions,
+      GeoLocation
     ]
 })
 export class GlobalModule { }

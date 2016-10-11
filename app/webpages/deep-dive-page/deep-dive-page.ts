@@ -71,8 +71,11 @@ export class DeepDivePage implements OnInit {
           break;
         case 'business':
         case 'finance':
+          _typeValue = "deep-dive-type2";
+          break;
         case 'weather':
           _typeValue = "deep-dive-type2";
+          this.sectionNameTitle = "weather";
           break;
         case 'realestate':
           _typeValue = "deep-dive-type2";

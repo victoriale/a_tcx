@@ -110,7 +110,7 @@ export class DeepDiveService {
       var videoBatchArray = [];
       data.forEach(function(val, index){
         var date =  moment(Number(val.timeStamp));
-        date = GlobalFunctions.formatAPMonth(date.month()) + date.format(' DD, YYYY');
+        date = date.month() + date.format(' DD, YYYY');
         var d = {
           id: val.id,
           keyword: val.keyword ? val.keyword : "", //TODO maybe return the page category when available
@@ -136,7 +136,7 @@ export class DeepDiveService {
             articleUrl: '/deep-dive',
             keyUrl: '/deep-dive',
             keyword: scope.toUpperCase(),
-            timeStamp: "Sept. 28, 2016",
+            timeStamp: "September 28, 2016",
             title: "Title here",
             author: "Author",
             publisher: ", Publisher",

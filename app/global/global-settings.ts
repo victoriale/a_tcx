@@ -120,8 +120,8 @@ export class GlobalSettings {
           icon:'/dummyIcon/ncaam.jpg'
         },
         'business':{
-          scope:'finance',
-          topScope: 'business',
+          scope:'all',
+          topScope: 'finance',
           displayName: 'business',
           verticalApi: this.getVerticalEnv('-finance-api.synapsys.us'),
           aiApi: null,
@@ -156,7 +156,7 @@ export class GlobalSettings {
           icon:'/dummyIcon/sports.jpg',
         },
         'weather':{
-          scope:'weather',
+          scope:'hourly',
           topScope: 'weather',
           displayName: 'weather',
           verticalApi: this.getVerticalEnv('-weather-api.synapsys.us'),
@@ -311,7 +311,7 @@ export class GlobalSettings {
         },
         //ABOVE are categories SNTMedia do no have specific verticals for therefore will not have anything linking to a category specific site
       }
-      return category;
+      return category[section];
     }
 
     static getVerticalEnv(api){

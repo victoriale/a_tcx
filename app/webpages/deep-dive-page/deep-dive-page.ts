@@ -26,6 +26,8 @@ export class DeepDivePage implements OnInit {
     selectedLocation: string = "san%20francisco-ca"; // default city for weather if geolocation returns nothin
     boxScoresTempVar: string = "nfl";
 
+    tcxVars: any;
+
     topScope: string;
     changeScopeVar: string;
 
@@ -46,7 +48,6 @@ export class DeepDivePage implements OnInit {
     geoLocation:string;
 
     constructor(private _schedulesService:SchedulesService, private _deepDiveData: DeepDiveService, private _activatedRoute: ActivatedRoute, private _geoLocation: GeoLocation) {
-      this.getGeoLocation();
     }
 
     ngOnDestroy(){
@@ -144,8 +145,13 @@ export class DeepDivePage implements OnInit {
 
     //api for Schedules
     private getSideScroll(){
+      if (this.topScope == "sports") {
+          this.scopeList = ["MLB", "NCAAB", "NBA", "NCAAF", "NFL"];
+          this.sideScrollData = {scopeList: [], blocks: []};
+          this.scrollLength = 0;
+      }
       let self = this;
-      if(this.safeCall && this.topScope != null){
+      if(this.safeCall && this.topScope != null && this.topScope != "sports"){
         this.safeCall = false;
         let changeScope = this.changeScopeVar.toLowerCase() == 'ncaaf'?'fbs':this.changeScopeVar.toLowerCase();
         this._schedulesService.setupSlideScroll(this.topScope, this.sideScrollData, changeScope, 'league', 'pregame', this.callLimit, this.callCount, this.selectedLocation, (sideScrollData) => {
@@ -211,48 +217,19 @@ export class DeepDivePage implements OnInit {
             this.scope = param['articleCategory'] ? param['articleCategory'] : param['category'];
             console.log('Partner:', GlobalSettings.getPartnerId());
             console.log('sectionFront parameters:',param);
+            console.log("sub category params: ",param['articleCategory']);
 
-            //for side scroller
-            switch(param['category']) {
-              case "sports":
-                switch(param['articleCategory']) {
-                  case "nfl":
-                    this.topScope = "football";
-                    this.changeScopeVar = param['articleCategory'];
-                    break;
 
-                  case "nba":
-                  case "ncaam":
-                    this.topScope = "basketball";
-                    this.changeScopeVar = param['articleCategory'];
-                    break;
-
-                  case "mlb":
-                    this.topScope = "baseball";
-                    this.changeScopeVar = param['articleCategory'];
-                    break;
-
-                  default:
-                    this.topScope = null;
-                    this.changeScopeVar = null;
-                }
-                break;
-
-              case "weather":
-                this.topScope = "weather";
-                this.changeScopeVar = "hourly";
-                break;
-
-              case "business":
-                this.topScope = "finance";
-                this.changeScopeVar = "all";
-                break;
-
-              default:
-                this.topScope = null;
-                this.changeScopeVar = null;
+            if (param['articleCategory']) {
+              this.tcxVars = GlobalSettings.getTCXscope(param['articleCategory']);
             }
+            else {
+              this.tcxVars = GlobalSettings.getTCXscope(param['category']);
+            }
+            this.topScope = this.tcxVars.topScope;
+            this.changeScopeVar = this.tcxVars.scope;
 
+            this.getGeoLocation();
             this.getDataCarousel();
             this.deepDiveType = this.getDeepDiveType(this.category.toLowerCase());
             this.sectionFrontName();

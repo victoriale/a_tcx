@@ -51,6 +51,9 @@ export class Scroller{
     this.scrollContentWrapper.scrollbarBaseHeight = this.scrollContainer.offsetHeight * this.scrollbarHeightRatio;
     if ( !this.scrollerElement ) {
       this.scrollerElement = document.createElement("div");
+      this.scrollerElement.onclick = function(event) {
+          event.stopPropagation();
+        };
     }
 
     this.scrollerElement.className = 'scrollable-item-scroller';

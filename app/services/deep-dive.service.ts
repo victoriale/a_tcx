@@ -110,7 +110,7 @@ export class DeepDiveService {
       var videoBatchArray = [];
       data.forEach(function(val, index){
         var date =  moment(Number(val.timeStamp));
-        date = date.month() + date.format(' DD, YYYY');
+        date = date.format('MMMM') + date.format(' DD, YYYY');
         var d = {
           id: val.id,
           keyword: val.keyword ? val.keyword : "", //TODO maybe return the page category when available

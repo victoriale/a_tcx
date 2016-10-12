@@ -46,7 +46,7 @@ export class DeepDivePage implements OnInit {
     geoLocation:string;
 
     constructor(private _schedulesService:SchedulesService, private _deepDiveData: DeepDiveService, private _activatedRoute: ActivatedRoute, private _geoLocation: GeoLocation) {
-      this.getGeoLocation();
+
     }
 
     ngOnDestroy(){
@@ -144,8 +144,13 @@ export class DeepDivePage implements OnInit {
 
     //api for Schedules
     private getSideScroll(){
+      if (this.topScope == "sports") {
+          this.scopeList = ["MLB", "NCAAB", "NBA", "NCAAF", "NFL"];
+          this.sideScrollData = {scopeList: [], blocks: []};
+          this.scrollLength = 0;
+      }
       let self = this;
-      if(this.safeCall && this.topScope != null){
+      if(this.safeCall && this.topScope != null && this.topScope != "sports"){
         this.safeCall = false;
         let changeScope = this.changeScopeVar.toLowerCase() == 'ncaaf'?'fbs':this.changeScopeVar.toLowerCase();
         this._schedulesService.setupSlideScroll(this.topScope, this.sideScrollData, changeScope, 'league', 'pregame', this.callLimit, this.callCount, this.selectedLocation, (sideScrollData) => {
@@ -211,7 +216,7 @@ export class DeepDivePage implements OnInit {
             this.scope = param['articleCategory'] ? param['articleCategory'] : param['category'];
             console.log('Partner:', GlobalSettings.getPartnerId());
             console.log('sectionFront parameters:',param);
-
+            console.log("sub category params: ",param['articleCategory']);
             //for side scroller
             switch(param['category']) {
               case "sports":
@@ -233,8 +238,8 @@ export class DeepDivePage implements OnInit {
                     break;
 
                   default:
-                    this.topScope = null;
-                    this.changeScopeVar = null;
+                    this.topScope = "sports";
+                    this.changeScopeVar = "sports";
                 }
                 break;
 
@@ -252,7 +257,7 @@ export class DeepDivePage implements OnInit {
                 this.topScope = null;
                 this.changeScopeVar = null;
             }
-
+            this.getGeoLocation();
             this.getDataCarousel();
             this.deepDiveType = this.getDeepDiveType(this.category.toLowerCase());
             this.sectionFrontName();

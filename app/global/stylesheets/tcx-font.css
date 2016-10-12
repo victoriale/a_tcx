@@ -415,7 +415,7 @@
   content: "\61";
 }
 /*Uppercase Google Plus*/
-.fa-fontawesome-webfont-1:before {
+.fa-g-plus:before {
   content: "\45";
 }
 /*Bastketball Icon*/
@@ -443,4 +443,13 @@
 }
 .fa-arrow-right-thin:before {
   content: "\55";
+}
+.fa-heart-o:before {
+  content: "\56";
+}
+.fa-facebook:before {
+  content: "\57";
+}
+.fa-google-plus:before {
+  content: "\58";
 }

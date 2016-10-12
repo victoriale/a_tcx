@@ -7,6 +7,8 @@ import {SyndicateArticleData} from "../../fe-core/interfaces/syndicate-article.d
     templateUrl:"app/webpages/search-page/search-page.html",
 })
 export class SearchPage{
+    pageSearchTitle=" Stay Current With The Latest News";
+    pageSearchSubTitle="Search for a Topic or keyword that interests you";
     searchArticlesData:Array<SyndicateArticleData>=[
         {
             isStockPhoto:false,

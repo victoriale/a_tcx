@@ -61,6 +61,7 @@ ToC
 
 @touchDownLoyalSqrtHover: rgba(45, 62, 80, @imageHoverOpacityHalf);
 @touchDownLoyalImageHover: rgba(45, 62, 80, @imageHoverOpacity);
+@tcxImageHover: rgba(0, 185, 227, @imageHoverOpacity);
 @sntMediaBlueImageHover: rgba(0, 157, 251, @imageHoverOpacity);
 @investKitBlueImageHover: rgba(48, 152, 255, @imageHoverOpacity);
 @lifestylePurpleImageHover: rgba(101, 57, 142, @imageHoverOpacity);
@@ -95,7 +96,7 @@ ToC
 @masterBrandColor: @tcxBlue;
 @masterBrandColorLink: #3098ff;
 @lightMasterBrandColor: @touchDownLoyalLightBlue;
-@masterImageHover: @touchDownLoyalImageHover;
+@masterImageHover: @tcxImageHover;
 @masterBackgroundColor: @backgroundGrey;
 @masterHighlightColor: @highlightGrey;
 @masterStrokeColor: @strokeGrey;
@@ -276,6 +277,11 @@ img{
   color: @noHoverColor;
   &:hover{
     color: @noHoverColor;
+  }
+}
+a.masterHover{
+  &:hover{
+    color: @masterBrandColor;
   }
 }
 .text-heavy-link{

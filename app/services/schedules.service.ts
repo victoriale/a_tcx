@@ -101,7 +101,7 @@ export class SchedulesService {
       .map(data => {
         var output = {scopeList: [], blocks: []}
         for (var i =0; i< data.data.scopeList.length; i++) {
-          output.scopeList.push(data.data.scopeList[i]);
+          output.scopeList.push(data.data.scopeList[i].toUpperCase());
         }
         for (var n =0; n< data.data[scope].length; n++) {
           data.data[scope][n].currentStockValue = Number(data.data[scope][n].currentStockValue).toFixed(2);
@@ -146,25 +146,23 @@ export class SchedulesService {
         output.current['currentTemperature'] = ((data.currentTemperature * (9/5)) - 459.67).toFixed(0);
         output.current['state'] = data.state;
         output.current['zipcode'] = data.zipcode;
-        for (var i =0; i< data.scopeList.length; i++) {
-          output.scopeList.push(data.scopeList[i]);
-        }
+        output.blocks.push(
+          {
+            unixTimestamp: moment().format("h:mm A") + " CST",
+            temperature: output.current['currentTemperature'] + "&deg;",
+            icon: output.current['currentIcon'],
+            condition: output.current['currentCondition']
+          }
+        );
         for (var n =0; n< data.data.length; n++) {
-          // if (data.data[scope][n].logoUrl == "" || data.data[scope][n].logoUrl == null) {
-          //   data.data[scope][n].logoUrl = "http://www.investkit.com/public/no_image.png";
-          // }
-          // else {
-          //   data.data[scope][n].logoUrl = "http://images.investkit.com/images/" + data.data[scope][n].logoUrl;
-          // }
-
           //convert from kelvin to farenheight
           if (scope.toLowerCase() == "hourly") {
-            data.data[n].unixTimestamp = moment.unix(data.data[n].unixTimestamp).format("h:mm a");
+            data.data[n].unixTimestamp = moment.unix(data.data[n].unixTimestamp).format("h:mm A") + " CST";
             data.data[n].temperature  = ((data.data[n].temperature * (9/5)) - 459.67).toFixed(0) + "&deg;";
 
           }
           else {
-            data.data[n].unixTimestamp = moment.unix(data.data[n].unixTimestamp).format("MMM Do YYYY");
+            data.data[n].unixTimestamp = moment.unix(data.data[n].unixTimestamp).format("MMMM DD, YYYY");
             data.data[n].temperature  = ((data.data[n].temperatureHigh * (9/5)) - 459.67).toFixed(0) + "&deg; <span class='small-temp'>/ " + ((data.data[n].temperatureLow * (9/5)) - 459.67).toFixed(0) + "&deg;</span>";
           }
           output.blocks.push(data.data[n]);

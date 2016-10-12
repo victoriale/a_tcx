@@ -4,6 +4,8 @@ import { DeepDiveService } from '../../services/deep-dive.service';
 import { ActivatedRoute } from '@angular/router';
 import { GlobalSettings } from "../../global/global-settings";
 import { GlobalFunctions } from "../../global/global-functions";
+import { GeoLocation } from "../../global/global-service";
+
 import { SectionNameData } from "../../fe-core/interfaces/deep-dive.data";
 
 declare var moment;
@@ -21,7 +23,7 @@ export class DeepDivePage implements OnInit {
     sideScrollData: any;
     scrollLength: number = 0;
 
-    selectedLocation: string = "wichita-ks";
+    selectedLocation: string = "san%20francisco-ca"; // default city for weather if geolocation returns nothin
     boxScoresTempVar: string = "nfl";
 
     topScope: string;
@@ -41,10 +43,33 @@ export class DeepDivePage implements OnInit {
     sectionName: SectionNameData;
     sectionNameIcon: string;
     sectionNameTitle: string = this.category;
-    constructor(private _schedulesService:SchedulesService, private _deepDiveData: DeepDiveService, private _activatedRoute: ActivatedRoute) {}
+    geoLocation:string;
+
+    constructor(private _schedulesService:SchedulesService, private _deepDiveData: DeepDiveService, private _activatedRoute: ActivatedRoute, private _geoLocation: GeoLocation) {
+      this.getGeoLocation();
+    }
 
     ngOnDestroy(){
       this.routeSubscription.unsubscribe();
+    }
+    //Subscribe to getGeoLocation in geo-location.service.ts. On Success call getNearByCities function.
+    getGeoLocation() {
+      var defaultState = 'ca';
+        this._geoLocation.getGeoLocation()
+            .subscribe(
+                geoLocationData => {
+                  this.geoLocation = geoLocationData[0].state;
+                  this.geoLocation = this.geoLocation.toLowerCase();
+                  this.selectedLocation = geoLocationData[0].city.replace(/ /g, "%20") + "-" + geoLocationData[0].state;
+                  console.log("Geo Location", this.geoLocation);//keep this for now
+                  this.getSideScroll();
+                },
+                err => {
+                  console.log("Geo Location Error",err);
+                  this.geoLocation = defaultState;
+                  this.getSideScroll();
+                }
+            );
     }
 
     private getDeepDiveType(category:string): string{
@@ -71,8 +96,11 @@ export class DeepDivePage implements OnInit {
           break;
         case 'business':
         case 'finance':
+          _typeValue = "deep-dive-type2";
+          break;
         case 'weather':
           _typeValue = "deep-dive-type2";
+          this.sectionNameTitle = "weather";
           break;
         case 'realestate':
           _typeValue = "deep-dive-type2";
@@ -127,22 +155,22 @@ export class DeepDivePage implements OnInit {
               this.scrollLength = this.sideScrollData.blocks.length;
           }
           else if (this.topScope == "weather") {
-            this.scopeList = sideScrollData.scopeList.reverse();
+            this.scopeList = ["10 Day", "5 Day", "Hourly"];
             this.sideScrollData = sideScrollData;
             this.scrollLength = this.sideScrollData.blocks.length;
           }
           else if (this.topScope == "football") {
-            this.scopeList = ["NCAAF", "NFL"];
+            this.scopeList = ["MLB", "NCAAB", "NBA", "NCAAF", "NFL"];
             this.sideScrollData = sideScrollData;
             this.scrollLength = this.sideScrollData.blocks.length;
           }
           else if (this.topScope == "basketball") {
-              this.scopeList = sideScrollData.scopeList.reverse();
+              this.scopeList = ["MLB", "NCAAB", "NBA", "NCAAF", "NFL"];
               this.sideScrollData = sideScrollData;
               this.scrollLength = this.sideScrollData.blocks.length;
           }
           else if (this.topScope == "baseball") {
-              this.scopeList = [];
+              this.scopeList = ["MLB", "NCAAB", "NBA", "NCAAF", "NFL"];
               this.sideScrollData = sideScrollData;
               this.scrollLength = this.sideScrollData.blocks.length;
           }
@@ -225,7 +253,6 @@ export class DeepDivePage implements OnInit {
                 this.changeScopeVar = null;
             }
 
-            this.getSideScroll();
             this.getDataCarousel();
             this.deepDiveType = this.getDeepDiveType(this.category.toLowerCase());
             this.sectionFrontName();

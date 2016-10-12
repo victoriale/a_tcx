@@ -429,3 +429,18 @@
 .fa-play-circle:before {
   content: "\50";
 }
+.fa-arrow-up:before {
+  content: "\51";
+}
+.fa-arrow-down:before {
+  content: "\52";
+}
+.fa-arrow-left:before {
+  content: "\53";
+}
+.fa-sliders:before {
+  content: "\54";
+}
+.fa-arrow-right-thin:before {
+  content: "\55";
+}

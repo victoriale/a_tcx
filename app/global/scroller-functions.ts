@@ -32,8 +32,8 @@ export class Scroller{
 
     // Setup Scroller
     this.scrollbarHeightRatio = 0.98;
-    this.scrollbarBaseHeight = scrollContainer.offsetHeight * this.scrollbarHeightRatio;
-    this.contentRatio = scrollContainer.offsetHeight / this.scrollContentWrapper.scrollHeight;
+    this.scrollContentWrapper.scrollbarBaseHeight = scrollContainer.offsetHeight * this.scrollbarHeightRatio;
+    this.contentRatio = this.scrollContainer.offsetHeight / this.scrollContentWrapper.scrollHeight;
     this.scrollerHeight = this.contentRatio * this.scrollbarBaseHeight;
     this.scrollOffset = 5; // should be the same as offset in scroll-content.component.less file
 
@@ -48,6 +48,7 @@ export class Scroller{
   }
 
   setup() {
+    this.scrollContentWrapper.scrollbarBaseHeight = this.scrollContainer.offsetHeight * this.scrollbarHeightRatio;
     if ( !this.scrollerElement ) {
       this.scrollerElement = document.createElement("div");
     }
@@ -56,6 +57,7 @@ export class Scroller{
     this.scrollerElement.classList.add('menucheck');
 
     if (this.contentRatio < 1) {
+        this.scrollerHeight = this.contentRatio * this.scrollContentWrapper.scrollbarBaseHeight;
         this.scrollerElement.style.height = this.scrollerHeight + 'px';
         this.scrollerElement.classList.remove('hide-scroll');
         this.scrollContainer.classList.remove('hide-scroll');
@@ -117,7 +119,7 @@ export class Scroller{
     this.scrollContentWrapper.addEventListener('scroll', function(evt) {
         // Move Scroll bar to top offset
         var scrollPercentage = evt.target.scrollTop / self.scrollContentWrapper.scrollHeight;
-        var topPosition = (scrollPercentage * self.scrollbarBaseHeight);
+        var topPosition = (scrollPercentage * self.scrollContentWrapper.scrollbarBaseHeight);
         topPosition += self.scrollOffset;
         self.scrollerElement.style.top = topPosition + 'px';
     });

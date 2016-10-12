@@ -4,6 +4,8 @@ import { DeepDiveService } from '../../services/deep-dive.service';
 import { ActivatedRoute } from '@angular/router';
 import { GlobalSettings } from "../../global/global-settings";
 import { GlobalFunctions } from "../../global/global-functions";
+import { GeoLocation } from "../../global/global-service";
+
 import { SectionNameData } from "../../fe-core/interfaces/deep-dive.data";
 
 declare var moment;
@@ -21,8 +23,10 @@ export class DeepDivePage implements OnInit {
     sideScrollData: any;
     scrollLength: number = 0;
 
-    selectedLocation: string = "wichita-ks";
+    selectedLocation: string = "san%20francisco-ca"; // default city for weather if geolocation returns nothin
     boxScoresTempVar: string = "nfl";
+
+    tcxVars: any;
 
     topScope: string;
     changeScopeVar: string;
@@ -41,10 +45,32 @@ export class DeepDivePage implements OnInit {
     sectionName: SectionNameData;
     sectionNameIcon: string;
     sectionNameTitle: string = this.category;
-    constructor(private _schedulesService:SchedulesService, private _deepDiveData: DeepDiveService, private _activatedRoute: ActivatedRoute) {}
+    geoLocation:string;
+
+    constructor(private _schedulesService:SchedulesService, private _deepDiveData: DeepDiveService, private _activatedRoute: ActivatedRoute, private _geoLocation: GeoLocation) {
+    }
 
     ngOnDestroy(){
       this.routeSubscription.unsubscribe();
+    }
+    //Subscribe to getGeoLocation in geo-location.service.ts. On Success call getNearByCities function.
+    getGeoLocation() {
+      var defaultState = 'ca';
+        this._geoLocation.getGeoLocation()
+            .subscribe(
+                geoLocationData => {
+                  this.geoLocation = geoLocationData[0].state;
+                  this.geoLocation = this.geoLocation.toLowerCase();
+                  this.selectedLocation = geoLocationData[0].city.replace(/ /g, "%20") + "-" + geoLocationData[0].state;
+                  console.log("Geo Location", geoLocationData[0].city + " " + geoLocationData[0].state);//keep this for now
+                  this.getSideScroll();
+                },
+                err => {
+                  console.log("Geo Location Error",err);
+                  this.geoLocation = defaultState;
+                  this.getSideScroll();
+                }
+            );
     }
 
     private getDeepDiveType(category:string): string{
@@ -71,8 +97,11 @@ export class DeepDivePage implements OnInit {
           break;
         case 'business':
         case 'finance':
+          _typeValue = "deep-dive-type2";
+          break;
         case 'weather':
           _typeValue = "deep-dive-type2";
+          this.sectionNameTitle = "weather";
           break;
         case 'realestate':
           _typeValue = "deep-dive-type2";
@@ -116,36 +145,23 @@ export class DeepDivePage implements OnInit {
 
     //api for Schedules
     private getSideScroll(){
+      if (this.topScope == "sports") {
+          this.scopeList = this.tcxVars.scopeList;
+          this.sideScrollData = {scopeList: [], blocks: []};
+          this.scrollLength = 0;
+      }
       let self = this;
-      if(this.safeCall && this.topScope != null){
+      if(this.safeCall && this.topScope != null && this.topScope != "sports"){
         this.safeCall = false;
         let changeScope = this.changeScopeVar.toLowerCase() == 'ncaaf'?'fbs':this.changeScopeVar.toLowerCase();
         this._schedulesService.setupSlideScroll(this.topScope, this.sideScrollData, changeScope, 'league', 'pregame', this.callLimit, this.callCount, this.selectedLocation, (sideScrollData) => {
-          if (this.topScope == "finance") {
-            this.scopeList = sideScrollData.scopeList.reverse();
-              this.sideScrollData = sideScrollData;
-              this.scrollLength = this.sideScrollData.blocks.length;
-          }
-          else if (this.topScope == "weather") {
-            this.scopeList = sideScrollData.scopeList.reverse();
+
+          this.scopeList = this.tcxVars.scopeList;
+          if (this.tcxVars.showEventSlider) {
             this.sideScrollData = sideScrollData;
             this.scrollLength = this.sideScrollData.blocks.length;
           }
-          else if (this.topScope == "football") {
-            this.scopeList = ["NCAAF", "NFL"];
-            this.sideScrollData = sideScrollData;
-            this.scrollLength = this.sideScrollData.blocks.length;
-          }
-          else if (this.topScope == "basketball") {
-              this.scopeList = sideScrollData.scopeList.reverse();
-              this.sideScrollData = sideScrollData;
-              this.scrollLength = this.sideScrollData.blocks.length;
-          }
-          else if (this.topScope == "baseball") {
-              this.scopeList = [];
-              this.sideScrollData = sideScrollData;
-              this.scrollLength = this.sideScrollData.blocks.length;
-          }
+
           this.safeCall = true;
           this.callCount++;
 
@@ -184,48 +200,16 @@ export class DeepDivePage implements OnInit {
             console.log('Partner:', GlobalSettings.getPartnerId());
             console.log('sectionFront parameters:',param);
 
-            //for side scroller
-            switch(param['category']) {
-              case "sports":
-                switch(param['articleCategory']) {
-                  case "nfl":
-                    this.topScope = "football";
-                    this.changeScopeVar = param['articleCategory'];
-                    break;
-
-                  case "nba":
-                  case "ncaam":
-                    this.topScope = "basketball";
-                    this.changeScopeVar = param['articleCategory'];
-                    break;
-
-                  case "mlb":
-                    this.topScope = "baseball";
-                    this.changeScopeVar = param['articleCategory'];
-                    break;
-
-                  default:
-                    this.topScope = null;
-                    this.changeScopeVar = null;
-                }
-                break;
-
-              case "weather":
-                this.topScope = "weather";
-                this.changeScopeVar = "hourly";
-                break;
-
-              case "business":
-                this.topScope = "finance";
-                this.changeScopeVar = "all";
-                break;
-
-              default:
-                this.topScope = null;
-                this.changeScopeVar = null;
+            if (param['articleCategory']) {
+              this.tcxVars = GlobalSettings.getTCXscope(param['articleCategory']);
             }
+            else {
+              this.tcxVars = GlobalSettings.getTCXscope(param['category']);
+            }
+            this.topScope = this.tcxVars.topScope;
+            this.changeScopeVar = this.tcxVars.scope;
 
-            this.getSideScroll();
+            this.getGeoLocation();
             this.getDataCarousel();
             this.deepDiveType = this.getDeepDiveType(this.category.toLowerCase());
             this.sectionFrontName();

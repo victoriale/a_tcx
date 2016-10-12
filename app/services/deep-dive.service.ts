@@ -90,9 +90,6 @@ export class DeepDiveService {
     getDeepDiveVideoBatchService(category: string, limit: number, page: number, location?: string){
       var headers = this.setToken();
       var callURL = GlobalSettings.getCategoryAPI(category);
-      if(category === null || typeof category == 'undefined'){
-        category = 'fbs';
-      }
       if(limit === null || typeof limit == 'undefined'){
         limit = 5;
         page = 1;
@@ -105,7 +102,7 @@ export class DeepDiveService {
       })
     }// getDeepDiveVideoBatchService ENDS
 
-    transformDeepDiveVideoBatchData(data: Array<VideoStackData>){
+    transformSportVideoBatchData(data: Array<VideoStackData>, scope){
       var sampleImage = "/app/public/placeholder_XL.png";
       var videoBatchArray = [];
       data.forEach(function(val, index){
@@ -117,7 +114,7 @@ export class DeepDiveService {
           title: val.title ? val.title : "No Title",
           timeStamp: date,
           videoThumbnail: val.videoThumbnail ? val.videoThumbnail : sampleImage,
-          videoUrl: ['/deep-dive'],
+          videoUrl: ['/deep-dive', 'sports', scope, 'article', 'video', val.id],
           keyUrl: ['/deep-dive']
         }
         videoBatchArray.push(d);

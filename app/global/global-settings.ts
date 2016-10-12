@@ -66,6 +66,7 @@ export class GlobalSettings {
         //BELOW are categories SNTMedia actually has Verticals built specifically for that category
         'nfl':{
           scope:'nfl',
+          scopeList: ["MLB", "NCAAB", "NBA", "NCAAF", "NFL"],
           topScope: 'football',
           displayName: 'football',
           verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
@@ -77,6 +78,7 @@ export class GlobalSettings {
         },
         'ncaaf':{
           scope:'ncaaf',
+          scopeList: ["MLB", "NCAAB", "NBA", "NCAAF", "NFL"],
           topScope: 'football',
           displayName: 'football',
           verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
@@ -88,6 +90,7 @@ export class GlobalSettings {
         },
         'mlb':{
           scope:'mlb',
+          scopeList: ["MLB", "NCAAB", "NBA", "NCAAF", "NFL"],
           topScope: 'baseball',
           displayName: 'baseball',
           verticalApi: this.getVerticalEnv('-homerunloyal-api.synapsys.us'),
@@ -99,6 +102,7 @@ export class GlobalSettings {
         },
         'nba':{
           scope:'nba',
+          scopeList: ["MLB", "NCAAB", "NBA", "NCAAF", "NFL"],
           topScope: 'basketball',
           displayName: 'basketball',
           verticalApi: this.getVerticalEnv('-sports-api.synapsys.us'),
@@ -110,6 +114,7 @@ export class GlobalSettings {
         },
         'ncaam':{
           scope:'ncaaf',
+          scopeList: ["MLB", "NCAAB", "NBA", "NCAAF", "NFL"],
           topScope:'basketball',
           displayName:'basketball',
           verticalApi:this.getVerticalEnv('-sports-api.synapsys.us'),
@@ -121,6 +126,7 @@ export class GlobalSettings {
         },
         'business':{
           scope:'all',
+          scopeList: ["AMEX", "NYSE", "NASDAQ", "ALL"],
           topScope: 'finance',
           displayName: 'business',
           verticalApi: this.getVerticalEnv('-finance-api.synapsys.us'),
@@ -146,6 +152,7 @@ export class GlobalSettings {
         //BELOW are categories SNTMedia do no have specific verticals for therefore will not have anything linking to a category specific site
         'sports':{
           scope:'sports',
+          scopeList: ["MLB", "NCAAB", "NBA", "NCAAF", "NFL"],
           topScope: 'sports',
           displayName: 'sports',
           verticalApi: null,
@@ -157,6 +164,7 @@ export class GlobalSettings {
         },
         'weather':{
           scope:'hourly',
+          scopeList: ["10 Day", "5 Day", "Hourly"],
           topScope: 'weather',
           displayName: 'weather',
           verticalApi: this.getVerticalEnv('-weather-api.synapsys.us'),

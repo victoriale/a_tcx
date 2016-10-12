@@ -62,7 +62,7 @@ export class DeepDivePage implements OnInit {
                   this.geoLocation = geoLocationData[0].state;
                   this.geoLocation = this.geoLocation.toLowerCase();
                   this.selectedLocation = geoLocationData[0].city.replace(/ /g, "%20") + "-" + geoLocationData[0].state;
-                  console.log("Geo Location", this.geoLocation);//keep this for now
+                  console.log("Geo Location", geoLocationData[0].city + " " + geoLocationData[0].state);//keep this for now
                   this.getSideScroll();
                 },
                 err => {
@@ -146,7 +146,7 @@ export class DeepDivePage implements OnInit {
     //api for Schedules
     private getSideScroll(){
       if (this.topScope == "sports") {
-          this.scopeList = ["MLB", "NCAAB", "NBA", "NCAAF", "NFL"];
+          this.scopeList = this.tcxVars.scopeList;
           this.sideScrollData = {scopeList: [], blocks: []};
           this.scrollLength = 0;
       }
@@ -155,31 +155,13 @@ export class DeepDivePage implements OnInit {
         this.safeCall = false;
         let changeScope = this.changeScopeVar.toLowerCase() == 'ncaaf'?'fbs':this.changeScopeVar.toLowerCase();
         this._schedulesService.setupSlideScroll(this.topScope, this.sideScrollData, changeScope, 'league', 'pregame', this.callLimit, this.callCount, this.selectedLocation, (sideScrollData) => {
-          if (this.topScope == "finance") {
-            this.scopeList = sideScrollData.scopeList.reverse();
-              this.sideScrollData = sideScrollData;
-              this.scrollLength = this.sideScrollData.blocks.length;
-          }
-          else if (this.topScope == "weather") {
-            this.scopeList = ["10 Day", "5 Day", "Hourly"];
+
+          this.scopeList = this.tcxVars.scopeList;
+          if (this.tcxVars.showEventSlider) {
             this.sideScrollData = sideScrollData;
             this.scrollLength = this.sideScrollData.blocks.length;
           }
-          else if (this.topScope == "football") {
-            this.scopeList = ["MLB", "NCAAB", "NBA", "NCAAF", "NFL"];
-            this.sideScrollData = sideScrollData;
-            this.scrollLength = this.sideScrollData.blocks.length;
-          }
-          else if (this.topScope == "basketball") {
-              this.scopeList = ["MLB", "NCAAB", "NBA", "NCAAF", "NFL"];
-              this.sideScrollData = sideScrollData;
-              this.scrollLength = this.sideScrollData.blocks.length;
-          }
-          else if (this.topScope == "baseball") {
-              this.scopeList = ["MLB", "NCAAB", "NBA", "NCAAF", "NFL"];
-              this.sideScrollData = sideScrollData;
-              this.scrollLength = this.sideScrollData.blocks.length;
-          }
+
           this.safeCall = true;
           this.callCount++;
 
@@ -217,8 +199,6 @@ export class DeepDivePage implements OnInit {
             this.scope = param['articleCategory'] ? param['articleCategory'] : param['category'];
             console.log('Partner:', GlobalSettings.getPartnerId());
             console.log('sectionFront parameters:',param);
-            console.log("sub category params: ",param['articleCategory']);
-
 
             if (param['articleCategory']) {
               this.tcxVars = GlobalSettings.getTCXscope(param['articleCategory']);

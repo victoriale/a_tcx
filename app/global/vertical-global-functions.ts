@@ -8,100 +8,100 @@ import {GlobalSettings} from "./global-settings";
 export class VerticalGlobalFunctions {
   private static _proto = window.location.protocol;
 
-  constructor() {
-
-  }
-
+  constructor() {}
   /**
-   * - Pass in datapoints to required parameters and formats
-   * them into a single route that is in lowerCase Kebab.
-   * - If parameters given do not fit the requirements them default to the error page.
-   * - Otherwise takes teamName as a string
-   *
-   * @example
-   * // teamName => 'Boston Red Sox'
-   * formatTeamRoute('Boston Red Sox', 2124)
-   *
-   *
-   * @param {teamName} teamName - team name given from data that will be converted to lower kebab case
-   * @param {teamId} teamId - team ID the required field needed to successfully navigate to team profile
-   * @returns the teamName => boston-red-sox,  teamId => ##, routeName => 'Team-page'
-   */
-  static formatTeamRoute(teamName: string, teamId: string): Array<any> {
-    var teamRoute: Array<any>;
-    if (typeof teamName != 'undefined' && teamName != null) {
-      teamName = GlobalFunctions.toLowerKebab(teamName);
-      teamRoute = ['Team-page', {teamName: teamName, teamId: teamId}];//NOTE: if Team-page is on the same level as the rest of the route-outlets
+    * - Pass in datapoints to required parameters and formats
+    * them into a single route that is in lowerCase Kebab.
+    * - If parameters given do not fit the requirements them default to the error page.
+    * - Otherwise takes teamName as a string
+    *
+    * @example
+    * // teamName => 'Boston Red Sox'
+    * formatTeamRoute('Boston Red Sox', 2124)
+    *
+    *
+    * @param {teamName} teamName - team name given from data that will be converted to lower kebab case
+    * @param {teamId} teamId - team ID the required field needed to successfully navigate to team profile
+    * @returns the teamName => boston-red-sox,  teamId => ##, routeName => 'Team-page'
+    */
+   static formatTeamRoute(teamName: string, teamId: string): Array<any> {
+     var teamRoute: Array<any>;
+     if (typeof teamName != 'undefined' && teamName != null) {
+       teamName = GlobalFunctions.toLowerKebab(teamName);
+       teamRoute = ['Team-page', {teamName: teamName, teamId: teamId}];//NOTE: if Team-page is on the same level as the rest of the route-outlets
+     } else {
+       teamRoute = null;
+     }
+     return teamRoute ? teamRoute : ['Error-page'];
+   }
+
+   /**
+    * - Pass in datapoints to required parameters and formats
+    * them into a single route.
+    * - If parameters given do not fit the requirements them default to the error page.
+    * - Otherwise takes articleId as a string
+    *
+    * @example
+    * // articleId => '1234'
+    * formatNewsRoute("1234")
+    *
+    *
+    * @param {teamName} teamName - team name given from data that will be converted to lower kebab case
+    * @param {teamId} teamId - team ID the required field needed to successfully navigate to team profile
+    * @returns the teamName => boston-red-sox,  teamId => ##, routeName => 'Team-page'
+    */
+
+   /**
+    * - Pass in datapoints to required parameters and formats
+    * them into a single route that is in lowerCase Kebab.
+    * - If parameters given do not fit the requirements them default to the error page.
+    * - Otherwise takes teamName && playerName as a string
+    *
+    * @example
+    * // teamName => 'Boston Red Sox'
+    * // playerName => 'Babe Ruth'
+    * formatTeamRoute('Boston Red Sox')
+    *
+    *
+    * @param {teamName} teamName - team name given from data that will be converted to lower kebab case
+    * @param {teamId} teamId - team ID the required field needed to successfully navigate to team profilege
+    * @returns the teamName => 'boston-red-sox',  playerName => 'babe-ruth' playerId => ##, routeName => 'Player-page'
+    */
+   static formatPlayerRoute(teamName: string, playerFullName: string, playerId: string): Array<any> {
+     var playerRoute: Array<any>;
+
+     if (typeof teamName != 'undefined' && teamName != null && typeof playerFullName != 'undefined' && playerFullName != null) {
+       teamName = GlobalFunctions.toLowerKebab(teamName);
+       playerFullName = GlobalFunctions.toLowerKebab(playerFullName);
+       playerRoute = ['Player-page', {teamName: teamName, fullName: playerFullName, playerId: playerId}];//NOTE: if Player-page is on the same level as the rest of the route-outlets
+     } else {
+       playerRoute = null;
+     }
+     return playerRoute ? playerRoute : ['Error-page'];
+   }
+
+  static formatSectionFrontRoute(category: string, articleCategory?: string): Array<any> {
+    var sectionFrontRoute: Array<any>;
+    if (typeof category != 'undefined' || category != null || category != 'all') {
+      if(typeof articleCategory == 'undefined' || articleCategory === null){
+        sectionFrontRoute = ['/deep-dive', category];
+      } else {
+        sectionFrontRoute = ['/deep-dive', category, articleCategory];
+      }
     } else {
-      teamRoute = null;
+      sectionFrontRoute = ['/deep-dive'];
     }
-    return teamRoute ? teamRoute : ['Error-page'];
+    return sectionFrontRoute ? sectionFrontRoute : ['Error-page'];
   }
 
-  /**
-   * - Pass in datapoints to required parameters and formats
-   * them into a single route.
-   * - If parameters given do not fit the requirements them default to the error page.
-   * - Otherwise takes articleId as a string
-   *
-   * @example
-   * // articleId => '1234'
-   * formatNewsRoute("1234")
-   *
-   *
-   * @param {teamName} teamName - team name given from data that will be converted to lower kebab case
-   * @param {teamId} teamId - team ID the required field needed to successfully navigate to team profile
-   * @returns the teamName => boston-red-sox,  teamId => ##, routeName => 'Team-page'
-   */
-
-  /**
-   * - Pass in datapoints to required parameters and formats
-   * them into a single route that is in lowerCase Kebab.
-   * - If parameters given do not fit the requirements them default to the error page.
-   * - Otherwise takes teamName && playerName as a string
-   *
-   * @example
-   * // teamName => 'Boston Red Sox'
-   * // playerName => 'Babe Ruth'
-   * formatTeamRoute('Boston Red Sox')
-   *
-   *
-   * @param {teamName} teamName - team name given from data that will be converted to lower kebab case
-   * @param {teamId} teamId - team ID the required field needed to successfully navigate to team profilege
-   * @returns the teamName => 'boston-red-sox',  playerName => 'babe-ruth' playerId => ##, routeName => 'Player-page'
-   */
-  static formatPlayerRoute(teamName: string, playerFullName: string, playerId: string): Array<any> {
-    var playerRoute: Array<any>;
-
-    if (typeof teamName != 'undefined' && teamName != null && typeof playerFullName != 'undefined' && playerFullName != null) {
-      teamName = GlobalFunctions.toLowerKebab(teamName);
-      playerFullName = GlobalFunctions.toLowerKebab(playerFullName);
-      playerRoute = ['Player-page', {teamName: teamName, fullName: playerFullName, playerId: playerId}];//NOTE: if Player-page is on the same level as the rest of the route-outlets
-    } else {
-      playerRoute = null;
-    }
-    return playerRoute ? playerRoute : ['Error-page'];
-  }
-
-  /**
-   * - Pass in datapoints to required parameters and formats
-   * them into a single route.
-   * - If parameters given do not fit the requirements then default to the error page.
-   * - Otherwise takes eventType as a string
-   *
-   * @example
-   * // eventType => 'pregame-report'
-   * formatTeamRoute('pregame-report', 61008)
-   *
-   *
-   * @param {eventType} eventType - event type given from data
-   * @param {eventID} eventID - event ID the required field needed to successfully navigate to artcile page
-   * @returns the eventType => pregame-report,  teamId => ##, routeName => 'Article-page'
-   */
-  static formatArticleRoute(eventType: string, eventID: string): Array<any> {
+  static formatArticleRoute(category: string, articleID: string, articleType: string, articleCategory?: string): Array<any> {
     var articleRoute: Array<any>;
-    if (typeof eventType != 'undefined' && eventType != null) {
-      articleRoute = ['Article-pages', {eventType: eventType, eventID: eventID}];
+    if (typeof category != 'undefined' || category != null) {
+      if(typeof articleCategory == 'undefined' || articleCategory === null){
+        articleRoute = ['/deep-dive', category, 'article', articleType, articleID];
+      } else {
+        articleRoute = ['/deep-dive', category, articleCategory, 'article', articleType, articleID];
+      }
     } else {
       articleRoute = null;
     }
@@ -567,7 +567,7 @@ export class VerticalGlobalFunctions {
     return relPath;
   }
 
-  /*  static formatNewsRoute(articleId: string): Array<any> {
+  static formatNewsRoute(articleId: string): Array<any> {
    var articleRoute: Array<any>;
    if(articleId != null) {
    articleRoute = ['/news','story', articleId];
@@ -577,14 +577,5 @@ export class VerticalGlobalFunctions {
    }
    return articleRoute ? articleRoute : ['Error-page'];
 
-   }*/
-  static formatNewsRoute(articleId: string): Array<any> {
-    var articleRoute: Array<any>;
-    if (articleId != null) {
-      articleRoute = ['../../', {articleID:articleId, articleType:"story"}];//NOTE: if Team-page is on the same level as the rest of the route-outlets
-    } else {
-      articleRoute = null;
-    }
-    return articleRoute ? articleRoute : ['Error-page'];
-  }
+   }
 }

@@ -339,6 +339,18 @@ export class GlobalSettings {
           icon:'fa-auto-shape',
           pageType: 3
         },
+        'all':{
+          scope:'deep-dive',
+          topScope: null,
+          displayName: null,
+          verticalApi: null,
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: false,
+          showBoxScores:false,
+          icon:'fa-auto-shape',
+          pageType: 'all'
+        },
         //ABOVE are categories SNTMedia do no have specific verticals for therefore will not have anything linking to a category specific site
       }
       return category[section];

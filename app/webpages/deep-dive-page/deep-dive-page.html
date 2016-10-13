@@ -14,7 +14,7 @@
        <div *ngIf="sideScrollData" class="deep-dive-module">
          <side-scroll-schedules [sideScrollData]="sideScrollData" [scopeList]="scopeList" (count)="scrollCheck($event)" [scrollLength]="scrollLength" [topScope]="topScope" [scope]="changeScopeVar" (changeScope)="changeScope($event)" (changeLocation)="changeLocation($event)"></side-scroll-schedules>
        </div>
-       <deep-dive-block-main *ngIf="deepDiveType == 'all'"></deep-dive-block-main>
+       <deep-dive-block-main *ngIf="deepDiveType == 'all'" [geoLocation]="geoLocation"></deep-dive-block-main>
        <!-- Deep dive block type 1 sports-->
        <deep-dive-block-1 *ngIf="deepDiveType === 1" [scope]="scope"></deep-dive-block-1>
        <deep-dive-block-2 *ngIf="deepDiveType === 2" [scope]="scope"></deep-dive-block-2>

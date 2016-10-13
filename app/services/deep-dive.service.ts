@@ -5,6 +5,7 @@ import { Http, Headers } from '@angular/http';
 import { VideoStackData, ArticleStackData } from "../fe-core/interfaces/deep-dive.data";
 import { GlobalFunctions } from "../global/global-functions";
 import { GlobalSettings } from "../global/global-settings";
+import { VerticalGlobalFunctions } from "../global/vertical-global-functions";
 
 declare var moment;
 
@@ -102,7 +103,7 @@ export class DeepDiveService {
       })
     }// getDeepDiveVideoBatchService ENDS
 
-    transformSportVideoBatchData(data: Array<VideoStackData>, scope){
+    transformSportVideoBatchData(data: Array<VideoStackData>, scope?){
       var sampleImage = "/app/public/placeholder_XL.png";
       var videoBatchArray = [];
       data.forEach(function(val, index){
@@ -114,8 +115,8 @@ export class DeepDiveService {
           title: val.title ? val.title : "No Title",
           timeStamp: date,
           videoThumbnail: val.videoThumbnail ? val.videoThumbnail : sampleImage,
-          videoUrl: ['/deep-dive', 'sports', scope, 'article', 'video', val.id],
-          keyUrl: ['/deep-dive']
+          videoUrl: VerticalGlobalFunctions.formatArticleRoute("sports", val.id, "video", scope),
+          // keyUrl: null
         }
         videoBatchArray.push(d);
       });
@@ -123,7 +124,7 @@ export class DeepDiveService {
     }// transformDeepDiveVideoBatchData ENDS
 
     // Top Article of Article Stacks
-    transformToArticleStack(data: Array<ArticleStackData>, scope){
+    transformToArticleStack(data: Array<ArticleStackData>, scope?){
       var sampleImage = "/app/public/placeholder_XL.png";
       // var topData = data.data[0];
       var articleStackArray = [];

@@ -113,6 +113,10 @@ export class HamburgerDeliveryService {
       {
         menuTitle: "Weather",
         url: '/deep-dive/weather'
+      },
+      {
+        menuTitle: "Automotive",
+        url: '/deep-dive/Automotive'
       }
     ];
     var menuInfo = [];

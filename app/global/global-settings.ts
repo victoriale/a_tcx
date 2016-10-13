@@ -66,7 +66,7 @@ export class GlobalSettings {
         //BELOW are categories SNTMedia actually has Verticals built specifically for that category
         'nfl':{
           scope:'nfl',
-          scopeList: ["MLB", "NCAAB", "NBA", "NCAAF", "NFL"],
+          scopeList: ["MLB", "NCAAB", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'football',
           displayName: 'football',
           verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
@@ -78,7 +78,7 @@ export class GlobalSettings {
         },
         'ncaaf':{
           scope:'ncaaf',
-          scopeList: ["MLB", "NCAAB", "NBA", "NCAAF", "NFL"],
+          scopeList: ["MLB", "NCAAB", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'football',
           displayName: 'football',
           verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
@@ -90,7 +90,7 @@ export class GlobalSettings {
         },
         'mlb':{
           scope:'mlb',
-          scopeList: ["MLB", "NCAAB", "NBA", "NCAAF", "NFL"],
+          scopeList: ["MLB", "NCAAB", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'baseball',
           displayName: 'baseball',
           verticalApi: this.getVerticalEnv('-homerunloyal-api.synapsys.us'),
@@ -102,7 +102,7 @@ export class GlobalSettings {
         },
         'nba':{
           scope:'nba',
-          scopeList: ["MLB", "NCAAB", "NBA", "NCAAF", "NFL"],
+          scopeList: ["MLB", "NCAAB", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'basketball',
           displayName: 'basketball',
           verticalApi: this.getVerticalEnv('-sports-api.synapsys.us'),
@@ -114,7 +114,7 @@ export class GlobalSettings {
         },
         'ncaam':{
           scope:'ncaaf',
-          scopeList: ["MLB", "NCAAB", "NBA", "NCAAF", "NFL"],
+          scopeList: ["MLB", "NCAAB", "NBA", "NCAAF", "NFL", "All"],
           topScope:'basketball',
           displayName:'basketball',
           verticalApi:this.getVerticalEnv('-sports-api.synapsys.us'),
@@ -152,7 +152,7 @@ export class GlobalSettings {
         //BELOW are categories SNTMedia do no have specific verticals for therefore will not have anything linking to a category specific site
         'sports':{
           scope:'sports',
-          scopeList: ["MLB", "NCAAB", "NBA", "NCAAF", "NFL"],
+          scopeList: ["MLB", "NCAAB", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'sports',
           displayName: 'sports',
           verticalApi: null,

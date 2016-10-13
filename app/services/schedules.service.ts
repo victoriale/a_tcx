@@ -162,7 +162,7 @@ export class SchedulesService {
           output.blocks.push(
             {
               eos: "false",
-              unixTimestamp: "Now",
+              unixTimestamp: "NOW",
               temperature: output.current['currentTemperature'] + "&deg;",
               icon: output.current['currentIcon'],
               condition: output.current['currentCondition']
@@ -172,7 +172,7 @@ export class SchedulesService {
             data.data[n]['eos'] = "false";
             //convert from kelvin to farenheight
             if (scope.toLowerCase() == "hourly") {
-              data.data[n].unixTimestamp = moment.unix(data.data[n].unixTimestamp).format("h:mm A") + " CST";
+              data.data[n].unixTimestamp = moment.unix(data.data[n].unixTimestamp).format("h:mm A") + " CT";
               data.data[n].temperature  = ((data.data[n].temperature * (9/5)) - 459.67).toFixed(0) + "&deg;";
 
             }

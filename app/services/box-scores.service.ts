@@ -290,6 +290,7 @@ export class BoxScoresService {
 
   // form box scores data
   transformBoxScores(data, scope?){
+    console.log(data);
     var transformedData: boxScoresInterface = {
       currentScope: scope,
       aiContent: data.aiContent,
@@ -548,8 +549,8 @@ export class BoxScoresService {
       let awayLink = ''; //TODO
 
       var aiContent = data.aiContent != null ? self.formatArticle(data):null;
-      //var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo), homeLink) //TODO
-      //var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo), awayLink) //TODO
+      var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo), homeLink) //TODO
+      var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo), awayLink) //TODO
 
       let gameDate = data.gameInfo;
       let homeRecord = data.homeTeamInfo.teamRecord;
@@ -584,7 +585,7 @@ export class BoxScoresService {
         verticalContent:verticalContentLive,
         homeData:{
           homeTeamName: homeData.lastName,
-          //homeImageConfig:link1,
+          homeImageConfig:link1,
           homeLink: homeLink,
           homeRecord: homeRecord,
           dataPoint1:homeData.dataPoint1Home,
@@ -593,7 +594,7 @@ export class BoxScoresService {
         },
         awayData:{
           awayTeamName:awayData.lastName,
-          //awayImageConfig:link2,
+          awayImageConfig:link2,
           awayLink: awayLink,
           awayRecord: awayRecord,
           dataPoint1:awayData.dataPoint1Away,

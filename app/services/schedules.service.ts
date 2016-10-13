@@ -149,7 +149,7 @@ export class SchedulesService {
           output.current['zipcode'] = data.zipcode;
           output.blocks.push(
             {
-              unixTimestamp: moment().format("h:mm A") + " CST",
+              unixTimestamp: "Now",
               temperature: output.current['currentTemperature'] + "&deg;",
               icon: output.current['currentIcon'],
               condition: output.current['currentCondition']

@@ -107,7 +107,12 @@ export class SchedulesService {
           data.data[scope][n].currentStockValue = Number(data.data[scope][n].currentStockValue).toFixed(2);
           data.data[scope][n].stockChangeAmount = Number(data.data[scope][n].stockChangeAmount).toFixed(2);
           data.data[scope][n].stockChangePercent = Number(data.data[scope][n].stockChangePercent).toFixed(2);
-          data.data[scope][n].profileUrl = "http://www.investkit.com/" + data.data[scope][n].companySymbol + "/" + data.data[scope][n].fullCompanyName.replace(/ /g, "-") + "/company/" + data.data[scope][n].companyId;
+          if (data.data[scope][n].exchangeName == 'OTC') {
+            data.data[scope][n].profileUrl = "";
+          }
+          else {
+            data.data[scope][n].profileUrl = "http://www.investkit.com/" + data.data[scope][n].companySymbol + "/" + data.data[scope][n].fullCompanyName.replace(/ /g, "-") + "/company/" + data.data[scope][n].companyId;
+          }
           if (data.data[scope][n].logoUrl == "" || data.data[scope][n].logoUrl == null) {
             data.data[scope][n].logoUrl = "http://www.investkit.com/public/no_image.png";
           }
@@ -125,6 +130,13 @@ export class SchedulesService {
           };
           output.blocks.push(data.data[scope][n]);
         }
+        output.blocks.push(
+          {
+            eos: "true",
+            icon: "app/public/eos.svg",
+            mainMessage: "END OF SCHEDULE",
+            subMessage: "The schedule will now start over."
+          });
         return output;
       });
   }
@@ -149,16 +161,18 @@ export class SchedulesService {
           output.current['zipcode'] = data.zipcode;
           output.blocks.push(
             {
-              unixTimestamp: moment().format("h:mm A") + " CST",
+              eos: "false",
+              unixTimestamp: "NOW",
               temperature: output.current['currentTemperature'] + "&deg;",
               icon: output.current['currentIcon'],
               condition: output.current['currentCondition']
             }
           );
           for (var n =0; n< data.data.length; n++) {
+            data.data[n]['eos'] = "false";
             //convert from kelvin to farenheight
             if (scope.toLowerCase() == "hourly") {
-              data.data[n].unixTimestamp = moment.unix(data.data[n].unixTimestamp).format("h:mm A") + " CST";
+              data.data[n].unixTimestamp = moment.unix(data.data[n].unixTimestamp).format("h:mm A") + " CT";
               data.data[n].temperature  = ((data.data[n].temperature * (9/5)) - 459.67).toFixed(0) + "&deg;";
 
             }
@@ -168,6 +182,13 @@ export class SchedulesService {
             }
             output.blocks.push(data.data[n]);
           }
+          output.blocks.push(
+            {
+              eos: "true",
+              icon: "app/public/eos.svg",
+              mainMessage: "END OF SCHEDULE",
+              subMessage: "The schedule will now start over."
+            });
           return output;
         }
         else { // gracefully error if no data is returned
@@ -265,6 +286,13 @@ export class SchedulesService {
           };
           output.blocks.push(data.data.data[n]);
         }
+        output.blocks.push(
+          {
+            eos: "true",
+            icon: "app/public/eos.svg",
+            mainMessage: "END OF SCHEDULE",
+            subMessage: "The schedule will now start over."
+          });
         return output;
       });
   }
@@ -305,8 +333,8 @@ export class SchedulesService {
           let time = moment(Number(data.data[n].eventDate)).tz('America/New_York').format('h:mm A z');
           data.data[n].date = date + " &bull; " + time;
           data.data[n].reportLink = "http://www.homerunloyal.com/";
-          data.data[n].homeTeamName = data.data[n].abbreviationHome;
-          data.data[n].awayTeamName = data.data[n].abbreviationAway;
+          data.data[n].homeTeamName = data.data[n].nicknameHome;
+          data.data[n].awayTeamName = data.data[n].nicknameAway;
           data.data[n].awayProfileUrl = "http://www.homerunloyal.com/team/" + data.data[n].fullNameAway.replace(/ /g, "-") + "/" + data.data[n].idAway;
           data.data[n].homeProfileUrl = "http://www.homerunloyal.com/team/" + data.data[n].fullNameHome.replace(/ /g, "-") + "/" + data.data[n].idHome;
           if (data.data[n].logoUrlAway == "" || data.data[n].logoUrlAway == null) {
@@ -341,6 +369,13 @@ export class SchedulesService {
           };
           output.blocks.push(data.data[n]);
         }
+        output.blocks.push(
+          {
+            eos: "true",
+            icon: "app/public/eos.svg",
+            mainMessage: "END OF SCHEDULE",
+            subMessage: "The schedule will now start over."
+          });
         return output;
       });
   }
@@ -475,6 +510,13 @@ export class SchedulesService {
 
       modifiedArray.blocks.push(newData);
     });
+    modifiedArray.blocks.push(
+      {
+        eos: "true",
+        icon: "app/public/eos.svg",
+        mainMessage: "END OF SCHEDULE",
+        subMessage: "The schedule will now start over."
+      });
     return modifiedArray;
   }
 

@@ -130,6 +130,13 @@ export class SchedulesService {
           };
           output.blocks.push(data.data[scope][n]);
         }
+        output.blocks.push(
+          {
+            eos: "true",
+            icon: "app/public/eos.svg",
+            mainMessage: "END OF SCHEDULE",
+            subMessage: "The schedule will now start over."
+          });
         return output;
       });
   }
@@ -154,6 +161,7 @@ export class SchedulesService {
           output.current['zipcode'] = data.zipcode;
           output.blocks.push(
             {
+              eos: "false",
               unixTimestamp: "Now",
               temperature: output.current['currentTemperature'] + "&deg;",
               icon: output.current['currentIcon'],
@@ -161,6 +169,7 @@ export class SchedulesService {
             }
           );
           for (var n =0; n< data.data.length; n++) {
+            data.data[n]['eos'] = "false";
             //convert from kelvin to farenheight
             if (scope.toLowerCase() == "hourly") {
               data.data[n].unixTimestamp = moment.unix(data.data[n].unixTimestamp).format("h:mm A") + " CST";
@@ -173,6 +182,13 @@ export class SchedulesService {
             }
             output.blocks.push(data.data[n]);
           }
+          output.blocks.push(
+            {
+              eos: "true",
+              icon: "app/public/eos.svg",
+              mainMessage: "END OF SCHEDULE",
+              subMessage: "The schedule will now start over."
+            });
           return output;
         }
         else { // gracefully error if no data is returned
@@ -270,6 +286,13 @@ export class SchedulesService {
           };
           output.blocks.push(data.data.data[n]);
         }
+        output.blocks.push(
+          {
+            eos: "true",
+            icon: "app/public/eos.svg",
+            mainMessage: "END OF SCHEDULE",
+            subMessage: "The schedule will now start over."
+          });
         return output;
       });
   }
@@ -346,6 +369,13 @@ export class SchedulesService {
           };
           output.blocks.push(data.data[n]);
         }
+        output.blocks.push(
+          {
+            eos: "true",
+            icon: "app/public/eos.svg",
+            mainMessage: "END OF SCHEDULE",
+            subMessage: "The schedule will now start over."
+          });
         return output;
       });
   }
@@ -480,6 +510,13 @@ export class SchedulesService {
 
       modifiedArray.blocks.push(newData);
     });
+    modifiedArray.blocks.push(
+      {
+        eos: "true",
+        icon: "app/public/eos.svg",
+        mainMessage: "END OF SCHEDULE",
+        subMessage: "The schedule will now start over."
+      });
     return modifiedArray;
   }
 

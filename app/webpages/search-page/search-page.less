@@ -17,6 +17,12 @@
       .globalDefaultFont(12px,400);
     }
   }
+  @media @tablet{
+    .search-large{
+      position: relative;
+      top: -1px;
+    }
+  }
   @media @desktop-m {
     .search-large {
       padding: 0px;
@@ -63,5 +69,7 @@
       padding: 15px;
     }
   }
-
+  .search-large .search-dropdown-title{
+    text-align: left;
+  }
 }

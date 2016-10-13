@@ -107,7 +107,12 @@ export class SchedulesService {
           data.data[scope][n].currentStockValue = Number(data.data[scope][n].currentStockValue).toFixed(2);
           data.data[scope][n].stockChangeAmount = Number(data.data[scope][n].stockChangeAmount).toFixed(2);
           data.data[scope][n].stockChangePercent = Number(data.data[scope][n].stockChangePercent).toFixed(2);
-          data.data[scope][n].profileUrl = "http://www.investkit.com/" + data.data[scope][n].companySymbol + "/" + data.data[scope][n].fullCompanyName.replace(/ /g, "-") + "/company/" + data.data[scope][n].companyId;
+          if (data.data[scope][n].exchangeName == 'OTC') {
+            data.data[scope][n].profileUrl = "";
+          }
+          else {
+            data.data[scope][n].profileUrl = "http://www.investkit.com/" + data.data[scope][n].companySymbol + "/" + data.data[scope][n].fullCompanyName.replace(/ /g, "-") + "/company/" + data.data[scope][n].companyId;
+          }
           if (data.data[scope][n].logoUrl == "" || data.data[scope][n].logoUrl == null) {
             data.data[scope][n].logoUrl = "http://www.investkit.com/public/no_image.png";
           }
@@ -305,8 +310,8 @@ export class SchedulesService {
           let time = moment(Number(data.data[n].eventDate)).tz('America/New_York').format('h:mm A z');
           data.data[n].date = date + " &bull; " + time;
           data.data[n].reportLink = "http://www.homerunloyal.com/";
-          data.data[n].homeTeamName = data.data[n].abbreviationHome;
-          data.data[n].awayTeamName = data.data[n].abbreviationAway;
+          data.data[n].homeTeamName = data.data[n].nicknameHome;
+          data.data[n].awayTeamName = data.data[n].nicknameAway;
           data.data[n].awayProfileUrl = "http://www.homerunloyal.com/team/" + data.data[n].fullNameAway.replace(/ /g, "-") + "/" + data.data[n].idAway;
           data.data[n].homeProfileUrl = "http://www.homerunloyal.com/team/" + data.data[n].fullNameHome.replace(/ /g, "-") + "/" + data.data[n].idHome;
           if (data.data[n].logoUrlAway == "" || data.data[n].logoUrlAway == null) {

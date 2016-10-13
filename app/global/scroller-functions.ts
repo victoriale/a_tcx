@@ -31,11 +31,13 @@ export class Scroller{
     }
 
     // Setup Scroller
-    this.scrollbarHeightRatio = 0.98;
-    this.scrollContentWrapper.scrollbarBaseHeight = scrollContainer.offsetHeight * this.scrollbarHeightRatio;
+    this.scrollbarHeightRatio = 1;
+
+    this.scrollOffset = 6; // should be the same as offset in scroll-content.component.less file
+    this.scrollContentWrapper.scrollbarBaseHeight = (scrollContainer.offsetHeight - (2 * this.scrollOffset)) * this.scrollbarHeightRatio;
     this.contentRatio = this.scrollContainer.offsetHeight / this.scrollContentWrapper.scrollHeight;
-    this.scrollerHeight = this.contentRatio * this.scrollbarBaseHeight;
-    this.scrollOffset = 5; // should be the same as offset in scroll-content.component.less file
+    this.scrollerHeight = this.contentRatio * this.scrollContentWrapper.scrollbarBaseHeight;
+
 
     let scrollerElements = scrollContainer.getElementsByClassName('scrollable-item-scroller');
     if ( scrollerElements && scrollerElements.length > 0 ) {
@@ -48,7 +50,7 @@ export class Scroller{
   }
 
   setup() {
-    this.scrollContentWrapper.scrollbarBaseHeight = this.scrollContainer.offsetHeight * this.scrollbarHeightRatio;
+    this.scrollContentWrapper.scrollbarBaseHeight = (this.scrollContainer.offsetHeight - (2 * this.scrollOffset)) * this.scrollbarHeightRatio;
     if ( !this.scrollerElement ) {
       this.scrollerElement = document.createElement("div");
       this.scrollerElement.onclick = function(event) {

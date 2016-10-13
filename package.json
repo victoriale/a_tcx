@@ -38,7 +38,7 @@
     "tsd": "^0.6.5",
     "zone.js": "^0.6.12",
     "bootstrap": "^3.3.6",
-    "typings": "^0.8.1"
+    "typings": "0.8.1"
   },
   "devDependencies": {
     "browser-sync": "^2.16.0",

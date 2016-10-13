@@ -13,7 +13,7 @@ export class SearchPage{
         {
             isStockPhoto:false,
             articleId: 1,
-            title: "Title of the article 1",
+            title: "Title of the article 1 : orem Ipsum is simply dummy text of the printing and typesetting industry",
             keyword: "Keyword 1",
             publishedDate: "sept 29 2016", // unix time in millisecond
             author: "Author 1 ", // author full name
@@ -30,7 +30,7 @@ export class SearchPage{
         },{
             isStockPhoto:false,
             articleId: 2,
-            title: "Title of the article 2",
+            title: "Title of the article 2: orem Ipsum is simply dummy text of the printing and typesetting industry",
             keyword: "Keyword 2",
             publishedDate: "sept 29 2016", // unix time in millisecond
             author: "Author 2", // author full name
@@ -47,7 +47,7 @@ export class SearchPage{
         },{
             isStockPhoto:false,
             articleId: 3,
-            title: "Title of the article 3",
+            title: "Title of the article 3: orem Ipsum is simply dummy text of the printing and typesetting industry",
             keyword: "Keyword 3",
             publishedDate: "sept 29 2016", // unix time in millisecond
             author: "Author 3 ", // author full name
@@ -64,7 +64,7 @@ export class SearchPage{
         },{
             isStockPhoto:false,
             articleId: 1,
-            title: "Title of the article 4",
+            title: "Title of the article 4: orem Ipsum is simply dummy text of the printing and typesetting industry",
             keyword: "Keyword 4",
             publishedDate: "sept 29 2016", // unix time in millisecond
             author: "Author 4 ", // author full name

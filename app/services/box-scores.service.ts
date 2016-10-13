@@ -22,7 +22,7 @@ export interface boxScoresInterface {
   nextGameDate: {
     event_date: string;
   };
-  data: Array<{gameDayInfoInterface}>
+  data: Array<Object>
 } // end boxscores interface
 
 export interface gameDayInfoInterface {
@@ -109,7 +109,7 @@ export interface gameDayInfoInterface {
 @Injectable()
 export class BoxScoresService {
 
-  private _apiUrl: string = 'http://dev-touchdownloyal-api.synapsys.us/tcx';
+  private _apiUrl: string;//prob wont be used since each sport is so different
 
   constructor(public http: Http){}
 
@@ -122,26 +122,111 @@ export class BoxScoresService {
 
   // call to get data
   getBoxScoresService(scope, date, teamId?){
-
     var headers = this.setToken();
     let chosenDate = date;
     // console.log('3. box-scores.service - getBoxScoresService - chosenDate ', chosenDate);
 
-    var callURL = this._apiUrl+'/boxScores/league/'+scope+'/'+date+'/addAi';
+    var callURL = GlobalSettings.getTCXscope(scope).verticalApi + '/tcx' +'/boxScores/league/'+scope+'/'+date+'/addAi';
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
         // console.log('3. box-scores.service - getBoxScoresService - data ', data);
         var transformedDate = this.transformBoxScores(data.data, scope);
         return {
-          transformedDate: transformedDate,
-          aiArticle: data.aiContent != null ? data.aiContent : null,
+          transformedDate: transformedDate.data,
+          aiContent: transformedDate.aiContent,
           date: chosenDate
         }
       })
   } //getBoxScoresService
 
-  // function for BoxScoresService to use on profile pages
+  // form box scores data
+  transformBoxScores(data, scope?){
+    let boxScoresData = data.data;
+    var boxScoreObj = {};
+    var newBoxScores = {};
+    let currWeekGameDates = {};
+    for ( var gameDate in boxScoresData ) {
+      let gameDayInfo:gameDayInfoInterface = data.data[gameDate];
+      let currGameDate = moment(Number(gameDate)).tz('America/New_York').format('YYYY-MM-DD');
+      // game info
+      if (gameDayInfo) {
+        gameDayInfo['gameInfo'] = {
+          eventId: gameDayInfo.eventId,
+          timeLeft: gameDayInfo.liveDataPoints[scope].timeLeft,
+          live: gameDayInfo.liveStatus == 'Y'?true:false,
+          startDateTime: gameDayInfo.eventDate,
+          startDateTimestamp: gameDayInfo.eventStartTime,
+          dataPointCategories:[
+            gameDayInfo.dataPoint3Label,
+            gameDayInfo.dataPoint2Label,
+            gameDayInfo.dataPoint1Label
+          ]
+        }
+
+        // home team info
+        gameDayInfo['homeTeamInfo'] = {
+          name: gameDayInfo.fullNameHome,
+          id: gameDayInfo.idHome,
+          firstName: gameDayInfo.firstNameHome,
+          lastName: gameDayInfo.nicknameHome,
+          abbreviation: gameDayInfo.abbreviationHome,
+          logo: gameDayInfo.logoUrlHome,
+          dataPoint1Home: gameDayInfo.dataPoint1Home,
+          dataPoint2Home: gameDayInfo.dataPoint2Home,
+          dataPoint3Home: gameDayInfo.dataPoint3Home,
+          //dataP2:boxScoresData[gameDate].team1Possession != ''? boxScoresData[gameDate].team1Possession:null,
+          teamRecord: gameDayInfo.winsHome != null ? gameDayInfo.winsHome + '-' + gameDayInfo.lossHome + '-' + gameDayInfo.tiesHome: null
+        }
+
+        // away team info
+        gameDayInfo['awayTeamInfo'] = {
+          name: gameDayInfo.fullNameAway,
+          id: gameDayInfo.idAway,
+          firstName: gameDayInfo.firstNameAway,
+          lastName: gameDayInfo.nicknameAway,
+          abbreviation: gameDayInfo.abbreviationAway,
+          logo: gameDayInfo.logoUrlAway,
+          dataPoint1Away: gameDayInfo.dataPoint1Away,
+          dataPoint2Away: gameDayInfo.dataPoint2Away,
+          dataPoint3Away: gameDayInfo.dataPoint3Away,
+          //dataP2:boxScoresData[gameDate].team1Possession != ''? boxScoresData[gameDate].team1Possession:null,
+          teamRecord: gameDayInfo.winsAway != null ? gameDayInfo.winsAway + '-' + gameDayInfo.lossAway + '-' + gameDayInfo.tiesAway: null,
+        }
+
+
+        // LIVE DATA THAT NEEDS TO ADJUST BASED ON SPORT
+        gameDayInfo['gameInfo']['verticalContent'] = {
+          teamInPossesion:  "Possession: " + gameDayInfo.liveDataPoints[scope].teamInPossesion,
+          liveSegmentNumber: gameDayInfo.liveDataPoints[scope].liveSegmentNumber,
+          timeLeft: gameDayInfo.liveDataPoints[scope].timeLeft,
+          liveYardLine: gameDayInfo.liveDataPoints[scope].liveYardLine,
+          overTime: gameDayInfo.liveDataPoints[scope].liveYardLine
+        }
+
+        // organize games by date and put them into newVPWP' P PBoxScores
+        if(typeof newBoxScores[currGameDate] == 'undefined'){
+          newBoxScores[currGameDate] = [];
+          newBoxScores[currGameDate].push(gameDayInfo);
+        } else{
+          newBoxScores[currGameDate].push(gameDayInfo);
+        }
+
+      } //if (boxScoresData[gameDate])
+    } // END for ( var gameDate in data.data )
+
+    var transformedData = {
+      currentScope: scope,
+      aiContent: data.aiContent != null ? data.aiContent : null,
+      previousGameDate: data.previousGameDate,
+      nextGameDate: data.nextGameDate,
+      data: newBoxScores
+    };
+    
+    return transformedData;
+  }
+
+  // function for BoxScoresService to grab the transformed dated and be used on profile pages
   getBoxScores(boxScoresData, profileName: string, dateParam, callback: Function) {
     // console.log('2. box-scores.service - getBoxScores - boxScoresData ', boxScoresData);
 
@@ -165,9 +250,8 @@ export class BoxScoresService {
             let currentBoxScores = {
               moduleTitle: this.moduleHeader(data.date, profileName),
               gameInfo: this.formatGameInfo(data.transformedDate[data.date],scopedDateParam.teamId, scopedDateParam.profile),
-              gameInfoMobile: this.formatGameInfoMobile(data.transformedDate[data.date],scopedDateParam.teamId, scopedDateParam.profile),
-              schedule: data.transformedDate[data.date] != null ? this.formatSchedule(data.transformedDate[data.date][0], scopedDateParam.scope, scopedDateParam.profile) : null,
-              aiContent: this.aiHeadLine(data.aiArticle, scopedDateParam.scope) != null ? this.aiHeadLine(data.aiArticle, scopedDateParam.scope) : null //TODO
+              // schedule: data.transformedDate[data.date] != null ? this.formatSchedule(data.transformedDate[data.date][0], scopedDateParam.scope, scopedDateParam.profile) : null, //UNUSED IN TCX
+              aiContent: data.aiContent != null ? this.aiHeadLine(data.aiContent, scopedDateParam.scope) : null //TODO
             };
             currentBoxScores = currentBoxScores.gameInfo != null ? currentBoxScores :null;
             callback(data, currentBoxScores);
@@ -179,9 +263,8 @@ export class BoxScoresService {
         let currentBoxScores = {
           moduleTitle: this.moduleHeader(dateParam.date, profileName),
           gameInfo: this.formatGameInfo(boxScoresData.transformedDate[dateParam.date],dateParam.teamId, dateParam.profile),
-          gameInfoMobile: this.formatGameInfoMobile(boxScoresData.transformedDate[dateParam.date],dateParam.teamId, dateParam.profile),
-          schedule: dateParam.profile != 'league' && boxScoresData.transformedDate[dateParam.date] != null? this.formatSchedule(boxScoresData.transformedDate[dateParam.date][0], dateParam.teamId, dateParam.profile) : null,
-          aiContent: this.aiHeadLine(boxScoresData.aiArticle, scopedDateParam.scope) != null ? this.aiHeadLine(boxScoresData.aiArticle, scopedDateParam.scope) : null //TODO
+          // schedule: dateParam.profile != 'league' && boxScoresData.transformedDate[dateParam.date] != null? this.formatSchedule(boxScoresData.transformedDate[dateParam.date][0], dateParam.teamId, dateParam.profile) : null, //UNUSED IN TCX
+          aiContent: boxScoresData.aiContent != null ? this.aiHeadLine(boxScoresData.aiContent, scopedDateParam.scope) : null //TODO
         };
 
         currentBoxScores = currentBoxScores.gameInfo != null ? currentBoxScores :null;
@@ -255,12 +338,7 @@ export class BoxScoresService {
     //Configure HTTP Headers
     var headers = this.setToken();
 
-    //player profile are treated as teams
-    // if(profile == 'player'){
-    //   profile = 'team'
-    // }
-
-    var callURL = 'http://dev-touchdownloyal-api.synapsys.us/league/gameDatesWeekly/'+scope+'/'+date; //TODO when TCX API is sestup
+    var callURL = GlobalSettings.getTCXscope(scope).verticalApi + '/league/gameDatesWeekly/'+scope+'/'+date; //TODO when TCX API is sestup
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
@@ -280,136 +358,12 @@ export class BoxScoresService {
     //   profile = 'team'
     // }
 
-    var callURL = 'http://dev-touchdownloyal-api.synapsys.us/league/gameDates/'+scope+'/'+ date; //TODO when TCX API is sestup //localToEST needs tobe the date coming in AS UNIX
+    var callURL = GlobalSettings.getTCXscope(scope).verticalApi + '/league/gameDates/'+scope+'/'+ date; //TODO when TCX API is sestup //localToEST needs tobe the date coming in AS UNIX
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
         return data;
       })
-  }
-
-  // form box scores data
-  transformBoxScores(data, scope?){
-    console.log(data);
-    var transformedData: boxScoresInterface = {
-      currentScope: scope,
-      aiContent: data.aiContent,
-      data: data.data
-    }
-
-    let boxScoresData = transformedData.data;
-    var boxScoreObj = {};
-    var newBoxScores = {};
-    let currWeekGameDates = {};
-    for ( var gameDate in boxScoresData ) {
-      let gameDayInfo:gameDayInfoInterface = data.data[gameDate];
-      let currGameDate = moment(Number(gameDate)).tz('America/New_York').format('YYYY-MM-DD');
-      // game info
-      if (gameDayInfo) {
-        gameDayInfo['gameInfo'] = {
-          eventId: gameDayInfo.eventId,
-          timeLeft: gameDayInfo.liveDataPoints[scope].timeLeft,
-          live: gameDayInfo.liveStatus == 'Y'?true:false,
-          startDateTime: gameDayInfo.eventDate,
-          startDateTimestamp: gameDayInfo.eventStartTime,
-          dataPointCategories:[
-            gameDayInfo.dataPoint3Label,
-            gameDayInfo.dataPoint2Label,
-            gameDayInfo.dataPoint1Label
-          ]
-        }
-
-        // home team info
-        gameDayInfo['homeTeamInfo'] = {
-          name: gameDayInfo.fullNameHome,
-          id: gameDayInfo.idHome,
-          firstName: gameDayInfo.firstNameHome,
-          lastName: gameDayInfo.nicknameHome,
-          abbreviation: gameDayInfo.abbreviationHome,
-          logo: gameDayInfo.logoUrlHome,
-          dataPoint1Home: gameDayInfo.dataPoint1Home,
-          dataPoint2Home: gameDayInfo.dataPoint2Home,
-          dataPoint3Home: gameDayInfo.dataPoint3Home,
-          //dataP2:boxScoresData[gameDate].team1Possession != ''? boxScoresData[gameDate].team1Possession:null,
-          teamRecord: gameDayInfo.winsHome != null ? gameDayInfo.winsHome + '-' + gameDayInfo.lossHome + '-' + gameDayInfo.tiesHome: null
-        }
-
-        // away team info
-        gameDayInfo['awayTeamInfo'] = {
-          name: gameDayInfo.fullNameAway,
-          id: gameDayInfo.idAway,
-          firstName: gameDayInfo.firstNameAway,
-          lastName: gameDayInfo.nicknameAway,
-          abbreviation: gameDayInfo.abbreviationAway,
-          logo: gameDayInfo.logoUrlAway,
-          dataPoint1Away: gameDayInfo.dataPoint1Away,
-          dataPoint2Away: gameDayInfo.dataPoint2Away,
-          dataPoint3Away: gameDayInfo.dataPoint3Away,
-          //dataP2:boxScoresData[gameDate].team1Possession != ''? boxScoresData[gameDate].team1Possession:null,
-          teamRecord: gameDayInfo.winsAway != null ? gameDayInfo.winsAway + '-' + gameDayInfo.lossAway + '-' + gameDayInfo.tiesAway: null,
-        }
-
-
-        // LIVE DATA THAT NEEDS TO ADJUST BASED ON SPORT
-        gameDayInfo['gameInfo']['verticalContent'] = {
-          teamInPossesion:  "Possession: " + gameDayInfo.liveDataPoints[scope].teamInPossesion,
-          liveSegmentNumber: gameDayInfo.liveDataPoints[scope].liveSegmentNumber,
-          timeLeft: gameDayInfo.liveDataPoints[scope].timeLeft,
-          liveYardLine: gameDayInfo.liveDataPoints[scope].liveYardLine,
-          overTime: gameDayInfo.liveDataPoints[scope].liveYardLine
-        }
-
-        // organize games by date and put them into newVPWP' P PBoxScores
-        if(typeof newBoxScores[currGameDate] == 'undefined'){
-          newBoxScores[currGameDate] = [];
-          newBoxScores[currGameDate].push(gameDayInfo);
-        } else{
-          newBoxScores[currGameDate].push(gameDayInfo);
-        }
-
-      } //if (boxScoresData[gameDate])
-    } // END for ( var gameDate in data.data )
-    //console.log('4. transformBoxScores - newBoxScores - ',newBoxScores);
-    return newBoxScores;
-  }
-
-  formatSchedule(data, scope?, profile?) {
-    let awayData = data.awayTeamInfo;
-    let homeData = data.homeTeamInfo;
-    var left, right;
-    var homeRoute = VerticalGlobalFunctions.formatTeamRoute(homeData.name, homeData.id);
-    var awayRoute = VerticalGlobalFunctions.formatTeamRoute(awayData.name, awayData.id);
-    // if(profile == 'team'){
-    //   if(teamId == homeData.id){
-    //     homeRoute = null;
-    //   }else{
-    //     awayRoute = null;
-    //   }
-    // }
-    var homeLogo = this.imageData("image-70", "border-2", GlobalSettings.getImageUrl(homeData.logo), homeRoute);
-    var awayLogo = this.imageData("image-70", "border-2", GlobalSettings.getImageUrl(awayData.logo), awayRoute);
-
-    right = {
-      // homeHex:homeData.colors.split(', ')[0], //parse out comma + space to grab only hex colors
-      homeID:homeData.id,
-      homeLocation:homeData.firstName, // first name of team usually represents the location
-      homeLogo:homeLogo,
-      url:homeRoute,
-      homeRecord:homeData.teamRecord
-    };
-    left = {
-      // awayHex:awayData.colors.split(', ')[0],
-      awayID:awayData.id,
-      awayLocation:awayData.firstName,
-      awayLogo: awayLogo,
-      url:awayRoute,
-      awayRecord: homeData.teamRecord
-    };
-
-    return {
-      home:[right],
-      away:[left]
-    };
   }
 
   // Format the date for each gameBox
@@ -524,104 +478,13 @@ export class BoxScoresService {
     return gameArray;
   }
 
-  // Format the date for each gameBox - mobile only
-  formatGameInfoMobile(game, scope?, profile?){
-    var gameArray: Array<any> = [];
-    let self = this;
-    var twoBoxes = [];// used to put two games into boxes
+  formatSchedule(data, scope?, profile?) {}// so far unused on TCX
 
-    if(scope == 'nfl' || scope == 'fbs' || scope == 'nfl'){ //TODO
-      scope = null;
-    }
+  formatArticle(data){}// so far unused on TCX
 
-    // Sort games by time
-    let sortedGames = game.sort(function(a, b) {
-      return new Date(a.gameInfo.startDateTime).getTime() - new Date(b.gameInfo.startDateTime).getTime();
-    });
+  formatScoreBoard(data){}// so far unused on TCX
 
-    sortedGames.forEach(function(data,i){
-      //var info:GameInfoInput; //TODO
-      var info;
-      let awayData = data.awayTeamInfo;
-      let homeData = data.homeTeamInfo;
-      let gameInfo = data.gameInfo;
-      let homeLink = ''; //TODO
-      let awayLink = ''; //TODO
-
-      var aiContent = data.aiContent != null ? self.formatArticle(data):null;
-      var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo), homeLink) //TODO
-      var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo), awayLink) //TODO
-
-      let gameDate = data.gameInfo;
-      let homeRecord = data.homeTeamInfo.teamRecord;
-      // let homeWin = homeData.winRecord != null ? homeData.winRecord : '#';
-      // let homeLoss = homeData.lossRecord != null ? homeData.lossRecord : '#';
-
-      let awayRecord = data.awayTeamInfo.teamRecord;
-      // let awayWin = awayData.winRecord != null ? awayData.winRecord : '#';
-      // let awayLoss = awayData.lossRecord != null ? awayData.lossRecord : '#';
-
-      //determine if a game is live or not and display correct game time
-      var currentTime = new Date().getTime();
-      var segmentTitle = '';
-      var verticalContentLive;
-      if(gameInfo.live){
-        verticalContentLive = gameInfo.verticalContent;
-        // let inningHalf = gameInfo.inningHalf != null ? GlobalFunctions.toTitleCase(gameInfo.inningHalf) : '';
-        segmentTitle = gameInfo.segmentsPlayed != null ? gameInfo.segmentsPlayed +  GlobalFunctions.Suffix(gameInfo.segmentsPlayed) + " Quarter: " + "<span class='gameTime'>"+gameInfo.timeLeft+"</span>" : '';
-      } else{
-        verticalContentLive = "";
-        if((currentTime < gameInfo.startDateTimestamp) && !gameInfo.live){
-          segmentTitle = moment(gameDate.startDateTimestamp).tz('America/New_York').format('h:mm A z');
-        } else{
-          segmentTitle = 'Final';
-        }
-      }
-      info = {
-        gameHappened:gameInfo.segmentsPlayed != null ?  true : false,
-        //segment will display the segment the game is on otherwise if returning null then display the date Time the game is going to be played
-        segment:segmentTitle,
-        dataPointCategories:gameInfo.dataPointCategories,
-        verticalContent:verticalContentLive,
-        homeData:{
-          homeTeamName: homeData.lastName,
-          homeImageConfig:link1,
-          homeLink: homeLink,
-          homeRecord: homeRecord,
-          dataPoint1:homeData.dataPoint1Home,
-          dataPoint2:homeData.dataPoint2Home,
-          dataPoint3:homeData.dataPoint3Home
-        },
-        awayData:{
-          awayTeamName:awayData.lastName,
-          awayImageConfig:link2,
-          awayLink: awayLink,
-          awayRecord: awayRecord,
-          dataPoint1:awayData.dataPoint1Away,
-          dataPoint2:awayData.dataPoint2Away,
-          dataPoint3:awayData.dataPoint3Away
-        }
-      };  //info
-
-      // push info into twoBoxes array for display
-      twoBoxes.push({game:info});
-      if(twoBoxes.length > 1 || (i+1) == game.length){// will push into main array once 2 pieces of info has been put into twoBoxes variable
-        gameArray.push(twoBoxes);
-        twoBoxes = [];
-      }
-      //incase it runs through entire loops and only 2 or less returns then push whatever is left
-      if(game.length == (i+1)  && gameArray.length == 0){
-        gameArray.push(twoBoxes);
-      }
-      })
-      return gameArray;
-
-  }
-
-  formatArticle(data){}
-
-  formatScoreBoard(data){}
-
+  //used to send into image component in the format it needs but per module it differs so each service will have its own imageData
   imageData(imageClass, imageBorder, mainImg, mainImgRoute?){
     if(typeof mainImg =='undefined' || mainImg == ''){
       mainImg = "/app/public/no-image.svg";

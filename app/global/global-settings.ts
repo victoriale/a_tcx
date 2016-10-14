@@ -18,6 +18,7 @@ export class GlobalSettings {
 
     //main domain for all our images
     public static _imageUrl:string = 'images.synapsys.us';
+    public static _sportsimageUrl:string = 'sports-images.synapsys.us';
 
     //this changes per vertical
     private static _homepageUrl:string = '.tcxmedia.com';
@@ -118,7 +119,6 @@ export class GlobalSettings {
         },
         'ncaam':{
           scope:'ncaam',
-          scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL"],
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope:'basketball',
           displayName:'basketball',
@@ -412,6 +412,14 @@ export class GlobalSettings {
 
     static getImageUrl(relativePath):string {
         var relPath = relativePath != null && relativePath != "" ? this._proto + "//" + this._imageUrl + relativePath: '/app/public/no-image.svg';
+        return relPath;
+    }
+
+    static getSportsImageUrl(relativePath):string {
+        // var relPath = relativePath != null && relativePath != "" ? this._proto + "//" + this.getEnv(this._env) +  "-" + this._sportsimageUrl + relativePath: '/app/public/no-image.svg';
+
+        //todo: when the dev and qa sports image servers are made change this from hardcoded prod to dynamic
+        var relPath = relativePath != null && relativePath != "" ? this._proto + "//" + "prod" +  "-" + this._sportsimageUrl + relativePath: '/app/public/no-image.svg';
         return relPath;
     }
 

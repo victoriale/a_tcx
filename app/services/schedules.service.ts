@@ -109,10 +109,10 @@ export class SchedulesService {
             data.data[scope][n].profileUrl = "";
           }
           else {
-            data.data[scope][n].profileUrl = "http://www.investkit.com/" + data.data[scope][n].companySymbol + "/" + data.data[scope][n].fullCompanyName.replace(/ /g, "-") + "/company/" + data.data[scope][n].companyId;
+            data.data[scope][n].profileUrl = GlobalSettings.getOffsiteLink("finance", data.data[scope][n].companySymbol + "/" + data.data[scope][n].fullCompanyName.replace(/ /g, "-") + "/company/" + data.data[scope][n].companyId);
           }
           if (data.data[scope][n].logoUrl == "" || data.data[scope][n].logoUrl == null) {
-            data.data[scope][n].logoUrl = "http://www.investkit.com/public/no_image.png";
+            data.data[scope][n].logoUrl = '/app/public/no-image.png';
           }
           else {
             data.data[scope][n].logoUrl = "http://images.investkit.com/images/" + data.data[scope][n].logoUrl;
@@ -212,9 +212,6 @@ export class SchedulesService {
 
   //Call made for slider carousel using BoxScore scheduler
   getBasketballSchedule(scope, profile, eventStatus, limit, pageNum, id?){
-    if (scope != "all") {
-      scope = scope.toUpperCase();
-    }
     //Configure HTTP Headers
     var headers = this.setToken();
     var callURL = GlobalSettings.getVerticalEnv('-sports-api.synapsys.us') + "/NBAHoops/call_controller.php?scope=" + scope.toLowerCase() + "&action=tcx&option=tcx_side_scroll&perPage=50&pageNum=1";
@@ -230,27 +227,28 @@ export class SchedulesService {
           switch(data.data.data[n].eventStatus) {
               case "pre-event":
                   data.data.data[n].reportDisplay = "PRE GAME REPORT";
+                  data.data.data[n].reportLink = GlobalSettings.getOffsiteLink(scope, VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'pregame',data.data.data[n].eventId));
                   break;
               case "post-event":
                   data.data.data[n].reportDisplay = "POST GAME REPORT";
+                  data.data.data[n].reportLink = GlobalSettings.getOffsiteLink(scope, VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'postgame',data.data.data[n].eventId));
                   break;
               case "cancelled":
                   data.data.data[n].reportDisplay = "GAME IS CANCELED";
                   break;
               case "postponed":
-                  data.data.data[n].reportDisplay = "PRE GAME REPORT";
+                  data.data.data[n].reportDisplay = "GAME IS POSTPONED";
                   break;
               default:
-                  data.data.data[n].reportDisplay = "Game Report";
+                  data.data.data[n].reportDisplay = "GAME REPORT";
           }
           let date = moment(Number(data.data.data[n].startTime)).tz('America/New_York').format('MMMM D, YYYY');
           let time = moment(Number(data.data.data[n].startTime)).tz('America/New_York').format('h:mm A z');
           data.data.data[n].date = date + " &bull; " + time;
-          data.data.data[n].reportLink = "http://www.hoopsloyal.com/";
           data.data.data[n].homeTeamName = data.data.data[n].lastNameHome;
           data.data.data[n].awayTeamName = data.data.data[n].lastNameAway;
-          data.data.data[n].awayProfileUrl = "http://www.hoopsloyal.com/" + data.data.currentScope + "/team/" + data.data.data[n].fullNameAway.replace(/ /g, "-") + "/" + data.data.data[n].idAway;
-          data.data.data[n].homeProfileUrl = "http://www.hoopsloyal.com/" + data.data.currentScope + "/team/" + data.data.data[n].fullNameHome.replace(/ /g, "-") + "/" + data.data.data[n].idHome;
+          data.data.data[n].awayProfileUrl = GlobalSettings.getOffsiteLink("nba", data.data.currentScope + "/team/" + data.data.data[n].fullNameAway.replace(/ /g, "-") + "/" + data.data.data[n].idAway);
+          data.data.data[n].homeProfileUrl = GlobalSettings.getOffsiteLink("nba", data.data.currentScope + "/team/" + data.data.data[n].fullNameAway.replace(/ /g, "-") + "/" + data.data.data[n].idHome);
           if (data.data.data[n].logoUrlAway == "" || data.data.data[n].logoUrlAway == null) {
             data.data.data[n].logoUrlAway = '/app/public/no-image.png';
           }
@@ -296,9 +294,6 @@ export class SchedulesService {
 
   //Call made for slider carousel using BoxScore scheduler
   getBaseballSchedule(scope, profile, eventStatus, limit, pageNum, id?){
-    if (scope != "all") {
-      scope = scope.toUpperCase();
-    }
     //Configure HTTP Headers
     var headers = this.setToken();
     var callURL = GlobalSettings.getVerticalEnv('-homerunloyal-api.synapsys.us') + "/tcx/league/schedule/pre-event/50/1";
@@ -312,15 +307,17 @@ export class SchedulesService {
           switch(data.data[n].eventStatus) {
               case "pre-event":
                   data.data[n].reportDisplay = "PRE GAME REPORT";
+                  data.data[n].reportLink = GlobalSettings.getOffsiteLink(scope, VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'pre-game-report',data.data[n].eventId));
                   break;
               case "post-event":
                   data.data[n].reportDisplay = "POST GAME REPORT";
+                  data.data[n].reportLink = GlobalSettings.getOffsiteLink(scope, VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'post-game-report',data.data[n].eventId));
                   break;
               case "cancelled":
                   data.data[n].reportDisplay = "GAME IS CANCELED";
                   break;
               case "postponed":
-                  data.data[n].reportDisplay = "PRE GAME REPORT";
+                  data.data[n].reportDisplay = "GAME POSTPONED";
                   break;
               default:
                   data.data[n].reportDisplay = "GAME REPORT";
@@ -328,11 +325,10 @@ export class SchedulesService {
           let date = moment(Number(data.data[n].eventDate)).tz('America/New_York').format('MMMM D, YYYY');
           let time = moment(Number(data.data[n].eventDate)).tz('America/New_York').format('h:mm A z');
           data.data[n].date = date + " &bull; " + time;
-          data.data[n].reportLink = "http://www.homerunloyal.com/";
           data.data[n].homeTeamName = data.data[n].lastNameHome;
           data.data[n].awayTeamName = data.data[n].lastNameAway;
-          data.data[n].awayProfileUrl = "http://www.homerunloyal.com/team/" + data.data[n].fullNameAway.replace(/ /g, "-") + "/" + data.data[n].idAway;
-          data.data[n].homeProfileUrl = "http://www.homerunloyal.com/team/" + data.data[n].fullNameHome.replace(/ /g, "-") + "/" + data.data[n].idHome;
+          data.data[n].awayProfileUrl = GlobalSettings.getOffsiteLink("mlb", data.data[n].fullNameAway.replace(/ /g, "-") + "/" + data.data[n].idAway);
+          data.data[n].homeProfileUrl = GlobalSettings.getOffsiteLink("mlb", data.data[n].fullNameAway.replace(/ /g, "-") + "/" + data.data[n].idHome);
           if (data.data[n].logoUrlAway == "" || data.data[n].logoUrlAway == null) {
             data.data[n].logoUrlAway = '/app/public/no-image.png';
           }
@@ -438,6 +434,9 @@ export class SchedulesService {
   }
 
   transformSlideScroll(scope,data){
+    if (scope == "fbs") {
+      scope = "ncaaf";
+    }
     let self = this;
     var modifiedArray = {blocks: []};
     var newData;
@@ -449,21 +448,21 @@ export class SchedulesService {
       let reportUrl;
       if(val.eventStatus == 'inprogress'){
         if(Number(val.eventQuarter) > 1){// so that ai gets a chance to generate an article and no one really needs an article created for first quarter
-          reportUrl = VerticalGlobalFunctions.formatArticleRoute('in-game-report',val.eventId);
+          reportUrl = GlobalSettings.getOffsiteLink(scope, VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'in-game-report',val.eventId));
           reportText = 'LIVE GAME REPORT';
         }else{// link if game is inprogress and still 1st quarter
-          reportUrl = VerticalGlobalFunctions.formatArticleRoute('pregame-report',val.eventId);
+          reportUrl = GlobalSettings.getOffsiteLink(scope, VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'pregame-report',val.eventId));
           reportText = 'PRE GAME REPORT'
         }
       }else{
         if(val.eventStatus = 'pregame'){
-          reportUrl = VerticalGlobalFunctions.formatArticleRoute('pregame-report',val.eventId);
+          reportUrl = GlobalSettings.getOffsiteLink(scope, VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'pregame-report',val.eventId));
           reportText = 'PRE GAME REPORT'
         }else if (val.eventStatus == 'postgame'){
-          reportUrl = VerticalGlobalFunctions.formatArticleRoute('postgame-report',val.eventId);
+          reportUrl = GlobalSettings.getOffsiteLink(scope, VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'postgame-report',val.eventId));
           reportText = 'POST GAME REPORT';
         }else{
-          reportUrl = VerticalGlobalFunctions.formatArticleRoute('postgame-report',val.eventId);
+          reportUrl = GlobalSettings.getOffsiteLink(scope, VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'postgame-report',val.eventId));
           reportText = 'POST GAME REPORT';
         }
       }
@@ -478,7 +477,7 @@ export class SchedulesService {
         awayImageConfig: {
           imageClass: "image-70",
           mainImage: {
-            url: "http://touchdownloyal.com/" + scope + "/team/" + val.team1FullName + "/" + val.team1Id,
+            url: GlobalSettings.getOffsiteLink("nfl", scope + "/team/" + val.team1FullName + "/" + val.team1Id),
             imageUrl: GlobalSettings.getImageUrl(val.team1Logo),
             imageClass: "border-1",
             hoverText: "<p>View</p> Profile"
@@ -487,7 +486,7 @@ export class SchedulesService {
         homeImageConfig: {
           imageClass: "image-70",
           mainImage: {
-            url: "http://touchdownloyal.com/" + scope + "/team/" + val.team2FullName + "/" + val.team2Id,
+            url: GlobalSettings.getOffsiteLink("nfl", scope + "/team/" + val.team2FullName + "/" + val.team2Id),
             imageUrl: GlobalSettings.getImageUrl(val.team2Logo),
             imageClass: "border-1",
             hoverText: "<p>View</p> Profile"
@@ -495,14 +494,13 @@ export class SchedulesService {
         },
         awayTeamName: scope =='fbs' ? val.team2Abbreviation: team2FullName.replace(val.team2Market+" ",''),
         homeTeamName: scope =='fbs' ? val.team1Abbreviation: team1FullName.replace(val.team1Market+" ",''),
-        awayLink: "http://touchdownloyal.com/" + scope + "/team/" + val.team2FullName + "/" + val.team2Id,
-        homeLink: "http://touchdownloyal.com/" + scope + "/team/" + val.team1FullName + "/" + val.team1Id,
+        awayLink: GlobalSettings.getOffsiteLink("nfl", scope + "/team/" + val.team2FullName + "/" + val.team2Id),
+        homeLink: GlobalSettings.getOffsiteLink("nfl", scope + "/team/" + val.team1FullName + "/" + val.team1Id),
         reportDisplay: reportText,
         reportLink: reportUrl,
         isLive: val.eventStatus == 'inprogress' ? 'schedule-live' : '',
         inning: val.eventQuarter != null ? "Current: Quarter " + Number(val.eventQuarter) + "<sup>" + GlobalFunctions.Suffix(Number(val.eventQuarter)) + "</sup>": null
       }
-
       modifiedArray.blocks.push(newData);
     });
     modifiedArray.blocks.push(

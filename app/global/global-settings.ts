@@ -18,6 +18,7 @@ export class GlobalSettings {
 
     //main domain for all our images
     public static _imageUrl:string = 'images.synapsys.us';
+    public static _sportsimageUrl:string = 'sports-images.synapsys.us';
 
     //this changes per vertical
     private static _homepageUrl:string = '.tcxmedia.com';
@@ -66,7 +67,7 @@ export class GlobalSettings {
         //BELOW are categories SNTMedia actually has Verticals built specifically for that category
         'nfl':{
           scope:'nfl',
-          scopeList: ["MLB", "NCAAB", "NBA", "NCAAF", "NFL", "All"],
+          scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'football',
           displayName: 'football',
           verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
@@ -74,11 +75,17 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
           showBoxScores:true,
-          icon:'/dummyIcon/nfl.jpg',
+          icon:'fa-tdl-football',
+          pageType: 1,
+          searchInput:{
+            placeholderText: "Search for a topic...",
+            hasSuggestions: true
+          }
+
         },
         'ncaaf':{
           scope:'ncaaf',
-          scopeList: ["MLB", "NCAAB", "NBA", "NCAAF", "NFL", "All"],
+          scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'football',
           displayName: 'football',
           verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
@@ -86,11 +93,12 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
           showBoxScores:true,
-          icon:'/dummyIcon/ncaaf.jpg'
+          icon:'fa-tdl-football',
+          pageType: 1
         },
         'mlb':{
           scope:'mlb',
-          scopeList: ["MLB", "NCAAB", "NBA", "NCAAF", "NFL", "All"],
+          scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'baseball',
           displayName: 'baseball',
           verticalApi: this.getVerticalEnv('-homerunloyal-api.synapsys.us'),
@@ -98,11 +106,12 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
           showBoxScores:true,
-          icon:'/dummyIcon/mlb.jpg'
+          icon:'fa-strikeouts-01',
+          pageType: 1
         },
         'nba':{
           scope:'nba',
-          scopeList: ["MLB", "NCAAB", "NBA", "NCAAF", "NFL", "All"],
+          scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'basketball',
           displayName: 'basketball',
           verticalApi: this.getVerticalEnv('-sports-api.synapsys.us'),
@@ -110,11 +119,12 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
           showBoxScores:true,
-          icon:'/dummyIcon/nba.jpg'
+          icon:'fa-dribble',
+          pageType: 1
         },
         'ncaam':{
-          scope:'ncaaf',
-          scopeList: ["MLB", "NCAAB", "NBA", "NCAAF", "NFL", "All"],
+          scope:'ncaam',
+          scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope:'basketball',
           displayName:'basketball',
           verticalApi:this.getVerticalEnv('-sports-api.synapsys.us'),
@@ -122,7 +132,8 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
           showBoxScores:true,
-          icon:'/dummyIcon/ncaam.jpg'
+          icon:'fa-dribble',
+          pageType: 1
         },
         'business':{
           scope:'all',
@@ -134,7 +145,8 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
           showBoxScores:false,
-          icon:'/dummyIcon/business.jpg'
+          icon:'fa-fontawesome-webfont-3',
+          pageType: 2
         },
         'realestate':{
           scope:'realestate',
@@ -145,14 +157,15 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
-          icon:'/dummyIcon/realestate.jpg'
+          icon:'fa-home-1',
+          pageType: 2
         },
         //ABOVE are categories SNTMedia actually has Verticals built specifically for that category
 
         //BELOW are categories SNTMedia do no have specific verticals for therefore will not have anything linking to a category specific site
         'sports':{
           scope:'sports',
-          scopeList: ["MLB", "NCAAB", "NBA", "NCAAF", "NFL", "All"],
+          scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'sports',
           displayName: 'sports',
           verticalApi: null,
@@ -160,7 +173,12 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
           showBoxScores:true,
-          icon:'/dummyIcon/sports.jpg',
+          icon:'fa-futbol-o',
+          pageType: 1,
+          searchInput:{
+            placeholderText: "Search for a topic...",
+            hasSuggestions: true
+          }
         },
         'weather':{
           scope:'hourly',
@@ -172,7 +190,8 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
           showBoxScores:false,
-          icon:'/dummyIcon/weather.jpg'
+          icon:'fa-cloud-1',
+          pageType: 2
         },
         'trending':{
           scope:'trending',
@@ -183,7 +202,8 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
-          icon:'/dummyIcon/trending.jpg'
+          icon:'fa-film',
+          pageType: 3
         },
         'breaking':{
           scope:'breaking',
@@ -194,7 +214,8 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
-          icon:'/dummyIcon/breaking.jpg'
+          icon:'fa-clock',
+          pageType: 3
         },
         'entertainment':{
           scope:'entertainment',
@@ -205,7 +226,8 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
-          icon:'/dummyIcon/entertainment.jpg'
+          icon:'fa-film',
+          pageType: 3
         },
         'tv':{
           scope:'tv',
@@ -216,7 +238,8 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
-          icon:'/dummyIcon/tv.jpg'
+          icon:'fa-film',
+          pageType: 3
         },
         'movies':{
           scope:'movies',
@@ -227,7 +250,8 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
-          icon:'/dummyIcon/movies.jpg'
+          icon:'fa-film',
+          pageType: 3
         },
         'music':{
           scope:'music',
@@ -238,7 +262,8 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
-          icon:'/dummyIcon/music.jpg'
+          icon:'fa-film',
+          pageType: 3
         },
         'celeberties':{
           scope:'celeberties',
@@ -249,7 +274,8 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
-          icon:'/dummyIcon/celeberties.jpg'
+          icon:'fa-film',
+          pageType: 3
         },
         'lifestyle':{
           scope:'lifestyle',
@@ -260,7 +286,8 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
-          icon:'/dummyIcon/lifestyle.jpg'
+          icon:'fa-diamond',
+          pageType: 3
         },
         'food':{
           scope:'food',
@@ -271,7 +298,8 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
-          icon:'/dummyIcon/food.jpg'
+          icon:'fa-cutlery',
+          pageType: 3
         },
         'travel':{
           scope:'travel',
@@ -282,7 +310,8 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
-          icon:'/dummyIcon/travel.jpg'
+          icon:'fa-plane',
+          pageType: 3
         },
         'politics':{
           scope:'politics',
@@ -293,7 +322,8 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
-          icon:'/dummyIcon/politics.jpg'
+          icon:'fa-university',
+          pageType: 3
         },
         'health':{
           scope:'health',
@@ -304,7 +334,8 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
-          icon:'/dummyIcon/health.jpg'
+          icon:'fa-heartbeat',
+          pageType: 3
         },
         'automotive':{
           scope:'automotive',
@@ -315,7 +346,20 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
-          icon:'/dummyIcon/automotive.jpg'
+          icon:'fa-auto-shape',
+          pageType: 3
+        },
+        'all':{
+          scope:'deep-dive',
+          topScope: null,
+          displayName: null,
+          verticalApi: null,
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: false,
+          showBoxScores:false,
+          icon:'fa-auto-shape',
+          pageType: 'all'
         },
         //ABOVE are categories SNTMedia do no have specific verticals for therefore will not have anything linking to a category specific site
       }
@@ -336,7 +380,7 @@ export class GlobalSettings {
           break;
         //BASKETBALL URL
         case 'nba':
-        case 'ncaab':
+        case 'NCAAM':
           _apiURL = this._proto + "//" + this.getEnv(this._env) + this._tcxAPI;
           break;
         //BASEBALL URL
@@ -377,6 +421,14 @@ export class GlobalSettings {
 
     static getImageUrl(relativePath):string {
         var relPath = relativePath != null && relativePath != "" ? this._proto + "//" + this._imageUrl + relativePath: '/app/public/no-image.svg';
+        return relPath;
+    }
+
+    static getSportsImageUrl(relativePath):string {
+        // var relPath = relativePath != null && relativePath != "" ? this._proto + "//" + this.getEnv(this._env) +  "-" + this._sportsimageUrl + relativePath: '/app/public/no-image.svg';
+
+        //todo: when the dev and qa sports image servers are made change this from hardcoded prod to dynamic
+        var relPath = relativePath != null && relativePath != "" ? this._proto + "//" + "prod" +  "-" + this._sportsimageUrl + relativePath: '/app/public/no-image.svg';
         return relPath;
     }
 

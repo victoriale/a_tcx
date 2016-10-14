@@ -46,8 +46,13 @@ export class DeepDivePage implements OnInit {
     sectionNameIcon: string;
     sectionNameTitle: string = this.category;
     geoLocation:string;
+    // homePageBlocks = ["breaking", "video", "sports", "business", "politics", "entertainment", "food", "video", "health", "lifestyle", "realestate", "travel", "weather", "video", "automotive"];
 
     constructor(private _schedulesService:SchedulesService, private _deepDiveData: DeepDiveService, private _activatedRoute: ActivatedRoute, private _geoLocation: GeoLocation) {
+      // var categoryBlocks;
+      // if(GlobalSettings.getHomeInfo().isHome){
+      //   categoryBlocks = this.homePageBlocks;
+      // }
     }
 
     ngOnDestroy(){
@@ -71,62 +76,6 @@ export class DeepDivePage implements OnInit {
                   this.getSideScroll();
                 }
             );
-    }
-
-    private getDeepDiveType(category:string): string{
-      var _typeValue;
-      // if(category !== null || typeof category !== 'undefined'){
-      //   category = category.toLowerCase();
-      // }
-      switch(category){
-        case 'sports':
-          _typeValue = "deep-dive-type1";
-          if(this.scope == 'nfl' || this.scope == 'ncaaf') {
-            this.sectionNameTitle = "football";
-            this.sectionNameIcon = "fa-tdl-football";
-          } else if(this.scope == 'nba' || this.scope == 'ncaab') {
-            this.sectionNameTitle = "basketball";
-            this.sectionNameIcon = "fa-dribble";
-          } else if(this.scope == "mlb") {
-            this.sectionNameTitle = "baseball";
-            this.sectionNameIcon = "fa-strikeouts-01";
-          } else {
-            this.sectionNameTitle = "sports";
-            this.sectionNameIcon = "fa-futbol-o";
-          }
-          break;
-        case 'business':
-        case 'finance':
-          _typeValue = "deep-dive-type2";
-          break;
-        case 'weather':
-          _typeValue = "deep-dive-type2";
-          this.sectionNameTitle = "weather";
-          break;
-        case 'realestate':
-          _typeValue = "deep-dive-type2";
-          this.sectionNameTitle = "real estate";
-          break;
-        case 'automotive':
-        case 'entertainment':
-        case 'food':
-        case 'IPO':
-        case 'lifestyle':
-        case 'politics':
-        case 'travel':
-        case 'banking':
-        case 'health':
-          _typeValue = "deep-dive-type3";
-          break;
-        case 'breakingnews':
-          _typeValue = "deep-dive-type3";
-          this.sectionNameTitle = "breaking news";
-          break;
-        default:
-          _typeValue = "deep-dive-type-main";
-          break;
-      }
-      return _typeValue;
     }
 
     private sectionFrontName(){
@@ -196,22 +145,20 @@ export class DeepDivePage implements OnInit {
       this.routeSubscription = this._activatedRoute.params.subscribe(
           (param:any) => {
             this.category = param['category'] ? param['category'] : 'all';
-            this.scope = param['articleCategory'] ? param['articleCategory'] : param['category'];
+            this.scope = param['articleCategory'] ? param['articleCategory'] : this.category;
             console.log('Partner:', GlobalSettings.getPartnerId());
             console.log('sectionFront parameters:',param);
-
             if (param['articleCategory']) {
               this.tcxVars = GlobalSettings.getTCXscope(param['articleCategory']);
             }
             else {
-              this.tcxVars = GlobalSettings.getTCXscope(param['category']);
+              this.tcxVars = GlobalSettings.getTCXscope(this.category);
             }
-            this.topScope = this.tcxVars.topScope;
+            this.topScope = this.tcxVars ? this.tcxVars.topScope : this.category;
             this.changeScopeVar = this.tcxVars.scope;
-
+            this.deepDiveType = this.category != 'all' ? GlobalSettings.getTCXscope(this.scope).pageType : 'all';
             this.getGeoLocation();
             this.getDataCarousel();
-            this.deepDiveType = this.getDeepDiveType(this.category.toLowerCase());
             this.sectionFrontName();
           }
       );

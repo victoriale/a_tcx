@@ -5,6 +5,7 @@ import { Http, Headers } from '@angular/http';
 import { VideoStackData, ArticleStackData } from "../fe-core/interfaces/deep-dive.data";
 import { GlobalFunctions } from "../global/global-functions";
 import { GlobalSettings } from "../global/global-settings";
+import { VerticalGlobalFunctions } from "../global/vertical-global-functions";
 
 declare var moment;
 
@@ -90,9 +91,6 @@ export class DeepDiveService {
     getDeepDiveVideoBatchService(category: string, limit: number, page: number, location?: string){
       var headers = this.setToken();
       var callURL = GlobalSettings.getCategoryAPI(category);
-      if(category === null || typeof category == 'undefined'){
-        category = 'fbs';
-      }
       if(limit === null || typeof limit == 'undefined'){
         limit = 5;
         page = 1;
@@ -105,20 +103,20 @@ export class DeepDiveService {
       })
     }// getDeepDiveVideoBatchService ENDS
 
-    transformDeepDiveVideoBatchData(data: Array<VideoStackData>){
+    transformSportVideoBatchData(data: Array<VideoStackData>, scope?){
       var sampleImage = "/app/public/placeholder_XL.png";
       var videoBatchArray = [];
       data.forEach(function(val, index){
         var date =  moment(Number(val.timeStamp));
-        date = date.month() + date.format(' DD, YYYY');
+        date = date.format('MMM') + date.format(' DD, YYYY');
         var d = {
           id: val.id,
           keyword: val.keyword ? val.keyword : "", //TODO maybe return the page category when available
           title: val.title ? val.title : "No Title",
           timeStamp: date,
           videoThumbnail: val.videoThumbnail ? val.videoThumbnail : sampleImage,
-          videoUrl: ['/deep-dive'],
-          keyUrl: ['/deep-dive']
+          videoUrl: VerticalGlobalFunctions.formatArticleRoute("sports", val.id, "video", scope),
+          // keyUrl: null
         }
         videoBatchArray.push(d);
       });
@@ -126,7 +124,7 @@ export class DeepDiveService {
     }// transformDeepDiveVideoBatchData ENDS
 
     // Top Article of Article Stacks
-    transformToArticleStack(data: Array<ArticleStackData>, scope){
+    transformToArticleStack(data: Array<ArticleStackData>, scope?){
       var sampleImage = "/app/public/placeholder_XL.png";
       // var topData = data.data[0];
       var articleStackArray = [];
@@ -136,7 +134,7 @@ export class DeepDiveService {
             articleUrl: '/deep-dive',
             keyUrl: '/deep-dive',
             keyword: scope.toUpperCase(),
-            timeStamp: "September 28, 2016",
+            timeStamp: "Sept 28, 2016",
             title: "Title here",
             author: "Author",
             publisher: ", Publisher",

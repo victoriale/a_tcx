@@ -279,9 +279,11 @@ img{
     color: @noHoverColor;
   }
 }
-a.masterHover{
-  &:hover{
-    color: @masterBrandColor;
+@media @desktop-m{
+  a.masterHover{
+    &:hover{
+      color: @masterBrandColor;
+    }
   }
 }
 .text-heavy-link{

@@ -142,6 +142,7 @@ export class DeepDivePage implements OnInit {
     }
 
     ngOnInit(){
+      GlobalSettings.getOffsiteLink("nfl", "team/seahawks/152");
       this.routeSubscription = this._activatedRoute.params.subscribe(
           (param:any) => {
             this.category = param['category'] ? param['category'] : 'all';

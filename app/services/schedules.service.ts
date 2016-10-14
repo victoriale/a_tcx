@@ -87,9 +87,6 @@ export class SchedulesService {
 
   //Call made for slider carousel using BoxScore scheduler
   getFinanceData(scope, profile, eventStatus, limit, pageNum, id?){
-    if (scope != "all") {
-      scope = scope.toUpperCase();
-    }
     //Configure HTTP Headers
     var headers = this.setToken();
     var callURL = GlobalSettings.getVerticalEnv('-finance-api.synapsys.us') + "/call_controller.php?action=tcx&option=tcx_side_scroll";

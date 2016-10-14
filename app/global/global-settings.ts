@@ -165,7 +165,7 @@ export class GlobalSettings {
         //BELOW are categories SNTMedia do no have specific verticals for therefore will not have anything linking to a category specific site
         'sports':{
           scope:'sports',
-          scopeList: ["MLB", "ncaam", "NBA", "NCAAF", "NFL", "All"],
+          scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'sports',
           displayName: 'sports',
           verticalApi: null,

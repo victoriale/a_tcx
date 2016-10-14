@@ -76,7 +76,12 @@ export class GlobalSettings {
           showEventSlider: true,
           showBoxScores:true,
           icon:'fa-tdl-football',
-          pageType: 1
+          pageType: 1,
+          searchInput:{
+            placeholderText: "Search for a topic...",
+            hasSuggestions: true
+          }
+
         },
         'ncaaf':{
           scope:'ncaaf',
@@ -169,7 +174,11 @@ export class GlobalSettings {
           showEventSlider: true,
           showBoxScores:true,
           icon:'fa-futbol-o',
-          pageType: 1
+          pageType: 1,
+          searchInput:{
+            placeholderText: "Search for a topic...",
+            hasSuggestions: true
+          }
         },
         'weather':{
           scope:'hourly',

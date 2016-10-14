@@ -48,6 +48,8 @@ export class DeepDivePage implements OnInit {
     geoLocation:string;
     // homePageBlocks = ["breaking", "video", "sports", "business", "politics", "entertainment", "food", "video", "health", "lifestyle", "realestate", "travel", "weather", "video", "automotive"];
 
+    carouselVideo:any;// TODO remove when video and article api is moved to page level is moved to deepdive page
+
     constructor(private _schedulesService:SchedulesService, private _deepDiveData: DeepDiveService, private _activatedRoute: ActivatedRoute, private _geoLocation: GeoLocation) {
       // var categoryBlocks;
       // if(GlobalSettings.getHomeInfo().isHome){
@@ -141,6 +143,17 @@ export class DeepDivePage implements OnInit {
       })
     }
 
+    getDeepDiveVideo(){
+        this._deepDiveData.getDeepDiveVideoBatchService(this.scope, 1, 1).subscribe(
+          data => {
+            this.carouselVideo = [data.data[0]];
+            console.log(this.carouselVideo);
+          },
+          err => {
+            console.log("Error getting video batch data");
+        });
+    }
+
     ngOnInit(){
       this.routeSubscription = this._activatedRoute.params.subscribe(
           (param:any) => {
@@ -154,6 +167,7 @@ export class DeepDivePage implements OnInit {
             this.deepDiveType = this.category != 'all' ? GlobalSettings.getTCXscope(this.scope).pageType : 'all';
             this.getGeoLocation();
             this.getDataCarousel();
+            this.getDeepDiveVideo();
             this.sectionFrontName();
           }
       );

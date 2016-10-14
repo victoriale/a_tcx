@@ -152,7 +152,7 @@ export class DeepDivePage implements OnInit {
               this.tcxVars = GlobalSettings.getTCXscope(param['articleCategory']);
             }
             else {
-              this.tcxVars = GlobalSettings.getTCXscope(param['category']);
+              this.tcxVars = GlobalSettings.getTCXscope(this.category);
             }
             this.topScope = this.tcxVars ? this.tcxVars.topScope : this.category;
             this.changeScopeVar = this.tcxVars.scope;

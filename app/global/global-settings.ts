@@ -366,6 +366,103 @@ export class GlobalSettings {
       return category[section];
     }
 
+    static checkPartnerDomain (partnerCode) {
+      var result = false;
+      var specialDomains = [
+        "latimes.com",
+        "orlandosentinel.com",
+        "sun-sentinel.com",
+        "baltimoresun.com",
+        "mcall.com",
+        "courant.com",
+        "dailypress.com",
+        "southflorida.com",
+        "citypaper.com",
+        "themash.com",
+        "coastlinepilot.com",
+        "sandiegouniontribune.com",
+        "ramonasentinel.com",
+        "capitalgazette.com",
+        "chicagotribune.com"
+      ];
+      for (var i = 0; i < specialDomains.length; i++) {
+        if (specialDomains[i] == partnerCode) {
+          result = true;
+          return result;
+        }
+      }
+      return result;
+    }
+
+    static getOffsiteLink(scope, relativeUrl){
+      var link = "";
+      var siteVars = this.getHomeInfo();
+      var partnerCode;
+      if (siteVars.isPartner) {
+        partnerCode = siteVars.partnerName;
+      }
+      switch(scope){
+        //FOOTBALL URL
+        case 'nfl':
+        case 'ncaaf':
+          if (partnerCode != null) {
+            if (this.checkPartnerDomain(partnerCode)) {
+              link = "http://football." + partnerCode + "/" + relativeUrl;
+            }
+            else {
+              link = "http://mytouchdownzone.com/" + partnerCode + "/" + relativeUrl;
+            }
+          }
+          else {
+            link = "http://touchdownloyal.com" + "/" + relativeUrl;
+          }
+          break;
+        //BASKETBALL URL
+        case 'nba':
+        case 'ncaam':
+          if (partnerCode != null) {
+            link = "http://myhoopszone.com/" + partnerCode + "/" + relativeUrl;
+          }
+          else {
+            link = "http://hoopsloyal.com" + "/" + relativeUrl;
+          }
+          break;
+        //BASEBALL URL
+        case 'mlb':
+          if (partnerCode != null) {
+            if (this.checkPartnerDomain(partnerCode)) {
+              link = "http://baseball." + partnerCode + "/" + relativeUrl;
+            }
+            else {
+              link = "http://myhomerunzone.com/" + partnerCode + "/" + relativeUrl;
+            }
+          }
+          else {
+            link = "http://homerunloyal.com" + "/" + relativeUrl;
+          }
+          break;
+        //FINANCE URL
+        case 'finance':
+          if (partnerCode != null) {
+            link = "http://myinvestkit.com/" + partnerCode + "/" + relativeUrl;
+          }
+          else {
+            link = "http://investkit.com" + "/" + relativeUrl;
+          }
+          break;
+        //REALESTATE URL
+        case 'realestate':
+          if (partnerCode != null) {
+            link = "http://myhousekit.com/" + partnerCode + "/" + relativeUrl;
+          }
+          else {
+            link = "http://joyfulhome.com" + "/" + relativeUrl;
+          }
+          break;
+      }
+      return link;
+    }
+
     static getVerticalEnv(api){
       return this._proto + "//" + this.getEnv(this._env) + api
     }
@@ -380,7 +477,7 @@ export class GlobalSettings {
           break;
         //BASKETBALL URL
         case 'nba':
-        case 'NCAAM':
+        case 'ncaam':
           _apiURL = this._proto + "//" + this.getEnv(this._env) + this._tcxAPI;
           break;
         //BASEBALL URL
@@ -420,7 +517,7 @@ export class GlobalSettings {
     }
 
     static getImageUrl(relativePath):string {
-        var relPath = relativePath != null && relativePath != "" ? this._proto + "//" + this._imageUrl + relativePath: '/app/public/no-image.svg';
+        var relPath = relativePath != null && relativePath != "" ? this._proto + "//" + this._imageUrl + relativePath: '/app/public/no-image.png';
         return relPath;
     }
 
@@ -428,7 +525,7 @@ export class GlobalSettings {
         // var relPath = relativePath != null && relativePath != "" ? this._proto + "//" + this.getEnv(this._env) +  "-" + this._sportsimageUrl + relativePath: '/app/public/no-image.svg';
 
         //todo: when the dev and qa sports image servers are made change this from hardcoded prod to dynamic
-        var relPath = relativePath != null && relativePath != "" ? this._proto + "//" + "prod" +  "-" + this._sportsimageUrl + relativePath: '/app/public/no-image.svg';
+        var relPath = relativePath != null && relativePath != "" ? this._proto + "//" + "prod" +  "-" + this._sportsimageUrl + relativePath: '/app/public/no-image.png';
         return relPath;
     }
 
@@ -457,11 +554,21 @@ export class GlobalSettings {
       var isHome = false;
       var hide = false;
       var hostname = window.location.hostname;
-      var partnerPage = /mytouchdownzone/.test(hostname) || /^football\./.test(hostname);
-      var name = window.location.pathname.split('/')[1];
-      var isSubdomainPartner = /^football\./.test(hostname);
+      var partnerPage = /mytcxzone/.test(hostname) || /^newspaper\./.test(hostname); //todo: change to correct domain not localhost
+      var urlSplit = window.location.pathname.split('/');
+      var name = "";
+      var partnerName = "";
+      var isSubdomainPartner = /^newspaper\./.test(hostname);
+      if(partnerPage){
+        partner = partnerPage;
+        partnerName = urlSplit[1];
+        name = urlSplit[2];
+      }
+      else {
+        name = urlSplit[1];
+      }
       //PLEASE REVISIT and change
-      if(partnerPage && (name == '' || name == 'deep-dive')){
+      if(partnerPage && (name == '' || name == 'news')){
         hide = true;
         isHome = true;
       }else if(!partnerPage && (name == '' || name == 'deep-dive')){
@@ -472,14 +579,11 @@ export class GlobalSettings {
         isHome = false;
       }
 
-      if(partnerPage){
-        partner = partnerPage;
-      }
       return {
         isPartner: partner,
         hide:hide,
         isHome:isHome,
-        partnerName: name,
+        partnerName: partnerName,
         isSubdomainPartner: isSubdomainPartner
       };
     }

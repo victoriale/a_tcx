@@ -167,7 +167,7 @@ export class SchedulesService {
           );
           for (var n =0; n< data.data.length; n++) {
             data.data[n]['eos'] = "false";
-            data.data[n]['icon'] = "http://images.synapsys.us" + data.data[n]['icon'];
+            data.data[n]['icon'] = GlobalSettings.getImageUrl(data.data[n]['icon']);
             //convert from kelvin to farenheight
             if (scope.toLowerCase() == "hourly") {
               data.data[n].unixTimestamp = moment.unix(data.data[n].unixTimestamp).format("h:mm A") + " CT";
@@ -252,13 +252,13 @@ export class SchedulesService {
           data.data.data[n].awayProfileUrl = "http://www.hoopsloyal.com/" + data.data.currentScope + "/team/" + data.data.data[n].fullNameAway.replace(/ /g, "-") + "/" + data.data.data[n].idAway;
           data.data.data[n].homeProfileUrl = "http://www.hoopsloyal.com/" + data.data.currentScope + "/team/" + data.data.data[n].fullNameHome.replace(/ /g, "-") + "/" + data.data.data[n].idHome;
           if (data.data.data[n].logoUrlAway == "" || data.data.data[n].logoUrlAway == null) {
-            data.data.data[n].logoUrlAway = "http://www.investkit.com/public/no_image.png";
+            data.data.data[n].logoUrlAway = '/app/public/no-image.png';
           }
           else {
             data.data.data[n].logoUrlAway = GlobalSettings.getSportsImageUrl("/" + data.data.data[n].logoUrlAway);
           }
           if (data.data.data[n].logoUrlHome == "" || data.data.data[n].logoUrlHome == null) {
-            data.data.data[n].logoUrlHome = "http://www.investkit.com/public/no_image.png";
+            data.data.data[n].logoUrlHome = '/app/public/no-image.png';
           }
           else {
             data.data.data[n].logoUrlHome = GlobalSettings.getSportsImageUrl("/" + data.data.data[n].logoUrlHome);
@@ -334,13 +334,13 @@ export class SchedulesService {
           data.data[n].awayProfileUrl = "http://www.homerunloyal.com/team/" + data.data[n].fullNameAway.replace(/ /g, "-") + "/" + data.data[n].idAway;
           data.data[n].homeProfileUrl = "http://www.homerunloyal.com/team/" + data.data[n].fullNameHome.replace(/ /g, "-") + "/" + data.data[n].idHome;
           if (data.data[n].logoUrlAway == "" || data.data[n].logoUrlAway == null) {
-            data.data[n].logoUrlAway = "http://www.investkit.com/public/no_image.png";
+            data.data[n].logoUrlAway = '/app/public/no-image.png';
           }
           else {
             data.data[n].logoUrlAway = GlobalSettings.getSportsImageUrl(data.data[n].logoUrlAway);
           }
           if (data.data[n].logoUrlHome == "" || data.data[n].logoUrlHome == null) {
-            data.data[n].logoUrlHome = "http://www.investkit.com/public/no_image.png";
+            data.data[n].logoUrlHome = '/app/public/no-image.png';
           }
           else {
             data.data[n].logoUrlHome = GlobalSettings.getSportsImageUrl(data.data[n].logoUrlHome);

@@ -134,8 +134,8 @@ export class SchedulesService {
           {
             eos: "true",
             icon: "app/public/eos.svg",
-            mainMessage: "END OF SCHEDULE",
-            subMessage: "The schedule will now start over."
+            mainMessage: "END OF LIST",
+            subMessage: "The list will now start over."
           });
         return output;
       });
@@ -186,8 +186,8 @@ export class SchedulesService {
             {
               eos: "true",
               icon: "app/public/eos.svg",
-              mainMessage: "END OF SCHEDULE",
-              subMessage: "The schedule will now start over."
+              mainMessage: "END OF LIST",
+              subMessage: "The list will now start over."
             });
           return output;
         }
@@ -290,8 +290,8 @@ export class SchedulesService {
           {
             eos: "true",
             icon: "app/public/eos.svg",
-            mainMessage: "END OF SCHEDULE",
-            subMessage: "The schedule will now start over."
+            mainMessage: "END OF LIST",
+            subMessage: "The list will now start over."
           });
         return output;
       });
@@ -373,8 +373,8 @@ export class SchedulesService {
           {
             eos: "true",
             icon: "app/public/eos.svg",
-            mainMessage: "END OF SCHEDULE",
-            subMessage: "The schedule will now start over."
+            mainMessage: "END OF LIST",
+            subMessage: "The list will now start over."
           });
         return output;
       });
@@ -514,8 +514,8 @@ export class SchedulesService {
       {
         eos: "true",
         icon: "app/public/eos.svg",
-        mainMessage: "END OF SCHEDULE",
-        subMessage: "The schedule will now start over."
+        mainMessage: "END OF LIST",
+        subMessage: "The list will now start over."
       });
     return modifiedArray;
   }

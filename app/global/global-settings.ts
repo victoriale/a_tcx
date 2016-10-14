@@ -74,7 +74,8 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
           showBoxScores:true,
-          icon:'/dummyIcon/nfl.jpg',
+          icon:'fa-tdl-football',
+          pageType: 1
         },
         'ncaaf':{
           scope:'ncaaf',
@@ -86,7 +87,8 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
           showBoxScores:true,
-          icon:'/dummyIcon/ncaaf.jpg'
+          icon:'fa-tdl-football',
+          pageType: 1
         },
         'mlb':{
           scope:'mlb',
@@ -98,7 +100,8 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
           showBoxScores:true,
-          icon:'/dummyIcon/mlb.jpg'
+          icon:'fa-strikeouts-01',
+          pageType: 1
         },
         'nba':{
           scope:'nba',
@@ -110,10 +113,12 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
           showBoxScores:true,
-          icon:'/dummyIcon/nba.jpg'
+          icon:'fa-dribble',
+          pageType: 1
         },
         'ncaam':{
-          scope:'ncaaf',
+          scope:'ncaam',
+          scopeList: ["MLB", "NCAAB", "NBA", "NCAAF", "NFL"],
           scopeList: ["MLB", "NCAAB", "NBA", "NCAAF", "NFL", "All"],
           topScope:'basketball',
           displayName:'basketball',
@@ -122,7 +127,8 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
           showBoxScores:true,
-          icon:'/dummyIcon/ncaam.jpg'
+          icon:'fa-dribble',
+          pageType: 1
         },
         'business':{
           scope:'all',
@@ -134,7 +140,8 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
           showBoxScores:false,
-          icon:'/dummyIcon/business.jpg'
+          icon:'fa-fontawesome-webfont-3',
+          pageType: 2
         },
         'realestate':{
           scope:'realestate',
@@ -145,7 +152,8 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
-          icon:'/dummyIcon/realestate.jpg'
+          icon:'fa-home-1',
+          pageType: 2
         },
         //ABOVE are categories SNTMedia actually has Verticals built specifically for that category
 
@@ -160,7 +168,8 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
           showBoxScores:true,
-          icon:'/dummyIcon/sports.jpg',
+          icon:'fa-futbol-o',
+          pageType: 1
         },
         'weather':{
           scope:'hourly',
@@ -172,7 +181,8 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
           showBoxScores:false,
-          icon:'/dummyIcon/weather.jpg'
+          icon:'fa-cloud-1',
+          pageType: 2
         },
         'trending':{
           scope:'trending',
@@ -183,7 +193,8 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
-          icon:'/dummyIcon/trending.jpg'
+          icon:'fa-film',
+          pageType: 3
         },
         'breaking':{
           scope:'breaking',
@@ -194,7 +205,8 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
-          icon:'/dummyIcon/breaking.jpg'
+          icon:'fa-clock',
+          pageType: 3
         },
         'entertainment':{
           scope:'entertainment',
@@ -205,7 +217,8 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
-          icon:'/dummyIcon/entertainment.jpg'
+          icon:'fa-film',
+          pageType: 3
         },
         'tv':{
           scope:'tv',
@@ -216,7 +229,8 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
-          icon:'/dummyIcon/tv.jpg'
+          icon:'fa-film',
+          pageType: 3
         },
         'movies':{
           scope:'movies',
@@ -227,7 +241,8 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
-          icon:'/dummyIcon/movies.jpg'
+          icon:'fa-film',
+          pageType: 3
         },
         'music':{
           scope:'music',
@@ -238,7 +253,8 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
-          icon:'/dummyIcon/music.jpg'
+          icon:'fa-film',
+          pageType: 3
         },
         'celeberties':{
           scope:'celeberties',
@@ -249,7 +265,8 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
-          icon:'/dummyIcon/celeberties.jpg'
+          icon:'fa-film',
+          pageType: 3
         },
         'lifestyle':{
           scope:'lifestyle',
@@ -260,7 +277,8 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
-          icon:'/dummyIcon/lifestyle.jpg'
+          icon:'fa-diamond',
+          pageType: 3
         },
         'food':{
           scope:'food',
@@ -271,7 +289,8 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
-          icon:'/dummyIcon/food.jpg'
+          icon:'fa-cutlery',
+          pageType: 3
         },
         'travel':{
           scope:'travel',
@@ -282,7 +301,8 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
-          icon:'/dummyIcon/travel.jpg'
+          icon:'fa-plane',
+          pageType: 3
         },
         'politics':{
           scope:'politics',
@@ -293,7 +313,8 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
-          icon:'/dummyIcon/politics.jpg'
+          icon:'fa-university',
+          pageType: 3
         },
         'health':{
           scope:'health',
@@ -304,7 +325,8 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
-          icon:'/dummyIcon/health.jpg'
+          icon:'fa-heartbeat',
+          pageType: 3
         },
         'automotive':{
           scope:'automotive',
@@ -315,7 +337,20 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
-          icon:'/dummyIcon/automotive.jpg'
+          icon:'fa-auto-shape',
+          pageType: 3
+        },
+        'all':{
+          scope:'deep-dive',
+          topScope: null,
+          displayName: null,
+          verticalApi: null,
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: false,
+          showBoxScores:false,
+          icon:'fa-auto-shape',
+          pageType: 'all'
         },
         //ABOVE are categories SNTMedia do no have specific verticals for therefore will not have anything linking to a category specific site
       }

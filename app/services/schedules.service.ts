@@ -67,8 +67,7 @@ export class SchedulesService {
   getBoxSchedule(scope, profile, eventStatus, limit, pageNum, id?){
     //Configure HTTP Headers
     var headers = this.setToken();
-
-    var callURL = "http://prod-touchdownloyal-api.synapsys.us"+'/boxScores/schedule/'+profile;
+    var callURL = GlobalSettings.getVerticalEnv('-touchdownloyal-api.synapsys.us') + '/boxScores/schedule/' + profile;
     if(profile == 'league'){//if league call then add scope
       callURL += '/'+ scope;
     }
@@ -93,8 +92,7 @@ export class SchedulesService {
     }
     //Configure HTTP Headers
     var headers = this.setToken();
-
-    var callURL = "http://dev-finance-api.synapsys.us/call_controller.php?action=tcx&option=tcx_side_scroll";
+    var callURL = GlobalSettings.getVerticalEnv('-finance-api.synapsys.us') + "/call_controller.php?action=tcx&option=tcx_side_scroll";
     //optional week parameters
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
@@ -134,8 +132,8 @@ export class SchedulesService {
           {
             eos: "true",
             icon: "app/public/eos.svg",
-            mainMessage: "END OF SCHEDULE",
-            subMessage: "The schedule will now start over."
+            mainMessage: "END OF LIST",
+            subMessage: "The list will now start over."
           });
         return output;
       });
@@ -144,8 +142,7 @@ export class SchedulesService {
   getWeatherData(scope, selectedLocation){
     //Configure HTTP Headers
     var headers = this.setToken();
-
-    var callURL = "http://dev-tcxmedia-api.synapsys.us/sidescroll/weather/" + selectedLocation + "/" + scope.toLowerCase();
+    var callURL = GlobalSettings.getVerticalEnv('-tcxmedia-api.synapsys.us') + "/sidescroll/weather/" + selectedLocation + "/" + scope.toLowerCase();
     //optional week parameters
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
@@ -154,7 +151,7 @@ export class SchedulesService {
         if (data.data != null) {
           output.current['city'] = data.city;
           output.current['currentCondition'] = data.currentCondition;
-          output.current['currentIcon'] = data.currentIcon;
+          output.current['currentIcon'] = GlobalSettings.getImageUrl(data.currentIcon);
           output.current['currentScope'] = data.currentScope;
           output.current['currentTemperature'] = ((data.currentTemperature * (9/5)) - 459.67).toFixed(0);
           output.current['state'] = data.state;
@@ -170,6 +167,7 @@ export class SchedulesService {
           );
           for (var n =0; n< data.data.length; n++) {
             data.data[n]['eos'] = "false";
+            data.data[n]['icon'] = "http://images.synapsys.us" + data.data[n]['icon'];
             //convert from kelvin to farenheight
             if (scope.toLowerCase() == "hourly") {
               data.data[n].unixTimestamp = moment.unix(data.data[n].unixTimestamp).format("h:mm A") + " CT";
@@ -186,8 +184,8 @@ export class SchedulesService {
             {
               eos: "true",
               icon: "app/public/eos.svg",
-              mainMessage: "END OF SCHEDULE",
-              subMessage: "The schedule will now start over."
+              mainMessage: "END OF LIST",
+              subMessage: "The list will now start over."
             });
           return output;
         }
@@ -197,11 +195,11 @@ export class SchedulesService {
             {
               unixTimestamp: "UH OH!",
               condition: "ERROR",
-              icon: "/weather/icons/sharknado_n.svg"
+              icon: GlobalSettings.getImageUrl("/weather/icons/sharknado_n.svg")
             }
           ], current: {
             currentCondition: "N/A",
-            currentIcon: "/weather/icons/sharknado_n.svg",
+            currentIcon: GlobalSettings.getImageUrl("/weather/icons/sharknado_n.svg"),
             currentTemperature: "N/A",
             currentScope: "",
             state: "N/A",
@@ -219,8 +217,7 @@ export class SchedulesService {
     }
     //Configure HTTP Headers
     var headers = this.setToken();
-
-    var callURL = "http://dev-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=" + scope.toLowerCase() + "&action=tcx&option=tcx_side_scroll&perPage=50&pageNum=1";
+    var callURL = GlobalSettings.getVerticalEnv('-sports-api.synapsys.us') + "/NBAHoops/call_controller.php?scope=" + scope.toLowerCase() + "&action=tcx&option=tcx_side_scroll&perPage=50&pageNum=1";
     //optional week parameters
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
@@ -258,13 +255,13 @@ export class SchedulesService {
             data.data.data[n].logoUrlAway = "http://www.investkit.com/public/no_image.png";
           }
           else {
-            data.data.data[n].logoUrlAway = "http://prod-sports-images.synapsys.us/" + data.data.data[n].logoUrlAway;
+            data.data.data[n].logoUrlAway = GlobalSettings.getSportsImageUrl("/" + data.data.data[n].logoUrlAway);
           }
           if (data.data.data[n].logoUrlHome == "" || data.data.data[n].logoUrlHome == null) {
             data.data.data[n].logoUrlHome = "http://www.investkit.com/public/no_image.png";
           }
           else {
-            data.data.data[n].logoUrlHome = "http://prod-sports-images.synapsys.us/" + data.data.data[n].logoUrlHome;
+            data.data.data[n].logoUrlHome = GlobalSettings.getSportsImageUrl("/" + data.data.data[n].logoUrlHome);
           }
           data.data.data[n].awayImageConfig = {
             imageClass: "image-70",
@@ -290,8 +287,8 @@ export class SchedulesService {
           {
             eos: "true",
             icon: "app/public/eos.svg",
-            mainMessage: "END OF SCHEDULE",
-            subMessage: "The schedule will now start over."
+            mainMessage: "END OF LIST",
+            subMessage: "The list will now start over."
           });
         return output;
       });
@@ -304,8 +301,7 @@ export class SchedulesService {
     }
     //Configure HTTP Headers
     var headers = this.setToken();
-
-    var callURL = "http://dev-homerunloyal-api.synapsys.us/tcx/league/schedule/pre-event/50/1";
+    var callURL = GlobalSettings.getVerticalEnv('-homerunloyal-api.synapsys.us') + "/tcx/league/schedule/pre-event/50/1";
     //optional week parameters
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
@@ -333,21 +329,21 @@ export class SchedulesService {
           let time = moment(Number(data.data[n].eventDate)).tz('America/New_York').format('h:mm A z');
           data.data[n].date = date + " &bull; " + time;
           data.data[n].reportLink = "http://www.homerunloyal.com/";
-          data.data[n].homeTeamName = data.data[n].nicknameHome;
-          data.data[n].awayTeamName = data.data[n].nicknameAway;
+          data.data[n].homeTeamName = data.data[n].lastNameHome;
+          data.data[n].awayTeamName = data.data[n].lastNameAway;
           data.data[n].awayProfileUrl = "http://www.homerunloyal.com/team/" + data.data[n].fullNameAway.replace(/ /g, "-") + "/" + data.data[n].idAway;
           data.data[n].homeProfileUrl = "http://www.homerunloyal.com/team/" + data.data[n].fullNameHome.replace(/ /g, "-") + "/" + data.data[n].idHome;
           if (data.data[n].logoUrlAway == "" || data.data[n].logoUrlAway == null) {
             data.data[n].logoUrlAway = "http://www.investkit.com/public/no_image.png";
           }
           else {
-            data.data[n].logoUrlAway = "http://prod-sports-images.synapsys.us/" + data.data[n].logoUrlAway;
+            data.data[n].logoUrlAway = GlobalSettings.getSportsImageUrl(data.data[n].logoUrlAway);
           }
           if (data.data[n].logoUrlHome == "" || data.data[n].logoUrlHome == null) {
             data.data[n].logoUrlHome = "http://www.investkit.com/public/no_image.png";
           }
           else {
-            data.data[n].logoUrlHome = "http://prod-sports-images.synapsys.us/" + data.data[n].logoUrlHome;
+            data.data[n].logoUrlHome = GlobalSettings.getSportsImageUrl(data.data[n].logoUrlHome);
           }
           data.data[n].awayImageConfig = {
             imageClass: "image-70",
@@ -373,8 +369,8 @@ export class SchedulesService {
           {
             eos: "true",
             icon: "app/public/eos.svg",
-            mainMessage: "END OF SCHEDULE",
-            subMessage: "The schedule will now start over."
+            mainMessage: "END OF LIST",
+            subMessage: "The list will now start over."
           });
         return output;
       });
@@ -432,8 +428,7 @@ export class SchedulesService {
   callLocationAutocomplete(query){
     //Configure HTTP Headers
     var headers = this.setToken();
-
-    var callURL = "http://dev-tcxmedia-api.synapsys.us/sidescroll/weather/availableLocations/" + query;
+    var callURL = GlobalSettings.getVerticalEnv('-tcxmedia-api.synapsys.us') + "/sidescroll/weather/availableLocations/" + query;
     //optional week parameters
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
@@ -514,8 +509,8 @@ export class SchedulesService {
       {
         eos: "true",
         icon: "app/public/eos.svg",
-        mainMessage: "END OF SCHEDULE",
-        subMessage: "The schedule will now start over."
+        mainMessage: "END OF LIST",
+        subMessage: "The list will now start over."
       });
     return modifiedArray;
   }

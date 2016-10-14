@@ -15,7 +15,7 @@
 
       <div class="articles-page-title" [innerHTML]="articleData.title | safeHtml"></div>
 
-  <!--      <sidekick-wrapper-ai [aiSidekick]="aiSidekick" [syndicated]="true">-->
+        <!--<sidekick-wrapper-ai [aiSidekick]="aiSidekick">-->
             <div class="syndicated-articles-page_leftPane">
             <span>
                 <div class="carousel-container" *ngIf="articleType == 'story'">
@@ -48,8 +48,9 @@
 <!--
                         <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
 -->
-
-           <!-- <div class="recomendation-heading"><div><i class="fa fa-heart-o"></i> Other Stories You Will Love</div></div>-->
+                   <!-- <div class="widget_wrapper"><widget-carousel-module></widget-carousel-module></div>
+-->
+                <!-- <div class="recomendation-heading"><div><i class="fa fa-heart-o"></i> Other Stories You Will Love</div></div>-->
 
             <recommendations-component [randomHeadlines]="recomendationData"
                                        [isDeepDive]="false" [hasKeyword]="true"></recommendations-component>
@@ -57,8 +58,9 @@
 
             <!-- <syndicated-trending-component *ngIf="geoLocation" [geoLocation]="KS" [currentArticleId]="articleData.id"></syndicated-trending-component>-->
            <syndicated-trending-component [geoLocation]="geoLocation" [currentArticleId]="articleData.id" [scope]="scope"></syndicated-trending-component>
-        <!--</sidekick-wrapper-ai>-->
+
                 </div>
+            <!--</sidekick-wrapper-ai>-->
     </span>
 
     </div>

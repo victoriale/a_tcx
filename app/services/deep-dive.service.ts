@@ -107,15 +107,15 @@ export class DeepDiveService {
       var sampleImage = "/app/public/placeholder_XL.png";
       var videoBatchArray = [];
       data.forEach(function(val, index){
-        var date =  moment(Number(val.timeStamp));
+        var date =  moment(Number(val.time_stamp));
         date = date.format('MMM') + date.format(' DD, YYYY');
         var d = {
           id: val.id,
           keyword: val.keyword ? val.keyword : "", //TODO maybe return the page category when available
           title: val.title ? val.title : "No Title",
-          timeStamp: date,
-          videoThumbnail: val.videoThumbnail ? val.videoThumbnail : sampleImage,
-          videoUrl: VerticalGlobalFunctions.formatArticleRoute("sports", val.id, "video", scope),
+          time_stamp: date,
+          video_thumbnail: val.video_thumbnail ? val.video_thumbnail : sampleImage,
+          video_url: VerticalGlobalFunctions.formatArticleRoute("sports", val.id, "video", scope),
           // keyUrl: null
         }
         videoBatchArray.push(d);
@@ -142,7 +142,7 @@ export class DeepDiveService {
             imageConfig: {
               imageClass: "embed-responsive-16by9",
               imageUrl: sampleImage,
-              urlRouteArray: '/deep-dive'
+              urlRouteArray: ['/deep-dive']
             }
           }
           articleStackArray.push(articleStackData);

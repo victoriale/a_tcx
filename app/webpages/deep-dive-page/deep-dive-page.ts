@@ -46,7 +46,6 @@ export class DeepDivePage implements OnInit {
     sectionNameIcon: string;
     sectionNameTitle: string = this.category;
     geoLocation:string;
-    // homePageBlocks = ["breaking", "video", "sports", "business", "politics", "entertainment", "food", "video", "health", "lifestyle", "realestate", "travel", "weather", "video", "automotive"];
 
     constructor(private _schedulesService:SchedulesService, private _deepDiveData: DeepDiveService, private _activatedRoute: ActivatedRoute, private _geoLocation: GeoLocation) {
       // var categoryBlocks;
@@ -80,8 +79,8 @@ export class DeepDivePage implements OnInit {
 
     private sectionFrontName(){
       return this.sectionName = {
-         icon: this.sectionNameIcon,
-         title: GlobalFunctions.toTitleCase(this.sectionNameTitle)
+         icon: GlobalSettings.getTCXscope(this.scope).icon,
+         title: GlobalFunctions.toTitleCase(GlobalSettings.getTCXscope(this.scope).displayName)
        }
     }
 
@@ -160,8 +159,6 @@ export class DeepDivePage implements OnInit {
             this.getGeoLocation();
             this.getDataCarousel();
             this.sectionFrontName();
-          }
-      );
-
+          });
     }
   }

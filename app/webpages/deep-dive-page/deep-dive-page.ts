@@ -161,7 +161,12 @@ export class DeepDivePage implements OnInit {
             this.scope = param['articleCategory'] ? param['articleCategory'] : this.category;
             console.log('Partner:', GlobalSettings.getPartnerId());
             console.log('sectionFront parameters:',param);
-            this.tcxVars = this.tcxVars ? GlobalSettings.getTCXscope(this.scope) : this.category;
+            if (param['articleCategory']) {
+              this.tcxVars = GlobalSettings.getTCXscope(param['articleCategory']);
+            }
+            else {
+              this.tcxVars = GlobalSettings.getTCXscope(this.category);
+            }
             this.topScope = this.tcxVars ? this.tcxVars.topScope : this.category;
             this.changeScopeVar = this.tcxVars.scope;
             this.deepDiveType = this.category != 'all' ? GlobalSettings.getTCXscope(this.scope).pageType : 'all';

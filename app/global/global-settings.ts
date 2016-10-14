@@ -18,6 +18,7 @@ export class GlobalSettings {
 
     //main domain for all our images
     public static _imageUrl:string = 'images.synapsys.us';
+    public static _sportsimageUrl:string = 'sports-images.synapsys.us';
 
     //this changes per vertical
     private static _homepageUrl:string = '.tcxmedia.com';
@@ -66,7 +67,7 @@ export class GlobalSettings {
         //BELOW are categories SNTMedia actually has Verticals built specifically for that category
         'nfl':{
           scope:'nfl',
-          scopeList: ["MLB", "NCAAB", "NBA", "NCAAF", "NFL", "All"],
+          scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'football',
           displayName: 'football',
           verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
@@ -84,7 +85,7 @@ export class GlobalSettings {
         },
         'ncaaf':{
           scope:'ncaaf',
-          scopeList: ["MLB", "NCAAB", "NBA", "NCAAF", "NFL", "All"],
+          scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'football',
           displayName: 'football',
           verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
@@ -97,7 +98,7 @@ export class GlobalSettings {
         },
         'mlb':{
           scope:'mlb',
-          scopeList: ["MLB", "NCAAB", "NBA", "NCAAF", "NFL", "All"],
+          scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'baseball',
           displayName: 'baseball',
           verticalApi: this.getVerticalEnv('-homerunloyal-api.synapsys.us'),
@@ -110,7 +111,7 @@ export class GlobalSettings {
         },
         'nba':{
           scope:'nba',
-          scopeList: ["MLB", "NCAAB", "NBA", "NCAAF", "NFL", "All"],
+          scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'basketball',
           displayName: 'basketball',
           verticalApi: this.getVerticalEnv('-sports-api.synapsys.us'),
@@ -123,8 +124,7 @@ export class GlobalSettings {
         },
         'ncaam':{
           scope:'ncaam',
-          scopeList: ["MLB", "NCAAB", "NBA", "NCAAF", "NFL"],
-          scopeList: ["MLB", "NCAAB", "NBA", "NCAAF", "NFL", "All"],
+          scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope:'basketball',
           displayName:'basketball',
           verticalApi:this.getVerticalEnv('-sports-api.synapsys.us'),
@@ -165,7 +165,7 @@ export class GlobalSettings {
         //BELOW are categories SNTMedia do no have specific verticals for therefore will not have anything linking to a category specific site
         'sports':{
           scope:'sports',
-          scopeList: ["MLB", "NCAAB", "NBA", "NCAAF", "NFL", "All"],
+          scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'sports',
           displayName: 'sports',
           verticalApi: null,
@@ -380,7 +380,7 @@ export class GlobalSettings {
           break;
         //BASKETBALL URL
         case 'nba':
-        case 'ncaab':
+        case 'NCAAM':
           _apiURL = this._proto + "//" + this.getEnv(this._env) + this._tcxAPI;
           break;
         //BASEBALL URL
@@ -421,6 +421,14 @@ export class GlobalSettings {
 
     static getImageUrl(relativePath):string {
         var relPath = relativePath != null && relativePath != "" ? this._proto + "//" + this._imageUrl + relativePath: '/app/public/no-image.svg';
+        return relPath;
+    }
+
+    static getSportsImageUrl(relativePath):string {
+        // var relPath = relativePath != null && relativePath != "" ? this._proto + "//" + this.getEnv(this._env) +  "-" + this._sportsimageUrl + relativePath: '/app/public/no-image.svg';
+
+        //todo: when the dev and qa sports image servers are made change this from hardcoded prod to dynamic
+        var relPath = relativePath != null && relativePath != "" ? this._proto + "//" + "prod" +  "-" + this._sportsimageUrl + relativePath: '/app/public/no-image.svg';
         return relPath;
     }
 

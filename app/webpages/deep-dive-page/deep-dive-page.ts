@@ -101,7 +101,6 @@ export class DeepDivePage implements OnInit {
       }
       let self = this;
       if(this.safeCall && this.topScope != null && this.tcxVars.showEventSlider == true){
-        console.log("loading side scroller data");
         this.safeCall = false;
         let changeScope = this.changeScopeVar.toLowerCase() == 'ncaaf'?'fbs':this.changeScopeVar.toLowerCase();
         this._schedulesService.setupSlideScroll(this.topScope, this.sideScrollData, changeScope, 'league', 'pregame', this.callLimit, this.callCount, this.selectedLocation, (sideScrollData) => {

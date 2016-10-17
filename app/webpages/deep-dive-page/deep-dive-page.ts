@@ -94,7 +94,6 @@ export class DeepDivePage implements OnInit {
 
     //api for Schedules
     private getSideScroll(){
-      console.log("fired get side scroll");
       if (this.tcxVars.showSFTopNav == true) {
           this.scopeList = this.tcxVars.scopeList;
           this.sideScrollData = {scopeList: [], blocks: []};

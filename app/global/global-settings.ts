@@ -75,6 +75,7 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
           showBoxScores:true,
+          showSFTopNav: true,
           icon:'fa-tdl-football',
           pageType: 1,
           searchTitle:'Discover The Latest In',
@@ -92,6 +93,7 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
           showBoxScores:true,
+          showSFTopNav: true,
           icon:'fa-tdl-football',
           pageType: 1,
             searchTitle:'Discover The Latest In',
@@ -107,6 +109,7 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
           showBoxScores:true,
+          showSFTopNav: true,
           icon:'fa-strikeouts-01',
           pageType: 1,
             searchTitle:'Discover The Latest In',
@@ -123,6 +126,7 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
           showBoxScores:true,
+          showSFTopNav: true,
           icon:'fa-dribble',
           pageType: 1,
             searchTitle:'Discover The Latest In',
@@ -139,6 +143,7 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
           showBoxScores:true,
+          showSFTopNav: true,
           icon:'fa-dribble',
           pageType: 1,
             searchTitle:'Discover The Latest In',
@@ -161,9 +166,9 @@ export class GlobalSettings {
             searchSubTitle:"Find the stocks you can invest in right in your neighborhood",
             placeHolderText:'Search for a Company, Executive or DMA'
         },
-        'realestate':{
-          scope:'realestate',
-          topScope: 'realestate',
+        'real-estate':{
+          scope:'real-estate',
+          topScope: 'real-estate',
           displayName: 'realestate',
           verticalApi: this.getVerticalEnv('-joyfulhome-api.synapsys.us'),//dev api is maybe api2.joyfulhome.com
           aiApi: null,
@@ -187,8 +192,9 @@ export class GlobalSettings {
           verticalApi: null,
           aiApi: null,
           tcxApi: this.getApiUrl(),
-          showEventSlider: true,
+          showEventSlider: false,
           showBoxScores:true,
+          showSFTopNav: true,
           icon:'fa-futbol-o',
           pageType: 1,
             searchTitle:'Discover The Latest In',
@@ -234,7 +240,8 @@ export class GlobalSettings {
           pageType: 3
         },
         'entertainment':{
-          scope:'entertainment',
+          scope:'all',
+          scopeList: ["Celebrities", "Music", "Movies", "TV", "All"],
           topScope: 'entertainment',
           displayName: 'entertainment',
           verticalApi: null,
@@ -242,11 +249,13 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
+          showSFTopNav: true,
           icon:'fa-film',
           pageType: 3
         },
         'tv':{
           scope:'tv',
+          scopeList: ["Celebrities", "Music", "Movies", "TV", "All"],
           topScope: 'entertainment',
           displayName: 'tv',
           verticalApi: null,
@@ -254,11 +263,13 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
+          showSFTopNav: true,
           icon:'fa-film',
           pageType: 3
         },
         'movies':{
           scope:'movies',
+          scopeList: ["Celebrities", "Music", "Movies", "TV", "All"],
           topScope: 'entertainment',
           displayName: 'movies',
           verticalApi: null,
@@ -266,11 +277,13 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
+          showSFTopNav: true,
           icon:'fa-film',
           pageType: 3
         },
         'music':{
           scope:'music',
+          scopeList: ["Celebrities", "Music", "Movies", "TV", "All"],
           topScope: 'entertainment',
           displayName: 'music',
           verticalApi: null,
@@ -278,18 +291,21 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
+          showSFTopNav: true,
           icon:'fa-film',
           pageType: 3
         },
-        'celeberties':{
-          scope:'celeberties',
+        'celebrities':{
+          scope:'celebrities',
+          scopeList: ["Celebrities", "Music", "Movies", "TV", "All"],
           topScope: 'entertainment',
-          displayName: 'celeberties',
+          displayName: 'celebrities',
           verticalApi: null,
           aiApi: null,
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
+          showSFTopNav: true,
           icon:'fa-film',
           pageType: 3
         },

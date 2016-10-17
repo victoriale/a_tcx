@@ -66,6 +66,7 @@ export class Scroller{
         this.scrollerElement.style.height = this.scrollerHeight + 'px';
         this.scrollerElement.classList.remove('hide-scroll');
         this.scrollContainer.classList.remove('hide-scroll');
+        this.scrollContainer.classList.add('showScroll');
         // append scroller to scrollContainer div
         if ( !this.scrollerAlreadyOnPage ) {
           this.scrollerElement.style.top = this.scrollOffset.toString();
@@ -76,6 +77,7 @@ export class Scroller{
       if (this.scrollerAlreadyOnPage) {
         this.scrollerElement.classList.add('hide-scroll');
         this.scrollContainer.classList.add('hide-scroll');
+        this.scrollContainer.classList.remove('showScroll');
       }
     }
   }

@@ -12,6 +12,7 @@ import { GlobalFunctions } from "../global/global-functions";
 import { GeoLocation } from "../global/global-service";
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 /*** COMPONENTS ***/
+import { SectionFrontTopNav } from '../fe-core/components/section-front-top-nav/section-front-top-nav.component';
 import { HeaderComponent } from "../fe-core/components/header/header.component";
 import { SectionNameComponent } from "../fe-core/components/section-name/section-name.component";
 import { Search } from "../fe-core/components/search/search.component";
@@ -56,6 +57,7 @@ import {ArticleSearchBar} from "../fe-core/components/search-bar-article/search-
       ReactiveFormsModule
     ],
     declarations: [
+      SectionFrontTopNav,
       AppComponent,
       HeaderComponent,
       Search,
@@ -87,6 +89,7 @@ import {ArticleSearchBar} from "../fe-core/components/search-bar-article/search-
       ArticleSearchBar
     ],
     exports: [
+      SectionFrontTopNav,
       HeaderComponent,
       HoverImage,
       CircleImage,

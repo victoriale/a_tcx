@@ -24,6 +24,28 @@ export class VerticalGlobalFunctions {
     * @param {teamId} teamId - team ID the required field needed to successfully navigate to team profile
     * @returns the teamName => boston-red-sox,  teamId => ##, routeName => 'Team-page'
     */
+   static createSearchLink(scope){
+    return{
+        nfl:{
+            rel_link: scope + '/'+ 'search' +'/',
+        },
+        ncaaf:{
+            rel_link: scope + '/'+ 'search' +'/',
+        },
+        nba:{
+            rel_link: scope + '/'+ 'search' +'/',
+        },
+        mlb:{
+            rel_link: 'search' +'/',
+        },
+        business:{
+            rel_link: 'search'+ '/r=',
+        },
+        'realestate':{
+            rel_link: 'search' +'/',
+        },
+    }[scope].rel_link
+  }
    static formatTeamRoute(teamName: string, teamId: string): Array<any> {
      var teamRoute: Array<any>;
      if (typeof teamName != 'undefined' && teamName != null) {
@@ -106,6 +128,19 @@ export class VerticalGlobalFunctions {
       articleRoute = null;
     }
     return articleRoute ? articleRoute : ['Error-page'];
+  }
+
+  static formatExternalArticleRoute(scope, articleType: string, articleID: string) {
+    if (scope == "nfl" || scope == "ncaaf") {
+      var output = scope + "/articles/"+ articleType + "/" + articleID;
+    }
+    else if (scope == "nba" || scope == "ncaam") {
+      var output = scope + "/article/"+ articleType + "/" + articleID;
+    }
+    else {
+      var output = "articles/" + articleType + "/" + articleID;
+    }
+    return output;
   }
 
   /**

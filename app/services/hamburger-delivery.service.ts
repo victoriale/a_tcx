@@ -1,122 +1,117 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Rx';
+import {GlobalSettings} from '../global/global-settings';
 
 @Injectable()
 export class HamburgerDeliveryService {
   static createMenu(){
-    // var params;
-    // var partnerUrl;
-    // var divisionUrl;
-    // if (division != null) {
-    //   divisionUrl = division.toLowerCase();
-    // }
-    // if (partner == null || partner == false){
-    //   partnerUrl = "Default";
-    //   params = {scope: divisionUrl};
-    // }
-    // else {
-    //   partnerUrl = "Partner";
-    //   params = {scope: divisionUrl, partner_id: partner};
-    // }
+    var topRoute = "";
+    var partner = GlobalSettings.getPartnerId();
+    if (partner == null || partner == ""){
+      topRoute = "/deep-dive";
+    }
+    else {
+      topRoute = partner +  "/news";
+    }
     var menuData = [{
         menuTitle: "Home",
-        url: '/deep-dive'
+        url: topRoute
       },
       {
         menuTitle: "Trending",
-        url: '/deep-dive/trending'
+        url: topRoute + '/trending'
       },
       {
         menuTitle: "Breaking",
-        url: '/deep-dive/breaking'
+        url: topRoute + '/breaking'
       },
       {
         menuTitle: "Sports",
-        url: '/deep-dive/sports',
+        url: topRoute + '/sports',
         nesterChildren: [
           {
             menuTitle: "NFL",
-            url: '/deep-dive/sports/nfl'
+            url: topRoute + '/sports/nfl'
           },
           {
             menuTitle: "NCAAF",
-            url: '/deep-dive/sports/ncaaf'
+            url: topRoute + '/sports/ncaaf'
           },
           {
             menuTitle: "NBA",
-            url: '/deep-dive/sports/nba'
+            url: topRoute + '/sports/nba'
           },
           {
             menuTitle: "NCAAM",
-            url: '/deep-dive/sports/ncaam'
+            url: topRoute + '/sports/ncaam'
           },
           {
             menuTitle: "MLB",
-            url: '/deep-dive/sports/mlb'
+            url: topRoute + '/sports/mlb'
           },
           {
             menuTitle: "NHL",
-            url: '/deep-dive/sports/nhl'
+            url: topRoute + '/sports/nhl'
           }
         ]
       },
       {
         menuTitle: "Business",
-        url: '/deep-dive/business'
+        url: topRoute + '/business'
       },
       {
         menuTitle: "Politics",
-        url: '/deep-dive/politics'
+        url: topRoute + '/politics'
       },
       {
         menuTitle: "Entertainment",
-        url: '/deep-dive/entertainment',
+        url: topRoute + '/entertainment',
         nesterChildren: [
           {
             menuTitle: "TVs",
-            url: '/deep-dive/entertainment/tvs'
+            url: topRoute + '/entertainment/tvs'
           },
           {
             menuTitle: "Movies",
-            url: '/deep-dive/entertainment/movies'
+            url: topRoute + '/entertainment/movies'
           },
           {
             menuTitle: "Music",
-            url: '/deep-dive/entertainment/music'
+            url: topRoute + '/entertainment/music'
           },
           {
             menuTitle: "Celebrities",
-            url: '/deep-dive/entertainment/celebrities'
+            url: topRoute + '/entertainment/celebrities'
           }
         ]
       },
       {
         menuTitle: "Food",
-        url: '/deep-dive/food'
+        url: topRoute + '/food'
       },
       {
         menuTitle: "Health",
-        url: '/deep-dive/health'
+        url: topRoute + '/health'
       },
       {
         menuTitle: "Lifestyle",
-        url: '/deep-dive/lifestyle'
+        url: topRoute + '/lifestyle'
       },
       {
         menuTitle: "Real Estate",
-        url: '/deep-dive/real-estate'
+        url: topRoute + '/real-estate'
       },
       {
         menuTitle: "Travel",
-        url: '/deep-dive/travel'
+        url: topRoute + '/travel'
       },
       {
         menuTitle: "Weather",
-        url: '/deep-dive/weather'
+        url: topRoute + '/weather'
       },
       {
         menuTitle: "Automotive",
-        url: '/deep-dive/Automotive'
+        url: topRoute + '/Automotive'
       }
     ];
     var menuInfo = [];

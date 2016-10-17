@@ -33,6 +33,7 @@ import { Larousel } from '../fe-core/components/larousel/larousel';
 import { NewsBox } from '../fe-core/components/news-box/news-box';
 
 /*** MODULES ***/
+import { BillboardModule } from "../fe-core/modules/billboard/billboard.module";
 import { WidgetCarouselModule } from "../fe-core/modules/widget/widget-carousel.module";
 import { WidgetModule } from "../fe-core/modules/widget/widget.module";
 import { SearchBoxModule } from "../fe-core/modules/search-box-module/search-box-module.module";
@@ -84,7 +85,8 @@ import {ArticleSearchBar} from "../fe-core/components/search-bar-article/search-
       ArticleBlockComponent,
       DeepDiveRecommendation,
       InputBar,
-      ArticleSearchBar
+      ArticleSearchBar,
+      BillboardModule
     ],
     exports: [
       HeaderComponent,
@@ -113,7 +115,8 @@ import {ArticleSearchBar} from "../fe-core/components/search-bar-article/search-
       ArticleBlockComponent,
       DeepDiveRecommendation,
       InputBar,
-      ArticleSearchBar
+      ArticleSearchBar,
+      BillboardModule
     ],
     providers: [
       VerticalGlobalFunctions,

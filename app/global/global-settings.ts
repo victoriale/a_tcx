@@ -75,6 +75,7 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
           showBoxScores:true,
+          showSFTopNav: true,
           icon:'fa-tdl-football',
           pageType: 1,
           searchTitle:'Discover The Latest In',
@@ -92,6 +93,7 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
           showBoxScores:true,
+          showSFTopNav: true,
           icon:'fa-tdl-football',
           pageType: 1,
             searchTitle:'Discover The Latest In',
@@ -107,6 +109,7 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
           showBoxScores:true,
+          showSFTopNav: true,
           icon:'fa-strikeouts-01',
           pageType: 1,
             searchTitle:'Discover The Latest In',
@@ -123,6 +126,7 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
           showBoxScores:true,
+          showSFTopNav: true,
           icon:'fa-dribble',
           pageType: 1,
             searchTitle:'Discover The Latest In',
@@ -139,6 +143,7 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
           showBoxScores:true,
+          showSFTopNav: true,
           icon:'fa-dribble',
           pageType: 1,
             searchTitle:'Discover The Latest In',
@@ -161,9 +166,9 @@ export class GlobalSettings {
             searchSubTitle:"Find the stocks you can invest in right in your neighborhood",
             placeHolderText:'Search for a Company, Executive or DMA'
         },
-        'realestate':{
-          scope:'realestate',
-          topScope: 'realestate',
+        'real-estate':{
+          scope:'real-estate',
+          topScope: 'real-estate',
           displayName: 'realestate',
           verticalApi: this.getVerticalEnv('-joyfulhome-api.synapsys.us'),//dev api is maybe api2.joyfulhome.com
           aiApi: null,
@@ -189,6 +194,7 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:true,
+          showSFTopNav: true,
           icon:'fa-futbol-o',
           pageType: 1,
             searchTitle:'Discover The Latest In',
@@ -243,6 +249,7 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
+          showSFTopNav: true,
           icon:'fa-film',
           pageType: 3
         },
@@ -256,6 +263,7 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
+          showSFTopNav: true,
           icon:'fa-film',
           pageType: 3
         },
@@ -269,6 +277,7 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
+          showSFTopNav: true,
           icon:'fa-film',
           pageType: 3
         },
@@ -282,6 +291,7 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
+          showSFTopNav: true,
           icon:'fa-film',
           pageType: 3
         },
@@ -295,6 +305,7 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
+          showSFTopNav: true,
           icon:'fa-film',
           pageType: 3
         },

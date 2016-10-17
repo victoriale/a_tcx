@@ -27,7 +27,7 @@ export class HeaderLinksService {
       },
       {
         menuTitle: "REAL ESTATE",
-        url: topRoute + '/real-esate'
+        url: topRoute + '/real-estate'
       },
       {
         menuTitle: "WEATHER",

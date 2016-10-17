@@ -8,11 +8,11 @@
      <div class="deep-dive-container2a col-sm-12 col-xl-9">
        <!--TODO Page Section Name shouldn't be on general Deep Dive page -->
        <div *ngIf="sectionName && deepDiveType != 'all'" class="">
-         <section-name-component [secName]="sectionName" [scope]="changeScopeVar" [topScope]="topScope" [scopeList]="scopeList"></section-name-component>
+         <section-name-component [topNav]="tcxVars.showSFTopNav" [secName]="sectionName" [scope]="changeScopeVar" [topScope]="topScope" [pageScope]="category" [scopeList]="scopeList"></section-name-component>
        </div>
        <!--TODO should only be in type1 and 2 category-->
        <div *ngIf="sideScrollData && tcxVars.showEventSlider" class="deep-dive-module">
-         <side-scroll-schedules [sideScrollData]="sideScrollData" [scopeList]="scopeList" (count)="scrollCheck($event)" [scrollLength]="scrollLength" [topScope]="topScope" [pageScope]="category" [scope]="changeScopeVar" (changeScope)="changeScope($event)" (changeLocation)="changeLocation($event)"></side-scroll-schedules>
+         <side-scroll-schedules [topNav]="tcxVars.showSFTopNav" [sideScrollData]="sideScrollData" [scopeList]="scopeList" (count)="scrollCheck($event)" [scrollLength]="scrollLength" [topScope]="topScope" [pageScope]="category" [scope]="changeScopeVar" (changeScope)="changeScope($event)" (changeLocation)="changeLocation($event)"></side-scroll-schedules>
        </div>
        <deep-dive-block-main *ngIf="deepDiveType == 'all'" [geoLocation]="geoLocation"></deep-dive-block-main>
        <!-- Deep dive block type 1 sports-->

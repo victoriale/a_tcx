@@ -168,7 +168,7 @@ export class GlobalSettings {
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'sports',
           displayName: 'sports',
-          verticalApi: null,
+          verticalApi: this.getApiUrl(),
           aiApi: null,
           tcxApi: this.getApiUrl(),
           showEventSlider: true,

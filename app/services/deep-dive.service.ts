@@ -64,7 +64,8 @@ export class DeepDiveService {
   // http://dev-touchdownloyal-api.synapsys.us/articleBatch/nfl/5/1
   var callURL = 'http://dev-touchdownloyal-api.synapsys.us' + '/articleBatch/';
   if(scope != null){
-    callURL += scope;
+    // callURL += scope; TODO
+    callURL += 'nfl';
   } else {
     callURL += 'nfl';
   }
@@ -90,32 +91,35 @@ export class DeepDiveService {
 
     getDeepDiveVideoBatchService(category: string, limit: number, page: number, location?: string){
       var headers = this.setToken();
-      var callURL = GlobalSettings.getCategoryAPI(category);
+      var callURL = GlobalSettings.getTCXscope("sports").verticalApi;
       if(limit === null || typeof limit == 'undefined'){
         limit = 5;
         page = 1;
       }
-      callURL += '/videoBatch/' + category + '/' + limit + '/' + page;
+      callURL += '/videoBatch/' + category + '/' + page + '/' + limit;
       return this.http.get(callURL, {headers: headers})
         .map(res => res.json())
         .map(data => {
-          return data;
+          return data.data;
       })
     }// getDeepDiveVideoBatchService ENDS
 
     transformSportVideoBatchData(data: Array<VideoStackData>, scope?){
       var sampleImage = "/app/public/placeholder_XL.png";
       var videoBatchArray = [];
+      scope = scope ? scope : "sports";
       data.forEach(function(val, index){
-        var date =  moment(Number(val.time_stamp));
-        date = date.format('MMM') + date.format(' DD, YYYY');
+        if(val.time_stamp){
+          var date =  moment(Number(val.time_stamp));
+          date = date.format('MMM') + date.format('. DD, YYYY');
+        }
         var d = {
           id: val.id,
-          keyword: val.keyword ? val.keyword : "", //TODO maybe return the page category when available
+          keyword: val.keyword ? val.keyword : scope,
           title: val.title ? val.title : "No Title",
-          time_stamp: date,
+          time_stamp: date ? date : "",
           video_thumbnail: val.video_thumbnail ? val.video_thumbnail : sampleImage,
-          video_url: VerticalGlobalFunctions.formatArticleRoute("sports", val.id, "video", scope),
+          video_url: VerticalGlobalFunctions.formatArticleRoute(scope, val.id, "video", scope),
           // keyUrl: null
         }
         videoBatchArray.push(d);
@@ -134,7 +138,7 @@ export class DeepDiveService {
             articleUrl: '/deep-dive',
             keyUrl: '/deep-dive',
             keyword: scope.toUpperCase(),
-            timeStamp: "Sept 28, 2016",
+            timeStamp: "Sept. 28, 2016",
             title: "Title here",
             author: "Author",
             publisher: ", Publisher",
@@ -150,29 +154,27 @@ export class DeepDiveService {
       return articleStackArray;
     }// transformToArticleStack ENDS
 
-     carouselTransformData(arrayData:Array<ArticleStackData>){
-          var transformData = [];
-          arrayData.forEach(function(val,index){
-            var curdate = new Date();
-            var curmonthdate = curdate.getDate();
-            var timeStamp = moment(Number(val.publishedDate)).format("MMMM Do, YYYY h:mm:ss a");
-            let carData = {
-              image_url: GlobalSettings.getImageUrl(val['imagePath']),
-              title:  "<span> Today's News: </span>",
-              headline: val['title'],
-              keyword: val['keyword'],
-              teaser: val['teaser'].replace('_',': ').replace(/<p[^>]*>/g, ""),
-              id:val['id'],
-              articlelink: ['/'],
-              timeStamp: timeStamp,
-            };
-            if(carData['teaser'].length >= 200){
-              carData['teaser'].substr(0,200) + '...';
-            }
-            transformData.push(carData);
-          });
-
-          return transformData;
-      }
-
+    carouselTransformData(arrayData:Array<ArticleStackData>){
+        var transformData = [];
+        arrayData.forEach(function(val,index){
+          var curdate = new Date();
+          var curmonthdate = curdate.getDate();
+          var timeStamp = moment(Number(val.time_stamp)).format("MMMM Do, YYYY h:mm:ss a");
+          let carData = {
+            image_url: GlobalSettings.getImageUrl(val['imagePath']),
+            title:  "<span> Today's News: </span>",
+            headline: val['title'],
+            keyword: val['keyword'],
+            teaser: val['teaser'].replace('_',': ').replace(/<p[^>]*>/g, ""),
+            id:val['id'],
+            articlelink: ['/'],
+            timeStamp: timeStamp,
+          };
+          if(carData['teaser'].length >= 200){
+            carData['teaser'].substr(0,200) + '...';
+          }
+          transformData.push(carData);
+        });
+        return transformData;
+    }
 }// DeepDiveService ENDS

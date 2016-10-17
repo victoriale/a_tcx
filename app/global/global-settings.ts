@@ -77,10 +77,9 @@ export class GlobalSettings {
           showBoxScores:true,
           icon:'fa-tdl-football',
           pageType: 1,
-          searchInput:{
-            placeholderText: "Search for a topic...",
-            hasSuggestions: true
-          }
+          searchTitle:'Discover The Latest In',
+          searchSubTitle:"Find the players and teams you love",
+            placeHolderText:'Search for a Team or a Player...'
 
         },
         'ncaaf':{
@@ -94,7 +93,9 @@ export class GlobalSettings {
           showEventSlider: true,
           showBoxScores:true,
           icon:'fa-tdl-football',
-          pageType: 1
+          pageType: 1,
+            searchTitle:'Discover The Latest In',
+            searchSubTitle:"Find the players and teams you love",
         },
         'mlb':{
           scope:'mlb',
@@ -107,7 +108,10 @@ export class GlobalSettings {
           showEventSlider: true,
           showBoxScores:true,
           icon:'fa-strikeouts-01',
-          pageType: 1
+          pageType: 1,
+            searchTitle:'Discover The Latest In',
+            searchSubTitle:"Find the players and teams you love",
+            placeHolderText:'Search for a Team or a Player...'
         },
         'nba':{
           scope:'nba',
@@ -120,7 +124,10 @@ export class GlobalSettings {
           showEventSlider: true,
           showBoxScores:true,
           icon:'fa-dribble',
-          pageType: 1
+          pageType: 1,
+            searchTitle:'Discover The Latest In',
+            searchSubTitle:"Find the players and teams you love",
+            placeHolderText:'Search for a Team or a Player...'
         },
         'ncaam':{
           scope:'ncaam',
@@ -133,7 +140,10 @@ export class GlobalSettings {
           showEventSlider: true,
           showBoxScores:true,
           icon:'fa-dribble',
-          pageType: 1
+          pageType: 1,
+            searchTitle:'Discover The Latest In',
+            searchSubTitle:"Find the players and teams you love",
+            placeHolderText:'Search for a Team or a Player...'
         },
         'business':{
           scope:'all',
@@ -146,7 +156,10 @@ export class GlobalSettings {
           showEventSlider: true,
           showBoxScores:false,
           icon:'fa-fontawesome-webfont-3',
-          pageType: 2
+          pageType: 2,
+            searchTitle:'Discover Your Next Investment',
+            searchSubTitle:"Find the stocks you can invest in right in your neighborhood",
+            placeHolderText:'Search for a Company, Executive or DMA'
         },
         'realestate':{
           scope:'realestate',
@@ -158,7 +171,10 @@ export class GlobalSettings {
           showEventSlider: false,
           showBoxScores:false,
           icon:'fa-home-1',
-          pageType: 2
+          pageType: 2,
+            searchTitle:'Discover Homes For Sale In Your Area',
+            searchSubTitle:" ",
+            placeHolderText:'Search for a location or address...'
         },
         //ABOVE are categories SNTMedia actually has Verticals built specifically for that category
 
@@ -175,10 +191,10 @@ export class GlobalSettings {
           showBoxScores:true,
           icon:'fa-futbol-o',
           pageType: 1,
-          searchInput:{
-            placeholderText: "Search for a topic...",
-            hasSuggestions: true
-          }
+            searchTitle:'Discover The Latest In',
+            searchSubTitle:"Find the players and teams you love",
+            placeHolderText:'Search for a Team or a Player...'
+
         },
         'weather':{
           scope:'hourly',
@@ -442,12 +458,15 @@ export class GlobalSettings {
           }
           break;
         //FINANCE URL
-        case 'finance':
+        case 'business':
+
           if (partnerCode != null) {
             link = "http://myinvestkit.com/" + partnerCode + "/" + relativeUrl;
           }
           else {
-            link = "http://investkit.com" + "/" + relativeUrl;
+
+            link = "http://investkit.com"+ "/" + relativeUrl;
+
           }
           break;
         //REALESTATE URL

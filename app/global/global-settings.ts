@@ -171,7 +171,7 @@ export class GlobalSettings {
           verticalApi: null,
           aiApi: null,
           tcxApi: this.getApiUrl(),
-          showEventSlider: true,
+          showEventSlider: false,
           showBoxScores:true,
           icon:'fa-futbol-o',
           pageType: 1,
@@ -218,7 +218,8 @@ export class GlobalSettings {
           pageType: 3
         },
         'entertainment':{
-          scope:'entertainment',
+          scope:'all',
+          scopeList: ["Celeberties", "Music", "Movies", "TV", "All"],
           topScope: 'entertainment',
           displayName: 'entertainment',
           verticalApi: null,
@@ -231,6 +232,7 @@ export class GlobalSettings {
         },
         'tv':{
           scope:'tv',
+          scopeList: ["Celeberties", "Music", "Movies", "TV", "All"],
           topScope: 'entertainment',
           displayName: 'tv',
           verticalApi: null,
@@ -243,6 +245,7 @@ export class GlobalSettings {
         },
         'movies':{
           scope:'movies',
+          scopeList: ["Celeberties", "Music", "Movies", "TV", "All"],
           topScope: 'entertainment',
           displayName: 'movies',
           verticalApi: null,
@@ -255,6 +258,7 @@ export class GlobalSettings {
         },
         'music':{
           scope:'music',
+          scopeList: ["Celeberties", "Music", "Movies", "TV", "All"],
           topScope: 'entertainment',
           displayName: 'music',
           verticalApi: null,
@@ -267,6 +271,7 @@ export class GlobalSettings {
         },
         'celeberties':{
           scope:'celeberties',
+          scopeList: ["Celeberties", "Music", "Movies", "TV", "All"],
           topScope: 'entertainment',
           displayName: 'celeberties',
           verticalApi: null,

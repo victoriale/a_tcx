@@ -235,7 +235,7 @@ export class GlobalSettings {
         },
         'entertainment':{
           scope:'all',
-          scopeList: ["celebrities", "Music", "Movies", "TV", "All"],
+          scopeList: ["Celebrities", "Music", "Movies", "TV", "All"],
           topScope: 'entertainment',
           displayName: 'entertainment',
           verticalApi: null,
@@ -248,7 +248,7 @@ export class GlobalSettings {
         },
         'tv':{
           scope:'tv',
-          scopeList: ["celebrities", "Music", "Movies", "TV", "All"],
+          scopeList: ["Celebrities", "Music", "Movies", "TV", "All"],
           topScope: 'entertainment',
           displayName: 'tv',
           verticalApi: null,
@@ -261,7 +261,7 @@ export class GlobalSettings {
         },
         'movies':{
           scope:'movies',
-          scopeList: ["celebrities", "Music", "Movies", "TV", "All"],
+          scopeList: ["Celebrities", "Music", "Movies", "TV", "All"],
           topScope: 'entertainment',
           displayName: 'movies',
           verticalApi: null,
@@ -274,7 +274,7 @@ export class GlobalSettings {
         },
         'music':{
           scope:'music',
-          scopeList: ["celebrities", "Music", "Movies", "TV", "All"],
+          scopeList: ["Celebrities", "Music", "Movies", "TV", "All"],
           topScope: 'entertainment',
           displayName: 'music',
           verticalApi: null,
@@ -287,7 +287,7 @@ export class GlobalSettings {
         },
         'celebrities':{
           scope:'celebrities',
-          scopeList: ["celebrities", "Music", "Movies", "TV", "All"],
+          scopeList: ["Celebrities", "Music", "Movies", "TV", "All"],
           topScope: 'entertainment',
           displayName: 'celebrities',
           verticalApi: null,

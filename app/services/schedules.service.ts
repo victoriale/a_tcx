@@ -104,7 +104,7 @@ export class SchedulesService {
           output.current['description'] = "<span class='text-heavy'>Partly cloudy</span> with a chance of meatballs until 12PM CT.";
           output.current['currentTime'] = moment().format("h:mm A");
           output.current['currentTemperature'] = ((data.currentTemperature * (9/5)) - 459.67).toFixed(0);
-          output.current['currentLow'] = 69;
+          output.current['currentLow'] = 79;
           output.current['state'] = data.state;
           output.current['zipcode'] = data.zipcode;
           for (var n = 0; n < data.data.length; n++) {

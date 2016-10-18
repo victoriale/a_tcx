@@ -12,6 +12,7 @@ import { GlobalFunctions } from "../global/global-functions";
 import { GeoLocation } from "../global/global-service";
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 /*** COMPONENTS ***/
+import { SectionFrontTopNav } from '../fe-core/components/section-front-top-nav/section-front-top-nav.component';
 import { HeaderComponent } from "../fe-core/components/header/header.component";
 import { SectionNameComponent } from "../fe-core/components/section-name/section-name.component";
 import { Search } from "../fe-core/components/search/search.component";
@@ -34,6 +35,7 @@ import { NewsBox } from '../fe-core/components/news-box/news-box';
 import { LineChartComponent } from '../fe-core/components/line-chart/line-chart.component';
 
 /*** MODULES ***/
+import { BillboardModule } from "../fe-core/modules/billboard/billboard.module";
 import { WidgetCarouselModule } from "../fe-core/modules/widget/widget-carousel.module";
 import { WidgetModule } from "../fe-core/modules/widget/widget.module";
 import { SearchBoxModule } from "../fe-core/modules/search-box-module/search-box-module.module";
@@ -57,6 +59,7 @@ import {ArticleSearchBar} from "../fe-core/components/search-bar-article/search-
       ReactiveFormsModule
     ],
     declarations: [
+      SectionFrontTopNav,
       AppComponent,
       HeaderComponent,
       Search,
@@ -86,9 +89,11 @@ import {ArticleSearchBar} from "../fe-core/components/search-bar-article/search-
       ArticleBlockComponent,
       DeepDiveRecommendation,
       InputBar,
-      ArticleSearchBar
+      ArticleSearchBar,
+      BillboardModule
     ],
     exports: [
+      SectionFrontTopNav,
       HeaderComponent,
       HoverImage,
       CircleImage,
@@ -116,7 +121,8 @@ import {ArticleSearchBar} from "../fe-core/components/search-bar-article/search-
       ArticleBlockComponent,
       DeepDiveRecommendation,
       InputBar,
-      ArticleSearchBar
+      ArticleSearchBar,
+      BillboardModule
     ],
     providers: [
       VerticalGlobalFunctions,

@@ -1,42 +1,37 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Rx';
+import {GlobalSettings} from '../global/global-settings';
 
 @Injectable()
 export class HeaderLinksService {
   static createMenu(){
-    // var params;
-    // var partnerUrl;
-    // var divisionUrl;
-    // if (division != null) {
-    //   divisionUrl = division.toLowerCase();
-    // }
-    // if (partner == null || partner == false){
-    //   partnerUrl = "Default";
-    //   params = {scope: divisionUrl};
-    // }
-    // else {
-    //   partnerUrl = "Partner";
-    //   params = {scope: divisionUrl, partner_id: partner};
-    // }
+    var topRoute = "";
+    var partner = GlobalSettings.getPartnerId();
+    if (partner == null || partner == ""){
+      topRoute = "/deep-dive";
+    }
+    else {
+      topRoute = partner +  "/news";
+    }
     var menuData = [{
         menuTitle: "SPORTS",
-        url: '/deep-dive/sports'
+        url: topRoute + '/sports'
       },
       {
         menuTitle: "ENTERTAINMENT",
-        url: '/deep-dive/entertainment'
+        url: topRoute + '/entertainment'
       },
       {
         menuTitle: "BUSINESS",
-        url: '/deep-dive/business'
+        url: topRoute + '/business'
       },
       {
         menuTitle: "REAL ESTATE",
-        url: '/deep-dive/real-esate'
+        url: topRoute + '/real-estate'
       },
       {
         menuTitle: "WEATHER",
-        url: '/deep-dive/weather'
+        url: topRoute + '/weather'
       }
     ];
 

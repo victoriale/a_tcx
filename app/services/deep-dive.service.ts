@@ -11,8 +11,7 @@ declare var moment;
 
 @Injectable()
 export class DeepDiveService {
-  private _baseballAPI: string = "http://dev-homerunloyal-api.synapsys.us/tcx/";
-  private _footballAPI: string = "http://dev-touchdownloyal-api.synapsys.us/tcx/";
+  // private _footballAPI: string = "http://dev-touchdownloyal-api.synapsys.us/tcx/";
   constructor(public http: Http){}
 
   //Function to set custom headers
@@ -20,42 +19,23 @@ export class DeepDiveService {
       var headers = new Headers();
       return headers;
   }
-
-  setSectionFrontAPI(category){
-    switch(category){
-      case 'nfl':
-      break;
-      case 'ncaaf':
-      break;
-      case 'mlb':
-      break;
-      case 'nba':
-      break;
-      case 'ncaam':
-      break;
-      case 'finance':
-      break;
-      case 'realestate':
-      break;
-      case 'weather':
-      break;
-    }
-  }
-
-  getDeepDiveArticleService(articleID){
-  //Configure HTTP Headers
-  var headers = this.setToken();
-  var callURL = this._footballAPI + '/article/' + articleID;//TODO
-  return this.http.get(callURL, {headers: headers})
-    .map(res => res.json())
-    .map(data => {
-      return data;
-    })
-  }
+  //
+  // getDeepDiveArticleService(articleID){
+  // //Configure HTTP Headers
+  // var headers = this.setToken();
+  // var callURL = this._footballAPI + '/article/' + articleID;//TODO
+  // return this.http.get(callURL, {headers: headers})
+  //   .map(res => res.json())
+  //   .map(data => {
+  //     return data;
+  //   })
+  // }
 
   getDeepDiveBatchService(category: string, limit: number, page: number, state?: string){
     var headers = this.setToken();
     var callURL = GlobalSettings.getApiUrl() + "/articles";
+    //http://dev-tcxmedia-api.synapsys.us/articles?help=1
+    //http://dev-tcxmedia-api.synapsys.us/articles?articleType=about-the-teams
     if(GlobalSettings.getTCXscope(category).topScope == "basketball" || GlobalSettings.getTCXscope(category).topScope == "football") {
       if(category == "sports"){
         callURL += '?category=sports';
@@ -74,6 +54,7 @@ export class DeepDiveService {
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
+        // console.log("data", data);
         return data;
     })
   }
@@ -139,27 +120,31 @@ export class DeepDiveService {
       return videoBatchArray;
     }// transformDeepDiveVideoBatchData ENDS
 
-    // Top Article of Article Stacks
+    // Article Batch Transformed Data
     transformToArticleStack(data: Array<ArticleStackData>, scope?){
       var sampleImage = "/app/public/placeholder_XL.png";
-      // var topData = data.data[0];
       var articleStackArray = [];
       data.forEach(function(val, index){
+        if(val.time_stamp){
+          var date =  moment(Number(val.time_stamp));
+          date = '<span class="hide-320">' + date.format('dddd') + ' </span>' + date.format('MMM') + date.format('. DD, YYYY');
+        }
         var articleStackData = {
-            id: "1",
+            id: val.article_id,
             articleUrl: '/deep-dive',
             keyUrl: '/deep-dive',
-            keyword: scope.toUpperCase(),
-            timeStamp: '<span class="hide-320">Thursday </span>' + "Sept. 28, 2016",
-            title: "Title here",
-            author: "Author",
-            publisher: ", Publisher",
-            teaser: "Teaser here",
+            keyword: val.keywords ? val.keywords : scope.toUpperCase(),
+            timeStamp: date ? date : "",
+            title: val.title ? val.title : "No title available",
+            author: val.author ? val.author : "",
+            publisher: val.publisher ? ", Publisher " + val.publisher : "",
+            teaser: val.teaser ? val.teaser : "No teaser available",
             imageConfig: {
               imageClass: "embed-responsive-16by9",
-              imageUrl: sampleImage,
-              urlRouteArray: ['/deep-dive']
+              imageUrl: val.image_url ? val.image_url : sampleImage,
+              urlRouteArray: VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, "video", scope)
             }
+            //keyUrl: null
           }
           articleStackArray.push(articleStackData);
         });

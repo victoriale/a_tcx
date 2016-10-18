@@ -73,6 +73,7 @@ export class DeepDiveService {
     state = 'CA';
   }
   callURL += '/' + limit + '/' + startNum + '/' + state;
+  // console.log(callURL);
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
@@ -91,16 +92,34 @@ export class DeepDiveService {
 
     getDeepDiveVideoBatchService(category: string, limit: number, page: number, location?: string){
       var headers = this.setToken();
-      var callURL = GlobalSettings.getTCXscope("sports").verticalApi;
+      var callURL = GlobalSettings.getTCXscope(category).verticalApi;
       if(limit === null || typeof limit == 'undefined'){
         limit = 5;
         page = 1;
       }
-      callURL += '/videoBatch/' + category + '/' + page + '/' + limit;
+      callURL += '/videoBatch/';
+      if(GlobalSettings.getTCXscope(category).topScope == "baseball"){
+        //http://dev-homerunloyal-api.synapsys.us/tcx/videoBatch/league/5/1
+        callURL += 'league';
+      } else {
+        callURL += category;
+      }
+      if(GlobalSettings.getTCXscope(category).topScope == "basketball"){
+        //http://dev-tcxmedia-api.synapsys.us/tcx/videoBatch/nba/1/5
+        callURL += '/' + page + '/' + limit;
+      } else {
+        //http://dev-touchdownloyal-api.synapsys.us/tcx/videoBatch/fbs/5/2
+        //http://dev-touchdownloyal-api.synapsys.us/tcx/videoBatch/nfl/5/2/ks
+        //http://dev-tcxmedia-api.synapsys.us/videoBatch/sports/10/1
+        callURL += '/' + limit + '/' + page;
+        if(GlobalSettings.getTCXscope(category).topScope == "nfl" && location !== null){
+          callURL += '/' + location;
+        }
+      }
       return this.http.get(callURL, {headers: headers})
         .map(res => res.json())
         .map(data => {
-          return data.data;
+          return data;
       })
     }// getDeepDiveVideoBatchService ENDS
 
@@ -111,7 +130,7 @@ export class DeepDiveService {
       data.forEach(function(val, index){
         if(val.time_stamp){
           var date =  moment(Number(val.time_stamp));
-          date = date.format('MMM') + date.format('. DD, YYYY');
+          date = '<span class="hide-320">' + date.format('dddd') + ' </span>' + date.format('MMM') + date.format('. DD, YYYY');
         }
         var d = {
           id: val.id,
@@ -138,7 +157,7 @@ export class DeepDiveService {
             articleUrl: '/deep-dive',
             keyUrl: '/deep-dive',
             keyword: scope.toUpperCase(),
-            timeStamp: "Sept. 28, 2016",
+            timeStamp: '<span class="hide-320">Thursday </span>' + "Sept. 28, 2016",
             title: "Title here",
             author: "Author",
             publisher: ", Publisher",

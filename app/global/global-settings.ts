@@ -7,7 +7,7 @@ export class GlobalSettings {
 
     private static _newsUrl:string = 'newsapi.synapsys.us';
 
-    private static _apiUrl:string = '-tcxmedia-api.synapsys.us/tcx';
+    private static _apiUrl:string = '-tcxmedia-api.synapsys.us';
     private static _articleUrl:string = '-tcxmedia-ai.synapsys.us/tcx';
 
     private static _partnerApiUrl: string = 'apireal.synapsys.us/listhuv/?action=get_partner_data&domain=';
@@ -70,7 +70,7 @@ export class GlobalSettings {
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'football',
           displayName: 'football',
-          verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
+          verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us') + '/tcx',
           aiApi:this.getVerticalEnv('-touchdownloyal-ai.synapsys.us'),
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
@@ -88,7 +88,7 @@ export class GlobalSettings {
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'football',
           displayName: 'football',
-          verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
+          verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us') + '/tcx',
           aiApi:this.getVerticalEnv('-touchdownloyal-ai.synapsys.us'),
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
@@ -104,7 +104,7 @@ export class GlobalSettings {
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'baseball',
           displayName: 'baseball',
-          verticalApi: this.getVerticalEnv('-homerunloyal-api.synapsys.us'),
+          verticalApi: this.getVerticalEnv('-homerunloyal-api.synapsys.us') + '/tcx',
           aiApi:this.getVerticalEnv('-homerunloyal-ai.synapsys.us'),
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
@@ -121,7 +121,7 @@ export class GlobalSettings {
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'basketball',
           displayName: 'basketball',
-          verticalApi: this.getVerticalEnv('-sports-api.synapsys.us'),
+          verticalApi: this.getApiUrl() + '/tcx',
           aiApi:this.getVerticalEnv('-sports-ai'),
           tcxApi: this.getApiUrl(),
           showEventSlider: true,

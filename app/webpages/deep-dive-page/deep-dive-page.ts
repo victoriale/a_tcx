@@ -18,7 +18,6 @@ declare var jQuery: any;
 
 export class DeepDivePage implements OnInit {
     scope: string;
-    carouselData: any;
     //side scroller
     sideScrollData: any;
     scrollLength: number = 0;
@@ -48,7 +47,9 @@ export class DeepDivePage implements OnInit {
     geoLocation:string;
     // homePageBlocks = ["breaking", "video", "sports", "business", "politics", "entertainment", "food", "video", "health", "lifestyle", "realestate", "travel", "weather", "video", "automotive"];
 
-    carouselVideo:any;// TODO remove when video and article api is moved to page level is moved to deepdive page
+    carouselGraph:any;
+    carouselVideo:any;
+    carouselData: any;
 
     constructor(private _schedulesService:SchedulesService, private _deepDiveData: DeepDiveService, private _activatedRoute: ActivatedRoute, private _geoLocation: GeoLocation) {
       // var categoryBlocks;
@@ -70,11 +71,14 @@ export class DeepDivePage implements OnInit {
                   this.geoLocation = this.geoLocation.toLowerCase();
                   this.selectedLocation = geoLocationData[0].city.replace(/ /g, "%20") + "-" + geoLocationData[0].state;
                   console.log("Geo Location", geoLocationData[0].city + " " + geoLocationData[0].state);//keep this for now
+                  this.getHourlyWeatherData(this.topScope);
                   this.getSideScroll();
                 },
                 err => {
                   console.log("Geo Location Error",err);
                   this.geoLocation = defaultState;
+                  this.selectedLocation = 'wichita-ks';
+                  this.getHourlyWeatherData(this.topScope);
                   this.getSideScroll();
                 }
             );
@@ -106,7 +110,7 @@ export class DeepDivePage implements OnInit {
         this.safeCall = false;
         let changeScope = this.changeScopeVar.toLowerCase() == 'ncaaf'?'fbs':this.changeScopeVar.toLowerCase();
         this._schedulesService.setupSlideScroll(this.topScope, this.sideScrollData, changeScope, 'league', 'pregame', this.callLimit, this.callCount, this.selectedLocation, (sideScrollData) => {
-
+          console.log(sideScrollData);
           this.scopeList = this.tcxVars.scopeList;
           if (this.tcxVars.showEventSlider) {
             this.sideScrollData = sideScrollData;
@@ -144,6 +148,7 @@ export class DeepDivePage implements OnInit {
     }
 
     getDeepDiveVideo(){
+      if(this.topScope != 'weather'){
         this._deepDiveData.getDeepDiveVideoBatchService(this.scope, 1, 1).subscribe(
           data => {
             this.carouselVideo = [data.data[0]];
@@ -151,7 +156,20 @@ export class DeepDivePage implements OnInit {
           },
           err => {
             console.log("Error getting video batch data");
-        });
+          });
+      }
+    }
+
+    getHourlyWeatherData(scope){//only if its weather scope that has graph
+      console.log('weather scope', scope);
+      if( scope == 'weather'){//weather requires {city-state} as a parameter
+        this._schedulesService.getWeatherCarousel('hourly', this.selectedLocation).subscribe(
+          data => {
+            console.log(data);
+            this.carouselGraph = data;
+          }
+        );
+      }
     }
 
     ngOnInit(){
@@ -169,6 +187,8 @@ export class DeepDivePage implements OnInit {
             }
             this.topScope = this.tcxVars ? this.tcxVars.topScope : this.category;
             this.changeScopeVar = this.tcxVars.scope;
+            console.log('topScope',this.topScope);
+            console.log('changeScopeVar',this.changeScopeVar);
             this.deepDiveType = this.category != 'all' ? GlobalSettings.getTCXscope(this.scope).pageType : 'all';
             this.getGeoLocation();
             this.getDataCarousel();
@@ -176,6 +196,5 @@ export class DeepDivePage implements OnInit {
             this.sectionFrontName();
           }
       );
-
     }
   }

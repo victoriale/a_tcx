@@ -84,6 +84,63 @@ export class SchedulesService {
         return data;
       });
   }
+  getWeatherCarousel(scope, selectedLocation){
+    //Configure HTTP Headers
+    var headers = this.setToken();
+    var callURL = GlobalSettings.getVerticalEnv('-tcxmedia-api.synapsys.us') + "/sidescroll/weather/" + selectedLocation + "/" + scope.toLowerCase();
+    //optional week parameters
+    return this.http.get(callURL, {headers: headers})
+      .map(res => res.json())
+      .map(data => {
+        console.log(data);
+        var output = {scopeList: [], blocks: [], current: {}};
+        if (data.data != null) {
+          output.current['city'] = data.city;
+          output.current['currentCondition'] = data.currentCondition;
+          output.current['currentIcon'] = GlobalSettings.getImageUrl(data.currentIcon);
+          output.current['currentScope'] = data.currentScope;
+          output.current['currentTime'] = moment().format("h:mm A");
+          output.current['currentTemperature'] = ((data.currentTemperature * (9/5)) - 459.67).toFixed(0);
+          output.current['state'] = data.state;
+          output.current['zipcode'] = data.zipcode;
+          output.blocks.push(
+            {
+              eos: "false",
+              unixTimestamp: moment().unix(),
+              temperature: output.current['currentTemperature'] + "&deg;",
+              icon: output.current['currentIcon'],
+              condition: output.current['currentCondition']
+            }
+          );
+          for (var n = 0; n < data.data.length; n++) {
+            data.data[n]['eos'] = "false";
+            data.data[n]['icon'] = GlobalSettings.getImageUrl(data.data[n]['icon']);
+            //convert from kelvin to farenheight
+            data.data[n].unixTimestamp = Number(data.data[n].unixTimestamp);
+            data.data[n].temperature  = Number((data.data[n].temperature * (9/5)) - 459.67).toFixed(0);
+            output.blocks.push(data.data[n]);
+          }
+          console.log(output);
+          return output;
+        } else { // gracefully error if no data is returned
+          output = {scopeList: [], blocks: [
+            {
+              unixTimestamp: "UH OH!",
+              condition: "ERROR",
+              icon: GlobalSettings.getImageUrl("/weather/icons/sharknado_n.svg")
+            }
+          ], current: {
+            currentCondition: "N/A",
+            currentIcon: GlobalSettings.getImageUrl("/weather/icons/sharknado_n.svg"),
+            currentTemperature: "N/A",
+            currentScope: "",
+            state: "N/A",
+            city: "N/A",
+          }}
+          return output;
+        }
+      })
+  }
 
   //Call made for slider carousel using BoxScore scheduler
   getFinanceData(scope, profile, eventStatus, limit, pageNum, id?){
@@ -98,7 +155,7 @@ export class SchedulesService {
         for (var i =0; i< data.data.scopeList.length; i++) {
           output.scopeList.push(data.data.scopeList[i].toUpperCase());
         }
-        for (var n =0; n< data.data[scope].length; n++) {
+        for (var n =0; n < data.data[scope].length; n++) {
           data.data[scope][n].currentStockValue = Number(data.data[scope][n].currentStockValue).toFixed(2);
           data.data[scope][n].stockChangeAmount = Number(data.data[scope][n].stockChangeAmount).toFixed(2);
           data.data[scope][n].stockChangePercent = Number(data.data[scope][n].stockChangePercent).toFixed(2);
@@ -162,7 +219,7 @@ export class SchedulesService {
               condition: output.current['currentCondition']
             }
           );
-          for (var n =0; n< data.data.length; n++) {
+          for (var n =0; n < data.data.length; n++) {
             data.data[n]['eos'] = "false";
             data.data[n]['icon'] = GlobalSettings.getImageUrl(data.data[n]['icon']);
             //convert from kelvin to farenheight

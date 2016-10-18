@@ -354,7 +354,7 @@ export class SchedulesService {
                   data.data.data[n].reportDisplay = "GAME REPORT";
           }
           var offset = Intl.DateTimeFormat().resolvedOptions().timeZone;
-          let date = moment(Number(data.data.data[n].startTime)).tz(offset).format('MMMM D, YYYY');
+          let date = moment(Number(data.data.data[n].startTime)).tz(offset).format('dddd MMM D, YYYY');
           let time = moment(Number(data.data.data[n].startTime)).tz(offset).format('h:mm A z');
           data.data.data[n].date = date + " &bull; " + time;
           data.data.data[n].homeTeamName = data.data.data[n].lastNameHome;
@@ -437,7 +437,7 @@ export class SchedulesService {
                   data.data[n].reportDisplay = "GAME REPORT";
           }
           var offset = Intl.DateTimeFormat().resolvedOptions().timeZone;
-          let date = moment(Number(data.data[n].eventDate)).tz(offset).format('MMMM D, YYYY');
+          let date = moment(Number(data.data[n].eventDate)).tz(offset).format('dddd MMM D, YYYY');
           let time = moment(Number(data.data[n].eventDate)).tz(offset).format('h:mm A z');
           data.data[n].date = date + " &bull; " + time;
           data.data[n].homeTeamName = data.data[n].lastNameHome;
@@ -583,7 +583,7 @@ export class SchedulesService {
         }
       }
       var offset = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      let date = moment(Number(val.eventStartTime)).tz(offset).format('MMMM D, YYYY');
+      let date = moment(Number(val.eventStartTime)).tz(offset).format('dddd MMM D, YYYY');
       let time = moment(Number(val.eventStartTime)).tz(offset).format('h:mm A z');
       let team1FullName = val.team1FullName;
       let team2FullName = val.team2FullName;

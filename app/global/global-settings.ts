@@ -80,8 +80,8 @@ export class GlobalSettings {
           pageType: 1,
           searchTitle:'Discover The Latest In',
           searchSubTitle:"Find the players and teams you love",
-            placeHolderText:'Search for a Team or a Player...',
-           searchBackground:"../app/public/Sports_Search-Module-Image.jpg"
+          placeHolderText:'Search for a Team or a Player...',
+          searchBackground:"../app/public/Sports_Search-Module-Image.jpg"
 
         },
         'ncaaf':{
@@ -97,9 +97,10 @@ export class GlobalSettings {
           showSFTopNav: true,
           icon:'fa-tdl-football',
           pageType: 1,
-            searchTitle:'Discover The Latest In',
-            searchSubTitle:"Find the players and teams you love",
-            searchBackground:"../app/public/Sports_Search-Module-Image.jpg"
+          searchTitle:'Discover The Latest In',
+          searchSubTitle:"Find the players and teams you love",
+          placeHolderText:'Search for a Team or a Player...',
+          searchBackground:"../app/public/Sports_Search-Module-Image.jpg"
         },
         'mlb':{
           scope:'mlb',
@@ -114,10 +115,10 @@ export class GlobalSettings {
           showSFTopNav: true,
           icon:'fa-strikeouts-01',
           pageType: 1,
-            searchTitle:'Discover The Latest In',
-            searchSubTitle:"Find the players and teams you love",
-            placeHolderText:'Search for a Team or a Player...',
-            searchBackground:"../app/public/Sports_Search-Module-Image.jpg"
+          searchTitle:'Discover The Latest In',
+          searchSubTitle:"Find the players and teams you love",
+          placeHolderText:'Search for a Team or a Player...',
+          searchBackground:"../app/public/Sports_Search-Module-Image.jpg"
         },
         'nba':{
           scope:'nba',
@@ -132,10 +133,10 @@ export class GlobalSettings {
           showSFTopNav: true,
           icon:'fa-dribble',
           pageType: 1,
-            searchTitle:'Discover The Latest In',
-            searchSubTitle:"Find the players and teams you love",
-            placeHolderText:'Search for a Team or a Player...',
-            searchBackground:"../app/public/Sports_Search-Module-Image.jpg"
+          searchTitle:'Discover The Latest In',
+          searchSubTitle:"Find the players and teams you love",
+          placeHolderText:'Search for a Team or a Player...',
+          searchBackground:"../app/public/Sports_Search-Module-Image.jpg"
         },
         'ncaam':{
           scope:'ncaam',
@@ -150,10 +151,10 @@ export class GlobalSettings {
           showSFTopNav: true,
           icon:'fa-dribble',
           pageType: 1,
-            searchTitle:'Discover The Latest In',
-            searchSubTitle:"Find the players and teams you love",
-            placeHolderText:'Search for a Team or a Player...',
-            searchBackground:"../app/public/Sports_Search-Module-Image.jpg"
+          searchTitle:'Discover The Latest In',
+          searchSubTitle:"Find the players and teams you love",
+          placeHolderText:'Search for a Team or a Player...',
+          searchBackground:"../app/public/Sports_Search-Module-Image.jpg"
         },
         'business':{
           scope:'all',
@@ -167,10 +168,10 @@ export class GlobalSettings {
           showBoxScores:false,
           icon:'fa-fontawesome-webfont-3',
           pageType: 2,
-            searchTitle:'Discover Your Next Investment',
-            searchSubTitle:"Find the stocks you can invest in right in your neighborhood",
-            placeHolderText:'Search for a Company, Executive or DMA',
-            searchBackground:"../app/public/Finance_Search-Module-Image.jpg"
+          searchTitle:'Discover Your Next Investment',
+          searchSubTitle:"Find the stocks you can invest in right in your neighborhood",
+          placeHolderText:'Search for a Company, Executive or DMA',
+          searchBackground:"../app/public/Finance_Search-Module-Image.jpg"
 
         },
         'real-estate':{
@@ -184,10 +185,10 @@ export class GlobalSettings {
           showBoxScores:false,
           icon:'fa-home-1',
           pageType: 2,
-            searchTitle:'Discover Homes For Sale In Your Area',
-            searchSubTitle:" ",
-            placeHolderText:'Search for a location or address...',
-            searchBackground:"../app/public/Real-Estate_Search-Module-Image.jpg"
+          searchTitle:'Discover Homes For Sale In Your Area',
+          searchSubTitle:" ",
+          placeHolderText:'Search for a location or address...',
+          searchBackground:"../app/public/Real-Estate_Search-Module-Image.jpg"
         },
         //ABOVE are categories SNTMedia actually has Verticals built specifically for that category
 
@@ -205,9 +206,7 @@ export class GlobalSettings {
           showSFTopNav: true,
           icon:'fa-futbol-o',
           pageType: 1,
-            searchTitle:'Discover The Latest In',
-            searchSubTitle:"Find the players and teams you love",
-            placeHolderText:'Search for a Team or a Player...'
+
 
         },
         'weather':{

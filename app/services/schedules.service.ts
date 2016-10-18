@@ -277,13 +277,14 @@ export class SchedulesService {
             data.data[n]['eos'] = "false";
             data.data[n]['icon'] = GlobalSettings.getImageUrl(data.data[n]['icon']);
             //convert from kelvin to farenheight
+            var offset = Intl.DateTimeFormat().resolvedOptions().timeZone;
             if (scope.toLowerCase() == "hourly") {
-              data.data[n].unixTimestamp = moment.unix(data.data[n].unixTimestamp).format("h:mm A") + " CT";
+              data.data[n].unixTimestamp = moment.unix(data.data[n].unixTimestamp).tz(offset).format("h:mm A z");
               data.data[n].temperature  = ((data.data[n].temperature * (9/5)) - 459.67).toFixed(0) + "&deg;";
 
             }
             else {
-              data.data[n].unixTimestamp = moment.unix(data.data[n].unixTimestamp).format("MMMM DD, YYYY");
+              data.data[n].unixTimestamp = moment.unix(data.data[n].unixTimestamp).format("dddd MMMM DD, YYYY");
               data.data[n].temperature  = ((data.data[n].temperatureHigh * (9/5)) - 459.67).toFixed(0) + "&deg; <span class='small-temp'>/ " + ((data.data[n].temperatureLow * (9/5)) - 459.67).toFixed(0) + "&deg;</span>";
             }
             output.blocks.push(data.data[n]);
@@ -352,8 +353,9 @@ export class SchedulesService {
               default:
                   data.data.data[n].reportDisplay = "GAME REPORT";
           }
-          let date = moment(Number(data.data.data[n].startTime)).tz('America/New_York').format('MMMM D, YYYY');
-          let time = moment(Number(data.data.data[n].startTime)).tz('America/New_York').format('h:mm A z');
+          var offset = Intl.DateTimeFormat().resolvedOptions().timeZone;
+          let date = moment(Number(data.data.data[n].startTime)).tz(offset).format('dddd MMM D, YYYY');
+          let time = moment(Number(data.data.data[n].startTime)).tz(offset).format('h:mm A z');
           data.data.data[n].date = date + " &bull; " + time;
           data.data.data[n].homeTeamName = data.data.data[n].lastNameHome;
           data.data.data[n].awayTeamName = data.data.data[n].lastNameAway;
@@ -434,8 +436,9 @@ export class SchedulesService {
               default:
                   data.data[n].reportDisplay = "GAME REPORT";
           }
-          let date = moment(Number(data.data[n].eventDate)).tz('America/New_York').format('MMMM D, YYYY');
-          let time = moment(Number(data.data[n].eventDate)).tz('America/New_York').format('h:mm A z');
+          var offset = Intl.DateTimeFormat().resolvedOptions().timeZone;
+          let date = moment(Number(data.data[n].eventDate)).tz(offset).format('dddd MMM D, YYYY');
+          let time = moment(Number(data.data[n].eventDate)).tz(offset).format('h:mm A z');
           data.data[n].date = date + " &bull; " + time;
           data.data[n].homeTeamName = data.data[n].lastNameHome;
           data.data[n].awayTeamName = data.data[n].lastNameAway;
@@ -536,6 +539,7 @@ export class SchedulesService {
   callLocationAutocomplete(query){
     //Configure HTTP Headers
     var headers = this.setToken();
+    //var callURL = GlobalSettings.getVerticalEnv('-tcxmedia-api.synapsys.us') + "/sidescroll/weather/availableLocations/" + query;
     var callURL = 'http://dev-tcxmedia-api.synapsys.us' + "/sidescroll/weather/availableLocations/" + query;
     //optional week parameters
     return this.http.get(callURL, {headers: headers})
@@ -578,11 +582,20 @@ export class SchedulesService {
           reportText = 'POST GAME REPORT';
         }
       }
-
-      let date = moment(Number(val.eventStartTime)).tz('America/New_York').format('MMMM D, YYYY');
-      let time = moment(Number(val.eventStartTime)).tz('America/New_York').format('h:mm A z');
+      var offset = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      let date = moment(Number(val.eventStartTime)).tz(offset).format('dddd MMM D, YYYY');
+      let time = moment(Number(val.eventStartTime)).tz(offset).format('h:mm A z');
       let team1FullName = val.team1FullName;
       let team2FullName = val.team2FullName;
+
+      let team1FBSName = val.team1Abbreviation + " " + team1FullName.replace(val.team1Market+" ",'');
+      let team2FBSName = val.team2Abbreviation + " " + team2FullName.replace(val.team2Market+" ",'');
+      if (team1FBSName.length > 13) {
+        team1FBSName = val.team1Abbreviation;
+      }
+      if (team2FBSName.length > 13) {
+        team2FBSName = val.team2Abbreviation;
+      }
 
       newData = {
         date: date + " &bull; " + time,
@@ -604,8 +617,8 @@ export class SchedulesService {
             hoverText: "<p>View</p> Profile"
           }
         },
-        awayTeamName: scope =='fbs' ? val.team2Abbreviation: team2FullName.replace(val.team2Market+" ",''),
-        homeTeamName: scope =='fbs' ? val.team1Abbreviation: team1FullName.replace(val.team1Market+" ",''),
+        awayTeamName: scope =='ncaaf' ? team2FBSName: team2FullName.replace(val.team2Market+" ",''),
+        homeTeamName: scope =='ncaaf' ? team1FBSName: team1FullName.replace(val.team1Market+" ",''),
         awayLink: GlobalSettings.getOffsiteLink("nfl", scope + "/team/" + val.team2FullName + "/" + val.team2Id),
         homeLink: GlobalSettings.getOffsiteLink("nfl", scope + "/team/" + val.team1FullName + "/" + val.team1Id),
         reportDisplay: reportText,

@@ -38,6 +38,8 @@
             </div>
             <div class="content-exerpt" *ngIf="articleType == 'video'"  [innerHTML]="articleData.description | safeHtml">
             </div>
+
+            <billboard-module></billboard-module>
 <!--
             <div class="bottom-shader" *ngIf="articleType == 'story'"></div>
 -->
@@ -45,6 +47,8 @@
             <a *ngIf="articleType == 'story'" class="readMore mod-page-btn" [href]="articleData.articleUrl">Read the Full Article <i class="fa fa-arrow-right"></i></a>
 -->
             <disqus-component *ngIf="!checkPartner"></disqus-component>
+
+            <chatterbox-module></chatterbox-module>
 <!--
                         <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
 -->

@@ -35,6 +35,7 @@ import { NewsBox } from '../fe-core/components/news-box/news-box';
 
 /*** MODULES ***/
 import { BillboardModule } from "../fe-core/modules/billboard/billboard.module";
+import { ChatterboxModule } from "../fe-core/modules/chatterbox/chatterbox.module";
 import { WidgetCarouselModule } from "../fe-core/modules/widget/widget-carousel.module";
 import { WidgetModule } from "../fe-core/modules/widget/widget.module";
 import { SearchBoxModule } from "../fe-core/modules/search-box-module/search-box-module.module";
@@ -88,7 +89,8 @@ import {ArticleSearchBar} from "../fe-core/components/search-bar-article/search-
       DeepDiveRecommendation,
       InputBar,
       ArticleSearchBar,
-      BillboardModule
+      BillboardModule,
+      ChatterboxModule
     ],
     exports: [
       SectionFrontTopNav,
@@ -119,7 +121,8 @@ import {ArticleSearchBar} from "../fe-core/components/search-bar-article/search-
       DeepDiveRecommendation,
       InputBar,
       ArticleSearchBar,
-      BillboardModule
+      BillboardModule,
+      ChatterboxModule
     ],
     providers: [
       VerticalGlobalFunctions,

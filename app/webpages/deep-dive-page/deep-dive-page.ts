@@ -70,7 +70,6 @@ export class DeepDivePage implements OnInit {
                   this.geoLocation = geoLocationData[0].state;
                   this.geoLocation = this.geoLocation.toLowerCase();
                   this.selectedLocation = geoLocationData[0].city.replace(/ /g, "%20") + "-" + geoLocationData[0].state;
-                  console.log("Geo Location", geoLocationData[0].city + " " + geoLocationData[0].state);//keep this for now
                   this.getHourlyWeatherData(this.topScope);
                   this.getSideScroll();
                 },
@@ -154,7 +153,6 @@ export class DeepDivePage implements OnInit {
         this._deepDiveData.getDeepDiveVideoBatchService(this.scope, 1, 1).subscribe(
           data => {
             this.carouselVideo = [data.data[0]];
-            console.log(this.carouselVideo);
           },
           err => {
             console.log("Error getting video batch data");
@@ -163,11 +161,9 @@ export class DeepDivePage implements OnInit {
     }
 
     getHourlyWeatherData(scope){//only if its weather scope that has graph
-      console.log('weather scope', scope);
       if( scope == 'weather'){//weather requires {city-state} as a parameter
         this._schedulesService.getWeatherCarousel('hourly', this.selectedLocation).subscribe(
           data => {
-            console.log(data);
             this.carouselGraph = data;
           }
         );
@@ -179,8 +175,6 @@ export class DeepDivePage implements OnInit {
           (param:any) => {
             this.category = param['category'] ? param['category'] : 'all';
             this.scope = param['articleCategory'] ? param['articleCategory'] : this.category;
-            console.log('Partner:', GlobalSettings.getPartnerId());
-            console.log('sectionFront parameters:',param);
             if (param['articleCategory']) {
               this.tcxVars = GlobalSettings.getTCXscope(param['articleCategory']);
             }

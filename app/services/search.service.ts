@@ -14,7 +14,7 @@ export class SearchService{
     public pageMax: number = 10;
     public searchJSON: any;
 
-    public searchAPI: string = GlobalSettings.getApiUrl() + '/landingPage/search';
+    public searchAPI: string = "http://dev-touchdownloyal-api.synapsys.us" + '/landingPage/search';
     constructor(private http: Http, private _router:Router){
 
         //Get initial search JSON data

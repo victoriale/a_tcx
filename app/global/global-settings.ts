@@ -408,7 +408,7 @@ export class GlobalSettings {
     static checkPartnerDomain (partnerCode) {
       var result = false;
       var specialDomains = [
-        "lsatimes.com",
+        "latimes.com",
         "orlandosentinel.com",
         "sun-sentinel.com",
         "baltimoresun.com",

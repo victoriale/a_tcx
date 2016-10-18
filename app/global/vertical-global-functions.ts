@@ -33,7 +33,10 @@ export class VerticalGlobalFunctions {
             rel_link: scope + '/'+ 'search' +'/',
         },
         nba:{
-            rel_link: scope + '/'+ 'search' +'/',
+            rel_link: scope + '/'+ 'search' +'/r=',
+        },
+        ncaam:{
+          rel_link: scope + '/'+ 'search' +'/r=',
         },
         mlb:{
             rel_link: 'search' +'/',

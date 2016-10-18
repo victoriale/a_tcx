@@ -98,6 +98,7 @@ export class GlobalSettings {
           pageType: 1,
           searchTitle:'Discover The Latest In',
           searchSubTitle:"Find the players and teams you love",
+          placeHolderText:'Search for a Team or a Player...',
           searchBackground:"../app/public/Sports_Search-Module-Image.jpg"
         },
         'mlb':{
@@ -149,7 +150,7 @@ export class GlobalSettings {
           showSFTopNav: true,
           icon:'fa-dribble',
           pageType: 1,
-		  searchTitle:'Discover The Latest In',
+          searchTitle:'Discover The Latest In',
           searchSubTitle:"Find the players and teams you love",
           placeHolderText:'Search for a Team or a Player...',
           searchBackground:"../app/public/Sports_Search-Module-Image.jpg"
@@ -203,9 +204,6 @@ export class GlobalSettings {
           showSFTopNav: true,
           icon:'fa-futbol-o',
           pageType: 1,
-          searchTitle:'Discover The Latest In',
-          searchSubTitle:"Find the players and teams you love",
-          placeHolderText:'Search for a Team or a Player...'
         },
         'weather':{
           scope:'hourly',

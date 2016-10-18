@@ -67,7 +67,9 @@ export class SchedulesService {
   getBoxSchedule(scope, profile, eventStatus, limit, pageNum, id?){
     //Configure HTTP Headers
     var headers = this.setToken();
-    var callURL = GlobalSettings.getVerticalEnv('-touchdownloyal-api.synapsys.us') + '/boxScores/schedule/' + profile;
+    // var callURL = GlobalSettings.getVerticalEnv('-touchdownloyal-api.synapsys.us') + '/boxScores/schedule/' + profile;
+    var callURL = 'http://dev-touchdownloyal-api.synapsys.us' + '/boxScores/schedule/' + profile;
+
     if(profile == 'league'){//if league call then add scope
       callURL += '/'+ scope;
     }
@@ -194,7 +196,9 @@ export class SchedulesService {
   getFinanceData(scope, profile, eventStatus, limit, pageNum, id?){
     //Configure HTTP Headers
     var headers = this.setToken();
-    var callURL = GlobalSettings.getVerticalEnv('-finance-api.synapsys.us') + "/call_controller.php?action=tcx&option=tcx_side_scroll";
+    // var callURL = GlobalSettings.getVerticalEnv('-finance-api.synapsys.us') + "/call_controller.php?action=tcx&option=tcx_side_scroll";
+    var callURL = 'http://dev-finance-api.synapsys.us' + "/call_controller.php?action=tcx&option=tcx_side_scroll";
+
     //optional week parameters
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
@@ -244,7 +248,9 @@ export class SchedulesService {
   getWeatherData(scope, selectedLocation){
     //Configure HTTP Headers
     var headers = this.setToken();
-    var callURL = GlobalSettings.getVerticalEnv('-tcxmedia-api.synapsys.us') + "/sidescroll/weather/" + selectedLocation + "/" + scope.toLowerCase();
+    // var callURL = GlobalSettings.getVerticalEnv('-tcxmedia-api.synapsys.us') + "/sidescroll/weather/" + selectedLocation + "/" + scope.toLowerCase();
+    var callURL = 'http://dev-tcxmedia-api.synapsys.us' + "/sidescroll/weather/" + selectedLocation + "/" + scope.toLowerCase();
+
     //optional week parameters
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
@@ -316,7 +322,9 @@ export class SchedulesService {
   getBasketballSchedule(scope, profile, eventStatus, limit, pageNum, id?){
     //Configure HTTP Headers
     var headers = this.setToken();
-    var callURL = GlobalSettings.getVerticalEnv('-sports-api.synapsys.us') + "/NBAHoops/call_controller.php?scope=" + scope.toLowerCase() + "&action=tcx&option=tcx_side_scroll&perPage=50&pageNum=1";
+    // var callURL = GlobalSettings.getVerticalEnv('-sports-api.synapsys.us') + "/NBAHoops/call_controller.php?scope=" + scope.toLowerCase() + "&action=tcx&option=tcx_side_scroll&perPage=50&pageNum=1";
+    var callURL = 'http://dev-sports-api.synapsys.us' + "/NBAHoops/call_controller.php?scope=" + scope.toLowerCase() + "&action=tcx&option=tcx_side_scroll&perPage=50&pageNum=1";
+
     //optional week parameters
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
@@ -398,7 +406,9 @@ export class SchedulesService {
   getBaseballSchedule(scope, profile, eventStatus, limit, pageNum, id?){
     //Configure HTTP Headers
     var headers = this.setToken();
-    var callURL = GlobalSettings.getVerticalEnv('-homerunloyal-api.synapsys.us') + "/tcx/league/schedule/pre-event/50/1";
+    // var callURL = GlobalSettings.getVerticalEnv('-homerunloyal-api.synapsys.us') + "/tcx/league/schedule/pre-event/50/1";
+    var callURL = 'http://dev-homerunloyal-api.synapsys.us' + "/tcx/league/schedule/pre-event/50/1";
+
     //optional week parameters
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
@@ -526,7 +536,7 @@ export class SchedulesService {
   callLocationAutocomplete(query){
     //Configure HTTP Headers
     var headers = this.setToken();
-    var callURL = GlobalSettings.getVerticalEnv('-tcxmedia-api.synapsys.us') + "/sidescroll/weather/availableLocations/" + query;
+    var callURL = 'http://dev-tcxmedia-api.synapsys.us' + "/sidescroll/weather/availableLocations/" + query;
     //optional week parameters
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())

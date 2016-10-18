@@ -80,8 +80,8 @@ export class GlobalSettings {
           pageType: 1,
           searchTitle:'Discover The Latest In',
           searchSubTitle:"Find the players and teams you love",
-          placeHolderText:'Search for a Team or a Player...'
-
+          placeHolderText:'Search for a Team or a Player...',
+          searchBackground:"../app/public/Sports_Search-Module-Image.jpg"
         },
         'ncaaf':{
           scope:'ncaaf',
@@ -98,6 +98,7 @@ export class GlobalSettings {
           pageType: 1,
           searchTitle:'Discover The Latest In',
           searchSubTitle:"Find the players and teams you love",
+          searchBackground:"../app/public/Sports_Search-Module-Image.jpg"
         },
         'mlb':{
           scope:'mlb',
@@ -114,7 +115,8 @@ export class GlobalSettings {
           pageType: 1,
           searchTitle:'Discover The Latest In',
           searchSubTitle:"Find the players and teams you love",
-          placeHolderText:'Search for a Team or a Player...'
+          placeHolderText:'Search for a Team or a Player...',
+          searchBackground:"../app/public/Sports_Search-Module-Image.jpg"
         },
         'nba':{
           scope:'nba',
@@ -131,7 +133,8 @@ export class GlobalSettings {
           pageType: 1,
           searchTitle:'Discover The Latest In',
           searchSubTitle:"Find the players and teams you love",
-          placeHolderText:'Search for a Team or a Player...'
+          placeHolderText:'Search for a Team or a Player...',
+          searchBackground:"../app/public/Sports_Search-Module-Image.jpg"
         },
         'ncaam':{
           scope:'ncaam',
@@ -146,9 +149,10 @@ export class GlobalSettings {
           showSFTopNav: true,
           icon:'fa-dribble',
           pageType: 1,
-          searchTitle:'Discover The Latest In',
+		  searchTitle:'Discover The Latest In',
           searchSubTitle:"Find the players and teams you love",
-          placeHolderText:'Search for a Team or a Player...'
+          placeHolderText:'Search for a Team or a Player...',
+          searchBackground:"../app/public/Sports_Search-Module-Image.jpg"
         },
         'business':{
           scope:'all',
@@ -164,7 +168,8 @@ export class GlobalSettings {
           pageType: 2,
           searchTitle:'Discover Your Next Investment',
           searchSubTitle:"Find the stocks you can invest in right in your neighborhood",
-          placeHolderText:'Search for a Company, Executive or DMA'
+          placeHolderText:'Search for a Company, Executive or DMA',
+          searchBackground:"../app/public/Finance_Search-Module-Image.jpg"
         },
         'real-estate':{
           scope:'real-estate',
@@ -179,7 +184,8 @@ export class GlobalSettings {
           pageType: 2,
           searchTitle:'Discover Homes For Sale In Your Area',
           searchSubTitle:" ",
-          placeHolderText:'Search for a location or address...'
+          placeHolderText:'Search for a location or address...',
+          searchBackground:"../app/public/Real-Estate_Search-Module-Image.jpg"
         },
         //ABOVE are categories SNTMedia actually has Verticals built specifically for that category
 
@@ -485,7 +491,7 @@ export class GlobalSettings {
           }
           break;
         //REALESTATE URL
-        case 'realestate':
+        case 'real-estate':
           if (partnerCode != null) {
             link = "http://myhousekit.com/" + partnerCode + "/" + relativeUrl;
           }

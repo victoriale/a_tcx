@@ -65,7 +65,7 @@ import { StatHyphenValuePipe } from '../fe-core/pipes/stat-hyphen.pipe';
       DeepDiveBlockMain,
       DeepDiveBlock1,
       DeepDiveBlock2,
-      DeepDiveBlock3
+      DeepDiveBlock3,
     ],
     exports:[
       DeepDivePage,
@@ -78,7 +78,7 @@ import { StatHyphenValuePipe } from '../fe-core/pipes/stat-hyphen.pipe';
       DeepDiveBlockMain,
       DeepDiveBlock1,
       DeepDiveBlock2,
-      DeepDiveBlock3
+      DeepDiveBlock3,
     ],
     providers: [
       DeepDiveService,

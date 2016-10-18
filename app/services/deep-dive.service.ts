@@ -112,7 +112,7 @@ export class DeepDiveService {
       return this.http.get(callURL, {headers: headers})
         .map(res => res.json())
         .map(data => {
-          return data;
+          return data.data;
       })
   }// getDeepDiveVideoBatchService ENDS
 

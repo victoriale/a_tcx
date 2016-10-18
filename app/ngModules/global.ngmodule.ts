@@ -32,6 +32,7 @@ import { ScrollableContent } from "../fe-core/components/scrollable-content/scro
 import { SidekickWrapperAI } from "../fe-core/components/sidekick-wrapper-ai/sidekick-wrapper-ai.component";
 import { Larousel } from '../fe-core/components/larousel/larousel';
 import { NewsBox } from '../fe-core/components/news-box/news-box';
+import { LineChartComponent } from '../fe-core/components/line-chart/line-chart.component';
 
 /*** MODULES ***/
 import { BillboardModule } from "../fe-core/modules/billboard/billboard.module";
@@ -83,6 +84,7 @@ import {ArticleSearchBar} from "../fe-core/components/search-bar-article/search-
       DropdownComponent,
 	    Larousel,
       NewsBox,
+      LineChartComponent,
       SectionNameComponent,
       ArticleBlockComponent,
       DeepDiveRecommendation,
@@ -114,6 +116,7 @@ import {ArticleSearchBar} from "../fe-core/components/search-bar-article/search-
       DropdownComponent,
       Search,
       NewsBox,
+      LineChartComponent,
       SectionNameComponent,
       ArticleBlockComponent,
       DeepDiveRecommendation,

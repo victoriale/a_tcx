@@ -18,7 +18,6 @@ declare var jQuery: any;
 
 export class DeepDivePage implements OnInit {
     scope: string;
-    carouselData: any;
     //side scroller
     sideScrollData: any;
     scrollLength: number = 0;
@@ -47,6 +46,10 @@ export class DeepDivePage implements OnInit {
     sectionNameTitle: string = this.category;
     geoLocation:string;
 
+    carouselGraph:any;
+    carouselVideo:any;
+    carouselData: any;
+
     constructor(private _schedulesService:SchedulesService, private _deepDiveData: DeepDiveService, private _activatedRoute: ActivatedRoute, private _geoLocation: GeoLocation) {
       // var categoryBlocks;
       // if(GlobalSettings.getHomeInfo().isHome){
@@ -66,12 +69,14 @@ export class DeepDivePage implements OnInit {
                   this.geoLocation = geoLocationData[0].state;
                   this.geoLocation = this.geoLocation.toLowerCase();
                   this.selectedLocation = geoLocationData[0].city.replace(/ /g, "%20") + "-" + geoLocationData[0].state;
-                  console.log("Geo Location", geoLocationData[0].city + " " + geoLocationData[0].state);//keep this for now
+                  this.getHourlyWeatherData(this.topScope);
                   this.getSideScroll();
                 },
                 err => {
                   console.log("Geo Location Error",err);
                   this.geoLocation = defaultState;
+                  this.selectedLocation = 'wichita-ks';
+                  this.getHourlyWeatherData(this.topScope);
                   this.getSideScroll();
                 }
             );
@@ -142,13 +147,33 @@ export class DeepDivePage implements OnInit {
       })
     }
 
+    getDeepDiveVideo(){
+      if(this.topScope != 'weather'){
+        this._deepDiveData.getDeepDiveVideoBatchService(this.scope, 1, 1).subscribe(
+          data => {
+            this.carouselVideo = [data.data[0]];
+          },
+          err => {
+            console.log("Error getting video batch data");
+          });
+      }
+    }
+
+    getHourlyWeatherData(scope){//only if its weather scope that has graph
+      if( scope == 'weather'){//weather requires {city-state} as a parameter
+        this._schedulesService.getWeatherCarousel('hourly', this.selectedLocation).subscribe(
+          data => {
+            this.carouselGraph = data;
+          }
+        );
+      }
+    }
+
     ngOnInit(){
       this.routeSubscription = this._activatedRoute.params.subscribe(
           (param:any) => {
             this.category = param['category'] ? param['category'] : 'all';
             this.scope = param['articleCategory'] ? param['articleCategory'] : this.category;
-            console.log('Partner:', GlobalSettings.getPartnerId());
-            console.log('sectionFront parameters:',param);
             if (param['articleCategory']) {
               this.tcxVars = GlobalSettings.getTCXscope(param['articleCategory']);
             }
@@ -160,6 +185,7 @@ export class DeepDivePage implements OnInit {
             this.deepDiveType = this.category != 'all' ? GlobalSettings.getTCXscope(this.scope).pageType : 'all';
             this.getGeoLocation();
             this.getDataCarousel();
+            this.getDeepDiveVideo();
             this.sectionFrontName();
           });
     }

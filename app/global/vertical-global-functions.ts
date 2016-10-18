@@ -41,7 +41,7 @@ export class VerticalGlobalFunctions {
         business:{
             rel_link: 'search'+ '/r=',
         },
-        'realestate':{
+        'real-estate':{
             rel_link: 'search' +'/',
         },
     }[scope].rel_link

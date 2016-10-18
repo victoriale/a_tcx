@@ -494,7 +494,7 @@ export class GlobalSettings {
           }
           break;
         //REALESTATE URL
-        case 'realestate':
+        case 'real-estate':
           if (partnerCode != null) {
             link = "http://myhousekit.com/" + partnerCode + "/" + relativeUrl;
           }

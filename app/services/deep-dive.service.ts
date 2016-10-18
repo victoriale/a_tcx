@@ -53,31 +53,28 @@ export class DeepDiveService {
     })
   }
 
-  getDeepDiveBatchService(scope, limit, startNum, state?){
-  //Configure HTTP Headers
-  var headers = this.setToken();
-
-  if(startNum == null){
-    startNum = 1;
-  }
-
-  // http://dev-touchdownloyal-api.synapsys.us/articleBatch/nfl/5/1
-  var callURL = 'http://dev-touchdownloyal-api.synapsys.us' + '/articleBatch/';
-  if(scope != null){
-    // callURL += scope; TODO
-    callURL += 'nfl';
-  } else {
-    callURL += 'nfl';
-  }
-  if(state == null){
-    state = 'CA';
-  }
-  callURL += '/' + limit + '/' + startNum + '/' + state;
-  // console.log(callURL);
-  return this.http.get(callURL, {headers: headers})
-    .map(res => res.json())
-    .map(data => {
-      return data;
+  getDeepDiveBatchService(category: string, limit: number, page: number, state?: string){
+    var headers = this.setToken();
+    var callURL = GlobalSettings.getApiUrl() + "/articles";
+    if(GlobalSettings.getTCXscope(category).topScope == "basketball" || GlobalSettings.getTCXscope(category).topScope == "football") {
+      if(category == "sports"){
+        callURL += '?category=sports';
+      } else {
+        callURL += '?category=sports&subCategory=' + category;
+      }
+    } else if(GlobalSettings.getTCXscope(category).topScope == "entertainment" && GlobalSettings.getTCXscope(category).scope != 'all') {
+      callURL += '?category=entertainment&subCategory=' + category;
+    } else {
+      callURL += '?category=' + category;
+    }
+    if(limit !== null && page !== null){
+      callURL += '&count=' + limit + '&page=' + page;
+    }
+    // console.log("article url", callURL);
+    return this.http.get(callURL, {headers: headers})
+      .map(res => res.json())
+      .map(data => {
+        return data;
     })
   }
 
@@ -90,20 +87,15 @@ export class DeepDiveService {
        })
    }
 
-    getDeepDiveVideoBatchService(category: string, limit: number, page: number, location?: string){
+  getDeepDiveVideoBatchService(category: string, limit: number, page: number, location?: string){
       var headers = this.setToken();
       var callURL = GlobalSettings.getTCXscope(category).verticalApi;
       if(limit === null || typeof limit == 'undefined'){
         limit = 5;
         page = 1;
       }
-      callURL += '/videoBatch/';
-      if(GlobalSettings.getTCXscope(category).topScope == "baseball"){
+      callURL += '/videoBatch/' + category;
         //http://dev-homerunloyal-api.synapsys.us/tcx/videoBatch/league/5/1
-        callURL += 'league';
-      } else {
-        callURL += category;
-      }
       if(GlobalSettings.getTCXscope(category).topScope == "basketball"){
         //http://dev-tcxmedia-api.synapsys.us/tcx/videoBatch/nba/1/5
         callURL += '/' + page + '/' + limit;
@@ -116,12 +108,13 @@ export class DeepDiveService {
           callURL += '/' + location;
         }
       }
+      // console.log("vide url", callURL);
       return this.http.get(callURL, {headers: headers})
         .map(res => res.json())
         .map(data => {
           return data;
       })
-    }// getDeepDiveVideoBatchService ENDS
+  }// getDeepDiveVideoBatchService ENDS
 
     transformSportVideoBatchData(data: Array<VideoStackData>, scope?){
       var sampleImage = "/app/public/placeholder_XL.png";

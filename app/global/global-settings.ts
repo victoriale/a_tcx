@@ -80,7 +80,7 @@ export class GlobalSettings {
           pageType: 1,
           searchTitle:'Discover The Latest In',
           searchSubTitle:"Find the players and teams you love",
-            placeHolderText:'Search for a Team or a Player...'
+          placeHolderText:'Search for a Team or a Player...'
 
         },
         'ncaaf':{
@@ -96,8 +96,8 @@ export class GlobalSettings {
           showSFTopNav: true,
           icon:'fa-tdl-football',
           pageType: 1,
-            searchTitle:'Discover The Latest In',
-            searchSubTitle:"Find the players and teams you love",
+          searchTitle:'Discover The Latest In',
+          searchSubTitle:"Find the players and teams you love",
         },
         'mlb':{
           scope:'mlb',
@@ -112,9 +112,9 @@ export class GlobalSettings {
           showSFTopNav: true,
           icon:'fa-strikeouts-01',
           pageType: 1,
-            searchTitle:'Discover The Latest In',
-            searchSubTitle:"Find the players and teams you love",
-            placeHolderText:'Search for a Team or a Player...'
+          searchTitle:'Discover The Latest In',
+          searchSubTitle:"Find the players and teams you love",
+          placeHolderText:'Search for a Team or a Player...'
         },
         'nba':{
           scope:'nba',
@@ -129,9 +129,9 @@ export class GlobalSettings {
           showSFTopNav: true,
           icon:'fa-dribble',
           pageType: 1,
-            searchTitle:'Discover The Latest In',
-            searchSubTitle:"Find the players and teams you love",
-            placeHolderText:'Search for a Team or a Player...'
+          searchTitle:'Discover The Latest In',
+          searchSubTitle:"Find the players and teams you love",
+          placeHolderText:'Search for a Team or a Player...'
         },
         'ncaam':{
           scope:'ncaam',
@@ -146,9 +146,9 @@ export class GlobalSettings {
           showSFTopNav: true,
           icon:'fa-dribble',
           pageType: 1,
-            searchTitle:'Discover The Latest In',
-            searchSubTitle:"Find the players and teams you love",
-            placeHolderText:'Search for a Team or a Player...'
+          searchTitle:'Discover The Latest In',
+          searchSubTitle:"Find the players and teams you love",
+          placeHolderText:'Search for a Team or a Player...'
         },
         'business':{
           scope:'all',
@@ -162,9 +162,9 @@ export class GlobalSettings {
           showBoxScores:false,
           icon:'fa-fontawesome-webfont-3',
           pageType: 2,
-            searchTitle:'Discover Your Next Investment',
-            searchSubTitle:"Find the stocks you can invest in right in your neighborhood",
-            placeHolderText:'Search for a Company, Executive or DMA'
+          searchTitle:'Discover Your Next Investment',
+          searchSubTitle:"Find the stocks you can invest in right in your neighborhood",
+          placeHolderText:'Search for a Company, Executive or DMA'
         },
         'real-estate':{
           scope:'real-estate',
@@ -177,9 +177,9 @@ export class GlobalSettings {
           showBoxScores:false,
           icon:'fa-home-1',
           pageType: 2,
-            searchTitle:'Discover Homes For Sale In Your Area',
-            searchSubTitle:" ",
-            placeHolderText:'Search for a location or address...'
+          searchTitle:'Discover Homes For Sale In Your Area',
+          searchSubTitle:" ",
+          placeHolderText:'Search for a location or address...'
         },
         //ABOVE are categories SNTMedia actually has Verticals built specifically for that category
 
@@ -189,7 +189,7 @@ export class GlobalSettings {
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'sports',
           displayName: 'sports',
-          verticalApi: this.getApiUrl(),
+          verticalApi: this.getApiUrl() + '/tcx',
           aiApi: null,
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
@@ -197,10 +197,9 @@ export class GlobalSettings {
           showSFTopNav: true,
           icon:'fa-futbol-o',
           pageType: 1,
-            searchTitle:'Discover The Latest In',
-            searchSubTitle:"Find the players and teams you love",
-            placeHolderText:'Search for a Team or a Player...'
-
+          searchTitle:'Discover The Latest In',
+          searchSubTitle:"Find the players and teams you love",
+          placeHolderText:'Search for a Team or a Player...'
         },
         'weather':{
           scope:'hourly',

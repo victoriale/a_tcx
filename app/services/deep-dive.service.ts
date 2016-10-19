@@ -115,6 +115,7 @@ export class DeepDiveService {
           title: val.title ? val.title : "No Title",
           timeStamp: date,
           videoThumbnail: val.videoThumbnail ? val.videoThumbnail : sampleImage,
+          embedUrl:val.videoUrl,
           videoUrl: VerticalGlobalFunctions.formatArticleRoute("sports", val.id, "video", scope),
           teaser: val.teaser,
         }

@@ -9,7 +9,7 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class SearchPage{
     pageSearchTitle=" Stay Current With The Latest News";
-    pageSearchSubTitle="Search for a Topic or keyword that interests you";
+    pageSearchSubTitle="Search for a topic or keyword that interests you!";
     paramsub:any;
     userInput;
     constructor(private activateRoute:ActivatedRoute){

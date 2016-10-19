@@ -94,7 +94,6 @@ export class SchedulesService {
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
-        console.log(data);
         var output = {scopeList: [], blocks: [], current: {}};
         if (data.data != null) {
           output.current['location'] = data.city + ', ' + data.state;
@@ -102,7 +101,7 @@ export class SchedulesService {
           output.current['currentCondition'] = data.currentCondition;
           output.current['currentIcon'] = GlobalSettings.getImageUrl(data.currentIcon);
           output.current['currentScope'] = data.currentScope;
-          output.current['description'] = "<span class='text-heavy'>Partly cloudy</span> with a chance of rain until 12PM CT.";
+          output.current['description'] = "<span class='text-heavy'>Partly cloudy</span> with a chance of meatballs until 12PM CT.";
           output.current['currentTime'] = moment().format("h:mm A");
           output.current['currentTemperature'] = ((data.currentTemperature * (9/5)) - 459.67).toFixed(0);
           output.current['currentLow'] = 79;

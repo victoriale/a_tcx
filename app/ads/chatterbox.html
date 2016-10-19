@@ -1,0 +1,24 @@
+<html>
+<head>
+    <style type="text/css">
+        #ifr_pfwidget_sports_ai_article, .div_pfwidget {
+            width: 100% !important;
+            height: 100% !important;
+        }
+    </style>
+    <script type="text/javascript">
+        function receiveSize(e) {
+            var target = parent.postMessage ? parent : (parent.document.postMessage ? parent.document : undefined);
+            if (e.origin === "http://devapi.synapsys.us") {
+                if (typeof target != "undefined" && document.body.scrollHeight) {
+                    target.postMessage(e.data + 'px',  "*");
+                }
+            }
+        }
+        window.addEventListener("message", receiveSize, false);
+    </script>
+</head>
+<body style="padding:0; margin:0; overflow:hidden;">
+<script type="text/javascript" src="//content.synapsys.us/embeds/tcx/ai_chatterbox/tcx.js"></script>
+</body>
+</html>

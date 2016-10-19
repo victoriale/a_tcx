@@ -3,6 +3,16 @@
   height: auto;
   min-width: 320px;
   margin: 0;
+  .dropdown-list{
+    @media @tablet{
+      left:25px;
+    }
+  }
+  .dropdown-caret-top{
+    @media @tablet{
+      right: 12px;
+    }
+  }
   .search-large{
     margin-top: -0.1%;
   }
@@ -99,10 +109,21 @@
       padding: 15px;
     }
   }
+  .dropdown-list-scroll .scrollable-item .dropdown-list-option{
+    width:81%;
+    @media @mobile{
+      width: 71%;
+    }
+  }
   .search-large .search-dropdown-title{
     text-align: left;
   }
   .scrollable-item-scroller{
     right:5px;
+  }
+  .search-large .search-dropdown{
+    @media @tablet{
+      width:600px
+    }
   }
 }

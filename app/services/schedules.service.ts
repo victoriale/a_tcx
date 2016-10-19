@@ -67,7 +67,9 @@ export class SchedulesService {
   getBoxSchedule(scope, profile, eventStatus, limit, pageNum, id?){
     //Configure HTTP Headers
     var headers = this.setToken();
-    var callURL = GlobalSettings.getVerticalEnv('-touchdownloyal-api.synapsys.us') + '/boxScores/schedule/' + profile;
+    // var callURL = GlobalSettings.getVerticalEnv('-touchdownloyal-api.synapsys.us') + '/boxScores/schedule/' + profile;
+    var callURL = 'http://dev-touchdownloyal-api.synapsys.us' + '/boxScores/schedule/' + profile;
+
     if(profile == 'league'){//if league call then add scope
       callURL += '/'+ scope;
     }
@@ -84,12 +86,118 @@ export class SchedulesService {
         return data;
       });
   }
+  getWeatherCarousel(scope, selectedLocation){
+    //Configure HTTP Headers
+    var headers = this.setToken();
+    var callURL = GlobalSettings.getVerticalEnv('-tcxmedia-api.synapsys.us') + "/sidescroll/weather/" + selectedLocation + "/" + scope.toLowerCase();
+    //optional week parameters
+    return this.http.get(callURL, {headers: headers})
+      .map(res => res.json())
+      .map(data => {
+        var output = {scopeList: [], blocks: [], current: {}};
+        if (data.data != null) {
+          output.current['location'] = data.city + ', ' + data.state;
+          output.current['city'] = data.city;
+          output.current['currentCondition'] = data.currentCondition;
+          output.current['currentIcon'] = GlobalSettings.getImageUrl(data.currentIcon);
+          output.current['currentScope'] = data.currentScope;
+          output.current['description'] = "<span class='text-heavy'>Partly cloudy</span> with a chance of meatballs until 12PM CT.";
+          output.current['currentTime'] = moment().format("h:mm A");
+          output.current['currentTemperature'] = ((data.currentTemperature * (9/5)) - 459.67).toFixed(0);
+          output.current['currentLow'] = 79;
+          output.current['state'] = data.state;
+          output.current['zipcode'] = data.zipcode;
+          for (var n = 0; n < data.data.length; n++) {
+            //convert from kelvin to farenheight
+            let x = Number(data.data[n].unixTimestamp);
+            let y = Number((data.data[n].temperature * (9/5)) - 459.67).toFixed(0);
+            output.blocks.push({
+              x: x,
+              y: Number(y)
+            });
+          }
+          output.current['options'] = {
+            chart: {
+              backgroundColor: 'transparent',
+              type: 'area',
+              marginLeft:0,
+              marginRight:0,
+              marginTop:0,
+              marginBottom:0,
+            },
+            title:{
+              text:null
+            },
+            legend: {
+              enabled: false
+            },
+            credits: {
+              enabled: false
+            },
+            xAxis: {
+              visible:false,
+            },
+            yAxis: {
+              visible:false,
+            },
+            tooltip: {
+              enabled:false
+            },
+            plotOptions: {
+                area: {
+                    pointStart: 1940,
+                    fillColor: 'rgba(252, 209, 48, 0.25)',
+                    lineColor: '#ffdf30',
+                    lineWidth: 5,
+                    marker: {
+                        enabled: false,
+                        states: {
+                            hover: {
+                                enabled: false
+                            }
+                        }
+                    },
+                    dataLabels: {
+                        enabled: true,
+                        useHTML:true,
+                        formatter: function () {
+                            return '<span class="weather-graph-text">'+this.y+'&deg;</span';
+                        }
+                    },
+                }
+            },
+            series: [{
+                data: output.blocks,
+          }]
+        };
+          return output;
+        } else { // gracefully error if no data is returned
+          output = {scopeList: [], blocks: [
+            {
+              unixTimestamp: "UH OH!",
+              condition: "ERROR",
+              icon: GlobalSettings.getImageUrl("/weather/icons/sharknado_n.svg")
+            }
+          ], current: {
+            currentCondition: "N/A",
+            currentIcon: GlobalSettings.getImageUrl("/weather/icons/sharknado_n.svg"),
+            currentTemperature: "N/A",
+            currentScope: "",
+            state: "N/A",
+            city: "N/A",
+          }}
+          return output;
+        }
+      })
+  }
 
   //Call made for slider carousel using BoxScore scheduler
   getFinanceData(scope, profile, eventStatus, limit, pageNum, id?){
     //Configure HTTP Headers
     var headers = this.setToken();
-    var callURL = GlobalSettings.getVerticalEnv('-finance-api.synapsys.us') + "/call_controller.php?action=tcx&option=tcx_side_scroll";
+    // var callURL = GlobalSettings.getVerticalEnv('-finance-api.synapsys.us') + "/call_controller.php?action=tcx&option=tcx_side_scroll";
+    var callURL = 'http://dev-finance-api.synapsys.us' + "/call_controller.php?action=tcx&option=tcx_side_scroll";
+
     //optional week parameters
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
@@ -98,7 +206,7 @@ export class SchedulesService {
         for (var i =0; i< data.data.scopeList.length; i++) {
           output.scopeList.push(data.data.scopeList[i].toUpperCase());
         }
-        for (var n =0; n< data.data[scope].length; n++) {
+        for (var n =0; n < data.data[scope].length; n++) {
           data.data[scope][n].currentStockValue = Number(data.data[scope][n].currentStockValue).toFixed(2);
           data.data[scope][n].stockChangeAmount = Number(data.data[scope][n].stockChangeAmount).toFixed(2);
           data.data[scope][n].stockChangePercent = Number(data.data[scope][n].stockChangePercent).toFixed(2);
@@ -139,7 +247,9 @@ export class SchedulesService {
   getWeatherData(scope, selectedLocation){
     //Configure HTTP Headers
     var headers = this.setToken();
-    var callURL = GlobalSettings.getVerticalEnv('-tcxmedia-api.synapsys.us') + "/sidescroll/weather/" + selectedLocation + "/" + scope.toLowerCase();
+    // var callURL = GlobalSettings.getVerticalEnv('-tcxmedia-api.synapsys.us') + "/sidescroll/weather/" + selectedLocation + "/" + scope.toLowerCase();
+    var callURL = 'http://dev-tcxmedia-api.synapsys.us' + "/sidescroll/weather/" + selectedLocation + "/" + scope.toLowerCase();
+
     //optional week parameters
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
@@ -162,17 +272,18 @@ export class SchedulesService {
               condition: output.current['currentCondition']
             }
           );
-          for (var n =0; n< data.data.length; n++) {
+          for (var n =0; n < data.data.length; n++) {
             data.data[n]['eos'] = "false";
             data.data[n]['icon'] = GlobalSettings.getImageUrl(data.data[n]['icon']);
             //convert from kelvin to farenheight
+            var offset = Intl.DateTimeFormat().resolvedOptions().timeZone;
             if (scope.toLowerCase() == "hourly") {
-              data.data[n].unixTimestamp = moment.unix(data.data[n].unixTimestamp).format("h:mm A") + " CT";
+              data.data[n].unixTimestamp = moment.unix(data.data[n].unixTimestamp).tz(offset).format("h:mm A z");
               data.data[n].temperature  = ((data.data[n].temperature * (9/5)) - 459.67).toFixed(0) + "&deg;";
 
             }
             else {
-              data.data[n].unixTimestamp = moment.unix(data.data[n].unixTimestamp).format("MMMM DD, YYYY");
+              data.data[n].unixTimestamp = moment.unix(data.data[n].unixTimestamp).format("dddd MMMM DD, YYYY");
               data.data[n].temperature  = ((data.data[n].temperatureHigh * (9/5)) - 459.67).toFixed(0) + "&deg; <span class='small-temp'>/ " + ((data.data[n].temperatureLow * (9/5)) - 459.67).toFixed(0) + "&deg;</span>";
             }
             output.blocks.push(data.data[n]);
@@ -211,7 +322,9 @@ export class SchedulesService {
   getBasketballSchedule(scope, profile, eventStatus, limit, pageNum, id?){
     //Configure HTTP Headers
     var headers = this.setToken();
-    var callURL = GlobalSettings.getVerticalEnv('-sports-api.synapsys.us') + "/NBAHoops/call_controller.php?scope=" + scope.toLowerCase() + "&action=tcx&option=tcx_side_scroll&perPage=50&pageNum=1";
+    // var callURL = GlobalSettings.getVerticalEnv('-sports-api.synapsys.us') + "/NBAHoops/call_controller.php?scope=" + scope.toLowerCase() + "&action=tcx&option=tcx_side_scroll&perPage=50&pageNum=1";
+    var callURL = 'http://dev-sports-api.synapsys.us' + "/NBAHoops/call_controller.php?scope=" + scope.toLowerCase() + "&action=tcx&option=tcx_side_scroll&perPage=50&pageNum=1";
+
     //optional week parameters
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
@@ -239,8 +352,9 @@ export class SchedulesService {
               default:
                   data.data.data[n].reportDisplay = "GAME REPORT";
           }
-          let date = moment(Number(data.data.data[n].startTime)).tz('America/New_York').format('MMMM D, YYYY');
-          let time = moment(Number(data.data.data[n].startTime)).tz('America/New_York').format('h:mm A z');
+          var offset = Intl.DateTimeFormat().resolvedOptions().timeZone;
+          let date = moment(Number(data.data.data[n].startTime)).tz(offset).format('dddd MMM D, YYYY');
+          let time = moment(Number(data.data.data[n].startTime)).tz(offset).format('h:mm A z');
           data.data.data[n].date = date + " &bull; " + time;
           data.data.data[n].homeTeamName = data.data.data[n].lastNameHome;
           data.data.data[n].awayTeamName = data.data.data[n].lastNameAway;
@@ -293,7 +407,9 @@ export class SchedulesService {
   getBaseballSchedule(scope, profile, eventStatus, limit, pageNum, id?){
     //Configure HTTP Headers
     var headers = this.setToken();
-    var callURL = GlobalSettings.getVerticalEnv('-homerunloyal-api.synapsys.us') + "/tcx/league/schedule/pre-event/50/1";
+    // var callURL = GlobalSettings.getVerticalEnv('-homerunloyal-api.synapsys.us') + "/tcx/league/schedule/pre-event/50/1";
+    var callURL = 'http://dev-homerunloyal-api.synapsys.us' + "/tcx/league/schedule/pre-event/50/1";
+
     //optional week parameters
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
@@ -319,8 +435,9 @@ export class SchedulesService {
               default:
                   data.data[n].reportDisplay = "GAME REPORT";
           }
-          let date = moment(Number(data.data[n].eventDate)).tz('America/New_York').format('MMMM D, YYYY');
-          let time = moment(Number(data.data[n].eventDate)).tz('America/New_York').format('h:mm A z');
+          var offset = Intl.DateTimeFormat().resolvedOptions().timeZone;
+          let date = moment(Number(data.data[n].eventDate)).tz(offset).format('dddd MMM D, YYYY');
+          let time = moment(Number(data.data[n].eventDate)).tz(offset).format('h:mm A z');
           data.data[n].date = date + " &bull; " + time;
           data.data[n].homeTeamName = data.data[n].lastNameHome;
           data.data[n].awayTeamName = data.data[n].lastNameAway;
@@ -421,7 +538,8 @@ export class SchedulesService {
   callLocationAutocomplete(query){
     //Configure HTTP Headers
     var headers = this.setToken();
-    var callURL = GlobalSettings.getVerticalEnv('-tcxmedia-api.synapsys.us') + "/sidescroll/weather/availableLocations/" + query;
+    //var callURL = GlobalSettings.getVerticalEnv('-tcxmedia-api.synapsys.us') + "/sidescroll/weather/availableLocations/" + query;
+    var callURL = 'http://dev-tcxmedia-api.synapsys.us' + "/sidescroll/weather/availableLocations/" + query;
     //optional week parameters
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
@@ -463,11 +581,20 @@ export class SchedulesService {
           reportText = 'POST GAME REPORT';
         }
       }
-
-      let date = moment(Number(val.eventStartTime)).tz('America/New_York').format('MMMM D, YYYY');
-      let time = moment(Number(val.eventStartTime)).tz('America/New_York').format('h:mm A z');
+      var offset = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      let date = moment(Number(val.eventStartTime)).tz(offset).format('dddd MMM D, YYYY');
+      let time = moment(Number(val.eventStartTime)).tz(offset).format('h:mm A z');
       let team1FullName = val.team1FullName;
       let team2FullName = val.team2FullName;
+
+      let team1FBSName = val.team1Abbreviation + " " + team1FullName.replace(val.team1Market+" ",'');
+      let team2FBSName = val.team2Abbreviation + " " + team2FullName.replace(val.team2Market+" ",'');
+      if (team1FBSName.length > 13) {
+        team1FBSName = val.team1Abbreviation;
+      }
+      if (team2FBSName.length > 13) {
+        team2FBSName = val.team2Abbreviation;
+      }
 
       newData = {
         date: date + " &bull; " + time,
@@ -489,8 +616,8 @@ export class SchedulesService {
             hoverText: "<p>View</p> Profile"
           }
         },
-        awayTeamName: scope =='fbs' ? val.team2Abbreviation: team2FullName.replace(val.team2Market+" ",''),
-        homeTeamName: scope =='fbs' ? val.team1Abbreviation: team1FullName.replace(val.team1Market+" ",''),
+        awayTeamName: scope =='ncaaf' ? team2FBSName: team2FullName.replace(val.team2Market+" ",''),
+        homeTeamName: scope =='ncaaf' ? team1FBSName: team1FullName.replace(val.team1Market+" ",''),
         awayLink: GlobalSettings.getOffsiteLink("nfl", scope + "/team/" + val.team2FullName + "/" + val.team2Id),
         homeLink: GlobalSettings.getOffsiteLink("nfl", scope + "/team/" + val.team1FullName + "/" + val.team1Id),
         reportDisplay: reportText,

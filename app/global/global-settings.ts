@@ -7,7 +7,7 @@ export class GlobalSettings {
 
     private static _newsUrl:string = 'newsapi.synapsys.us';
 
-    private static _apiUrl:string = '-tcxmedia-api.synapsys.us/tcx';
+    private static _apiUrl:string = '-tcxmedia-api.synapsys.us';
     private static _articleUrl:string = '-tcxmedia-ai.synapsys.us/tcx';
 
     private static _partnerApiUrl: string = 'apireal.synapsys.us/listhuv/?action=get_partner_data&domain=';
@@ -66,11 +66,12 @@ export class GlobalSettings {
       var category = {
         //BELOW are categories SNTMedia actually has Verticals built specifically for that category
         'nfl':{
+          parentScope: 'sports',
           scope:'nfl',
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'football',
           displayName: 'football',
-          verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
+          verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us') + '/tcx',
           aiApi:this.getVerticalEnv('-touchdownloyal-ai.synapsys.us'),
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
@@ -80,15 +81,16 @@ export class GlobalSettings {
           pageType: 1,
           searchTitle:'Discover The Latest In',
           searchSubTitle:"Find the players and teams you love",
-            placeHolderText:'Search for a Team or a Player...'
-
+          placeHolderText:'Search for a Team or a Player...',
+          searchBackground:"../app/public/Sports_Search-Module-Image.jpg"
         },
         'ncaaf':{
+          parentScope: 'sports',
           scope:'ncaaf',
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'football',
           displayName: 'football',
-          verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
+          verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us') + '/tcx',
           aiApi:this.getVerticalEnv('-touchdownloyal-ai.synapsys.us'),
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
@@ -96,15 +98,18 @@ export class GlobalSettings {
           showSFTopNav: true,
           icon:'fa-tdl-football',
           pageType: 1,
-            searchTitle:'Discover The Latest In',
-            searchSubTitle:"Find the players and teams you love",
+          searchTitle:'Discover The Latest In',
+          searchSubTitle:"Find the players and teams you love",
+          placeHolderText:'Search for a Team or a Player...',
+          searchBackground:"../app/public/Sports_Search-Module-Image.jpg"
         },
         'mlb':{
+          parentScope: 'sports',
           scope:'mlb',
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'baseball',
           displayName: 'baseball',
-          verticalApi: this.getVerticalEnv('-homerunloyal-api.synapsys.us'),
+          verticalApi: this.getVerticalEnv('-homerunloyal-api.synapsys.us') + '/tcx',
           aiApi:this.getVerticalEnv('-homerunloyal-ai.synapsys.us'),
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
@@ -112,16 +117,18 @@ export class GlobalSettings {
           showSFTopNav: true,
           icon:'fa-strikeouts-01',
           pageType: 1,
-            searchTitle:'Discover The Latest In',
-            searchSubTitle:"Find the players and teams you love",
-            placeHolderText:'Search for a Team or a Player...'
+          searchTitle:'Discover The Latest In',
+          searchSubTitle:"Find the players and teams you love",
+          placeHolderText:'Search for a Team or a Player...',
+          searchBackground:"../app/public/Sports_Search-Module-Image.jpg"
         },
         'nba':{
+          parentScope: 'sports',
           scope:'nba',
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'basketball',
           displayName: 'basketball',
-          verticalApi: this.getVerticalEnv('-sports-api.synapsys.us'),
+          verticalApi: this.getApiUrl() + '/tcx',
           aiApi:this.getVerticalEnv('-sports-ai'),
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
@@ -129,11 +136,13 @@ export class GlobalSettings {
           showSFTopNav: true,
           icon:'fa-dribble',
           pageType: 1,
-            searchTitle:'Discover The Latest In',
-            searchSubTitle:"Find the players and teams you love",
-            placeHolderText:'Search for a Team or a Player...'
+          searchTitle:'Discover The Latest In',
+          searchSubTitle:"Find the players and teams you love",
+          placeHolderText:'Search for a Team or a Player...',
+          searchBackground:"../app/public/Sports_Search-Module-Image.jpg"
         },
         'ncaam':{
+          parentScope: 'sports',
           scope:'ncaam',
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope:'basketball',
@@ -146,14 +155,16 @@ export class GlobalSettings {
           showSFTopNav: true,
           icon:'fa-dribble',
           pageType: 1,
-            searchTitle:'Discover The Latest In',
-            searchSubTitle:"Find the players and teams you love",
-            placeHolderText:'Search for a Team or a Player...'
+          searchTitle:'Discover The Latest In',
+          searchSubTitle:"Find the players and teams you love",
+          placeHolderText:'Search for a Team or a Player...',
+          searchBackground:"../app/public/Sports_Search-Module-Image.jpg"
         },
         'business':{
+          parentScope: null,
           scope:'all',
           scopeList: ["AMEX", "NYSE", "NASDAQ", "ALL"],
-          topScope: 'finance',
+          topScope: 'business',
           displayName: 'business',
           verticalApi: this.getVerticalEnv('-finance-api.synapsys.us'),
           aiApi: null,
@@ -162,11 +173,13 @@ export class GlobalSettings {
           showBoxScores:false,
           icon:'fa-fontawesome-webfont-3',
           pageType: 2,
-            searchTitle:'Discover Your Next Investment',
-            searchSubTitle:"Find the stocks you can invest in right in your neighborhood",
-            placeHolderText:'Search for a Company, Executive or DMA'
+          searchTitle:'Discover Your Next Investment',
+          searchSubTitle:"Find the stocks you can invest in right in your neighborhood",
+          placeHolderText:'Search for a Company, Executive or DMA',
+          searchBackground:"../app/public/Finance_Search-Module-Image.jpg"
         },
         'real-estate':{
+          parentScope: null,
           scope:'real-estate',
           topScope: 'real-estate',
           displayName: 'realestate',
@@ -177,19 +190,21 @@ export class GlobalSettings {
           showBoxScores:false,
           icon:'fa-home-1',
           pageType: 2,
-            searchTitle:'Discover Homes For Sale In Your Area',
-            searchSubTitle:" ",
-            placeHolderText:'Search for a location or address...'
+          searchTitle:'Discover Homes For Sale In Your Area',
+          searchSubTitle:" ",
+          placeHolderText:'Search for a location or address...',
+          searchBackground:"../app/public/Real-Estate_Search-Module-Image.jpg"
         },
         //ABOVE are categories SNTMedia actually has Verticals built specifically for that category
 
         //BELOW are categories SNTMedia do no have specific verticals for therefore will not have anything linking to a category specific site
         'sports':{
+          parentScope: null,
           scope:'sports',
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'sports',
           displayName: 'sports',
-          verticalApi: null,
+          verticalApi: this.getApiUrl() + '/tcx',
           aiApi: null,
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
@@ -197,12 +212,9 @@ export class GlobalSettings {
           showSFTopNav: true,
           icon:'fa-futbol-o',
           pageType: 1,
-            searchTitle:'Discover The Latest In',
-            searchSubTitle:"Find the players and teams you love",
-            placeHolderText:'Search for a Team or a Player...'
-
         },
         'weather':{
+          parentScope: null,
           scope:'hourly',
           scopeList: ["10 Day", "5 Day", "Hourly"],
           topScope: 'weather',
@@ -216,6 +228,7 @@ export class GlobalSettings {
           pageType: 2
         },
         'trending':{
+          parentScope: null,
           scope:'trending',
           topScope: 'trending',
           displayName: 'trending',
@@ -228,6 +241,7 @@ export class GlobalSettings {
           pageType: 3
         },
         'breaking':{
+          parentScope: null,
           scope:'breaking',
           topScope: 'breaking',
           displayName: 'breaking',
@@ -240,6 +254,7 @@ export class GlobalSettings {
           pageType: 3
         },
         'entertainment':{
+          parentScope: null,
           scope:'all',
           scopeList: ["Celebrities", "Music", "Movies", "TV", "All"],
           topScope: 'entertainment',
@@ -254,6 +269,7 @@ export class GlobalSettings {
           pageType: 3
         },
         'tv':{
+          parentScope: 'entertainment',
           scope:'tv',
           scopeList: ["Celebrities", "Music", "Movies", "TV", "All"],
           topScope: 'entertainment',
@@ -268,6 +284,7 @@ export class GlobalSettings {
           pageType: 3
         },
         'movies':{
+          parentScope: 'entertainment',
           scope:'movies',
           scopeList: ["Celebrities", "Music", "Movies", "TV", "All"],
           topScope: 'entertainment',
@@ -282,6 +299,7 @@ export class GlobalSettings {
           pageType: 3
         },
         'music':{
+          parentScope: 'entertainment',
           scope:'music',
           scopeList: ["Celebrities", "Music", "Movies", "TV", "All"],
           topScope: 'entertainment',
@@ -296,6 +314,7 @@ export class GlobalSettings {
           pageType: 3
         },
         'celebrities':{
+          parentScope: 'entertainment',
           scope:'celebrities',
           scopeList: ["Celebrities", "Music", "Movies", "TV", "All"],
           topScope: 'entertainment',
@@ -310,6 +329,7 @@ export class GlobalSettings {
           pageType: 3
         },
         'lifestyle':{
+          parentScope: null,
           scope:'lifestyle',
           topScope: 'lifestyle',
           displayName: 'lifestyle',
@@ -322,6 +342,7 @@ export class GlobalSettings {
           pageType: 3
         },
         'food':{
+          parentScope: null,
           scope:'food',
           topScope: 'food',
           displayName: 'food',
@@ -334,6 +355,7 @@ export class GlobalSettings {
           pageType: 3
         },
         'travel':{
+          parentScope: null,
           scope:'travel',
           topScope: 'travel',
           displayName: 'travel',
@@ -346,6 +368,7 @@ export class GlobalSettings {
           pageType: 3
         },
         'politics':{
+          parentScope: null,
           scope:'politics',
           topScope: 'politics',
           displayName: 'politics',
@@ -358,6 +381,7 @@ export class GlobalSettings {
           pageType: 3
         },
         'health':{
+          parentScope: null,
           scope:'health',
           topScope: 'health',
           displayName: 'health',
@@ -370,6 +394,7 @@ export class GlobalSettings {
           pageType: 3
         },
         'automotive':{
+          parentScope: null,
           scope:'automotive',
           topScope: 'automotive',
           displayName: 'automotive',
@@ -382,6 +407,7 @@ export class GlobalSettings {
           pageType: 3
         },
         'all':{
+          parentScope: null,
           scope:'deep-dive',
           topScope: null,
           displayName: null,
@@ -486,7 +512,7 @@ export class GlobalSettings {
           }
           break;
         //REALESTATE URL
-        case 'realestate':
+        case 'real-estate':
           if (partnerCode != null) {
             link = "http://myhousekit.com/" + partnerCode + "/" + relativeUrl;
           }

@@ -22,6 +22,7 @@ import { CircleImage } from "../fe-core/components/images/circle-image/circle-im
 import { HoverImage } from "../fe-core/components/images/hover-image";
 import { ImagesMedia } from "../fe-core/components/carousels/images-media-carousel/images-media-carousel.component";
 import { CircleButton } from "../fe-core/components/buttons/circle/circle.button";
+import { ResponsiveWidget } from "../fe-core/components/responsive-widget/responsive-widget.component";
 
 import { ModuleHeader } from "../fe-core/components/module-header/module-header.component";
 import { FooterComponent } from "../fe-core/components/footer/footer.component";
@@ -90,7 +91,8 @@ import {ArticleSearchBar} from "../fe-core/components/search-bar-article/search-
       DeepDiveRecommendation,
       InputBar,
       ArticleSearchBar,
-      BillboardModule
+      BillboardModule,
+      ResponsiveWidget
     ],
     exports: [
       SectionFrontTopNav,
@@ -122,7 +124,8 @@ import {ArticleSearchBar} from "../fe-core/components/search-bar-article/search-
       DeepDiveRecommendation,
       InputBar,
       ArticleSearchBar,
-      BillboardModule
+      BillboardModule,
+      ResponsiveWidget
     ],
     providers: [
       VerticalGlobalFunctions,

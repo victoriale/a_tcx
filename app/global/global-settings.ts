@@ -66,6 +66,7 @@ export class GlobalSettings {
       var category = {
         //BELOW are categories SNTMedia actually has Verticals built specifically for that category
         'nfl':{
+          parentScope: 'sports',
           scope:'nfl',
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'football',
@@ -84,6 +85,7 @@ export class GlobalSettings {
           searchBackground:"../app/public/Sports_Search-Module-Image.jpg"
         },
         'ncaaf':{
+          parentScope: 'sports',
           scope:'ncaaf',
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'football',
@@ -102,6 +104,7 @@ export class GlobalSettings {
           searchBackground:"../app/public/Sports_Search-Module-Image.jpg"
         },
         'mlb':{
+          parentScope: 'sports',
           scope:'mlb',
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'baseball',
@@ -120,6 +123,7 @@ export class GlobalSettings {
           searchBackground:"../app/public/Sports_Search-Module-Image.jpg"
         },
         'nba':{
+          parentScope: 'sports',
           scope:'nba',
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'basketball',
@@ -138,6 +142,7 @@ export class GlobalSettings {
           searchBackground:"../app/public/Sports_Search-Module-Image.jpg"
         },
         'ncaam':{
+          parentScope: 'sports',
           scope:'ncaam',
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope:'basketball',
@@ -156,9 +161,10 @@ export class GlobalSettings {
           searchBackground:"../app/public/Sports_Search-Module-Image.jpg"
         },
         'business':{
+          parentScope: null,
           scope:'all',
           scopeList: ["AMEX", "NYSE", "NASDAQ", "ALL"],
-          topScope: 'finance',
+          topScope: 'business',
           displayName: 'business',
           verticalApi: this.getVerticalEnv('-finance-api.synapsys.us'),
           aiApi: null,
@@ -173,6 +179,7 @@ export class GlobalSettings {
           searchBackground:"../app/public/Finance_Search-Module-Image.jpg"
         },
         'real-estate':{
+          parentScope: null,
           scope:'real-estate',
           topScope: 'real-estate',
           displayName: 'realestate',
@@ -192,6 +199,7 @@ export class GlobalSettings {
 
         //BELOW are categories SNTMedia do no have specific verticals for therefore will not have anything linking to a category specific site
         'sports':{
+          parentScope: null,
           scope:'sports',
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'sports',
@@ -206,6 +214,7 @@ export class GlobalSettings {
           pageType: 1,
         },
         'weather':{
+          parentScope: null,
           scope:'hourly',
           scopeList: ["10 Day", "5 Day", "Hourly"],
           topScope: 'weather',
@@ -219,6 +228,7 @@ export class GlobalSettings {
           pageType: 2
         },
         'trending':{
+          parentScope: null,
           scope:'trending',
           topScope: 'trending',
           displayName: 'trending',
@@ -231,6 +241,7 @@ export class GlobalSettings {
           pageType: 3
         },
         'breaking':{
+          parentScope: null,
           scope:'breaking',
           topScope: 'breaking',
           displayName: 'breaking',
@@ -243,6 +254,7 @@ export class GlobalSettings {
           pageType: 3
         },
         'entertainment':{
+          parentScope: null,
           scope:'all',
           scopeList: ["Celebrities", "Music", "Movies", "TV", "All"],
           topScope: 'entertainment',
@@ -257,6 +269,7 @@ export class GlobalSettings {
           pageType: 3
         },
         'tv':{
+          parentScope: 'entertainment',
           scope:'tv',
           scopeList: ["Celebrities", "Music", "Movies", "TV", "All"],
           topScope: 'entertainment',
@@ -271,6 +284,7 @@ export class GlobalSettings {
           pageType: 3
         },
         'movies':{
+          parentScope: 'entertainment',
           scope:'movies',
           scopeList: ["Celebrities", "Music", "Movies", "TV", "All"],
           topScope: 'entertainment',
@@ -285,6 +299,7 @@ export class GlobalSettings {
           pageType: 3
         },
         'music':{
+          parentScope: 'entertainment',
           scope:'music',
           scopeList: ["Celebrities", "Music", "Movies", "TV", "All"],
           topScope: 'entertainment',
@@ -299,6 +314,7 @@ export class GlobalSettings {
           pageType: 3
         },
         'celebrities':{
+          parentScope: 'entertainment',
           scope:'celebrities',
           scopeList: ["Celebrities", "Music", "Movies", "TV", "All"],
           topScope: 'entertainment',
@@ -313,6 +329,7 @@ export class GlobalSettings {
           pageType: 3
         },
         'lifestyle':{
+          parentScope: null,
           scope:'lifestyle',
           topScope: 'lifestyle',
           displayName: 'lifestyle',
@@ -325,6 +342,7 @@ export class GlobalSettings {
           pageType: 3
         },
         'food':{
+          parentScope: null,
           scope:'food',
           topScope: 'food',
           displayName: 'food',
@@ -337,6 +355,7 @@ export class GlobalSettings {
           pageType: 3
         },
         'travel':{
+          parentScope: null,
           scope:'travel',
           topScope: 'travel',
           displayName: 'travel',
@@ -349,6 +368,7 @@ export class GlobalSettings {
           pageType: 3
         },
         'politics':{
+          parentScope: null,
           scope:'politics',
           topScope: 'politics',
           displayName: 'politics',
@@ -361,6 +381,7 @@ export class GlobalSettings {
           pageType: 3
         },
         'health':{
+          parentScope: null,
           scope:'health',
           topScope: 'health',
           displayName: 'health',
@@ -373,6 +394,7 @@ export class GlobalSettings {
           pageType: 3
         },
         'automotive':{
+          parentScope: null,
           scope:'automotive',
           topScope: 'automotive',
           displayName: 'automotive',
@@ -385,6 +407,7 @@ export class GlobalSettings {
           pageType: 3
         },
         'all':{
+          parentScope: null,
           scope:'deep-dive',
           topScope: null,
           displayName: null,

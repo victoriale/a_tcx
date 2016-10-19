@@ -2,6 +2,7 @@
 import {Component} from "@angular/core";
 import {SearchInput} from "../../fe-core/components/search/search.component";
 import {SyndicateArticleData} from "../../fe-core/interfaces/syndicate-article.data";
+import {ActivatedRoute} from "@angular/router";
 @Component({
     selector:"search-page",
     templateUrl:"app/webpages/search-page/search-page.html",
@@ -9,6 +10,17 @@ import {SyndicateArticleData} from "../../fe-core/interfaces/syndicate-article.d
 export class SearchPage{
     pageSearchTitle=" Stay Current With The Latest News";
     pageSearchSubTitle="Search for a Topic or keyword that interests you";
+    paramsub:any;
+    userInput;
+    constructor(private activateRoute:ActivatedRoute){
+        this.paramsub=activateRoute.params.subscribe(
+            (param :any)=> {this.userInput= param['userInput']}
+
+        );
+    }
+    ngOnInit(){
+
+    }
     searchArticlesData:Array<SyndicateArticleData>=[
         {
             isStockPhoto:false,
@@ -97,4 +109,7 @@ export class SearchPage{
             provider:"Provider 5",//provider information
         },
     ];
+    ngOnDestroy(){
+        this.paramsub.unsubscribe();
+    }
 }

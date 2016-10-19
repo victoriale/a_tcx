@@ -116,7 +116,7 @@ export class DeepDiveService {
           timeStamp: date,
           videoThumbnail: val.videoThumbnail ? val.videoThumbnail : sampleImage,
           videoUrl: VerticalGlobalFunctions.formatArticleRoute("sports", val.id, "video", scope),
-          // keyUrl: null
+          teaser: val.teaser,
         }
         videoBatchArray.push(d);
       });

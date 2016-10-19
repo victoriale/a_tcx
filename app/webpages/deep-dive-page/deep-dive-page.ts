@@ -142,7 +142,7 @@ export class DeepDivePage implements OnInit {
       this.getSideScroll();
     }
 
-    private getDataCarousel() {
+    getDataCarousel() {
       this._deepDiveData.getCarouselData('nfl', this.carouselData, '25', '1', 'CA', (carData)=>{
         this.carouselData = carData;
       })
@@ -152,7 +152,7 @@ export class DeepDivePage implements OnInit {
       if(this.topScope != 'weather'){
         this._deepDiveData.getDeepDiveVideoBatchService(this.scope, 1, 1).subscribe(
           data => {
-            this.carouselVideo = [data.data[0]];
+            this.carouselVideo = this._deepDiveData.carouselTransformData([data.data[0]]);
           },
           err => {
             console.log("Error getting video batch data");

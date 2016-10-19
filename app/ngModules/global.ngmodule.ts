@@ -34,6 +34,7 @@ import { SidekickWrapperAI } from "../fe-core/components/sidekick-wrapper-ai/sid
 import { Larousel } from '../fe-core/components/larousel/larousel';
 import { NewsBox } from '../fe-core/components/news-box/news-box';
 import { LineChartComponent } from '../fe-core/components/line-chart/line-chart.component';
+import { InfoComponent } from '../fe-core/components/page-information/page-information.component';
 
 /*** MODULES ***/
 import { BillboardModule } from "../fe-core/modules/billboard/billboard.module";
@@ -41,6 +42,9 @@ import { WidgetCarouselModule } from "../fe-core/modules/widget/widget-carousel.
 import { WidgetModule } from "../fe-core/modules/widget/widget.module";
 import { SearchBoxModule } from "../fe-core/modules/search-box-module/search-box-module.module";
 import { DeepDiveRecommendation } from "../fe-core/modules/deep-dive-recommendation/deep-dive-recommendation.module";
+
+/*** WEBPAGES ***/
+import { AboutUsPage } from "../webpages/aboutus/aboutus";
 
 //Pipes
 import {SanitizeScript, SanitizeHtml, SanitizeRUrl, SanitizeStyle} from "../fe-core/pipes/safe.pipe";
@@ -92,7 +96,9 @@ import {ArticleSearchBar} from "../fe-core/components/search-bar-article/search-
       InputBar,
       ArticleSearchBar,
       BillboardModule,
-      ResponsiveWidget
+      ResponsiveWidget,
+      AboutUsPage,
+      InfoComponent
     ],
     exports: [
       SectionFrontTopNav,
@@ -125,7 +131,9 @@ import {ArticleSearchBar} from "../fe-core/components/search-bar-article/search-
       InputBar,
       ArticleSearchBar,
       BillboardModule,
-      ResponsiveWidget
+      ResponsiveWidget,
+      AboutUsPage,
+      InfoComponent
     ],
     providers: [
       VerticalGlobalFunctions,

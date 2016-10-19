@@ -50,7 +50,7 @@ export class DeepDiveService {
     // if(limit !== null && page !== null){
       callURL += '&count=' + limit + '&page=' + page;
     // }
-    console.log("article url", callURL);
+    // console.log("article url", callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
@@ -103,7 +103,7 @@ export class DeepDiveService {
       data.forEach(function(val, index){
         if(val.time_stamp){
           var date =  moment(Number(val.time_stamp));
-          date = '<span class="hide-320">' + date.format('dddd') + ' </span>' + date.format('MMM') + date.format('. DD, YYYY');
+          date = '<span class="hide-320">' + date.format('dddd') + ', </span>' + date.format('MMM') + date.format('. DD, YYYY');
         }
         var keywords = val.keyword ? val.keyword : scope;
         var d = {
@@ -125,9 +125,9 @@ export class DeepDiveService {
       var sampleImage = "/app/public/placeholder_XL.png";
       var articleStackArray = [];
       data.forEach(function(val, index){
-        if(val.time_stamp){
-          var date =  moment(Number(val.last_updated)*1000);
-          date = '<span class="hide-320">' + date.format('dddd') + ' </span>' + date.format('MMM') + date.format('. DD, YYYY');
+        if(val.last_updated){
+          var date =  moment.unix(Number(val.last_updated));
+          date = '<span class="hide-320">' + date.format('dddd') + ', </span>' + date.format('MMM') + date.format('. DD, YYYY');
         }
         var routeLink;
         if(val.source == "snt_ai"){
@@ -138,7 +138,7 @@ export class DeepDiveService {
         var articleStackData = {
             id: val.article_id,
             articleUrl: '/deep-dive',
-            keyword: val.keywords ? val.keywords[0] : scope.toUpperCase(),
+            keyword: val.keywords ? val.keywords[0] : scope,
             timeStamp: date ? date : "",
             title: val.title ? val.title : "No title available",
             author: val.author ? val.author : "",

@@ -105,30 +105,28 @@ export class VerticalGlobalFunctions {
      return playerRoute ? playerRoute : ['Error-page'];
    }
 
-  static formatSectionFrontRoute(category: string, articleCategory?: string): Array<any> {
+  static formatSectionFrontRoute(category: string): Array<any> {
     var sectionFrontRoute: Array<any>;
-    if (typeof category != 'undefined' || category != null || category != 'all') {
-      if(typeof articleCategory == 'undefined' || articleCategory === null){
-        sectionFrontRoute = ['/deep-dive', category];
-      } else {
-        sectionFrontRoute = ['/deep-dive', category, articleCategory];
-      }
+    if(category === null || typeof GlobalSettings.getTCXscope(category) == "undefined"){
+      return ['/deep-dive'];
+    }
+    if(GlobalSettings.getTCXscope(category).parentScope != null){
+      sectionFrontRoute = ['/deep-dive', GlobalSettings.getTCXscope(category).parentScope, category];
     } else {
-      sectionFrontRoute = ['/deep-dive'];
+      sectionFrontRoute = ['/deep-dive', category];
     }
     return sectionFrontRoute ? sectionFrontRoute : ['Error-page'];
   }
 
-  static formatArticleRoute(category: string, articleID: string, articleType: string, articleCategory?: string): Array<any> {
+  static formatArticleRoute(category: string, articleID: string, articleType: string): Array<any> {
     var articleRoute: Array<any>;
-    if (typeof category != 'undefined' || category != null) {
-      if(typeof articleCategory == 'undefined' || articleCategory === null){
-        articleRoute = ['/deep-dive', category, 'article', articleType, articleID];
-      } else {
-        articleRoute = ['/deep-dive', category, articleCategory, 'article', articleType, articleID];
-      }
+    if(category === null){
+      return ['Error-page'];
+    }
+    if(GlobalSettings.getTCXscope(category).parentScope != null){
+      articleRoute = ['/deep-dive', GlobalSettings.getTCXscope(category).parentScope, category, 'article', articleType, articleID];
     } else {
-      articleRoute = null;
+      articleRoute = ['/deep-dive', category, 'article', articleType, articleID];
     }
     return articleRoute ? articleRoute : ['Error-page'];
   }

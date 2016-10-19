@@ -22,6 +22,7 @@ import { CircleImage } from "../fe-core/components/images/circle-image/circle-im
 import { HoverImage } from "../fe-core/components/images/hover-image";
 import { ImagesMedia } from "../fe-core/components/carousels/images-media-carousel/images-media-carousel.component";
 import { CircleButton } from "../fe-core/components/buttons/circle/circle.button";
+import { ResponsiveWidget } from "../fe-core/components/responsive-widget/responsive-widget.component";
 
 import { ModuleHeader } from "../fe-core/components/module-header/module-header.component";
 import { FooterComponent } from "../fe-core/components/footer/footer.component";
@@ -36,6 +37,7 @@ import { LineChartComponent } from '../fe-core/components/line-chart/line-chart.
 
 /*** MODULES ***/
 import { BillboardModule } from "../fe-core/modules/billboard/billboard.module";
+import { ChatterboxModule } from "../fe-core/modules/chatterbox/chatterbox.module";
 import { WidgetCarouselModule } from "../fe-core/modules/widget/widget-carousel.module";
 import { WidgetModule } from "../fe-core/modules/widget/widget.module";
 import { SearchBoxModule } from "../fe-core/modules/search-box-module/search-box-module.module";
@@ -90,7 +92,9 @@ import {ArticleSearchBar} from "../fe-core/components/search-bar-article/search-
       DeepDiveRecommendation,
       InputBar,
       ArticleSearchBar,
-      BillboardModule
+      BillboardModule,
+      ChatterboxModule,
+      ResponsiveWidget
     ],
     exports: [
       SectionFrontTopNav,
@@ -122,7 +126,9 @@ import {ArticleSearchBar} from "../fe-core/components/search-bar-article/search-
       DeepDiveRecommendation,
       InputBar,
       ArticleSearchBar,
-      BillboardModule
+      BillboardModule,
+      ChatterboxModule,
+      ResponsiveWidget
     ],
     providers: [
       VerticalGlobalFunctions,

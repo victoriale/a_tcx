@@ -11,7 +11,7 @@ declare var moment;
 
 @Injectable()
 export class DeepDiveService {
-  // private _footballAPI: string = "http://dev-touchdownloyal-api.synapsys.us/tcx/";
+  private _footballAPI: string = "http://dev-touchdownloyal-api.synapsys.us/tcx/";
   constructor(public http: Http){}
 
   //Function to set custom headers
@@ -19,17 +19,17 @@ export class DeepDiveService {
       var headers = new Headers();
       return headers;
   }
-  //
-  // getDeepDiveArticleService(articleID){
-  // //Configure HTTP Headers
-  // var headers = this.setToken();
-  // var callURL = this._footballAPI + '/article/' + articleID;//TODO
-  // return this.http.get(callURL, {headers: headers})
-  //   .map(res => res.json())
-  //   .map(data => {
-  //     return data;
-  //   })
-  // }
+
+  getDeepDiveArticleService(articleID){
+  //Configure HTTP Headers
+  var headers = this.setToken();
+  var callURL = this._footballAPI + '/article/' + articleID;//TODO
+  return this.http.get(callURL, {headers: headers})
+    .map(res => res.json())
+    .map(data => {
+      return data;
+    })
+  }
 
   // getDeepDiveBatchService(category: string, limit: number, page: number, state?: string){
   //   var headers = this.setToken();
@@ -119,7 +119,6 @@ export class DeepDiveService {
   }// getDeepDiveVideoBatchService ENDS
 
     transformSportVideoBatchData(data: Array<VideoStackData>, scope?){
-      console.log("scope video", scope);
       var sampleImage = "/app/public/placeholder_XL.png";
       var videoBatchArray = [];
       scope = scope ? scope : "sports";
@@ -136,7 +135,7 @@ export class DeepDiveService {
           time_stamp: date ? date : "",
           video_thumbnail: val.video_thumbnail ? val.video_thumbnail : sampleImage,
           video_url: VerticalGlobalFunctions.formatArticleRoute(scope, val.id, "video"),
-          keyUrl: VerticalGlobalFunctions.formatSectionFrontRoute(keywords) 
+          keyUrl: VerticalGlobalFunctions.formatSectionFrontRoute(keywords)
         }
         videoBatchArray.push(d);
       });

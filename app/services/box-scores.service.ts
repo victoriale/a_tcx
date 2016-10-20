@@ -124,9 +124,21 @@ export class BoxScoresService {
   getBoxScoresService(scope, date, teamId?){
     var headers = this.setToken();
     let chosenDate = date;
+    var callURL;
     // console.log('3. box-scores.service - getBoxScoresService - chosenDate ', chosenDate);
-
-    var callURL = GlobalSettings.getTCXscope(scope).verticalApi + '/tcx' +'/boxScores/league/'+scope+'/'+date+'/addAi';
+    switch(scope){
+      case 'ncaab':
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/NBAHoops/call_controller.php?scope=ncaa&action=tcx&option=tcx_box_scores&date='+date;
+      break;
+      case 'ncaam':
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/NBAHoops/call_controller.php?scope=nba&action=tcx&option=tcx_box_scores&date='+date;
+      break;
+      default:
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/boxScores/league/'+scope+'/'+date+'/addAi';
+      break;
+      //http://dev-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=ncaa&action=tcx&option=tcx_box_scores&date=2017-12-03
+    }
+    console.log(callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
@@ -135,7 +147,9 @@ export class BoxScoresService {
         return {
           transformedDate: transformedDate.data,
           aiContent: transformedDate.aiContent,
-          date: chosenDate
+          date: chosenDate,
+          nextGameDate:transformedDate.nextGameDate,
+          previousGameDate:transformedDate.previousGameDate,
         }
       })
   } //getBoxScoresService
@@ -222,7 +236,7 @@ export class BoxScoresService {
       nextGameDate: data.nextGameDate,
       data: newBoxScores
     };
-    
+
     return transformedData;
   }
 
@@ -242,7 +256,6 @@ export class BoxScoresService {
     // }else{
     //   scopedDateParam = dateParam;
     // }
-
     if ( boxScoresData == null || boxScoresData.transformedDate[scopedDateParam.date] == null ) {
       this.getBoxScoresService(scopedDateParam.scope, scopedDateParam.date)
         .subscribe(data => {
@@ -251,9 +264,14 @@ export class BoxScoresService {
               moduleTitle: this.moduleHeader(data.date, profileName),
               gameInfo: this.formatGameInfo(data.transformedDate[data.date],scopedDateParam.teamId, scopedDateParam.profile),
               // schedule: data.transformedDate[data.date] != null ? this.formatSchedule(data.transformedDate[data.date][0], scopedDateParam.scope, scopedDateParam.profile) : null, //UNUSED IN TCX
-              aiContent: data.aiContent != null ? this.aiHeadLine(data.aiContent, scopedDateParam.scope) : null //TODO
+              aiContent: data.aiContent != null ? this.aiHeadLine(data.aiContent, scopedDateParam.scope) : null, //TODO
+              nextGameDate:data.nextGameDate,
+              previousGameDate:data.previousGameDate,
             };
             currentBoxScores = currentBoxScores.gameInfo != null ? currentBoxScores :null;
+            callback(data, currentBoxScores);
+          }else{//if initial day fails then recall data
+            let currentBoxScores = null;
             callback(data, currentBoxScores);
           }
         }) //subscribe
@@ -264,7 +282,9 @@ export class BoxScoresService {
           moduleTitle: this.moduleHeader(dateParam.date, profileName),
           gameInfo: this.formatGameInfo(boxScoresData.transformedDate[dateParam.date],dateParam.teamId, dateParam.profile),
           // schedule: dateParam.profile != 'league' && boxScoresData.transformedDate[dateParam.date] != null? this.formatSchedule(boxScoresData.transformedDate[dateParam.date][0], dateParam.teamId, dateParam.profile) : null, //UNUSED IN TCX
-          aiContent: boxScoresData.aiContent != null ? this.aiHeadLine(boxScoresData.aiContent, scopedDateParam.scope) : null //TODO
+          aiContent: boxScoresData.aiContent != null ? this.aiHeadLine(boxScoresData.aiContent, scopedDateParam.scope) : null, //TODO
+          nextGameDate:boxScoresData.nextGameDate,
+          previousGameDate:boxScoresData.previousGameDate,
         };
 
         currentBoxScores = currentBoxScores.gameInfo != null ? currentBoxScores :null;
@@ -337,8 +357,18 @@ export class BoxScoresService {
   weekCarousel(scope, date, teamId?) {
     //Configure HTTP Headers
     var headers = this.setToken();
-
-    var callURL = GlobalSettings.getTCXscope(scope).verticalApi + '/league/gameDatesWeekly/'+scope+'/'+date; //TODO when TCX API is sestup
+    var callURL;
+    switch(scope){
+      case 'ncaab':
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/NBAHoops/call_controller.php?scope=ncaa&action=tcx&option=tcx_game_dates_weekly&date='+date;
+      break;
+      case 'ncaam':
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/NBAHoops/call_controller.php?scope=nba&action=tcx&option=tcx_game_dates_weekly&date='+date;
+      break;
+      default:
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi + '/league/gameDatesWeekly/'+scope+'/'+date; //TODO when TCX API is sestup
+      break;
+    }
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
@@ -358,7 +388,19 @@ export class BoxScoresService {
     //   profile = 'team'
     // }
 
-    var callURL = GlobalSettings.getTCXscope(scope).verticalApi + '/league/gameDates/'+scope+'/'+ date; //TODO when TCX API is sestup //localToEST needs tobe the date coming in AS UNIX
+    var callURL;
+    switch(scope){
+      case 'ncaab':
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/NBAHoops/call_controller.php?scope=ncaa&action=tcx&option=tcx_game_dates_monthly&date='+date;
+      break;
+      case 'ncaam':
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/NBAHoops/call_controller.php?scope=nba&action=tcx&option=tcx_game_dates_monthly&date='+date;
+      break;
+      default:
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi + '/league/gameDates/'+scope+'/'+date; //TODO when TCX API is sestup
+      break;
+    }
+
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {

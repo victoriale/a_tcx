@@ -98,7 +98,7 @@ import {ArticleSearchBar} from "../fe-core/components/search-bar-article/search-
       ArticleSearchBar,
       BillboardModule,
       AboutUsPage,
-      InfoComponent
+      InfoComponent,
       ChatterboxModule,
       ResponsiveWidget
     ],
@@ -134,7 +134,7 @@ import {ArticleSearchBar} from "../fe-core/components/search-bar-article/search-
       ArticleSearchBar,
       BillboardModule,
       AboutUsPage,
-      InfoComponent
+      InfoComponent,
       ChatterboxModule,
       ResponsiveWidget
     ],

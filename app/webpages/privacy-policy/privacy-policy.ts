@@ -17,6 +17,9 @@ export class PrivacyPolicy implements OnInit{
         },{
             subHeader: "sub header 2",
             info: ['Duis aute irure dolor in reprehender velit esse cillum dolore eu fugiat nulla pariatur. Excepteur roident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error doloremque laudantium, totam rem aperiam, eaque ipsa qua architecto beatae vitae d', 'START HERE omnis iste natus error doloremque laudantium, totam rem aperiam, eaque ipsa qua architecto beatae vitae d']
+        },{
+            subHeader: "sub header 3",
+            info: ['Duis aute irure dolor in reprehender velit esse cillum dolore eu fugiat nulla pariatur. Excepteur roident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error doloremque laudantium, totam rem aperiam, eaque ipsa qua architecto beatae vitae d', 'START HERE omnis iste natus error doloremque laudantium, totam rem aperiam, eaque ipsa qua architecto beatae vitae d', 'Duis aute irure dolor in reprehender velit esse cillum dolore eu fugiat nulla pariatur.']
         },
       ]
     }

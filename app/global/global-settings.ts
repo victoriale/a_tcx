@@ -27,8 +27,9 @@ export class GlobalSettings {
     private static _partnerHomepageLinkName:string = 'tcxzone';
 
     //links from our share providers that do not change
-    private static _siteTwitterUrl:string = 'https://twitter.com/touchdownloyal';
-    private static _siteFacebookUrl:string = 'https://www.facebook.com/touchdownloyal';
+    private static _siteTwitterUrl:string = 'https://twitter.com/home?status=';
+    private static _siteFacebookUrl:string = 'https://www.facebook.com/sharer/sharer.php?u=';
+    private static _siteLinkedinUrl:string = 'https://www.linkedin.com/shareArticle?mini=true&url=&title=&summary=&source=';
     private static _siteGoogleUrl:string = 'https://plus.google.com/share?url=';
 
     //base titles that will be used to displayed different when on white labeled partner domains
@@ -673,14 +674,17 @@ export class GlobalSettings {
     static getCopyrightInfo() {
         return this._copyrightInfo;
     }
-    static getSiteTwitterUrl() {
-      return this._siteTwitterUrl;
+    static getSiteTwitterUrl(shareUrl: string) {
+      return this._siteTwitterUrl + shareUrl;
     }
-    static getSiteFacebookUrl() {
-      return this._siteFacebookUrl;
+    static getSiteFacebookUrl(shareUrl: string) {
+      return this._siteFacebookUrl + shareUrl;
     }
-    static getSiteGoogleUrl(partnerId: string) {
-      return this._siteGoogleUrl + this.getHomePage(partnerId);
+    static getLinkedInUrl(shareUrl: string) {
+      return this._siteLinkedinUrl + shareUrl;
+	  }
+    static getSiteGoogleUrl(shareUrl: string) {
+      return this._siteGoogleUrl + shareUrl;
 	  }
 
     static getEstYear() {

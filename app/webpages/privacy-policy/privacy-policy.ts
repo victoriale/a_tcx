@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'about-us-page',
-  templateUrl: 'app/webpages/aboutus/aboutus.html',
+  selector: 'privacy-policy',
+  templateUrl: 'app/webpages/privacy-policy/privacy-policy.html',
 })
 
-export class AboutUsPage implements OnInit{
+export class PrivacyPolicy implements OnInit{
   aboutUsData: any;
   ngOnInit(){
     this.aboutUsData = {
-      title: "About Us",
+      title: "Privacy Policy",
       lastUpdated: "Last Updated On: Oct. 19, 2016<span class='hide-320'> at 3:19PM ET</span>",
       paragraph: [{
           subHeader: "sub header 1",
@@ -19,9 +19,6 @@ export class AboutUsPage implements OnInit{
             info: ['Duis aute irure dolor in reprehender velit esse cillum dolore eu fugiat nulla pariatur. Excepteur roident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error doloremque laudantium, totam rem aperiam, eaque ipsa qua architecto beatae vitae d', 'START HERE omnis iste natus error doloremque laudantium, totam rem aperiam, eaque ipsa qua architecto beatae vitae d']
         },{
             subHeader: "sub header 3",
-            info: ['Duis aute irure dolor in reprehender velit esse cillum dolore eu fugiat nulla pariatur. Excepteur roident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error doloremque laudantium, totam rem aperiam, eaque ipsa qua architecto beatae vitae d', 'START HERE omnis iste natus error doloremque laudantium, totam rem aperiam, eaque ipsa qua architecto beatae vitae d', 'u fugiat nulla pariatur. Excepteur roident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error doloremque laudantium, totam rem aperiam, eaque ipsa', 'u fugiat nuleur roident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error doloremque laudantium, totam rem aperiam, eaque ipsa']
-        },{
-            subHeader: "sub header 4",
             info: ['Duis aute irure dolor in reprehender velit esse cillum dolore eu fugiat nulla pariatur. Excepteur roident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error doloremque laudantium, totam rem aperiam, eaque ipsa qua architecto beatae vitae d', 'START HERE omnis iste natus error doloremque laudantium, totam rem aperiam, eaque ipsa qua architecto beatae vitae d', 'Duis aute irure dolor in reprehender velit esse cillum dolore eu fugiat nulla pariatur.']
         },
       ]

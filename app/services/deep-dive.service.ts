@@ -151,14 +151,14 @@ export class DeepDiveService {
             teaser: val.teaser ? val.teaser : "No teaser available",
             imageConfig: {
               imageClass: "embed-responsive-16by9",
-              imageUrl: val.image_url ? val.image_url : sampleImage,
+              imageUrl: val.image_url ?  GlobalSettings.getImageUrl(val.image_url) : sampleImage,
               urlRouteArray: GlobalSettings.getOffsiteLink(scope, VerticalGlobalFunctions.formatExternalArticleRoute(scope, "story", val.article_id))//TODO
             },
             keyUrl: VerticalGlobalFunctions.formatSectionFrontRoute(scope)
           }
           articleStackArray.push(articleStackData);
         });
-      return articleStackArray;
+        return articleStackArray;
     }// transformToArticleStack ENDS
 
     carouselTransformData(arrayData:Array<ArticleStackData>){

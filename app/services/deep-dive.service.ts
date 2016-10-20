@@ -51,7 +51,6 @@ export class DeepDiveService {
       callURL += '&count=' + limit + '&page=' + page;
     // }
     // console.log("article url", callURL);
-    console.log(callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
@@ -65,7 +64,10 @@ export class DeepDiveService {
        .subscribe(data=>{
          var transformedData = this.carouselTransformData(data);
          callback(transformedData);
-       })
+       },
+       err => {
+         console.log("Error getting carousel batch data");
+       });
    }
 
   getDeepDiveVideoBatchService(category: string, limit: number, page: number, location?: string){
@@ -101,7 +103,6 @@ export class DeepDiveService {
       var sampleImage = "/app/public/placeholder_XL.png";
       var videoBatchArray = [];
       scope = scope ? scope : "sports";
-      console.log(data);
       data.forEach(function(val, index){
         if(val.time_stamp){
           var date =  moment(Number(val.time_stamp));
@@ -162,7 +163,6 @@ export class DeepDiveService {
 
     carouselTransformData(arrayData:Array<ArticleStackData>){
         var transformData = [];
-        console.log(arrayData);
         arrayData.forEach(function(val,index){
           var curdate = new Date();
           var curmonthdate = curdate.getDate();
@@ -184,7 +184,26 @@ export class DeepDiveService {
           }
           transformData.push(carData);
         });
-        console.log('transformData',transformData);
         return transformData;
+    }
+
+    carouselDummyData(){
+      var sampleImage = "/app/public/placeholder_XL.png";
+      var articleStackData = {
+          id: 88,
+          articleUrl: '/deep-dive',
+          keyword: ['Deep Dive'],
+          timeStamp: moment().format("MMMM Do, YYYY h:mm:ss a"),
+          title: "No title available",
+          author: "",
+          publisher: "",
+          teaser: "No teaser available",
+          imageConfig: {
+            imageClass: "embed-responsive-16by9",
+            imageUrl: sampleImage,
+            urlRouteArray: ['/deep-dive']
+          },
+        }
+        return articleStackData;
     }
 }// DeepDiveService ENDS

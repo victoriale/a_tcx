@@ -143,7 +143,6 @@ export class DeepDivePage implements OnInit {
 
     getDataCarousel() {
       this._deepDiveData.getCarouselData(this.scope, this.carouselData, '25', '1', this.geoLocation, (carData)=>{
-        console.log(carData);
         this.carouselData = carData;
       })
     }
@@ -152,11 +151,11 @@ export class DeepDivePage implements OnInit {
       if(this.topScope != 'weather'){
         this._deepDiveData.getDeepDiveVideoBatchService(this.scope, 5, 1).subscribe(
           data => {
-            console.log(data);
             this.carouselVideo = this._deepDiveData.transformSportVideoBatchData([data.data[0]]);
-            console.log('DEEPDIVE VIDEO', this.carouselVideo);
+            this.getDataCarousel();
           },
           err => {
+            this.getDataCarousel();
             console.log("Error getting video batch data");
           });
       }
@@ -167,9 +166,12 @@ export class DeepDivePage implements OnInit {
         this._schedulesService.getWeatherCarousel('hourly', this.selectedLocation).subscribe(
           data => {
             this.carouselGraph = data;
-            console.log(data);
-          }
-        );
+            this.getDataCarousel();
+          },
+          err => {
+            this.getDataCarousel();
+            console.log("Error getting graph batch data");
+          });
       }
     }
 
@@ -188,7 +190,6 @@ export class DeepDivePage implements OnInit {
             this.changeScopeVar = this.tcxVars.scope;
             this.deepDiveType = this.category != 'all' ? GlobalSettings.getTCXscope(this.scope).pageType : 'all';
             this.getGeoLocation();
-            this.getDataCarousel();
             this.getDeepDiveVideo();
             this.sectionFrontName();
           });

@@ -150,9 +150,11 @@ export class DeepDivePage implements OnInit {
 
     getDeepDiveVideo(){
       if(this.topScope != 'weather'){
-        this._deepDiveData.getDeepDiveVideoBatchService(this.scope, 1, 1).subscribe(
+        this._deepDiveData.getDeepDiveVideoBatchService(this.scope, 5, 1).subscribe(
           data => {
+            console.log(data);
             this.carouselVideo = this._deepDiveData.transformSportVideoBatchData([data.data[0]]);
+            console.log('DEEPDIVE VIDEO', this.carouselVideo);
           },
           err => {
             console.log("Error getting video batch data");
@@ -165,6 +167,7 @@ export class DeepDivePage implements OnInit {
         this._schedulesService.getWeatherCarousel('hourly', this.selectedLocation).subscribe(
           data => {
             this.carouselGraph = data;
+            console.log(data);
           }
         );
       }

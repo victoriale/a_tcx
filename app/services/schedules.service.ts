@@ -94,6 +94,7 @@ export class SchedulesService {
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
+        console.log(data);
         var output = {scopeList: [], blocks: [], current: {}};
         if (data.data != null) {
           output.current['location'] = data.city + ', ' + data.state;

@@ -63,7 +63,6 @@ export class DeepDiveService {
     //always returns the first batch of articles
        this.getDeepDiveBatchService(scope, limit, batch, state)
        .subscribe(data=>{
-         console.log(data);
          var transformedData = this.carouselTransformData(data);
          callback(transformedData);
        })
@@ -115,9 +114,10 @@ export class DeepDiveService {
           title: val.title ? val.title : "No Title",
           time_stamp: date ? date : "",
           video_thumbnail: val.video_thumbnail ? val.video_thumbnail : sampleImage,
-          embed_url: val.videoUrl != null ? val.videoUrl : null,
+          embed_url: val.video_url != null ? val.video_url : null,
           video_url: VerticalGlobalFunctions.formatArticleRoute(scope, val.id, "video"),
-          keyUrl: VerticalGlobalFunctions.formatSectionFrontRoute(keywords)
+          keyUrl: VerticalGlobalFunctions.formatSectionFrontRoute(keywords),
+          teaser: val.teaser
         }
         videoBatchArray.push(d);
       });

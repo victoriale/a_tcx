@@ -285,7 +285,7 @@ export class SchedulesService {
 
             }
             else {
-              data.data[n].unixTimestamp = moment.unix(data.data[n].unixTimestamp).format("dddd MMMM DD, YYYY");
+              data.data[n].unixTimestamp = moment.unix(data.data[n].unixTimestamp).format("dddd, MMM. DD, YYYY").toUpperCase();
               data.data[n].temperature  = ((data.data[n].temperatureHigh * (9/5)) - 459.67).toFixed(0) + "&deg; <span class='small-temp'>/ " + ((data.data[n].temperatureLow * (9/5)) - 459.67).toFixed(0) + "&deg;</span>";
             }
             output.blocks.push(data.data[n]);
@@ -355,7 +355,7 @@ export class SchedulesService {
                   data.data.data[n].reportDisplay = "GAME REPORT";
           }
           var offset = Intl.DateTimeFormat().resolvedOptions().timeZone;
-          let date = moment(Number(data.data.data[n].startTime)).tz(offset).format('dddd MMM D, YYYY');
+          let date = moment(Number(data.data.data[n].startTime)).tz(offset).format('dddd, MMM. D').toUpperCase();
           let time = moment(Number(data.data.data[n].startTime)).tz(offset).format('h:mm A z');
           data.data.data[n].date = date + " &bull; " + time;
           data.data.data[n].homeTeamName = data.data.data[n].lastNameHome;
@@ -438,7 +438,7 @@ export class SchedulesService {
                   data.data[n].reportDisplay = "GAME REPORT";
           }
           var offset = Intl.DateTimeFormat().resolvedOptions().timeZone;
-          let date = moment(Number(data.data[n].eventDate)).tz(offset).format('dddd MMM D, YYYY');
+          let date = moment(Number(data.data[n].eventDate)).tz(offset).format('dddd, MMM. D').toUpperCase();
           let time = moment(Number(data.data[n].eventDate)).tz(offset).format('h:mm A z');
           data.data[n].date = date + " &bull; " + time;
           data.data[n].homeTeamName = data.data[n].lastNameHome;
@@ -584,7 +584,7 @@ export class SchedulesService {
         }
       }
       var offset = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      let date = moment(Number(val.eventStartTime)).tz(offset).format('dddd MMM D, YYYY');
+      let date = moment(Number(val.eventStartTime)).tz(offset).format('dddd, MMM. D').toUpperCase();
       let time = moment(Number(val.eventStartTime)).tz(offset).format('h:mm A z');
       let team1FullName = val.team1FullName;
       let team2FullName = val.team2FullName;

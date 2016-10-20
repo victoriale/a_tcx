@@ -11,7 +11,6 @@ declare var moment;
 
 @Injectable()
 export class DeepDiveService {
-  private _baseballAPI: string = "http://dev-homerunloyal-api.synapsys.us/tcx/";
   private _footballAPI: string = "http://dev-touchdownloyal-api.synapsys.us/tcx/";
   constructor(public http: Http){}
 
@@ -19,27 +18,6 @@ export class DeepDiveService {
   setToken(){
       var headers = new Headers();
       return headers;
-  }
-
-  setSectionFrontAPI(category){
-    switch(category){
-      case 'nfl':
-      break;
-      case 'ncaaf':
-      break;
-      case 'mlb':
-      break;
-      case 'nba':
-      break;
-      case 'ncaam':
-      break;
-      case 'finance':
-      break;
-      case 'realestate':
-      break;
-      case 'weather':
-      break;
-    }
   }
 
   getDeepDiveArticleService(articleID){
@@ -53,29 +31,31 @@ export class DeepDiveService {
     })
   }
 
-  getDeepDiveBatchService(scope, limit, startNum, state?){
-  //Configure HTTP Headers
-  var headers = this.setToken();
-
-  if(startNum == null){
-    startNum = 1;
-  }
-
-  // http://dev-touchdownloyal-api.synapsys.us/articleBatch/nfl/5/1
-  var callURL = 'http://dev-touchdownloyal-api.synapsys.us' + '/articleBatch/';
-  if(scope != null){
-    callURL += scope;
-  } else {
-    callURL += 'nfl';
-  }
-  if(state == null){
-    state = 'CA';
-  }
-  callURL += '/' + limit + '/' + startNum + '/' + state;
-  return this.http.get(callURL, {headers: headers})
-    .map(res => res.json())
-    .map(data => {
-      return data;
+  getDeepDiveBatchService(category: string, limit: number, page: number, state?: string){
+    var headers = this.setToken();
+    var callURL = GlobalSettings.getApiUrl() + "/articles";
+    //http://dev-tcxmedia-api.synapsys.us/articles?help=1
+    //http://dev-tcxmedia-api.synapsys.us/articles?articleType=about-the-teams
+    // if(GlobalSettings.getTCXscope(category).topScope == "basketball" || GlobalSettings.getTCXscope(category).topScope == "football") {
+    //   if(category == "sports"){
+        callURL += '?category=sports';
+    //   } else {
+    //     callURL += '?category=sports&subCategory=' + category;
+    //   }
+    // } else if(GlobalSettings.getTCXscope(category).topScope == "entertainment" && GlobalSettings.getTCXscope(category).scope != 'all') {
+    //   callURL += '?category=entertainment&subCategory=' + category;
+    // } else {
+    //   callURL += '?category=' + category;
+    // }
+    // if(limit !== null && page !== null){
+      callURL += '&count=' + limit + '&page=' + page;
+    // }
+    // console.log("article url", callURL);
+    console.log(callURL);
+    return this.http.get(callURL, {headers: headers})
+      .map(res => res.json())
+      .map(data => {
+        return data.data;
     })
   }
 
@@ -83,97 +63,128 @@ export class DeepDiveService {
     //always returns the first batch of articles
        this.getDeepDiveBatchService(scope, limit, batch, state)
        .subscribe(data=>{
-         var transformedData = this.carouselTransformData(data.data);
+         console.log(data);
+         var transformedData = this.carouselTransformData(data);
          callback(transformedData);
        })
    }
 
-    getDeepDiveVideoBatchService(category: string, limit: number, page: number, location?: string){
+  getDeepDiveVideoBatchService(category: string, limit: number, page: number, location?: string){
       var headers = this.setToken();
-      var callURL = GlobalSettings.getCategoryAPI(category);
+      var callURL = GlobalSettings.getTCXscope(category).verticalApi;
       if(limit === null || typeof limit == 'undefined'){
         limit = 5;
         page = 1;
       }
-      callURL += '/videoBatch/' + category + '/' + limit + '/' + page;
+      callURL += '/videoBatch/' + category;
+        //http://dev-homerunloyal-api.synapsys.us/tcx/videoBatch/league/5/1
+      if(GlobalSettings.getTCXscope(category).topScope == "basketball"){
+        //http://dev-tcxmedia-api.synapsys.us/tcx/videoBatch/nba/1/5
+        callURL += '/' + page + '/' + limit;
+      } else {
+        //http://dev-touchdownloyal-api.synapsys.us/tcx/videoBatch/fbs/5/2
+        //http://dev-touchdownloyal-api.synapsys.us/tcx/videoBatch/nfl/5/2/ks
+        //http://dev-tcxmedia-api.synapsys.us/videoBatch/sports/10/1
+        callURL += '/' + limit + '/' + page;
+        if(GlobalSettings.getTCXscope(category).topScope == "nfl" && location !== null){
+          callURL += '/' + location;
+        }
+      }
+      // console.log("video url", callURL);
       return this.http.get(callURL, {headers: headers})
         .map(res => res.json())
         .map(data => {
-          return data.data;
+          return data;
       })
-    }// getDeepDiveVideoBatchService ENDS
+  }// getDeepDiveVideoBatchService ENDS
 
     transformSportVideoBatchData(data: Array<VideoStackData>, scope?){
       var sampleImage = "/app/public/placeholder_XL.png";
       var videoBatchArray = [];
+      scope = scope ? scope : "sports";
+      console.log(data);
       data.forEach(function(val, index){
-        var date =  moment(Number(val.timeStamp));
-        date = date.format('MMM') + date.format(' DD, YYYY');
+        if(val.time_stamp){
+          var date =  moment(Number(val.time_stamp));
+          date = '<span class="hide-320">' + date.format('dddd') + ', </span>' + date.format('MMM') + date.format('. DD, YYYY');
+        }
+        var keywords = val.keyword ? val.keyword : scope;
         var d = {
           id: val.id,
-          keyword: val.keyword ? val.keyword : "", //TODO maybe return the page category when available
+          keyword: keywords[0],
           title: val.title ? val.title : "No Title",
-          timeStamp: date,
-          videoThumbnail: val.videoThumbnail ? val.videoThumbnail : sampleImage,
-          embedUrl:val.videoUrl,
-          videoUrl: VerticalGlobalFunctions.formatArticleRoute("sports", val.id, "video", scope),
-          teaser: val.teaser,
+          time_stamp: date ? date : "",
+          video_thumbnail: val.video_thumbnail ? val.video_thumbnail : sampleImage,
+          embed_url: val.videoUrl != null ? val.videoUrl : null,
+          video_url: VerticalGlobalFunctions.formatArticleRoute(scope, val.id, "video"),
+          keyUrl: VerticalGlobalFunctions.formatSectionFrontRoute(keywords)
         }
         videoBatchArray.push(d);
       });
       return videoBatchArray;
     }// transformDeepDiveVideoBatchData ENDS
 
-    // Top Article of Article Stacks
+    // Article Batch Transformed Data
     transformToArticleStack(data: Array<ArticleStackData>, scope?){
       var sampleImage = "/app/public/placeholder_XL.png";
-      // var topData = data.data[0];
       var articleStackArray = [];
       data.forEach(function(val, index){
+        if(val.last_updated){
+          var date =  moment.unix(Number(val.last_updated));
+          date = '<span class="hide-320">' + date.format('dddd') + ', </span>' + date.format('MMM') + date.format('. DD, YYYY');
+        }
+        var routeLink;
+        if(val.source == "snt_ai"){
+          routeLink = GlobalSettings.getOffsiteLink(scope, VerticalGlobalFunctions.formatExternalArticleRoute(scope, "story", val.article_id));
+        } else {
+          routeLink = VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, "story");
+        }
         var articleStackData = {
-            id: "1",
+            id: val.article_id,
             articleUrl: '/deep-dive',
-            keyUrl: '/deep-dive',
-            keyword: scope.toUpperCase(),
-            timeStamp: "Sept 28, 2016",
-            title: "Title here",
-            author: "Author",
-            publisher: ", Publisher",
-            teaser: "Teaser here",
+            keyword: val.keywords ? val.keywords[0] : scope,
+            timeStamp: date ? date : "",
+            title: val.title ? val.title : "No title available",
+            author: val.author ? val.author : "",
+            publisher: val.publisher ? (val.author ? ", " : "") + val.publisher : "",
+            teaser: val.teaser ? val.teaser : "No teaser available",
             imageConfig: {
               imageClass: "embed-responsive-16by9",
-              imageUrl: sampleImage,
-              urlRouteArray: '/deep-dive'
-            }
+              imageUrl: val.image_url ? val.image_url : sampleImage,
+              urlRouteArray: GlobalSettings.getOffsiteLink(scope, VerticalGlobalFunctions.formatExternalArticleRoute(scope, "story", val.article_id))//TODO
+            },
+            keyUrl: VerticalGlobalFunctions.formatSectionFrontRoute(scope)
           }
           articleStackArray.push(articleStackData);
         });
       return articleStackArray;
     }// transformToArticleStack ENDS
 
-     carouselTransformData(arrayData:Array<ArticleStackData>){
-          var transformData = [];
-          arrayData.forEach(function(val,index){
-            var curdate = new Date();
-            var curmonthdate = curdate.getDate();
-            var timeStamp = moment(Number(val.publishedDate)).format("MMMM Do, YYYY h:mm:ss a");
-            let carData = {
-              image_url: GlobalSettings.getImageUrl(val['imagePath']),
-              title:  "<span> Today's News: </span>",
-              headline: val['title'],
-              keyword: val['keyword'],
-              teaser: val['teaser'].replace('_',': ').replace(/<p[^>]*>/g, ""),
-              id:val['id'],
-              articlelink: ['/'],
-              timeStamp: timeStamp,
-            };
-            if(carData['teaser'].length >= 200){
-              carData['teaser'].substr(0,200) + '...';
-            }
-            transformData.push(carData);
-          });
-
-          return transformData;
-      }
-
+    carouselTransformData(arrayData:Array<ArticleStackData>){
+        var transformData = [];
+        console.log(arrayData);
+        arrayData.forEach(function(val,index){
+          var curdate = new Date();
+          var curmonthdate = curdate.getDate();
+          var timeStamp = moment(Number(val.last_updated)).format("MMMM Do, YYYY h:mm:ss a");
+          let carData:ArticleStackData = {
+            source: val.source,
+            report_type: val.report_type,
+            image_url: GlobalSettings.getImageUrl(val['image_url']),
+            title:  "<span> Today's News: </span>",
+            headline: val['title'],
+            keywords: val['keywords'],
+            teaser: val['teaser'].replace('_',': ').replace(/<p[^>]*>/g, ""),
+            article_id:val['article_id'],
+            article_url: val['article_url'],
+            last_updated: val.last_updated,
+          };
+          if(carData['teaser'].length >= 200){
+            carData['teaser'].substr(0,200) + '...';
+          }
+          transformData.push(carData);
+        });
+        console.log('transformData',transformData);
+        return transformData;
+    }
 }// DeepDiveService ENDS

@@ -62,9 +62,12 @@ export class DeepDiveService {
     //always returns the first batch of articles
        this.getDeepDiveBatchService(scope, limit, batch, state)
        .subscribe(data=>{
-         var transformedData = this.carouselTransformData(data.data);
+         var transformedData = this.carouselTransformData(data);
          callback(transformedData);
-       })
+       },
+       err => {
+         console.log("Error getting carousel batch data");
+       });
    }
 
   getDeepDiveVideoBatchService(category: string, limit: number, page: number, location?: string){
@@ -108,12 +111,14 @@ export class DeepDiveService {
         var keywords = val.keyword ? val.keyword : scope;
         var d = {
           id: val.id,
-          keyword: keywords[0],
+          keyword: keywords,
           title: val.title ? val.title : "No Title",
           time_stamp: date ? date : "",
           video_thumbnail: val.video_thumbnail ? val.video_thumbnail : sampleImage,
+          embed_url: val.video_url != null ? val.video_url : null,
           video_url: VerticalGlobalFunctions.formatArticleRoute(scope, val.id, "video"),
-          keyUrl: VerticalGlobalFunctions.formatSectionFrontRoute(keywords)
+          keyUrl: VerticalGlobalFunctions.formatSectionFrontRoute(keywords),
+          teaser: val.teaser
         }
         videoBatchArray.push(d);
       });
@@ -146,14 +151,14 @@ export class DeepDiveService {
             teaser: val.teaser ? val.teaser : "No teaser available",
             imageConfig: {
               imageClass: "embed-responsive-16by9",
-              imageUrl: val.image_url ? val.image_url : sampleImage,
+              imageUrl: val.image_url ?  GlobalSettings.getImageUrl(val.image_url) : sampleImage,
               urlRouteArray: GlobalSettings.getOffsiteLink(scope, VerticalGlobalFunctions.formatExternalArticleRoute(scope, "story", val.article_id))//TODO
             },
             keyUrl: VerticalGlobalFunctions.formatSectionFrontRoute(scope)
           }
           articleStackArray.push(articleStackData);
         });
-      return articleStackArray;
+        return articleStackArray;
     }// transformToArticleStack ENDS
 
     carouselTransformData(arrayData:Array<ArticleStackData>){
@@ -161,16 +166,18 @@ export class DeepDiveService {
         arrayData.forEach(function(val,index){
           var curdate = new Date();
           var curmonthdate = curdate.getDate();
-          var timeStamp = moment(Number(val.time_stamp)).format("MMMM Do, YYYY h:mm:ss a");
-          let carData = {
-            image_url: GlobalSettings.getImageUrl(val['imagePath']),
+          var timeStamp = moment(Number(val.last_updated)).format("MMMM Do, YYYY h:mm:ss a");
+          let carData:ArticleStackData = {
+            source: val.source,
+            report_type: val.report_type,
+            image_url: GlobalSettings.getImageUrl(val['image_url']),
             title:  "<span> Today's News: </span>",
             headline: val['title'],
-            keyword: val['keyword'],
+            keywords: val['keywords'],
             teaser: val['teaser'].replace('_',': ').replace(/<p[^>]*>/g, ""),
-            id:val['id'],
-            articlelink: ['/'],
-            timeStamp: timeStamp,
+            article_id:val['article_id'],
+            article_url: val['article_url'],
+            last_updated: val.last_updated,
           };
           if(carData['teaser'].length >= 200){
             carData['teaser'].substr(0,200) + '...';
@@ -178,5 +185,25 @@ export class DeepDiveService {
           transformData.push(carData);
         });
         return transformData;
+    }
+
+    carouselDummyData(){
+      var sampleImage = "/app/public/placeholder_XL.png";
+      var articleStackData = {
+          id: 88,
+          articleUrl: '/deep-dive',
+          keyword: ['Deep Dive'],
+          timeStamp: moment().format("MMMM Do, YYYY h:mm:ss a"),
+          title: "No title available",
+          author: "",
+          publisher: "",
+          teaser: "No teaser available",
+          imageConfig: {
+            imageClass: "embed-responsive-16by9",
+            imageUrl: sampleImage,
+            urlRouteArray: ['/deep-dive']
+          },
+        }
+        return articleStackData;
     }
 }// DeepDiveService ENDS

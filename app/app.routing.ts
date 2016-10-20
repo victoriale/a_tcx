@@ -5,6 +5,8 @@ import { AppComponent }  from './app-component/app.component';
 import {DeepDiveNgModule} from "./ngModules/deep-dive.ngmodule";
 import {DeepDivePage} from "./webpages/deep-dive-page/deep-dive-page";
 import {AboutUsPage} from "./webpages/aboutus/aboutus";
+import {PrivacyPolicy} from "./webpages/privacy-policy/privacy-policy";
+import {TermOfService} from "./webpages/term-of-service/term-of-service";
 import {SyndicatedArticlePage} from "./webpages/syndicated-article-page/syndicated-article-page";
 import {SearchPage} from "./webpages/search-page/search-page";
 
@@ -16,6 +18,14 @@ const relativeChildRoutes = [
     {
         path: 'about-us',
         component: AboutUsPage
+    },
+    {
+        path: 'privacy-policy',
+        component: PrivacyPolicy
+    },
+    {
+        path: 'term-of-service',
+        component: TermOfService
     },
     {
         path:'search/articles/:userInput',

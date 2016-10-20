@@ -1,12 +1,17 @@
 <div class="search-page container-fluid">
-    <article-search-bar [searchTitle]="pageSearchTitle" [searchSubTitle]="pageSearchSubTitle"></article-search-bar>
-    <div class="search-page-res">
+    <article-search-bar [searchTitle]="pageSearchTitle" [searchSubTitle]="pageSearchSubTitle" ></article-search-bar>
+    <div class="outer-wrap">
+        <div class="search-page-res col-sm-12 col-xl-9">
 
-        <search-filter></search-filter>
-        <search-results [searchArticlesData]="searchArticlesData"></search-results>
+            <search-filter [userInput]="userInput"></search-filter>
+            <search-results [searchArticlesData]="searchArticlesData" [userInput]="userInput"></search-results>
+
+        </div>
+        <div class="search-widget col-xl-3" >
+            <div class="widget_wrapper"><widget-carousel-module></widget-carousel-module></div>
+        </div>
     </div>
 
-        <!--<div class="widget_wrapper"><widget-carousel-module></widget-carousel-module></div>-->
 
 
 

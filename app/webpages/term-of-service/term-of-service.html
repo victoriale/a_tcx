@@ -1,1 +1,9 @@
-<information-component *ngIf="aboutUsData" [infoData]="aboutUsData"></information-component>
+<section class="condition-page">
+  <div class="condition-page-container2a col-sm-12 col-xl-9">
+    <information-component *ngIf="aboutUsData" [infoData]="aboutUsData"></information-component>
+    <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
+  </div>
+  <div class="condition-page-container2b col-xl-3">
+    <div class="widget_wrapper"><widget-carousel-module></widget-carousel-module></div>
+  </div>
+</section>

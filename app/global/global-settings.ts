@@ -46,7 +46,7 @@ export class GlobalSettings {
     private static _tcxAPI: string = '-tcxmedia-api.synapsys.us/tcx';
 
     static getEnv(env:string):string {
-      if (env == "localhost"){
+      if (env == "localhost" || env =="qa"){//remove qa when we have qa env setup
           env = "dev";
       }
       if (env != "dev" && env !="qa"){

@@ -4,14 +4,10 @@
   min-width: 320px;
   margin: 0;
   .dropdown-list{
-    @media @tablet{
-      left:25px;
-    }
+    top: 32px;
   }
   .dropdown-caret-top{
-    @media @tablet{
-      right: 12px;
-    }
+
   }
   .search-large{
     margin-top: -0.1%;
@@ -115,6 +111,7 @@
     max-width: 1280px;
   }
   .search-widget{
+    display:none;
     @media @tablet{
       display:none;
     }
@@ -127,9 +124,10 @@
     }
   }
   .dropdown-list-scroll .scrollable-item .dropdown-list-option{
-    width:81%;
+    width:80%;
+    margin-left: 5px;
     @media @mobile{
-      width: 71%;
+      width: 70%;
     }
   }
   .search-large .search-dropdown-title{
@@ -143,5 +141,7 @@
       width:600px
     }
   }
-
+  .widget-top, .widget-top-ddp{
+    margin-top: 25%;
+  }
 }

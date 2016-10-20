@@ -409,8 +409,8 @@ export class SchedulesService {
   getBaseballSchedule(scope, profile, eventStatus, limit, pageNum, id?){
     //Configure HTTP Headers
     var headers = this.setToken();
-    // var callURL = GlobalSettings.getVerticalEnv('-homerunloyal-api.synapsys.us') + "/tcx/league/schedule/pre-event/50/1";
-    var callURL = 'http://dev-homerunloyal-api.synapsys.us' + "/tcx/league/schedule/pre-event/50/1";
+    // var callURL = GlobalSettings.getVerticalEnv('-homerunloyal-api.synapsys.us') + "/tcx/mlb/schedule/pre-event/50/1";
+    var callURL = 'http://dev-homerunloyal-api.synapsys.us' + "/tcx/mlb/schedule/pre-event/50/1";
 
     //optional week parameters
     return this.http.get(callURL, {headers: headers})

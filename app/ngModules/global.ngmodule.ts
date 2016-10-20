@@ -46,6 +46,8 @@ import { DeepDiveRecommendation } from "../fe-core/modules/deep-dive-recommendat
 
 /*** WEBPAGES ***/
 import { AboutUsPage } from "../webpages/aboutus/aboutus";
+import { PrivacyPolicy } from "../webpages/privacy-policy/privacy-policy";
+import { TermOfService } from "../webpages/term-of-service/term-of-service";
 
 //Pipes
 import {SanitizeScript, SanitizeHtml, SanitizeRUrl, SanitizeStyle} from "../fe-core/pipes/safe.pipe";
@@ -98,6 +100,8 @@ import {ArticleSearchBar} from "../fe-core/components/search-bar-article/search-
       ArticleSearchBar,
       BillboardModule,
       AboutUsPage,
+      PrivacyPolicy,
+      TermOfService,
       InfoComponent,
       ChatterboxModule,
       ResponsiveWidget
@@ -134,6 +138,8 @@ import {ArticleSearchBar} from "../fe-core/components/search-bar-article/search-
       ArticleSearchBar,
       BillboardModule,
       AboutUsPage,
+      PrivacyPolicy,
+      TermOfService,
       InfoComponent,
       ChatterboxModule,
       ResponsiveWidget

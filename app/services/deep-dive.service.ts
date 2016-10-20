@@ -111,7 +111,7 @@ export class DeepDiveService {
         var keywords = val.keyword ? val.keyword : scope;
         var d = {
           id: val.id,
-          keyword: keywords[0],
+          keyword: keywords,
           title: val.title ? val.title : "No Title",
           time_stamp: date ? date : "",
           video_thumbnail: val.video_thumbnail ? val.video_thumbnail : sampleImage,

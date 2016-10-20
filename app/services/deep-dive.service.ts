@@ -67,6 +67,7 @@ export class DeepDiveService {
        },
        err => {
          console.log("Error getting carousel batch data");
+         return this.carouselDummyData();
        });
    }
 
@@ -190,10 +191,13 @@ export class DeepDiveService {
     carouselDummyData(){
       var sampleImage = "/app/public/placeholder_XL.png";
       var articleStackData = {
-          id: 88,
-          articleUrl: '/deep-dive',
-          keyword: ['Deep Dive'],
-          timeStamp: moment().format("MMMM Do, YYYY h:mm:ss a"),
+          article_id: 88,
+          article_url: '/deep-dive',
+          keywords: ['Deep Dive'],
+          source: 'test',
+          report_type: 'report type',
+          image_url: sampleImage,
+          last_updated: moment().format("MMMM Do, YYYY h:mm:ss a"),
           title: "No title available",
           author: "",
           publisher: "",
@@ -204,6 +208,6 @@ export class DeepDiveService {
             urlRouteArray: ['/deep-dive']
           },
         }
-        return articleStackData;
+        return [articleStackData,articleStackData,articleStackData,articleStackData,articleStackData];
     }
 }// DeepDiveService ENDS

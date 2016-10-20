@@ -176,6 +176,17 @@ export class DeepDivePage implements OnInit {
     }
 
     ngOnInit(){
+      console.log('INIT',this.scope);
+      this.initializePage();
+    }
+
+    ngOnChanges(){
+      console.log('CHANGES',this.scope);
+      this.initializePage();
+    }
+
+    initializePage(){
+      console.log('scope',this.scope);
       this.routeSubscription = this._activatedRoute.params.subscribe(
           (param:any) => {
             this.category = param['category'] ? param['category'] : 'all';
@@ -189,6 +200,7 @@ export class DeepDivePage implements OnInit {
             this.topScope = this.tcxVars ? this.tcxVars.topScope : this.category;
             this.changeScopeVar = this.tcxVars.scope;
             this.deepDiveType = this.category != 'all' ? GlobalSettings.getTCXscope(this.scope).pageType : 'all';
+            console.log('scope',this.scope);
             this.getGeoLocation();
             this.getDeepDiveVideo();
             this.sectionFrontName();

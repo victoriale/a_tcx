@@ -126,18 +126,29 @@ export class BoxScoresService {
     let chosenDate = date;
     var callURL;
     // console.log('3. box-scores.service - getBoxScoresService - chosenDate ', chosenDate);
+    console.log("CALLING ALL BOXSCORES:",scope);
     switch(scope){
-      case 'ncaab':
+      case 'ncaam':
         callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/NBAHoops/call_controller.php?scope=ncaa&action=tcx&option=tcx_box_scores&date='+date;
       break;
-      case 'ncaam':
-        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/NBAHoops/call_controller.php?scope=nba&action=tcx&option=tcx_box_scores&date='+date;
+      case 'nba':
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/NBAHoops/call_controller.php?scope=' + scope + '&action=tcx&option=tcx_box_scores&date='+date;
+      break;
+      case 'mlb':
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi + '/tcx/' + scope + '/boxScores/' + date + '/addAi';
+      break;
+      case 'nfl':
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/tcx/boxScores/league/'+scope+'/'+date+'/addAi';
+      break;
+      case 'ncaaf':
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/tcx/boxScores/league/fbs/'+date+'/addAi';
       break;
       default:
-        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/boxScores/league/'+scope+'/'+date+'/addAi';
+      callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/tcx/boxScores/league/'+scope+'/'+date+'/addAi';
       break;
       //http://dev-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=ncaa&action=tcx&option=tcx_box_scores&date=2017-12-03
     }
+    console.log(callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
@@ -358,19 +369,30 @@ export class BoxScoresService {
     var headers = this.setToken();
     var callURL;
     switch(scope){
-      case 'ncaab':
-        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/NBAHoops/call_controller.php?scope=ncaa&action=tcx&option=tcx_game_dates_weekly&date='+date;
-      break;
       case 'ncaam':
-        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/NBAHoops/call_controller.php?scope=nba&action=tcx&option=tcx_game_dates_weekly&date='+date;
+        scope = 'ncaa'
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/NBAHoops/call_controller.php?scope='+scope+'&action=tcx&option=tcx_game_dates_weekly&date='+date;
       break;
-      default:
+      case 'nba':
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/NBAHoops/call_controller.php?scope='+scope+'&action=tcx&option=tcx_game_dates_weekly&date='+date;
+      break;
+      case 'nfl':
         callURL = GlobalSettings.getTCXscope(scope).verticalApi + '/league/gameDatesWeekly/'+scope+'/'+date; //TODO when TCX API is sestup
       break;
+      case 'ncaaf':
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi + '/league/gameDatesWeekly/fbs/'+date; //TODO when TCX API is sestup
+      break;
+      case 'mlb':
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi + '/league/gameDatesWeekly/'+date; //TODO when TCX API is sestup
+      break;
+      default:
+      callURL = GlobalSettings.getTCXscope(scope).verticalApi + '/league/gameDatesWeekly/'+scope+'/'+date; //TODO when TCX API is sestup
+      break;
     }
+    console.log(callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
-      .map(data => {
+      .map(data => {``
         return data;
       })
   }
@@ -389,17 +411,27 @@ export class BoxScoresService {
 
     var callURL;
     switch(scope){
-      case 'ncaab':
-        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/NBAHoops/call_controller.php?scope=ncaa&action=tcx&option=tcx_game_dates_monthly&date='+date;
-      break;
       case 'ncaam':
-        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/NBAHoops/call_controller.php?scope=nba&action=tcx&option=tcx_game_dates_monthly&date='+date;
+      scope = 'ncaa'
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/NBAHoops/call_controller.php?scope='+scope+'&action=tcx&option=tcx_game_dates_monthly&date='+date;
+      break;
+      case 'nba':
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/NBAHoops/call_controller.php?scope='+scope+'&action=tcx&option=tcx_game_dates_monthly&date='+date;
+      break;
+      case 'nfl':
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi + '/league/gameDates/'+scope+'/'+date; //TODO when TCX API is sestup
+      break;
+      case 'ncaaf':
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi + '/league/gameDates/fbs/'+date; //TODO when TCX API is sestup
+      break;
+      case 'mlb':
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi + '/league/gameDates/'+date; //TODO when TCX API is sestup
       break;
       default:
         callURL = GlobalSettings.getTCXscope(scope).verticalApi + '/league/gameDates/'+scope+'/'+date; //TODO when TCX API is sestup
       break;
     }
-
+    console.log(callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {

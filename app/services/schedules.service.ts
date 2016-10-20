@@ -101,12 +101,14 @@ export class SchedulesService {
           output.current['currentCondition'] = data.currentCondition;
           output.current['currentIcon'] = GlobalSettings.getImageUrl(data.currentIcon);
           output.current['currentScope'] = data.currentScope;
-          output.current['description'] = "<span class='text-heavy'>Partly cloudy</span> with a chance of meatballs until 12PM CT.";
+          output.current['description'] = "<span class='text-heavy'>Partly cloudy</span> with a chance of meatballs until 12PM CT."; //TODO
           output.current['currentTime'] = moment().format("h:mm A");
           output.current['currentTemperature'] = ((data.currentTemperature * (9/5)) - 459.67).toFixed(0);
-          output.current['currentLow'] = 79;
+          output.current['currentLow'] = data.temperature_low != null ? ((data.currentTemperature * (9/5)) - 459.67).toFixed(0):null;
           output.current['state'] = data.state;
           output.current['zipcode'] = data.zipcode;
+          output.current['background'] = '/app/public/no-image.png';
+          // output.current['background'] ="./app/public/weather/"+data.currentCondition.replace(/ /g, '-')+'.jpg';
           for (var n = 0; n < data.data.length; n++) {
             //convert from kelvin to farenheight
             let x = Number(data.data[n].unixTimestamp);

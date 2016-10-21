@@ -36,7 +36,7 @@ export class SchedulesService {
     //Configure HTTP Headers
     var headers = this.setToken();
 
-    var callURL = this._apiUrl+'/schedule/'+profile;
+    var callURL = this._apiUrl+'/schedule/mlb';
     if(typeof year == 'undefined'){
       year = null;
     }
@@ -68,7 +68,7 @@ export class SchedulesService {
     //Configure HTTP Headers
     var headers = this.setToken();
     // var callURL = GlobalSettings.getVerticalEnv('-touchdownloyal-api.synapsys.us') + '/boxScores/schedule/' + profile;
-    var callURL = 'http://dev-touchdownloyal-api.synapsys.us' + '/boxScores/schedule/' + profile;
+    var callURL = GlobalSettings.getTCXscope(scope).verticalApi + '/boxScores/schedule/' + profile;
 
     if(profile == 'league'){//if league call then add scope
       callURL += '/'+ scope;
@@ -89,7 +89,7 @@ export class SchedulesService {
   getWeatherCarousel(scope, selectedLocation){
     //Configure HTTP Headers
     var headers = this.setToken();
-    var callURL = GlobalSettings.getVerticalEnv('-tcxmedia-api.synapsys.us') + "/sidescroll/weather/" + selectedLocation + "/" + scope.toLowerCase();
+    var callURL = GlobalSettings.getTCXscope('weather').verticalApi + "/tcx/sidescroll/weather/" + selectedLocation + "/" + scope.toLowerCase();
     //optional week parameters
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
@@ -99,7 +99,7 @@ export class SchedulesService {
           output.current['location'] = data.city + ', ' + data.state;
           output.current['city'] = data.city;
           output.current['currentCondition'] = data.currentCondition;
-          output.current['currentIcon'] = GlobalSettings.getImageUrl(data.currentIcon);
+          output.current['currentIcon'] = GlobalSettings.getImageUrl(data.currentIcon).replace('.svg','_light.svg');
           output.current['currentScope'] = data.currentScope;
           output.current['description'] = "<span class='text-heavy'>Partly cloudy</span> with a chance of meatballs until 12PM CT."; //TODO
           output.current['currentTime'] = moment().format("h:mm A");
@@ -107,8 +107,7 @@ export class SchedulesService {
           output.current['currentLow'] = data.temperature_low != null ? ((data.currentTemperature * (9/5)) - 459.67).toFixed(0):null;
           output.current['state'] = data.state;
           output.current['zipcode'] = data.zipcode;
-          output.current['background'] = '/app/public/no-image.png';
-          // output.current['background'] ="./app/public/weather/"+data.currentCondition.replace(/ /g, '-')+'.jpg';
+          output.current['background'] =GlobalSettings.getImageUrl('/weather/icons/'+data.currentCondition.replace(/ /g, '-')+'.jpg');
           for (var n = 0; n < data.data.length; n++) {
             //convert from kelvin to farenheight
             let x = Number(data.data[n].unixTimestamp);
@@ -150,7 +149,7 @@ export class SchedulesService {
                     pointStart: 1940,
                     fillColor: 'rgba(252, 209, 48, 0.25)',
                     lineColor: '#ffdf30',
-                    lineWidth: 5,
+                    lineWidth: 3,
                     marker: {
                         enabled: false,
                         states: {
@@ -198,8 +197,7 @@ export class SchedulesService {
     //Configure HTTP Headers
     var headers = this.setToken();
     // var callURL = GlobalSettings.getVerticalEnv('-finance-api.synapsys.us') + "/call_controller.php?action=tcx&option=tcx_side_scroll";
-    var callURL = 'http://dev-finance-api.synapsys.us' + "/call_controller.php?action=tcx&option=tcx_side_scroll";
-
+    var callURL = GlobalSettings.getTCXscope("business").verticalApi + "/call_controller.php?action=tcx&option=tcx_side_scroll";
     //optional week parameters
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
@@ -250,7 +248,7 @@ export class SchedulesService {
     //Configure HTTP Headers
     var headers = this.setToken();
     // var callURL = GlobalSettings.getVerticalEnv('-tcxmedia-api.synapsys.us') + "/sidescroll/weather/" + selectedLocation + "/" + scope.toLowerCase();
-    var callURL = 'http://dev-tcxmedia-api.synapsys.us' + "/sidescroll/weather/" + selectedLocation + "/" + scope.toLowerCase();
+    var callURL = GlobalSettings.getTCXscope('weather').verticalApi + "/tcx/sidescroll/weather/" + selectedLocation + "/" + scope.toLowerCase();
 
     //optional week parameters
     return this.http.get(callURL, {headers: headers})
@@ -259,10 +257,10 @@ export class SchedulesService {
         var output = {scopeList: [], blocks: [], current: {}}
         if (data.data != null) {
           output.current['city'] = data.city;
-          output.current['currentCondition'] = data.currentCondition;
-          output.current['currentIcon'] = GlobalSettings.getImageUrl(data.currentIcon);
-          output.current['currentScope'] = data.currentScope;
-          output.current['currentTemperature'] = ((data.currentTemperature * (9/5)) - 459.67).toFixed(0);
+          output.current['currentCondition'] = data.current_condition;
+          output.current['currentIcon'] = GlobalSettings.getImageUrl(data.current_icon);
+          output.current['currentScope'] = data.current_scope;
+          output.current['currentTemperature'] = ((data.current_temperature * (9/5)) - 459.67).toFixed(0);
           output.current['state'] = data.state;
           output.current['zipcode'] = data.zipcode;
           output.blocks.push(
@@ -280,13 +278,13 @@ export class SchedulesService {
             //convert from kelvin to farenheight
             var offset = Intl.DateTimeFormat().resolvedOptions().timeZone;
             if (scope.toLowerCase() == "hourly") {
-              data.data[n].unixTimestamp = moment.unix(data.data[n].unixTimestamp).tz(offset).format("h:mm A z");
+              data.data[n].unixTimestamp = moment.unix(data.data[n].unix_timestamp).tz(offset).format("h:mm A z");
               data.data[n].temperature  = ((data.data[n].temperature * (9/5)) - 459.67).toFixed(0) + "&deg;";
 
             }
             else {
-              data.data[n].unixTimestamp = moment.unix(data.data[n].unixTimestamp).format("dddd, MMM. DD, YYYY").toUpperCase();
-              data.data[n].temperature  = ((data.data[n].temperatureHigh * (9/5)) - 459.67).toFixed(0) + "&deg; <span class='small-temp'>/ " + ((data.data[n].temperatureLow * (9/5)) - 459.67).toFixed(0) + "&deg;</span>";
+              data.data[n].unixTimestamp = moment.unix(data.data[n].unix_timestamp).format("dddd, MMM. DD, YYYY").toUpperCase();
+              data.data[n].temperature  = ((data.data[n].temperature_high * (9/5)) - 459.67).toFixed(0) + "&deg; <span class='small-temp'>/ " + ((data.data[n].temperature_low * (9/5)) - 459.67).toFixed(0) + "&deg;</span>";
             }
             output.blocks.push(data.data[n]);
           }
@@ -325,8 +323,7 @@ export class SchedulesService {
     //Configure HTTP Headers
     var headers = this.setToken();
     // var callURL = GlobalSettings.getVerticalEnv('-sports-api.synapsys.us') + "/NBAHoops/call_controller.php?scope=" + scope.toLowerCase() + "&action=tcx&option=tcx_side_scroll&perPage=50&pageNum=1";
-    var callURL = 'http://dev-sports-api.synapsys.us' + "/NBAHoops/call_controller.php?scope=" + scope.toLowerCase() + "&action=tcx&option=tcx_side_scroll&perPage=50&pageNum=1";
-
+    var callURL = GlobalSettings.getTCXscope(scope).verticalApi + "/NBAHoops/call_controller.php?scope=" + scope.toLowerCase() + "&action=tcx&option=tcx_side_scroll&perPage=50&pageNum=1";
     //optional week parameters
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
@@ -410,7 +407,7 @@ export class SchedulesService {
     //Configure HTTP Headers
     var headers = this.setToken();
     // var callURL = GlobalSettings.getVerticalEnv('-homerunloyal-api.synapsys.us') + "/tcx/mlb/schedule/pre-event/50/1";
-    var callURL = 'http://dev-homerunloyal-api.synapsys.us' + "/tcx/mlb/schedule/pre-event/50/1";
+    var callURL = GlobalSettings.getTCXscope(scope).verticalApi + "/tcx/mlb/schedule/pre-event/50/1";
 
     //optional week parameters
     return this.http.get(callURL, {headers: headers})

@@ -33,23 +33,23 @@ export class DeepDiveService {
 
   getDeepDiveBatchService(category: string, limit: number, page: number, state?: string){
     var headers = this.setToken();
-    var callURL = GlobalSettings.getApiUrl() + "/articles";
+    var callURL = GlobalSettings.getTCXscope(category).tcxApi + "/articles";
     //http://dev-tcxmedia-api.synapsys.us/articles?help=1
     //http://dev-tcxmedia-api.synapsys.us/articles?articleType=about-the-teams
-    // if(GlobalSettings.getTCXscope(category).topScope == "basketball" || GlobalSettings.getTCXscope(category).topScope == "football") {
-    //   if(category == "sports"){
+    if(GlobalSettings.getTCXscope(category).topScope == "basketball" || GlobalSettings.getTCXscope(category).topScope == "football") {
+      if(category == "sports"){
         callURL += '?category=sports';
-    //   } else {
-    //     callURL += '?category=sports&subCategory=' + category;
-    //   }
-    // } else if(GlobalSettings.getTCXscope(category).topScope == "entertainment" && GlobalSettings.getTCXscope(category).scope != 'all') {
-    //   callURL += '?category=entertainment&subCategory=' + category;
-    // } else {
-    //   callURL += '?category=' + category;
-    // }
-    // if(limit !== null && page !== null){
+      } else {
+        callURL += '?category=sports&subCategory=' + category;
+      }
+    } else if(GlobalSettings.getTCXscope(category).topScope == "entertainment" && GlobalSettings.getTCXscope(category).scope != 'all') {
+      callURL += '?category=entertainment&subCategory=' + category;
+    } else {
+      callURL += '?category=' + category;
+    }
+    if(limit !== null && page !== null){
       callURL += '&count=' + limit + '&page=' + page;
-    // }
+    }
     // console.log("article url", callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
@@ -67,17 +67,20 @@ export class DeepDiveService {
        },
        err => {
          console.log("Error getting carousel batch data");
+         return this.carouselDummyData();
        });
    }
 
   getDeepDiveVideoBatchService(category: string, limit: number, page: number, location?: string){
       var headers = this.setToken();
-      var callURL = GlobalSettings.getTCXscope(category).verticalApi;
+      // console.log(category);
+      // console.log(GlobalSettings.getTCXscope(category));
+      var callURL = GlobalSettings.getTCXscope(category).tcxApi;
       if(limit === null || typeof limit == 'undefined'){
         limit = 5;
         page = 1;
       }
-      callURL += '/videoBatch/' + category;
+      callURL += '/tcx/videoBatch/' + category;
         //http://dev-homerunloyal-api.synapsys.us/tcx/videoBatch/league/5/1
       if(GlobalSettings.getTCXscope(category).topScope == "basketball"){
         //http://dev-tcxmedia-api.synapsys.us/tcx/videoBatch/nba/1/5
@@ -103,6 +106,7 @@ export class DeepDiveService {
       var sampleImage = "/app/public/placeholder_XL.png";
       var videoBatchArray = [];
       scope = scope ? scope : "sports";
+      // console.log(data);
       data.forEach(function(val, index){
         if(val.time_stamp){
           var date =  moment(Number(val.time_stamp));
@@ -127,6 +131,9 @@ export class DeepDiveService {
 
     // Article Batch Transformed Data
     transformToArticleStack(data: Array<ArticleStackData>, scope?){
+      if(data === null || typeof data == "undefined" || data.length == 0){
+        return null;
+      }
       var sampleImage = "/app/public/placeholder_XL.png";
       var articleStackArray = [];
       data.forEach(function(val, index){
@@ -134,16 +141,22 @@ export class DeepDiveService {
           var date =  moment.unix(Number(val.last_updated));
           date = '<span class="hide-320">' + date.format('dddd') + ', </span>' + date.format('MMM') + date.format('. DD, YYYY');
         }
+        var key = val.subcategory != "none" ? val.subcategory : (val.category ? val.category : "all");
         var routeLink;
+        var extLink;
+        var category = val.article_sub_type ? val.article_sub_type : val.article_type;
         if(val.source == "snt_ai"){
-          routeLink = GlobalSettings.getOffsiteLink(scope, VerticalGlobalFunctions.formatExternalArticleRoute(scope, "story", val.article_id));
+          routeLink = GlobalSettings.getOffsiteLink(val.scope, VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id));
+          extLink = true;
         } else {
           routeLink = VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, "story");
+          extLink = false;
         }
         var articleStackData = {
             id: val.article_id,
-            articleUrl: '/deep-dive',
-            keyword: val.keywords ? val.keywords[0] : scope,
+            articleUrl: routeLink != "" ? routeLink : '/deep-dive',
+            extUrl: extLink,
+            keyword: key,
             timeStamp: date ? date : "",
             title: val.title ? val.title : "No title available",
             author: val.author ? val.author : "",
@@ -152,16 +165,21 @@ export class DeepDiveService {
             imageConfig: {
               imageClass: "embed-responsive-16by9",
               imageUrl: val.image_url ?  GlobalSettings.getImageUrl(val.image_url) : sampleImage,
-              urlRouteArray: GlobalSettings.getOffsiteLink(scope, VerticalGlobalFunctions.formatExternalArticleRoute(scope, "story", val.article_id))//TODO
+              urlRouteArray: routeLink,
+              extUrl: extLink
             },
-            keyUrl: VerticalGlobalFunctions.formatSectionFrontRoute(scope)
+            keyUrl: scope ? VerticalGlobalFunctions.formatSectionFrontRoute(key) : ['/deep-dive']
           }
           articleStackArray.push(articleStackData);
         });
+        // console.log("SCOPE", scope, articleStackArray);
         return articleStackArray;
     }// transformToArticleStack ENDS
 
     carouselTransformData(arrayData:Array<ArticleStackData>){
+      if(arrayData === null || typeof arrayData == 'undefined' || arrayData.length == 0){
+        return null;
+      }
         var transformData = [];
         arrayData.forEach(function(val,index){
           var curdate = new Date();
@@ -190,10 +208,13 @@ export class DeepDiveService {
     carouselDummyData(){
       var sampleImage = "/app/public/placeholder_XL.png";
       var articleStackData = {
-          id: 88,
-          articleUrl: '/deep-dive',
-          keyword: ['Deep Dive'],
-          timeStamp: moment().format("MMMM Do, YYYY h:mm:ss a"),
+          article_id: 88,
+          article_url: '/deep-dive',
+          keywords: ['Deep Dive'],
+          source: 'test',
+          report_type: 'report type',
+          image_url: sampleImage,
+          last_updated: moment().format("MMMM Do, YYYY h:mm:ss a"),
           title: "No title available",
           author: "",
           publisher: "",
@@ -204,6 +225,6 @@ export class DeepDiveService {
             urlRouteArray: ['/deep-dive']
           },
         }
-        return articleStackData;
+        return [articleStackData,articleStackData,articleStackData,articleStackData,articleStackData];
     }
 }// DeepDiveService ENDS

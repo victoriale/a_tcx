@@ -46,7 +46,7 @@ export class GlobalSettings {
     private static _tcxAPI: string = '-tcxmedia-api.synapsys.us/tcx';
 
     static getEnv(env:string):string {
-      if (env == "localhost" || env =="qa"){//remove qa when we have qa env setup
+      if (env == "localhost"){//remove qa when we have qa env setup
           env = "dev";
       }
       if (env != "dev" && env !="qa"){
@@ -72,7 +72,7 @@ export class GlobalSettings {
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'football',
           displayName: 'football',
-          verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us') + '/tcx',
+          verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
           aiApi:this.getVerticalEnv('-touchdownloyal-ai.synapsys.us'),
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
@@ -91,7 +91,26 @@ export class GlobalSettings {
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'football',
           displayName: 'football',
-          verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us') + '/tcx',
+          verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
+          aiApi:this.getVerticalEnv('-touchdownloyal-ai.synapsys.us'),
+          tcxApi: this.getApiUrl(),
+          showEventSlider: true,
+          showBoxScores:true,
+          showSFTopNav: true,
+          icon:'fa-tdl-football',
+          pageType: 1,
+          searchTitle:'Discover The Latest In',
+          searchSubTitle:"Find the players and teams you love",
+          placeHolderText:'Search for a Team or a Player...',
+          searchBackground:"../app/public/Sports_Search-Module-Image.jpg"
+        },
+        'fbs':{
+          parentScope: 'sports',
+          scope:'ncaaf',
+          scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
+          topScope: 'football',
+          displayName: 'football',
+          verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
           aiApi:this.getVerticalEnv('-touchdownloyal-ai.synapsys.us'),
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
@@ -110,7 +129,7 @@ export class GlobalSettings {
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'baseball',
           displayName: 'baseball',
-          verticalApi: this.getVerticalEnv('-homerunloyal-api.synapsys.us') + '/tcx',
+          verticalApi: this.getVerticalEnv('-homerunloyal-api.synapsys.us'),
           aiApi:this.getVerticalEnv('-homerunloyal-ai.synapsys.us'),
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
@@ -129,7 +148,7 @@ export class GlobalSettings {
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'basketball',
           displayName: 'basketball',
-          verticalApi: this.getApiUrl() + '/tcx',
+          verticalApi: this.getVerticalEnv('-sports-api.synapsys.us'),
           aiApi:this.getVerticalEnv('-sports-ai'),
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
@@ -165,7 +184,7 @@ export class GlobalSettings {
           parentScope: null,
           scope:'all',
           scopeList: ["AMEX", "NYSE", "NASDAQ", "ALL"],
-          topScope: 'business',
+          topScope: 'finance',
           displayName: 'business',
           verticalApi: this.getVerticalEnv('-finance-api.synapsys.us'),
           aiApi: null,
@@ -183,7 +202,7 @@ export class GlobalSettings {
           parentScope: null,
           scope:'real-estate',
           topScope: 'real-estate',
-          displayName: 'realestate',
+          displayName: 'real estate',
           verticalApi: this.getVerticalEnv('-joyfulhome-api.synapsys.us'),//dev api is maybe api2.joyfulhome.com
           aiApi: null,
           tcxApi: this.getApiUrl(),
@@ -209,7 +228,7 @@ export class GlobalSettings {
           aiApi: null,
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
-          showBoxScores:true,
+          showBoxScores:false,
           showSFTopNav: true,
           icon:'fa-futbol-o',
           pageType: 1,
@@ -220,7 +239,7 @@ export class GlobalSettings {
           scopeList: ["10 Day", "5 Day", "Hourly"],
           topScope: 'weather',
           displayName: 'weather',
-          verticalApi: this.getVerticalEnv('-weather-api.synapsys.us'),
+          verticalApi: this.getVerticalEnv('-weather.synapsys.us'),
           aiApi: null,
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
@@ -245,7 +264,7 @@ export class GlobalSettings {
           parentScope: null,
           scope:'breaking',
           topScope: 'breaking',
-          displayName: 'breaking',
+          displayName: 'breaking news',
           verticalApi: null,
           aiApi: null,
           tcxApi: this.getApiUrl(),

@@ -155,9 +155,12 @@ export class DeepDivePage implements OnInit {
             this.getDataCarousel();
           },
           err => {
+            this.carouselVideo = [this._deepDiveData.videoDummyData()];
             this.getDataCarousel();
             console.log("Error getting video batch data");
           });
+      }else{
+        this.carouselVideo = null;
       }
     }
 
@@ -169,6 +172,7 @@ export class DeepDivePage implements OnInit {
             this.getDataCarousel();
           },
           err => {
+            this.carouselGraph = this._schedulesService.getDummyGraphResult();
             this.getDataCarousel();
             console.log("Error getting graph batch data");
           });
@@ -176,6 +180,14 @@ export class DeepDivePage implements OnInit {
     }
 
     ngOnInit(){
+      this.initializePage();
+    }
+
+    ngOnChanges(){
+      this.initializePage();
+    }
+
+    initializePage(){
       this.routeSubscription = this._activatedRoute.params.subscribe(
           (param:any) => {
             this.category = param['category'] ? param['category'] : 'all';

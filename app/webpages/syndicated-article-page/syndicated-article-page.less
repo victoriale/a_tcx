@@ -2,7 +2,7 @@
 
   &_leftPane{
     @media @desktop-l{
-      width:70%;
+      max-width: 927px !important;
     }
   }
   @media (min-width: 1023px){
@@ -197,15 +197,15 @@
   &-content {
     position: relative;
     background-color: @white;
-    width: 980px;
+    max-width: 1280px;
 
     @media @tablet {
       //width: calc(100vw);
-      width:100%;
-      padding: 15px;
+      //width:100%;
+      padding: 20px;
     }
     @media @mobile {
-      width: 100%;
+      //width: 100%;
       padding: 0 10px;
     }
     //padding: 0 20px;
@@ -388,6 +388,14 @@
 
 
 
+  }
+  .sixteenNine{
+    @media @desktop-m{
+      min-width:308px;
+    }
+    @media @desktop-l {
+      width: 300px !important;
+    }
   }
 }
 .syndicated-articles-page .deep_recs-articles-item-content-dateline{

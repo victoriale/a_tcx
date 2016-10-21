@@ -709,5 +709,8 @@ export class GlobalSettings {
     static getEstYear() {
       return this._estYear;
     }
+  static getHomePageLinkName() {
+    return this._homepageLinkName;
+  }
 
 }

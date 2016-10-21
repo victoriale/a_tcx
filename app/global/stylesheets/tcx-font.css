@@ -456,3 +456,6 @@
 .fa-expand:before {
   content: "\59";
 }
+.fa-comments-o:before {
+  content: "\2d";
+}

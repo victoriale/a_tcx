@@ -1,5 +1,5 @@
 <div class="syndicated-articles-page">
-    <div class="syndicated-articles-page-content">
+    <div class="syndicated-articles-page-content row">
 
         <div *ngIf="error">
             <div class="loading-container">
@@ -16,7 +16,7 @@
       <div class="articles-page-title" [innerHTML]="articleData.title | safeHtml"></div>
 
         <!--<sidekick-wrapper-ai [aiSidekick]="aiSidekick">-->
-            <div class="syndicated-articles-page_leftPane">
+            <div class="syndicated-articles-page_leftPane col-sm-12 col-xl-9">
             <span>
                 <div class="carousel-container" *ngIf="articleType == 'story'">
                   <images-media-carousel *ngIf="isStockPhoto" [imageData]="imageData" [copyright]="copyright"

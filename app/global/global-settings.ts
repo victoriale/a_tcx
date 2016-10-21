@@ -508,7 +508,7 @@ export class GlobalSettings {
           }
           else {
 
-            link = "http://investkit.com"+ "/" + relativeUrl;
+            link = "http://www.investkit.com/" + relativeUrl;
 
           }
           break;

@@ -152,7 +152,6 @@ export class DeepDiveService {
           routeLink = VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, "story");
           extLink = false;
         }
-        var wordBy = "by".toLowerCase();
         var articleStackData = {
             id: val.article_id,
             articleUrl: routeLink != "" ? routeLink : '/deep-dive',
@@ -160,7 +159,7 @@ export class DeepDiveService {
             keyword: key,
             timeStamp: date ? date : "",
             title: val.title ? val.title : "No title available",
-            author: val.author ? val.author.replace(wordBy, "") : "",
+            author: val.author ? val.author.replace(/by/gi, "") : "",
             publisher: val.publisher ? (val.author ? ", " : "") + val.publisher : "",
             teaser: val.teaser ? val.teaser : "No teaser available",
             imageConfig: {

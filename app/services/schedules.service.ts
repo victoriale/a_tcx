@@ -257,10 +257,10 @@ export class SchedulesService {
         var output = {scopeList: [], blocks: [], current: {}}
         if (data.data != null) {
           output.current['city'] = data.city;
-          output.current['currentCondition'] = data.currentCondition;
-          output.current['currentIcon'] = GlobalSettings.getImageUrl(data.currentIcon);
-          output.current['currentScope'] = data.currentScope;
-          output.current['currentTemperature'] = ((data.currentTemperature * (9/5)) - 459.67).toFixed(0);
+          output.current['currentCondition'] = data.current_condition;
+          output.current['currentIcon'] = GlobalSettings.getImageUrl(data.current_icon);
+          output.current['currentScope'] = data.current_scope;
+          output.current['currentTemperature'] = ((data.current_temperature * (9/5)) - 459.67).toFixed(0);
           output.current['state'] = data.state;
           output.current['zipcode'] = data.zipcode;
           output.blocks.push(
@@ -278,13 +278,13 @@ export class SchedulesService {
             //convert from kelvin to farenheight
             var offset = Intl.DateTimeFormat().resolvedOptions().timeZone;
             if (scope.toLowerCase() == "hourly") {
-              data.data[n].unixTimestamp = moment.unix(data.data[n].unixTimestamp).tz(offset).format("h:mm A z");
+              data.data[n].unixTimestamp = moment.unix(data.data[n].unix_timestamp).tz(offset).format("h:mm A z");
               data.data[n].temperature  = ((data.data[n].temperature * (9/5)) - 459.67).toFixed(0) + "&deg;";
 
             }
             else {
-              data.data[n].unixTimestamp = moment.unix(data.data[n].unixTimestamp).format("dddd, MMM. DD, YYYY").toUpperCase();
-              data.data[n].temperature  = ((data.data[n].temperatureHigh * (9/5)) - 459.67).toFixed(0) + "&deg; <span class='small-temp'>/ " + ((data.data[n].temperatureLow * (9/5)) - 459.67).toFixed(0) + "&deg;</span>";
+              data.data[n].unixTimestamp = moment.unix(data.data[n].unix_timestamp).format("dddd, MMM. DD, YYYY").toUpperCase();
+              data.data[n].temperature  = ((data.data[n].temperature_high * (9/5)) - 459.67).toFixed(0) + "&deg; <span class='small-temp'>/ " + ((data.data[n].temperature_low * (9/5)) - 459.67).toFixed(0) + "&deg;</span>";
             }
             output.blocks.push(data.data[n]);
           }

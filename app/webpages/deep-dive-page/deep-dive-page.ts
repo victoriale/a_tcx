@@ -176,6 +176,14 @@ export class DeepDivePage implements OnInit {
     }
 
     ngOnInit(){
+      this.initializePage();
+    }
+
+    ngOnChanges(){
+      this.initializePage();
+    }
+
+    initializePage(){
       this.routeSubscription = this._activatedRoute.params.subscribe(
           (param:any) => {
             this.category = param['category'] ? param['category'] : 'all';

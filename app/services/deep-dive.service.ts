@@ -33,7 +33,7 @@ export class DeepDiveService {
 
   getDeepDiveBatchService(category: string, limit: number, page: number, state?: string){
     var headers = this.setToken();
-    var callURL = GlobalSettings.getApiUrl() + "/articles";
+    var callURL = GlobalSettings.getTCXscope(category).tcxApi + "/articles";
     //http://dev-tcxmedia-api.synapsys.us/articles?help=1
     //http://dev-tcxmedia-api.synapsys.us/articles?articleType=about-the-teams
     // if(GlobalSettings.getTCXscope(category).topScope == "basketball" || GlobalSettings.getTCXscope(category).topScope == "football") {
@@ -67,17 +67,20 @@ export class DeepDiveService {
        },
        err => {
          console.log("Error getting carousel batch data");
+         return this.carouselDummyData();
        });
    }
 
   getDeepDiveVideoBatchService(category: string, limit: number, page: number, location?: string){
       var headers = this.setToken();
-      var callURL = GlobalSettings.getTCXscope(category).verticalApi;
+      // console.log(category);
+      // console.log(GlobalSettings.getTCXscope(category));
+      var callURL = GlobalSettings.getTCXscope(category).tcxApi;
       if(limit === null || typeof limit == 'undefined'){
         limit = 5;
         page = 1;
       }
-      callURL += '/videoBatch/' + category;
+      callURL += '/tcx/videoBatch/' + category;
         //http://dev-homerunloyal-api.synapsys.us/tcx/videoBatch/league/5/1
       if(GlobalSettings.getTCXscope(category).topScope == "basketball"){
         //http://dev-tcxmedia-api.synapsys.us/tcx/videoBatch/nba/1/5
@@ -103,6 +106,7 @@ export class DeepDiveService {
       var sampleImage = "/app/public/placeholder_XL.png";
       var videoBatchArray = [];
       scope = scope ? scope : "sports";
+      // console.log(data);
       data.forEach(function(val, index){
         if(val.time_stamp){
           var date =  moment(Number(val.time_stamp));
@@ -190,10 +194,13 @@ export class DeepDiveService {
     carouselDummyData(){
       var sampleImage = "/app/public/placeholder_XL.png";
       var articleStackData = {
-          id: 88,
-          articleUrl: '/deep-dive',
-          keyword: ['Deep Dive'],
-          timeStamp: moment().format("MMMM Do, YYYY h:mm:ss a"),
+          article_id: 88,
+          article_url: '/deep-dive',
+          keywords: ['Deep Dive'],
+          source: 'test',
+          report_type: 'report type',
+          image_url: sampleImage,
+          last_updated: moment().format("MMMM Do, YYYY h:mm:ss a"),
           title: "No title available",
           author: "",
           publisher: "",
@@ -204,6 +211,6 @@ export class DeepDiveService {
             urlRouteArray: ['/deep-dive']
           },
         }
-        return articleStackData;
+        return [articleStackData,articleStackData,articleStackData,articleStackData,articleStackData];
     }
 }// DeepDiveService ENDS

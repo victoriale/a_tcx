@@ -126,22 +126,34 @@ export class BoxScoresService {
     let chosenDate = date;
     var callURL;
     // console.log('3. box-scores.service - getBoxScoresService - chosenDate ', chosenDate);
+    // console.log("CALLING ALL BOXSCORES:",scope);
     switch(scope){
-      case 'ncaab':
+      case 'ncaam':
         callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/NBAHoops/call_controller.php?scope=ncaa&action=tcx&option=tcx_box_scores&date='+date;
       break;
-      case 'ncaam':
-        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/NBAHoops/call_controller.php?scope=nba&action=tcx&option=tcx_box_scores&date='+date;
+      case 'nba':
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/NBAHoops/call_controller.php?scope=' + scope + '&action=tcx&option=tcx_box_scores&date='+date;
+      break;
+      case 'mlb':
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi + '/tcx/' + scope + '/boxScores/' + date + '/addAi';
+      break;
+      case 'nfl':
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/tcx/boxScores/league/'+scope+'/'+date+'/addAi';
+      break;
+      case 'ncaaf':
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/tcx/boxScores/league/fbs/'+date+'/addAi';
       break;
       default:
-        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/boxScores/league/'+scope+'/'+date+'/addAi';
+      callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/tcx/boxScores/league/'+scope+'/'+date+'/addAi';
       break;
       //http://dev-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=ncaa&action=tcx&option=tcx_box_scores&date=2017-12-03
     }
+    // console.log(callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
         // console.log('3. box-scores.service - getBoxScoresService - data ', data);
+        // console.log('NEW DATA',data);
         var transformedDate = this.transformBoxScores(data.data, scope);
         return {
           transformedDate: transformedDate.data,
@@ -227,7 +239,6 @@ export class BoxScoresService {
 
       } //if (boxScoresData[gameDate])
     } // END for ( var gameDate in data.data )
-
     var transformedData = {
       currentScope: scope,
       aiContent: data.aiContent != null ? data.aiContent : null,
@@ -255,13 +266,15 @@ export class BoxScoresService {
     // }else{
     //   scopedDateParam = dateParam;
     // }
+    // console.log('NEW OR OLD PARAMS =>',dateParam);
     if ( boxScoresData == null || boxScoresData.transformedDate[scopedDateParam.date] == null ) {
       this.getBoxScoresService(scopedDateParam.scope, scopedDateParam.date)
         .subscribe(data => {
+          // console.log(data);
           if(data.transformedDate[data.date] != null && data.transformedDate[data.date][0] != null) {
             let currentBoxScores = {
               moduleTitle: this.moduleHeader(data.date, profileName),
-              gameInfo: this.formatGameInfo(data.transformedDate[data.date],scopedDateParam.teamId, scopedDateParam.profile),
+              gameInfo: this.formatGameInfo(data.transformedDate[data.date],scopedDateParam.scope, scopedDateParam.profile),
               // schedule: data.transformedDate[data.date] != null ? this.formatSchedule(data.transformedDate[data.date][0], scopedDateParam.scope, scopedDateParam.profile) : null, //UNUSED IN TCX
               aiContent: data.aiContent != null ? this.aiHeadLine(data.aiContent, scopedDateParam.scope) : null, //TODO
               nextGameDate:data.nextGameDate,
@@ -279,7 +292,7 @@ export class BoxScoresService {
       if( boxScoresData.transformedDate[dateParam.date] != null ){
         let currentBoxScores = {
           moduleTitle: this.moduleHeader(dateParam.date, profileName),
-          gameInfo: this.formatGameInfo(boxScoresData.transformedDate[dateParam.date],dateParam.teamId, dateParam.profile),
+          gameInfo: this.formatGameInfo(boxScoresData.transformedDate[dateParam.date],dateParam.scope, dateParam.profile),
           // schedule: dateParam.profile != 'league' && boxScoresData.transformedDate[dateParam.date] != null? this.formatSchedule(boxScoresData.transformedDate[dateParam.date][0], dateParam.teamId, dateParam.profile) : null, //UNUSED IN TCX
           aiContent: boxScoresData.aiContent != null ? this.aiHeadLine(boxScoresData.aiContent, scopedDateParam.scope) : null, //TODO
           nextGameDate:boxScoresData.nextGameDate,
@@ -358,19 +371,30 @@ export class BoxScoresService {
     var headers = this.setToken();
     var callURL;
     switch(scope){
-      case 'ncaab':
-        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/NBAHoops/call_controller.php?scope=ncaa&action=tcx&option=tcx_game_dates_weekly&date='+date;
-      break;
       case 'ncaam':
-        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/NBAHoops/call_controller.php?scope=nba&action=tcx&option=tcx_game_dates_weekly&date='+date;
+        scope = 'ncaa'
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/NBAHoops/call_controller.php?scope='+scope+'&action=tcx&option=tcx_game_dates_weekly&date='+date;
       break;
-      default:
+      case 'nba':
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/NBAHoops/call_controller.php?scope='+scope+'&action=tcx&option=tcx_game_dates_weekly&date='+date;
+      break;
+      case 'nfl':
         callURL = GlobalSettings.getTCXscope(scope).verticalApi + '/league/gameDatesWeekly/'+scope+'/'+date; //TODO when TCX API is sestup
       break;
+      case 'ncaaf':
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi + '/league/gameDatesWeekly/fbs/'+date; //TODO when TCX API is sestup
+      break;
+      case 'mlb':
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi + '/league/gameDatesWeekly/'+date; //TODO when TCX API is sestup
+      break;
+      default:
+      callURL = GlobalSettings.getTCXscope(scope).verticalApi + '/league/gameDatesWeekly/'+scope+'/'+date; //TODO when TCX API is sestup
+      break;
     }
+    // console.log(callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
-      .map(data => {
+      .map(data => {``
         return data;
       })
   }
@@ -389,17 +413,27 @@ export class BoxScoresService {
 
     var callURL;
     switch(scope){
-      case 'ncaab':
-        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/NBAHoops/call_controller.php?scope=ncaa&action=tcx&option=tcx_game_dates_monthly&date='+date;
-      break;
       case 'ncaam':
-        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/NBAHoops/call_controller.php?scope=nba&action=tcx&option=tcx_game_dates_monthly&date='+date;
+      scope = 'ncaa'
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/NBAHoops/call_controller.php?scope='+scope+'&action=tcx&option=tcx_game_dates_monthly&date='+date;
+      break;
+      case 'nba':
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/NBAHoops/call_controller.php?scope='+scope+'&action=tcx&option=tcx_game_dates_monthly&date='+date;
+      break;
+      case 'nfl':
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi + '/league/gameDates/'+scope+'/'+date; //TODO when TCX API is sestup
+      break;
+      case 'ncaaf':
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi + '/league/gameDates/fbs/'+date; //TODO when TCX API is sestup
+      break;
+      case 'mlb':
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi + '/league/gameDates/'+date; //TODO when TCX API is sestup
       break;
       default:
         callURL = GlobalSettings.getTCXscope(scope).verticalApi + '/league/gameDates/'+scope+'/'+date; //TODO when TCX API is sestup
       break;
     }
-
+    // console.log(callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
@@ -413,10 +447,6 @@ export class BoxScoresService {
     let self = this;
     var twoBoxes = [];// used to put two games into boxes
 
-    if(scope == 'nfl' || scope == 'fbs' || scope == 'nfl'){ //TODO
-      scope = null;
-    }
-
     // Sort games by time
     let sortedGames = game.sort(function(a, b) {
       return Number(a.gameInfo.startDateTimestamp) - Number(b.gameInfo.startDateTimestamp);
@@ -427,12 +457,18 @@ export class BoxScoresService {
       let awayData = data.awayTeamInfo;
       let homeData = data.homeTeamInfo;
       let gameInfo = data.gameInfo;
-      let homeLink = ''; //TODO
-      let awayLink = ''; //TODO
+      let isPartner = GlobalSettings.getHomeInfo().isPartner;
+      let homeLink = isPartner == false ? this.formatTeamRelLinks(scope, homeData.lastName, homeData.id)[scope].home_link : this.formatTeamRelLinks(scope, homeData.lastName, homeData.id)[scope].partner_link; //TODO
+      let awayLink = isPartner == false ? this.formatTeamRelLinks(scope, homeData.lastName, awayData.id)[scope].home_link : this.formatTeamRelLinks(scope, awayData.lastName, awayData.id)[scope].partner_link;//TODO
 
       var aiContent = data.aiContent != null ? self.formatArticle(data):null; //TODO
-      var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo), homeLink); //TODO
-      var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo), awayLink); //TODO
+      if(scope == 'mlb'){
+        var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getSportsImageUrl(homeData.logo), homeLink); //TODO
+        var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getSportsImageUrl(awayData.logo), awayLink); //TODO
+      }else{
+        var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo), homeLink); //TODO
+        var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo), awayLink); //TODO
+      }
 
       let gameDate = data.gameInfo;
       let homeRecord = data.homeTeamInfo.teamRecord;
@@ -525,6 +561,32 @@ export class BoxScoresService {
 
   formatScoreBoard(data){}// so far unused on TCX
 
+  formatTeamRelLinks(scope, teamName, id){
+    teamName = teamName.toLowerCase();
+    var relPath = {
+      'nfl':{
+        'home_link': '/NBA/team/'+teamName.split(' ').join('-')+'/'+id,
+        'partner_link':'/NBA/t/'+teamName.split(' ').join('-')+'/'+id,
+      },
+      'ncaaf':{
+        'home_link': '/NCAAF/team/'+teamName.split(' ').join('-')+'/'+id,
+        'partner_link':'/NCAAF/t/'+teamName.split(' ').join('-')+'/'+id,
+      },
+      'mlb':{
+        'home_link': '/team'+teamName.split(' ').join('-')+'/'+id,
+        'partner_link':'/t/'+teamName.split(' ').join('-')+'/'+id,
+      },
+      'nba':{
+        'home_link': '/NBA/team/'+teamName.split(' ').join('-')+'/'+id,
+        'partner_link':'/NBA/t/'+teamName.split(' ').join('-')+'/'+id,
+      },
+      'ncaam':{
+        'home_link': '/NCAA/team/'+teamName.split(' ').join('-')+'/'+id,
+        'partner_link':'/NCAA/t/'+teamName.split(' ').join('-')+'/'+id,
+      },
+    };
+    return relPath;
+  }
   //used to send into image component in the format it needs but per module it differs so each service will have its own imageData
   imageData(imageClass, imageBorder, mainImg, mainImgRoute?){
     if(typeof mainImg =='undefined' || mainImg == ''){

@@ -458,8 +458,10 @@ export class BoxScoresService {
       let homeData = data.homeTeamInfo;
       let gameInfo = data.gameInfo;
       let isPartner = GlobalSettings.getHomeInfo().isPartner;
-      let homeLink = isPartner == false ? this.formatTeamRelLinks(scope, homeData.lastName, homeData.id)[scope].home_link : this.formatTeamRelLinks(scope, homeData.lastName, homeData.id)[scope].partner_link; //TODO
-      let awayLink = isPartner == false ? this.formatTeamRelLinks(scope, homeData.lastName, awayData.id)[scope].home_link : this.formatTeamRelLinks(scope, awayData.lastName, awayData.id)[scope].partner_link;//TODO
+      let homeLink = isPartner == false ? self.formatTeamRelLinks(scope, homeData.lastName, homeData.id)[scope].vertical_link : self.formatTeamRelLinks(scope, homeData.lastName, homeData.id)[scope].partner_link; //TODO
+      let awayLink = isPartner == false ? self.formatTeamRelLinks(scope, awayData.lastName, awayData.id)[scope].vertical_link : self.formatTeamRelLinks(scope, awayData.lastName, awayData.id)[scope].partner_link;//TODO
+      homeLink = GlobalSettings.getOffsiteLink(scope, homeLink);
+      awayLink = GlobalSettings.getOffsiteLink(scope, awayLink);
 
       var aiContent = data.aiContent != null ? self.formatArticle(data):null; //TODO
       if(scope == 'mlb'){
@@ -565,24 +567,24 @@ export class BoxScoresService {
     teamName = teamName.toLowerCase();
     var relPath = {
       'nfl':{
-        'home_link': '/NBA/team/'+teamName.split(' ').join('-')+'/'+id,
-        'partner_link':'/NBA/t/'+teamName.split(' ').join('-')+'/'+id,
+        'vertical_link': 'nfl/team/'+teamName.split(' ').join('-')+'/'+id,
+        'partner_link':'nfl/t/'+teamName.split(' ').join('-')+'/'+id,
       },
       'ncaaf':{
-        'home_link': '/NCAAF/team/'+teamName.split(' ').join('-')+'/'+id,
-        'partner_link':'/NCAAF/t/'+teamName.split(' ').join('-')+'/'+id,
+        'vertical_link': 'ncaaf/team/'+teamName.split(' ').join('-')+'/'+id,
+        'partner_link':'ncaaf/t/'+teamName.split(' ').join('-')+'/'+id,
       },
       'mlb':{
-        'home_link': '/team'+teamName.split(' ').join('-')+'/'+id,
-        'partner_link':'/t/'+teamName.split(' ').join('-')+'/'+id,
+        'vertical_link': 'team'+teamName.split(' ').join('-')+'/'+id,
+        'partner_link':'t/'+teamName.split(' ').join('-')+'/'+id,
       },
       'nba':{
-        'home_link': '/NBA/team/'+teamName.split(' ').join('-')+'/'+id,
-        'partner_link':'/NBA/t/'+teamName.split(' ').join('-')+'/'+id,
+        'vertical_link': 'nba/team/'+teamName.split(' ').join('-')+'/'+id,
+        'partner_link':'nba/t/'+teamName.split(' ').join('-')+'/'+id,
       },
       'ncaam':{
-        'home_link': '/NCAA/team/'+teamName.split(' ').join('-')+'/'+id,
-        'partner_link':'/NCAA/t/'+teamName.split(' ').join('-')+'/'+id,
+        'vertical_link': 'ncaa/team/'+teamName.split(' ').join('-')+'/'+id,
+        'partner_link':'ncaa/t/'+teamName.split(' ').join('-')+'/'+id,
       },
     };
     return relPath;
@@ -596,7 +598,7 @@ export class BoxScoresService {
         imageClass: imageClass,
         mainImage: {
             imageUrl: mainImg,
-            urlRouteArray: mainImgRoute,
+            url: mainImgRoute,
             hoverText: "<i class='fa fa-mail-forward'></i>",
             imageClass: imageBorder,
         },

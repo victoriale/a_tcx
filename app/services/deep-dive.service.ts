@@ -33,23 +33,24 @@ export class DeepDiveService {
 
   getDeepDiveBatchService(category: string, limit: number, page: number, state?: string){
     var headers = this.setToken();
-    var callURL = GlobalSettings.getTCXscope(category).tcxApi + "/articles";
+    var callURL = GlobalSettings.getApiUrl() + "/articles";
     //http://dev-tcxmedia-api.synapsys.us/articles?help=1
     //http://dev-tcxmedia-api.synapsys.us/articles?articleType=about-the-teams
-    if(GlobalSettings.getTCXscope(category).topScope == "basketball" || GlobalSettings.getTCXscope(category).topScope == "football") {
-      if(category == "sports"){
-        callURL += '?category=sports';
-      } else {
-        callURL += '?category=sports&subCategory=' + category;
-      }
-    } else if(GlobalSettings.getTCXscope(category).topScope == "entertainment" && GlobalSettings.getTCXscope(category).scope != 'all') {
-      callURL += '?category=entertainment&subCategory=' + category;
-    } else {
-      callURL += '?category=' + category;
-    }
+    // if(GlobalSettings.getTCXscope(category).topScope == "basketball" || GlobalSettings.getTCXscope(category).topScope == "football") {
+    //   if(category == "sports"){
+    //     callURL += '?category=sports';
+    //   } else {
+    //     callURL += '?category=sports&subCategory=' + category;
+    //   }
+    // } else if(GlobalSettings.getTCXscope(category).topScope == "entertainment" && GlobalSettings.getTCXscope(category).scope != 'all') {
+    //   callURL += '?category=entertainment&subCategory=' + category;
+    // } else {
+    //   callURL += '?category=' + category;
+    // }
     if(limit !== null && page !== null){
-      callURL += '&count=' + limit + '&page=' + page;
+      callURL += '?count=' + limit + '&page=' + page;
     }
+    callURL += '&keyword[]=' + category.replace(/-/g, " ");
     // console.log("article url", callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
@@ -103,10 +104,12 @@ export class DeepDiveService {
   }// getDeepDiveVideoBatchService ENDS
 
     transformSportVideoBatchData(data: Array<VideoStackData>, scope?){
+      if(data === null || typeof data == "undefined" || data.length == 0){
+        return null;
+      }
       var sampleImage = "/app/public/placeholder_XL.png";
       var videoBatchArray = [];
       scope = scope ? scope : "sports";
-      // console.log(data);
       data.forEach(function(val, index){
         if(val.time_stamp){
           var date =  moment(Number(val.time_stamp));
@@ -131,9 +134,6 @@ export class DeepDiveService {
 
     // Article Batch Transformed Data
     transformToArticleStack(data: Array<ArticleStackData>, scope?){
-      if(data === null || typeof data == "undefined" || data.length == 0){
-        return null;
-      }
       var sampleImage = "/app/public/placeholder_XL.png";
       var articleStackArray = [];
       data.forEach(function(val, index){
@@ -159,7 +159,7 @@ export class DeepDiveService {
             keyword: key,
             timeStamp: date ? date : "",
             title: val.title ? val.title : "No title available",
-            author: val.author ? val.author : "",
+            author: val.author ? val.author.replace(/by/gi, "") : "",
             publisher: val.publisher ? (val.author ? ", " : "") + val.publisher : "",
             teaser: val.teaser ? val.teaser : "No teaser available",
             imageConfig: {
@@ -168,7 +168,7 @@ export class DeepDiveService {
               urlRouteArray: routeLink,
               extUrl: extLink
             },
-            keyUrl: scope ? VerticalGlobalFunctions.formatSectionFrontRoute(key) : ['/deep-dive']
+            keyUrl: key != "all" ? VerticalGlobalFunctions.formatSectionFrontRoute(key) : ['/deep-dive']
           }
           articleStackArray.push(articleStackData);
         });

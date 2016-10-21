@@ -160,7 +160,7 @@ export class SyndicatedArticlePage{
     }
     formatDate(date) {
 
-        return moment(date).format("MMMM DD, YYYY | h:mm A ")
+        return moment(date).format("MMMM DD, YYYY at h:mm A ")
 
     }
 

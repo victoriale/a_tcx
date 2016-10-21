@@ -104,6 +104,25 @@ export class GlobalSettings {
           placeHolderText:'Search for a Team or a Player...',
           searchBackground:"../app/public/Sports_Search-Module-Image.jpg"
         },
+        'fbs':{
+          parentScope: 'sports',
+          scope:'ncaaf',
+          scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
+          topScope: 'football',
+          displayName: 'football',
+          verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
+          aiApi:this.getVerticalEnv('-touchdownloyal-ai.synapsys.us'),
+          tcxApi: this.getApiUrl(),
+          showEventSlider: true,
+          showBoxScores:true,
+          showSFTopNav: true,
+          icon:'fa-tdl-football',
+          pageType: 1,
+          searchTitle:'Discover The Latest In',
+          searchSubTitle:"Find the players and teams you love",
+          placeHolderText:'Search for a Team or a Player...',
+          searchBackground:"../app/public/Sports_Search-Module-Image.jpg"
+        },
         'mlb':{
           parentScope: 'sports',
           scope:'mlb',

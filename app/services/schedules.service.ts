@@ -36,7 +36,7 @@ export class SchedulesService {
     //Configure HTTP Headers
     var headers = this.setToken();
 
-    var callURL = this._apiUrl+'/schedule/'+profile;
+    var callURL = this._apiUrl+'/schedule/mlb';
     if(typeof year == 'undefined'){
       year = null;
     }

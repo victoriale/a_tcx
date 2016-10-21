@@ -144,6 +144,7 @@ export class DeepDivePage implements OnInit {
     getDataCarousel() {
       this._deepDiveData.getCarouselData(this.scope, this.carouselData, '25', '1', this.geoLocation, (carData)=>{
         this.carouselData = carData;
+        console.log('large carousel data', this.carouselData);
       })
     }
 
@@ -151,6 +152,7 @@ export class DeepDivePage implements OnInit {
       if(this.topScope != 'weather'){
         this._deepDiveData.getDeepDiveVideoBatchService(this.scope, 5, 1).subscribe(
           data => {
+            console.log('large carousel video', data);
             this.carouselVideo = this._deepDiveData.transformSportVideoBatchData([data.data[0]]);
             this.getDataCarousel();
           },
@@ -166,6 +168,7 @@ export class DeepDivePage implements OnInit {
         this._schedulesService.getWeatherCarousel('hourly', this.selectedLocation).subscribe(
           data => {
             this.carouselGraph = data;
+            console.log('large carousel graph', this.carouselGraph);
             this.getDataCarousel();
           },
           err => {
@@ -176,17 +179,14 @@ export class DeepDivePage implements OnInit {
     }
 
     ngOnInit(){
-      console.log('INIT',this.scope);
       this.initializePage();
     }
 
     ngOnChanges(){
-      console.log('CHANGES',this.scope);
       this.initializePage();
     }
 
     initializePage(){
-      console.log('scope',this.scope);
       this.routeSubscription = this._activatedRoute.params.subscribe(
           (param:any) => {
             this.category = param['category'] ? param['category'] : 'all';

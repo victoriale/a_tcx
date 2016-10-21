@@ -144,7 +144,6 @@ export class DeepDivePage implements OnInit {
     getDataCarousel() {
       this._deepDiveData.getCarouselData(this.scope, this.carouselData, '25', '1', this.geoLocation, (carData)=>{
         this.carouselData = carData;
-        console.log('large carousel data', this.carouselData);
       })
     }
 
@@ -152,7 +151,6 @@ export class DeepDivePage implements OnInit {
       if(this.topScope != 'weather'){
         this._deepDiveData.getDeepDiveVideoBatchService(this.scope, 5, 1).subscribe(
           data => {
-            console.log('large carousel video', data);
             this.carouselVideo = this._deepDiveData.transformSportVideoBatchData([data.data[0]]);
             this.getDataCarousel();
           },
@@ -168,7 +166,6 @@ export class DeepDivePage implements OnInit {
         this._schedulesService.getWeatherCarousel('hourly', this.selectedLocation).subscribe(
           data => {
             this.carouselGraph = data;
-            console.log('large carousel graph', this.carouselGraph);
             this.getDataCarousel();
           },
           err => {
@@ -200,7 +197,6 @@ export class DeepDivePage implements OnInit {
             this.topScope = this.tcxVars ? this.tcxVars.topScope : this.category;
             this.changeScopeVar = this.tcxVars.scope;
             this.deepDiveType = this.category != 'all' ? GlobalSettings.getTCXscope(this.scope).pageType : 'all';
-            console.log('scope',this.scope);
             this.getGeoLocation();
             this.getDeepDiveVideo();
             this.sectionFrontName();

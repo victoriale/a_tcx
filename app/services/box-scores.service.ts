@@ -126,7 +126,7 @@ export class BoxScoresService {
     let chosenDate = date;
     var callURL;
     // console.log('3. box-scores.service - getBoxScoresService - chosenDate ', chosenDate);
-    console.log("CALLING ALL BOXSCORES:",scope);
+    // console.log("CALLING ALL BOXSCORES:",scope);
     switch(scope){
       case 'ncaam':
         callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/NBAHoops/call_controller.php?scope=ncaa&action=tcx&option=tcx_box_scores&date='+date;
@@ -148,12 +148,12 @@ export class BoxScoresService {
       break;
       //http://dev-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=ncaa&action=tcx&option=tcx_box_scores&date=2017-12-03
     }
-    console.log(callURL);
+    // console.log(callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
         // console.log('3. box-scores.service - getBoxScoresService - data ', data);
-        console.log('NEW DATA',data);
+        // console.log('NEW DATA',data);
         var transformedDate = this.transformBoxScores(data.data, scope);
         return {
           transformedDate: transformedDate.data,
@@ -266,11 +266,11 @@ export class BoxScoresService {
     // }else{
     //   scopedDateParam = dateParam;
     // }
-    console.log('NEW OR OLD PARAMS =>',dateParam);
+    // console.log('NEW OR OLD PARAMS =>',dateParam);
     if ( boxScoresData == null || boxScoresData.transformedDate[scopedDateParam.date] == null ) {
       this.getBoxScoresService(scopedDateParam.scope, scopedDateParam.date)
         .subscribe(data => {
-          console.log(data);
+          // console.log(data);
           if(data.transformedDate[data.date] != null && data.transformedDate[data.date][0] != null) {
             let currentBoxScores = {
               moduleTitle: this.moduleHeader(data.date, profileName),

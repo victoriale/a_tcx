@@ -73,8 +73,8 @@ export class DeepDiveService {
 
   getDeepDiveVideoBatchService(category: string, limit: number, page: number, location?: string){
       var headers = this.setToken();
-      console.log(category);
-      console.log(GlobalSettings.getTCXscope(category));
+      // console.log(category);
+      // console.log(GlobalSettings.getTCXscope(category));
       var callURL = GlobalSettings.getTCXscope(category).tcxApi;
       if(limit === null || typeof limit == 'undefined'){
         limit = 5;
@@ -106,7 +106,7 @@ export class DeepDiveService {
       var sampleImage = "/app/public/placeholder_XL.png";
       var videoBatchArray = [];
       scope = scope ? scope : "sports";
-      console.log(data);
+      // console.log(data);
       data.forEach(function(val, index){
         if(val.time_stamp){
           var date =  moment(Number(val.time_stamp));

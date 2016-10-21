@@ -72,7 +72,7 @@ export class GlobalSettings {
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'football',
           displayName: 'football',
-          verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us') + '/tcx',
+          verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
           aiApi:this.getVerticalEnv('-touchdownloyal-ai.synapsys.us'),
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
@@ -91,7 +91,7 @@ export class GlobalSettings {
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'football',
           displayName: 'football',
-          verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us') + '/tcx',
+          verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
           aiApi:this.getVerticalEnv('-touchdownloyal-ai.synapsys.us'),
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
@@ -110,7 +110,7 @@ export class GlobalSettings {
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'baseball',
           displayName: 'baseball',
-          verticalApi: this.getVerticalEnv('-homerunloyal-api.synapsys.us') + '/tcx',
+          verticalApi: this.getVerticalEnv('-homerunloyal-api.synapsys.us'),
           aiApi:this.getVerticalEnv('-homerunloyal-ai.synapsys.us'),
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
@@ -129,7 +129,7 @@ export class GlobalSettings {
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'basketball',
           displayName: 'basketball',
-          verticalApi: this.getApiUrl() + '/tcx',
+          verticalApi: this.getVerticalEnv('-sports-api.synapsys.us'),
           aiApi:this.getVerticalEnv('-sports-ai'),
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
@@ -220,7 +220,7 @@ export class GlobalSettings {
           scopeList: ["10 Day", "5 Day", "Hourly"],
           topScope: 'weather',
           displayName: 'weather',
-          verticalApi: this.getVerticalEnv('-weather-api.synapsys.us'),
+          verticalApi: this.getVerticalEnv('-weather.synapsys.us'),
           aiApi: null,
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
@@ -508,7 +508,7 @@ export class GlobalSettings {
           }
           else {
 
-            link = "http://investkit.com"+ "/" + relativeUrl;
+            link = "http://www.investkit.com/" + relativeUrl;
 
           }
           break;

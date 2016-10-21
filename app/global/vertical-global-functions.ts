@@ -107,8 +107,8 @@ export class VerticalGlobalFunctions {
 
   static formatSectionFrontRoute(category: string): Array<any> {
     var sectionFrontRoute: Array<any>;
-    if(category === null || typeof GlobalSettings.getTCXscope(category) == "undefined"){
-      return ['/deep-dive'];
+    if(typeof GlobalSettings.getTCXscope(category) == "undefined"){
+      return category !== null ? ['/deep-dive', category] : ['/deep-dive'];
     }
     if(GlobalSettings.getTCXscope(category).parentScope != null){
       sectionFrontRoute = ['/deep-dive', GlobalSettings.getTCXscope(category).parentScope, category];

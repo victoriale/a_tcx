@@ -202,7 +202,7 @@ export class GlobalSettings {
           parentScope: null,
           scope:'real-estate',
           topScope: 'real-estate',
-          displayName: 'realestate',
+          displayName: 'real estate',
           verticalApi: this.getVerticalEnv('-joyfulhome-api.synapsys.us'),//dev api is maybe api2.joyfulhome.com
           aiApi: null,
           tcxApi: this.getApiUrl(),
@@ -264,7 +264,7 @@ export class GlobalSettings {
           parentScope: null,
           scope:'breaking',
           topScope: 'breaking',
-          displayName: 'breaking',
+          displayName: 'breaking news',
           verticalApi: null,
           aiApi: null,
           tcxApi: this.getApiUrl(),

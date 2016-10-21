@@ -141,19 +141,21 @@ export class DeepDivePage implements OnInit {
       this.getSideScroll();
     }
 
-    private getDataCarousel() {
-      this._deepDiveData.getCarouselData('nfl', this.carouselData, '25', '1', 'CA', (carData)=>{
+    getDataCarousel() {
+      this._deepDiveData.getCarouselData(this.scope, this.carouselData, '25', '1', this.geoLocation, (carData)=>{
         this.carouselData = carData;
       })
     }
 
     getDeepDiveVideo(){
       if(this.topScope != 'weather'){
-        this._deepDiveData.getDeepDiveVideoBatchService(this.scope, 1, 1).subscribe(
+        this._deepDiveData.getDeepDiveVideoBatchService(this.scope, 5, 1).subscribe(
           data => {
-            this.carouselVideo = [data.data[0]];
+            this.carouselVideo = this._deepDiveData.transformSportVideoBatchData([data.data[0]]);
+            this.getDataCarousel();
           },
           err => {
+            this.getDataCarousel();
             console.log("Error getting video batch data");
           });
       }
@@ -164,12 +166,24 @@ export class DeepDivePage implements OnInit {
         this._schedulesService.getWeatherCarousel('hourly', this.selectedLocation).subscribe(
           data => {
             this.carouselGraph = data;
-          }
-        );
+            this.getDataCarousel();
+          },
+          err => {
+            this.getDataCarousel();
+            console.log("Error getting graph batch data");
+          });
       }
     }
 
     ngOnInit(){
+      this.initializePage();
+    }
+
+    ngOnChanges(){
+      this.initializePage();
+    }
+
+    initializePage(){
       this.routeSubscription = this._activatedRoute.params.subscribe(
           (param:any) => {
             this.category = param['category'] ? param['category'] : 'all';
@@ -184,7 +198,6 @@ export class DeepDivePage implements OnInit {
             this.changeScopeVar = this.tcxVars.scope;
             this.deepDiveType = this.category != 'all' ? GlobalSettings.getTCXscope(this.scope).pageType : 'all';
             this.getGeoLocation();
-            this.getDataCarousel();
             this.getDeepDiveVideo();
             this.sectionFrontName();
           });

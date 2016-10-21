@@ -27,8 +27,9 @@ export class GlobalSettings {
     private static _partnerHomepageLinkName:string = 'tcxzone';
 
     //links from our share providers that do not change
-    private static _siteTwitterUrl:string = 'https://twitter.com/touchdownloyal';
-    private static _siteFacebookUrl:string = 'https://www.facebook.com/touchdownloyal';
+    private static _siteTwitterUrl:string = 'https://twitter.com/home?status=';
+    private static _siteFacebookUrl:string = 'https://www.facebook.com/sharer/sharer.php?u=';
+    private static _siteLinkedinUrl:string = 'https://www.linkedin.com/shareArticle?mini=true&url=&title=&summary=&source=';
     private static _siteGoogleUrl:string = 'https://plus.google.com/share?url=';
 
     //base titles that will be used to displayed different when on white labeled partner domains
@@ -45,7 +46,7 @@ export class GlobalSettings {
     private static _tcxAPI: string = '-tcxmedia-api.synapsys.us/tcx';
 
     static getEnv(env:string):string {
-      if (env == "localhost"){
+      if (env == "localhost" || env =="qa"){//remove qa when we have qa env setup
           env = "dev";
       }
       if (env != "dev" && env !="qa"){
@@ -71,7 +72,7 @@ export class GlobalSettings {
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'football',
           displayName: 'football',
-          verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us') + '/tcx',
+          verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
           aiApi:this.getVerticalEnv('-touchdownloyal-ai.synapsys.us'),
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
@@ -90,7 +91,7 @@ export class GlobalSettings {
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'football',
           displayName: 'football',
-          verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us') + '/tcx',
+          verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
           aiApi:this.getVerticalEnv('-touchdownloyal-ai.synapsys.us'),
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
@@ -109,7 +110,7 @@ export class GlobalSettings {
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'baseball',
           displayName: 'baseball',
-          verticalApi: this.getVerticalEnv('-homerunloyal-api.synapsys.us') + '/tcx',
+          verticalApi: this.getVerticalEnv('-homerunloyal-api.synapsys.us'),
           aiApi:this.getVerticalEnv('-homerunloyal-ai.synapsys.us'),
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
@@ -128,7 +129,7 @@ export class GlobalSettings {
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'basketball',
           displayName: 'basketball',
-          verticalApi: this.getApiUrl() + '/tcx',
+          verticalApi: this.getVerticalEnv('-sports-api.synapsys.us'),
           aiApi:this.getVerticalEnv('-sports-ai'),
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
@@ -219,7 +220,7 @@ export class GlobalSettings {
           scopeList: ["10 Day", "5 Day", "Hourly"],
           topScope: 'weather',
           displayName: 'weather',
-          verticalApi: this.getVerticalEnv('-weather-api.synapsys.us'),
+          verticalApi: this.getVerticalEnv('-weather.synapsys.us'),
           aiApi: null,
           tcxApi: this.getApiUrl(),
           showEventSlider: true,
@@ -507,7 +508,7 @@ export class GlobalSettings {
           }
           else {
 
-            link = "http://investkit.com"+ "/" + relativeUrl;
+            link = "http://www.investkit.com/" + relativeUrl;
 
           }
           break;
@@ -673,14 +674,17 @@ export class GlobalSettings {
     static getCopyrightInfo() {
         return this._copyrightInfo;
     }
-    static getSiteTwitterUrl() {
-      return this._siteTwitterUrl;
+    static getSiteTwitterUrl(shareUrl: string) {
+      return this._siteTwitterUrl + shareUrl;
     }
-    static getSiteFacebookUrl() {
-      return this._siteFacebookUrl;
+    static getSiteFacebookUrl(shareUrl: string) {
+      return this._siteFacebookUrl + shareUrl;
     }
-    static getSiteGoogleUrl(partnerId: string) {
-      return this._siteGoogleUrl + this.getHomePage(partnerId);
+    static getLinkedInUrl(shareUrl: string) {
+      return this._siteLinkedinUrl + shareUrl;
+	  }
+    static getSiteGoogleUrl(shareUrl: string) {
+      return this._siteGoogleUrl + shareUrl;
 	  }
 
     static getEstYear() {

@@ -197,8 +197,7 @@ export class SchedulesService {
     //Configure HTTP Headers
     var headers = this.setToken();
     // var callURL = GlobalSettings.getVerticalEnv('-finance-api.synapsys.us') + "/call_controller.php?action=tcx&option=tcx_side_scroll";
-    var callURL = GlobalSettings.getTCXscope(scope).verticalApi + "/call_controller.php?action=tcx&option=tcx_side_scroll";
-
+    var callURL = GlobalSettings.getTCXscope("business").verticalApi + "/call_controller.php?action=tcx&option=tcx_side_scroll";
     //optional week parameters
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
@@ -325,7 +324,6 @@ export class SchedulesService {
     var headers = this.setToken();
     // var callURL = GlobalSettings.getVerticalEnv('-sports-api.synapsys.us') + "/NBAHoops/call_controller.php?scope=" + scope.toLowerCase() + "&action=tcx&option=tcx_side_scroll&perPage=50&pageNum=1";
     var callURL = GlobalSettings.getTCXscope(scope).verticalApi + "/NBAHoops/call_controller.php?scope=" + scope.toLowerCase() + "&action=tcx&option=tcx_side_scroll&perPage=50&pageNum=1";
-
     //optional week parameters
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
@@ -408,8 +406,8 @@ export class SchedulesService {
   getBaseballSchedule(scope, profile, eventStatus, limit, pageNum, id?){
     //Configure HTTP Headers
     var headers = this.setToken();
-    // var callURL = GlobalSettings.getVerticalEnv('-homerunloyal-api.synapsys.us') + "/tcx/league/schedule/pre-event/50/1";
-    var callURL = GlobalSettings.getTCXscope(scope).verticalApi + "/tcx/league/schedule/pre-event/50/1";
+    // var callURL = GlobalSettings.getVerticalEnv('-homerunloyal-api.synapsys.us') + "/tcx/mlb/schedule/pre-event/50/1";
+    var callURL = GlobalSettings.getTCXscope(scope).verticalApi + "/tcx/mlb/schedule/pre-event/50/1";
 
     //optional week parameters
     return this.http.get(callURL, {headers: headers})

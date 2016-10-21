@@ -165,7 +165,7 @@ export class GlobalSettings {
           parentScope: null,
           scope:'all',
           scopeList: ["AMEX", "NYSE", "NASDAQ", "ALL"],
-          topScope: 'business',
+          topScope: 'finance',
           displayName: 'business',
           verticalApi: this.getVerticalEnv('-finance-api.synapsys.us'),
           aiApi: null,

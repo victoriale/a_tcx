@@ -50,7 +50,11 @@ export class DeepDiveService {
     if(limit !== null && page !== null){
       callURL += '?count=' + limit + '&page=' + page;
     }
-    callURL += '&keyword[]=' + category.replace(/-/g, " ");
+    if(category == "breaking" || category == "trending"){
+      callURL += '&category=' + category;
+    } else {
+      callURL += '&keyword[]=' + category.replace(/-/g, " ");
+    }
     // console.log("article url", callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
@@ -185,7 +189,7 @@ export class DeepDiveService {
           var curdate = new Date();
           var curmonthdate = curdate.getDate();
           var timeStamp = moment(Number(val.last_updated)).format("MMMM Do, YYYY h:mm:ss a");
-          let carData:ArticleStackData = {
+          let carData: any = {
             source: val.source,
             report_type: val.report_type,
             image_url: GlobalSettings.getImageUrl(val['image_url']),

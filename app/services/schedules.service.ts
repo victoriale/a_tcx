@@ -197,7 +197,6 @@ export class SchedulesService {
     //Configure HTTP Headers
     var headers = this.setToken();
     // var callURL = GlobalSettings.getVerticalEnv('-finance-api.synapsys.us') + "/call_controller.php?action=tcx&option=tcx_side_scroll";
-    console.log(scope);
     var callURL = GlobalSettings.getTCXscope(scope).verticalApi + "/call_controller.php?action=tcx&option=tcx_side_scroll";
 
     //optional week parameters

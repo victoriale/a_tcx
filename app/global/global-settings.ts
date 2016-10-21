@@ -46,7 +46,7 @@ export class GlobalSettings {
     private static _tcxAPI: string = '-tcxmedia-api.synapsys.us/tcx';
 
     static getEnv(env:string):string {
-      if (env == "localhost" || env =="qa"){//remove qa when we have qa env setup
+      if (env == "localhost"){//remove qa when we have qa env setup
           env = "dev";
       }
       if (env != "dev" && env !="qa"){
@@ -228,7 +228,7 @@ export class GlobalSettings {
           aiApi: null,
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
-          showBoxScores:true,
+          showBoxScores:false,
           showSFTopNav: true,
           icon:'fa-futbol-o',
           pageType: 1,

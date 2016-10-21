@@ -24,20 +24,20 @@ export class DeepDiveService {
     var callURL = GlobalSettings.getTCXscope(category).tcxApi + "/articles";
     //http://dev-tcxmedia-api.synapsys.us/articles?help=1
     //http://dev-tcxmedia-api.synapsys.us/articles?articleType=about-the-teams
-    // if(GlobalSettings.getTCXscope(category).topScope == "basketball" || GlobalSettings.getTCXscope(category).topScope == "football") {
-    //   if(category == "sports"){
+    if(GlobalSettings.getTCXscope(category).topScope == "basketball" || GlobalSettings.getTCXscope(category).topScope == "football") {
+      if(category == "sports"){
         callURL += '?category=sports';
-    //   } else {
-    //     callURL += '?category=sports&subCategory=' + category;
-    //   }
-    // } else if(GlobalSettings.getTCXscope(category).topScope == "entertainment" && GlobalSettings.getTCXscope(category).scope != 'all') {
-    //   callURL += '?category=entertainment&subCategory=' + category;
-    // } else {
-    //   callURL += '?category=' + category;
-    // }
-    // if(limit !== null && page !== null){
+      } else {
+        callURL += '?category=sports&subCategory=' + category;
+      }
+    } else if(GlobalSettings.getTCXscope(category).topScope == "entertainment" && GlobalSettings.getTCXscope(category).scope != 'all') {
+      callURL += '?category=entertainment&subCategory=' + category;
+    } else {
+      callURL += '?category=' + category;
+    }
+    if(limit !== null && page !== null){
       callURL += '&count=' + limit + '&page=' + page;
-    // }
+    }
     // console.log("article url", callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
@@ -119,6 +119,9 @@ export class DeepDiveService {
 
     // Article Batch Transformed Data
     transformToArticleStack(data: Array<ArticleStackData>, scope?){
+      if(data === null || typeof data == "undefined" || data.length == 0){
+        return null;
+      }
       var sampleImage = "/app/public/placeholder_XL.png";
       var articleStackArray = [];
       data.forEach(function(val, index){
@@ -126,16 +129,22 @@ export class DeepDiveService {
           var date =  moment.unix(Number(val.last_updated));
           date = '<span class="hide-320">' + date.format('dddd') + ', </span>' + date.format('MMM') + date.format('. DD, YYYY');
         }
+        var key = val.subcategory != "none" ? val.subcategory : (val.category ? val.category : "all");
         var routeLink;
+        var extLink;
+        var category = val.article_sub_type ? val.article_sub_type : val.article_type;
         if(val.source == "snt_ai"){
-          routeLink = GlobalSettings.getOffsiteLink(scope, VerticalGlobalFunctions.formatExternalArticleRoute(scope, "story", val.article_id));
+          routeLink = GlobalSettings.getOffsiteLink(val.scope, VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id));
+          extLink = true;
         } else {
           routeLink = VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, "story");
+          extLink = false;
         }
         var articleStackData = {
             id: val.article_id,
-            articleUrl: '/deep-dive',
-            keyword: val.keywords ? val.keywords[0] : scope,
+            articleUrl: routeLink != "" ? routeLink : '/deep-dive',
+            extUrl: extLink,
+            keyword: key,
             timeStamp: date ? date : "",
             title: val.title ? val.title : "No title available",
             author: val.author ? val.author : "",
@@ -144,16 +153,21 @@ export class DeepDiveService {
             imageConfig: {
               imageClass: "embed-responsive-16by9",
               imageUrl: val.image_url ?  GlobalSettings.getImageUrl(val.image_url) : sampleImage,
-              urlRouteArray: GlobalSettings.getOffsiteLink(scope, VerticalGlobalFunctions.formatExternalArticleRoute(scope, "story", val.article_id))//TODO
+              urlRouteArray: routeLink,
+              extUrl: extLink
             },
-            keyUrl: VerticalGlobalFunctions.formatSectionFrontRoute(scope)
+            keyUrl: scope ? VerticalGlobalFunctions.formatSectionFrontRoute(key) : ['/deep-dive']
           }
           articleStackArray.push(articleStackData);
         });
+        // console.log("SCOPE", scope, articleStackArray);
         return articleStackArray;
     }// transformToArticleStack ENDS
 
     carouselTransformData(arrayData:Array<ArticleStackData>){
+      if(arrayData === null || typeof arrayData == 'undefined' || arrayData.length == 0){
+        return null;
+      }
         var transformData = [];
         arrayData.forEach(function(val,index){
           var curdate = new Date();

@@ -155,8 +155,6 @@ export class DeepDivePage implements OnInit {
             this.getDataCarousel();
           },
           err => {
-            this.carouselVideo = [this._deepDiveData.videoDummyData()];
-            this.getDataCarousel();
             console.log("Error getting video batch data");
           });
       }else{

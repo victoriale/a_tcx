@@ -95,9 +95,6 @@ export class SchedulesService {
             .map(res => res.json())
             .map(data => {
 
-                //DUMMY data
-                data = this.dummyWeatherData();
-
                 var output = { scopeList: [], blocks: [], current: {} };
                 if (data.data != null) {
                     output.current['location'] = data.city + ', ' + data.state;
@@ -250,19 +247,19 @@ export class SchedulesService {
                 var output = { scopeList: [], blocks: [], current: {} }
                 if (data.data != null) {
                     output.current['city'] = data.city;
-                    output.current['currentCondition'] = data.currentCondition;
-                    output.current['currentIcon'] = GlobalSettings.getImageUrl(data.currentIcon);
-                    output.current['currentScope'] = data.currentScope;
-                    output.current['currentTemperature'] = ((data.currentTemperature * (9 / 5)) - 459.67).toFixed(0);
+                    output.current['current_condition'] = data.current_condition;
+                    output.current['current_icon'] = GlobalSettings.getImageUrl(data.current_icon);
+                    output.current['current_scope'] = data.current_scope;
+                    output.current['current_temperature'] = ((data.current_temperature * (9 / 5)) - 459.67).toFixed(0);
                     output.current['state'] = data.state;
                     output.current['zipcode'] = data.zipcode;
                     output.blocks.push(
                         {
                             eos: "false",
-                            unixTimestamp: "NOW",
-                            temperature: output.current['currentTemperature'] + "&deg;",
-                            icon: output.current['currentIcon'],
-                            condition: output.current['currentCondition']
+                            unix_timestamp: "NOW",
+                            temperature: output.current['current_temperature'] + "&deg;",
+                            icon: output.current['current_icon'],
+                            condition: output.current['current_condition']
                         }
                     );
                     for (var n = 0; n < data.data.length; n++) {
@@ -271,13 +268,13 @@ export class SchedulesService {
                         //convert from kelvin to farenheight
                         var offset = Intl.DateTimeFormat().resolvedOptions().timeZone;
                         if (scope.toLowerCase() == "hourly") {
-                            data.data[n].unixTimestamp = moment.unix(data.data[n].unixTimestamp).tz(offset).format("h:mm A z");
+                            data.data[n].unix_timestamp = moment.unix(data.data[n].unix_timestamp).tz(offset).format("h:mm A z");
                             data.data[n].temperature = ((data.data[n].temperature * (9 / 5)) - 459.67).toFixed(0) + "&deg;";
 
                         }
                         else {
-                            data.data[n].unixTimestamp = moment.unix(data.data[n].unixTimestamp).format("dddd, MMM. DD, YYYY").toUpperCase();
-                            data.data[n].temperature = ((data.data[n].temperatureHigh * (9 / 5)) - 459.67).toFixed(0) + "&deg; <span class='small-temp'>/ " + ((data.data[n].temperatureLow * (9 / 5)) - 459.67).toFixed(0) + "&deg;</span>";
+                            data.data[n].unix_timestamp = moment.unix(data.data[n].unix_timestamp).format("dddd, MMM. DD, YYYY").toUpperCase();
+                            data.data[n].temperature = ((data.data[n].temperature_high * (9 / 5)) - 459.67).toFixed(0) + "&deg; <span class='small-temp'>/ " + ((data.data[n].temperature_low * (9 / 5)) - 459.67).toFixed(0) + "&deg;</span>";
                         }
                         output.blocks.push(data.data[n]);
                     }
@@ -294,15 +291,15 @@ export class SchedulesService {
                     output = {
                         scopeList: [], blocks: [
                             {
-                                unixTimestamp: "UH OH!",
+                                unix_timestamp: "UH OH!",
                                 condition: "ERROR",
                                 icon: GlobalSettings.getImageUrl("/weather/icons/sharknado_n.svg")
                             }
                         ], current: {
-                            currentCondition: "N/A",
-                            currentIcon: GlobalSettings.getImageUrl("/weather/icons/sharknado_n.svg"),
-                            currentTemperature: "N/A",
-                            currentScope: "",
+                            current_condition: "N/A",
+                            current_icon: GlobalSettings.getImageUrl("/weather/icons/sharknado_n.svg"),
+                            current_temperature: "N/A",
+                            current_scope: "",
                             state: "N/A",
                             city: "N/A",
                         }
@@ -352,8 +349,8 @@ export class SchedulesService {
                     data.data.data[n].date = date + " &bull; " + time;
                     data.data.data[n].homeTeamName = data.data.data[n].lastNameHome;
                     data.data.data[n].awayTeamName = data.data.data[n].lastNameAway;
-                    data.data.data[n].awayProfileUrl = GlobalSettings.getOffsiteLink("nba", data.data.currentScope + "/team/" + data.data.data[n].fullNameAway.replace(/ /g, "-") + "/" + data.data.data[n].idAway);
-                    data.data.data[n].homeProfileUrl = GlobalSettings.getOffsiteLink("nba", data.data.currentScope + "/team/" + data.data.data[n].fullNameAway.replace(/ /g, "-") + "/" + data.data.data[n].idHome);
+                    data.data.data[n].awayProfileUrl = GlobalSettings.getOffsiteLink("nba", data.data.current_scope + "/team/" + data.data.data[n].fullNameAway.replace(/ /g, "-") + "/" + data.data.data[n].idAway);
+                    data.data.data[n].homeProfileUrl = GlobalSettings.getOffsiteLink("nba", data.data.current_scope + "/team/" + data.data.data[n].fullNameAway.replace(/ /g, "-") + "/" + data.data.data[n].idHome);
                     if (data.data.data[n].logoUrlAway == "" || data.data.data[n].logoUrlAway == null) {
                         data.data.data[n].logoUrlAway = '/app/public/no-image.png';
                     }
@@ -723,7 +720,7 @@ export class SchedulesService {
       var output = {
           scopeList: [], blocks: [
               {
-                  unixTimestamp: "UH OH!",
+                  unix_timestamp: "UH OH!",
                   condition: "ERROR",
                   icon: GlobalSettings.getImageUrl("/weather/icons/sharknado_n.svg")
               }

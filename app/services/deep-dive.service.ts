@@ -11,7 +11,6 @@ declare var moment;
 
 @Injectable()
 export class DeepDiveService {
-  private _footballAPI: string = "http://dev-touchdownloyal-api.synapsys.us/tcx/";
   constructor(public http: Http){}
 
   //Function to set custom headers
@@ -20,20 +19,9 @@ export class DeepDiveService {
       return headers;
   }
 
-  getDeepDiveArticleService(articleID){
-  //Configure HTTP Headers
-  var headers = this.setToken();
-  var callURL = this._footballAPI + '/article/' + articleID;//TODO
-  return this.http.get(callURL, {headers: headers})
-    .map(res => res.json())
-    .map(data => {
-      return data;
-    })
-  }
-
   getDeepDiveBatchService(category: string, limit: number, page: number, state?: string){
     var headers = this.setToken();
-    var callURL = GlobalSettings.getApiUrl() + "/articles";
+    var callURL = GlobalSettings.getTCXscope(category).tcxApi + "/articles";
     //http://dev-tcxmedia-api.synapsys.us/articles?help=1
     //http://dev-tcxmedia-api.synapsys.us/articles?articleType=about-the-teams
     // if(GlobalSettings.getTCXscope(category).topScope == "basketball" || GlobalSettings.getTCXscope(category).topScope == "football") {

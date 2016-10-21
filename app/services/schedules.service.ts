@@ -197,8 +197,7 @@ export class SchedulesService {
     //Configure HTTP Headers
     var headers = this.setToken();
     // var callURL = GlobalSettings.getVerticalEnv('-finance-api.synapsys.us') + "/call_controller.php?action=tcx&option=tcx_side_scroll";
-    var callURL = GlobalSettings.getTCXscope(scope).verticalApi + "/call_controller.php?action=tcx&option=tcx_side_scroll";
-
+    var callURL = GlobalSettings.getTCXscope("business").verticalApi + "/call_controller.php?action=tcx&option=tcx_side_scroll";
     //optional week parameters
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
@@ -258,10 +257,10 @@ export class SchedulesService {
         var output = {scopeList: [], blocks: [], current: {}}
         if (data.data != null) {
           output.current['city'] = data.city;
-          output.current['currentCondition'] = data.currentCondition;
-          output.current['currentIcon'] = GlobalSettings.getImageUrl(data.currentIcon);
-          output.current['currentScope'] = data.currentScope;
-          output.current['currentTemperature'] = ((data.currentTemperature * (9/5)) - 459.67).toFixed(0);
+          output.current['currentCondition'] = data.current_condition;
+          output.current['currentIcon'] = GlobalSettings.getImageUrl(data.current_icon);
+          output.current['currentScope'] = data.current_scope;
+          output.current['currentTemperature'] = ((data.current_temperature * (9/5)) - 459.67).toFixed(0);
           output.current['state'] = data.state;
           output.current['zipcode'] = data.zipcode;
           output.blocks.push(
@@ -279,13 +278,13 @@ export class SchedulesService {
             //convert from kelvin to farenheight
             var offset = Intl.DateTimeFormat().resolvedOptions().timeZone;
             if (scope.toLowerCase() == "hourly") {
-              data.data[n].unixTimestamp = moment.unix(data.data[n].unixTimestamp).tz(offset).format("h:mm A z");
+              data.data[n].unixTimestamp = moment.unix(data.data[n].unix_timestamp).tz(offset).format("h:mm A z");
               data.data[n].temperature  = ((data.data[n].temperature * (9/5)) - 459.67).toFixed(0) + "&deg;";
 
             }
             else {
-              data.data[n].unixTimestamp = moment.unix(data.data[n].unixTimestamp).format("dddd, MMM. DD, YYYY").toUpperCase();
-              data.data[n].temperature  = ((data.data[n].temperatureHigh * (9/5)) - 459.67).toFixed(0) + "&deg; <span class='small-temp'>/ " + ((data.data[n].temperatureLow * (9/5)) - 459.67).toFixed(0) + "&deg;</span>";
+              data.data[n].unixTimestamp = moment.unix(data.data[n].unix_timestamp).format("dddd, MMM. DD, YYYY").toUpperCase();
+              data.data[n].temperature  = ((data.data[n].temperature_high * (9/5)) - 459.67).toFixed(0) + "&deg; <span class='small-temp'>/ " + ((data.data[n].temperature_low * (9/5)) - 459.67).toFixed(0) + "&deg;</span>";
             }
             output.blocks.push(data.data[n]);
           }
@@ -325,7 +324,6 @@ export class SchedulesService {
     var headers = this.setToken();
     // var callURL = GlobalSettings.getVerticalEnv('-sports-api.synapsys.us') + "/NBAHoops/call_controller.php?scope=" + scope.toLowerCase() + "&action=tcx&option=tcx_side_scroll&perPage=50&pageNum=1";
     var callURL = GlobalSettings.getTCXscope(scope).verticalApi + "/NBAHoops/call_controller.php?scope=" + scope.toLowerCase() + "&action=tcx&option=tcx_side_scroll&perPage=50&pageNum=1";
-
     //optional week parameters
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
@@ -408,8 +406,8 @@ export class SchedulesService {
   getBaseballSchedule(scope, profile, eventStatus, limit, pageNum, id?){
     //Configure HTTP Headers
     var headers = this.setToken();
-    // var callURL = GlobalSettings.getVerticalEnv('-homerunloyal-api.synapsys.us') + "/tcx/league/schedule/pre-event/50/1";
-    var callURL = GlobalSettings.getTCXscope(scope).verticalApi + "/tcx/league/schedule/pre-event/50/1";
+    // var callURL = GlobalSettings.getVerticalEnv('-homerunloyal-api.synapsys.us') + "/tcx/mlb/schedule/pre-event/50/1";
+    var callURL = GlobalSettings.getTCXscope(scope).verticalApi + "/tcx/mlb/schedule/pre-event/50/1";
 
     //optional week parameters
     return this.http.get(callURL, {headers: headers})

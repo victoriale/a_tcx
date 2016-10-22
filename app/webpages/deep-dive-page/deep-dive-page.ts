@@ -191,9 +191,9 @@ export class DeepDivePage implements OnInit {
       this.routeSubscription = this._activatedRoute.params.subscribe(
           (param:any) => {
             this.category = param['category'] ? param['category'] : 'all';
-            this.scope = param['articleCategory'] ? param['articleCategory'] : this.category;
-            if (param['articleCategory']) {
-              this.tcxVars = GlobalSettings.getTCXscope(param['articleCategory']);
+            this.scope = param['subCategory'] ? param['subCategory'] : this.category;
+            if (param['subCategory']) {
+              this.tcxVars = GlobalSettings.getTCXscope(param['subCategory']);
             }
             else {
               this.tcxVars = GlobalSettings.getTCXscope(this.category);

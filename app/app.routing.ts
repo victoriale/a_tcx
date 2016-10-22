@@ -32,7 +32,7 @@ const relativeChildRoutes = [
         component: SearchPage
     },
     {
-        path: ':category/:articleCategory/article/:articleType/:articleID',
+        path: ':category/:subCategory/article/:articleType/:articleID',
     //redirectTo: 'news/:articleType/:articleID',
         component: SyndicatedArticlePage,
     },
@@ -43,7 +43,7 @@ const relativeChildRoutes = [
     },
     {
         //added article category with subarticles
-        path: ':category/:articleCategory',
+        path: ':category/:subCategory',
         component: DeepDivePage,
     },
     {
@@ -86,6 +86,6 @@ const appRoutes: Routes = [
 
 
 
-// [routerLink]=["/deep-dive/:category/:articleCategory", 'sports', 'nfl']
+// [routerLink]=["/deep-dive/:category/:subCategory", 'sports', 'nfl']
 
 export const routing = RouterModule.forRoot(appRoutes);

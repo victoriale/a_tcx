@@ -155,8 +155,6 @@ export class DeepDivePage implements OnInit {
             this.getDataCarousel();
           },
           err => {
-            this.carouselVideo = [this._deepDiveData.videoDummyData()];
-            this.getDataCarousel();
             console.log("Error getting video batch data");
           });
       }else{
@@ -200,7 +198,7 @@ export class DeepDivePage implements OnInit {
             }
             this.topScope = this.tcxVars ? this.tcxVars.topScope : this.category;
             this.changeScopeVar = this.tcxVars.scope;
-            this.deepDiveType = this.category != 'all' ? GlobalSettings.getTCXscope(this.scope).pageType : 'all';
+            this.deepDiveType = GlobalSettings.getTCXscope(this.scope).pageType ? GlobalSettings.getTCXscope(this.scope).pageType : 3;
             this.getGeoLocation();
             this.getDeepDiveVideo();
             this.sectionFrontName();

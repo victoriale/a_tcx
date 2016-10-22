@@ -11,6 +11,7 @@ declare var moment;
 
 @Injectable()
 export class DeepDiveService {
+  private _footballAPI: string = "http://dev-touchdownloyal-api.synapsys.us/tcx/";
   constructor(public http: Http){}
 
   //Function to set custom headers
@@ -19,9 +20,20 @@ export class DeepDiveService {
       return headers;
   }
 
+  getDeepDiveArticleService(articleID){
+  //Configure HTTP Headers
+  var headers = this.setToken();
+  var callURL = this._footballAPI + '/article/' + articleID;//TODO
+  return this.http.get(callURL, {headers: headers})
+    .map(res => res.json())
+    .map(data => {
+      return data;
+    })
+  }
+
   getDeepDiveBatchService(category: string, limit: number, page: number, state?: string){
     var headers = this.setToken();
-    var callURL = GlobalSettings.getTCXscope(category).tcxApi + "/articles";
+    var callURL = GlobalSettings.getApiUrl() + "/articles";
     //http://dev-tcxmedia-api.synapsys.us/articles?help=1
     //http://dev-tcxmedia-api.synapsys.us/articles?articleType=about-the-teams
     // if(GlobalSettings.getTCXscope(category).topScope == "basketball" || GlobalSettings.getTCXscope(category).topScope == "football") {
@@ -38,7 +50,11 @@ export class DeepDiveService {
     if(limit !== null && page !== null){
       callURL += '?count=' + limit + '&page=' + page;
     }
-    callURL += '&keyword[]=' + category.replace(/-/g, " ");
+    if(category == "breaking" || category == "trending"){
+      callURL += '&category=' + category;
+    } else {
+      callURL += '&keyword[]=' + category.replace(/-/g, " ");
+    }
     // console.log("article url", callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
@@ -173,7 +189,7 @@ export class DeepDiveService {
           var curdate = new Date();
           var curmonthdate = curdate.getDate();
           var timeStamp = moment(Number(val.last_updated)).format("MMMM Do, YYYY h:mm:ss a");
-          let carData:ArticleStackData = {
+          let carData = {
             source: val.source,
             report_type: val.report_type,
             image_url: GlobalSettings.getImageUrl(val['image_url']),

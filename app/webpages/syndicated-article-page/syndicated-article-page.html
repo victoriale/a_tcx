@@ -8,7 +8,7 @@
         </div>
 
         <span *ngIf="articleData">
-      <shareLinks-component *ngIf="articleData.articleUrl" [shareUrl]="articleData.articleUrl" ></shareLinks-component>
+      <shareLinks-component *ngIf="articleData.article_url" [shareUrl]="articleData.article_url" ></shareLinks-component>
          <shareLinks-component *ngIf="articleData.videoLink" [shareUrl]="articleData.videoLink"></shareLinks-component>
 
 
@@ -32,10 +32,13 @@
             </div>
             <div class="arpt" *ngIf="articleType == 'video'">
                 <span class="arpt-author" >Written By: <b>{{articleData.author}}</b></span>
-                <span class="arpt-date">Posted: on {{" "+ formatDate(articleData.pubDate)}}</span>
+                <span class="arpt-date">Posted: on {{" "+articleData.publishedDate}}</span>
             </div>
-            <div class="content-exerpt" *ngIf="articleType == 'story'"  [innerHTML]="articleData.teaser | safeHtml">
+                <div *ngIf="articleType == 'story'" >
+            <div class="content-exerpt" *ngFor="let description of articleData.article" [innerHTML]="description | safeHtml">
+
             </div>
+                    </div>
             <div class="content-exerpt" *ngIf="articleType == 'video'"  [innerHTML]="articleData.description | safeHtml">
             </div>
 
@@ -62,7 +65,7 @@
 
 
             <!-- <syndicated-trending-component *ngIf="geoLocation" [geoLocation]="KS" [currentArticleId]="articleData.id"></syndicated-trending-component>-->
-           <syndicated-trending-component [geoLocation]="geoLocation" [currentArticleId]="articleData.id" [scope]="scope"></syndicated-trending-component>
+           <syndicated-trending-component [geoLocation]="geoLocation" [currentArticleId]="articleData.id" [scope]="scope" [category]="category" [subCategory]="subcategory"></syndicated-trending-component>
 
                 </div>
             <div class="syndicate-widget col-xl-3" >

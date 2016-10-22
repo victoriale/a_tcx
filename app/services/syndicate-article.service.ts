@@ -1,10 +1,10 @@
 
-import {SyndicateArticleData, RecommendArticleData} from "../fe-core/interfaces/syndicate-article.data";
-import {Inject, Injectable} from "@angular/core";
+
+
 import {VerticalGlobalFunctions} from "../global/vertical-global-functions";
 import {Http, Headers, HttpModule} from "@angular/http";
-import { GlobalFunctions} from "../global/global-functions";
 import {GlobalSettings} from "../global/global-settings";
+import {Inject, Injectable} from "@angular/core";
 
 
 
@@ -13,10 +13,10 @@ declare var moment;
 
 
 export class SyndicateArticleService{
-    private _apiURL: string = "http://dev-touchdownloyal-api.synapsys.us/";
-    private _articleUrl:string = 'http://dev-touchdownloyal-ai.synapsys.us/';
+    private _syndicateUrl:string= GlobalSettings.getSyndicateUrl();
 
- constructor( @Inject private VerticalGlobalFunctions:VerticalGlobalFunctions, @Inject private _http:Http){}
+
+ constructor( @Inject public _http:Http){}
 
     setToken(){
         var headers = new Headers({'content-type':'application/json'});
@@ -28,7 +28,7 @@ export class SyndicateArticleService{
 /*
         var headers = this.setToken();
 */
-        var callURL = this._apiURL + 'article/' + articleID;
+        var callURL = this._syndicateUrl + '?articleID=' + articleID;
         return this._http.get(callURL)
             .map(res => res.json())
             .map(data => {
@@ -38,27 +38,17 @@ export class SyndicateArticleService{
     getSyndicateVideoService(articleID){
         //Configure HTTP Headers
         /*var headers = this.setToken();*/
-        var callURL = this._apiURL + 'videoSingle/' + articleID;
+        var callURL = this._syndicateUrl + 'videoSingle/' + articleID;
         return this._http.get(callURL)
             .map(res => res.json())
             .map(data => {
                 return data;
             })
     }
-    getRecArticleData(scope, state, batch, limit){
+    getRecArticleData(category, subcategory, count){
        /* var headers = this.setToken();*/
-        if(scope == null){
-            scope = 'NFL';
-        }
-        if(state == null){
-            state = 'CA';
-        }
-        if(batch == null || limit == null){
-            batch = 1;
-            limit = 1;
-        }
-        //this is the sidkeick url
-        var callURL = this._articleUrl + "sidekick-regional/" + scope + "/" + state + "/" + batch + "/" + limit;//TODO won't need uppercase after ai fixes
+
+        var callURL= this._syndicateUrl+ '?source=tca&count='+count+"&category="+category+"&subCategory="+subcategory;
 
         return this._http.get(callURL)
             .map(res => res.json())
@@ -74,53 +64,26 @@ export class SyndicateArticleService{
         var articleStackArray = [];
         var articles = [];
         var eventID = null;
-       for(var obj in data){
-            if(obj != "meta-data" && obj != "timestamp"){
-                var a = {
-                    keyword: obj,
-                    info: data[obj]
-                }
-                articles.push(a);
-            } else {
-                var eventID = data['meta-data']['current']['eventID'];
-            }
-        }
-        articles.forEach(function(val, index){
+
+        data.forEach(function(val, index){
             var info = val.info;
             /*var date = moment(Number(info.dateline)*1000);
             date = GlobalFunctions.formatAPMonth(date.month()) + date.format(' DD, YYYY');*/
             var s = {
-                urlRouteArray: VerticalGlobalFunctions.formatAiArticleRoute(val.keyword, eventID),
-                bg_image_var: info.image != null ? GlobalSettings.getImageUrl(info.image) : sampleImage,
-                keyword: val.keyword.replace('-', ' ').toUpperCase(),
+                urlRouteArray: VerticalGlobalFunctions.formatAiArticleRoute(val.keywords[0], eventID),
+                bg_image_var: val.image_url != null ? GlobalSettings.getImageUrl(val.image_url) : sampleImage,
+                keyword: val.keywords[0].toUpperCase(),
                 /*new_date: date,*/
-                displayHeadline: info.displayHeadline,
+                displayHeadline: val.title,
             }
             articleStackArray.push(s);
         });
         return articleStackArray;
     }
-
-    getDeepDiveBatchService(scope, limit, startNum, state?){
-        //Configure HTTP Headers
+//http://dev-tcxmedia-api.synapsys.us/articles?source=tca&count=10&category=entertainment&subCategory=television
+    getTrendingArticles(category, subcategory,count){
         var headers = this.setToken();
-
-        if(startNum == null){
-            startNum = 1;
-        }
-
-        // http://dev-touchdownloyal-api.synapsys.us/articleBatch/nfl/5/1
-        var callURL = this._apiURL + 'articleBatch/';
-
-        if(scope != null){
-            callURL += scope;
-        } else {
-            callURL += 'nfl';
-        }
-        if(state == null){
-            state = 'CA';
-        }
-        callURL += '/' + limit + '/' + startNum + '/' + state;
+        var callURL= this._syndicateUrl+ '?source=tca&count='+count+"&category="+category+"&subCategory="+subcategory;
         return this._http.get(callURL)
             .map(res => res.json())
             .map(data => {
@@ -128,11 +91,12 @@ export class SyndicateArticleService{
             })
     }
 
-    transformTrending (data, currentArticleId) {
+
+    transformTrending (data) {
         data.forEach(function(val,index){
             //if (val.id != currentArticleId) {
-            val["date"] = val.dateline;
-            val["imagePath"] = GlobalSettings.getImageUrl(val.imagePath);
+            val["date"] = val.article_data.publication_date;
+            val["imagePath"] = GlobalSettings.getImageUrl(val.image_url);
             val["newsRoute"] = VerticalGlobalFunctions.formatNewsRoute(val.id);
             //console.log(VerticalGlobalFunctions.formatNewsRoute(val.id,this.articleType),"News Route");
             //}

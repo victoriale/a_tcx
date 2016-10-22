@@ -9,7 +9,7 @@ import {DisqusComponent} from "../fe-core/components/disqus/disqus.component";
 import {SyndicatedTrendingComponent} from "../fe-core/components/syndicate-components/trending-articles/trending-articles.component";
 import {RecommendationsComponent} from "../fe-core/components/recommendations/recommendations.component";
 import {routing} from "../app.routing";
-import {HttpModule} from "@angular/http";
+import {HttpModule, Http} from "@angular/http";
 
 
 @NgModule({

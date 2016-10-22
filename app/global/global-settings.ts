@@ -10,6 +10,9 @@ export class GlobalSettings {
     private static _apiUrl:string = '-tcxmedia-api.synapsys.us';
     private static _articleUrl:string = '-tcxmedia-ai.synapsys.us/tcx';
 
+
+    private static _synArticleUrl:string= "-tcxmedia-api.synapsys.us/articles";
+
     private static _partnerApiUrl: string = 'apireal.synapsys.us/listhuv/?action=get_partner_data&domain=';
 
     //two different api since there is a possibility that these urls are going to change
@@ -711,6 +714,9 @@ export class GlobalSettings {
     }
   static getHomePageLinkName() {
     return this._homepageLinkName;
+  }
+  static getSyndicateUrl(){
+      return this._proto + "//" + this.getEnv(this._env) + this._synArticleUrl;
   }
 
 }

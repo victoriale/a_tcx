@@ -1,5 +1,5 @@
 <div class="syndicated-articles-page">
-    <div class="syndicated-articles-page-content row">
+    <div class="syndicated-articles-page-content">
 
         <div *ngIf="error">
             <div class="loading-container">
@@ -14,7 +14,7 @@
 
 
       <div class="articles-page-title" [innerHTML]="articleData.title | safeHtml"></div>
-
+        <div row>
         <!--<sidekick-wrapper-ai [aiSidekick]="aiSidekick">-->
             <div class="syndicated-articles-page_leftPane col-sm-12 col-xl-9">
             <span>
@@ -68,11 +68,11 @@
            <syndicated-trending-component [geoLocation]="geoLocation" [currentArticleId]="articleData.article_id" [scope]="scope" [category]="category" [subCategory]="subcategory" [articletype]="articleType" [articleId]="articleID"></syndicated-trending-component>
 
                 </div>
-          <!--  <div class="syndicate-widget col-xl-3" >
+            <div class="syndicate-widget col-xl-3" >
             <div class="widget_wrapper"><widget-carousel-module></widget-carousel-module></div>
-        </div>-->
+        </div>
             <!--</sidekick-wrapper-ai>-->
-
+        </div>
     </span>
 
     </div>

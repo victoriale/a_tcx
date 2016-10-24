@@ -146,7 +146,7 @@ export class BoxScoresService {
       break;
       //http://dev-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=ncaa&action=tcx&option=tcx_box_scores&date=2017-12-03
     }
-    console.log('box Scores Service',callURL);
+    // console.log('box Scores Service',callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
@@ -245,7 +245,6 @@ export class BoxScoresService {
       nextGameDate: data.nextGameDate,
       data: newBoxScores
     };
-    console.log(transformedData);
     return transformedData;
   }
 
@@ -380,7 +379,6 @@ export class BoxScoresService {
       callURL = GlobalSettings.getTCXscope(scope).verticalApi + '/league/gameDatesWeekly/'+scope+'/'+date; //TODO when TCX API is sestup
       break;
     }
-    console.log('weekCarousel',callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {``
@@ -415,7 +413,6 @@ export class BoxScoresService {
         callURL = GlobalSettings.getTCXscope(scope).verticalApi + '/league/gameDates/'+scope+'/'+date; //TODO when TCX API is sestup
       break;
     }
-    console.log('validateMonth', callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {

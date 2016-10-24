@@ -65,12 +65,12 @@
 
 
             <!-- <syndicated-trending-component *ngIf="geoLocation" [geoLocation]="KS" [currentArticleId]="articleData.id"></syndicated-trending-component>-->
-           <syndicated-trending-component [geoLocation]="geoLocation" [currentArticleId]="articleData.id" [scope]="scope" [category]="category" [subCategory]="subcategory"></syndicated-trending-component>
+           <syndicated-trending-component [geoLocation]="geoLocation" [currentArticleId]="articleData.article_id" [scope]="scope" [category]="category" [subCategory]="subcategory" [articletype]="articleType" [articleId]="articleID"></syndicated-trending-component>
 
                 </div>
-            <div class="syndicate-widget col-xl-3" >
+          <!--  <div class="syndicate-widget col-xl-3" >
             <div class="widget_wrapper"><widget-carousel-module></widget-carousel-module></div>
-        </div>
+        </div>-->
             <!--</sidekick-wrapper-ai>-->
 
     </span>

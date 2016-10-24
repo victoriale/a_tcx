@@ -76,13 +76,13 @@ export class SyndicateArticleService{
 
         data.forEach(function(val, index){
             var info = val.info;
-            /*var date = moment(Number(info.dateline)*1000);
-            date = GlobalFunctions.formatAPMonth(date.month()) + date.format(' DD, YYYY');*/
+            var date = moment(Number(val.publication_date)*1000);
+            date = moment(date).format("dddd MMMM, YYYY | h:mm A");
             var s = {
                 urlRouteArray: VerticalGlobalFunctions.formatArticleRoute(scope,val.article_id,articleType),
                 bg_image_var: val.image_url != null ? GlobalSettings.getImageUrl(val.image_url) : sampleImage,
                 keyword: val.keywords[0].toUpperCase(),
-                /*new_date: date,*/
+                new_date: date,
                 displayHeadline: val.title,
             }
             articleStackArray.push(s);

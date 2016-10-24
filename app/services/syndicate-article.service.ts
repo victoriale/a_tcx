@@ -38,17 +38,25 @@ export class SyndicateArticleService{
     getSyndicateVideoService(articleID){
         //Configure HTTP Headers
         /*var headers = this.setToken();*/
-        var callURL = this._syndicateUrl + 'videoSingle/' + articleID;
+        var callURL = GlobalSettings.getApiUrl()+ '/tcx/videoSingle/' + articleID;
         return this._http.get(callURL)
             .map(res => res.json())
             .map(data => {
                 return data;
             })
     }
-    getRecArticleData(category, subcategory, count){
+    getRecArticleData(category, count, subcategory?){
        /* var headers = this.setToken();*/
+        if(category=='real-estate'){
+            category='real+estate';
+        }
+        var callURL
+        if(subcategory) {
+            callURL= this._syndicateUrl + '?source=tca&count=' + count + "&category=" + category + "&subCategory=" + subcategory;
 
-        var callURL= this._syndicateUrl+ '?source=tca&count='+count+"&category="+category+"&subCategory="+subcategory;
+        }else{
+            callURL= this._syndicateUrl + '?source=tca&count=' + count + "&category=" + category;
+        }
 
         return this._http.get(callURL)
             .map(res => res.json())
@@ -58,8 +66,9 @@ export class SyndicateArticleService{
             });
     }
 
-    transformToRecArticles(data){
+    transformToRecArticles(data, scope,articleType){
         data = data.data;
+        articleType="story";
         var sampleImage = "/app/public/placeholder_XL.png";
         var articleStackArray = [];
         var articles = [];
@@ -67,13 +76,13 @@ export class SyndicateArticleService{
 
         data.forEach(function(val, index){
             var info = val.info;
-            /*var date = moment(Number(info.dateline)*1000);
-            date = GlobalFunctions.formatAPMonth(date.month()) + date.format(' DD, YYYY');*/
+            var date = moment(Number(val.publication_date)*1000);
+            date = moment(date).format("dddd MMMM, YYYY | h:mm A");
             var s = {
-                urlRouteArray: VerticalGlobalFunctions.formatAiArticleRoute(val.keywords[0], eventID),
+                urlRouteArray: VerticalGlobalFunctions.formatArticleRoute(scope,val.article_id,articleType),
                 bg_image_var: val.image_url != null ? GlobalSettings.getImageUrl(val.image_url) : sampleImage,
                 keyword: val.keywords[0].toUpperCase(),
-                /*new_date: date,*/
+                new_date: date,
                 displayHeadline: val.title,
             }
             articleStackArray.push(s);
@@ -81,9 +90,18 @@ export class SyndicateArticleService{
         return articleStackArray;
     }
 //http://dev-tcxmedia-api.synapsys.us/articles?source=tca&count=10&category=entertainment&subCategory=television
-    getTrendingArticles(category, subcategory,count){
+    getTrendingArticles(category, count,subcategory?){
+        if(category=='real-estate'){
+            category='real+estate';
+        }
         var headers = this.setToken();
-        var callURL= this._syndicateUrl+ '?source=tca&count='+count+"&category="+category+"&subCategory="+subcategory;
+        var callURL
+        if(subcategory) {
+            callURL= this._syndicateUrl + '?source=tca&count=' + count + "&category=" + category + "&subCategory=" + subcategory;
+        }else{
+            callURL= this._syndicateUrl + '?source=tca&count=' + count + "&category=" + category;
+        }
+
         return this._http.get(callURL)
             .map(res => res.json())
             .map(data => {
@@ -92,14 +110,17 @@ export class SyndicateArticleService{
     }
 
 
-    transformTrending (data) {
+    transformTrending (data, scope, articleType,currentArticleId) {
+        articleType="story";
+        var placeholder="/app/public/placeholder_XL.png"
         data.forEach(function(val,index){
-            //if (val.id != currentArticleId) {
+            if (val.article_id != currentArticleId) {
+
             val["date"] = val.article_data.publication_date;
-            val["imagePath"] = GlobalSettings.getImageUrl(val.image_url);
-            val["newsRoute"] = VerticalGlobalFunctions.formatNewsRoute(val.id);
+            val["imagePath"] = val.image_url?GlobalSettings.getImageUrl(val.image_url):GlobalSettings.getImageUrl(placeholder);
+            val["newsRoute"] = VerticalGlobalFunctions.formatArticleRoute(scope,val.article_id,articleType);
             //console.log(VerticalGlobalFunctions.formatNewsRoute(val.id,this.articleType),"News Route");
-            //}
+            }
         })
 
         return data;

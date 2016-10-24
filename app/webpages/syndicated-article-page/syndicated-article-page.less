@@ -402,13 +402,24 @@
 
   }
   .sixteenNine{
+    @media @mobile{
+      min-width: 227px !important;
+
+    }
     @media @desktop-m{
-      min-width:308px;
+      min-width:308px!important;
+      //min-width:308px;
     }
     @media @desktop-l {
       width: 300px !important;
       min-width: 300px;
     }
+  }
+  .modal-exit{
+    top:0px;
+    float: right;
+    right: 0px;
+    z-index: 999;
   }
 }
 .syndicated-articles-page .deep_recs-articles-item-content-dateline{
@@ -447,11 +458,12 @@
   @media @desktop-l{
     display: block;
     position: relative;
-    width: 300px;
-    height: 600px;
-    margin-top: 6%;
     float: right;
-    margin-right: -22% !important
+    width:300px;
+
     //margin-left: 13px;
+  }
+  .widget-top, .widget-top-ddp{
+    margin-top:10.2%;
   }
 }

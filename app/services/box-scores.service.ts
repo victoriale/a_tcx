@@ -174,7 +174,7 @@ export class BoxScoresService {
       if (gameDayInfo) {
         gameDayInfo['gameInfo'] = {
           eventId: gameDayInfo.eventId,
-          timeLeft: gameDayInfo.liveDataPoints[scope].timeLeft,
+          timeLeft: gameDayInfo.liveDataPoints[scope] != null ? gameDayInfo.liveDataPoints[scope].timeLeft : null,
           live: gameDayInfo.liveStatus == 'Y'?true:false,
           startDateTime: gameDayInfo.eventDate,
           startDateTimestamp: gameDayInfo.eventStartTime,
@@ -217,12 +217,16 @@ export class BoxScoresService {
 
 
         // LIVE DATA THAT NEEDS TO ADJUST BASED ON SPORT
-        gameDayInfo['gameInfo']['verticalContent'] = {
-          teamInPossesion:  "Possession: " + gameDayInfo.liveDataPoints[scope].teamInPossesion,
-          liveSegmentNumber: gameDayInfo.liveDataPoints[scope].liveSegmentNumber,
-          timeLeft: gameDayInfo.liveDataPoints[scope].timeLeft,
-          liveYardLine: gameDayInfo.liveDataPoints[scope].liveYardLine,
-          overTime: gameDayInfo.liveDataPoints[scope].liveYardLine
+        if(gameDayInfo.liveDataPoints[scope] != null){
+          gameDayInfo['gameInfo']['verticalContent'] = {
+            teamInPossesion:  "Possession: " + gameDayInfo.liveDataPoints[scope].teamInPossesion,
+            liveSegmentNumber: gameDayInfo.liveDataPoints[scope].liveSegmentNumber,
+            timeLeft: gameDayInfo.liveDataPoints[scope].timeLeft,
+            liveYardLine: gameDayInfo.liveDataPoints[scope].liveYardLine,
+            overTime: gameDayInfo.liveDataPoints[scope].liveYardLine
+          }
+        }else{
+          gameDayInfo['gameInfo']['verticalContent'] = null
         }
 
         // organize games by date and put them into newVPWP' P PBoxScores
@@ -232,7 +236,6 @@ export class BoxScoresService {
         } else{
           newBoxScores[currGameDate].push(gameDayInfo);
         }
-
       } //if (boxScoresData[gameDate])
     } // END for ( var gameDate in data.data )
     var transformedData = {
@@ -242,7 +245,6 @@ export class BoxScoresService {
       nextGameDate: data.nextGameDate,
       data: newBoxScores
     };
-
     return transformedData;
   }
 
@@ -377,7 +379,6 @@ export class BoxScoresService {
       callURL = GlobalSettings.getTCXscope(scope).verticalApi + '/league/gameDatesWeekly/'+scope+'/'+date; //TODO when TCX API is sestup
       break;
     }
-    // console.log('weekCarousel',callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {``
@@ -412,7 +413,6 @@ export class BoxScoresService {
         callURL = GlobalSettings.getTCXscope(scope).verticalApi + '/league/gameDates/'+scope+'/'+date; //TODO when TCX API is sestup
       break;
     }
-    // console.log('validateMonth', callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
@@ -437,6 +437,12 @@ export class BoxScoresService {
       let homeData = data.homeTeamInfo;
       let gameInfo = data.gameInfo;
       let isPartner = GlobalSettings.getHomeInfo().isPartner;
+      if(homeData.lastName == null){
+        homeData.lastName = homeData.name.split(' ')[homeData.name.split(' ').length-1];
+      }
+      if(awayData.lastName == null){
+        awayData.lastName = awayData.name.split(' ')[awayData.name.split(' ').length-1];
+      }
       let homeLink = isPartner == false ? self.formatTeamRelLinks(scope, homeData.lastName, homeData.id)[scope].vertical_link : self.formatTeamRelLinks(scope, homeData.lastName, homeData.id)[scope].partner_link; //TODO
       let awayLink = isPartner == false ? self.formatTeamRelLinks(scope, awayData.lastName, awayData.id)[scope].vertical_link : self.formatTeamRelLinks(scope, awayData.lastName, awayData.id)[scope].partner_link;//TODO
       homeLink = GlobalSettings.getOffsiteLink(scope, homeLink);

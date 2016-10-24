@@ -1,7 +1,7 @@
-import {Component, AfterViewInit,Input} from '@angular/core';
+import {Component, AfterViewInit, Input, OnChanges, OnDestroy} from '@angular/core';
 import {SyndicateArticleService} from "../../services/syndicate-article.service";
 import {GlobalSettings} from "../../global/global-settings";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Route, Router, NavigationStart, Event as NavigationEvent} from "@angular/router";
 import {GlobalFunctions} from "../../global/global-functions";
 
 declare var jQuery:any;
@@ -13,7 +13,7 @@ declare var moment;
 
 })
 
-export class SyndicatedArticlePage{
+export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     public partnerID: string;
     checkPartner: boolean;
     public geoLocation:string;
@@ -30,35 +30,50 @@ export class SyndicatedArticlePage{
     public category:string;
     public subcategory: string;
     isStockPhoto:boolean=true;
+    prevarticle;
     iframeUrl: any;
     paramsub;
     constructor(
 
-        private _synservice:SyndicateArticleService, private activateRoute:ActivatedRoute
+        private _synservice:SyndicateArticleService, private activateRoute:ActivatedRoute, private router:Router
 
     ){
-        this.paramsub=activateRoute.params.subscribe(
-            (param :any)=> {this.articleID= param['articleID'], this.articleType= param['articleType'], this.category=param['category'], this.subcategory=param['subCategory']}
-
-        );
 
 
-        if (this.articleType == "story") {
-            this.getSyndicateArticle(this.articleID);
-            this.getRecomendationData();
-        }
-        else {
-            this.getSyndicateVideoArticle(this.articleID);
-            this.getRecomendationData();
-        }
-
-       /* GlobalSettings.getParentParams(_router, partnerID => {
-            this.partnerID = partnerID.partnerID;
-            this.getPartnerHeader();
-        });*/
+        /* GlobalSettings.getParentParams(_router, partnerID => {
+             this.partnerID = partnerID.partnerID;
+             this.getPartnerHeader();
+         });*/
         this.checkPartner = GlobalSettings.getHomeInfo().isPartner;
     }
 
+
+    ngOnInit(){
+        this.initializePage();
+    }
+    ngOnChanges(){
+        this.initializePage();
+
+    }
+    initializePage(){
+        this.paramsub= this.activateRoute.params.subscribe(
+            (param :any)=> {
+                this.articleID= param['articleID'],
+                    this.articleType= param['articleType'],
+                    this.category=param['category'],
+                    this.subcategory=param['subCategory'];
+                if (this.articleType == "story" && this.articleID) {
+                    this.getSyndicateArticle(this.articleID);
+                    this.getRecomendationData();
+                }
+                else {
+                    this.getSyndicateVideoArticle(this.articleID);
+                    this.getRecomendationData();
+                }
+            }
+
+        );
+    }
     ngAfterViewInit(){
         // to run the resize event on load
         try {
@@ -70,28 +85,24 @@ export class SyndicatedArticlePage{
             window.dispatchEvent(resizeEvent);
         }
     }
-    ngDoCheck(){
-
-    }
-    ngOnChanges(){
-
-    }
     private getSyndicateArticle(articleID) {
         this._synservice.getSyndicateArticleService(articleID).subscribe(
             data => {
 
                 if (data.data[0].image_url == null || data.data.imagePath == undefined || data.data.imagePath == "") {
-                    this.imageData  = [GlobalSettings.getImageUrl(data.data[0].article_data.images[0].image_url)];
-                    this.copyright = data.data[0].article_data.images[0].image_copyright;
-                    this.imageTitle = data.data[0].article_data.images[0].image_title;
+                    this.imageData  = ["/app/public/placeholder_XL.png"];
+                    this.copyright = [data.data[0].article_data.images[0].image_copyright];
+                    this.imageTitle = [data.data[0].article_data.images[0].image_title];
                 }
                 else {
                     
-                    this.imageData = [GlobalSettings.getImageUrl(data.data[0].article_data.images[0].image_url)];
-                    this.copyright = data.data[0].article_data.images[0].image_copyright;
-                    this.imageTitle = data.data[0].article_data.images[0].image_title;
+                    this.imageData = ["/app/public/placeholder_XL.png"];
+                    this.copyright = [data.data[0].article_data.images[0].image_copyright];
+                    this.imageTitle = [data.data[0].article_data.images[0].image_title];
                 }
+
                 this.articleData = data.data[0].article_data;
+
                 this.articleData.publishedDate = moment.unix(this.articleData.publication_date/1000).format("MMMM Do, YYYY h:mm A") + " EST";
             }
         )
@@ -147,12 +158,24 @@ export class SyndicatedArticlePage{
     getRecomendationData(){
         var startNum=Math.floor((Math.random() * 49) + 1);
         var state = 'KS'; //needed to uppoercase for ai to grab data correctly
-        this._synservice.getRecArticleData(this.category,this.subcategory, 3)
+        if(this.subcategory) {
+            this._synservice.getRecArticleData(this.category, 3, this.subcategory)
 
-            .subscribe(data => {
-                this.recomendationData = this._synservice.transformToRecArticles(data);
+                .subscribe(data => {
+                    this.recomendationData = this._synservice.transformToRecArticles(data,this.subcategory,this.articleType);
 
-            });
+
+                });
+        }
+        else{
+            this._synservice.getRecArticleData(this.category, 3)
+
+                .subscribe(data => {
+                    this.recomendationData = this._synservice.transformToRecArticles(data,this.category,this.articleType);
+
+
+                });
+        }
 
     }
    /* getRecomendationData(){
@@ -168,10 +191,7 @@ export class SyndicatedArticlePage{
 
     }*/
 
-    ngOnInit(){
 
-
-    }
     formatDate(date) {
 
         return moment(date).format("MMMM DD, YYYY at h:mm A ")

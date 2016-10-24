@@ -86,7 +86,9 @@ export class GlobalSettings {
           searchTitle:'Discover The Latest In',
           searchSubTitle:"Find the players and teams you love",
           placeHolderText:'Search for a Team or a Player...',
-          searchBackground:"../app/public/Sports_Search-Module-Image.jpg"
+          searchBackground:"../app/public/Sports_Search-Module-Image.jpg",
+          color:'#2d3e50',
+          hoverColor: "rgba(45, 62, 80, 0.75)"
         },
         'ncaaf':{
           parentScope: 'sports',
@@ -105,7 +107,9 @@ export class GlobalSettings {
           searchTitle:'Discover The Latest In',
           searchSubTitle:"Find the players and teams you love",
           placeHolderText:'Search for a Team or a Player...',
-          searchBackground:"../app/public/Sports_Search-Module-Image.jpg"
+          searchBackground:"../app/public/Sports_Search-Module-Image.jpg",
+          color:'#2d3e50',
+          hoverColor: "rgba(45, 62, 80, 0.75)"
         },
         'fbs':{
           parentScope: 'sports',
@@ -124,7 +128,9 @@ export class GlobalSettings {
           searchTitle:'Discover The Latest In',
           searchSubTitle:"Find the players and teams you love",
           placeHolderText:'Search for a Team or a Player...',
-          searchBackground:"../app/public/Sports_Search-Module-Image.jpg"
+          searchBackground:"../app/public/Sports_Search-Module-Image.jpg",
+          color:'#2d3e50',
+          hoverColor: "rgba(45, 62, 80, 0.75)"
         },
         'mlb':{
           parentScope: 'sports',
@@ -143,7 +149,9 @@ export class GlobalSettings {
           searchTitle:'Discover The Latest In',
           searchSubTitle:"Find the players and teams you love",
           placeHolderText:'Search for a Team or a Player...',
-          searchBackground:"../app/public/Sports_Search-Module-Image.jpg"
+          searchBackground:"../app/public/Sports_Search-Module-Image.jpg",
+          color:'#bc2027',
+          hoverColor: "rgba(188, 32, 39, 0.75)"
         },
         'nba':{
           parentScope: 'sports',
@@ -162,7 +170,9 @@ export class GlobalSettings {
           searchTitle:'Discover The Latest In',
           searchSubTitle:"Find the players and teams you love",
           placeHolderText:'Search for a Team or a Player...',
-          searchBackground:"../app/public/Sports_Search-Module-Image.jpg"
+          searchBackground:"../app/public/Sports_Search-Module-Image.jpg",
+          color:'#f26f26',
+          hoverColor: "rgba(242, 111, 38, 0.75)"
         },
         'ncaam':{
           parentScope: 'sports',
@@ -181,7 +191,9 @@ export class GlobalSettings {
           searchTitle:'Discover The Latest In',
           searchSubTitle:"Find the players and teams you love",
           placeHolderText:'Search for a Team or a Player...',
-          searchBackground:"../app/public/Sports_Search-Module-Image.jpg"
+          searchBackground:"../app/public/Sports_Search-Module-Image.jpg",
+          color:'#f26f26',
+          hoverColor: "rgba(242, 111, 38, 0.75)"
         },
         'business':{
           parentScope: null,
@@ -199,7 +211,9 @@ export class GlobalSettings {
           searchTitle:'Discover Your Next Investment',
           searchSubTitle:"Find the stocks you can invest in right in your neighborhood",
           placeHolderText:'Search for a Company, Executive or DMA',
-          searchBackground:"../app/public/Finance_Search-Module-Image.jpg"
+          searchBackground:"../app/public/Finance_Search-Module-Image.jpg",
+          color:'#009dfb',
+          hoverColor: "rgba(48, 152, 255, 0.75)"
         },
         'real-estate':{
           parentScope: null,
@@ -216,7 +230,9 @@ export class GlobalSettings {
           searchTitle:'Discover Homes For Sale In Your Area',
           searchSubTitle:" ",
           placeHolderText:'Search for a location or address...',
-          searchBackground:"../app/public/Real-Estate_Search-Module-Image.jpg"
+          searchBackground:"../app/public/Real-Estate_Search-Module-Image.jpg",
+          color:'#44b224',
+          hoverColor: "rgba(68, 178, 36, 0.75)"
         },
         //ABOVE are categories SNTMedia actually has Verticals built specifically for that category
 
@@ -235,6 +251,8 @@ export class GlobalSettings {
           showSFTopNav: true,
           icon:'fa-futbol-o',
           pageType: 1,
+          color:'#00b9e3',
+          hoverColor: "rgba(0, 185, 227, 0.75)"
         },
         'weather':{
           parentScope: null,
@@ -248,7 +266,9 @@ export class GlobalSettings {
           showEventSlider: true,
           showBoxScores:false,
           icon:'fa-cloud-1',
-          pageType: 2
+          pageType: 2,
+          color:'#ffdf30',
+          hoverColor: "rgba(255, 223, 48, 0.75)"
         },
         'trending':{
           parentScope: null,
@@ -261,7 +281,9 @@ export class GlobalSettings {
           showEventSlider: false,
           showBoxScores:false,
           icon:'fa-film',
-          pageType: 3
+          pageType: 3,
+          color:'#00b9e3',
+          hoverColor: "rgba(0, 185, 227, 0.75)"
         },
         'breaking':{
           parentScope: null,
@@ -274,7 +296,9 @@ export class GlobalSettings {
           showEventSlider: false,
           showBoxScores:false,
           icon:'fa-clock',
-          pageType: 3
+          pageType: 3,
+          color:'#00b9e3',
+          hoverColor: "rgba(0, 185, 227, 0.75)"
         },
         'entertainment':{
           parentScope: null,
@@ -289,7 +313,9 @@ export class GlobalSettings {
           showBoxScores:false,
           showSFTopNav: true,
           icon:'fa-film',
-          pageType: 3
+          pageType: 3,
+          color:'#00b9e3',
+          hoverColor: "rgba(0, 185, 227, 0.75)"
         },
         'tv':{
           parentScope: 'entertainment',
@@ -304,7 +330,9 @@ export class GlobalSettings {
           showBoxScores:false,
           showSFTopNav: true,
           icon:'fa-film',
-          pageType: 3
+          pageType: 3,
+          color:'#00b9e3',
+          hoverColor: "rgba(0, 185, 227, 0.75)"
         },
         'movies':{
           parentScope: 'entertainment',
@@ -319,7 +347,9 @@ export class GlobalSettings {
           showBoxScores:false,
           showSFTopNav: true,
           icon:'fa-film',
-          pageType: 3
+          pageType: 3,
+          color:'#00b9e3',
+          hoverColor: "rgba(0, 185, 227, 0.75)"
         },
         'music':{
           parentScope: 'entertainment',
@@ -334,7 +364,9 @@ export class GlobalSettings {
           showBoxScores:false,
           showSFTopNav: true,
           icon:'fa-film',
-          pageType: 3
+          pageType: 3,
+          color:'#00b9e3',
+          hoverColor: "rgba(0, 185, 227, 0.75)"
         },
         'celebrities':{
           parentScope: 'entertainment',
@@ -349,7 +381,9 @@ export class GlobalSettings {
           showBoxScores:false,
           showSFTopNav: true,
           icon:'fa-film',
-          pageType: 3
+          pageType: 3,
+          color:'#00b9e3',
+          hoverColor: "rgba(0, 185, 227, 0.75)"
         },
         'lifestyle':{
           parentScope: null,
@@ -362,7 +396,9 @@ export class GlobalSettings {
           showEventSlider: false,
           showBoxScores:false,
           icon:'fa-diamond',
-          pageType: 3
+          pageType: 3,
+          color:'#00b9e3',
+          hoverColor: "rgba(0, 185, 227, 0.75)"
         },
         'food':{
           parentScope: null,
@@ -375,7 +411,9 @@ export class GlobalSettings {
           showEventSlider: false,
           showBoxScores:false,
           icon:'fa-cutlery',
-          pageType: 3
+          pageType: 3,
+          color:'#00b9e3',
+          hoverColor: "rgba(0, 185, 227, 0.75)"
         },
         'travel':{
           parentScope: null,
@@ -388,7 +426,9 @@ export class GlobalSettings {
           showEventSlider: false,
           showBoxScores:false,
           icon:'fa-plane',
-          pageType: 3
+          pageType: 3,
+          color:'#00b9e3',
+          hoverColor: "rgba(0, 185, 227, 0.75)"
         },
         'politics':{
           parentScope: null,
@@ -401,7 +441,9 @@ export class GlobalSettings {
           showEventSlider: false,
           showBoxScores:false,
           icon:'fa-university',
-          pageType: 3
+          pageType: 3,
+          color:'#ff0101',
+          hoverColor: "rgba(255, 1, 1, 0.75)"
         },
         'health':{
           parentScope: null,
@@ -414,7 +456,9 @@ export class GlobalSettings {
           showEventSlider: false,
           showBoxScores:false,
           icon:'fa-heartbeat',
-          pageType: 3
+          pageType: 3,
+          color:'#00b9e3',
+          hoverColor: "rgba(0, 185, 227, 0.75)"
         },
         'automotive':{
           parentScope: null,
@@ -427,7 +471,9 @@ export class GlobalSettings {
           showEventSlider: false,
           showBoxScores:false,
           icon:'fa-auto-shape',
-          pageType: 3
+          pageType: 3,
+          color:'#00b9e3',
+          hoverColor: "rgba(0, 185, 227, 0.75)"
         },
         'all':{
           parentScope: null,
@@ -440,11 +486,31 @@ export class GlobalSettings {
           showEventSlider: false,
           showBoxScores:false,
           icon:'fa-auto-shape',
-          pageType: 'all'
+          pageType: 'all',
+          color:'#00b9e3',
+          hoverColor: "rgba(0, 185, 227, 0.75)"
         },
         //ABOVE are categories SNTMedia do no have specific verticals for therefore will not have anything linking to a category specific site
       }
-      return category[section];
+      if(category[section] == null){// default return
+        return {
+          parentScope: null,
+          scope:'deep-dive',
+          topScope: null,
+          displayName: null,
+          verticalApi: null,
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: false,
+          showBoxScores:false,
+          icon:'fa-auto-shape',
+          pageType: 'all',
+          color:'#00b9e3',
+          hoverColor: "rgba(0, 185, 227, 0.75)"
+        };
+      }else{
+        return category[section];
+      }
     }
 
     static checkPartnerDomain (partnerCode) {

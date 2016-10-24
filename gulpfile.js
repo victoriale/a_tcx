@@ -120,7 +120,7 @@ gulp.task('serve', ['build'], function() {
 });
 // copy static assets - i.e. non TypeScript compiled source
 gulp.task('copy:assets', ['clean'], function() {
-  gulp.src('index.html')
+  gulp.src(['index.html', 'robots.txt'])
     .pipe(gulp.dest('dist'));
 
   gulp.src('systemjs.config.js')

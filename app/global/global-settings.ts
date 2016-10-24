@@ -34,6 +34,9 @@ export class GlobalSettings {
     private static _siteFacebookUrl:string = 'https://www.facebook.com/sharer/sharer.php?u=';
     private static _siteLinkedinUrl:string = 'https://www.linkedin.com/shareArticle?mini=true&url=&title=&summary=&source=';
     private static _siteGoogleUrl:string = 'https://plus.google.com/share?url=';
+    private static _verticalFacebook: string = 'https://www.facebook.com/TCX-382018522187919';
+    private static _verticalTwitter: string = 'https://twitter.com/tcxmedia';
+
 
     //base titles that will be used to displayed different when on white labeled partner domains
     private static _baseTitle: string = "TCX";
@@ -695,6 +698,12 @@ export class GlobalSettings {
 
     static getCopyrightInfo() {
         return this._copyrightInfo;
+    }
+    static getVerticalFB() {
+        return this._verticalFacebook;
+    }
+    static getVerticalTwitter() {
+        return this._verticalTwitter;
     }
     static getSiteTwitterUrl(shareUrl: string) {
       return this._siteTwitterUrl + shareUrl;

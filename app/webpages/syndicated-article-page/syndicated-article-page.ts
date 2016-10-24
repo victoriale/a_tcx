@@ -113,8 +113,6 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         this._synservice.getSyndicateVideoService(articleID).subscribe(
             data => {
                 this.articleData = data.data;
-                console.log(this.articleData);
-
                 this.iframeUrl = this.articleData.video_url + "&autoplay=on";
             }
         )

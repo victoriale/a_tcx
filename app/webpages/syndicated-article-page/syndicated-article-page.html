@@ -39,7 +39,7 @@
 
             </div>
                     </div>
-            <div class="content-exerpt" *ngIf="articleType == 'video'"  [innerHTML]="articleData.description | safeHtml">
+            <div class="content-exerpt" *ngIf="articleType == 'video'"  [innerHTML]="articleData.teaser | safeHtml">
             </div>
 
             <billboard-module></billboard-module>

@@ -38,7 +38,7 @@ export class SyndicateArticleService{
     getSyndicateVideoService(articleID){
         //Configure HTTP Headers
         /*var headers = this.setToken();*/
-        var callURL = this._syndicateUrl + 'videoSingle/' + articleID;
+        var callURL = GlobalSettings.getApiUrl()+ '/tcx/videoSingle/' + articleID;
         return this._http.get(callURL)
             .map(res => res.json())
             .map(data => {
@@ -68,6 +68,7 @@ export class SyndicateArticleService{
 
     transformToRecArticles(data, scope,articleType){
         data = data.data;
+        articleType="story";
         var sampleImage = "/app/public/placeholder_XL.png";
         var articleStackArray = [];
         var articles = [];
@@ -110,6 +111,7 @@ export class SyndicateArticleService{
 
 
     transformTrending (data, scope, articleType,currentArticleId) {
+        articleType="story";
         var placeholder="/app/public/placeholder_XL.png"
         data.forEach(function(val,index){
             if (val.article_id != currentArticleId) {

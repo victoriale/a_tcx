@@ -11,7 +11,6 @@ declare var moment;
 
 @Injectable()
 export class DeepDiveService {
-  private _footballAPI: string = "http://dev-touchdownloyal-api.synapsys.us/tcx/";
   constructor(public http: Http){}
 
   //Function to set custom headers
@@ -20,20 +19,9 @@ export class DeepDiveService {
       return headers;
   }
 
-  getDeepDiveArticleService(articleID){
-  //Configure HTTP Headers
-  var headers = this.setToken();
-  var callURL = this._footballAPI + '/article/' + articleID;//TODO
-  return this.http.get(callURL, {headers: headers})
-    .map(res => res.json())
-    .map(data => {
-      return data;
-    })
-  }
-
   getDeepDiveBatchService(category: string, limit: number, page: number, state?: string){
     var headers = this.setToken();
-    var callURL = GlobalSettings.getApiUrl() + "/articles";
+    var callURL = GlobalSettings.getTCXscope(category).tcxApi + "/articles";
     //http://dev-tcxmedia-api.synapsys.us/articles?help=1
     //http://dev-tcxmedia-api.synapsys.us/articles?articleType=about-the-teams
     // if(GlobalSettings.getTCXscope(category).topScope == "basketball" || GlobalSettings.getTCXscope(category).topScope == "football") {
@@ -103,7 +91,7 @@ export class DeepDiveService {
       return this.http.get(callURL, {headers: headers})
         .map(res => res.json())
         .map(data => {
-          return data;
+          return data.data;
       })
   }// getDeepDiveVideoBatchService ENDS
 
@@ -209,6 +197,22 @@ export class DeepDiveService {
         return transformData;
     }
 
+    videoDummyData() {
+        var sampleImage = "/app/public/placeholder_XL.png";
+        var dummyData = {
+            id: 88,
+            keyword: 'keywords',
+            title: "Today's News",
+            time_stamp: moment(1476468000).format("MMMM Do, YYYY h:mm:ss a"),
+            video_thumbnail: sampleImage,
+            embed_url: 'http://embed.sendtonews.com/player/embed.php?SC=8UnmTGrqZn-215622-6979&autoplay=on',
+            video_url: ['/deep-dive'],
+            keyUrl: ['/deep-dive'],
+            teaser: 'There is no description at this time'
+        }
+        return dummyData;
+    }
+    
     carouselDummyData(){
       var sampleImage = "/app/public/placeholder_XL.png";
       var articleStackData = {

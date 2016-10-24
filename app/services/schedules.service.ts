@@ -399,7 +399,7 @@ export class SchedulesService {
         //Configure HTTP Headers
         var headers = this.setToken();
         // var callURL = GlobalSettings.getVerticalEnv('-homerunloyal-api.synapsys.us') + "/tcx/league/schedule/pre-event/50/1";
-        var callURL = GlobalSettings.getTCXscope(scope).verticalApi + "/tcx/league/schedule/pre-event/50/1";
+        var callURL = GlobalSettings.getTCXscope(scope).verticalApi + "/tcx/" + scope + "/schedule/pre-event/50/1";
 
         //optional week parameters
         return this.http.get(callURL, { headers: headers })
@@ -530,7 +530,7 @@ export class SchedulesService {
         //Configure HTTP Headers
         var headers = this.setToken();
         //var callURL = GlobalSettings.getVerticalEnv('-tcxmedia-api.synapsys.us') + "/sidescroll/weather/availableLocations/" + query;
-        var callURL = 'http://dev-tcxmedia-api.synapsys.us' + "/sidescroll/weather/availableLocations/" + query;
+        var callURL = GlobalSettings.getTCXscope('weather').verticalApi + "/sidescroll/weather/availableLocations/" + query;
         //optional week parameters
         return this.http.get(callURL, { headers: headers })
             .map(res => res.json())

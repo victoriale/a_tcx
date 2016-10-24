@@ -142,7 +142,11 @@ export class DeepDivePage implements OnInit {
     }
 
     getDataCarousel() {
-      this._deepDiveData.getCarouselData(this.scope, this.carouselData, '25', '1', this.geoLocation, (carData)=>{
+      let pageScope = this.scope;
+      if(this.scope == 'all'){
+        pageScope = 'breaking';
+      }
+      this._deepDiveData.getCarouselData(pageScope, this.carouselData, '25', '1', this.geoLocation, (carData)=>{
         this.carouselData = carData;
       })
     }
@@ -152,12 +156,12 @@ export class DeepDivePage implements OnInit {
         this._deepDiveData.getDeepDiveVideoBatchService(this.scope, 5, 1).subscribe(
           data => {
             this.carouselVideo = this._deepDiveData.transformSportVideoBatchData([data.data[0]]);
+            // this.carouselVideo = [this._deepDiveData.videoDummyData()];
             this.getDataCarousel();
           },
           err => {
-            this.carouselVideo = [this._deepDiveData.videoDummyData()];
-            this.getDataCarousel();
             console.log("Error getting video batch data");
+            this.getDataCarousel();
           });
       }else{
         this.carouselVideo = null;
@@ -191,16 +195,16 @@ export class DeepDivePage implements OnInit {
       this.routeSubscription = this._activatedRoute.params.subscribe(
           (param:any) => {
             this.category = param['category'] ? param['category'] : 'all';
-            this.scope = param['articleCategory'] ? param['articleCategory'] : this.category;
-            if (param['articleCategory']) {
-              this.tcxVars = GlobalSettings.getTCXscope(param['articleCategory']);
+            this.scope = param['subCategory'] ? param['subCategory'] : this.category;
+            if (param['subCategory']) {
+              this.tcxVars = GlobalSettings.getTCXscope(param['subCategory']);
             }
             else {
               this.tcxVars = GlobalSettings.getTCXscope(this.category);
             }
             this.topScope = this.tcxVars ? this.tcxVars.topScope : this.category;
             this.changeScopeVar = this.tcxVars.scope;
-            this.deepDiveType = this.category != 'all' ? GlobalSettings.getTCXscope(this.scope).pageType : 'all';
+            this.deepDiveType = GlobalSettings.getTCXscope(this.scope).pageType ? GlobalSettings.getTCXscope(this.scope).pageType : 3;
             this.getGeoLocation();
             this.getDeepDiveVideo();
             this.sectionFrontName();

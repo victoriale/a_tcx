@@ -725,8 +725,8 @@ export class SchedulesService {
                   icon: GlobalSettings.getImageUrl("/weather/icons/sharknado_n.svg")
               }
           ], current: {
-              description: "<span class='text-heavy'>Partly cloudy</span> with a chance of meatballs until 12PM CT.",
-              current_condition: "N/A",
+              description: "<span class='text-heavy'>Partly cloudy</span> with a chance of sharky meatballs until 12PM CT.",
+              current_condition: "Sharknado",
               current_icon: GlobalSettings.getImageUrl("/weather/icons/sharknado_n.svg"),
               current_temperature: 76,
               current_time: moment().format("dddd h:mm A"),
@@ -735,7 +735,7 @@ export class SchedulesService {
               current_scope: "hourly",
               state: "N/A",
               city: "N/A",
-              location: "N/A n/a",
+              location: "Hurricane of Sharks",
               zipcode:67260,
               background: GlobalSettings.getImageUrl("/weather/icons/light_rain.jpg"),
               options:{

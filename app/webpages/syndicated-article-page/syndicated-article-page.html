@@ -8,7 +8,7 @@
         </div>
 
         <span *ngIf="articleData">
-      <shareLinks-component *ngIf="articleData.articleUrl" [shareUrl]="articleData.articleUrl" ></shareLinks-component>
+      <shareLinks-component *ngIf="articleData.article_url" [shareUrl]="articleData.article_url" ></shareLinks-component>
          <shareLinks-component *ngIf="articleData.videoLink" [shareUrl]="articleData.videoLink"></shareLinks-component>
 
 
@@ -26,16 +26,19 @@
             <div class="videoFrame" *ngIf="articleType == 'video'">
               <iframe *ngIf="iframeUrl" width="100%" height="100%"  [src]="iframeUrl | safeRUrl" frameborder="0" allowfullscreen></iframe>
             </div>
-            <div class="arpt" *ngIf="articleType == 'story'" style="margin-top: 15px">
+            <div class="arpt" *ngIf="articleType == 'story'">
                 <span class="arpt-author" >Written By: <b>{{articleData.publisher}}</b></span>
                 <span class="arpt-date">Posted: on   {{" "+ articleData.publishedDate}}</span>
             </div>
-            <div class="arpt" *ngIf="articleType == 'video'" style="margin-top: 15px">
+            <div class="arpt" *ngIf="articleType == 'video'">
                 <span class="arpt-author" >Written By: <b>{{articleData.author}}</b></span>
-                <span class="arpt-date">Posted: on {{" "+ formatDate(articleData.pubDate)}}</span>
+                <span class="arpt-date">Posted: on {{" "+articleData.publishedDate}}</span>
             </div>
-            <div class="content-exerpt" *ngIf="articleType == 'story'"  [innerHTML]="articleData.teaser | safeHtml">
+                <div *ngIf="articleType == 'story'" >
+            <div class="content-exerpt" *ngFor="let description of articleData.article" [innerHTML]="description | safeHtml">
+
             </div>
+                    </div>
             <div class="content-exerpt" *ngIf="articleType == 'video'"  [innerHTML]="articleData.description | safeHtml">
             </div>
 
@@ -49,6 +52,7 @@
             <disqus-component *ngIf="!checkPartner"></disqus-component>
 
             <chatterbox-module></chatterbox-module>
+
 <!--
                         <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
 -->
@@ -61,10 +65,14 @@
 
 
             <!-- <syndicated-trending-component *ngIf="geoLocation" [geoLocation]="KS" [currentArticleId]="articleData.id"></syndicated-trending-component>-->
-           <syndicated-trending-component [geoLocation]="geoLocation" [currentArticleId]="articleData.id" [scope]="scope"></syndicated-trending-component>
+           <syndicated-trending-component [geoLocation]="geoLocation" [currentArticleId]="articleData.id" [scope]="scope" [category]="category" [subCategory]="subcategory"></syndicated-trending-component>
 
                 </div>
+            <div class="syndicate-widget col-xl-3" >
+            <div class="widget_wrapper"><widget-carousel-module></widget-carousel-module></div>
+        </div>
             <!--</sidekick-wrapper-ai>-->
+
     </span>
 
     </div>

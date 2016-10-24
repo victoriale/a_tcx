@@ -10,6 +10,9 @@ export class GlobalSettings {
     private static _apiUrl:string = '-tcxmedia-api.synapsys.us';
     private static _articleUrl:string = '-tcxmedia-ai.synapsys.us/tcx';
 
+
+    private static _synArticleUrl:string= "-tcxmedia-api.synapsys.us/articles";
+
     private static _partnerApiUrl: string = 'apireal.synapsys.us/listhuv/?action=get_partner_data&domain=';
 
     //two different api since there is a possibility that these urls are going to change
@@ -31,6 +34,9 @@ export class GlobalSettings {
     private static _siteFacebookUrl:string = 'https://www.facebook.com/sharer/sharer.php?u=';
     private static _siteLinkedinUrl:string = 'https://www.linkedin.com/shareArticle?mini=true&url=&title=&summary=&source=';
     private static _siteGoogleUrl:string = 'https://plus.google.com/share?url=';
+    private static _verticalFacebook: string = 'https://www.facebook.com/TCX-382018522187919';
+    private static _verticalTwitter: string = 'https://twitter.com/tcxmedia';
+
 
     //base titles that will be used to displayed different when on white labeled partner domains
     private static _baseTitle: string = "TCX";
@@ -693,6 +699,12 @@ export class GlobalSettings {
     static getCopyrightInfo() {
         return this._copyrightInfo;
     }
+    static getVerticalFB() {
+        return this._verticalFacebook;
+    }
+    static getVerticalTwitter() {
+        return this._verticalTwitter;
+    }
     static getSiteTwitterUrl(shareUrl: string) {
       return this._siteTwitterUrl + shareUrl;
     }
@@ -709,5 +721,11 @@ export class GlobalSettings {
     static getEstYear() {
       return this._estYear;
     }
+  static getHomePageLinkName() {
+    return this._homepageLinkName;
+  }
+  static getSyndicateUrl(){
+      return this._proto + "//" + this.getEnv(this._env) + this._synArticleUrl;
+  }
 
 }

@@ -27,16 +27,18 @@ export class SyndicatedArticlePage{
     public imageTitle: Array<string>;
     public copyright: Array<string>;
     @Input() scope: string;
+    public category:string;
+    public subcategory: string;
     isStockPhoto:boolean=true;
     iframeUrl: any;
     paramsub;
     constructor(
 
-        private _synservice:SyndicateArticleService, private GlobalSetting:GlobalSettings, private activateRoute:ActivatedRoute, private GlobalFunctions:GlobalFunctions
+        private _synservice:SyndicateArticleService, private activateRoute:ActivatedRoute
 
     ){
         this.paramsub=activateRoute.params.subscribe(
-            (param :any)=> {this.articleID= param['articleID'], this.articleType= param['articleType']}
+            (param :any)=> {this.articleID= param['articleID'], this.articleType= param['articleType'], this.category=param['category'], this.subcategory=param['subCategory']}
 
         );
 
@@ -78,19 +80,19 @@ export class SyndicatedArticlePage{
         this._synservice.getSyndicateArticleService(articleID).subscribe(
             data => {
 
-                if (data.data.imagePath == null || data.data.imagePath == undefined || data.data.imagePath == "") {
-                    this.imageData  = ["/app/public/stockphoto_bb_1.jpg", "/app/public/stockphoto_bb_2.jpg"];
-                    this.copyright = ["USA Today Sports Images", "USA Today Sports Images"];
-                    this.imageTitle = ["", ""];
+                if (data.data[0].image_url == null || data.data.imagePath == undefined || data.data.imagePath == "") {
+                    this.imageData  = [GlobalSettings.getImageUrl(data.data[0].article_data.images[0].image_url)];
+                    this.copyright = data.data[0].article_data.images[0].image_copyright;
+                    this.imageTitle = data.data[0].article_data.images[0].image_title;
                 }
                 else {
                     
-                    this.imageData = [GlobalSettings.getImageUrl(data.data.imagePath)];
-                    this.copyright = ["USA Today Sports Images"];
-                    this.imageTitle = [""];
+                    this.imageData = [GlobalSettings.getImageUrl(data.data[0].article_data.images[0].image_url)];
+                    this.copyright = data.data[0].article_data.images[0].image_copyright;
+                    this.imageTitle = data.data[0].article_data.images[0].image_title;
                 }
-                this.articleData = data.data;
-                this.articleData.publishedDate = moment.unix(this.articleData.publishedDate/1000).format("MMMM Do, YYYY h:mm A") + " EST";
+                this.articleData = data.data[0].article_data;
+                this.articleData.publishedDate = moment.unix(this.articleData.publication_date/1000).format("MMMM Do, YYYY h:mm A") + " EST";
             }
         )
 
@@ -145,7 +147,7 @@ export class SyndicatedArticlePage{
     getRecomendationData(){
         var startNum=Math.floor((Math.random() * 49) + 1);
         var state = 'KS'; //needed to uppoercase for ai to grab data correctly
-        this._synservice.getRecArticleData(this.scope, this.geoLocation,startNum, 3)
+        this._synservice.getRecArticleData(this.category,this.subcategory, 3)
 
             .subscribe(data => {
                 this.recomendationData = this._synservice.transformToRecArticles(data);
@@ -153,6 +155,18 @@ export class SyndicatedArticlePage{
             });
 
     }
+   /* getRecomendationData(){
+        var startNum=Math.floor((Math.random() * 49) + 1);
+        var state = 'KS'; //needed to uppoercase for ai to grab data correctly
+        this._synservice.getTrendingArticles('sports','nfl',10).subscribe(
+            data => {
+                this.recomendationData = this._synservice.transformToRecArticles(data);
+
+            }
+
+        )
+
+    }*/
 
     ngOnInit(){
 
@@ -160,7 +174,7 @@ export class SyndicatedArticlePage{
     }
     formatDate(date) {
 
-        return moment(date).format("MMMM DD, YYYY | h:mm A ")
+        return moment(date).format("MMMM DD, YYYY at h:mm A ")
 
     }
 

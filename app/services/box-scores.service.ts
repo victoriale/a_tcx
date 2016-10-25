@@ -295,7 +295,6 @@ export class BoxScoresService {
 
   // modifies data to get header data for modules
   aiHeadLine(data, scope?) {
-    console.log(data);
     var boxArray = [];
     if (data[0].featuredReport['article'].status != "Error") {
       data.forEach(function(val, index){
@@ -313,9 +312,7 @@ export class BoxScoresService {
           }
         }
         let urlRoute = VerticalGlobalFunctions.formatExternalArticleRoute(scope, p, val.event);
-        console.log(urlRoute);
         urlRoute = GlobalSettings.getOffsiteLink(scope, urlRoute);
-        console.log(urlRoute);
         var Box = {
           eventType: eventType,
           eventId: p,
@@ -334,7 +331,6 @@ export class BoxScoresService {
         }
         boxArray.push(Box);
       });
-      console.log('boxArray',boxArray);
       return boxArray;
     } else{
       return null;

@@ -144,7 +144,6 @@ export class BoxScoresService {
       default:
       callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/tcx/boxScores/league/'+scope+'/'+date+'/addAi';
       break;
-      //http://dev-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=ncaa&action=tcx&option=tcx_box_scores&date=2017-12-03
     }
     // console.log('box Scores Service',callURL);
     return this.http.get(callURL, {headers: headers})
@@ -163,81 +162,83 @@ export class BoxScoresService {
 
   // form box scores data
   transformBoxScores(data, scope?){
-    let boxScoresData = data.data;
     var boxScoreObj = {};
     var newBoxScores = {};
     let currWeekGameDates = {};
-    for ( var gameDate in boxScoresData ) {
-      let gameDayInfo:gameDayInfoInterface = data.data[gameDate];
-      let currGameDate = moment(Number(gameDate)).tz('America/New_York').format('YYYY-MM-DD');
-      // game info
-      if (gameDayInfo) {
-        gameDayInfo['gameInfo'] = {
-          eventId: gameDayInfo.eventId,
-          timeLeft: gameDayInfo.liveDataPoints[scope] != null ? gameDayInfo.liveDataPoints[scope].timeLeft : null,
-          live: gameDayInfo.liveStatus == 'Y'?true:false,
-          startDateTime: gameDayInfo.eventDate,
-          startDateTimestamp: gameDayInfo.eventStartTime,
-          dataPointCategories:[
-            gameDayInfo.dataPoint3Label,
-            gameDayInfo.dataPoint2Label,
-            gameDayInfo.dataPoint1Label
-          ]
-        }
-
-        // home team info
-        gameDayInfo['homeTeamInfo'] = {
-          name: gameDayInfo.fullNameHome,
-          id: gameDayInfo.idHome,
-          firstName: gameDayInfo.firstNameHome,
-          lastName: gameDayInfo.nicknameHome,
-          abbreviation: gameDayInfo.abbreviationHome,
-          logo: gameDayInfo.logoUrlHome,
-          dataPoint1Home: gameDayInfo.dataPoint1Home,
-          dataPoint2Home: gameDayInfo.dataPoint2Home,
-          dataPoint3Home: gameDayInfo.dataPoint3Home,
-          //dataP2:boxScoresData[gameDate].team1Possession != ''? boxScoresData[gameDate].team1Possession:null,
-          teamRecord: gameDayInfo.winsHome != null ? gameDayInfo.winsHome + '-' + gameDayInfo.lossHome + '-' + gameDayInfo.tiesHome: null
-        }
-
-        // away team info
-        gameDayInfo['awayTeamInfo'] = {
-          name: gameDayInfo.fullNameAway,
-          id: gameDayInfo.idAway,
-          firstName: gameDayInfo.firstNameAway,
-          lastName: gameDayInfo.nicknameAway,
-          abbreviation: gameDayInfo.abbreviationAway,
-          logo: gameDayInfo.logoUrlAway,
-          dataPoint1Away: gameDayInfo.dataPoint1Away,
-          dataPoint2Away: gameDayInfo.dataPoint2Away,
-          dataPoint3Away: gameDayInfo.dataPoint3Away,
-          //dataP2:boxScoresData[gameDate].team1Possession != ''? boxScoresData[gameDate].team1Possession:null,
-          teamRecord: gameDayInfo.winsAway != null ? gameDayInfo.winsAway + '-' + gameDayInfo.lossAway + '-' + gameDayInfo.tiesAway: null,
-        }
-
-
-        // LIVE DATA THAT NEEDS TO ADJUST BASED ON SPORT
-        if(gameDayInfo.liveDataPoints[scope] != null){
-          gameDayInfo['gameInfo']['verticalContent'] = {
-            teamInPossesion:  "Possession: " + gameDayInfo.liveDataPoints[scope].teamInPossesion,
-            liveSegmentNumber: gameDayInfo.liveDataPoints[scope].liveSegmentNumber,
-            timeLeft: gameDayInfo.liveDataPoints[scope].timeLeft,
-            liveYardLine: gameDayInfo.liveDataPoints[scope].liveYardLine,
-            overTime: gameDayInfo.liveDataPoints[scope].liveYardLine
+    if(data != null){
+      let boxScoresData = data.data;
+      for ( var gameDate in boxScoresData ) {
+        let gameDayInfo:gameDayInfoInterface = data.data[gameDate];
+        let currGameDate = moment(Number(gameDate)).tz('America/New_York').format('YYYY-MM-DD');
+        // game info
+        if (gameDayInfo) {
+          gameDayInfo['gameInfo'] = {
+            eventId: gameDayInfo.eventId,
+            timeLeft: gameDayInfo.liveDataPoints[scope] != null ? gameDayInfo.liveDataPoints[scope].timeLeft : null,
+            live: gameDayInfo.liveStatus == 'Y'?true:false,
+            startDateTime: gameDayInfo.eventDate,
+            startDateTimestamp: gameDayInfo.eventStartTime,
+            dataPointCategories:[
+              gameDayInfo.dataPoint3Label,
+              gameDayInfo.dataPoint2Label,
+              gameDayInfo.dataPoint1Label
+            ]
           }
-        }else{
-          gameDayInfo['gameInfo']['verticalContent'] = null
-        }
 
-        // organize games by date and put them into newVPWP' P PBoxScores
-        if(typeof newBoxScores[currGameDate] == 'undefined'){
-          newBoxScores[currGameDate] = [];
-          newBoxScores[currGameDate].push(gameDayInfo);
-        } else{
-          newBoxScores[currGameDate].push(gameDayInfo);
-        }
-      } //if (boxScoresData[gameDate])
-    } // END for ( var gameDate in data.data )
+          // home team info
+          gameDayInfo['homeTeamInfo'] = {
+            name: gameDayInfo.fullNameHome,
+            id: gameDayInfo.idHome,
+            firstName: gameDayInfo.firstNameHome,
+            lastName: gameDayInfo.nicknameHome,
+            abbreviation: gameDayInfo.abbreviationHome,
+            logo: gameDayInfo.logoUrlHome,
+            dataPoint1Home: gameDayInfo.dataPoint1Home,
+            dataPoint2Home: gameDayInfo.dataPoint2Home,
+            dataPoint3Home: gameDayInfo.dataPoint3Home,
+            //dataP2:boxScoresData[gameDate].team1Possession != ''? boxScoresData[gameDate].team1Possession:null,
+            teamRecord: gameDayInfo.winsHome != null ? gameDayInfo.winsHome + '-' + gameDayInfo.lossHome + '-' + gameDayInfo.tiesHome: null
+          }
+
+          // away team info
+          gameDayInfo['awayTeamInfo'] = {
+            name: gameDayInfo.fullNameAway,
+            id: gameDayInfo.idAway,
+            firstName: gameDayInfo.firstNameAway,
+            lastName: gameDayInfo.nicknameAway,
+            abbreviation: gameDayInfo.abbreviationAway,
+            logo: gameDayInfo.logoUrlAway,
+            dataPoint1Away: gameDayInfo.dataPoint1Away,
+            dataPoint2Away: gameDayInfo.dataPoint2Away,
+            dataPoint3Away: gameDayInfo.dataPoint3Away,
+            //dataP2:boxScoresData[gameDate].team1Possession != ''? boxScoresData[gameDate].team1Possession:null,
+            teamRecord: gameDayInfo.winsAway != null ? gameDayInfo.winsAway + '-' + gameDayInfo.lossAway + '-' + gameDayInfo.tiesAway: null,
+          }
+
+
+          // LIVE DATA THAT NEEDS TO ADJUST BASED ON SPORT
+          if(gameDayInfo.liveDataPoints[scope] != null){
+            gameDayInfo['gameInfo']['verticalContent'] = {
+              teamInPossesion:  "Possession: " + gameDayInfo.liveDataPoints[scope].teamInPossesion,
+              liveSegmentNumber: gameDayInfo.liveDataPoints[scope].liveSegmentNumber,
+              timeLeft: gameDayInfo.liveDataPoints[scope].timeLeft,
+              liveYardLine: gameDayInfo.liveDataPoints[scope].liveYardLine,
+              overTime: gameDayInfo.liveDataPoints[scope].liveYardLine
+            }
+          }else{
+            gameDayInfo['gameInfo']['verticalContent'] = null
+          }
+
+          // organize games by date and put them into newVPWP' P PBoxScores
+          if(typeof newBoxScores[currGameDate] == 'undefined'){
+            newBoxScores[currGameDate] = [];
+            newBoxScores[currGameDate].push(gameDayInfo);
+          } else{
+            newBoxScores[currGameDate].push(gameDayInfo);
+          }
+        } //if (boxScoresData[gameDate])
+      } // END for ( var gameDate in data.data )
+    }
     var transformedData = {
       currentScope: scope,
       aiContent: data.aiContent != null ? data.aiContent : null,
@@ -360,8 +361,7 @@ export class BoxScoresService {
     var callURL;
     switch(scope){
       case 'ncaam':
-        scope = 'ncaa'
-        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/NBAHoops/call_controller.php?scope='+scope+'&action=tcx&option=tcx_game_dates_weekly&date='+date;
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/NBAHoops/call_controller.php?scope=ncaa&action=tcx&option=tcx_game_dates_weekly&date='+date;
       break;
       case 'nba':
         callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/NBAHoops/call_controller.php?scope='+scope+'&action=tcx&option=tcx_game_dates_weekly&date='+date;
@@ -394,8 +394,7 @@ export class BoxScoresService {
     var callURL;
     switch(scope){
       case 'ncaam':
-      scope = 'ncaa'
-        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/NBAHoops/call_controller.php?scope='+scope+'&action=tcx&option=tcx_game_dates_monthly&date='+date;
+        callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/NBAHoops/call_controller.php?scope=ncaa&action=tcx&option=tcx_game_dates_monthly&date='+date;
       break;
       case 'nba':
         callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/NBAHoops/call_controller.php?scope='+scope+'&action=tcx&option=tcx_game_dates_monthly&date='+date;
@@ -449,12 +448,17 @@ export class BoxScoresService {
       awayLink = GlobalSettings.getOffsiteLink(scope, awayLink);
 
       var aiContent = data.aiContent != null ? self.formatArticle(data):null; //TODO
-      if(scope == 'mlb'){
-        var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getSportsImageUrl(homeData.logo), homeLink); //TODO
-        var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getSportsImageUrl(awayData.logo), awayLink); //TODO
+      if(scope == 'ncaam' || scope == 'nba'){
+        var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getSportsImageUrl('/'+homeData.logo), homeLink); //TODO
+        var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getSportsImageUrl('/'+awayData.logo), awayLink); //TODO
       }else{
-        var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo), homeLink); //TODO
-        var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo), awayLink); //TODO
+        if(scope == 'mlb'){
+          var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getSportsImageUrl(homeData.logo), homeLink); //TODO
+          var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getSportsImageUrl(awayData.logo), awayLink); //TODO
+        }else{
+          var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo), homeLink); //TODO
+          var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo), awayLink); //TODO
+        }
       }
 
       let gameDate = data.gameInfo;

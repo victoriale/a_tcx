@@ -152,7 +152,7 @@ export class BoxScoresService {
         var transformedDate = this.transformBoxScores(data.data, scope);
         return {
           transformedDate: transformedDate.data,
-          aiContent: transformedDate.aiContent,
+          aiContent: data.aiContent,
           date: chosenDate,
           nextGameDate:transformedDate.nextGameDate,
           previousGameDate:transformedDate.previousGameDate,
@@ -241,7 +241,6 @@ export class BoxScoresService {
     }
     var transformedData = {
       currentScope: scope,
-      aiContent: data.aiContent != null ? data.aiContent : null,
       previousGameDate: data.previousGameDate,
       nextGameDate: data.nextGameDate,
       data: newBoxScores
@@ -296,6 +295,7 @@ export class BoxScoresService {
 
   // modifies data to get header data for modules
   aiHeadLine(data, scope?) {
+    console.log(data);
     var boxArray = [];
     if (data[0].featuredReport['article'].status != "Error") {
       data.forEach(function(val, index){
@@ -312,6 +312,10 @@ export class BoxScoresService {
             var homeImage = VerticalGlobalFunctions.getBackroundImageUrlWithStockFallback(null);
           }
         }
+        let urlRoute = VerticalGlobalFunctions.formatExternalArticleRoute(scope, p, val.event);
+        console.log(urlRoute);
+        urlRoute = GlobalSettings.getOffsiteLink(scope, urlRoute);
+        console.log(urlRoute);
         var Box = {
           eventType: eventType,
           eventId: p,
@@ -325,11 +329,12 @@ export class BoxScoresService {
             imageClass: "image-320x180-sm",
             imageUrl: homeImage,
             hoverText: "View Article",
-            urlRouteArray: VerticalGlobalFunctions.formatAiArticleRoute(p, val.event)
+            urlRouteArray: urlRoute
           }
         }
         boxArray.push(Box);
       });
+      console.log('boxArray',boxArray);
       return boxArray;
     } else{
       return null;

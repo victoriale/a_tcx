@@ -678,7 +678,7 @@ export class GlobalSettings {
         // var relPath = relativePath != null && relativePath != "" ? this._proto + "//" + this.getEnv(this._env) +  "-" + this._sportsimageUrl + relativePath: '/app/public/no-image.svg';
 
         //todo: when the dev and qa sports image servers are made change this from hardcoded prod to dynamic
-        var relPath = relativePath != null && relativePath != "" ? this._proto + "//" + "prod" +  "-" + this._sportsimageUrl + relativePath: '/app/public/no-image.png';
+        var relPath = relativePath != null && relativePath != "" ? this._proto + "//" + "prod" +  "-" + this._sportsimageUrl + '/' + relativePath: '/app/public/no-image.png';
         return relPath;
     }
 

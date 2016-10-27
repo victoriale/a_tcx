@@ -152,21 +152,19 @@ export class DeepDivePage implements OnInit {
     }
 
     getDeepDiveVideo(){
-      if(this.topScope == 'sports'){
-        this._deepDiveData.getDeepDiveVideoBatchService(this.scope, 5, 1).subscribe(
-          data => {
-
+      this._deepDiveData.getDeepDiveVideoBatchService(this.scope, 5, 1).subscribe(
+        data => {
+          if(data != null){
             this.carouselVideo = this._deepDiveData.transformSportVideoBatchData([data[0]]);
-            // this.carouselVideo = [this._deepDiveData.videoDummyData()];
-            this.getDataCarousel();
-          },
-          err => {
-            console.log("Error getting video batch data");
-            this.getDataCarousel();
-          });
-      }else{
-        this.carouselVideo = null;
-      }
+          }
+          this.getDataCarousel();
+          // this.carouselVideo = [this._deepDiveData.videoDummyData()];
+        },
+        err => {
+          console.log("Error getting video batch data");
+          this.carouselVideo = null;
+          this.getDataCarousel();
+        });
     }
 
     getHourlyWeatherData(scope){//only if its weather scope that has graph

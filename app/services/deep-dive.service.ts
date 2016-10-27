@@ -91,7 +91,11 @@ export class DeepDiveService {
       return this.http.get(callURL, {headers: headers})
         .map(res => res.json())
         .map(data => {
-          return data.data;
+          if(data.data.length > 0){
+            return data.data;
+          }else{
+            return null;
+          }
       })
   }// getDeepDiveVideoBatchService ENDS
 
@@ -212,7 +216,7 @@ export class DeepDiveService {
         }
         return dummyData;
     }
-    
+
     carouselDummyData(){
       var sampleImage = "/app/public/placeholder_XL.png";
       var articleStackData = {

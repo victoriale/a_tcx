@@ -1,0 +1,30 @@
+<div id="deep-dive-block-2" class="deep-dive-block">
+  <!-- ARTICLE STACK TYPE 1 -->
+  <div *ngIf="firstStackTop && firstStackRow" class="deep-dive-module">
+    <article-stack-1-module [stackTop]="firstStackTop" [stackRow]="firstStackRow"></article-stack-1-module>
+  </div>
+  <!--search box-->
+  <div class="deep-dive-module" *ngIf="scope!='weather'">
+    <search-box-module [scope]="scope"></search-box-module>
+  </div>
+  <!-- BILL BOARD -->
+  <div class="deep-dive-module">
+    <billboard-module></billboard-module>
+  </div>
+  <!-- SIX PACKS -->
+  <div *ngIf="recData" class="deep-dive-module">
+    <deep-dive-recommendation [recData]="recData"></deep-dive-recommendation>
+  </div>
+  <!-- ARTICLE STACK TYPE 1 -->
+  <div *ngIf="firstStackTop && firstStackRow" class="deep-dive-module">
+    <article-stack-1-module [stackTop]="firstStackTop" [stackRow]="firstStackRow"></article-stack-1-module>
+  </div>
+  <!-- ARTICLE STACK TYPE 2 -->
+  <div *ngIf="articleStack2DataTop && articleStack2DataBatch" class="deep-dive-module">
+    <article-stack-2-module [articleStack2DataTop]="articleStack2DataTop" [articleStack2DataBatch]="articleStack2DataBatch"></article-stack-2-module>
+  </div>
+  <!-- SIX PACKS -->
+  <div *ngIf="recData" class="deep-dive-module">
+    <deep-dive-recommendation [recData]="recData"></deep-dive-recommendation>
+  </div>
+</div>

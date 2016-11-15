@@ -14,10 +14,10 @@ import { SideScroll } from '../fe-core/components/side-scroll/side-scroll.compon
 import { SchedulesService } from '../services/schedules.service';
 
 //deep-dive blocks
-import { DeepDiveBlockMain } from '../fe-core/modules/deep-dive-blocks/deep-dive-block-main/deep-dive-block-main.module';
-import { DeepDiveBlock1 } from '../fe-core/modules/deep-dive-blocks/deep-dive-block-1/deep-dive-block-1.module';
-import { DeepDiveBlock2 } from '../fe-core/modules/deep-dive-blocks/deep-dive-block-2/deep-dive-block-2.module';
-import { DeepDiveBlock3 } from '../fe-core/modules/deep-dive-blocks/deep-dive-block-3/deep-dive-block-3.module';
+import { DeepDiveBlockMain } from '../ui-modules/deep-dive-blocks/deep-dive-block-main/deep-dive-block-main.module';
+import { DeepDiveBlock1 } from '../ui-modules/deep-dive-blocks/deep-dive-block-1/deep-dive-block-1.module';
+import { DeepDiveBlock2 } from '../ui-modules/deep-dive-blocks/deep-dive-block-2/deep-dive-block-2.module';
+import { DeepDiveBlock3 } from '../ui-modules/deep-dive-blocks/deep-dive-block-3/deep-dive-block-3.module';
 
 import { DeepDivePage } from "../webpages/deep-dive-page/deep-dive-page";
 import { StackRowsComponent } from '../fe-core/components/stack-rows/stack-rows.component';

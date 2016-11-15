@@ -13,10 +13,10 @@ import { GeoLocation } from "../global/global-service";
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 /*** COMPONENTS ***/
 import { SectionFrontTopNav } from '../fe-core/components/section-front-top-nav/section-front-top-nav.component';
-import { HeaderComponent } from "../fe-core/components/header/header.component";
+import { HeaderComponent } from "../ui-modules/header/header.component";
 import { SectionNameComponent } from "../fe-core/components/section-name/section-name.component";
 import { Search } from "../fe-core/components/search/search.component";
-import { HamburgerMenuComponent, MenuData } from '../fe-core/components/hamburger-menu/hamburger-menu.component';
+import { HamburgerMenuComponent, MenuData } from '../ui-modules/hamburger-menu/hamburger-menu.component';
 import { RectangleImage } from "../fe-core/components/images/rectangle-image/rectangle-image";
 import { CircleImage } from "../fe-core/components/images/circle-image/circle-image";
 import { HoverImage } from "../fe-core/components/images/hover-image";
@@ -25,7 +25,7 @@ import { CircleButton } from "../fe-core/components/buttons/circle/circle.button
 import { ResponsiveWidget } from "../fe-core/components/responsive-widget/responsive-widget.component";
 
 import { ModuleHeader } from "../fe-core/components/module-header/module-header.component";
-import { FooterComponent } from "../fe-core/components/footer/footer.component";
+import { FooterComponent } from "../ui-modules/footer/footer.component";
 import { ArticleBlockComponent } from "../fe-core/components/article-block/article-block.component";
 import { DropdownComponent } from "../fe-core/components/dropdown/dropdown.component";
 import { LoadingComponent } from "../fe-core/components/loading/loading.component";

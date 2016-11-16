@@ -5,7 +5,7 @@
   </div>
   <!--search box-->
   <div class="deep-dive-module" *ngIf="scope!='weather'">
-    <search-box-module [scope]="scope"></search-box-module>
+    <search-box-module [scope]="scope" [searchData]="searchData" (scopeEmit)="changeScope($event)" (userInput)="navigateSearch($event)"></search-box-module>
   </div>
   <!-- BILL BOARD -->
   <div class="deep-dive-module">

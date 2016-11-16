@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {GlobalSettings} from "../../global/global-settings";
 
 @Component({
   selector: 'term-of-service',
@@ -7,6 +8,11 @@ import { Component, OnInit } from '@angular/core';
 
 export class TermOfService implements OnInit{
   aboutUsData: any;
+
+  currentUrl: string = window.location.href;
+
+  socialMedia:Array<any> = GlobalSettings.getSocialMedia(this.currentUrl);
+
   ngOnInit(){
     this.aboutUsData = {
       title: "Terms of Service",

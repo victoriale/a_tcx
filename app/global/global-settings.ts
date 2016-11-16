@@ -784,6 +784,36 @@ export class GlobalSettings {
       return this._siteGoogleUrl + shareUrl;
 	  }
 
+    static getSocialMedia(shareUrl: string){
+      let socialMediaItems = [
+        {
+          type:'facebook',
+          url: this._siteFacebookUrl + shareUrl,
+          target: '_blank',
+          iconClass: 'fa fa-_siteFacebookUrl-1',
+        },
+        {
+          type:'twitter',
+          url: this._siteFacebookUrl + shareUrl,
+          target: '_blank',
+          iconClass: 'fa fa-twitter',
+        },
+        {
+          type:'linkedin',
+          url: this._siteLinkedinUrl + shareUrl,
+          target: '_blank',
+          iconClass: 'fa fa-linkedin-1',
+        },
+        {
+          type:'google',
+          url: this._siteGoogleUrl + shareUrl,
+          target: '_blank',
+          iconClass: 'fa fa-g-plus',
+        },
+      ];
+      return socialMediaItems;
+    }
+
     static getEstYear() {
       return this._estYear;
     }

@@ -17,7 +17,7 @@
        <deep-dive-block-main *ngIf="deepDiveType == 'all'" [geoLocation]="geoLocation"></deep-dive-block-main>
        <!-- Deep dive block type 1 sports-->
        <deep-dive-block-1 *ngIf="deepDiveType === 1" [scope]="scope" [category]="category"  [geoLocation]="geoLocation"></deep-dive-block-1>
-       <deep-dive-block-2 *ngIf="deepDiveType === 2" [scope]="scope"></deep-dive-block-2>
+       <deep-dive-block-2 *ngIf="deepDiveType === 2" [scope]="scope" [category]="category"></deep-dive-block-2>
        <deep-dive-block-3 *ngIf="deepDiveType === 3" [scope]="scope"></deep-dive-block-3>
     </div>
     <!-- Ads should place inside deep-dive-container-2b -->

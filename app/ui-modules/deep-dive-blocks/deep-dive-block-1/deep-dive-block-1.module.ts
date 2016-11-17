@@ -3,6 +3,7 @@ import { DeepDiveService } from '../../../services/deep-dive.service';
 import { ArticleStackData, VideoStackData } from "../../../fe-core/interfaces/deep-dive.data";
 import { BoxScoresService } from '../../../services/box-scores.service';
 import { GlobalSettings } from "../../../global/global-settings";
+import {VerticalGlobalFunctions} from "../../../global/vertical-global-functions";
 
 declare var moment;
 
@@ -32,6 +33,8 @@ export class DeepDiveBlock1 implements OnInit {
   boxScoresTempVar: string = "nfl";
   boxScoresScroll: boolean= true;
   safeCounter: number = 0;
+
+  searchData: any;
 
   routeSubscription:any;
   constructor(private _boxScoresService: BoxScoresService, private _deepDiveData: DeepDiveService){
@@ -126,12 +129,70 @@ export class DeepDiveBlock1 implements OnInit {
     if(this.dateParam == null){
       this.getDateParams();
     }
+    this.createSearchBox(this.scope);
     this.callModules();
   }
 
   ngOnInit() {
+    this.createSearchBox(this.scope);
     this.getDateParams();
     this.callModules();
+  }
+
+  navigateSearch(e) {
+    if(e.key == "Enter"){
+      var rel_url = VerticalGlobalFunctions.createSearchLink(this.scope) + e.target.value;
+      var fullSearchUrl = GlobalSettings.getOffsiteLink(this.scope, rel_url);
+      window.open(fullSearchUrl);
+    }
+  }
+  changeScope(event){
+    this.searchData.searchModTitle = GlobalSettings.getTCXscope(event).searchTitle + " " + GlobalSettings.getTCXscope(this.scope).displayName.toUpperCase();
+    this.searchData.searchSubTitle = GlobalSettings.getTCXscope(this.scope).searchSubTitle;
+  }
+  createSearchBox(scope){
+    var modSearchTitle;
+    let sportsList;
+    if(this.category == "sports"){
+      modSearchTitle = GlobalSettings.getTCXscope(scope).searchTitle + " " + GlobalSettings.getTCXscope(scope).displayName.toUpperCase();
+      sportsList = [
+        {
+          key: 'NFL',
+          value: "NFL",
+        },
+        {
+          key: 'NCAAF',
+          value: "NCAAF",
+        },
+        {
+          key: 'NBA',
+          value: "NBA",
+        },
+        {
+          key: 'NCAAM',
+          value: "NCAAM",
+        },
+        {
+          key: 'MLB',
+          value: "MLB",
+        },
+        {
+          key: 'NHL',
+          value: "NHL",
+        },
+      ];
+    }else{
+      sportsList = null;
+      modSearchTitle = GlobalSettings.getTCXscope(scope).searchTitle;
+    }
+    this.searchData = {
+      category: scope,
+      searchModTitle: modSearchTitle,
+      searchSubText: GlobalSettings.getTCXscope(scope).searchSubTitle,
+      searchPlaceHolderText: GlobalSettings.getTCXscope(scope).placeHolderText,
+      searchBackground: GlobalSettings.getTCXscope(scope).searchBackground,
+      searchScopeDropdown:sportsList
+    };
   }
 
   getDateParams(){

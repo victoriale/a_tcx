@@ -41,8 +41,8 @@
     <deep-dive-recommendation [recData]="recData"></deep-dive-recommendation>
   </div>
   <!-- SEARCH BOX -->
-  <div class="deep-dive-module" *ngIf="scope!='sports'">
-    <search-box-module [category]="category" [scope]="scope" ></search-box-module>
+  <div class="deep-dive-module" *ngIf="scope != 'sports'">
+    <search-box-module [category]="category" [scope]="scope" [searchData]="searchData" (scopeEmit)="changeScope($event)" (userInput)="navigateSearch($event)"></search-box-module>
   </div>
   <!-- WIDGET -->
   <div *ngIf="scope!='sports'" class="deep-dive-module">

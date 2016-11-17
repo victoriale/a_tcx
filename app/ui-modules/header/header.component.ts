@@ -75,14 +75,17 @@ export class HeaderComponent implements OnInit,OnChanges {
   ngOnInit(){
     stButtons.locateElements();
     this._renderer.listenGlobal('document', 'mousedown', (event) => {
+
       var element = document.elementFromPoint(event.clientX, event.clientY);
-      let menuCheck = element.className.indexOf("menucheck");
-      let searchCheck = element.className.indexOf("searchcheck");
-      if(this.isOpened && menuCheck < 0){
-        this.isOpened = false;
-      }
-      if(this.isSearchOpened && searchCheck < 0){
-        this.isSearchOpened = false;
+      if(element != null){
+        var menuCheck = element.className.indexOf("menucheck");
+        let searchCheck = element.className.indexOf("searchcheck");
+        if(this.isOpened && menuCheck < 0){
+          this.isOpened = false;
+        }
+        if(this.isSearchOpened && searchCheck < 0){
+          this.isSearchOpened = false;
+        }
       }
     });
     this.logoUrl = 'app/public/TCX_Logo_Outlined.svg';

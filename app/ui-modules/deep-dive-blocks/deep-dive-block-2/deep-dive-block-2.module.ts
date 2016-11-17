@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DeepDiveService } from '../../../services/deep-dive.service';
 import { ArticleStackData } from "../../../fe-core/interfaces/deep-dive.data";
+import {GlobalSettings} from "../../../global/global-settings";
+import {VerticalGlobalFunctions} from "../../../global/vertical-global-functions";
 
 declare var moment;
 
@@ -11,6 +13,7 @@ declare var moment;
 
 export class DeepDiveBlock2 implements OnInit {
   @Input() scope: string;
+  @Input() category:string;
   firstStackTop: Array<ArticleStackData>;
   firstStackRow: Array<ArticleStackData>;
   recData: Array<ArticleStackData>;//TODO
@@ -19,6 +22,9 @@ export class DeepDiveBlock2 implements OnInit {
   geoLocation: string = "ks";//TODO
   articleCallLimit:number = 23;
   batchNum: number = 1;
+
+  searchData: any;
+  sportsList: Array<any>;
 
   constructor(private _deepDiveData: DeepDiveService){}
   getFirstArticleStackData(){
@@ -43,10 +49,64 @@ export class DeepDiveBlock2 implements OnInit {
   callModules(){
     this.getFirstArticleStackData();
   }
-  ngOnChanges() {
+
+  navigateSearch(e) {
+    if(e.key == "Enter"){
+      var rel_url = VerticalGlobalFunctions.createSearchLink(this.scope) + e.target.value;
+      var fullSearchUrl = GlobalSettings.getOffsiteLink(this.scope, rel_url);
+      window.open(fullSearchUrl);
+    }
+  }
+  changeScope(event){
+    this.searchData.searchModTitle = GlobalSettings.getTCXscope(event).searchTitle + " " + GlobalSettings.getTCXscope(this.scope).displayName.toUpperCase();
+    this.searchData.searchSubTitle = GlobalSettings.getTCXscope(event).searchSubTitle;
+  }
+  createSearchBox(scope){
+    var modSearchTitle;
+    let sportsList;
+    if(this.category == "sports"){
+      modSearchTitle = GlobalSettings.getTCXscope(scope).searchTitle + " " + GlobalSettings.getTCXscope(scope).displayName.toUpperCase();
+      sportsList = [
+        {
+          key: 'NFL',
+          value: "NFL",
+        },
+        {
+          key: 'NCAAF',
+          value: "NCAAF",
+        },
+        {
+          key: 'NBA',
+          value: "NBA",
+        },
+        {
+          key: 'NCAAM',
+          value: "NCAAM",
+        },
+        {
+          key: 'MLB',
+          value: "MLB",
+        },
+      ];
+    }else{
+      sportsList = null;
+      modSearchTitle = GlobalSettings.getTCXscope(scope).searchTitle;
+    }
+    this.searchData = {
+      category: scope,
+      searchModTitle: modSearchTitle,
+      searchSubText: GlobalSettings.getTCXscope(scope).searchSubTitle,
+      searchPlaceHolderText: GlobalSettings.getTCXscope(scope).placeHolderText,
+      searchBackground: GlobalSettings.getTCXscope(scope).searchBackground,
+      searchScopeDropdown:sportsList
+    };
+  }
+  ngOnChanges(event) {
+    this.createSearchBox(event);
     this.callModules();
   }
   ngOnInit() {
+    this.createSearchBox(this.scope);
     this.callModules();
   }
 }

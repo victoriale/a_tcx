@@ -39,7 +39,7 @@ export class DeepDiveService {
       callURL += '?count=' + limit + '&page=' + page;
     }
     if(category == "breaking" || category == "trending"){
-      callURL += '&category=' + category;
+      callURL += '&category=' + category + "&source[]=snt_ai&source[]=tca&random=1";
     } else {
       callURL += '&keyword[]=' + category.replace(/-/g, " ");
     }
@@ -140,13 +140,17 @@ export class DeepDiveService {
         var key = val.subcategory != "none" ? val.subcategory : (val.category ? val.category : "all");
         var routeLink;
         var extLink;
+        var author;
         var category = val.article_sub_type ? val.article_sub_type : val.article_type;
         if(val.source == "snt_ai"){
           routeLink = GlobalSettings.getOffsiteLink(val.scope, VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id));
           extLink = true;
+          author = "";
         } else {
           routeLink = VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, "story");
           extLink = false;
+          author = "Written by: ";
+          author += val.author ? "<span class='text-master'>" + val.author.replace(/by/gi, "") + "</span>, ": "";
         }
         var articleStackData = {
             id: val.article_id,
@@ -155,8 +159,8 @@ export class DeepDiveService {
             keyword: key,
             timeStamp: date ? date : "",
             title: val.title ? val.title : "No title available",
-            author: val.author ? val.author.replace(/by/gi, "") : "",
-            publisher: val.publisher ? (val.author ? ", " : "") + val.publisher : "",
+            author: author,
+            publisher: val.source != "snt_ai" ? val.publisher : null,
             teaser: val.teaser ? val.teaser : "No teaser available",
             imageConfig: {
               imageClass: "embed-responsive-16by9",

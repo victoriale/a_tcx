@@ -95,7 +95,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
                     this.imageTitle = [data.data[0].article_data.images[0].image_title];
                 }
                 else {
-                    
+
                     this.imageData = ["/app/public/placeholder_XL.png"];
                     this.copyright = [data.data[0].article_data.images[0].image_copyright];
                     this.imageTitle = [data.data[0].article_data.images[0].image_title];

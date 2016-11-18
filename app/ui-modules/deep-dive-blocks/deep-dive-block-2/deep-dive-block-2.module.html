@@ -8,9 +8,9 @@
     <search-box-module [scope]="scope" [searchData]="searchData" (scopeEmit)="changeScope($event)" (userInput)="navigateSearch($event)"></search-box-module>
   </div>
   <!-- BILL BOARD -->
-  <div class="deep-dive-module">
+  <!-- <div class="deep-dive-module">
     <billboard-module></billboard-module>
-  </div>
+  </div> -->
   <!-- SIX PACKS -->
   <div *ngIf="recData" class="deep-dive-module">
     <deep-dive-recommendation [recData]="recData"></deep-dive-recommendation>

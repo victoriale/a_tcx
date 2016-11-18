@@ -16,7 +16,7 @@ export class TermOfService implements OnInit{
   ngOnInit(){
     this.aboutUsData = {
       title: "Terms of Service",
-      lastUpdated: "Last Updated On: Wednesday, Oct. 19, 2016",
+      lastUpdated: "Last Updated On: Wednesday, Nov. 02, 2016",
       paragraph: [{
           subHeader: "Central Terms of Service",
           info: ['THIS AGREEMENT IS SUBJECT TO BINDING ARBITRATION AND A WAIVER OF CLASS ACTION RIGHTS AS DETAILED IN THE MANDATORY ARBITRATION AND CLASS ACTION WAIVER SECTION BELOW']
@@ -131,7 +131,7 @@ export class TermOfService implements OnInit{
         },{
           info: ["SNT Media<br>110 Main St., Suite 1000<br>Wichita, KS 67202"]
         },{
-          info: ["Effective Date: October 21, 2016"]
+          info: ["Effective Date: November 02, 2016"]
         }
       ]
     }

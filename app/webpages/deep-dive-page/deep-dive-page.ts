@@ -85,7 +85,7 @@ export class DeepDivePage implements OnInit {
     private sectionFrontName(){
       return this.sectionName = {
          icon: GlobalSettings.getTCXscope(this.scope).icon,
-         title: GlobalFunctions.toTitleCase(GlobalSettings.getTCXscope(this.scope).displayName)
+         title: GlobalSettings.getTCXscope(this.scope).displayName
        }
     }
 

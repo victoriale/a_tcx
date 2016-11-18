@@ -122,14 +122,14 @@ export class TermOfService implements OnInit{
           info: ["You agree that the provisions of these Terms that limit liability and disclaim warranties are essential terms of these Terms of Service."]
         },{
           subHeader: 'Entire Agreement',
-          info: ["These Terms constitute the entire agreement between you and the Site and supersede all prior or contemporaneous understandings regarding such subject matter. No amendment to or modification of these Terms will be binding unless made in writing and signed by SNT Media No failure to exercise, and no delay in exercising, on the part of either party, any right or any power hereunder shall operate as a waiver thereof, nor shall any single or partial exercise of any right or power hereunder preclude further exercise of any other right hereunder. In the event of a conflict between these Terms and any applicable purchase or other terms, these Terms shall govern."]
+          info: ["These Terms constitute the entire agreement between you and the Site and supersede all prior or contemporaneous understandings regarding such subject matter. No amendment to or modification of these Terms will be binding unless made in writing and signed by SNT Media. No failure to exercise, and no delay in exercising, on the part of either party, any right or any power hereunder shall operate as a waiver thereof, nor shall any single or partial exercise of any right or power hereunder preclude further exercise of any other right hereunder. In the event of a conflict between these Terms and any applicable purchase or other terms, these Terms shall govern."]
         },{
           subHeader: 'Contact Us',
-          info: ["To contact us, please use the following:."]
+          info: ["To contact us, please use the following:"]
         },{
-          info: ["<b>Email</b> support@sntmedia.com"]
+          info: ["<b>Email</b><a href='mailto:support@sntmedia.com' target='_blank' class='text-master'> support@sntmedia.com</a>"]
         },{
-          info: ["SNT Media<br>110 Main St., Suite 1000<br>Wichita, KS 67202"]
+          info: ["SNT Media<br>110 Main St, Suite 1000<br>Wichita, KS 67202"]
         },{
           info: ["Effective Date: November 02, 2016"]
         }

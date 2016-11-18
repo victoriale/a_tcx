@@ -8,8 +8,8 @@
         </div>
 
         <span *ngIf="articleData">
-      <shareLinks-component *ngIf="articleData.article_url" [shareUrl]="articleData.article_url" ></shareLinks-component>
-         <shareLinks-component *ngIf="articleData.videoLink" [shareUrl]="articleData.videoLink"></shareLinks-component>
+      <share-links-component *ngIf="articleData.article_url" [shareUrl]="articleData.article_url" ></share-links-component>
+         <share-links-component *ngIf="articleData.videoLink" [shareUrl]="articleData.videoLink"></share-links-component>
 
 
 

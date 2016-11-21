@@ -232,17 +232,18 @@
 }
 /* END Aliases */
 
+
+
 .fa-tdl-football:before {
   content: "\68";
 }
-/*Business Icon*/
 .fa-fontawesome-webfont-3:before {
   content: "\70";
 }
 .fa-clock:before {
   content: "\71";
 }
-.fa-search-icon-01:before {
+.fa-search-icon:before {
   content: "\72";
 }
 .fa-phone:before {
@@ -311,19 +312,19 @@
 .fa-caret-up:before {
   content: "\32";
 }
-.fa-arrow-right-1:before {
+.fa-arrow-right:before {
   content: "\33";
 }
-.fa-angle-double-right-1:before {
+.fa-angle-double-right:before {
   content: "\34";
 }
-.fa-angle-double-left-1:before {
+.fa-angle-double-left:before {
   content: "\35";
 }
-.fa-angle-left-1:before {
+.fa-angle-left:before {
   content: "\36";
 }
-.fa-angle-right-1:before {
+.fa-angle-right:before {
   content: "\37";
 }
 .fa-angle-down:before {
@@ -335,10 +336,10 @@
 .fa-bars:before {
   content: "\21";
 }
-.fa-calendar-1:before {
+.fa-calendar:before {
   content: "\22";
 }
-.fa-circle-1:before {
+.fa-circle:before {
   content: "\23";
 }
 .fa-cog:before {
@@ -347,19 +348,19 @@
 .fa-film:before {
   content: "\25";
 }
-.fa-home-1:before {
+.fa-home:before {
   content: "\26";
 }
 .fa-heart:before {
   content: "\27";
 }
-.fa-play-1:before {
+.fa-play:before {
   content: "\28";
 }
 .fa-sort:before {
   content: "\29";
 }
-.fa-square-1:before {
+.fa-square:before {
   content: "\2a";
 }
 .fa-search:before {
@@ -371,7 +372,7 @@
 .fa-calendar-o:before {
   content: "\67";
 }
-.fa-cloud-1:before {
+.fa-cloud:before {
   content: "\69";
 }
 .fa-folder-open:before {
@@ -380,7 +381,7 @@
 .fa-twitter:before {
   content: "\6e";
 }
-.fa-spinner-1:before {
+.fa-spinner:before {
   content: "\73";
 }
 .fa-th-large:before {
@@ -388,9 +389,6 @@
 }
 .fa-folder-open-o:before {
   content: "\62";
-}
-.fa-linkedin-1:before {
-  content: "\7a";
 }
 .fa-plane:before {
   content: "\46";
@@ -404,26 +402,22 @@
 .fa-arrows-alt:before {
   content: "\6b";
 }
-/*Newspaper*/
 .fa-fontawesome-webfont:before {
   content: "\6f";
 }
-.fa-facebook-1:before {
+.fa-facebook:before {
   content: "\74";
 }
 .fa-auto-shape:before {
   content: "\61";
 }
-/*Uppercase Google Plus*/
 .fa-g-plus:before {
   content: "\45";
 }
-/*Bastketball Icon*/
 .fa-dribble:before {
   content: "\48";
 }
-/*Baseball Icon*/
-.fa-strikeouts-01:before {
+.fa-strikeouts:before {
   content: "\4d";
 }
 .fa-play-circle:before {
@@ -447,9 +441,6 @@
 .fa-heart-o:before {
   content: "\56";
 }
-.fa-facebook:before {
-  content: "\57";
-}
 .fa-google-plus:before {
   content: "\58";
 }
@@ -458,4 +449,13 @@
 }
 .fa-comments-o:before {
   content: "\2d";
+}
+.fa-icon-food:before {
+  content: "\2c";
+}
+.fa-icon-nhl:before {
+  content: "\2e";
+}
+.fa-box-scores:before {
+  content: "\2f";
 }

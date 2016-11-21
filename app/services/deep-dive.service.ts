@@ -24,14 +24,16 @@ export class DeepDiveService {
     var callURL = GlobalSettings.getTCXscope(category).tcxApi + "/articles";
     //http://dev-tcxmedia-api.synapsys.us/articles?help=1
     //http://dev-tcxmedia-api.synapsys.us/articles?articleType=about-the-teams
+    //http://dev-tcxmedia-api.synapsys.us/articles?&keyword[]=breaking
     if(limit !== null && page !== null){
       callURL += '?count=' + limit + '&page=' + page;
     }
     if(category == "breaking" || category == "trending"){
-      callURL += '&category=' + category + "&source[]=snt_ai&source[]=tca&random=1";
+      callURL += '&category=' + category;
     } else {
-      callURL += '&keyword[]=' + category.replace(/-/g, " ");
+      callURL += '&keyword[]=' + category;
     }
+    callURL += "&source[]=snt_ai&source[]=tca&random=1&metaDataOnly=1";
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
@@ -73,6 +75,7 @@ export class DeepDiveService {
           callURL += '/' + location;
         }
       }
+      console.log(callURL);
       return this.http.get(callURL, {headers: headers})
         .map(res => res.json())
         .map(data => {
@@ -138,7 +141,7 @@ export class DeepDiveService {
               extLink = false;
               author = "Written by: ";
               author += val.author ? "<span class='text-master'>" + val.author.replace(/by/gi, "") + "</span>, ": null;
-              publisher = val.publisher ? val.publisher : null;
+              publisher = author ? val.publisher : "Published by: " + val.publisher;
             }
             var articleStackData = {
               id: val.article_id,
@@ -148,11 +151,11 @@ export class DeepDiveService {
               timeStamp: date ? date : "",
               title: val.title ? val.title : "No title available",
               author: author,
-              publisher: publisher,
+              publisher: val.publisher ? publisher : null,
               teaser: val.teaser ? val.teaser : "No teaser available",
               imageConfig: {
                 imageClass: "embed-responsive-16by9",
-                imageUrl: val.image_url ?  GlobalSettings.getImageUrl(val.image_url) : sampleImage,
+                imageUrl: val.image_url ? GlobalSettings.getImageUrl(val.image_url) : sampleImage,
                 urlRouteArray: routeLink,
                 extUrl: extLink
               },
@@ -192,22 +195,6 @@ export class DeepDiveService {
       });
       return transformData;
     }
-
-    // videoDummyData() {
-    //     var sampleImage = "/app/public/placeholder_XL.png";
-    //     var dummyData = {
-    //         id: 88,
-    //         keyword: 'keywords',
-    //         title: "Today's News",
-    //         time_stamp: moment(1476468000).format("MMMM Do, YYYY h:mm:ss a"),
-    //         video_thumbnail: sampleImage,
-    //         embed_url: 'http://embed.sendtonews.com/player/embed.php?SC=8UnmTGrqZn-215622-6979&autoplay=on',
-    //         video_url: ['/deep-dive'],
-    //         keyUrl: ['/deep-dive'],
-    //         teaser: 'There is no description at this time'
-    //     }
-    //     return dummyData;
-    // }
 
     carouselDummyData(){
       var sampleImage = "/app/public/placeholder_XL.png";

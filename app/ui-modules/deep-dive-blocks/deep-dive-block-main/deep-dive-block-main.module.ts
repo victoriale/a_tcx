@@ -85,7 +85,7 @@ export class DeepDiveBlockMain implements OnInit {
             console.log("Error getting Politics News data");
         });
   }
-  getEtertainData(){
+  getEntertainData(){
     this._deepDiveData.getDeepDiveBatchService("entertainment", 6, this.batchNum, this.geoLocation)
         .subscribe(data => {
           this.recDataEntertain = this._deepDiveData.transformToArticleStack(data, "entertainment");
@@ -113,7 +113,7 @@ export class DeepDiveBlockMain implements OnInit {
         });
   }
   getRealEstateData(){
-    this._deepDiveData.getDeepDiveBatchService("real-estate", 5, this.batchNum, this.geoLocation)
+    this._deepDiveData.getDeepDiveBatchService("real estate", 5, this.batchNum, this.geoLocation)
         .subscribe(data => {
           this.estateStack = this._deepDiveData.transformToArticleStack(data, "real-estate");
         },
@@ -180,7 +180,7 @@ export class DeepDiveBlockMain implements OnInit {
     this.getSportsData();
     this.getBusinessData();
     this.getPoliticsData();
-    this.getEtertainData();
+    this.getEntertainData();
     this.getHealthData();
     this.getLifeStyleData();
     this.getRealEstateData();
@@ -189,11 +189,6 @@ export class DeepDiveBlockMain implements OnInit {
     this.getAutomotiveData();
     this.getFoodData();
     this.getDeepDiveVideo();
-  }
-
-  ngOnChanges() {
-    this.secName = this.getSectionNameData();
-    this.callModules();
   }
 
   ngOnInit() {

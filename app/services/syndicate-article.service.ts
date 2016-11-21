@@ -48,10 +48,10 @@ export class SyndicateArticleService {
     }
     var callURL
     if (subcategory) {
-      callURL = this._syndicateUrl + '?source=tca&count=' + count + "&category=" + category + "&subCategory=" + subcategory;
+      callURL = this._syndicateUrl + '?source[]=tca&source[]=snt_ai&count=' + count + "&category=" + category + "&subCategory=" + subcategory;
 
     } else {
-      callURL = this._syndicateUrl + '?source=tca&count=' + count + "&category=" + category;
+      callURL = this._syndicateUrl + '?source[]=tca&source[]=snt_ai&count=' + count + "&category=" + category;
     }
 
     return this._http.get(callURL)
@@ -93,9 +93,9 @@ export class SyndicateArticleService {
     var headers = this.setToken();
     var callURL
     if (subcategory) {
-      callURL = this._syndicateUrl + '?source=tca&count=' + count + "&category=" + category + "&subCategory=" + subcategory;
+      callURL = this._syndicateUrl + '?source[]=tca&source[]=snt_ai&count=' + count + "&category=" + category + "&subCategory=" + subcategory;
     } else {
-      callURL = this._syndicateUrl + '?source=tca&count=' + count + "&category=" + category;
+      callURL = this._syndicateUrl + '?source[]=tca&source[]=snt_ai&count=' + count + "&category=" + category;
     }
 
     return this._http.get(callURL)

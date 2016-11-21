@@ -1,40 +1,28 @@
-<section id="deep-dive-block-3" class="deep-dive-block">
+<section *ngIf="articleData" id="deep-dive-block-3" class="deep-dive-block" (window:scroll)="onScroll($event)">
   <!-- ARTICLE STACK TYPE 1 -->
-  <div *ngFor="let articleData of articleData">
-    <div *ngIf="articleData" class="deep-dive-module">
-      <article-stack-1-module [stackTop]="articleData.splice(0, 1)" [stackRow]="articleData.splice(0, 6)"></article-stack-1-module>
+  <div *ngFor="let item of newArray">
+    <div *ngIf="item.stackTop1" class="deep-dive-module">
+      <article-stack-1-module [stackTop]="item.stackTop1" [stackRow]="item.stackRow1"></article-stack-1-module>
     </div>
-    <!-- BILL BOARD -->
-    <div class="deep-dive-module">
+    <!-- TODO BILL BOARD -->
+    <!-- <div class="deep-dive-module">
       <billboard-module></billboard-module>
-    </div>
+    </div> -->
     <!-- WIDGET -->
-    <div *ngIf="articleData" class="deep-dive-module">
+    <div *ngIf="item.stackTop1" class="deep-dive-module">
       <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
     </div>
     <!-- SIX PACKS -->
-    <div *ngIf="articleData" class="deep-dive-module">
-      <deep-dive-recommendation [recData]="articleData.splice(0, 6)"></deep-dive-recommendation>
-    </div>
-    <!-- ARTICLE STACK TYPE 1 -->
-    <div *ngIf="articleData" class="deep-dive-module">
-      <article-stack-1-module  [stackTop]="articleData.splice(0, 1)" [stackRow]="articleData.splice(0, 6)"></article-stack-1-module>
-    </div>
-    <!-- WIDGET -->
-    <div *ngIf="articleData" class="deep-dive-module">
-      <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
+    <div *ngIf="item.recData" class="deep-dive-module">
+      <deep-dive-recommendation [recData]="item.recData"></deep-dive-recommendation>
     </div>
     <!-- ARTICLE STACK TYPE 2 -->
-    <div *ngIf="articleData" class="deep-dive-module">
-      <article-stack-2-module [articleStack2DataTop]="articleData.splice(0, 1)" [articleStack2DataBatch]="articleData.splice(0, 4)"></article-stack-2-module>
+    <div *ngIf="item.stackTop2" class="deep-dive-module">
+      <article-stack-2-module [articleStack2DataTop]="item.stackTop2" [articleStack2DataBatch]="item.stackRow2"></article-stack-2-module>
     </div>
-    <!-- SIX PACKS -->
-    <div *ngIf="articleData" class="deep-dive-module">
-      <deep-dive-recommendation [recData]="articleData.splice(0, 6)"></deep-dive-recommendation>
+    <!-- WIDGET -->
+    <div *ngIf="item.recData && item.stackTop2" class="deep-dive-module">
+      <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
     </div>
   </div>
-</section>
-<!-- WIDGET -->
-<section *ngIf="articleData" class="deep-dive-module">
-  <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
 </section>

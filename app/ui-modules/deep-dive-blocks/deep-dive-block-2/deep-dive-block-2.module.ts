@@ -20,7 +20,7 @@ export class DeepDiveBlock2 implements OnInit {
   articleStack2DataTop: Array<ArticleStackData>;//TODO
   articleStack2DataBatch: Array<ArticleStackData>;//TODO
   geoLocation: string = "ks";//TODO
-  articleCallLimit:number = 23;
+  articleCallLimit:number = 31;
   batchNum: number = 1;
 
   searchData: any;
@@ -30,15 +30,15 @@ export class DeepDiveBlock2 implements OnInit {
   getFirstArticleStackData(){
     this._deepDiveData.getDeepDiveBatchService(this.scope, this.articleCallLimit, this.batchNum, this.geoLocation)
         .subscribe(data => {
-          let stackTop = [data[0]];
+          let stackTop = data.splice(0,1);
           this.firstStackTop = this._deepDiveData.transformToArticleStack(stackTop, this.scope);
-          let stackRow = data.splice(1,8);
+          let stackRow = data.splice(0,6);
           this.firstStackRow  = this._deepDiveData.transformToArticleStack(stackRow, this.scope);
-          let recInfo = data.splice(1, 6);//TODO
+          let recInfo = data.splice(0, 6);//TODO
           this.recData = this._deepDiveData.transformToArticleStack(recInfo, this.scope);//TODO
-          let articleStack2Top = [data[0]];//TODO
+          let articleStack2Top = data.splice(0,1);//TODO
           this.articleStack2DataTop = this._deepDiveData.transformToArticleStack(articleStack2Top, this.scope);//TODO
-          let articleStack2 = data.splice(1,4);//TODO
+          let articleStack2 = data.splice(0,4);//TODO
           this.articleStack2DataBatch = this._deepDiveData.transformToArticleStack(articleStack2, this.scope);//TODO
         },
         err => {

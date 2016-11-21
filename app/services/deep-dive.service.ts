@@ -24,17 +24,6 @@ export class DeepDiveService {
     var callURL = GlobalSettings.getTCXscope(category).tcxApi + "/articles";
     //http://dev-tcxmedia-api.synapsys.us/articles?help=1
     //http://dev-tcxmedia-api.synapsys.us/articles?articleType=about-the-teams
-    // if(GlobalSettings.getTCXscope(category).topScope == "basketball" || GlobalSettings.getTCXscope(category).topScope == "football") {
-    //   if(category == "sports"){
-    //     callURL += '?category=sports';
-    //   } else {
-    //     callURL += '?category=sports&subCategory=' + category;
-    //   }
-    // } else if(GlobalSettings.getTCXscope(category).topScope == "entertainment" && GlobalSettings.getTCXscope(category).scope != 'all') {
-    //   callURL += '?category=entertainment&subCategory=' + category;
-    // } else {
-    //   callURL += '?category=' + category;
-    // }
     if(limit !== null && page !== null){
       callURL += '?count=' + limit + '&page=' + page;
     }
@@ -43,7 +32,7 @@ export class DeepDiveService {
     } else {
       callURL += '&keyword[]=' + category.replace(/-/g, " ");
     }
-    // console.log("article url", callURL);
+    console.log("article url", callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
@@ -87,7 +76,7 @@ export class DeepDiveService {
           callURL += '/' + location;
         }
       }
-      // console.log("video url", callURL);
+      console.log("video url", callURL);
       return this.http.get(callURL, {headers: headers})
         .map(res => res.json())
         .map(data => {
@@ -130,49 +119,51 @@ export class DeepDiveService {
 
     // Article Batch Transformed Data
     transformToArticleStack(data: Array<ArticleStackData>, scope?){
+      if(data == null){return null;}//TODO tell backend to return null when no data
       var sampleImage = "/app/public/placeholder_XL.png";
       var articleStackArray = [];
       data.forEach(function(val, index){
-        if(val.last_updated){
-          var date =  moment.unix(Number(val.last_updated));
-          date = '<span class="hide-320">' + date.format('dddd') + ', </span>' + date.format('MMM') + date.format('. DD, YYYY');
-        }
-        var key = val.subcategory != "none" ? val.subcategory : (val.category ? val.category : "all");
-        var routeLink;
-        var extLink;
-        var author;
-        var category = val.article_sub_type ? val.article_sub_type : val.article_type;
-        if(val.source == "snt_ai"){
-          routeLink = GlobalSettings.getOffsiteLink(val.scope, VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id));
-          extLink = true;
-          author = "";
-        } else {
-          routeLink = VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, "story");
-          extLink = false;
-          author = "Written by: ";
-          author += val.author ? "<span class='text-master'>" + val.author.replace(/by/gi, "") + "</span>, ": "";
-        }
-        var articleStackData = {
-            id: val.article_id,
-            articleUrl: routeLink != "" ? routeLink : '/deep-dive',
-            extUrl: extLink,
-            keyword: key,
-            timeStamp: date ? date : "",
-            title: val.title ? val.title : "No title available",
-            author: author,
-            publisher: val.source != "snt_ai" ? val.publisher : null,
-            teaser: val.teaser ? val.teaser : "No teaser available",
-            imageConfig: {
-              imageClass: "embed-responsive-16by9",
-              imageUrl: val.image_url ?  GlobalSettings.getImageUrl(val.image_url) : sampleImage,
-              urlRouteArray: routeLink,
-              extUrl: extLink
-            },
-            keyUrl: key != "all" ? VerticalGlobalFunctions.formatSectionFrontRoute(key) : ['/deep-dive']
+          if(val.article_id != null && typeof val.article_id != 'undefined'){
+            if(val.last_updated){
+              var date =  moment.unix(Number(val.last_updated));
+              date = '<span class="hide-320">' + date.format('dddd') + ', </span>' + date.format('MMM') + date.format('. DD, YYYY');
+            }
+            var key = val.subcategory != "none" ? val.subcategory : (val.category ? val.category : "all");
+            var routeLink;
+            var extLink;
+            var author;
+            var category = val.article_sub_type ? val.article_sub_type : val.article_type;
+            if(val.source == "snt_ai"){
+              routeLink = GlobalSettings.getOffsiteLink(val.scope, VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id));
+              extLink = true;
+              author = "";
+            } else {
+              routeLink = VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, "story");
+              extLink = false;
+              author = "Written by: ";
+              author += val.author ? "<span class='text-master'>" + val.author.replace(/by/gi, "") + "</span>, ": "";
+            }
+            var articleStackData = {
+              id: val.article_id,
+              articleUrl: routeLink != "" ? routeLink : '/deep-dive',
+              extUrl: extLink,
+              keyword: key,
+              timeStamp: date ? date : "",
+              title: val.title ? val.title : "No title available",
+              author: author,
+              publisher: val.source != "snt_ai" ? val.publisher : null,
+              teaser: val.teaser ? val.teaser : "No teaser available",
+              imageConfig: {
+                imageClass: "embed-responsive-16by9",
+                imageUrl: val.image_url ?  GlobalSettings.getImageUrl(val.image_url) : sampleImage,
+                urlRouteArray: routeLink,
+                extUrl: extLink
+              },
+              keyUrl: key != "all" ? VerticalGlobalFunctions.formatSectionFrontRoute(key) : ['/deep-dive']
+            }
+            articleStackArray.push(articleStackData);
           }
-          articleStackArray.push(articleStackData);
         });
-        // console.log("SCOPE", scope, articleStackArray);
         return articleStackArray;
     }// transformToArticleStack ENDS
 

@@ -75,7 +75,7 @@ export class GlobalSettings {
         'nfl':{
           parentScope: 'sports',
           scope:'nfl',
-          scopeList: ["MLB", "NHL", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
+          scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'football',
           displayName: 'Football',
           verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
@@ -96,7 +96,7 @@ export class GlobalSettings {
         'ncaaf':{
           parentScope: 'sports',
           scope:'ncaaf',
-          scopeList: ["MLB", "NHL", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
+          scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'football',
           displayName: 'Football',
           verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
@@ -117,7 +117,7 @@ export class GlobalSettings {
         'fbs':{
           parentScope: 'sports',
           scope:'ncaaf',
-          scopeList: ["MLB", "NHL", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
+          scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'football',
           displayName: 'Football',
           verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
@@ -138,7 +138,7 @@ export class GlobalSettings {
         'mlb':{
           parentScope: 'sports',
           scope:'mlb',
-          scopeList: ["MLB", "NHL", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
+          scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'baseball',
           displayName: 'Baseball',
           verticalApi: this.getVerticalEnv('-homerunloyal-api.synapsys.us'),
@@ -159,7 +159,7 @@ export class GlobalSettings {
         'nba':{
           parentScope: 'sports',
           scope:'nba',
-          scopeList: ["MLB", "NHL", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
+          scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'basketball',
           displayName: 'Basketball',
           verticalApi: this.getVerticalEnv('-sports-api.synapsys.us'),
@@ -180,7 +180,7 @@ export class GlobalSettings {
         'ncaam':{
           parentScope: 'sports',
           scope:'ncaam',
-          scopeList: ["MLB", "NHL", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
+          scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope:'basketball',
           displayName:'Basketball',
           verticalApi:this.getVerticalEnv('-sports-api.synapsys.us'),
@@ -201,7 +201,7 @@ export class GlobalSettings {
         'nhl':{
           parentScope: 'sports',
           scope:'nhl',
-          scopeList: ["MLB", "NHL", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
+          scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'hockey',
           displayName: 'Hockey',
           verticalApi: this.getApiUrl() + '/tcx',
@@ -264,7 +264,7 @@ export class GlobalSettings {
         'sports':{
           parentScope: null,
           scope:'sports',
-          scopeList: ["MLB", "NHL", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
+          scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'sports',
           displayName: 'Sports',
           verticalApi: this.getApiUrl() + '/tcx',
@@ -434,7 +434,7 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
-          icon:'fa-cutlery',
+          icon:'fa-icon-food',
           pageType: 3,
           color:'#00b9e3',
           hoverColor: "rgba(0, 185, 227, 0.75)"

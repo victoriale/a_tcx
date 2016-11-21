@@ -75,7 +75,7 @@ export class GlobalSettings {
         'nfl':{
           parentScope: 'sports',
           scope:'nfl',
-          scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
+          scopeList: ["MLB", "NHL", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'football',
           displayName: 'Football',
           verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
@@ -96,7 +96,7 @@ export class GlobalSettings {
         'ncaaf':{
           parentScope: 'sports',
           scope:'ncaaf',
-          scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
+          scopeList: ["MLB", "NHL", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'football',
           displayName: 'Football',
           verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
@@ -117,7 +117,7 @@ export class GlobalSettings {
         'fbs':{
           parentScope: 'sports',
           scope:'ncaaf',
-          scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
+          scopeList: ["MLB", "NHL", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'football',
           displayName: 'Football',
           verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
@@ -138,7 +138,7 @@ export class GlobalSettings {
         'mlb':{
           parentScope: 'sports',
           scope:'mlb',
-          scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
+          scopeList: ["MLB", "NHL", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'baseball',
           displayName: 'Baseball',
           verticalApi: this.getVerticalEnv('-homerunloyal-api.synapsys.us'),
@@ -159,7 +159,7 @@ export class GlobalSettings {
         'nba':{
           parentScope: 'sports',
           scope:'nba',
-          scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
+          scopeList: ["MLB", "NHL", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'basketball',
           displayName: 'Basketball',
           verticalApi: this.getVerticalEnv('-sports-api.synapsys.us'),
@@ -180,7 +180,7 @@ export class GlobalSettings {
         'ncaam':{
           parentScope: 'sports',
           scope:'ncaam',
-          scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
+          scopeList: ["MLB", "NHL", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope:'basketball',
           displayName:'Basketball',
           verticalApi:this.getVerticalEnv('-sports-api.synapsys.us'),
@@ -197,6 +197,27 @@ export class GlobalSettings {
           searchBackground:"../app/public/Sports_Search-Module-Image.jpg",
           color:'#f26f26',
           hoverColor: "rgba(242, 111, 38, 0.75)"
+        },
+        'nhl':{
+          parentScope: 'sports',
+          scope:'nhl',
+          scopeList: ["MLB", "NHL", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
+          topScope: 'hockey',
+          displayName: 'Hockey',
+          verticalApi: this.getApiUrl() + '/tcx',
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: true,
+          showBoxScores:true,
+          showSFTopNav: true,
+          icon:'fa-icon-nhl',
+          pageType: 1,
+          searchTitle:'Discover The Latest In',
+          searchSubTitle:"Find the players and teams you love",
+          placeHolderText:'Search for a Team or a Player...',
+          searchBackground:"../app/public/Sports_Search-Module-Image.jpg",
+          color:'#00b9e3',
+          hoverColor: "rgba(0, 185, 227, 0.75)"
         },
         'business':{
           parentScope: null,
@@ -243,7 +264,7 @@ export class GlobalSettings {
         'sports':{
           parentScope: null,
           scope:'sports',
-          scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
+          scopeList: ["MLB", "NHL", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'sports',
           displayName: 'Sports',
           verticalApi: this.getApiUrl() + '/tcx',
@@ -506,8 +527,8 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
-          icon:'fa-auto-shape',
-          pageType: 'all',
+          icon: 'fa-fontawesome-webfont',
+          pageType: 3,
           color:'#00b9e3',
           hoverColor: "rgba(0, 185, 227, 0.75)"
         };

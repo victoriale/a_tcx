@@ -204,6 +204,7 @@ export class DeepDivePage implements OnInit {
             this.topScope = this.tcxVars ? this.tcxVars.topScope : this.category;
             this.changeScopeVar = this.tcxVars.scope;
             this.deepDiveType = GlobalSettings.getTCXscope(this.scope).pageType ? GlobalSettings.getTCXscope(this.scope).pageType : 3;
+            console.log("deep dive type", this.deepDiveType);
             this.getGeoLocation();
             this.getDeepDiveVideo();
             this.sectionFrontName();

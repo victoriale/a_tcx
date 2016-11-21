@@ -14,7 +14,6 @@ export class DeepDiveBlock3 {
   articleData: Array<ArticleStackData>;
   articleCallLimit:number = 18;
   callApi: boolean = true;
-
   blockIndex: number = 1;
   routeSubscription: any;
   newArray: Array<any> = [];
@@ -26,15 +25,14 @@ export class DeepDiveBlock3 {
       .subscribe(data => {
         if(data){
           this.articleData = this._deepDiveData.transformToArticleStack(data, this.scope);
-          var len = this.articleData.length;
-          var o = {
-              stackTop1: len > 0 ? this.articleData.splice(0,1) : null ,
-              stackRow1 : len > 0 ? this.articleData.splice(0,6) : null,
-              recData : len > 0 ? this.articleData.splice(0,6) : null,
-              stackTop2 : len > 0 ? this.articleData.splice(0,1) : null,
-              stackRow2 : len > 0 ? this.articleData.splice(0,4) : null,
-            }
-          this.newArray.push(o);
+          var  obj = {
+              stackTop1: this.articleData.length > 0 ? this.articleData.splice(0,1) : null,
+              stackRow1: this.articleData.length > 0 ? this.articleData.splice(0,6) : null,
+              recData: this.articleData.length > 0 ? this.articleData.splice(0,6) : null,
+              stackTop2: this.articleData.length > 0 ? this.articleData.splice(0,1) : null,
+              stackRow2: this.articleData.length > 0 ? this.articleData.splice(0,4) : null,
+          };
+          this.newArray.push(obj);
           this.callApi = true;
         } else {
           this.callApi = false;
@@ -57,7 +55,6 @@ export class DeepDiveBlock3 {
   }
 
   ngOnChanges(event){
-    console.log(event);
     if(event.scope.currentValue != event.scope.previousGame){
       this.blockIndex = 1;
       this.newArray = [];

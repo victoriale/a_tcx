@@ -83,9 +83,10 @@ export class DeepDivePage implements OnInit {
     }
 
     private sectionFrontName(){
+      var displayName = GlobalSettings.getTCXscope(this.scope).displayName;
       return this.sectionName = {
          icon: GlobalSettings.getTCXscope(this.scope).icon,
-         title: GlobalSettings.getTCXscope(this.scope).displayName
+         title: displayName ? displayName : GlobalFunctions.toTitleCase(this.scope)
        }
     }
 
@@ -158,7 +159,6 @@ export class DeepDivePage implements OnInit {
             this.carouselVideo = this._deepDiveData.transformSportVideoBatchData([data[0]]);
           }
           this.getDataCarousel();
-          // this.carouselVideo = [this._deepDiveData.videoDummyData()];
         },
         err => {
           console.log("Error getting video batch data");
@@ -204,7 +204,6 @@ export class DeepDivePage implements OnInit {
             this.topScope = this.tcxVars ? this.tcxVars.topScope : this.category;
             this.changeScopeVar = this.tcxVars.scope;
             this.deepDiveType = GlobalSettings.getTCXscope(this.scope).pageType ? GlobalSettings.getTCXscope(this.scope).pageType : 3;
-            console.log("deep dive type", this.deepDiveType);
             this.getGeoLocation();
             this.getDeepDiveVideo();
             this.sectionFrontName();

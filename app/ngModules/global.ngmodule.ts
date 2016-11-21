@@ -35,7 +35,9 @@ import { Larousel } from '../fe-core/components/larousel/larousel';
 import { NewsBox } from '../fe-core/components/news-box/news-box';
 import { LineChartComponent } from '../fe-core/components/line-chart/line-chart.component';
 import { InfoComponent } from '../fe-core/components/page-information/page-information.component';
-
+import {ShareLinksComponent} from "../fe-core/components/articles/share-links/share-links.component";
+import {BillboardComponent} from "../fe-core/components/articles/billboard/billboard.component";
+import {SidekickContainerComponent} from "../fe-core/components/articles/sidekick-container/sidekick-container.component";
 /*** MODULES ***/
 import { BillboardModule } from "../fe-core/modules/billboard/billboard.module";
 import { ChatterboxModule } from "../fe-core/modules/chatterbox/chatterbox.module";
@@ -56,6 +58,8 @@ import {SanitizeScript, SanitizeHtml, SanitizeRUrl, SanitizeStyle} from "../fe-c
 import { routing  } from '../app.routing';
 import {InputBar} from "../fe-core/components/input-bar/input-bar.component";
 import {ArticleSearchBar} from "../fe-core/components/search-bar-article/search-bar-article.component";
+
+
 
 
 @NgModule({
@@ -104,7 +108,12 @@ import {ArticleSearchBar} from "../fe-core/components/search-bar-article/search-
       TermOfService,
       InfoComponent,
       ChatterboxModule,
-      ResponsiveWidget
+      ResponsiveWidget,
+      ShareLinksComponent,
+      BillboardComponent,
+      SidekickContainerComponent
+
+
     ],
     exports: [
       SectionFrontTopNav,
@@ -121,6 +130,7 @@ import {ArticleSearchBar} from "../fe-core/components/search-bar-article/search-
       SidekickWrapperAI,
       WidgetModule,
       WidgetCarouselModule,
+      ShareLinksComponent,
       ScrollableContent,
       SanitizeHtml,
       SanitizeRUrl,
@@ -142,7 +152,9 @@ import {ArticleSearchBar} from "../fe-core/components/search-bar-article/search-
       TermOfService,
       InfoComponent,
       ChatterboxModule,
-      ResponsiveWidget
+      ResponsiveWidget,
+      BillboardComponent,
+      SidekickContainerComponent
     ],
     providers: [
       VerticalGlobalFunctions,

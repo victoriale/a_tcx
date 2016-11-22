@@ -73,10 +73,10 @@ export class PrivacyPolicy implements OnInit{
             info: ['The Services are not intended for persons under the age of 13. We require that only persons 13 years of age or older use the Services. By using the Services, you hereby represent that you are at least 13 years old. Some third parties, such as platform providers like the iTunes Store or Google Play may provide age-based ratings on some of the Services. These ratings shall have no bearing on this limitation. Third parties may also provide content categories on some of the Services. These categories shall have no bearing on this limitation.']
         },{
             subHeader: "11. How to contact us.",
-            info: ['If you have any questions, comments, or concerns regarding our Privacy Policy or practices, please send an email to support@sntmedia.com.']
+            info: ['If you have any questions, comments, or concerns regarding our Privacy Policy or practices, please send an email to <a href="mailto:support@sntmedia.com" target="_blank" class="text-master">support@sntmedia.com</a>.']
         },{
             subHeader: "12. Your California privacy rights.",
-            info: ['California law permits users who are California residents to request and obtain from us once a year, free of charge, a list of the third parties to whom we have disclosed their personal information (if any) for their direct marketing purposes in the prior calendar year, as well as the type of personal information disclosed to those parties. If you are a California resident and would like to request this information, please submit your request in an email to support@sntmedia.com.']
+            info: ['California law permits users who are California residents to request and obtain from us once a year, free of charge, a list of the third parties to whom we have disclosed their personal information (if any) for their direct marketing purposes in the prior calendar year, as well as the type of personal information disclosed to those parties. If you are a California resident and would like to request this information, please submit your request in an email to <a href="mailto:support@sntmedia.com" target="_blank" class="text-master">support@sntmedia.com</a>.']
         },{
             subHeader: "13. No rights of third parties.",
             info: ['This Privacy Policy does not create rights enforceable by third parties.']

@@ -50,12 +50,7 @@ export class DeepDivePage implements OnInit {
     carouselVideo:any;
     carouselData: any;
 
-    constructor(private _schedulesService:SchedulesService, private _deepDiveData: DeepDiveService, private _activatedRoute: ActivatedRoute, private _geoLocation: GeoLocation) {
-      // var categoryBlocks;
-      // if(GlobalSettings.getHomeInfo().isHome){
-      //   categoryBlocks = this.homePageBlocks;
-      // }
-    }
+    constructor(private _schedulesService:SchedulesService, private _deepDiveData: DeepDiveService, private _activatedRoute: ActivatedRoute, private _geoLocation: GeoLocation) {}
 
     ngOnDestroy(){
       this.routeSubscription.unsubscribe();
@@ -90,13 +85,6 @@ export class DeepDivePage implements OnInit {
        }
     }
 
-    private onScroll(event) {
-      if (jQuery(document).height() - window.innerHeight - jQuery("footer").height() <= jQuery(window).scrollTop()) {
-        //fire when scrolled into footer
-        this.blockIndex = this.blockIndex + 1;
-      }
-    }
-
     //api for Schedules
     private getSideScroll(){
       if (this.tcxVars.showEventSlider != true) {
@@ -117,10 +105,8 @@ export class DeepDivePage implements OnInit {
             this.sideScrollData = sideScrollData;
             this.scrollLength = this.sideScrollData.blocks.length;
           }
-
           this.safeCall = true;
           this.callCount++;
-
         }, null, null)
       }
     }
@@ -197,8 +183,7 @@ export class DeepDivePage implements OnInit {
             this.scope = param['subCategory'] ? param['subCategory'] : this.category;
             if (param['subCategory']) {
               this.tcxVars = GlobalSettings.getTCXscope(param['subCategory']);
-            }
-            else {
+            } else {
               this.tcxVars = GlobalSettings.getTCXscope(this.category);
             }
             this.topScope = this.tcxVars ? this.tcxVars.topScope : this.category;

@@ -48,10 +48,10 @@ export class SyndicateArticleService {
     }
     var callURL
     if (subcategory) {
-      callURL = this._syndicateUrl + '?source[]=tca&source[]=snt_ai&count=' + count + "&category=" + category + "&subCategory=" + subcategory;
+      callURL = this._syndicateUrl + '?source[]=tca&source[]=snt_ai&count=' + count + "&category=" + category + "&subCategory=" + subcategory + "&random=1";
 
     } else {
-      callURL = this._syndicateUrl + '?source[]=tca&source[]=snt_ai&count=' + count + "&category=" + category;
+      callURL = this._syndicateUrl + '?source[]=tca&source[]=snt_ai&count=' + count + "&category=" + category + "&random=1";
     }
 
     return this._http.get(callURL)
@@ -94,9 +94,9 @@ export class SyndicateArticleService {
     var callURL
 
     if (subcategory) {
-      callURL = this._syndicateUrl + '?source[]=tca&source[]=snt_ai&count=' + count + "&category=" + category + "&subCategory=" + subcategory;
+      callURL = this._syndicateUrl + '?source[]=tca&source[]=snt_ai&count=' + count + "&category=" + category + "&subCategory=" + subcategory + "&random=1";
     } else {
-      callURL = this._syndicateUrl + '?source[]=tca&source[]=snt_ai&count=' + count + "&category=" + category;
+      callURL = this._syndicateUrl + '?source[]=tca&source[]=snt_ai&count=' + count + "&category=" + category + "&random=1";
     }
     console.log(callURL,"hjkhjhjhjh");
     return this._http.get(callURL)
@@ -114,7 +114,7 @@ export class SyndicateArticleService {
       if (val.article_id != currentArticleId) {
 
         val["date"] = val.article_data.publication_date;
-        val["imagePath"] = val.imagePath;
+        val["imagePath"] = val.image_url != null ? GlobalSettings.getImageUrl(val.image_url) : placeholder;
         val["content"]=val.teaser;
         val["newsRoute"] = VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType);
         //console.log(VerticalGlobalFunctions.formatNewsRoute(val.id,this.articleType),"News Route");

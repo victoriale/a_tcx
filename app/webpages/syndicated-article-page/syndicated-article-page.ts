@@ -24,9 +24,9 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     public articleID: string;
     public trendingData:any;
     public articleType: string;
-    public imageData: Array<string>;
-    public imageTitle: Array<string>;
-    public copyright: Array<string>;
+    public imageData=[];
+    public imageTitle=[];
+    public copyright=[];
     public trendingLength: number = 2;
     @Input() scope: string;
     public category:string;
@@ -93,16 +93,17 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         this._synservice.getSyndicateArticleService(articleID).subscribe(
             data => {
 
-                if (data.data[0].image_url == null || data.data.imagePath == undefined || data.data.imagePath == "") {
+                if (data.data[0].article_data.images == null) {
                     this.imageData  = ["/app/public/placeholder_XL.png"];
-                    this.copyright = [data.data[0].article_data.images[0].image_copyright];
-                    this.imageTitle = [data.data[0].article_data.images[0].image_title];
+
                 }
                 else {
-
-                    this.imageData = ["/app/public/placeholder_XL.png"];
-                    this.copyright = [data.data[0].article_data.images[0].image_copyright];
-                    this.imageTitle = [data.data[0].article_data.images[0].image_title];
+                    var imageLength=data.data[0].article_data.images.length;
+                    for( var i=0;i<imageLength;i++) {
+                        this.imageData[this.imageData.length]=GlobalSettings.getImageUrl(data.data[0].article_data.images[i].image_url);
+                        this.copyright[this.copyright.length]=data.data[0].article_data.images[i].image_copyright;
+                        this.imageTitle[this.imageTitle.length]=data.data[0].article_data.images[i].image_title;
+                    }
                 }
 
                 this.articleData = data.data[0].article_data;
@@ -160,7 +161,6 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
 
                         this.trendingLength = this.trendingLength + 10;
                     }
-                    console.log(this.trendingData)
                 }
             )
         }
@@ -173,7 +173,6 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
 
                         this.trendingLength = this.trendingLength + 10;
                     }
-                    console.log(this.trendingData)
                 }
 
             )
@@ -182,9 +181,9 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
 
     }
     @HostListener('window:scroll',['$event']) onScroll(e){
-        var element=e.target.body.children[2].childNodes[1].childNodes[2].childNodes[1].childNodes[2].childNodes[0].childNodes[1].childNodes[4].childNodes[10].childNodes[3];
-        if(window.scrollY>815) {
-            var a=window.scrollY-815-20 +"px";
+        var element=e.target.body.getElementsByClassName('syndicate-widget')[0]
+        if(window.scrollY>845) {
+            var a=window.scrollY-845 +"px";
             this._render.setElementStyle(element, "top", a)
         }
         else{

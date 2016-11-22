@@ -186,7 +186,6 @@ export class DeepDivePage implements OnInit {
             } else {
               this.tcxVars = GlobalSettings.getTCXscope(this.category);
             }
-            console.log("scope", this.scope);
             this.topScope = this.tcxVars ? this.tcxVars.topScope : this.category;
             this.changeScopeVar = this.tcxVars.scope;
             this.deepDiveType = GlobalSettings.getTCXscope(this.scope).pageType ? GlobalSettings.getTCXscope(this.scope).pageType : 3;

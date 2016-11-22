@@ -13,9 +13,9 @@
     .deep_recs-articles-item {
       width: 190px;
     }
-    .widget-page-wrapper > .col-xs-8{
+   /* .widget-page-wrapper > .col-xs-8{
       margin-left: 0px;
-    }
+    }*/
     .arpt{
 
       margin: 0px;
@@ -56,12 +56,12 @@
     }
 
   }
-  .widget-page-wrapper{
+ /* .widget-page-wrapper{
     width: 105%;
-  }
-  .widget-page-wrapper > .col-xs-4{
+  }*/
+  /*.widget-page-wrapper > .col-xs-4{
     margin-left:30px;
-  }
+  }*/
 
   @media (max-width: 640px) {
     .widgetWrapper {
@@ -448,5 +448,9 @@
 .syndicate-widget{
   @media @mobile{display:none}
   @media @tablet{display:none}
-  @media @desktop-l{display:block;padding-left:8px;margin-top: 10px}
+  @media @desktop-m{display:block;padding-left:13px;margin-top: 10px;position: relative}
+  .widget-top, .widget-top-ddp{
+    position: relative;
+    margin-top: 0;
+  }
 }

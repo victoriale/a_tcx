@@ -1,4 +1,4 @@
-import {Component, AfterViewInit, Input, OnChanges, OnDestroy} from '@angular/core';
+import {Component, AfterViewInit, Input, OnChanges, OnDestroy, HostListener, ElementRef, Renderer} from '@angular/core';
 import {SyndicateArticleService} from "../../services/syndicate-article.service";
 import {GlobalSettings} from "../../global/global-settings";
 import {ActivatedRoute, Route, Router, NavigationStart, Event as NavigationEvent} from "@angular/router";
@@ -37,7 +37,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     paramsub;
     constructor(
 
-        private _synservice:SyndicateArticleService, private activateRoute:ActivatedRoute, private router:Router
+        private _synservice:SyndicateArticleService, private activateRoute:ActivatedRoute, private router:Router, private _eref:ElementRef, private _render:Renderer
 
     ){
 
@@ -178,20 +178,19 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
 
             )
         }
-        /* this._synService.getDeepDiveBatchService(scope, numItems, startNum, state).subscribe(
-         data => {
-         this.articleData = this._synService.transformTrending(data.data, currentArticleId);
-
-
-         if (this.trendingLength <= 20) {
-
-         this.trendingLength = this.trendingLength + 10;
-         }
-         }
-
-         )*/
 
 
     }
+    @HostListener('window:scroll',['$event']) onScroll(e){
+        var element=e.target.body.children[2].childNodes[1].childNodes[2].childNodes[1].childNodes[2].childNodes[0].childNodes[1].childNodes[4].childNodes[10].childNodes[3];
+        if(window.scrollY>815) {
+            var a=window.scrollY-815-20 +"px";
+            this._render.setElementStyle(element, "top", a)
+        }
+        else{
+            this._render.setElementStyle(element, "top", '0')
+        }
+}
+
 
 }

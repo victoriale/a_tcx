@@ -258,7 +258,7 @@ export class SearchService{
                     results: [],
                     error:{
                       message:"Sorry we can't find a <span class='text-heavy'>Player Profile</span> matching your search term(s) ''<span class='query-blue'>"+query+"</span>'', please try your search again.",
-                      icon:'fa-search-icon-01'
+                      icon:'fa-search-icon'
                     },
                     pageMax:this.pageMax,
                     totalResults:playerResults.length,
@@ -274,7 +274,7 @@ export class SearchService{
                     results: [],
                     error:{
                       message:"Sorry we can't find a <span class='text-heavy'>Team Profile</span> matching your search term(s) '<span class='query-blue'>"+query+"</span>', please try your search again.",
-                      icon:'fa-search-icon-01'
+                      icon:'fa-search-icon'
                     },
                     pageMax:this.pageMax,
                     totalResults:teamResults.length,

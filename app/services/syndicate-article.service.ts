@@ -92,12 +92,13 @@ export class SyndicateArticleService {
     }
     var headers = this.setToken();
     var callURL
+
     if (subcategory) {
       callURL = this._syndicateUrl + '?source[]=tca&source[]=snt_ai&count=' + count + "&category=" + category + "&subCategory=" + subcategory;
     } else {
       callURL = this._syndicateUrl + '?source[]=tca&source[]=snt_ai&count=' + count + "&category=" + category;
     }
-
+    console.log(callURL,"hjkhjhjhjh");
     return this._http.get(callURL)
       .map(res => res.json())
       .map(data => {
@@ -113,7 +114,8 @@ export class SyndicateArticleService {
       if (val.article_id != currentArticleId) {
 
         val["date"] = val.article_data.publication_date;
-        val["imagePath"] = val.image_url ? GlobalSettings.getImageUrl(val.image_url) : GlobalSettings.getImageUrl(placeholder);
+        val["imagePath"] = val.imagePath;
+        val["content"]=val.teaser;
         val["newsRoute"] = VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType);
         //console.log(VerticalGlobalFunctions.formatNewsRoute(val.id,this.articleType),"News Route");
       }

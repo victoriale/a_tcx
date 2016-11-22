@@ -18,8 +18,7 @@
                   <images-media-carousel *ngIf="isStockPhoto" [imageData]="imageData" [copyright]="copyright"
                                          [imageTitle]="imageTitle"></images-media-carousel>
                 </div>
-        <div row>
-        <!--<sidekick-wrapper-ai [aiSidekick]="aiSidekick">-->
+        <div class="syndicated-articles-page_tPane row">
             <div class="syndicated-articles-page_leftPane col-sm-12 col-xl-9">
             <span>
 
@@ -44,35 +43,23 @@
             </div>
 
             <billboard-module></billboard-module>
-<!--
-            <div class="bottom-shader" *ngIf="articleType == 'story'"></div>
--->
-<!--
-            <a *ngIf="articleType == 'story'" class="readMore mod-page-btn" [href]="articleData.articleUrl">Read the Full Article <i class="fa fa-arrow-right"></i></a>
--->
+
             <disqus-component *ngIf="!checkPartner"></disqus-component>
 
             <chatterbox-module></chatterbox-module>
-
-<!--
-                        <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
--->
-                   <!-- <div class="widget_wrapper"><widget-carousel-module></widget-carousel-module></div>
--->
-                <!-- <div class="recomendation-heading"><div><i class="fa fa-heart-o"></i> Other Stories You Will Love</div></div>-->
-
             <recommendations-component [randomHeadlines]="recomendationData"
-                                       [isDeepDive]="false" [hasKeyword]="true"></recommendations-component>
+                                       [isDeepDive]="false"
+                                       [hasKeyword]="true"></recommendations-component>
+           <trending-component [trendingData]="trendingData"
+                               [geoLocation]="geoLocation"
+                               [currentArticleId]="articleData.article_id"
+                               [scope]="scope">
 
-
-            <!-- <syndicated-trending-component *ngIf="geoLocation" [geoLocation]="KS" [currentArticleId]="articleData.id"></syndicated-trending-component>-->
-           <syndicated-trending-component [geoLocation]="geoLocation" [currentArticleId]="articleData.article_id" [scope]="scope" [category]="category" [subCategory]="subcategory" [articletype]="articleType" [articleId]="articleID"></syndicated-trending-component>
-
-                </div>
-          <!--  <div class="syndicate-widget col-xl-3" >
+           </trending-component>
+            </div>
+            <div class="syndicate-widget col-lg-3" >
             <div class="widget_wrapper"><widget-carousel-module></widget-carousel-module></div>
-        </div>-->
-            <!--</sidekick-wrapper-ai>-->
+        </div>
         </div>
     </span>
 

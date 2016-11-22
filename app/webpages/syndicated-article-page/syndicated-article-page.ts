@@ -22,10 +22,12 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     public articleData: any;
     public recomendationData: any;
     public articleID: string;
+    public trendingData:any;
     public articleType: string;
     public imageData: Array<string>;
     public imageTitle: Array<string>;
     public copyright: Array<string>;
+    public trendingLength: number = 2;
     @Input() scope: string;
     public category:string;
     public subcategory: string;
@@ -65,10 +67,12 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
                 if (this.articleType == "story" && this.articleID) {
                     this.getSyndicateArticle(this.articleID);
                     this.getRecomendationData();
+                    this.getDeepDiveArticle();
                 }
                 else {
                     this.getSyndicateVideoArticle(this.articleID);
                     this.getRecomendationData();
+                    this.getDeepDiveArticle();
                 }
             }
 
@@ -121,39 +125,6 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         this.paramsub.unsubscribe();
     }
 
-    /*getGeoLocation() {
-        var defaultState = 'ca';
-        this._geoLocation.getGeoLocation()
-            .subscribe(
-                geoLocationData => {
-                    this.geoLocation = geoLocationData[0].state;
-                    this.geoLocation = this.geoLocation.toLowerCase();
-                    this.getRecomendationData();
-                },
-                err => {
-                    this.geoLocation = defaultState;
-                    this.getRecomendationData();
-                }
-            );
-    }
-
-    getPartnerHeader(){//Since it we are receiving
-        if(this.partnerID!= null){
-            this._partnerData.getPartnerData(this.partnerID)
-                .subscribe(
-                    partnerScript => {
-                        //super long way from partner script to get location using geo location api
-                        var state = partnerScript['results']['location']['realestate']['location']['city'][0].state;
-                        state = state.toLowerCase();
-                        this.geoLocation = state;
-                        this.getRecomendationData()
-                    }
-                );
-        }else{
-            this.getGeoLocation();
-        }
-    }*/
-
     getRecomendationData(){
         var startNum=Math.floor((Math.random() * 49) + 1);
         var state = 'KS'; //needed to uppoercase for ai to grab data correctly
@@ -177,23 +148,49 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         }
 
     }
-   /* getRecomendationData(){
-        var startNum=Math.floor((Math.random() * 49) + 1);
-        var state = 'KS'; //needed to uppoercase for ai to grab data correctly
-        this._synservice.getTrendingArticles('sports','nfl',10).subscribe(
-            data => {
-                this.recomendationData = this._synservice.transformToRecArticles(data);
 
-            }
+    private getDeepDiveArticle() {
+        //var startNum=Math.floor((Math.random() * 29) + 1);
+        if(this.subcategory) {
+            this._synservice.getTrendingArticles(this.category, 40, this.subcategory).subscribe(
+                data => {
+                    this.trendingData = this._synservice.transformTrending(data.data,this.subcategory, this.articleType, this.articleID);
 
-        )
+                    if (this.trendingLength <= 40) {
 
-    }*/
+                        this.trendingLength = this.trendingLength + 10;
+                    }
+                    console.log(this.trendingData)
+                }
+            )
+        }
+        else{
+            this._synservice.getTrendingArticles(this.category,20).subscribe(
+                data => {
+                    this.trendingData = this._synservice.transformTrending(data.data,this.category, this.articleType, this.articleID);
+
+                    if (this.trendingLength <= 20) {
+
+                        this.trendingLength = this.trendingLength + 10;
+                    }
+                    console.log(this.trendingData)
+                }
+
+            )
+        }
+        /* this._synService.getDeepDiveBatchService(scope, numItems, startNum, state).subscribe(
+         data => {
+         this.articleData = this._synService.transformTrending(data.data, currentArticleId);
 
 
-    formatDate(date) {
+         if (this.trendingLength <= 20) {
 
-        return moment(date).format("MMMM DD, YYYY at h:mm A ")
+         this.trendingLength = this.trendingLength + 10;
+         }
+         }
+
+         )*/
+
 
     }
 

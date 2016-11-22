@@ -3,66 +3,67 @@ import { DeepDiveService } from '../../../services/deep-dive.service';
 import { ArticleStackData, VideoStackData } from "../../../fe-core/interfaces/deep-dive.data";
 import { BoxScoresService } from '../../../services/box-scores.service';
 import { GlobalSettings } from "../../../global/global-settings";
-import {VerticalGlobalFunctions} from "../../../global/vertical-global-functions";
+import { VerticalGlobalFunctions } from "../../../global/vertical-global-functions";
 
 declare var moment;
+declare var jQuery: any;
 
 @Component({
-  selector: 'deep-dive-block-1',
-  templateUrl: './app/ui-modules/deep-dive-blocks/deep-dive-block-1/deep-dive-block-1.module.html',
+  selector: 'deep-dive-section-front',
+  templateUrl: './app/ui-modules/deep-dive-blocks/deep-dive-section-front/deep-dive-section-front.module.html',
 })
 
-export class DeepDiveBlock1 implements OnInit {
+export class DeepDiveSectionFront implements OnInit {
   @Input() scope: string;
   @Input() geoLocation: string;
-  @Input() category:string;
-  videoDataTop: Array<VideoStackData>;
-  videoDataBatch: Array<VideoStackData>;
-  firstStackTop: Array<ArticleStackData>;
-  firstStackRow: Array<ArticleStackData>;
-  recData: Array<ArticleStackData>;//TODO
-  articleStack2DataTop: Array<ArticleStackData>;//TODO
-  articleStack2DataBatch: Array<ArticleStackData>;//TODO
-  articleCallLimit:number = 23;
-  videoCallLimit:number = 5;
-  batchNum: number = 1;
-  //Box Scores
+  @Input() category: string;
+  @Input() deepDiveType: any;
+  articleData: Array<ArticleStackData>;
+  articleCallLimit:number = 31;
+  callApi: boolean = true;
+  blockIndex: number = 1;
   boxScoresData: any;
+  boxScoresScroll: boolean= true;
   currentBoxScores: any;
   dateParam: any;
-  boxScoresTempVar: string = "nfl";
-  boxScoresScroll: boolean= true;
+  newArray: Array<any> = [];
+  videoDataTop: Array<VideoStackData>;
+  videoDataBatch: Array<VideoStackData>;
+  videoCallLimit:number = 5;
   safeCounter: number = 0;
-
   searchData: any;
-
   routeSubscription:any;
-  constructor(private _boxScoresService: BoxScoresService, private _deepDiveData: DeepDiveService){
-
+  constructor(private _boxScoresService: BoxScoresService, private _deepDiveData: DeepDiveService){}
+  getFirstArticleStackData(pageNum){
+    if(this.callApi){
+      this.callApi = false;
+      this.routeSubscription = this._deepDiveData.getDeepDiveBatchService(this.scope, this.articleCallLimit, pageNum)
+      .subscribe(data => {
+        if(data){
+          this.articleData = this._deepDiveData.transformToArticleStack(data, this.scope);
+          var obj = {
+              stackTop1: this.articleData.length > 0 ? this.articleData.splice(0,1) : null,
+              stackRow1: this.articleData.length > 0 ? this.articleData.splice(0,6) : null,
+              recData: this.articleData.length > 0 ? this.articleData.splice(0,6) : null,
+              stackTop2: this.articleData.length > 0 ? this.articleData.splice(0,1) : null,
+              stackRow2: this.articleData.length > 0 ? this.articleData.splice(0,4) : null,
+          };
+          this.newArray.push(obj);
+          this.callApi = true;
+        } else {
+          this.callApi = false;
+        }
+      },
+      err => {
+        console.log("Error getting article data");
+      });
+    }
   }
-  getFirstArticleStackData(){
-    this._deepDiveData.getDeepDiveBatchService(this.scope, this.articleCallLimit, this.batchNum, this.geoLocation)
-        .subscribe(data => {
-          let stackTop = [data[0]];
-          this.firstStackTop = this._deepDiveData.transformToArticleStack(stackTop, this.scope);
-          let stackRow = data.splice(1,8);
-          this.firstStackRow  = this._deepDiveData.transformToArticleStack(stackRow, this.scope);
-          let recInfo = data.splice(1, 6);//TODO
-          this.recData = this._deepDiveData.transformToArticleStack(recInfo, this.scope);//TODO
-          let articleStack2Top = [data[0]];//TODO
-          this.articleStack2DataTop = this._deepDiveData.transformToArticleStack(articleStack2Top, this.scope);//TODO
-          let articleStack2 = data.splice(1,4);//TODO
-          this.articleStack2DataBatch = this._deepDiveData.transformToArticleStack(articleStack2, this.scope);//TODO
-        },
-        err => {
-            console.log("Error getting first article stack data");
-        });
-  }
 
-  getDeepDiveVideo(){
-      this._deepDiveData.getDeepDiveVideoBatchService(this.scope, this.videoCallLimit, this.batchNum, this.geoLocation).subscribe(
+  getDeepDiveVideo(pageNum){
+      this._deepDiveData.getDeepDiveVideoBatchService(this.scope, this.videoCallLimit, pageNum, this.geoLocation).subscribe(
         data => {
-          if(data != null){
+          if(data){
             this.videoDataBatch = this._deepDiveData.transformSportVideoBatchData(data, this.scope);//TODO
           }
         },
@@ -71,14 +72,20 @@ export class DeepDiveBlock1 implements OnInit {
       });
   }
 
+  private onScroll(event) {
+    if (this.callApi && (this.blockIndex <= this.newArray.length) && (jQuery(document).height() - window.innerHeight - jQuery("footer").height() <= jQuery(window).scrollTop())) {
+      //fire when scrolled into footer
+      this.blockIndex = this.blockIndex + 1;
+      this.callModules(this.blockIndex);
+    }
+  }
+
   //API for Box Scores
   private getBoxScores(dateParams?) {
     if(this.safeCounter < 10){
-      // console.log('1. deep-dive-page, getBoxScores - dateParams - ',dateParams);
       if ( dateParams != null ) {
         this.dateParam = dateParams;
       }
-      // console.log('this.dateParam',this.dateParam);
       this._boxScoresService.getBoxScores(this.boxScoresData, this.dateParam.scope, this.dateParam, (boxScoresData, currentBoxScores) => {
         this.boxScoresData = boxScoresData;
         this.currentBoxScores = currentBoxScores;
@@ -103,9 +110,9 @@ export class DeepDiveBlock1 implements OnInit {
     }
   }
 
-  callModules(){
-    this.getDeepDiveVideo();
-    this.getFirstArticleStackData();
+  callModules(pageNum){
+    this.getDeepDiveVideo(pageNum);
+    this.getFirstArticleStackData(pageNum);
     if(GlobalSettings.getTCXscope(this.scope).showBoxScores){
       this.getBoxScores(this.dateParam);
     }else{
@@ -114,29 +121,31 @@ export class DeepDiveBlock1 implements OnInit {
   }
 
   ngOnChanges(event) {
-    // console.log('ON CHANGES',event);
     if(event.scope != null){
       if(event.scope.currentValue != event.scope.previousValue){// if route has changed
         this.scope = event.scope.currentValue;
         this.boxScoresData = null;
         this.currentBoxScores = null;
         this.dateParam == null;
-        // console.log('change scope', this.scope);
-        // console.log('change boxScoresData', this.boxScoresData);
+        this.getDateParams();
+        window.scrollTo(0,0);
+      }
+      if(this.dateParam == null){
         this.getDateParams();
       }
+      this.createSearchBox(this.scope);
+      this.callModules(this.blockIndex);
     }
-    if(this.dateParam == null){
-      this.getDateParams();
-    }
-    this.createSearchBox(this.scope);
-    this.callModules();
   }
 
   ngOnInit() {
     this.createSearchBox(this.scope);
     this.getDateParams();
-    this.callModules();
+    this.callModules(this.blockIndex);
+  }
+
+  ngOnDestroy(){
+    this.routeSubscription.unsubscribe();
   }
 
   navigateSearch(e) {

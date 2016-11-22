@@ -30,6 +30,8 @@ export class DeepDiveService {
     }
     if(category == "breaking" || category == "trending"){
       callURL += '&category=' + category;
+    } else if(category == "real-estate"){
+      callURL += '&keyword[]=' + category.replace(/-/g, " ");
     } else {
       callURL += '&keyword[]=' + category;
     }

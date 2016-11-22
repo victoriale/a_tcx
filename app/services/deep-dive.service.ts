@@ -30,6 +30,8 @@ export class DeepDiveService {
     }
     if(category == "breaking" || category == "trending"){
       callURL += '&category=' + category;
+    } else if(category == "real-estate"){
+      callURL += '&keyword[]=' + category.replace(/-/g, " ");
     } else {
       callURL += '&keyword[]=' + category;
     }
@@ -139,8 +141,7 @@ export class DeepDiveService {
             } else {
               routeLink = VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, "story");
               extLink = false;
-              author = "Written by: ";
-              author += val.author ? "<span class='text-master'>" + val.author.replace(/by/gi, "") + "</span>, ": null;
+              author = val.author ? val.author.replace(/by/gi, "") + ", ": null;
               publisher = author ? val.publisher : "Published by: " + val.publisher;
             }
             var articleStackData = {
@@ -151,7 +152,7 @@ export class DeepDiveService {
               timeStamp: date ? date : "",
               title: val.title ? val.title : "No title available",
               author: author,
-              publisher: val.publisher ? publisher : null,
+              publisher: val.publisher && val.author ? "Written by: " + "<span class='text-master'>" + author + publisher + "</span>": null,
               teaser: val.teaser ? val.teaser : "No teaser available",
               imageConfig: {
                 imageClass: "embed-responsive-16by9",

@@ -1,0 +1,77 @@
+<div *ngIf="articleData" id="deep-dive-section-front" class="deep-dive-block" (window:scroll)="onScroll($event)">
+  <div *ngFor="let item of newArray">
+    <!-- ARTICLE STACK TYPE 1 -->
+    <div *ngIf="item.stackTop1" class="deep-dive-module">
+      <article-stack-1-module [stackTop]="item.stackTop1" [stackRow]="item.stackRow1"></article-stack-1-module>
+    </div>
+    <!-- VIDEO STACK -->
+    <div *ngIf="videoDataBatch" class="deep-dive-module">
+      <deep-dive-video-module [videoData]="videoDataBatch"></deep-dive-video-module>
+    </div>
+    <!-- WIDGET -->
+    <div *ngIf="videoDataBatch && item.stackTop1" class="deep-dive-module">
+      <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
+    </div>
+    <!-- SEARCH BOX FOR TYPE 2 ONLY and NOT WEATHER-->
+    <div *ngIf="deepDiveType === 2 && scope!='weather'" class="deep-dive-module">
+      <search-box-module [category]="category" [scope]="scope" [searchData]="searchData" (scopeEmit)="changeScope($event)" (userInput)="navigateSearch($event)"></search-box-module>
+    </div>
+     <!-- BOX SCORE FOR TYPE 1 ONLY-->
+    <div *ngIf="dateParam && deepDiveType === 1" class="deep-dive-boxScores row">
+      <box-scores
+        class="col-lg-8"
+        [boxScores]="currentBoxScores"
+        [calendarParams]="dateParam"
+        [maxHeight]="maxHeight"
+        [scroll]="boxScoresScroll"
+        (dateEmit)="getBoxScores($event)">
+      </box-scores>
+      <!-- AiContent for BoxScores for Type 1 -->
+      <game-article
+        *ngIf="currentBoxScores && currentBoxScores.aiContent && deepDiveType === 1"
+        [gameArticle]="currentBoxScores.aiContent"
+        class="col-lg-4">
+      </game-article>
+    </div>
+    <!-- BILL BOARD -->
+    <div *ngIf="deepDiveType === 1" class="deep-dive-module">
+      <billboard-module></billboard-module>
+    </div>
+    <!-- WIDGET FOR TYPE 2 ONLY and NOT SPORTS (NO SEARCH BOX)-->
+    <div *ngIf="(scope != 'sports' && deepDiveType === 1) || deepDiveType === 2" class="deep-dive-module">
+      <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
+    </div>
+    <!-- SIX PACKS -->
+    <div *ngIf="item.recData" class="deep-dive-module">
+      <deep-dive-recommendation [recData]="item.recData"></deep-dive-recommendation>
+    </div>
+    <!-- SEARCH BOX FOR TYPE 1 ONLY-->
+    <div *ngIf="deepDiveType === 1 && scope != 'sports'" class="deep-dive-module">
+      <search-box-module [category]="category" [scope]="scope" [searchData]="searchData" (scopeEmit)="changeScope($event)" (userInput)="navigateSearch($event)"></search-box-module>
+    </div>
+    <!-- WIDGET FOR TYPE 1 ONLY-->
+    <div *ngIf="deepDiveType === 1 && scope != 'sports' && item.recData" class="deep-dive-module">
+      <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
+    </div>
+    <!-- ARTICLE STACK TYPE 1 -->
+    <div *ngIf="deepDiveType === 1 && item.stackTop1" class="deep-dive-module">
+      <article-stack-1-module [stackTop]="item.stackTop1" [stackRow]="item.stackRow1"></article-stack-1-module>
+    </div>
+    <!-- ARTICLE STACK TYPE 2 -->
+    <div *ngIf="item.stackTop2" class="deep-dive-module">
+      <article-stack-2-module [articleStack2DataTop]="item.stackTop2" [articleStack2DataBatch]="item.stackRow2"></article-stack-2-module>
+    </div>
+    <!-- WIDGET FOR TYPE 1 ONLY-->
+    <div *ngIf="item.stackTop1 && item.stackTop2 && deepDiveType === 1" class="deep-dive-module">
+      <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
+    </div>
+    <!-- SIX PACKS -->
+    <div *ngIf="item.recData" class="deep-dive-module">
+      <deep-dive-recommendation [recData]="item.recData"></deep-dive-recommendation>
+    </div>
+    <!-- WIDGET FOR TYPE 2 ONLY-->
+    <div *ngIf="deepDiveType === 2 && item.recData && item.stackTop2" class="deep-dive-module">
+      <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
+    </div>
+  </div>
+</div>

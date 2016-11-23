@@ -9,15 +9,11 @@ import {routing} from "../app.routing";
 import {HttpModule, Http} from "@angular/http";
 import {ArticleContentComponent} from "../fe-core/components/articles/article-content/article-content.component";
 import {TrendingComponent} from "../fe-core/components/articles/trending/trending.component";
-
-
 @NgModule({
     imports:[
         CommonModule,
         GlobalModule,
         routing,
-
-
     ],
     declarations:[
         SyndicatedArticlePage, DisqusComponent, RecommendationsComponent, TrendingComponent

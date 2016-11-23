@@ -1,4 +1,4 @@
-import {Component, AfterViewInit, Input, OnChanges, OnDestroy} from '@angular/core';
+import {Component, AfterViewInit, Input, OnChanges, OnDestroy, HostListener, ElementRef, Renderer} from '@angular/core';
 import {SyndicateArticleService} from "../../services/syndicate-article.service";
 import {GlobalSettings} from "../../global/global-settings";
 import {ActivatedRoute, Route, Router, NavigationStart, Event as NavigationEvent} from "@angular/router";
@@ -22,10 +22,12 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     public articleData: any;
     public recomendationData: any;
     public articleID: string;
+    public trendingData:any;
     public articleType: string;
-    public imageData: Array<string>;
-    public imageTitle: Array<string>;
-    public copyright: Array<string>;
+    public imageData=[];
+    public imageTitle=[];
+    public copyright=[];
+    public trendingLength: number = 2;
     @Input() scope: string;
     public category:string;
     public subcategory: string;
@@ -35,7 +37,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     paramsub;
     constructor(
 
-        private _synservice:SyndicateArticleService, private activateRoute:ActivatedRoute, private router:Router
+        private _synservice:SyndicateArticleService, private activateRoute:ActivatedRoute, private router:Router, private _eref:ElementRef, private _render:Renderer
 
     ){
 
@@ -65,10 +67,12 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
                 if (this.articleType == "story" && this.articleID) {
                     this.getSyndicateArticle(this.articleID);
                     this.getRecomendationData();
+                    this.getDeepDiveArticle();
                 }
                 else {
                     this.getSyndicateVideoArticle(this.articleID);
                     this.getRecomendationData();
+                    this.getDeepDiveArticle();
                 }
             }
 
@@ -89,16 +93,17 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         this._synservice.getSyndicateArticleService(articleID).subscribe(
             data => {
 
-                if (data.data[0].image_url == null || data.data.imagePath == undefined || data.data.imagePath == "") {
+                if (data.data[0].article_data.images == null) {
                     this.imageData  = ["/app/public/placeholder_XL.png"];
-                    this.copyright = [data.data[0].article_data.images[0].image_copyright];
-                    this.imageTitle = [data.data[0].article_data.images[0].image_title];
+
                 }
                 else {
-
-                    this.imageData = ["/app/public/placeholder_XL.png"];
-                    this.copyright = [data.data[0].article_data.images[0].image_copyright];
-                    this.imageTitle = [data.data[0].article_data.images[0].image_title];
+                    var imageLength=data.data[0].article_data.images.length;
+                    for( var i=0;i<imageLength;i++) {
+                        this.imageData[this.imageData.length]=GlobalSettings.getImageUrl(data.data[0].article_data.images[i].image_url);
+                        this.copyright[this.copyright.length]=data.data[0].article_data.images[i].image_copyright;
+                        this.imageTitle[this.imageTitle.length]=data.data[0].article_data.images[i].image_title;
+                    }
                 }
 
                 this.articleData = data.data[0].article_data;
@@ -120,39 +125,6 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     ngOnDestroy(){
         this.paramsub.unsubscribe();
     }
-
-    /*getGeoLocation() {
-        var defaultState = 'ca';
-        this._geoLocation.getGeoLocation()
-            .subscribe(
-                geoLocationData => {
-                    this.geoLocation = geoLocationData[0].state;
-                    this.geoLocation = this.geoLocation.toLowerCase();
-                    this.getRecomendationData();
-                },
-                err => {
-                    this.geoLocation = defaultState;
-                    this.getRecomendationData();
-                }
-            );
-    }
-
-    getPartnerHeader(){//Since it we are receiving
-        if(this.partnerID!= null){
-            this._partnerData.getPartnerData(this.partnerID)
-                .subscribe(
-                    partnerScript => {
-                        //super long way from partner script to get location using geo location api
-                        var state = partnerScript['results']['location']['realestate']['location']['city'][0].state;
-                        state = state.toLowerCase();
-                        this.geoLocation = state;
-                        this.getRecomendationData()
-                    }
-                );
-        }else{
-            this.getGeoLocation();
-        }
-    }*/
 
     getRecomendationData(){
         var startNum=Math.floor((Math.random() * 49) + 1);
@@ -177,24 +149,47 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         }
 
     }
-   /* getRecomendationData(){
-        var startNum=Math.floor((Math.random() * 49) + 1);
-        var state = 'KS'; //needed to uppoercase for ai to grab data correctly
-        this._synservice.getTrendingArticles('sports','nfl',10).subscribe(
-            data => {
-                this.recomendationData = this._synservice.transformToRecArticles(data);
 
-            }
+    private getDeepDiveArticle() {
+        //var startNum=Math.floor((Math.random() * 29) + 1);
+        if(this.subcategory) {
+            this._synservice.getTrendingArticles(this.category, 40, this.subcategory).subscribe(
+                data => {
+                    this.trendingData = this._synservice.transformTrending(data.data,this.subcategory, this.articleType, this.articleID);
 
-        )
+                    if (this.trendingLength <= 40) {
 
-    }*/
+                        this.trendingLength = this.trendingLength + 10;
+                    }
+                }
+            )
+        }
+        else{
+            this._synservice.getTrendingArticles(this.category,20).subscribe(
+                data => {
+                    this.trendingData = this._synservice.transformTrending(data.data,this.category, this.articleType, this.articleID);
 
+                    if (this.trendingLength <= 20) {
 
-    formatDate(date) {
+                        this.trendingLength = this.trendingLength + 10;
+                    }
+                }
 
-        return moment(date).format("MMMM DD, YYYY at h:mm A ")
+            )
+        }
+
 
     }
+    @HostListener('window:scroll',['$event']) onScroll(e){
+        var element=e.target.body.getElementsByClassName('syndicate-widget')[0];
+        if(window.scrollY>845) {
+            var a=window.scrollY-845 +"px";
+            this._render.setElementStyle(element, "top", a)
+        }
+        else{
+            this._render.setElementStyle(element, "top", '0')
+        }
+}
+
 
 }

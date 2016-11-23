@@ -35,7 +35,7 @@
     </div>
     <!-- BILL BOARD -->
     <div *ngIf="deepDiveType === 1" class="deep-dive-module">
-      <billboard-module></billboard-module>
+      <billboard-module [category]="category" [subCategory]="scope"></billboard-module>
     </div>
     <!-- WIDGET FOR TYPE 2 ONLY and NOT SPORTS (NO SEARCH BOX)-->
     <div *ngIf="(scope != 'sports' && deepDiveType === 1) || deepDiveType === 2" class="deep-dive-module">

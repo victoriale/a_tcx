@@ -68,7 +68,7 @@ export class DeepDivePage implements OnInit {
                   this.getSideScroll();
                 },
                 err => {
-                  console.log("Geo Location Error",err);
+                  console.log("Geo Location Error:", err);
                   this.geoLocation = defaultState;
                   this.selectedLocation = 'wichita-ks';
                   this.getHourlyWeatherData(this.topScope);
@@ -147,7 +147,7 @@ export class DeepDivePage implements OnInit {
           this.getDataCarousel();
         },
         err => {
-          console.log("Error getting video batch data");
+          console.log("Error getting video batch data:", err);
           this.carouselVideo = null;
           this.getDataCarousel();
         });
@@ -163,7 +163,7 @@ export class DeepDivePage implements OnInit {
           err => {
             this.carouselGraph = this._schedulesService.getDummyGraphResult();
             this.getDataCarousel();
-            console.log("Error getting graph batch data");
+            console.log("Error getting graph batch data:", err);
           });
       }
     }

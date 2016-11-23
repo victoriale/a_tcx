@@ -14,8 +14,8 @@
        </div>
        <deep-dive-block-main *ngIf="deepDiveType == 'all'" [geoLocation]="geoLocation"></deep-dive-block-main>
        <deep-dive-section-front *ngIf="deepDiveType !== 'all'"
-                                [deepDiveType]="deepDiveType"
-                                [scope]="scope" [category]="category"
+                                [deepDiveType]="deepDiveType" [scope]="scope"
+                                [category]="category"
                                 [geoLocation]="geoLocation">
        </deep-dive-section-front>
     </div>

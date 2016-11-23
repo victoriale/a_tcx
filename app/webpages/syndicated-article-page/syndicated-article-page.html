@@ -42,7 +42,7 @@
             <div class="content-exerpt" *ngIf="articleType == 'video'"  [innerHTML]="articleData.teaser | safeHtml">
             </div>
 
-            <billboard-module></billboard-module>
+            <billboard-module [category]="category" subCategory="subcategory"></billboard-module>
 
             <disqus-component *ngIf="!checkPartner"></disqus-component>
 

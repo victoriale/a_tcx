@@ -6,15 +6,11 @@ import {SyndicateArticleService} from "../services/syndicate-article.service";
 import {DisqusComponent} from "../fe-core/components/disqus/disqus.component";
 import {routing} from "../app.routing";
 import {TrendingComponent} from "../fe-core/components/articles/trending/trending.component";
-
-
 @NgModule({
     imports:[
         CommonModule,
         GlobalModule,
         routing,
-
-
     ],
     declarations:[
         SyndicatedArticlePage, DisqusComponent, TrendingComponent

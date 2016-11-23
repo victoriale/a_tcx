@@ -1,15 +1,11 @@
 .syndicated-articles-page {
-
-
-  &_tpane{
-    .flexDisplay;
-    max-width: 100%;
-  }
+  .trending-small{  margin-top: 30px;  }
+  .col-md-3{  max-width:33.33%;  flex: 0 0 33.33%;  }
+  .stacktop-image{  min-width: 100%;  padding-right: 13px;  }
+  &_tpane{  .flexDisplay;  max-width: 100%;  }
 
   &_leftPane{
-    @media @desktop-l{
-      max-width: 927px !important;
-    }
+    @media @desktop-l{  max-width: 927px !important;  }
   }
   @media (min-width: 1023px){
     .deep_recs-articles-item {

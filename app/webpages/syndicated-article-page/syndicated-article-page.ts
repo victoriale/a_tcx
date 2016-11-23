@@ -134,8 +134,6 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
 
                 .subscribe(data => {
                     this.recomendationData = this._synservice.transformToRecArticles(data,this.subcategory,this.articleType);
-
-
                 });
         }
         else{
@@ -143,8 +141,6 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
 
                 .subscribe(data => {
                     this.recomendationData = this._synservice.transformToRecArticles(data,this.category,this.articleType);
-
-
                 });
         }
 

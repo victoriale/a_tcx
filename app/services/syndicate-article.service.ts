@@ -75,11 +75,16 @@ export class SyndicateArticleService {
       var date = moment(Number(val.publication_date) * 1000);
       date = moment(date).format("dddd MMMM, YYYY | h:mm A");
       var s = {
-        urlRouteArray: VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType),
-        bg_image_var: val.image_url != null ? GlobalSettings.getImageUrl(val.image_url) : sampleImage,
+          extUrl:false,
+        imageConfig: {
+            imageClass:"embed-responsive-16by9",
+            imageUrl:val.image_url != null ? GlobalSettings.getImageUrl(val.image_url) : sampleImage,
+            urlRouteArray:[],
+            imageDesc:"",
+        },
         keyword: val.keywords[0].toUpperCase(),
-        new_date: date,
-        displayHeadline: val.title,
+        timeStamp: date,
+        title: val.title,
       }
       articleStackArray.push(s);
     });

@@ -527,7 +527,7 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
-          icon: 'fa-fontawesome-webfont',
+          icon: 'fa-g-plus',
           pageType: 3,
           color:'#00b9e3',
           hoverColor: "rgba(0, 185, 227, 0.75)"

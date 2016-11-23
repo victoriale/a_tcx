@@ -181,7 +181,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
 
     }
     @HostListener('window:scroll',['$event']) onScroll(e){
-        var element=e.target.body.getElementsByClassName('syndicate-widget')[0]
+        var element=e.target.body.getElementsByClassName('syndicate-widget')[0];
         if(window.scrollY>845) {
             var a=window.scrollY-845 +"px";
             this._render.setElementStyle(element, "top", a)

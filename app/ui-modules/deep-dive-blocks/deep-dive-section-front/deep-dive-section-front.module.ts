@@ -55,7 +55,7 @@ export class DeepDiveSectionFront implements OnInit {
         }
       },
       err => {
-        console.log("Error getting article data");
+        console.log("Error getting article data:", err);
       });
     }
   }
@@ -64,11 +64,11 @@ export class DeepDiveSectionFront implements OnInit {
       this._deepDiveData.getDeepDiveVideoBatchService(this.scope, this.videoCallLimit, pageNum, this.geoLocation).subscribe(
         data => {
           if(data){
-            this.videoDataBatch = this._deepDiveData.transformSportVideoBatchData(data, this.scope);//TODO
+            this.videoDataBatch = this._deepDiveData.transformSportVideoBatchData(data, this.scope);
           }
         },
         err => {
-          console.log("Error getting video batch data");
+          console.log("Error getting video batch data:", err);
       });
   }
 
@@ -133,6 +133,10 @@ export class DeepDiveSectionFront implements OnInit {
       if(this.dateParam == null){
         this.getDateParams();
       }
+      this.blockIndex = 1;
+      this.newArray = [];
+      this.callApi = true;
+      this.articleData = null;
       this.createSearchBox(this.scope);
       this.callModules(this.blockIndex);
     }

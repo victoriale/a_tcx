@@ -98,7 +98,6 @@ export class SyndicateArticleService {
     } else {
       callURL = this._syndicateUrl + '?source[]=tca&source[]=snt_ai&count=' + count + "&category=" + category + "&random=1";
     }
-    console.log(callURL,"hjkhjhjhjh");
     return this._http.get(callURL)
       .map(res => res.json())
       .map(data => {

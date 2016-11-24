@@ -3,7 +3,6 @@ import {SyndicateArticleService} from "../../services/syndicate-article.service"
 import {GlobalSettings} from "../../global/global-settings";
 import {ActivatedRoute, Route, Router, NavigationStart, Event as NavigationEvent} from "@angular/router";
 import {GlobalFunctions} from "../../global/global-functions";
-cd app/fe
 
 declare var jQuery:any;
 declare var moment;

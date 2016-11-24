@@ -18,7 +18,6 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     public partnerID: string;
     checkPartner: boolean;
     public geoLocation:string;
-
     public widgetPlace: string = "widgetForPage";
     public articleData: any;
     public recomendationData: any;
@@ -37,14 +36,15 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     iframeUrl: any;
     paramsub;
     constructor(
-
-        private _synservice:SyndicateArticleService, private activateRoute:ActivatedRoute, private router:Router, private _eref:ElementRef, private _render:Renderer
+        private _synservice:SyndicateArticleService, 
+        private activateRoute:ActivatedRoute, 
+        private router:Router, 
+        private _eref:ElementRef, 
+        private _render:Renderer
 
     ){
         this.checkPartner = GlobalSettings.getHomeInfo().isPartner;
     }
-
-
     ngOnInit(){
         this.initializePage();
     }
@@ -58,12 +58,8 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
                     this.articleType = param['articleType'],
                     this.category=param['category'],
                     this.subcategory=param['subCategory']?param['subCategory']:param['category'];
-                if (this.articleType == "story" && this.articleID) {
-                    this.getSyndicateArticle(this.articleID);
-                }
-                else {
-                    this.getSyndicateVideoArticle(this.articleID);
-                }
+                if (this.articleType == "story" && this.articleID) {this.getSyndicateArticle(this.articleID);}
+                else {this.getSyndicateVideoArticle(this.articleID);}
                 this.getRecomendationData();
                 this.getDeepDiveArticle();
             }
@@ -88,10 +84,8 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
             data => {
                 if (data.data[0].article_data.images == null) {
                     this.imageData  = ["/app/public/placeholder_XL.png"];
-
                 }
                 else {
-
                     var imageLength=data.data[0].article_data.images.length;
                     for( var i=0;i<imageLength;i++) {
                         this.imageData[this.imageData.length]=GlobalSettings.getImageUrl(data.data[0].article_data.images[i].image_url);
@@ -99,14 +93,10 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
                         this.imageTitle[this.imageTitle.length]=data.data[0].article_data.images[i].image_title;
                     }
                 }
-
                 this.articleData = data.data[0].article_data;
-
                 this.articleData.publishedDate = moment.unix(this.articleData.publication_date/1000).format("MMMM Do, YYYY h:mm A") + " EST";
             }
         )
-
-
     }
     private getSyndicateVideoArticle(articleID){
         this._synservice.getSyndicateVideoService(articleID).subscribe(
@@ -119,7 +109,6 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     ngOnDestroy(){
         this.paramsub.unsubscribe();
     }
-
     getRecomendationData(){
         var startNum=Math.floor((Math.random() * 49) + 1);
             this._synservice.getRecArticleData(this.category, 3, this.subcategory)
@@ -127,7 +116,6 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
                     this.recomendationData = this._synservice.transformToRecArticles(data,this.subcategory,this.articleType);
                 });
     }
-
     private getDeepDiveArticle() {
 
             this._synservice.getTrendingArticles(this.category, 40, this.subcategory).subscribe(

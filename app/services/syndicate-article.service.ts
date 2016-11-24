@@ -42,18 +42,17 @@ export class SyndicateArticleService {
       })
   }
   getRecArticleData(category, count, subcategory?) {
+      console.log(category,subcategory);
     /* var headers = this.setToken();*/
-    if (category == 'real-estate') {
-      category = 'real+estate';
-    }
     var callURL
-    if (subcategory) {
+    if (subcategory!=category) {
       callURL = this._syndicateUrl + '?source[]=tca&source[]=snt_ai&count=' + count + "&category=" + category + "&subCategory=" + subcategory + "&random=1";
 
     } else {
+        category = category == 'real-estate'? 'real+estate':category;
       callURL = this._syndicateUrl + '?source[]=tca&source[]=snt_ai&count=' + count + "&category=" + category + "&random=1";
     }
-
+    console.log(callURL,"rec articles")
     return this._http.get(callURL)
       .map(res => res.json())
       .map(data => {
@@ -92,15 +91,15 @@ export class SyndicateArticleService {
   }
   //http://dev-tcxmedia-api.synapsys.us/articles?source=tca&count=10&category=entertainment&subCategory=television
   getTrendingArticles(category, count, subcategory?) {
-    if (category == 'real-estate') {
-      category = 'real+estate';
-    }
+
     var headers = this.setToken();
     var callURL
 
-    if (subcategory) {
+    if (subcategory!=category) {
+
       callURL = this._syndicateUrl + '?source[]=tca&source[]=snt_ai&count=' + count + "&category=" + category + "&subCategory=" + subcategory + "&random=1";
     } else {
+        category = category == 'real-estate'? 'real+estate':category;
       callURL = this._syndicateUrl + '?source[]=tca&source[]=snt_ai&count=' + count + "&category=" + category + "&random=1";
     }
     return this._http.get(callURL)
@@ -118,9 +117,9 @@ export class SyndicateArticleService {
       if (val.article_id != currentArticleId) {
 
         val["date"] = val.article_data.publication_date;
-        val["imagePath"] = val.image_url != null ? GlobalSettings.getImageUrl(val.image_url) : placeholder;
+        val["image"] = val.image_url != null ? GlobalSettings.getImageUrl(val.image_url) : placeholder;
         val["content"]=val.teaser;
-        val["newsRoute"] = VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType);
+        val["url"] = VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType);
         //console.log(VerticalGlobalFunctions.formatNewsRoute(val.id,this.articleType),"News Route");
       }
     })

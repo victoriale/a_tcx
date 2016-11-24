@@ -47,13 +47,9 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
 
     ngOnInit(){
         this.initializePage();
-        console.log("article", this.articleData);
-
     }
     ngOnChanges(){
         this.initializePage();
-        console.log("article", this.articleData)
-
     }
     initializePage(){
         this.paramsub= this.activateRoute.params.subscribe(
@@ -88,10 +84,8 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         }
     }
     private getSyndicateArticle(articleID) {
-        console.log(articleID,"article id");
         this._synservice.getSyndicateArticleService(articleID).subscribe(
             data => {
-                console.log(data.data[0],"articledata")
                 if (data.data[0].article_data.images == null) {
                     this.imageData  = ["/app/public/placeholder_XL.png"];
 
@@ -128,7 +122,6 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
 
     getRecomendationData(){
         var startNum=Math.floor((Math.random() * 49) + 1);
-        console.log(this.category, this.subcategory,"page level");
             this._synservice.getRecArticleData(this.category, 3, this.subcategory)
                 .subscribe(data => {
                     this.recomendationData = this._synservice.transformToRecArticles(data,this.subcategory,this.articleType);
@@ -152,7 +145,6 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
    @HostListener('window:scroll',['$event']) onScroll(e){
      if(e.target.body.getElementsByClassName('syndicate-widget')[0]) {
          var element = e.target.body.getElementsByClassName('syndicate-widget')[0];
-         console.log(window.innerHeight, window.outerHeight);
          if (window.scrollY > 845) {
              var a = window.scrollY - 845 + "px";
              this._render.setElementStyle(element, "top", a)

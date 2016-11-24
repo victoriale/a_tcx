@@ -42,7 +42,6 @@ export class SyndicateArticleService {
       })
   }
   getRecArticleData(category, count, subcategory?) {
-      console.log(category,subcategory);
     /* var headers = this.setToken();*/
     var callURL
     if (subcategory!=category) {
@@ -52,7 +51,6 @@ export class SyndicateArticleService {
         category = category == 'real-estate'? 'real+estate':category;
       callURL = this._syndicateUrl + '?source[]=tca&source[]=snt_ai&count=' + count + "&category=" + category + "&random=1";
     }
-    console.log(callURL,"rec articles")
     return this._http.get(callURL)
       .map(res => res.json())
       .map(data => {

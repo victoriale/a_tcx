@@ -42,7 +42,6 @@ export class SyndicateArticleService {
       })
   }
   getRecArticleData(category, count, subcategory?) {
-      console.log(category,subcategory);
     /* var headers = this.setToken();*/
     var callURL
     if (subcategory!=category) {
@@ -52,7 +51,6 @@ export class SyndicateArticleService {
         category = category == 'real-estate'? 'real+estate':category;
       callURL = this._syndicateUrl + '?source[]=tca&source[]=snt_ai&count=' + count + "&category=" + category + "&random=1";
     }
-    console.log(callURL,"rec articles")
     return this._http.get(callURL)
       .map(res => res.json())
       .map(data => {
@@ -119,11 +117,11 @@ export class SyndicateArticleService {
         val["date"] = val.article_data.publication_date;
         val["image"] = val.image_url != null ? GlobalSettings.getImageUrl(val.image_url) : placeholder;
         val["content"]=val.teaser;
-        val["url"] = VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType);
+        val['extUrl']=val.source!="snt_ai"?false:true;
+        val["url"] = val.source!="snt_ai"?VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType):GlobalSettings.getOffsiteLink(val.scope, VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, articleType, val.event_id));
         //console.log(VerticalGlobalFunctions.formatNewsRoute(val.id,this.articleType),"News Route");
       }
     })
-
     return data;
   }
 

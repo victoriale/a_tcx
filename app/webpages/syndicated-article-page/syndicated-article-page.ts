@@ -4,6 +4,7 @@ import {GlobalSettings} from "../../global/global-settings";
 import {ActivatedRoute, Route, Router, NavigationStart, Event as NavigationEvent} from "@angular/router";
 import {GlobalFunctions} from "../../global/global-functions";
 import {VerticalGlobalFunctions} from "../../global/vertical-global-functions";
+import {SeoService} from "../../global/seo.service";
 
 declare var jQuery:any;
 declare var moment;
@@ -32,6 +33,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     public category:string;
     public subcategory: string;
     isStockPhoto:boolean=true;
+    isArticle:string;
     prevarticle;
     iframeUrl: any;
     paramsub;
@@ -40,7 +42,8 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         private activateRoute:ActivatedRoute, 
         private router:Router, 
         private _eref:ElementRef, 
-        private _render:Renderer
+        private _render:Renderer,
+        private _seo:SeoService
 
     ){
         this.checkPartner = GlobalSettings.getHomeInfo().isPartner;
@@ -82,7 +85,9 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     }
     private getSyndicateArticle(articleID) {
         this._synservice.getSyndicateArticleService(articleID).subscribe(
+
             data => {
+
                 if (data.data[0].article_data.images == null) {
                     this.imageData  = ["/app/public/placeholder_XL.png"];
                 }
@@ -98,6 +103,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
                 this.articleData.url= VerticalGlobalFunctions.formatArticleRoute(this.subcategory,this.articleID,this.articleType)
                 var date = moment.unix(Number(data.data[0].last_updated));
                 this.articleData.publishedDate = date.format('dddd') +', '+ date.format('MMM') + date.format('. DD, YYYY');
+                this.metaTags(data);
             }
         )
     }
@@ -131,6 +137,52 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
                     }
                 }
             )
+    }
+    private metaTags(data) {
+            let metaDesc;
+            if (data.data[0].teaser != null) {
+                metaDesc = data.data[0].teaser;
+            } else {
+                metaDesc = data.data[0].article_data.article[0];
+            }
+            let link = window.location.href;
+            let image;
+            if (this.imageData != null) {
+                image = this.imageData[0];
+            } else {
+                image = GlobalSettings.getImageUrl(data.data[0].image_url);
+            }
+            let articleAuthor='';
+            if(data.data[0].author){
+
+                let authorArray = data.data[0].author.split(' ');
+
+                if(authorArray[0] =='By'){
+                    for(var i=1;i<authorArray.length;i++) {
+                        articleAuthor += authorArray[i] + ' ';
+                    }
+                }else{
+                    for(var i=0;i<authorArray.length;i++) {
+                        articleAuthor += authorArray[i] + ' ';
+                    }
+                }
+
+            }
+
+            this._seo.setCanonicalLink(link);
+            this._seo.setOgTitle(data.data[0].title);
+            this._seo.setOgDesc(metaDesc);
+            this._seo.setOgType('Website');
+            this._seo.setOgUrl(link);
+            this._seo.setOgImage(image);
+            this._seo.setTitle(data.data[0].title);
+            this._seo.setMetaDescription(metaDesc);
+            this._seo.setMetaRobots('INDEX, NOFOLLOW');
+            this._seo.setOgId(data.data[0].article_id);
+            this._seo.setOgAuthor(articleAuthor);
+            this._seo.setOgDate(data.data[0].last_updated);
+            this._seo.setOgKeyword(data.data[0].keywords[0]);
+            data.data[0].keywords[1]?this._seo.setOgSubKeyword(data.data[0].keywords[1]):this._seo.setOgSubKeyword(data.data[0].keywords[0]);
     }
 
    @HostListener('window:scroll',['$event']) onScroll(e){

@@ -164,6 +164,7 @@ import {SeoService} from "../global/seo.service";
       GlobalSettings,
       GlobalFunctions,
       GeoLocation,
+      SeoService
     ]
 })
 export class GlobalModule { }

@@ -48,8 +48,11 @@ export class HeaderComponent implements OnInit,OnChanges {
   }
   // Page is being scrolled
   onScrollStick(event) {
+    var header = document.getElementById('pageHeader');
+    var saladBar = document.getElementById('salad-bar-top');
     //check if partner header exist and the sticky header shall stay and not partner header
     if( document.getElementById('partner') != null){
+      var partner = document.getElementById('partner');
       var partnerHeight = document.getElementById('partner').offsetHeight;
       var scrollTop = jQuery(window).scrollTop();
       let stickyHeader = partnerHeight ? partnerHeight : 0;
@@ -61,9 +64,27 @@ export class HeaderComponent implements OnInit,OnChanges {
       }
 
       this._stickyHeader = (maxScroll) + "px";
+      if (scrollTop == 0 || scrollTop < this.scrollTopPrev || scrollTop < (header.offsetHeight + saladBar.offsetHeight + partnerHeight)) {
+        this._stickyHeader = "unset";
+        header.classList.add('fixedHeader');
+        partner.classList.add('fixedHeader');
+      }else {
+        this._stickyHeader = (maxScroll) + "px";
+        header.classList.remove('fixedHeader');
+        partner.classList.remove('fixedHeader');
+      }
     }else{
-      this._stickyHeader = "0px"
+      var scrollTop = jQuery(window).scrollTop();
+      if (scrollTop == 0 || scrollTop < this.scrollTopPrev || scrollTop < (header.offsetHeight + saladBar.offsetHeight)) {
+        this._stickyHeader = "unset";
+        header.classList.add('fixedHeader');
+      }
+      else {
+        this._stickyHeader = "0px";
+        header.classList.remove('fixedHeader');
+      }
     }
+    this.scrollTopPrev = scrollTop;
   }//onScrollStick ends
    public getMenu(event): void{
      if(this.isOpened == true){
@@ -73,6 +94,8 @@ export class HeaderComponent implements OnInit,OnChanges {
      }
    }
   ngOnInit(){
+
+
     stButtons.locateElements();
     this._renderer.listenGlobal('document', 'mousedown', (event) => {
 
@@ -90,6 +113,27 @@ export class HeaderComponent implements OnInit,OnChanges {
     });
     this.logoUrl = 'app/public/TCX_Logo_Outlined.svg';
     this.partnerLogoUrl = 'app/public/Football-DeepDive_Logo_Outlined-W.svg';
+
+    //insert salad bar
+    var v = document.createElement('script');
+    v.src = 'http://w1.synapsys.us/widgets/deepdive/bar/bar.js?brandHex=234a66';
+    document.getElementById('salad-bar-top').insertBefore(v, document.getElementById('salad-bar'));
+
+    var setPlaceholder = setInterval(function(){ // keep checking for the existance of the salad bar until it loads in
+      if (document.getElementById('ddb-search-desktop')) {
+        //override the salad bar default placeholder text, and use the one for TDL
+        document.getElementById('ddb-search-desktop')['placeholder'] = "Search for a sports team…";
+        document.getElementById('ddb-small-desktop-search-input')['placeholder'] = "Search for a sports team…";
+        document.getElementById('ddb-search-mobile')['placeholder'] = "Search for a sports team…";
+        //override the default salad bars hamburger icon and use the scoreboard icon when on TDL
+        var scoreboardIcon = document.getElementById('ddb-dropdown-boxscores-button').getElementsByClassName('ddb-icon')[0];
+        scoreboardIcon.classList.add('fa','fa-box-scores');
+        scoreboardIcon.classList.remove('ddb-icon-bars','ddb-icon');
+
+        //dont need to keep running this anymore now that its all set
+        clearInterval(setPlaceholder);
+      }
+    }, 1000);
   }
 
   ngOnChanges() {

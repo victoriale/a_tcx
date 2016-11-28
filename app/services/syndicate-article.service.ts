@@ -1,6 +1,3 @@
-
-
-
 import { VerticalGlobalFunctions } from "../global/vertical-global-functions";
 import { Http, Headers, HttpModule } from "@angular/http";
 import { GlobalSettings } from "../global/global-settings";
@@ -43,17 +40,14 @@ export class SyndicateArticleService {
   }
   getRecArticleData(category, count, subcategory?) {
     /* var headers = this.setToken();*/
-    if (category == 'real-estate') {
-      category = 'real+estate';
-    }
     var callURL
-    if (subcategory) {
+    if (subcategory!=category) {
       callURL = this._syndicateUrl + '?source[]=tca&source[]=snt_ai&count=' + count + "&category=" + category + "&subCategory=" + subcategory + "&random=1";
 
     } else {
+        category = category == 'real-estate'? 'real+estate':category;
       callURL = this._syndicateUrl + '?source[]=tca&source[]=snt_ai&count=' + count + "&category=" + category + "&random=1";
     }
-
     return this._http.get(callURL)
       .map(res => res.json())
       .map(data => {
@@ -75,11 +69,16 @@ export class SyndicateArticleService {
       var date = moment(Number(val.publication_date) * 1000);
       date = moment(date).format("dddd MMMM, YYYY | h:mm A");
       var s = {
-        urlRouteArray: VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType),
-        bg_image_var: val.image_url != null ? GlobalSettings.getImageUrl(val.image_url) : sampleImage,
+          extUrl:false,
+        imageConfig: {
+            imageClass:"embed-responsive-16by9",
+            imageUrl:val.image_url != null ? GlobalSettings.getImageUrl(val.image_url) : sampleImage,
+            urlRouteArray:[],
+            imageDesc:"",
+        },
         keyword: val.keywords[0].toUpperCase(),
-        new_date: date,
-        displayHeadline: val.title,
+        timeStamp: date,
+        title: val.title,
       }
       articleStackArray.push(s);
     });
@@ -87,15 +86,15 @@ export class SyndicateArticleService {
   }
   //http://dev-tcxmedia-api.synapsys.us/articles?source=tca&count=10&category=entertainment&subCategory=television
   getTrendingArticles(category, count, subcategory?) {
-    if (category == 'real-estate') {
-      category = 'real+estate';
-    }
+
     var headers = this.setToken();
     var callURL
 
-    if (subcategory) {
+    if (subcategory!=category) {
+
       callURL = this._syndicateUrl + '?source[]=tca&source[]=snt_ai&count=' + count + "&category=" + category + "&subCategory=" + subcategory + "&random=1";
     } else {
+        category = category == 'real-estate'? 'real+estate':category;
       callURL = this._syndicateUrl + '?source[]=tca&source[]=snt_ai&count=' + count + "&category=" + category + "&random=1";
     }
     return this._http.get(callURL)
@@ -113,13 +112,13 @@ export class SyndicateArticleService {
       if (val.article_id != currentArticleId) {
 
         val["date"] = val.article_data.publication_date;
-        val["imagePath"] = val.image_url != null ? GlobalSettings.getImageUrl(val.image_url) : placeholder;
+        val["image"] = val.image_url != null ? GlobalSettings.getImageUrl(val.image_url) : placeholder;
         val["content"]=val.teaser;
-        val["newsRoute"] = VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType);
+        val['extUrl']=val.source!="snt_ai"?false:true;
+        val["url"] = val.source!="snt_ai"?VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType):GlobalSettings.getOffsiteLink(val.scope, VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, articleType, val.event_id));
         //console.log(VerticalGlobalFunctions.formatNewsRoute(val.id,this.articleType),"News Route");
       }
     })
-
     return data;
   }
 

@@ -28,6 +28,7 @@ export class HeaderComponent implements OnInit,OnChanges {
   public isOpened: boolean = false;
   public isSearchOpened: boolean = false;
   public isActive: boolean = false;
+    scrollTopPrev: number = 0;
   // public _sportLeagueAbbrv: string = GlobalSettings.getSportLeagueAbbrv();
   // public _collegeDivisionAbbrv: string = GlobalSettings.getCollegeDivisionAbbrv();
   // public _sportName: string = GlobalSettings.getSportName().toUpperCase();

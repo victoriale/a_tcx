@@ -51,6 +51,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
 
     ngOnChanges(){
         this.initializePage();
+        window.scrollTo(0, 0);
     }
     initializePage(){
         this.paramsub= this.activateRoute.params.subscribe(
@@ -96,7 +97,8 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
                 }
                 this.articleData = data.data[0].article_data;
                 this.articleData.url= VerticalGlobalFunctions.formatArticleRoute(this.subcategory,this.articleID,this.articleType)
-                this.articleData.publishedDate = moment.unix(this.articleData.publication_date/1000).format("MMMM Do, YYYY h:mm A") + " EST";
+                var date = moment.unix(Number(data.data[0].last_updated));
+                this.articleData.publishedDate = date.format('dddd') +', '+ date.format('MMM') + date.format('. DD, YYYY');
             }
         )
     }

@@ -51,7 +51,6 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
 
     ngOnChanges(){
         this.initializePage();
-        window.scrollTo(0, 0);
     }
     initializePage(){
         this.paramsub= this.activateRoute.params.subscribe(

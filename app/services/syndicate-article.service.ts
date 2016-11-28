@@ -66,8 +66,8 @@ export class SyndicateArticleService {
 
     data.forEach(function(val, index) {
       var info = val.info;
-      var date = moment(Number(val.publication_date) * 1000);
-      date = moment(date).format("dddd MMMM, YYYY | h:mm A");
+      var date = moment.unix(Number(val.last_updated));
+      date = '<span class="hide-320">' + date.format('dddd') + ', </span>' + date.format('MMM') + date.format('. DD, YYYY');
       var s = {
           extUrl:false,
         imageConfig: {
@@ -110,8 +110,8 @@ export class SyndicateArticleService {
     var placeholder = "/app/public/placeholder_XL.png"
     data.forEach(function(val, index) {
       if (val.article_id != currentArticleId) {
-
-        val["date"] = val.article_data.publication_date;
+          var date =  moment.unix(Number(val.last_updated));
+        val["date"] = '<span class="hide-320">' + date.format('dddd') + ', </span>' + date.format('MMM') + date.format('. DD, YYYY');
         val["image"] = val.image_url != null ? GlobalSettings.getImageUrl(val.image_url) : placeholder;
         val["content"]=val.teaser;
         val['extUrl']=val.source!="snt_ai"?false:true;

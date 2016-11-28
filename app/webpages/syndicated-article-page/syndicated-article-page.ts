@@ -3,6 +3,7 @@ import {SyndicateArticleService} from "../../services/syndicate-article.service"
 import {GlobalSettings} from "../../global/global-settings";
 import {ActivatedRoute, Route, Router, NavigationStart, Event as NavigationEvent} from "@angular/router";
 import {GlobalFunctions} from "../../global/global-functions";
+import {VerticalGlobalFunctions} from "../../global/vertical-global-functions";
 
 declare var jQuery:any;
 declare var moment;
@@ -94,6 +95,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
                     }
                 }
                 this.articleData = data.data[0].article_data;
+                this.articleData.url= VerticalGlobalFunctions.formatArticleRoute(this.subcategory,this.articleID,this.articleType)
                 this.articleData.publishedDate = moment.unix(this.articleData.publication_date/1000).format("MMMM Do, YYYY h:mm A") + " EST";
             }
         )
@@ -110,14 +112,12 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         this.paramsub.unsubscribe();
     }
     getRecomendationData(){
-        var startNum=Math.floor((Math.random() * 49) + 1);
             this._synservice.getRecArticleData(this.category, 3, this.subcategory)
                 .subscribe(data => {
                     this.recomendationData = this._synservice.transformToRecArticles(data,this.subcategory,this.articleType);
                 });
     }
     private getDeepDiveArticle() {
-
             this._synservice.getTrendingArticles(this.category, this.trendingLength, this.subcategory).subscribe(
                 data => {
 

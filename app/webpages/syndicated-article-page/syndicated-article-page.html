@@ -8,8 +8,8 @@
         </div>
 
         <span *ngIf="articleData">
-      <share-links-component *ngIf="articleData.article_url" [shareUrl]="articleData.article_url" ></share-links-component>
-         <share-links-component *ngIf="articleData.videoLink" [shareUrl]="articleData.videoLink"></share-links-component>
+      <share-links-component *ngIf="articleData.url" [shareUrl]="articleData.url" [isMain]="false"></share-links-component>
+<!--         <share-links-component *ngIf="articleData.url" [shareUrl]="articleData.url"></share-links-component>-->
 
 
 
@@ -47,6 +47,7 @@
             <disqus-component *ngIf="!checkPartner"></disqus-component>
 
             <chatterbox-module></chatterbox-module>
+                <div class="other-stories"><i class="fa-heart-o"></i> Other Stories You Will Love </div>
                 <article-block-component [articleBlockData]="recomendationData" [bootstrapGrid]="'col-sm-12 col-md-3'"></article-block-component>
            <trending-component [trendingData]="trendingData"
                                [geoLocation]="geoLocation"

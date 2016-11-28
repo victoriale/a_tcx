@@ -1,6 +1,3 @@
-
-
-
 import { VerticalGlobalFunctions } from "../global/vertical-global-functions";
 import { Http, Headers, HttpModule } from "@angular/http";
 import { GlobalSettings } from "../global/global-settings";

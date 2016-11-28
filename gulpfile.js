@@ -11,6 +11,8 @@ const cleanCSS = require('gulp-clean-css');
 // const minify = require('gulp-minify');
 const reload = browserSync.reload;
 const rename = require('gulp-rename'); //for dev
+const embedTemp = require('gulp-angular-embed-templates');
+const uglify = require('gulp-uglify');
 
 // clean the contents of the distribution directory
 gulp.task('clean', function () {
@@ -43,8 +45,8 @@ gulp.task('minify-css',['less'], function() {
 // TypeScript compile
 gulp.task('compile', ['clean'], function () {
   return gulp
-    .src(['app/**/*.ts', '!app/**/*spec.ts'])
-    .pipe(typescript(tscConfig.compilerOptions))
+    .src(['app/**/*.ts', '!app/**/*spec.ts']).pipe(embedTemp({sourceType: 'ts', basePath: './'}))
+    .pipe(typescript(tscConfig.compilerOptions)).pipe(uglify())
     .pipe(gulp.dest('dist/app'));
 });
 
@@ -127,7 +129,7 @@ gulp.task('copy:assets', ['clean'], function() {
     .pipe(rename('systemjs.config.js'))
     .pipe(gulp.dest('dist'));
 
-  return gulp.src(['app/**/*', 'master.css', '!app/**/*.ts', '!app/**/*.less'], { base : './' })
+  return gulp.src(['app/**/*', 'master.css', '!app/**/*.ts', '!app/**/*.less', '!app/fe-core/components/**/*.html', '!app/fe-core/modules/**/*.html', '!app/webpages/**/*.html'], { base : './' })
     .pipe(gulp.dest('dist'))
 });
 gulp.task('build', ['compile', 'less', 'copy:libs', 'copy:assets', 'minify-css']);

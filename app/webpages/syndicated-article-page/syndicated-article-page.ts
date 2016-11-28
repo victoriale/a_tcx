@@ -138,7 +138,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
          var element = e.target.body.getElementsByClassName('syndicate-widget')[0];
 
          if (window.scrollY > 845) {
-             var a = window.scrollY - 845 + "px";
+             var a = window.scrollY - 845 + 35 + "px";
              this._render.setElementStyle(element, "top", a)
          }
          else {

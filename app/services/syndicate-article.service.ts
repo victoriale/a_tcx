@@ -28,10 +28,10 @@ export class SyndicateArticleService {
         return data;
       })
   }
-  getSyndicateVideoService(articleID) {
+  getSyndicateVideoService(subcategory,articleID) {
     //Configure HTTP Headers
     /*var headers = this.setToken();*/
-    var callURL = GlobalSettings.getApiUrl() + '/tcx/videoSingle/' + articleID;
+    var callURL = GlobalSettings.getApiUrl() + '/tcx/videoSingle/' +subcategory +'/'+ articleID;
     return this._http.get(callURL)
       .map(res => res.json())
       .map(data => {

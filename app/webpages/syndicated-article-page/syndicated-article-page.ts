@@ -63,9 +63,9 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
                     this.category=param['category'],
                     this.subcategory=param['subCategory']?param['subCategory']:param['category'];
                 if (this.articleType == "story" && this.articleID) {this.getSyndicateArticle(this.articleID);}
-                else {this.getSyndicateVideoArticle(this.articleID);}
-                this.getRecomendationData();
-                this.getDeepDiveArticle();
+                else {this.getSyndicateVideoArticle(this.subcategory, this.articleID);}
+                this.getRecomendationData(this.category, 3, this.subcategory);
+                this.getDeepDiveArticle(this.category, this.trendingLength, this.subcategory, this.articleType, this.articleID);
             }
 
         );
@@ -107,8 +107,8 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
             }
         )
     }
-    private getSyndicateVideoArticle(articleID){
-        this._synservice.getSyndicateVideoService(articleID).subscribe(
+    private getSyndicateVideoArticle(subCat, articleID){
+        this._synservice.getSyndicateVideoService(subCat,articleID).subscribe(
             data => {
                 this.articleData = data.data;
                 this.iframeUrl = this.articleData.video_url + "&autoplay=on";
@@ -118,22 +118,19 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     ngOnDestroy(){
         this.paramsub.unsubscribe();
     }
-    getRecomendationData(){
-            this._synservice.getRecArticleData(this.category, 3, this.subcategory)
+    getRecomendationData(c,count,sc){
+            this._synservice.getRecArticleData(c,count,sc)
                 .subscribe(data => {
                     this.recomendationData = this._synservice.transformToRecArticles(data,this.subcategory,this.articleType);
                 });
     }
-    private getDeepDiveArticle() {
-            this._synservice.getTrendingArticles(this.category, this.trendingLength, this.subcategory).subscribe(
+    private getDeepDiveArticle(c,tl,sc,type,aid) {
+            this._synservice.getTrendingArticles(c,tl,sc).subscribe(
                 data => {
-
-
                     if (this.trendingLength <= 100) {
-
                         this.trendingLength = this.trendingLength + 10;
-                        this.trendingData = this._synservice.transformTrending(data.data,this.subcategory, this.articleType, this.articleID);
-                        this.getDeepDiveArticle();
+                        this.trendingData = this._synservice.transformTrending(data.data,sc,type, aid);
+                        this.getDeepDiveArticle(c,tl,sc, type,aid);
                     }
                 }
             )

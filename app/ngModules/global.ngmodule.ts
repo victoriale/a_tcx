@@ -58,6 +58,7 @@ import {SanitizeScript, SanitizeHtml, SanitizeRUrl, SanitizeStyle} from "../fe-c
 import { routing  } from '../app.routing';
 import {InputBar} from "../fe-core/components/input-bar/input-bar.component";
 import {ArticleSearchBar} from "../fe-core/components/search-bar-article/search-bar-article.component";
+import {SeoService} from "../global/seo.service";
 
 @NgModule({
     imports: [
@@ -159,7 +160,8 @@ import {ArticleSearchBar} from "../fe-core/components/search-bar-article/search-
       SanitizeScript,
       GlobalSettings,
       GlobalFunctions,
-      GeoLocation
+      GeoLocation,
+      SeoService
     ]
 })
 export class GlobalModule { }

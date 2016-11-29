@@ -7,7 +7,8 @@
 ***/
 import { Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { getDOM } from '@angular/platform-browser/src/dom/dom_adapter';
+/*import { getDOM } from '@angular/platform-browser/src/dom/dom_adapter';*/
+import { __platform_browser_private__ } from '@angular/platform-browser'
 import {GlobalSettings} from "./global-settings";
 
 @Injectable()
@@ -26,7 +27,11 @@ export class SeoService {
   private ogUrl: HTMLElement;
   private ogImage: HTMLElement;
   private ogDesc: HTMLElement;
-
+  private ogId:HTMLElement;
+  private ogDate:HTMLElement;
+  private ogAuthor:HTMLElement;
+  private ogKeyword:HTMLElement;
+  private ogSubKeyword:HTMLElement;
   private robots: HTMLElement;
   private DOM: any;
 
@@ -36,7 +41,7 @@ export class SeoService {
   */
   constructor(titleService: Title){
     this.titleService = titleService;
-    this.DOM = getDOM();
+    this.DOM = __platform_browser_private__.getDOM();
 
    /**
     * get the <head> Element
@@ -50,6 +55,12 @@ export class SeoService {
     this.ogUrl = this.getOgMetaElement("og:url");
     this.ogImage = this.getOgMetaElement("og:image");
     this.ogDesc = this.getOgMetaElement("og:description");
+    this.ogId = this.getOgMetaElement("og:id");
+    this.ogDate = this.getOgMetaElement("og:date");
+    this.ogAuthor = this.getOgMetaElement("og:author");
+    this.ogKeyword = this.getOgMetaElement('og:keyword');
+    this.ogSubKeyword = this.getOgMetaElement('og:subkeyword')
+
   }
 
   public getTitle(): string {
@@ -108,6 +119,21 @@ export class SeoService {
   }
   public setOgDesc(description: string) {
     this.ogDesc.setAttribute('content', description);
+  }
+  public setOgId(id:string) {
+      this.ogId.setAttribute('content', id);
+  }
+  public setOgDate(date:string){
+      this.ogDate.setAttribute('content',date);
+  }
+  public setOgAuthor(author:string){
+      this.ogAuthor.setAttribute('content', author);
+  }
+  public setOgKeyword(keyword:string){
+      this.ogKeyword.setAttribute('content',keyword);
+  }
+  public setOgSubKeyword(subkeyword:string){
+      this.ogSubKeyword.setAttribute('content',subkeyword);
   }
 
    /**

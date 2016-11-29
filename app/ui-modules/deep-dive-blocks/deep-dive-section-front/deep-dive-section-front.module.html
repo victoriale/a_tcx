@@ -20,6 +20,7 @@
     <div *ngIf="dateParam && deepDiveType === 1" class="deep-dive-boxScores row">
       <box-scores
         class="col-lg-8"
+        [scope]="scope"
         [boxScores]="currentBoxScores"
         [calendarParams]="dateParam"
         [maxHeight]="maxHeight"

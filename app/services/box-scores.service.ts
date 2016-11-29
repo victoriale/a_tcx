@@ -122,6 +122,7 @@ export class BoxScoresService {
 
   // call to get data
   getBoxScoresService(scope, date, teamId?){
+    console.log('---getBoxScoresService---');
     var headers = this.setToken();
     let chosenDate = date;
     var callURL;
@@ -145,14 +146,14 @@ export class BoxScoresService {
       callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/tcx/boxScores/league/'+scope+'/'+date+'/addAi';
       break;
     }
-    // console.log('box Scores Service',callURL);
+    console.log('callURL - ',callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
         var transformedDate = this.transformBoxScores(data.data, scope);
         return {
           transformedDate: transformedDate.data,
-          aiContent: data.aiContent,
+          aiContent: data.data.aiContent,
           date: chosenDate,
           nextGameDate:transformedDate.nextGameDate,
           previousGameDate:transformedDate.previousGameDate,
@@ -162,14 +163,20 @@ export class BoxScoresService {
 
   // form box scores data
   transformBoxScores(data, scope?){
+    console.log('---transformBoxScores---');
     var boxScoreObj = {};
     var newBoxScores = {};
     let currWeekGameDates = {};
-    if(data != null){
+
+    if( data != null ){
       let boxScoresData = data.data;
       for ( var gameDate in boxScoresData ) {
         let gameDayInfo:gameDayInfoInterface = data.data[gameDate];
         let currGameDate = moment(Number(gameDate)).tz('America/New_York').format('YYYY-MM-DD');
+
+        console.log('gameDayInfo - ',gameDayInfo);
+        console.log('currGameDate - ',currGameDate);
+
         // game info
         if (gameDayInfo) {
           gameDayInfo['gameInfo'] = {
@@ -215,7 +222,6 @@ export class BoxScoresService {
             teamRecord: gameDayInfo.winsAway != null ? gameDayInfo.winsAway + '-' + gameDayInfo.lossAway + '-' + gameDayInfo.tiesAway: null,
           }
 
-
           // LIVE DATA THAT NEEDS TO ADJUST BASED ON SPORT
           if(gameDayInfo.liveDataPoints[scope] != null){
             gameDayInfo['gameInfo']['verticalContent'] = {
@@ -225,7 +231,7 @@ export class BoxScoresService {
               liveYardLine: gameDayInfo.liveDataPoints[scope].liveYardLine,
               overTime: gameDayInfo.liveDataPoints[scope].liveYardLine
             }
-          }else{
+          } else{
             gameDayInfo['gameInfo']['verticalContent'] = null
           }
 
@@ -437,12 +443,15 @@ export class BoxScoresService {
       let homeData = data.homeTeamInfo;
       let gameInfo = data.gameInfo;
       let isPartner = GlobalSettings.getHomeInfo().isPartner;
-      if(homeData.lastName == null){
+      if(homeData.lastName != null){
         homeData.lastName = homeData.name.split(' ')[homeData.name.split(' ').length-1];
       }
-      if(awayData.lastName == null){
+      if(awayData.lastName != null){
         awayData.lastName = awayData.name.split(' ')[awayData.name.split(' ').length-1];
       }
+      // NBA & NCAAM needs nickname datapoint
+      console.log('homeData - ',homeData);
+      console.log('awayData - ',awayData);
       let homeLink = isPartner == false ? self.formatTeamRelLinks(scope, homeData.lastName, homeData.id)[scope].vertical_link : self.formatTeamRelLinks(scope, homeData.lastName, homeData.id)[scope].partner_link; //TODO
       let awayLink = isPartner == false ? self.formatTeamRelLinks(scope, awayData.lastName, awayData.id)[scope].vertical_link : self.formatTeamRelLinks(scope, awayData.lastName, awayData.id)[scope].partner_link;//TODO
       homeLink = GlobalSettings.getOffsiteLink(scope, homeLink);
@@ -554,6 +563,9 @@ export class BoxScoresService {
   formatScoreBoard(data){}// so far unused on TCX
 
   formatTeamRelLinks(scope, teamName, id){
+    console.log('scope - ',scope);
+    console.log('teamName - ',teamName);
+    console.log('id - ',id);
     teamName = teamName.toLowerCase();
     var relPath = {
       'nfl':{

@@ -21,15 +21,10 @@ export class DeepDivePage implements OnInit {
     //side scroller
     sideScrollData: any;
     scrollLength: number = 0;
-
     selectedLocation: string = "san%20francisco-ca"; // default city for weather if geolocation returns nothin
-    boxScoresTempVar: string = "nfl";
-
     tcxVars: any;
-
     topScope: string;
     changeScopeVar: string;
-
     safeCall: boolean = true;
     ssMax: number;
     callCount: number = 1;
@@ -45,7 +40,6 @@ export class DeepDivePage implements OnInit {
     sectionNameIcon: string;
     sectionNameTitle: string = this.category;
     geoLocation:string;
-
     carouselGraph:any;
     carouselVideo:any;
     carouselData: any;
@@ -79,8 +73,9 @@ export class DeepDivePage implements OnInit {
 
     private sectionFrontName(){
       var displayName = GlobalSettings.getTCXscope(this.scope).displayName;
+      var secIcon = GlobalSettings.getTCXscope(this.scope).icon;
       return this.sectionName = {
-         icon: GlobalSettings.getTCXscope(this.scope).icon,
+         icon: secIcon ? secIcon : 'fa-news',
          title: displayName ? displayName : GlobalFunctions.toTitleCase(this.scope)
        }
     }

@@ -11,7 +11,6 @@ export class FooterComponent implements OnInit {
     currentUrl: string = window.location.href;
     _siteTwitterUrl: string = GlobalSettings.getVerticalTwitter();
     _siteFacebookUrl: string = GlobalSettings.getVerticalFB();
-    // _siteGoogleUrl: string = GlobalSettings.getSiteGoogleUrl(this.currentUrl);
     au: string = "About Us";
     service: string = "Terms of Service";
     privacy: string = "Privacy Policy";
@@ -21,7 +20,7 @@ export class FooterComponent implements OnInit {
       var checkPartner = GlobalSettings.getHomeInfo().isPartner;
       if(!partner && !checkPartner) {
           this.pageName = GlobalSettings.getBaseTitle();
-     } else {
+      } else {
           this.pageName = GlobalSettings.getBasePartnerTitle();
       }
     }

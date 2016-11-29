@@ -1,9 +1,9 @@
 <header class="header container-fluid fixedHeader" id="pageHeader" (window:scroll)="onScrollStick($event)" [style.top]="_stickyHeader">
   <div *ngIf="!partnerID" class="header-logo">
-    <a routerLink="/deep-dive"><img src={{logoUrl}}/></a>
+    <a routerLink="/deep-dive"><img src={{logoUrl}}></a>
   </div>
   <div *ngIf="partnerID" class="header-logo">
-    <a routerLink="/deep-dive"><img src={{partnerLogoUrl}}/></a>
+    <a routerLink="/deep-dive"><img src={{partnerLogoUrl}}></a>
   </div>
   <section class="header-top" [class.header-partner]="partnerID">
     <div class="header-left">

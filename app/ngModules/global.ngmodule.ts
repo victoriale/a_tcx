@@ -22,10 +22,8 @@ import { CircleImage } from "../fe-core/components/images/circle-image/circle-im
 import { HoverImage } from "../fe-core/components/images/hover-image";
 import { ImagesMedia } from "../fe-core/components/carousels/images-media-carousel/images-media-carousel.component";
 import { CircleButton } from "../fe-core/components/buttons/circle/circle.button";
-import { ResponsiveWidget } from "../fe-core/components/responsive-widget/responsive-widget.component";
 
 import { ModuleHeader } from "../fe-core/components/module-header/module-header.component";
-import { FooterComponent } from "../ui-modules/footer/footer.component";
 import { ArticleBlockComponent } from "../fe-core/components/article-block/article-block.component";
 import { DropdownComponent } from "../fe-core/components/dropdown/dropdown.component";
 import { LoadingComponent } from "../fe-core/components/loading/loading.component";
@@ -41,11 +39,13 @@ import {SidekickContainerComponent} from "../fe-core/components/articles/sidekic
 /*** MODULES ***/
 import { BillboardModule } from "../fe-core/modules/billboard/billboard.module";
 import { ChatterboxModule } from "../fe-core/modules/chatterbox/chatterbox.module";
-import { WidgetCarouselModule } from "../ui-modules/widget/widget-carousel.module";
-import { WidgetModule } from "../ui-modules/widget/widget.module";
 import { SearchBoxModule } from "../fe-core/modules/search-box-module/search-box-module.module";
 import { DeepDiveRecommendation } from "../fe-core/modules/deep-dive-recommendation/deep-dive-recommendation.module";
-
+/*** UI MODULES AND WIDGETS ***/
+import { FooterComponent } from "../ui-modules/footer/footer.component";
+import { ResponsiveWidget } from "../ui-modules/responsive-widget/responsive-widget.component";
+import { WidgetCarouselModule } from "../ui-modules/widget/widget-carousel.module";
+import { WidgetModule } from "../ui-modules/widget/widget.module";
 /*** WEBPAGES ***/
 import { AboutUsPage } from "../webpages/aboutus/aboutus";
 import { PrivacyPolicy } from "../webpages/privacy-policy/privacy-policy";

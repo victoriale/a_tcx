@@ -5,7 +5,7 @@ declare var jQuery:any;
 
 @Component({
     selector: 'widget-module',
-    templateUrl: './app/fe-core/modules/widget/widget.module.html'
+    templateUrl: './app/ui-modules/widget/widget.module.html'
 })
 
 export class WidgetModule {

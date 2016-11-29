@@ -23,7 +23,7 @@ export class ResponsiveWidget implements OnInit {
     //   this.widgetSml = false;
     //   this.widgetMed = true;
     // }
-    // this.windowWidth = window.innerWidth;
+    this.windowWidth = window.innerWidth;
   }
   private onWindowLoadOrResize(event) {
     var windowWidth = event.target.innerWidth;

@@ -24,7 +24,7 @@ export class DeepDiveService {
     var callURL = GlobalSettings.getTCXscope(category).tcxApi + "/articles";
     //http://dev-tcxmedia-api.synapsys.us/articles?help=1
     //http://dev-tcxmedia-api.synapsys.us/articles?articleType=about-the-teams
-    //http://dev-tcxmedia-api.synapsys.us/articles?&keyword[]=breaking
+    //http://dev-tcxmedia-api.synapsys.us/articles?&category=breaking
     if(limit !== null && page !== null){
       callURL += '?count=' + limit + '&page=' + page;
     }

@@ -1,16 +1,16 @@
-import {Component, Input, OnInit, OnChanges, Output, EventEmitter, ElementRef, Renderer} from '@angular/core';
-import {GlobalSettings} from "../../global/global-settings";
-import {HeaderLinksService} from '../../services/header-links.service';
-
+import { Component, Input, OnInit, OnChanges, Output, EventEmitter, ElementRef, Renderer } from '@angular/core';
+import { GlobalSettings } from "../../global/global-settings";
+import { HeaderLinksService } from '../../services/header-links.service';
+import { DeepDiveService } from '../../services/deep-dive.service';
 
 declare var stButtons: any;
 declare var jQuery:any;
 
 @Component({
     selector: 'header-component',
-    templateUrl: './app/ui-modules/header/header.component.html',
-    providers: [HeaderLinksService]
+    templateUrl: './app/ui-modules/header/header.component.html'
 })
+
 export class HeaderComponent implements OnInit,OnChanges {
   @Input('partner') partnerID:string;
   @Output() tabSelected = new EventEmitter();
@@ -28,18 +28,32 @@ export class HeaderComponent implements OnInit,OnChanges {
   public isOpened: boolean = false;
   public isSearchOpened: boolean = false;
   public isActive: boolean = false;
+  public breakingHeadLines: any;
     scrollTopPrev: number = 0;
   // public _sportLeagueAbbrv: string = GlobalSettings.getSportLeagueAbbrv();
   // public _collegeDivisionAbbrv: string = GlobalSettings.getCollegeDivisionAbbrv();
   // public _sportName: string = GlobalSettings.getSportName().toUpperCase();
   private elementRef:any;
 
-  constructor(elementRef: ElementRef, private _renderer: Renderer){
+  constructor(elementRef: ElementRef, private _renderer: Renderer, private _deepDiveData : DeepDiveService){
     this.elementRef = elementRef;
     // GlobalSettings.getParentParams(_router, parentParams =>
     //   this.scope = parentParams.scope
     // );
   }
+
+  getBreakingData(){
+    this._deepDiveData.getDeepDiveBatchService("breaking", 10, 1)
+        .subscribe(data => {
+          if(data){
+            this.breakingHeadLines = this._deepDiveData.transformToArticleStack(data, "breaking");
+          }
+        },
+        err => {
+            console.log("Error getting Breaking News data:", err);
+        });
+  }
+
   openSearch(event) {
     if(this.isSearchOpened == true){
       this.isSearchOpened = false;
@@ -50,7 +64,7 @@ export class HeaderComponent implements OnInit,OnChanges {
   // Page is being scrolled
   onScrollStick(event) {
     var header = document.getElementById('pageHeader');
-    var saladBar = document.getElementById('salad-bar-top');
+    // var saladBar = document.getElementById('salad-bar-top');
     //check if partner header exist and the sticky header shall stay and not partner header
     if( document.getElementById('partner') != null){
       var partner = document.getElementById('partner');
@@ -65,7 +79,8 @@ export class HeaderComponent implements OnInit,OnChanges {
       }
 
       this._stickyHeader = (maxScroll) + "px";
-      if (scrollTop == 0 || scrollTop < this.scrollTopPrev || scrollTop < (header.offsetHeight + saladBar.offsetHeight + partnerHeight)) {
+      // if (scrollTop == 0 || scrollTop < this.scrollTopPrev || scrollTop < (header.offsetHeight + saladBar.offsetHeight + partnerHeight)) {
+      if (scrollTop == 0 || scrollTop < this.scrollTopPrev || scrollTop < (header.offsetHeight + partnerHeight)) {
         this._stickyHeader = "unset";
         header.classList.add('fixedHeader');
         partner.classList.add('fixedHeader');
@@ -76,7 +91,8 @@ export class HeaderComponent implements OnInit,OnChanges {
       }
     }else{
       var scrollTop = jQuery(window).scrollTop();
-      if (scrollTop == 0 || scrollTop < this.scrollTopPrev || scrollTop < (header.offsetHeight + saladBar.offsetHeight)) {
+      // if (scrollTop == 0 || scrollTop < this.scrollTopPrev || scrollTop < (header.offsetHeight + saladBar.offsetHeight)) {
+      if (scrollTop == 0 || scrollTop < this.scrollTopPrev || scrollTop < header.offsetHeight) {
         this._stickyHeader = "unset";
         header.classList.add('fixedHeader');
       }
@@ -95,8 +111,7 @@ export class HeaderComponent implements OnInit,OnChanges {
      }
    }
   ngOnInit(){
-
-
+    this.getBreakingData();
     stButtons.locateElements();
     this._renderer.listenGlobal('document', 'mousedown', (event) => {
 
@@ -118,7 +133,7 @@ export class HeaderComponent implements OnInit,OnChanges {
     //insert salad bar
     var v = document.createElement('script');
     v.src = 'http://w1.synapsys.us/widgets/deepdive/bar/bar.js?brandHex=234a66';
-    document.getElementById('salad-bar-top').insertBefore(v, document.getElementById('salad-bar'));
+    // document.getElementById('salad-bar-top').insertBefore(v, document.getElementById('salad-bar'));
 
     var setPlaceholder = setInterval(function(){ // keep checking for the existance of the salad bar until it loads in
       if (document.getElementById('ddb-search-desktop')) {

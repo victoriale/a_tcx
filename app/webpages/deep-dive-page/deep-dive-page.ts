@@ -1,20 +1,20 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SchedulesService } from '../../services/schedules.service';
 import { DeepDiveService } from '../../services/deep-dive.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GlobalSettings } from "../../global/global-settings";
 import { GlobalFunctions } from "../../global/global-functions";
 import { GeoLocation } from "../../global/global-service";
 
 import { SectionNameData } from "../../fe-core/interfaces/deep-dive.data";
-import {SeoService} from "../../global/seo.service";
+import { SeoService } from "../../global/seo.service";
 
 declare var moment;
 declare var jQuery: any;
 
 @Component({
     selector: "deep-dive-page",
-    templateUrl: 'app/webpages/deep-dive-page/deep-dive-page.html',
+    templateUrl: 'app/webpages/deep-dive-page/deep-dive-page.html'
 })
 
 export class DeepDivePage implements OnInit {

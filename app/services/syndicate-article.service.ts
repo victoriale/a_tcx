@@ -111,6 +111,7 @@ export class SyndicateArticleService {
 
     data.forEach(function(val, index) {
 
+
       if (val.article_id != currentArticleId && val.title && val.teaser) {
           val['articleCount']=data.length;
         var date =  moment.unix(Number(val.last_updated));
@@ -120,6 +121,23 @@ export class SyndicateArticleService {
         val['extUrl']=val.source!="snt_ai"?false:true;
         val["url"] = val.source!="snt_ai"?VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType):GlobalSettings.getOffsiteLink(val.scope, VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, articleType, val.event_id));
         //console.log(VerticalGlobalFunctions.formatNewsRoute(val.id,this.articleType),"News Route");
+          var artwriter='';
+          if(val.author){
+
+              let authorArray = val.author.split(' ');
+
+              if(authorArray[0] =='By'){
+                  for(var i=1;i<authorArray.length;i++) {
+                      artwriter += authorArray[i] + ' ';
+                  }
+              }else{
+                  for(var i=0;i<authorArray.length;i++) {
+                      artwriter += authorArray[i] + ' ';
+                  }
+              }
+
+          }
+          val['author']=artwriter;
       }
     })
     return data;

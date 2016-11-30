@@ -13,19 +13,17 @@ import { GeoLocation } from "../global/global-service";
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 /*** COMPONENTS ***/
 import { SectionFrontTopNav } from '../fe-core/components/section-front-top-nav/section-front-top-nav.component';
-import { HeaderComponent } from "../fe-core/components/header/header.component";
+import { HeaderComponent } from "../ui-modules/header/header.component";
 import { SectionNameComponent } from "../fe-core/components/section-name/section-name.component";
 import { Search } from "../fe-core/components/search/search.component";
-import { HamburgerMenuComponent, MenuData } from '../fe-core/components/hamburger-menu/hamburger-menu.component';
+import { HamburgerMenuComponent, MenuData } from '../ui-modules/hamburger-menu/hamburger-menu.component';
 import { RectangleImage } from "../fe-core/components/images/rectangle-image/rectangle-image";
 import { CircleImage } from "../fe-core/components/images/circle-image/circle-image";
 import { HoverImage } from "../fe-core/components/images/hover-image";
 import { ImagesMedia } from "../fe-core/components/carousels/images-media-carousel/images-media-carousel.component";
 import { CircleButton } from "../fe-core/components/buttons/circle/circle.button";
-import { ResponsiveWidget } from "../fe-core/components/responsive-widget/responsive-widget.component";
 
 import { ModuleHeader } from "../fe-core/components/module-header/module-header.component";
-import { FooterComponent } from "../fe-core/components/footer/footer.component";
 import { ArticleBlockComponent } from "../fe-core/components/article-block/article-block.component";
 import { DropdownComponent } from "../fe-core/components/dropdown/dropdown.component";
 import { LoadingComponent } from "../fe-core/components/loading/loading.component";
@@ -35,15 +33,19 @@ import { Larousel } from '../fe-core/components/larousel/larousel';
 import { NewsBox } from '../fe-core/components/news-box/news-box';
 import { LineChartComponent } from '../fe-core/components/line-chart/line-chart.component';
 import { InfoComponent } from '../fe-core/components/page-information/page-information.component';
-
+import {ShareLinksComponent} from "../fe-core/components/articles/share-links/share-links.component";
+import {BillboardComponent} from "../fe-core/components/articles/billboard/billboard.component";
+import {SidekickContainerComponent} from "../fe-core/components/articles/sidekick-container/sidekick-container.component";
 /*** MODULES ***/
 import { BillboardModule } from "../fe-core/modules/billboard/billboard.module";
 import { ChatterboxModule } from "../fe-core/modules/chatterbox/chatterbox.module";
-import { WidgetCarouselModule } from "../fe-core/modules/widget/widget-carousel.module";
-import { WidgetModule } from "../fe-core/modules/widget/widget.module";
 import { SearchBoxModule } from "../fe-core/modules/search-box-module/search-box-module.module";
 import { DeepDiveRecommendation } from "../fe-core/modules/deep-dive-recommendation/deep-dive-recommendation.module";
-
+/*** UI MODULES AND WIDGETS ***/
+import { FooterComponent } from "../ui-modules/footer/footer.component";
+import { ResponsiveWidget } from "../ui-modules/responsive-widget/responsive-widget.component";
+import { WidgetCarouselModule } from "../ui-modules/widget/widget-carousel.module";
+import { WidgetModule } from "../ui-modules/widget/widget.module";
 /*** WEBPAGES ***/
 import { AboutUsPage } from "../webpages/aboutus/aboutus";
 import { PrivacyPolicy } from "../webpages/privacy-policy/privacy-policy";
@@ -56,7 +58,7 @@ import {SanitizeScript, SanitizeHtml, SanitizeRUrl, SanitizeStyle} from "../fe-c
 import { routing  } from '../app.routing';
 import {InputBar} from "../fe-core/components/input-bar/input-bar.component";
 import {ArticleSearchBar} from "../fe-core/components/search-bar-article/search-bar-article.component";
-
+import {SeoService} from "../global/seo.service";
 
 @NgModule({
     imports: [
@@ -104,7 +106,12 @@ import {ArticleSearchBar} from "../fe-core/components/search-bar-article/search-
       TermOfService,
       InfoComponent,
       ChatterboxModule,
-      ResponsiveWidget
+      ResponsiveWidget,
+      ShareLinksComponent,
+      BillboardComponent,
+      SidekickContainerComponent
+
+
     ],
     exports: [
       SectionFrontTopNav,
@@ -121,6 +128,7 @@ import {ArticleSearchBar} from "../fe-core/components/search-bar-article/search-
       SidekickWrapperAI,
       WidgetModule,
       WidgetCarouselModule,
+      ShareLinksComponent,
       ScrollableContent,
       SanitizeHtml,
       SanitizeRUrl,
@@ -142,7 +150,9 @@ import {ArticleSearchBar} from "../fe-core/components/search-bar-article/search-
       TermOfService,
       InfoComponent,
       ChatterboxModule,
-      ResponsiveWidget
+      ResponsiveWidget,
+      BillboardComponent,
+      SidekickContainerComponent
     ],
     providers: [
       VerticalGlobalFunctions,
@@ -150,7 +160,8 @@ import {ArticleSearchBar} from "../fe-core/components/search-bar-article/search-
       SanitizeScript,
       GlobalSettings,
       GlobalFunctions,
-      GeoLocation
+      GeoLocation,
+      SeoService
     ]
 })
 export class GlobalModule { }

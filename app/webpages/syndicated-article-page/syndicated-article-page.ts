@@ -1,8 +1,10 @@
-import {Component, AfterViewInit, Input, OnChanges, OnDestroy} from '@angular/core';
+import {Component, AfterViewInit, Input, OnChanges, OnDestroy, HostListener, ElementRef, Renderer} from '@angular/core';
 import {SyndicateArticleService} from "../../services/syndicate-article.service";
 import {GlobalSettings} from "../../global/global-settings";
 import {ActivatedRoute, Route, Router, NavigationStart, Event as NavigationEvent} from "@angular/router";
 import {GlobalFunctions} from "../../global/global-functions";
+import {VerticalGlobalFunctions} from "../../global/vertical-global-functions";
+import {SeoService} from "../../global/seo.service";
 
 declare var jQuery:any;
 declare var moment;
@@ -17,62 +19,58 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     public partnerID: string;
     checkPartner: boolean;
     public geoLocation:string;
-
     public widgetPlace: string = "widgetForPage";
     public articleData: any;
     public recomendationData: any;
     public articleID: string;
+    public trendingData:any;
     public articleType: string;
-    public imageData: Array<string>;
-    public imageTitle: Array<string>;
-    public copyright: Array<string>;
+    public imageData=[];
+    public imageTitle=[];
+    public copyright=[];
+    public trendingLength: number = 10;
     @Input() scope: string;
     public category:string;
     public subcategory: string;
     isStockPhoto:boolean=true;
+    isArticle:string;
     prevarticle;
     iframeUrl: any;
     paramsub;
     constructor(
-
-        private _synservice:SyndicateArticleService, private activateRoute:ActivatedRoute, private router:Router
+        private _synservice:SyndicateArticleService, 
+        private activateRoute:ActivatedRoute, 
+        private router:Router, 
+        private _eref:ElementRef, 
+        private _render:Renderer,
+        private _seo:SeoService
 
     ){
-
-
-        /* GlobalSettings.getParentParams(_router, partnerID => {
-             this.partnerID = partnerID.partnerID;
-             this.getPartnerHeader();
-         });*/
         this.checkPartner = GlobalSettings.getHomeInfo().isPartner;
     }
-
-
     ngOnInit(){
         this.initializePage();
     }
+
     ngOnChanges(){
         this.initializePage();
-
     }
     initializePage(){
         this.paramsub= this.activateRoute.params.subscribe(
             (param :any)=> {
-                this.articleID= param['articleID'],
-                    this.articleType= param['articleType'],
+                this.articleID = param['articleID'],
+                    this.articleType = param['articleType'],
                     this.category=param['category'],
-                    this.subcategory=param['subCategory'];
-                if (this.articleType == "story" && this.articleID) {
-                    this.getSyndicateArticle(this.articleID);
-                    this.getRecomendationData();
-                }
-                else {
-                    this.getSyndicateVideoArticle(this.articleID);
-                    this.getRecomendationData();
-                }
+                    this.subcategory=param['subCategory']?param['subCategory']:param['category'];
+                if (this.articleType == "story" && this.articleID) {this.getSyndicateArticle(this.articleID);}
+                else {this.getSyndicateVideoArticle(this.subcategory, this.articleID);}
+                this.getRecomendationData(this.category, 3, this.subcategory);
+                this.getDeepDiveArticle(this.category, this.trendingLength, this.subcategory, this.articleType, this.articleID);
             }
 
         );
+
+
     }
     ngAfterViewInit(){
         // to run the resize event on load
@@ -87,30 +85,30 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     }
     private getSyndicateArticle(articleID) {
         this._synservice.getSyndicateArticleService(articleID).subscribe(
+
             data => {
 
-                if (data.data[0].image_url == null || data.data.imagePath == undefined || data.data.imagePath == "") {
+                if (data.data[0].article_data.images == null) {
                     this.imageData  = ["/app/public/placeholder_XL.png"];
-                    this.copyright = [data.data[0].article_data.images[0].image_copyright];
-                    this.imageTitle = [data.data[0].article_data.images[0].image_title];
                 }
                 else {
-                    
-                    this.imageData = ["/app/public/placeholder_XL.png"];
-                    this.copyright = [data.data[0].article_data.images[0].image_copyright];
-                    this.imageTitle = [data.data[0].article_data.images[0].image_title];
+                    var imageLength=data.data[0].article_data.images.length;
+                    for( var i=0;i<imageLength;i++) {
+                        this.imageData[this.imageData.length]=GlobalSettings.getImageUrl(data.data[0].article_data.images[i].image_url);
+                        this.copyright[this.copyright.length]=data.data[0].article_data.images[i].image_copyright;
+                        this.imageTitle[this.imageTitle.length]=data.data[0].article_data.images[i].image_title;
+                    }
                 }
-
                 this.articleData = data.data[0].article_data;
-
-                this.articleData.publishedDate = moment.unix(this.articleData.publication_date/1000).format("MMMM Do, YYYY h:mm A") + " EST";
+                this.articleData.url= VerticalGlobalFunctions.formatArticleRoute(this.subcategory,this.articleID,this.articleType)
+                var date = moment.unix(Number(data.data[0].last_updated));
+                this.articleData.publishedDate = date.format('dddd') +', '+ date.format('MMM') + date.format('. DD, YYYY');
+                this.metaTags(data);
             }
         )
-
-
     }
-    private getSyndicateVideoArticle(articleID){
-        this._synservice.getSyndicateVideoService(articleID).subscribe(
+    private getSyndicateVideoArticle(subCat, articleID){
+        this._synservice.getSyndicateVideoService(subCat,articleID).subscribe(
             data => {
                 this.articleData = data.data;
                 this.iframeUrl = this.articleData.video_url + "&autoplay=on";
@@ -120,81 +118,83 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     ngOnDestroy(){
         this.paramsub.unsubscribe();
     }
-
-    /*getGeoLocation() {
-        var defaultState = 'ca';
-        this._geoLocation.getGeoLocation()
-            .subscribe(
-                geoLocationData => {
-                    this.geoLocation = geoLocationData[0].state;
-                    this.geoLocation = this.geoLocation.toLowerCase();
-                    this.getRecomendationData();
-                },
-                err => {
-                    this.geoLocation = defaultState;
-                    this.getRecomendationData();
-                }
-            );
-    }
-
-    getPartnerHeader(){//Since it we are receiving
-        if(this.partnerID!= null){
-            this._partnerData.getPartnerData(this.partnerID)
-                .subscribe(
-                    partnerScript => {
-                        //super long way from partner script to get location using geo location api
-                        var state = partnerScript['results']['location']['realestate']['location']['city'][0].state;
-                        state = state.toLowerCase();
-                        this.geoLocation = state;
-                        this.getRecomendationData()
-                    }
-                );
-        }else{
-            this.getGeoLocation();
-        }
-    }*/
-
-    getRecomendationData(){
-        var startNum=Math.floor((Math.random() * 49) + 1);
-        var state = 'KS'; //needed to uppoercase for ai to grab data correctly
-        if(this.subcategory) {
-            this._synservice.getRecArticleData(this.category, 3, this.subcategory)
-
+    getRecomendationData(c,count,sc){
+            this._synservice.getRecArticleData(c,count,sc)
                 .subscribe(data => {
                     this.recomendationData = this._synservice.transformToRecArticles(data,this.subcategory,this.articleType);
-
-
                 });
-        }
-        else{
-            this._synservice.getRecArticleData(this.category, 3)
-
-                .subscribe(data => {
-                    this.recomendationData = this._synservice.transformToRecArticles(data,this.category,this.articleType);
-
-
-                });
-        }
-
     }
-   /* getRecomendationData(){
-        var startNum=Math.floor((Math.random() * 49) + 1);
-        var state = 'KS'; //needed to uppoercase for ai to grab data correctly
-        this._synservice.getTrendingArticles('sports','nfl',10).subscribe(
-            data => {
-                this.recomendationData = this._synservice.transformToRecArticles(data);
+    private getDeepDiveArticle(c,tl,sc,type,aid) {
+            this._synservice.getTrendingArticles(c,tl,sc).subscribe(
+                data => {
+                    if (this.trendingLength <= 100) {
+                        this.trendingLength = this.trendingLength + 10;
+                        this.trendingData = this._synservice.transformTrending(data.data,sc,type, aid);
+                        this.getDeepDiveArticle(c,tl,sc, type,aid);
+                    }
+                }
+            )
+    }
+    private metaTags(data) {
+            let metaDesc;
+            if (data.data[0].teaser != null) {
+                metaDesc = data.data[0].teaser;
+            } else {
+                metaDesc = data.data[0].article_data.article[0];
+            }
+            let link = window.location.href;
+            let image;
+            if (this.imageData != null) {
+                image = this.imageData[0];
+            } else {
+                image = GlobalSettings.getImageUrl(data.data[0].image_url);
+            }
+            let articleAuthor='';
+            if(data.data[0].author){
+
+                let authorArray = data.data[0].author.split(' ');
+
+                if(authorArray[0] =='By'){
+                    for(var i=1;i<authorArray.length;i++) {
+                        articleAuthor += authorArray[i] + ' ';
+                    }
+                }else{
+                    for(var i=0;i<authorArray.length;i++) {
+                        articleAuthor += authorArray[i] + ' ';
+                    }
+                }
 
             }
 
-        )
-
-    }*/
-
-
-    formatDate(date) {
-
-        return moment(date).format("MMMM DD, YYYY at h:mm A ")
-
+            this._seo.setCanonicalLink(this.activateRoute.params, this.router);
+            this._seo.setOgTitle(data.data[0].title);
+            this._seo.setOgDesc(metaDesc);
+            this._seo.setOgType('Website');
+            this._seo.setOgUrl(link);
+            this._seo.setOgImage(image);
+            this._seo.setTitle(data.data[0].title);
+            this._seo.setMetaDescription(metaDesc);
+            this._seo.setMetaRobots('INDEX, NOFOLLOW');
+            this._seo.setOgId(data.data[0].article_id);
+            this._seo.setOgAuthor(articleAuthor);
+            this._seo.setOgDate(data.data[0].last_updated);
+            this._seo.setOgKeyword(data.data[0].keywords[0]);
+            data.data[0].keywords[1]?this._seo.setOgSubKeyword(data.data[0].keywords[1]):this._seo.setOgSubKeyword(data.data[0].keywords[0]);
     }
+
+   @HostListener('window:scroll',['$event']) onScroll(e){
+     if(e.target.body.getElementsByClassName('syndicate-widget')[0]) {
+         var element = e.target.body.getElementsByClassName('syndicate-widget')[0];
+
+         if (window.scrollY > 845) {
+             var a = window.scrollY - 845 + 35 + "px";
+             this._render.setElementStyle(element, "top", a)
+         }
+         else {
+             this._render.setElementStyle(element, "top", '0')
+         }
+     }
+}
+
 
 }

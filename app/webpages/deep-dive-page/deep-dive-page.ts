@@ -1,19 +1,20 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SchedulesService } from '../../services/schedules.service';
 import { DeepDiveService } from '../../services/deep-dive.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GlobalSettings } from "../../global/global-settings";
 import { GlobalFunctions } from "../../global/global-functions";
 import { GeoLocation } from "../../global/global-service";
 
 import { SectionNameData } from "../../fe-core/interfaces/deep-dive.data";
+import { SeoService } from "../../global/seo.service";
 
 declare var moment;
 declare var jQuery: any;
 
 @Component({
     selector: "deep-dive-page",
-    templateUrl: 'app/webpages/deep-dive-page/deep-dive-page.html',
+    templateUrl: 'app/webpages/deep-dive-page/deep-dive-page.html'
 })
 
 export class DeepDivePage implements OnInit {
@@ -21,15 +22,10 @@ export class DeepDivePage implements OnInit {
     //side scroller
     sideScrollData: any;
     scrollLength: number = 0;
-
     selectedLocation: string = "san%20francisco-ca"; // default city for weather if geolocation returns nothin
-    boxScoresTempVar: string = "nfl";
-
     tcxVars: any;
-
     topScope: string;
     changeScopeVar: string;
-
     safeCall: boolean = true;
     ssMax: number;
     callCount: number = 1;
@@ -45,17 +41,19 @@ export class DeepDivePage implements OnInit {
     sectionNameIcon: string;
     sectionNameTitle: string = this.category;
     geoLocation:string;
-
     carouselGraph:any;
     carouselVideo:any;
     carouselData: any;
 
-    constructor(private _schedulesService:SchedulesService, private _deepDiveData: DeepDiveService, private _activatedRoute: ActivatedRoute, private _geoLocation: GeoLocation) {
-      // var categoryBlocks;
-      // if(GlobalSettings.getHomeInfo().isHome){
-      //   categoryBlocks = this.homePageBlocks;
-      // }
-    }
+    constructor(
+        private _schedulesService:SchedulesService,
+        private _deepDiveData: DeepDiveService,
+        private _activatedRoute: ActivatedRoute,
+        private _geoLocation: GeoLocation,
+        private _seo:SeoService,
+        private _router:Router,
+    ) {}
+
 
     ngOnDestroy(){
       this.routeSubscription.unsubscribe();
@@ -73,7 +71,7 @@ export class DeepDivePage implements OnInit {
                   this.getSideScroll();
                 },
                 err => {
-                  console.log("Geo Location Error",err);
+                  console.log("Geo Location Error:", err);
                   this.geoLocation = defaultState;
                   this.selectedLocation = 'wichita-ks';
                   this.getHourlyWeatherData(this.topScope);
@@ -83,17 +81,12 @@ export class DeepDivePage implements OnInit {
     }
 
     private sectionFrontName(){
+      var displayName = GlobalSettings.getTCXscope(this.scope).displayName;
+      var secIcon = GlobalSettings.getTCXscope(this.scope).icon;
       return this.sectionName = {
-         icon: GlobalSettings.getTCXscope(this.scope).icon,
-         title: GlobalFunctions.toTitleCase(GlobalSettings.getTCXscope(this.scope).displayName)
+         icon: secIcon ? secIcon : 'fa-news',
+         title: displayName ? displayName : GlobalFunctions.toTitleCase(this.scope)
        }
-    }
-
-    private onScroll(event) {
-      if (jQuery(document).height() - window.innerHeight - jQuery("footer").height() <= jQuery(window).scrollTop()) {
-        //fire when scrolled into footer
-        this.blockIndex = this.blockIndex + 1;
-      }
     }
 
     //api for Schedules
@@ -116,10 +109,8 @@ export class DeepDivePage implements OnInit {
             this.sideScrollData = sideScrollData;
             this.scrollLength = this.sideScrollData.blocks.length;
           }
-
           this.safeCall = true;
           this.callCount++;
-
         }, null, null)
       }
     }
@@ -129,6 +120,22 @@ export class DeepDivePage implements OnInit {
       if(event >= (maxScroll - this.ssMax)){
        this.getSideScroll();
       }
+    }
+
+    private addMetaTags(){
+        let metaDesc = GlobalSettings.getPageTitle('Dive into the most recent news about your favorite sports, movies and read the latest articles on politics, business, travel etc.', 'Deep Dive');
+        let link = window.location.href;
+
+        this._seo.setCanonicalLink(this._activatedRoute.params, this._router);
+        this.scope=="all"?this._seo.setOgTitle('TCX Deep Dive'): this._seo.setOgTitle(this.scope);
+        this._seo.setOgDesc(metaDesc);
+        this._seo.setOgType('Website');
+        this._seo.setOgUrl(link);
+        this._seo.setOgImage(GlobalSettings.getImageUrl('/app/public/mainLogo.png'));
+        this._seo.setTitle('TCX Deep Dive');
+        this._seo.setMetaDescription(metaDesc);
+        this._seo.setMetaRobots('INDEX, FOLLOW');
+
     }
 
     changeScope($event) {
@@ -152,20 +159,18 @@ export class DeepDivePage implements OnInit {
     }
 
     getDeepDiveVideo(){
-      if(this.topScope != 'weather'){
-        this._deepDiveData.getDeepDiveVideoBatchService(this.scope, 5, 1).subscribe(
-          data => {
-            this.carouselVideo = this._deepDiveData.transformSportVideoBatchData([data.data[0]]);
-            // this.carouselVideo = [this._deepDiveData.videoDummyData()];
-            this.getDataCarousel();
-          },
-          err => {
-            console.log("Error getting video batch data");
-            this.getDataCarousel();
-          });
-      }else{
-        this.carouselVideo = null;
-      }
+      this._deepDiveData.getDeepDiveVideoBatchService(this.scope, 5, 1).subscribe(
+        data => {
+          if(data != null){
+            this.carouselVideo = this._deepDiveData.transformSportVideoBatchData([data[0]]);
+          }
+          this.getDataCarousel();
+        },
+        err => {
+          console.log("Error getting video batch data:", err);
+          this.carouselVideo = null;
+          this.getDataCarousel();
+        });
     }
 
     getHourlyWeatherData(scope){//only if its weather scope that has graph
@@ -178,7 +183,7 @@ export class DeepDivePage implements OnInit {
           err => {
             this.carouselGraph = this._schedulesService.getDummyGraphResult();
             this.getDataCarousel();
-            console.log("Error getting graph batch data");
+            console.log("Error getting graph batch data:", err);
           });
       }
     }
@@ -198,8 +203,7 @@ export class DeepDivePage implements OnInit {
             this.scope = param['subCategory'] ? param['subCategory'] : this.category;
             if (param['subCategory']) {
               this.tcxVars = GlobalSettings.getTCXscope(param['subCategory']);
-            }
-            else {
+            } else {
               this.tcxVars = GlobalSettings.getTCXscope(this.category);
             }
             this.topScope = this.tcxVars ? this.tcxVars.topScope : this.category;
@@ -208,6 +212,7 @@ export class DeepDivePage implements OnInit {
             this.getGeoLocation();
             this.getDeepDiveVideo();
             this.sectionFrontName();
+            this.addMetaTags();
           });
     }
   }

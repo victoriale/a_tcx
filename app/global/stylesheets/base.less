@@ -14,7 +14,8 @@ ToC
 @tablet:      ~"(min-width: 768px)";  // > 768px   bootstrap: md
 @desktop-m:   ~"(min-width: 992px)";  // > 992px   bootstrap: lg
 @desktop-l:   ~"(min-width: 1280px)"; // > 1280px  bootstrap: xl
-
+ // should be remove when stable
+@desktop-xl:  ~"(min-width: 1480px)";
 @small-grid:  ~"(min-width: 576px) and (max-width: 640px)";
 @fluid:       ~"(max-width: 999px)";
 
@@ -202,6 +203,7 @@ body {
   background: @white;
   font-family: @globalFont;
   overflow: auto;
+  font-size: 1rem;
   margin: 0 !important;
   background-color: @highlightGrey !important;
   //min-width: 640px;
@@ -254,6 +256,17 @@ img{
 .hide-320{
   @media @mobile{
     display: none;
+  }
+}
+
+.hide-new320{
+  @media @mobile{
+    display: none!important;
+  }
+}
+.hide-768{
+  @media @tablet{
+    display: none!important;
   }
 }
 .no-select{

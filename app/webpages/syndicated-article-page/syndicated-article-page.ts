@@ -40,10 +40,10 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     iframeUrl: any;
     paramsub;
     constructor(
-        private _synservice:SyndicateArticleService, 
-        private activateRoute:ActivatedRoute, 
-        private router:Router, 
-        private _eref:ElementRef, 
+        private _synservice:SyndicateArticleService,
+        private activateRoute:ActivatedRoute,
+        private router:Router,
+        private _eref:ElementRef,
         private _render:Renderer,
         private _seo:SeoService
 
@@ -127,99 +127,99 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         this.paramsub.unsubscribe();
     }
     getRecomendationData(c,count,sc){
-            this._synservice.getRecArticleData(c,count,sc)
-                .subscribe(data => {
-                    this.recomendationData = this._synservice.transformToRecArticles(data,this.subcategory,this.eventType);
-                });
+        this._synservice.getRecArticleData(c,count,sc)
+            .subscribe(data => {
+                this.recomendationData = this._synservice.transformToRecArticles(data,this.subcategory,this.eventType);
+            });
     }
     private getDeepDiveArticle(c,tl,sc,type,aid) {
-            this._synservice.getTrendingArticles(c,tl,sc).subscribe(
-                data => {
+        this._synservice.getTrendingArticles(c,tl,sc).subscribe(
+            data => {
 
-                    if(data.data.length==this.trendingLength) {
-                            this.loadingshow=true;
-                            this.trendingLength = this.trendingLength + 10;
-                            this.trendingData= this._synservice.transformTrending(data.data, sc, type, aid);
-                    }
-                    else{
-                        this.loadingshow=false;
-                    }
+                if(data.data.length==this.trendingLength) {
+                    this.loadingshow=true;
+                    this.trendingLength = this.trendingLength + 10;
+                    this.trendingData= this._synservice.transformTrending(data.data, sc, type, aid);
                 }
-            )
+                else{
+                    this.loadingshow=false;
+                }
+            }
+        )
     }
     private metaTags(data, artType) {
 
 
-            let metaDesc;
-            if (data.teaser != null) {
-                metaDesc = data.teaser;
+        let metaDesc;
+        if (data.teaser != null) {
+            metaDesc = data.teaser;
+        } else {
+            metaDesc = data.article_data.article[0];
+        }
+        let link = window.location.href;
+        if(artType=="story") {
+            let image;
+            if (this.imageData != null) {
+                image = this.imageData[0];
             } else {
-                metaDesc = data.article_data.article[0];
+                image = GlobalSettings.getImageUrl(data.image_url);
             }
-            let link = window.location.href;
-            if(artType=="story") {
-                let image;
-                if (this.imageData != null) {
-                    image = this.imageData[0];
-                } else {
-                    image = GlobalSettings.getImageUrl(data.image_url);
-                }
-                let articleAuthor = '';
-                if (data.author) {
+            let articleAuthor = '';
+            if (data.author) {
 
-                    let authorArray = data.author.split(' ');
+                let authorArray = data.author.split(' ');
 
-                    if (authorArray[0] == 'By') {
-                        for (var i = 1; i < authorArray.length; i++) {
-                            articleAuthor += authorArray[i] + ' ';
-                        }
-                    } else {
-                        for (var i = 0; i < authorArray.length; i++) {
-                            articleAuthor += authorArray[i] + ' ';
-                        }
+                if (authorArray[0] == 'By') {
+                    for (var i = 1; i < authorArray.length; i++) {
+                        articleAuthor += authorArray[i] + ' ';
                     }
-
+                } else {
+                    for (var i = 0; i < authorArray.length; i++) {
+                        articleAuthor += authorArray[i] + ' ';
+                    }
                 }
-                this._seo.setCanonicalLink(link);
-                this._seo.setOgTitle(data.title);
-                this._seo.setOgDesc(metaDesc);
-                this._seo.setOgType('Website');
-                this._seo.setOgUrl(link);
-                this._seo.setOgImage(image);
-                this._seo.setTitle(data.title);
-                this._seo.setMetaDescription(metaDesc);
-                this._seo.setMetaRobots('INDEX, FOLLOW');
-                this._seo.setOgId(data.article_id);
-                this._seo.setOgAuthor(articleAuthor);
-                this._seo.setOgDate(data.last_updated);
-                this._seo.setOgKeyword(data.keywords[0]);
-                data.keywords[1] ? this._seo.setOgSubKeyword(data.keywords[1]) : this._seo.setOgSubKeyword(data.keywords[0]);
-            }else{
-                this._seo.setCanonicalLink(link);
-                this._seo.setOgTitle(data.title);
-                this._seo.setOgType('Website');
-                this._seo.setOgDesc(metaDesc);
-                this._seo.setOgUrl(link);
-                this._seo.setOgImage(data.video_thumbnail);
-                this._seo.setMetaDescription(metaDesc);
-                this._seo.setMetaRobots('INDEX, FOLLOW');
-                this._seo.setOgId(data.id);
-                this._seo.setOgKeyword(data.keyword);
+
             }
+            this._seo.setCanonicalLink(link);
+            this._seo.setOgTitle(data.title);
+            this._seo.setOgDesc(metaDesc);
+            this._seo.setOgType('Website');
+            this._seo.setOgUrl(link);
+            this._seo.setOgImage(image);
+            this._seo.setTitle(data.title);
+            this._seo.setMetaDescription(metaDesc);
+            this._seo.setMetaRobots('INDEX, FOLLOW');
+            this._seo.setOgId(data.article_id);
+            this._seo.setOgAuthor(articleAuthor);
+            this._seo.setOgDate(data.last_updated);
+            this._seo.setOgKeyword(data.keywords[0]);
+            data.keywords[1] ? this._seo.setOgSubKeyword(data.keywords[1]) : this._seo.setOgSubKeyword(data.keywords[0]);
+        }else{
+            this._seo.setCanonicalLink(link);
+            this._seo.setOgTitle(data.title);
+            this._seo.setOgType('Website');
+            this._seo.setOgDesc(metaDesc);
+            this._seo.setOgUrl(link);
+            this._seo.setOgImage(data.video_thumbnail);
+            this._seo.setMetaDescription(metaDesc);
+            this._seo.setMetaRobots('INDEX, FOLLOW');
+            this._seo.setOgId(data.id);
+            this._seo.setOgKeyword(data.keyword);
+        }
     }
 
-   @HostListener('window:scroll',['$event']) onScroll(e){
+    @HostListener('window:scroll',['$event']) onScroll(e){
 
 
 
-         var trendingElement= e.target.body.getElementsByClassName('trending-small')[0];
-         if(window.innerHeight + window.scrollY >= document.body.scrollHeight){
-             this.getDeepDiveArticle(this.category, this.trendingLength, this.subcategory, this.eventType, this.articleID);
+        var trendingElement= e.target.body.getElementsByClassName('trending-small')[0];
+        if(window.innerHeight + window.scrollY >= document.body.scrollHeight){
+            this.getDeepDiveArticle(this.category, this.trendingLength, this.subcategory, this.eventType, this.articleID);
 
-         };
+        };
 
 
-}
+    }
 
 
 }

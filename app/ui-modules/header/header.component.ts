@@ -14,8 +14,8 @@ declare var jQuery:any;
 export class HeaderComponent implements OnInit,OnChanges {
   @Input('partner') partnerID:string;
   @Output() tabSelected = new EventEmitter();
-  public logoUrl:string;
-  public partnerLogoUrl: string;
+  public logoUrl:string = 'app/public/TCX_Logo_Outlined.svg';
+  public partnerLogoUrl: string = 'app/public/Football-DeepDive_Logo_Outlined-W.svg';
   private _stickyHeader: string;
   public searchInput: any = {
        placeholderText: "Search for a topic...",
@@ -127,29 +127,27 @@ export class HeaderComponent implements OnInit,OnChanges {
         }
       }
     });
-    this.logoUrl = 'app/public/TCX_Logo_Outlined.svg';
-    this.partnerLogoUrl = 'app/public/Football-DeepDive_Logo_Outlined-W.svg';
 
-    //insert salad bar
-    var v = document.createElement('script');
-    v.src = 'http://w1.synapsys.us/widgets/deepdive/bar/bar.js?brandHex=234a66';
-    // document.getElementById('salad-bar-top').insertBefore(v, document.getElementById('salad-bar'));
-
-    var setPlaceholder = setInterval(function(){ // keep checking for the existance of the salad bar until it loads in
-      if (document.getElementById('ddb-search-desktop')) {
-        //override the salad bar default placeholder text, and use the one for TDL
-        document.getElementById('ddb-search-desktop')['placeholder'] = "Search for a sports team…";
-        document.getElementById('ddb-small-desktop-search-input')['placeholder'] = "Search for a sports team…";
-        document.getElementById('ddb-search-mobile')['placeholder'] = "Search for a sports team…";
-        //override the default salad bars hamburger icon and use the scoreboard icon when on TDL
-        var scoreboardIcon = document.getElementById('ddb-dropdown-boxscores-button').getElementsByClassName('ddb-icon')[0];
-        scoreboardIcon.classList.add('fa','fa-box-scores');
-        scoreboardIcon.classList.remove('ddb-icon-bars','ddb-icon');
-
-        //dont need to keep running this anymore now that its all set
-        clearInterval(setPlaceholder);
-      }
-    }, 1000);
+    // //insert salad bar
+    // var v = document.createElement('script');
+    // v.src = 'http://w1.synapsys.us/widgets/deepdive/bar/bar.js?brandHex=234a66';
+    // // document.getElementById('salad-bar-top').insertBefore(v, document.getElementById('salad-bar'));
+    //
+    // var setPlaceholder = setInterval(function(){ // keep checking for the existance of the salad bar until it loads in
+    //   if (document.getElementById('ddb-search-desktop')) {
+    //     //override the salad bar default placeholder text, and use the one for TDL
+    //     document.getElementById('ddb-search-desktop')['placeholder'] = "Search for a sports team…";
+    //     document.getElementById('ddb-small-desktop-search-input')['placeholder'] = "Search for a sports team…";
+    //     document.getElementById('ddb-search-mobile')['placeholder'] = "Search for a sports team…";
+    //     //override the default salad bars hamburger icon and use the scoreboard icon when on TDL
+    //     var scoreboardIcon = document.getElementById('ddb-dropdown-boxscores-button').getElementsByClassName('ddb-icon')[0];
+    //     scoreboardIcon.classList.add('fa','fa-box-scores');
+    //     scoreboardIcon.classList.remove('ddb-icon-bars','ddb-icon');
+    //
+    //     //dont need to keep running this anymore now that its all set
+    //     clearInterval(setPlaceholder);
+    //   }
+    // }, 1000);
   }
 
   ngOnChanges() {

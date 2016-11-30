@@ -23,7 +23,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     public articleData: any;
     public recomendationData: any;
     public articleID: string;
-    public trendingData:any;
+    public trendingData:any=[];
     public articleType: string;
     public imageData=[];
     public imageTitle=[];
@@ -32,6 +32,8 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     @Input() scope: string;
     public category:string;
     public subcategory: string;
+    public loadingshow:boolean;
+    public articleCount:number;
     isStockPhoto:boolean=true;
     isArticle:string;
     prevarticle;
@@ -54,6 +56,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
 
     ngOnChanges(){
         this.initializePage();
+
     }
     initializePage(){
         this.paramsub= this.activateRoute.params.subscribe(
@@ -65,7 +68,8 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
                 if (this.articleType == "story" && this.articleID) {this.getSyndicateArticle(this.articleID);}
                 else {this.getSyndicateVideoArticle(this.subcategory, this.articleID);}
                 this.getRecomendationData(this.category, 3, this.subcategory);
-                this.getDeepDiveArticle(this.category, this.trendingLength, this.subcategory, this.articleType, this.articleID);
+
+
             }
 
         );
@@ -127,10 +131,15 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     private getDeepDiveArticle(c,tl,sc,type,aid) {
             this._synservice.getTrendingArticles(c,tl,sc).subscribe(
                 data => {
-                    if (this.trendingLength <= 100) {
-                        this.trendingLength = this.trendingLength + 10;
-                        this.trendingData = this._synservice.transformTrending(data.data,sc,type, aid);
-                        this.getDeepDiveArticle(c,tl,sc, type,aid);
+
+                    if(data.data.length==this.trendingLength) {
+                            this.loadingshow=true;
+                            this.trendingLength = this.trendingLength + 10;
+                            this.trendingData= this._synservice.transformTrending(data.data, sc, type, aid);
+
+                    }
+                    else{
+                        this.loadingshow=false;
                     }
                 }
             )
@@ -166,7 +175,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
 
             }
 
-            this._seo.setCanonicalLink(this.activateRoute.params, this.router);
+            this._seo.setCanonicalLink(link);
             this._seo.setOgTitle(data.data[0].title);
             this._seo.setOgDesc(metaDesc);
             this._seo.setOgType('Website');
@@ -186,6 +195,11 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
      if(e.target.body.getElementsByClassName('syndicate-widget')[0]) {
          var element = e.target.body.getElementsByClassName('syndicate-widget')[0];
 
+         var trendingElement= e.target.body.getElementsByClassName('trending-small')[0];
+         if(window.innerHeight + window.scrollY >= document.body.scrollHeight){
+             this.getDeepDiveArticle(this.category, this.trendingLength, this.subcategory, this.articleType, this.articleID);
+
+         };
          if (window.scrollY > 845) {
              var a = window.scrollY - 845 + 35 + "px";
              this._render.setElementStyle(element, "top", a)

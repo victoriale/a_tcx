@@ -108,9 +108,12 @@ export class SyndicateArticleService {
   transformTrending(data, scope, articleType, currentArticleId) {
     articleType = "story";
     var placeholder = "/app/public/placeholder_XL.png"
+
     data.forEach(function(val, index) {
-      if (val.article_id != currentArticleId) {
-          var date =  moment.unix(Number(val.last_updated));
+
+      if (val.article_id != currentArticleId && val.title && val.teaser) {
+          val['articleCount']=data.length;
+        var date =  moment.unix(Number(val.last_updated));
         val["date"] = '<span class="hide-320">' + date.format('dddd') + ', </span>' + date.format('MMM') + date.format('. DD, YYYY');
         val["image"] = val.image_url != null ? GlobalSettings.getImageUrl(val.image_url) : placeholder;
         val["content"]=val.teaser;

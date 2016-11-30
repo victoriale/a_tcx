@@ -1,12 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SchedulesService } from '../../services/schedules.service';
 import { DeepDiveService } from '../../services/deep-dive.service';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { GlobalSettings } from "../../global/global-settings";
 import { GlobalFunctions } from "../../global/global-functions";
 import { GeoLocation } from "../../global/global-service";
 
 import { SectionNameData } from "../../fe-core/interfaces/deep-dive.data";
+import {SeoService} from "../../global/seo.service";
 
 declare var moment;
 declare var jQuery: any;
@@ -44,7 +45,15 @@ export class DeepDivePage implements OnInit {
     carouselVideo:any;
     carouselData: any;
 
-    constructor(private _schedulesService:SchedulesService, private _deepDiveData: DeepDiveService, private _activatedRoute: ActivatedRoute, private _geoLocation: GeoLocation) {}
+    constructor(
+        private _schedulesService:SchedulesService,
+        private _deepDiveData: DeepDiveService,
+        private _activatedRoute: ActivatedRoute,
+        private _geoLocation: GeoLocation,
+        private _seo:SeoService,
+        private _router:Router,
+    ) {}
+
 
     ngOnDestroy(){
       this.routeSubscription.unsubscribe();
@@ -111,6 +120,22 @@ export class DeepDivePage implements OnInit {
       if(event >= (maxScroll - this.ssMax)){
        this.getSideScroll();
       }
+    }
+
+    private addMetaTags(){
+        let metaDesc = GlobalSettings.getPageTitle('Dive into the most recent news about your favorite sports, movies and read the latest articles on politics, business, travel etc.', 'Deep Dive');
+        let link = window.location.href;
+
+        this._seo.setCanonicalLink(this._activatedRoute.params, this._router);
+        this.scope=="all"?this._seo.setOgTitle('TCX Deep Dive'): this._seo.setOgTitle(this.scope);
+        this._seo.setOgDesc(metaDesc);
+        this._seo.setOgType('Website');
+        this._seo.setOgUrl(link);
+        this._seo.setOgImage(GlobalSettings.getImageUrl('/app/public/mainLogo.png'));
+        this._seo.setTitle('TCX Deep Dive');
+        this._seo.setMetaDescription(metaDesc);
+        this._seo.setMetaRobots('INDEX, FOLLOW');
+
     }
 
     changeScope($event) {
@@ -187,6 +212,7 @@ export class DeepDivePage implements OnInit {
             this.getGeoLocation();
             this.getDeepDiveVideo();
             this.sectionFrontName();
+            this.addMetaTags();
           });
     }
   }

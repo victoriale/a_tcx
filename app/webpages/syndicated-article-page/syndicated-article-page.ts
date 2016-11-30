@@ -166,7 +166,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
 
             }
 
-            this._seo.setCanonicalLink(link);
+            this._seo.setCanonicalLink(this.activateRoute.params, this.router);
             this._seo.setOgTitle(data.data[0].title);
             this._seo.setOgDesc(metaDesc);
             this._seo.setOgType('Website');

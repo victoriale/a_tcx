@@ -104,10 +104,10 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
                     }
                 }
                 this.articleData = data.data[0].article_data;
-                this.articleData.url= VerticalGlobalFunctions.formatArticleRoute(this.subcategory,this.articleID,this.articleType)
+                this.articleData.url= VerticalGlobalFunctions.formatArticleRoute(this.subcategory,this.articleID,this.articleType);
                 var date = moment.unix(Number(data.data[0].last_updated));
                 this.articleData.publishedDate = date.format('dddd') +', '+ date.format('MMM') + date.format('. DD, YYYY');
-                this.metaTags(data);
+                this.metaTags(data.data[0], this.articleType);
             }
         )
     }
@@ -115,7 +115,9 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         this._synservice.getSyndicateVideoService(subCat,articleID).subscribe(
             data => {
                 this.articleData = data.data;
+                this.articleData.url= VerticalGlobalFunctions.formatArticleRoute(this.subcategory,this.articleID,this.articleType);
                 this.iframeUrl = this.articleData.video_url + "&autoplay=on";
+                this.metaTags(this.articleData, this.articleType);
             }
         )
     }
@@ -136,7 +138,6 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
                             this.loadingshow=true;
                             this.trendingLength = this.trendingLength + 10;
                             this.trendingData= this._synservice.transformTrending(data.data, sc, type, aid);
-
                     }
                     else{
                         this.loadingshow=false;
@@ -144,51 +145,65 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
                 }
             )
     }
-    private metaTags(data) {
+    private metaTags(data, artType) {
+
+
             let metaDesc;
-            if (data.data[0].teaser != null) {
-                metaDesc = data.data[0].teaser;
+            if (data.teaser != null) {
+                metaDesc = data.teaser;
             } else {
-                metaDesc = data.data[0].article_data.article[0];
+                metaDesc = data.article_data.article[0];
             }
             let link = window.location.href;
-            let image;
-            if (this.imageData != null) {
-                image = this.imageData[0];
-            } else {
-                image = GlobalSettings.getImageUrl(data.data[0].image_url);
-            }
-            let articleAuthor='';
-            if(data.data[0].author){
-
-                let authorArray = data.data[0].author.split(' ');
-
-                if(authorArray[0] =='By'){
-                    for(var i=1;i<authorArray.length;i++) {
-                        articleAuthor += authorArray[i] + ' ';
-                    }
-                }else{
-                    for(var i=0;i<authorArray.length;i++) {
-                        articleAuthor += authorArray[i] + ' ';
-                    }
+            if(artType=="story") {
+                let image;
+                if (this.imageData != null) {
+                    image = this.imageData[0];
+                } else {
+                    image = GlobalSettings.getImageUrl(data.image_url);
                 }
+                let articleAuthor = '';
+                if (data.author) {
 
+                    let authorArray = data.author.split(' ');
+
+                    if (authorArray[0] == 'By') {
+                        for (var i = 1; i < authorArray.length; i++) {
+                            articleAuthor += authorArray[i] + ' ';
+                        }
+                    } else {
+                        for (var i = 0; i < authorArray.length; i++) {
+                            articleAuthor += authorArray[i] + ' ';
+                        }
+                    }
+
+                }
+                this._seo.setCanonicalLink(link);
+                this._seo.setOgTitle(data.title);
+                this._seo.setOgDesc(metaDesc);
+                this._seo.setOgType('Website');
+                this._seo.setOgUrl(link);
+                this._seo.setOgImage(image);
+                this._seo.setTitle(data.title);
+                this._seo.setMetaDescription(metaDesc);
+                this._seo.setMetaRobots('INDEX, FOLLOW');
+                this._seo.setOgId(data.article_id);
+                this._seo.setOgAuthor(articleAuthor);
+                this._seo.setOgDate(data.last_updated);
+                this._seo.setOgKeyword(data.keywords[0]);
+                data.keywords[1] ? this._seo.setOgSubKeyword(data.keywords[1]) : this._seo.setOgSubKeyword(data.keywords[0]);
+            }else{
+                this._seo.setCanonicalLink(link);
+                this._seo.setOgTitle(data.title);
+                this._seo.setOgType('Website');
+                this._seo.setOgDesc(metaDesc);
+                this._seo.setOgUrl(link);
+                this._seo.setOgImage(data.video_thumbnail);
+                this._seo.setMetaDescription(metaDesc);
+                this._seo.setMetaRobots('INDEX, FOLLOW');
+                this._seo.setOgId(data.id);
+                this._seo.setOgKeyword(data.keyword);
             }
-
-            this._seo.setCanonicalLink(link);
-            this._seo.setOgTitle(data.data[0].title);
-            this._seo.setOgDesc(metaDesc);
-            this._seo.setOgType('Website');
-            this._seo.setOgUrl(link);
-            this._seo.setOgImage(image);
-            this._seo.setTitle(data.data[0].title);
-            this._seo.setMetaDescription(metaDesc);
-            this._seo.setMetaRobots('INDEX, NOFOLLOW');
-            this._seo.setOgId(data.data[0].article_id);
-            this._seo.setOgAuthor(articleAuthor);
-            this._seo.setOgDate(data.data[0].last_updated);
-            this._seo.setOgKeyword(data.data[0].keywords[0]);
-            data.data[0].keywords[1]?this._seo.setOgSubKeyword(data.data[0].keywords[1]):this._seo.setOgSubKeyword(data.data[0].keywords[0]);
     }
 
    @HostListener('window:scroll',['$event']) onScroll(e){

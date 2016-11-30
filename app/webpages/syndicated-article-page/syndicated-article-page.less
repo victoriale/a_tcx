@@ -149,8 +149,23 @@
   .carousel-container {
     width: 100%;
 
-    @media @mobile{
-      width:102%;
+    @media (max-width: 360px){
+      width:107%;
+    }
+    @media (min-width: 360px) {
+      width: 106%;
+    }
+    @media (min-width: 420px) {
+      width: 105%;
+    }
+    @media (min-width: 500px) {
+      width: 104%;
+    }
+    @media (min-width: 640px) {
+      width: 103%;
+    }
+    @media (min-width: 768px){
+      width: 100%;
     }
     //height: 400px;
 
@@ -225,7 +240,6 @@
   @media @mobile {
     .carousel-container {
       height:auto;
-      width: auto;
       margin-left:-10px;
     }
     .feature-btn.images {

@@ -35,6 +35,7 @@ export class SyndicateArticleService {
     return this._http.get(callURL)
       .map(res => res.json())
       .map(data => {
+
         return data;
       })
   }

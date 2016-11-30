@@ -9,10 +9,6 @@
 
         <span *ngIf="articleData">
       <share-links-component *ngIf="articleData.url" [shareUrl]="articleData.url" [isMain]="false"></share-links-component>
-<!--         <share-links-component *ngIf="articleData.url" [shareUrl]="articleData.url"></share-links-component>-->
-
-
-
       <div class="articles-page-title" [innerHTML]="articleData.title | safeHtml"></div>
             <div class="carousel-container" *ngIf="articleType == 'story'">
                   <images-media-carousel *ngIf="isStockPhoto" [imageData]="imageData" [copyright]="copyright"
@@ -27,19 +23,19 @@
               <iframe *ngIf="iframeUrl" width="100%" height="100%"  [src]="iframeUrl | safeRUrl" frameborder="0" allowfullscreen></iframe>
             </div>
             <div class="arpt" *ngIf="articleType == 'story'">
-                <span class="arpt-author" >Written By: <b>{{articleData.publisher}}</b></span>
-                <span class="arpt-date">Posted: on   {{" "+ articleData.publishedDate}}</span>
+                <span *ngIf="articleData.publisher && articleData.publisher !='SNT Media'" class="arpt-author" >Written By: <b>{{articleData.author}}</b>, &nbsp;<b>{{articleData.publisher}}</b></span>
+                <span *ngIf="articleData.publishedDate" class="arpt-date">Posted: on   {{" "+ articleData.publishedDate}}</span>
             </div>
             <div class="arpt" *ngIf="articleType == 'video'">
-                <span class="arpt-author" >Written By: <b>{{articleData.author}}</b></span>
-                <span class="arpt-date">Posted: on {{" "+articleData.publishedDate}}</span>
+                <span *ngIf="articleData.publisher && articleData.publisher !='SNT Media'" class="arpt-author" >Written By: <b>{{articleData.author}}</b>, &nbsp;<b>{{articleData.publisher}}</b></span>
+                <span *ngIf="articleData.publishedDate" class="arpt-date">Posted: on   {{" "+ articleData.publishedDate}}</span>
             </div>
                 <div *ngIf="articleType == 'story'" >
             <div class="content-exerpt" *ngFor="let description of articleData.article" [innerHTML]="description | safeHtml">
 
             </div>
                     </div>
-            <div class="content-exerpt" *ngIf="articleType == 'video'"  [innerHTML]="articleData.teaser | safeHtml">
+            <div *ngIf="articleData.teaser" class="content-exerpt" *ngIf="articleType == 'video'"  [innerHTML]="articleData.teaser | safeHtml">
             </div>
 
             <billboard-module [category]="category" subCategory="subcategory"></billboard-module>
@@ -53,7 +49,7 @@
                                [geoLocation]="geoLocation"
                                [currentArticleId]="articleData.article_id"
                                [scope]="scope"
-                                [showLoading]="loadingshow" >
+                               [showLoading]="loadingshow" >
 
            </trending-component>
             </div>

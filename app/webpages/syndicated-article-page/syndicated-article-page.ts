@@ -23,7 +23,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     public articleData: any;
     public recomendationData: any;
     public articleID: string;
-    public trendingData:any=[];
+    public trendingData:any;
     public articleType: string;
     public imageData=[];
     public imageTitle=[];

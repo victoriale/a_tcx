@@ -43,12 +43,13 @@ export class SyndicateArticleService {
     /* var headers = this.setToken();*/
     var callURL
     if (subcategory!=category) {
-      callURL = this._syndicateUrl + '?source[]=tca&source[]=snt_ai&count=' + count + "&category=" + category + "&subCategory=" + subcategory + "&random=1";
+      callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&category=" + category + "&subCategory=" + subcategory + "&random=1";
 
     } else {
         category = category == 'real-estate'? 'real+estate':category;
-      callURL = this._syndicateUrl + '?source[]=tca&source[]=snt_ai&count=' + count + "&category=" + category + "&random=1";
+      callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&category=" + category + "&random=1";
     }
+    console.log(callURL);
     return this._http.get(callURL)
       .map(res => res.json())
       .map(data => {
@@ -93,11 +94,12 @@ export class SyndicateArticleService {
 
     if (subcategory!=category) {
 
-      callURL = this._syndicateUrl + '?source[]=tca&source[]=snt_ai&count=' + count + "&category=" + category + "&subCategory=" + subcategory + "&random=1";
+      callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&category=" + category + "&subCategory=" + subcategory + "&random=1";
     } else {
         category = category == 'real-estate'? 'real+estate':category;
-      callURL = this._syndicateUrl + '?source[]=tca&source[]=snt_ai&count=' + count + "&category=" + category + "&random=1";
+      callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&category=" + category + "&random=1";
     }
+    console.log(callURL);
     return this._http.get(callURL)
       .map(res => res.json())
       .map(data => {

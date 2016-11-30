@@ -24,7 +24,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     public recomendationData: any;
     public articleID: string;
     public trendingData:any=[];
-    public articleType: string;
+    public eventType: string;
     public imageData=[];
     public imageTitle=[];
     public copyright=[];
@@ -48,6 +48,8 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         private _seo:SeoService
 
     ){
+        window.scrollTo(0, 0);
+
         this.checkPartner = GlobalSettings.getHomeInfo().isPartner;
     }
     ngOnInit(){
@@ -62,10 +64,10 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         this.paramsub= this.activateRoute.params.subscribe(
             (param :any)=> {
                 this.articleID = param['articleID'],
-                    this.articleType = param['articleType'],
+                    this.eventType= param['articleType'],
                     this.category=param['category'],
                     this.subcategory=param['subCategory']?param['subCategory']:param['category'];
-                if (this.articleType == "story" && this.articleID) {this.getSyndicateArticle(this.articleID);}
+                if (this.eventType == "story" && this.articleID) {this.getSyndicateArticle(this.articleID);}
                 else {this.getSyndicateVideoArticle(this.subcategory, this.articleID);}
                 this.getRecomendationData(this.category, 3, this.subcategory);
 
@@ -104,10 +106,10 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
                     }
                 }
                 this.articleData = data.data[0].article_data;
-                this.articleData.url= VerticalGlobalFunctions.formatArticleRoute(this.subcategory,this.articleID,this.articleType);
+                this.articleData.url= VerticalGlobalFunctions.formatArticleRoute(this.subcategory,this.articleID,this.eventType);
                 var date = moment.unix(Number(data.data[0].last_updated));
                 this.articleData.publishedDate = date.format('dddd') +', '+ date.format('MMM') + date.format('. DD, YYYY');
-                this.metaTags(data.data[0], this.articleType);
+                this.metaTags(data.data[0], this.eventType);
             }
         )
     }
@@ -115,9 +117,9 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         this._synservice.getSyndicateVideoService(subCat,articleID).subscribe(
             data => {
                 this.articleData = data.data;
-                this.articleData.url= VerticalGlobalFunctions.formatArticleRoute(this.subcategory,this.articleID,this.articleType);
+                this.articleData.url= VerticalGlobalFunctions.formatArticleRoute(this.subcategory,this.articleID,this.eventType);
                 this.iframeUrl = this.articleData.video_url + "&autoplay=on";
-                this.metaTags(this.articleData, this.articleType);
+                this.metaTags(this.articleData, this.eventType);
             }
         )
     }
@@ -127,7 +129,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     getRecomendationData(c,count,sc){
             this._synservice.getRecArticleData(c,count,sc)
                 .subscribe(data => {
-                    this.recomendationData = this._synservice.transformToRecArticles(data,this.subcategory,this.articleType);
+                    this.recomendationData = this._synservice.transformToRecArticles(data,this.subcategory,this.eventType);
                 });
     }
     private getDeepDiveArticle(c,tl,sc,type,aid) {
@@ -207,22 +209,16 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     }
 
    @HostListener('window:scroll',['$event']) onScroll(e){
-     if(e.target.body.getElementsByClassName('syndicate-widget')[0]) {
-         var element = e.target.body.getElementsByClassName('syndicate-widget')[0];
+
+
 
          var trendingElement= e.target.body.getElementsByClassName('trending-small')[0];
          if(window.innerHeight + window.scrollY >= document.body.scrollHeight){
-             this.getDeepDiveArticle(this.category, this.trendingLength, this.subcategory, this.articleType, this.articleID);
+             this.getDeepDiveArticle(this.category, this.trendingLength, this.subcategory, this.eventType, this.articleID);
 
          };
-         if (window.scrollY > 845) {
-             var a = window.scrollY - 845 + 35 + "px";
-             this._render.setElementStyle(element, "top", a)
-         }
-         else {
-             this._render.setElementStyle(element, "top", '0')
-         }
-     }
+
+
 }
 
 

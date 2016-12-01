@@ -433,10 +433,10 @@ export class GlobalFunctions {
      * @returns {string} - formatted string
      */
     static formatUpdatedDate(jsDate:any, includeTimestamp?:boolean, timezone?:string):string {
-        var date = moment(jsDate);
-        var str = date.format("dddd, ") + GlobalFunctions.formatAPMonth(date.month()) + date.format(' D, YYYY');
+        var date = moment.unix(Number(jsDate));
+        var str = date.format('dddd') +', '+ date.format('MMM') + date.format('. DD, YYYY ')
         if (includeTimestamp) {
-            str += ' | ' + date.format('h:mm A') + (timezone !== undefined && timezone !== null ? timezone : "");
+            str += ' at ' + date.format('h:mm A') + ' '+ (timezone !== undefined && timezone !== null ? timezone : "EST");
         }
         return str;
     }

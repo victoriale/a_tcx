@@ -126,7 +126,7 @@ export class DeepDivePage implements OnInit {
         let metaDesc = GlobalSettings.getPageTitle('Dive into the most recent news about your favorite sports, movies and read the latest articles on politics, business, travel etc.', 'Deep Dive');
         let link = window.location.href;
 
-        this._seo.setCanonicalLink(this._activatedRoute.params, this._router);
+        this._seo.setCanonicalLink(link);
         this.scope=="all"?this._seo.setOgTitle('TCX Deep Dive'): this._seo.setOgTitle(this.scope);
         this._seo.setOgDesc(metaDesc);
         this._seo.setOgType('Website');
@@ -153,7 +153,7 @@ export class DeepDivePage implements OnInit {
       if(this.scope == 'all'){
         pageScope = 'breaking';
       }
-      this._deepDiveData.getCarouselData(pageScope, this.carouselData, '25', '1', this.geoLocation, (carData)=>{
+      this._deepDiveData.getCarouselData(pageScope, this.carouselData, '15', '1', this.geoLocation, (carData)=>{
         this.carouselData = carData;
       })
     }

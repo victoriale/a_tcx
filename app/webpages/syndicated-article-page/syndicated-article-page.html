@@ -1,66 +1,72 @@
-<div class="syndicated-articles-page">
-    <div class="syndicated-articles-page-content">
-
-        <div *ngIf="error">
+<div class="articles-page">
+    <div class="articles-page-content">
+        <!-- ERROR MESSAGE HERE -->
+        <section *ngIf="error">
             <div class="loading-container">
-                <span class="loading-text">The syndicated-article you are trying to reach is unavailable. You will be redirected to your previous page shortly.</span>
+                <span class="loading-text">The article you are trying to reach is unavailable. You will be redirected to your previous page shortly.</span>
             </div>
-        </div>
+        </section>
 
+        <!-- ARTICLE PAGE BEGINS -->
         <span *ngIf="articleData">
-      <share-links-component *ngIf="articleData.url" [shareUrl]="articleData.url" [isMain]="false"></share-links-component>
-<!--         <share-links-component *ngIf="articleData.url" [shareUrl]="articleData.url"></share-links-component>-->
-
-
-
-      <div class="articles-page-title" [innerHTML]="articleData.title | safeHtml"></div>
-            <div class="carousel-container" *ngIf="articleType == 'story'">
-                  <images-media-carousel *ngIf="isStockPhoto" [imageData]="imageData" [copyright]="copyright"
-                                         [imageTitle]="imageTitle"></images-media-carousel>
+          <share-links-component class="articles-page-padding" [shareUrl]="articleData.url"></share-links-component>
+          <h1 class="articles-page-title"><span [innerHTML]="articleData.title | safeHtml"></span></h1>
+          <sidekick-wrapper-ai [aiSidekick]="aiSidekick" [scope]="subcategory">
+              <!-- IF IMAGES ARE AVAILABLE AND NOT VIDEO -->
+              <section *ngIf="eventType != 'video'">
+                <!-- <div *ngIf="eventType == 'story'" class="carousel-container">
+                  <images-media-carousel [imageData]="imageData" [copyright]="copyright" [imageTitle]="imageTitle"></images-media-carousel>
+                </div> -->
+                <div *ngIf="imageData && imageTitle" class="carousel-container">
+                    <images-media-carousel [isProfilePage]="false" [imageData]="imageData" [copyright]="copyright" [imageTitle]="imageTitle"></images-media-carousel>
                 </div>
-        <div class="syndicated-articles-page_tPane row">
-            <div class="syndicated-articles-page_leftPane col-sm-12 col-xl-9">
-            <span>
+              </section>
+              <!-- IF ARTICLE TYPE IS VIDEO -->
+              <section *ngIf="eventType == 'video'" class="videoFrame">
+                <iframe *ngIf="iframeUrl" width="100%" height="100%"  [src]="iframeUrl | safeRUrl" frameborder="0" allowfullscreen></iframe>
+              </section>
 
-            </span>
-            <div class="videoFrame" *ngIf="articleType == 'video'">
-              <iframe *ngIf="iframeUrl" width="100%" height="100%"  [src]="iframeUrl | safeRUrl" frameborder="0" allowfullscreen></iframe>
-            </div>
-            <div class="arpt" *ngIf="articleType == 'story'">
-                <span class="arpt-author" >Written By: <b>{{articleData.publisher}}</b></span>
-                <span class="arpt-date">Posted: on   {{" "+ articleData.publishedDate}}</span>
-            </div>
-            <div class="arpt" *ngIf="articleType == 'video'">
-                <span class="arpt-author" >Written By: <b>{{articleData.author}}</b></span>
-                <span class="arpt-date">Posted: on {{" "+articleData.publishedDate}}</span>
-            </div>
-                <div *ngIf="articleType == 'story'" >
-            <div class="content-exerpt" *ngFor="let description of articleData.article" [innerHTML]="description | safeHtml">
+              <section class="articles-page-container row">
+                <div class="arpt col-xs-12 col-xl-9">
+                    <!-- ARTICLE INFORMATION -->
+                    <section class="arpt-info">
+                      <div *ngIf="eventType == 'story' && articleData.publisher" class="arpt-author">Written By: <span class="text-master" [innerHTML]="articleData.author | safeHtml"></span>, &nbsp;<span class="text-master" [innerHTML]="articleData.publisher | safeHtml"></span></div>
+                      <div class="arpt-date">Posted on: <span [innerHTML]="articleData.publishedDate | safeHtml"></span></div>
+                    </section>
+                    <!-- DISPLAY ARTICLE -->
 
-            </div>
-                    </div>
-            <div class="content-exerpt" *ngIf="articleType == 'video'"  [innerHTML]="articleData.teaser | safeHtml">
-            </div>
+                    <section *ngIf="eventType == 'story' || eventType == 'video'" class="arpt-main-article">
+                        <div *ngIf="eventType == 'story'">
+                            <div class="content-exerpt" *ngFor="let description of articleData.article" [innerHTML]="description | safeHtml"></div>
+                          </div>
+                        <div class="content-exerpt" *ngIf="eventType == 'video'" [innerHTML]="articleData.teaser | safeHtml"></div>
+                        <div [ngStyle]="{width: '100%', height:'5px','display':'block'}"></div>
+                    </section>
+                    <!-- RESPONSIVE WIDGET-->
+                        <sidekick-container-component></sidekick-container-component>
 
-            <billboard-module [category]="category" subCategory="subcategory"></billboard-module>
+                    <disqus-component *ngIf="!checkPartner"></disqus-component>
+<!--
+                    <recommendations-component *ngIf="randomHeadlines" [randomHeadlines]="randomHeadlines" [images]="images"></recommendations-component>
+-->
+                    <div class="other-stories"><i class="fa-heart-o"></i> Other Stories You Will Love </div>
+                    <article-block-component [articleBlockData]="recomendationData" [bootstrapGrid]="'col-sm-12 col-md-3'"></article-block-component>
 
-            <disqus-component *ngIf="!checkPartner"></disqus-component>
+                    <trending-component [scope]="scope"
+                                        [currentArticleId]="articleID"
+                                        [eventType]="eventType"
+                                        [geoLocation]="geoLocation"
+                                        [trendingData]="trendingData"
+                                        [showLoading]="loadingshow">
 
-            <chatterbox-module></chatterbox-module>
-                <div class="other-stories"><i class="fa-heart-o"></i> Other Stories You Will Love </div>
-                <article-block-component [articleBlockData]="recomendationData" [bootstrapGrid]="'col-sm-12 col-md-3'"></article-block-component>
-           <trending-component [trendingData]="trendingData"
-                               [geoLocation]="geoLocation"
-                               [currentArticleId]="articleData.article_id"
-                               [scope]="scope">
+                    </trending-component>
+                </div>
 
-           </trending-component>
-            </div>
-            <div class="syndicate-widget col-lg-3">
-            <div class="widget_wrapper"><widget-carousel-module></widget-carousel-module></div>
-        </div>
-        </div>
-    </span>
-
+                <div class="article-widget col-xl-3">
+                    <widget-module [aiSidekick]="aiSidekick" [syndicated]="syndicated" [scope]="scope"></widget-module>
+                </div>
+            </section>
+          </sidekick-wrapper-ai>
+      </span>
     </div>
 </div>

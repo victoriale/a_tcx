@@ -49,6 +49,59 @@
   .carousel-modal{
     top:25%;
   }
+  .arpt-info{
+    width:100%;
+  }
+  .arpt-info .arpt-author{
+    margin-right: 0;
+  }
+ @media @mobile{
+   .circles{
+     border:none;
+     background-color: @masterBrandColor;
+   }
+   .carousel-modal-container-img-navigation{
+     margin-top: 20%;
+   }
+   .arpt-info .arpt-author{
+     .globalDefaultFont(12px,400);
+     margin-bottom: 3px;
+   }
+   .arpt-info .arpt-date{
+     text-align:left;
+     float:left;
+     margin-top:0;
+     margin-bottom: 10px;
+   }
+   .expand-button{
+     width:25px;
+     height:25px;
+     font-size: 12px;
+     padding-top: 6px;
+     padding-left: 6px;
+   }
+   .articleBlock {
+     .video-stack {
+       .video-title-top{
+         padding: 0 10px;
+       }
+
+     }
+   }
+ }
+  @media @tablet {
+    .circles {
+      background-color: transparent;
+      border: none;
+      font-size: 45px;
+      &:hover {
+        background-color: transparent;
+        border: none;
+        font-size: 45px;
+        color: @masterBrandColor;
+      }
+    }
+  }
   .articleBlock {
     .video-stack {
       .video-title-top{
@@ -87,11 +140,7 @@
       &-title {display: none !important}
     }//.grey-bar, .modal-grey-bar ends
 
-    .circles {
-      background-color: transparent !important;
-      border: none !important;
-      font-size: 45px !important;
-    }
+
     &-padding{
       display: block;
       padding: 10px 10px 0;
@@ -119,70 +168,75 @@
     }
   }
   .trending-article-content{line-height: 1.3}
-}
-.arpt{
-  overflow: hidden;
-  position: relative;
-  text-align: left;
-  @media @desktop-l{padding-right: 7px}
-  &-author {
-    margin-bottom: 10px;
-    margin-right: 10px;
-    width: 100%;
-    float: left;
-    &-image {
-      background-image: url("/app/public/mainLogo.jpg");
-      background-size: cover;
-      background-position: center center;
-      background-repeat: no-repeat;
-      border-radius: 100%;
-      width: 50px;
-      height: 50px;
+  .arpt{
+    overflow: hidden;
+    position: relative;
+    text-align: left;
+    @media @desktop-l{padding-right: 7px}
+    &-author {
+      margin-bottom: 10px;
+      margin-right: 10px;
+      width: 100%;
       float: left;
-    }
+      &-image {
+        background-image: url("/app/public/mainLogo.jpg");
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        border-radius: 100%;
+        width: 50px;
+        height: 50px;
+        float: left;
+      }
 
-    &-text {
-      .globalDefaultFont(16px, 400);
-      width: 520px;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
-      padding-top: 15px;
-      padding-left: 15px;
-      text-align: left;
-      &-name {
-        .globalDefaultModFont(16px, 800, @masterBrandColor);
+      &-text {
+        .globalDefaultFont(16px, 400);
+        width: 520px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        padding-top: 15px;
+        padding-left: 15px;
         text-align: left;
+        &-name {
+          .globalDefaultModFont(16px, 800, @masterBrandColor);
+          text-align: left;
+        }
       }
     }
-  }
-  &-date {
-    .globalDefaultModFont(12px, 400, @bulletGrey);
-    line-height: 1em;
-    margin-top: 10px;
-    text-align: right;
-    width: 100%;
-    float: right;
-  }
-  &-main-article{
-    margin-bottom: 30px;
-    @media @mobile{padding: 0 10px}
-    .readMore {
-      color: @white;
-      padding-left: 10px;
-      :hover{
+    &-date {
+      .globalDefaultModFont(12px, 400, @bulletGrey);
+      line-height: 1em;
+      margin-top: 10px;
+      text-align: right;
+      width: 100%;
+      float: right;
+    }
+    &-main-article{
+      .globalDefaultFont(14px,400);
+      margin-bottom: 30px;
+      @media @mobile{padding: 0 10px}
+      .readMore {
         color: @white;
-        background-color: @black;
+        padding-left: 10px;
+        :hover{
+          color: @white;
+          background-color: @black;
+        }
+      }
+      .content-exerpt, .content-exerpt p{
+        line-height: 22px;
       }
     }
-  }
-  &-info{
-    @media @mobile{padding: 0 10px}
-    .flexDisplay;
-    .flexJustify(space-between);
-    .arpt-author{margin-top: 10px}
+    &-info{
+      @media @mobile{padding: 0 10px}
+      .flexDisplay;
+      .flexJustify(space-between);
+      .arpt-author{margin-top: 10px}
+    }
   }
 }
+
 .videoFrame {
   position: relative;
   padding-bottom: 56%; /* 16:9 */
@@ -209,6 +263,9 @@
   color:@black;
   @media @tablet{
     margin-bottom: 15px;
+  }
+  @media @mobile{
+    padding:0px 10px;
   }
 
   i{

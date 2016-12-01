@@ -13,6 +13,7 @@ import { GeoLocation } from "../global/global-service";
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 /*** COMPONENTS ***/
 import { SectionFrontTopNav } from '../fe-core/components/section-front-top-nav/section-front-top-nav.component';
+import { ComplexInnerHtml } from '../fe-core/components/complex-inner-html/complex-inner-html.component';
 import { HeaderComponent } from "../ui-modules/header/header.component";
 import { SectionNameComponent } from "../fe-core/components/section-name/section-name.component";
 import { Search } from "../fe-core/components/search/search.component";
@@ -109,8 +110,8 @@ import {SeoService} from "../global/seo.service";
       ResponsiveWidget,
       ShareLinksComponent,
       BillboardComponent,
-      SidekickContainerComponent
-
+      SidekickContainerComponent,
+      ComplexInnerHtml
 
     ],
     exports: [

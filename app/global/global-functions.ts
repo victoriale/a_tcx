@@ -423,6 +423,95 @@ export class GlobalFunctions {
         return str;
     }
 
+    static convertToUnix(value:any){
+      if(GlobalFunctions.isXUnix(value) == false){
+        if(moment(value,'YYYY-MM-DD',true).isValid()){
+          value = moment(value,"YYYY-MM-DD").tz("America/New_York").unix() * 1000;
+          return value;
+        } else
+        if(moment(value.toString(),'h:mm:ss',true).isValid()) {
+          value = moment(value).tz("America/New_York").unix() * 1000;
+          return value;
+        } else
+        if(moment(value.toString(),'dddd, MMM. DD, YYYY',true).isValid()) {
+          value = moment(value).tz("America/New_York").unix() * 1000;
+          return value;
+        } else
+          if(moment(value.toString(),'hh:mm:ss',true).isValid()) {
+            value = moment(value).tz("America/New_York").unix() * 1000;
+        } else
+          if(moment(value,'YYYY-MM-DD h:mm:ss',true).isValid()) {
+            value = moment(value).tz("America/New_York").unix() * 1000;
+            return value;
+          }
+      }
+      else if(GlobalFunctions.isXUnix(value) == true) {
+        if(value.length <= 11) {
+          value = Number(value) * 1000;
+          return value;
+        } else {
+          value = Number(value);
+          return value;
+        }
+      }
+      return value; // if original input is Unix to begin with
+    }
+
+    static isXUnix(value:any) {
+      if(typeof value == 'string') { // if string return false;
+        if(value.match(/^[0-9]+$/) == null) {
+          return false;
+        } else
+        if(value.match(/^[0-9]+$/) != null) { // string number return true
+          return true;
+        }
+      } else
+      if(typeof value == 'number') { // assumes that if it is a number, it is unix
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+    /*
+    - Formats any stringed date into approrpriate styled date.
+    - Formats Unix into approrpriate styled date.
+    - Select the format of date you want with the identifiers:
+      - defaultDate
+      - shortDate
+      - dayOfWeek
+      - timeZone
+    */
+
+    static sntGlobalDateFormatting(unixTimestamp:any, identifier?:string, customDate?:string) {
+      unixTimestamp = GlobalFunctions.convertToUnix(unixTimestamp);
+      let newDate;
+      let monthnum = Number(moment(unixTimestamp).tz('America/New_York').format("MM")) - 1;
+      let month = GlobalFunctions.formatAPMonth(Number(monthnum));
+      let longmonth = moment(unixTimestamp).tz('America/New_York').format('MMMM');
+      let day = moment(unixTimestamp).tz('America/New_York').format('dddd');
+      let dd = moment(unixTimestamp).tz('America/New_York').format("DD");
+      let year = moment(unixTimestamp).tz('America/New_York').format("YYYY");
+      let shortDate = moment(unixTimestamp).tz('America/New_York').format("MM/DD/YY");
+      let timeZone = moment(unixTimestamp).tz('America/New_York').format('h:mmA z');
+      let defaultDate = month + ' ' + dd + ', ' + year;
+
+      switch(identifier){
+        case 'defaultDate': newDate = defaultDate; // Oct. O6, 2016
+          return newDate;
+        case 'shortDate': newDate = moment(unixTimestamp).tz('America/New_York').format("MM/DD/YY"); // mm/dd/yy
+          return newDate;
+        case 'dayOfWeek': newDate = day + ', ' + defaultDate; // Tuesday, Jan. 14, 2016
+          return newDate;
+        case 'timeZone': newDate = day + ', ' + defaultDate + ' ' + timeZone; // Tuesday, Jan. 14, 2016 12:00 (EST)
+          return newDate;
+        case 'bulletedShortDateTime': newDate = day + ', ' + month + ' ' + dd + ' &bull; ' + moment(unixTimestamp).tz('America/New_York').format('h:mmA z'); // Tuesday, Jan. 14, 2016 12:00 (EST)
+            return newDate;
+        case 'custom': break;
+        default:
+          return defaultDate;
+      }
+    }
     /**
      * - Formats the date as 'dddd, MMMM D, YYYY'
      * - Appends the timestamp as 'hh:mm A' if {includeTimestamp} is true.

@@ -561,14 +561,14 @@ export class GlobalFunctions {
     static sntGlobalDateFormatting(unixTimestamp:any, identifier?:string, customDate?:string) {
         var value = GlobalFunctions.convertToUnix(unixTimestamp);
         let newDate;
-        let monthnum = Number(moment(value).tz('America/New_York').format("MM")) - 1;
+        let monthnum = Number(moment.unix(value).tz('America/New_York').format("MM")) - 1;
         let month = GlobalFunctions.formatAPMonth(Number(monthnum));
-        let longmonth = moment(value).tz('America/New_York').format('MMMM');
-        let day = moment(value).tz('America/New_York').format('dddd');
-        let dd = moment(value).tz('America/New_York').format("DD");
-        let year = moment(value).tz('America/New_York').format("YYYY");
-        let shortDate = moment(value).tz('America/New_York').format("MM/DD/YY");
-        let timeZone = moment(value).tz('America/New_York').format('h:mmA z');
+        let longmonth = moment.unix(value).tz('America/New_York').format('MMMM');
+        let day = moment.unix(value).tz('America/New_York').format('dddd');
+        let dd = moment.unix(value).tz('America/New_York').format("DD");
+        let year = moment.unix(value).tz('America/New_York').format("YYYY");
+        let shortDate = moment.unix(value).tz('America/New_York').format("MM/DD/YY");
+        let timeZone = moment.unix(value).tz('America/New_York').format('h:mm A z');
         let defaultDate = month + ' ' + dd + ', ' + year;
 
         switch(identifier){

@@ -145,14 +145,13 @@ export class BoxScoresService {
       callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/tcx/boxScores/league/'+scope+'/'+date+'/addAi';
       break;
     }
-    // console.log('box Scores Service',callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
         var transformedDate = this.transformBoxScores(data.data, scope);
         return {
           transformedDate: transformedDate.data,
-          aiContent: data.aiContent,
+          aiContent: data.data.aiContent,
           date: chosenDate,
           nextGameDate:transformedDate.nextGameDate,
           previousGameDate:transformedDate.previousGameDate,
@@ -165,11 +164,13 @@ export class BoxScoresService {
     var boxScoreObj = {};
     var newBoxScores = {};
     let currWeekGameDates = {};
-    if(data != null){
+
+    if( data != null ){
       let boxScoresData = data.data;
       for ( var gameDate in boxScoresData ) {
         let gameDayInfo:gameDayInfoInterface = data.data[gameDate];
         let currGameDate = moment(Number(gameDate)).tz('America/New_York').format('YYYY-MM-DD');
+
         // game info
         if (gameDayInfo) {
           gameDayInfo['gameInfo'] = {
@@ -197,7 +198,9 @@ export class BoxScoresService {
             dataPoint2Home: gameDayInfo.dataPoint2Home,
             dataPoint3Home: gameDayInfo.dataPoint3Home,
             //dataP2:boxScoresData[gameDate].team1Possession != ''? boxScoresData[gameDate].team1Possession:null,
-            teamRecord: gameDayInfo.winsHome != null ? gameDayInfo.winsHome + '-' + gameDayInfo.lossHome + '-' + gameDayInfo.tiesHome: null
+            wins: gameDayInfo.winsHome ? gameDayInfo.winsHome : null,
+            losses: gameDayInfo.lossHome ? gameDayInfo.lossHome : null,
+            ties: gameDayInfo.tiesHome ? gameDayInfo.tiesHome : null
           }
 
           // away team info
@@ -212,9 +215,10 @@ export class BoxScoresService {
             dataPoint2Away: gameDayInfo.dataPoint2Away,
             dataPoint3Away: gameDayInfo.dataPoint3Away,
             //dataP2:boxScoresData[gameDate].team1Possession != ''? boxScoresData[gameDate].team1Possession:null,
-            teamRecord: gameDayInfo.winsAway != null ? gameDayInfo.winsAway + '-' + gameDayInfo.lossAway + '-' + gameDayInfo.tiesAway: null,
+            wins: gameDayInfo.winsAway ? gameDayInfo.winsAway : null,
+            losses: gameDayInfo.lossAway ? gameDayInfo.lossAway : null,
+            ties: gameDayInfo.tiesAway ? gameDayInfo.tiesAway : null
           }
-
 
           // LIVE DATA THAT NEEDS TO ADJUST BASED ON SPORT
           if(gameDayInfo.liveDataPoints[scope] != null){
@@ -225,7 +229,7 @@ export class BoxScoresService {
               liveYardLine: gameDayInfo.liveDataPoints[scope].liveYardLine,
               overTime: gameDayInfo.liveDataPoints[scope].liveYardLine
             }
-          }else{
+          } else{
             gameDayInfo['gameInfo']['verticalContent'] = null
           }
 
@@ -260,6 +264,7 @@ export class BoxScoresService {
       this.getBoxScoresService(scopedDateParam.scope, scopedDateParam.date)
         .subscribe(data => {
           if(data.transformedDate[data.date] != null && data.transformedDate[data.date][0] != null) {
+
             let currentBoxScores = {
               moduleTitle: this.moduleHeader(data.date, profileName),
               gameInfo: this.formatGameInfo(data.transformedDate[data.date],scopedDateParam.scope, scopedDateParam.profile),
@@ -296,7 +301,7 @@ export class BoxScoresService {
   // modifies data to get header data for modules
   aiHeadLine(data, scope?) {
     var boxArray = [];
-    if (data[0].featuredReport['article'].status != "Error") {
+    if (data[0] != null && data[0].featuredReport['article'] && data[0].featuredReport['article'].status != "Error") {
       data.forEach(function(val, index){
         let aiContent = val.featuredReport['article']['data'][0];
         for(var p in aiContent['articleData']){
@@ -311,25 +316,27 @@ export class BoxScoresService {
             var homeImage = VerticalGlobalFunctions.getBackroundImageUrlWithStockFallback(null);
           }
         }
-        let urlRoute = VerticalGlobalFunctions.formatExternalArticleRoute(scope, p, val.event);
-        urlRoute = GlobalSettings.getOffsiteLink(scope, urlRoute);
-        var Box = {
-          eventType: eventType,
-          eventId: p,
-          keyword: p.replace('-', ' '),
-          date: date,
-          url: VerticalGlobalFunctions.formatAiArticleRoute(p, val.event),
-          title: title,
-          teaser: teaser,
-          urlRouteArray: 'http://www.touchdownloyal.com/articles/'+scope+'/'+p+'/'+eventId,
-          imageConfig:{
-            imageClass: "image-320x180-sm",
-            imageUrl: homeImage,
-            hoverText: "View Article",
-            urlRouteArray: urlRoute
+        if ( p ) {
+          let urlRoute = VerticalGlobalFunctions.formatExternalArticleRoute(scope, p, val.event);
+          urlRoute = GlobalSettings.getOffsiteLink(scope, urlRoute);
+          var Box = {
+            eventType: eventType,
+            eventId: p,
+            keyword: p.replace('-', ' '),
+            date: date,
+            url: VerticalGlobalFunctions.formatAiArticleRoute(p, val.event),
+            title: title,
+            teaser: teaser,
+            urlRouteArray: 'http://www.touchdownloyal.com/articles/'+scope+'/'+p+'/'+eventId,
+            imageConfig:{
+              imageClass: "image-320x180-sm",
+              imageUrl: homeImage,
+              hoverText: "View Article",
+              urlRouteArray: urlRoute
+            }
           }
-        }
-        boxArray.push(Box);
+          boxArray.push(Box);
+        } //if ( p )
       });
       return boxArray;
     } else{
@@ -382,7 +389,7 @@ export class BoxScoresService {
     }
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
-      .map(data => {``
+      .map(data => {
         return data;
       })
   }
@@ -437,12 +444,13 @@ export class BoxScoresService {
       let homeData = data.homeTeamInfo;
       let gameInfo = data.gameInfo;
       let isPartner = GlobalSettings.getHomeInfo().isPartner;
-      if(homeData.lastName == null){
+      if(homeData.lastName != null){
         homeData.lastName = homeData.name.split(' ')[homeData.name.split(' ').length-1];
       }
-      if(awayData.lastName == null){
+      if(awayData.lastName != null){
         awayData.lastName = awayData.name.split(' ')[awayData.name.split(' ').length-1];
       }
+      // NBA & NCAAM needs nickname datapoint
       let homeLink = isPartner == false ? self.formatTeamRelLinks(scope, homeData.lastName, homeData.id)[scope].vertical_link : self.formatTeamRelLinks(scope, homeData.lastName, homeData.id)[scope].partner_link; //TODO
       let awayLink = isPartner == false ? self.formatTeamRelLinks(scope, awayData.lastName, awayData.id)[scope].vertical_link : self.formatTeamRelLinks(scope, awayData.lastName, awayData.id)[scope].partner_link;//TODO
       homeLink = GlobalSettings.getOffsiteLink(scope, homeLink);
@@ -463,13 +471,15 @@ export class BoxScoresService {
       }
 
       let gameDate = data.gameInfo;
-      let homeRecord = data.homeTeamInfo.teamRecord;
-      // let homeWin = homeData.winRecord != null ? homeData.winRecord : '#';
-      // let homeLoss = homeData.lossRecord != null ? homeData.lossRecord : '#';
+      let homeWins = homeData.wins != null ? homeData.wins : '#';
+      let homeLosses = homeData.losses != null ? homeData.losses : '#';
+      let homeTies = homeData.ties != null ? homeData.ties : '#';
+      let homeRecord = homeData.ties != null ? homeWins+'-'+homeLosses+'-'+homeTies : homeWins+'-'+homeLosses;
 
-      let awayRecord = data.awayTeamInfo.teamRecord;
-      // let awayWin = awayData.winRecord != null ? awayData.winRecord : '#';
-      // let awayLoss = awayData.lossRecord != null ? awayData.lossRecord : '#';
+      let awayWins = awayData.wins != null ? awayData.wins : '#';
+      let awayLosses = awayData.losses != null ? awayData.losses : '#';
+      let awayTies = awayData.ties != null ? awayData.ties : '#';
+      let awayRecord = awayData.ties != null ? awayWins+'-'+awayLosses+'-'+awayTies : awayWins+'-'+awayLosses;
 
       //determine if a game is live or not and display correct game time
       var currentTime = new Date().getTime();
@@ -516,7 +526,8 @@ export class BoxScoresService {
         homeData:{
           homeTeamName: homeData.lastName,
           homeImageConfig:link1,
-          homeLink: homeLink,
+          homeLink: null,
+          homeExternalURL: homeLink,
           homeRecord: homeRecord,
           dataPoint1:homeData.dataPoint1Home,
           dataPoint2:homeData.dataPoint2Home,
@@ -525,7 +536,8 @@ export class BoxScoresService {
         awayData:{
           awayTeamName:awayData.lastName,
           awayImageConfig:link2,
-          awayLink: awayLink,
+          awayLink: null,
+          awayExternalURL: awayLink,
           awayRecord: awayRecord,
           dataPoint1:awayData.dataPoint1Away,
           dataPoint2:awayData.dataPoint2Away,
@@ -554,27 +566,27 @@ export class BoxScoresService {
   formatScoreBoard(data){}// so far unused on TCX
 
   formatTeamRelLinks(scope, teamName, id){
-    teamName = teamName.toLowerCase();
+    teamName = teamName ? teamName.toLowerCase() : null;
     var relPath = {
       'nfl':{
-        'vertical_link': 'nfl/team/'+teamName.split(' ').join('-')+'/'+id,
-        'partner_link':'nfl/t/'+teamName.split(' ').join('-')+'/'+id,
+        'vertical_link': teamName ? 'nfl/team/'+teamName.split(' ').join('-')+'/'+id : null,
+        'partner_link': teamName ? 'nfl/t/'+teamName.split(' ').join('-')+'/'+id : null,
       },
       'ncaaf':{
-        'vertical_link': 'ncaaf/team/'+teamName.split(' ').join('-')+'/'+id,
-        'partner_link':'ncaaf/t/'+teamName.split(' ').join('-')+'/'+id,
+        'vertical_link': teamName ? 'ncaaf/team/'+teamName.split(' ').join('-')+'/'+id : null,
+        'partner_link': teamName ? 'ncaaf/t/'+teamName.split(' ').join('-')+'/'+id : null,
       },
       'mlb':{
-        'vertical_link': 'team'+teamName.split(' ').join('-')+'/'+id,
-        'partner_link':'t/'+teamName.split(' ').join('-')+'/'+id,
+        'vertical_link': teamName ? 'team/'+teamName.split(' ').join('-')+'/'+id : null,
+        'partner_link': teamName ? 't/'+teamName.split(' ').join('-')+'/'+id : null,
       },
       'nba':{
-        'vertical_link': 'nba/team/'+teamName.split(' ').join('-')+'/'+id,
-        'partner_link':'nba/t/'+teamName.split(' ').join('-')+'/'+id,
+        'vertical_link': teamName ? 'nba/team/'+teamName.split(' ').join('-')+'/'+id : null,
+        'partner_link': teamName ? 'nba/t/'+teamName.split(' ').join('-')+'/'+id : null,
       },
       'ncaam':{
-        'vertical_link': 'ncaa/team/'+teamName.split(' ').join('-')+'/'+id,
-        'partner_link':'ncaa/t/'+teamName.split(' ').join('-')+'/'+id,
+        'vertical_link': teamName ? 'ncaa/team/'+teamName.split(' ').join('-')+'/'+id : null,
+        'partner_link': teamName ? 'ncaa/t/'+teamName.split(' ').join('-')+'/'+id : null,
       },
     };
     return relPath;

@@ -185,27 +185,29 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
                 }
 
             }
-            this._seo.setsource(data.source);
-            this._seo.setarticletitle(data.title);
-            this._seo.setimage_url(image);
-            this._seo.setarticleurl(link);
-            this._seo.setarticletype(this.subcategory);
-            this._seo.setarticleid(data.article_id);
-            this._seo.setauthor(articleAuthor);
-            this._seo.setpublisheddate(data.last_updated);
-            this._seo.setkeyword(data.keywords);
-            this._seo.setsearchtype('article');
-            this._seo.setpublisher(data.publisher);
-            data.teaser?this._seo.setteaser(data.teaser):this._seo.setteaser(data.article_data.article[0]);
+            this._seo.setSource(data.source);
+            this._seo.setArticleTitle(data.title);
+            this._seo.setImageUrl(image);
+            this._seo.setArticleUrl(link);
+            this._seo.setArticleType(this.subcategory);
+            this._seo.setArticleId(data.article_id);
+            this._seo.setAuthor(articleAuthor);
+            this._seo.setPublishedDate(data.last_updated);
+            this._seo.setKeyword(data.keywords);
+            this._seo.setSearchType('article');
+            this._seo.setPublisher(data.publisher);
+            this._seo.setSearchString(data.keywords);
+            data.teaser?this._seo.setTeaser(data.teaser):this._seo.setTeaser(data.article_data.article[0]);
 
         }else{
-            this._seo.setarticletitle(data.title);
-            this._seo.setarticleurl(link);
-            this._seo.setimage_url(data.video_thumbnail);
-            this._seo.setarticleid(data.id);
-            this._seo.setkeyword(data.keyword);
-            this._seo.setteaser(data.teaser);
-            this._seo.setsearchtype('article');
+            this._seo.setArticleTitle(data.title);
+            this._seo.setArticleUrl(link);
+            this._seo.setImageUrl(data.video_thumbnail);
+            this._seo.setArticleId(data.id);
+            this._seo.setKeyword(data.keyword);
+            this._seo.setTeaser(data.teaser);
+            this._seo.setSearchType('article');
+            this._seo.setSearchString(data.keywords);
         }
     }
 

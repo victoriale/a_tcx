@@ -585,7 +585,7 @@ export class GlobalSettings {
             }
           }
           else {
-            link = "http://touchdownloyal.com" + "/" + relativeUrl;
+            link = "http://www.touchdownloyal.com" + "/" + relativeUrl;
           }
           break;
         //BASKETBALL URL

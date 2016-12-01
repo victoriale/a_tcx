@@ -47,7 +47,7 @@ export class DeepDiveService {
     //always returns the first batch of articles
        this.getDeepDiveBatchService(scope, limit, batch, state)
        .subscribe(data=>{
-         var transformedData = this.carouselTransformData(data);
+         var transformedData = this.carouselTransformData(data, scope);
          callback(transformedData);
        },
        err => {
@@ -168,7 +168,7 @@ export class DeepDiveService {
         return articleStackArray;
     }// transformToArticleStack ENDS
 
-    carouselTransformData(arrayData:Array<ArticleStackData>){
+    carouselTransformData(arrayData:Array<ArticleStackData>, scope){
       if(arrayData == null || typeof arrayData == 'undefined' || arrayData.length == 0 || arrayData === undefined){
         return null;
       }
@@ -177,7 +177,21 @@ export class DeepDiveService {
         var curdate = new Date();
         var curmonthdate = curdate.getDate();
         var timeStamp = moment(Number(val.last_updated)).format("MMMM Do, YYYY h:mm:ss a");
+
+        var routeLink;
+        var extLink;
+        var category = val.article_sub_type ? val.article_sub_type : val.article_type;
+        if(val.source == "snt_ai"){
+          routeLink = GlobalSettings.getOffsiteLink(val.scope, VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id));
+          extLink = true;
+        } else {
+          routeLink = VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, "story");
+          extLink = false;
+        }
+
         let carData = {
+          articlelink: routeLink != "" ? routeLink : '/deep-dive',
+          extUrl: extLink,
           source: val.source,
           report_type: val.report_type,
           image_url: GlobalSettings.getImageUrl(val['image_url']),

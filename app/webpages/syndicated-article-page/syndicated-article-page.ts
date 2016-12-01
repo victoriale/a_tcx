@@ -210,6 +210,15 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     }
 
     @HostListener('window:scroll',['$event']) onScroll(e){
+        var scrollingElement=e.target.body.getElementsByClassName('article-widget')[0];
+        if(scrollingElement){
+            if(window.scrollY > 825){
+                var sctop = window.scrollY-825+20+'px';
+                this._render.setElementStyle(scrollingElement,'top', sctop);
+            }else {
+                this._render.setElementStyle(scrollingElement, "top", '0')
+            }
+        }
         var trendingElement= e.target.body.getElementsByClassName('trending-small')[0];
         if(window.innerHeight + window.scrollY >= document.body.scrollHeight){
             this.getDeepDiveArticle(this.category, this.trendingLength, this.subcategory, this.eventType, this.articleID);

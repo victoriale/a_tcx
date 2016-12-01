@@ -210,10 +210,18 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     }
 
     @HostListener('window:scroll',['$event']) onScroll(e){
+
         var scrollingElement=e.target.body.getElementsByClassName('article-widget')[0];
+        var header = e.target.body.getElementsByClassName('header')[0];
+        var articleTitle = e.target.body.getElementsByClassName('articles-page-title')[0];
+        var imageCarousel = e.target.body.getElementsByClassName('images-media')[0];
+        var padding = 21;
+
+        let topCSS = header.offsetHeight + articleTitle.offsetHeight + imageCarousel.offsetHeight - padding;
+
         if(scrollingElement){
-            if(window.scrollY > 825){
-                var sctop = window.scrollY-825+20+'px';
+            if(window.scrollY > topCSS){
+                var sctop = window.scrollY-topCSS+'px';
                 this._render.setElementStyle(scrollingElement,'top', sctop);
             }else {
                 this._render.setElementStyle(scrollingElement, "top", '0')

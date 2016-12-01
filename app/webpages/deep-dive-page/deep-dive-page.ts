@@ -153,7 +153,7 @@ export class DeepDivePage implements OnInit {
       if(this.scope == 'all'){
         pageScope = 'breaking';
       }
-      this._deepDiveData.getCarouselData(pageScope, this.carouselData, '25', '1', this.geoLocation, (carData)=>{
+      this._deepDiveData.getCarouselData(pageScope, this.carouselData, '15', '1', this.geoLocation, (carData)=>{
         this.carouselData = carData;
       })
     }

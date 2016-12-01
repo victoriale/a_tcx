@@ -1,9 +1,9 @@
 <header class="header container-fluid fixedHeader" id="pageHeader" (window:scroll)="onScrollStick($event)" [style.top]="_stickyHeader">
   <div *ngIf="!partnerID" class="header-logo">
-    <a routerLink="/deep-dive"><img src={{logoUrl}}/></a>
+    <a routerLink="/deep-dive"><img src={{logoUrl}}></a>
   </div>
   <div *ngIf="partnerID" class="header-logo">
-    <a routerLink="/deep-dive"><img src={{partnerLogoUrl}}/></a>
+    <a routerLink="/deep-dive"><img src={{partnerLogoUrl}}></a>
   </div>
   <section class="header-top" [class.header-partner]="partnerID">
     <div class="header-left">
@@ -36,13 +36,13 @@
 
     </div>
     <div class="header-right">
-      <div class="breaking-parallelogram">
+      <div *ngIf="breakingHeadLines" class="breaking-parallelogram">
         <div class="breaking-title">BREAKING</div>
         <div class="breaking-scroller">
           <div class="breaking-fader"></div>
           <div class="breaking-text">
             <!-- placeholder text please remove -->
-            <a>Kirk Cousins is the best QB in the NFL</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a>Glider Will Attempt Record-Breaking Flight to Edge of Space</a>
+            <a *ngFor="let item of breakingHeadLines;" href="item.articleUrl"><span [innerHTML]="item.title | safeHtml"></span>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</a>
           </div>
         </div>
       </div>
@@ -58,9 +58,9 @@
       </div>
     </div>
   </section>
-  <div id="salad-bar-top" class="fixedHeader" [style.top]="_stickyHeader">
+  <!-- <div id="salad-bar-top" class="fixedHeader" [style.top]="_stickyHeader">
     <div id="salad-bar"></div>
-  </div>
+  </div> -->
 </header>
 <div class="spacer">
 </div>

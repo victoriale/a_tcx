@@ -509,7 +509,7 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
-          icon:'fa-auto-shape',
+          icon:'fa-news',
           pageType: 'all',
           color:'#00b9e3',
           hoverColor: "rgba(0, 185, 227, 0.75)"
@@ -527,7 +527,7 @@ export class GlobalSettings {
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
-          icon: 'fa-g-plus',
+          icon: 'fa-news',
           pageType: 3,
           color:'#00b9e3',
           hoverColor: "rgba(0, 185, 227, 0.75)"

@@ -23,8 +23,7 @@ export class DeepDiveService {
     var headers = this.setToken();
     var callURL = GlobalSettings.getTCXscope(category).tcxApi + "/articles";
     //http://dev-tcxmedia-api.synapsys.us/articles?help=1
-    //http://dev-tcxmedia-api.synapsys.us/articles?articleType=about-the-teams
-    //http://dev-tcxmedia-api.synapsys.us/articles?&keyword[]=breaking
+    //http://dev-tcxmedia-api.synapsys.us/articles?&keyword[]=food&source[]=snt_ai&source[]=tca-curated&random=1&metaDataOnly=1&page=1&count=5
     if(limit !== null && page !== null){
       callURL += '?count=' + limit + '&page=' + page;
     }
@@ -109,7 +108,7 @@ export class DeepDiveService {
           time_stamp: date ? date : "",
           video_thumbnail: val.video_thumbnail ? val.video_thumbnail : sampleImage,
           embed_url: val.video_url != null ? val.video_url : null,
-          video_url: VerticalGlobalFunctions.formatArticleRoute(scope, val.id, "video"),
+          video_url: VerticalGlobalFunctions.formatArticleRoute(keywords, val.id, "video"),
           keyUrl: VerticalGlobalFunctions.formatSectionFrontRoute(keywords),
           teaser: val.teaser
         }

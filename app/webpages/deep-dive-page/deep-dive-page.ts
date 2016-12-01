@@ -1,19 +1,20 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SchedulesService } from '../../services/schedules.service';
 import { DeepDiveService } from '../../services/deep-dive.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GlobalSettings } from "../../global/global-settings";
 import { GlobalFunctions } from "../../global/global-functions";
 import { GeoLocation } from "../../global/global-service";
 
 import { SectionNameData } from "../../fe-core/interfaces/deep-dive.data";
+import { SeoService } from "../../global/seo.service";
 
 declare var moment;
 declare var jQuery: any;
 
 @Component({
     selector: "deep-dive-page",
-    templateUrl: 'app/webpages/deep-dive-page/deep-dive-page.html',
+    templateUrl: 'app/webpages/deep-dive-page/deep-dive-page.html'
 })
 
 export class DeepDivePage implements OnInit {
@@ -21,15 +22,10 @@ export class DeepDivePage implements OnInit {
     //side scroller
     sideScrollData: any;
     scrollLength: number = 0;
-
     selectedLocation: string = "san%20francisco-ca"; // default city for weather if geolocation returns nothin
-    boxScoresTempVar: string = "nfl";
-
     tcxVars: any;
-
     topScope: string;
     changeScopeVar: string;
-
     safeCall: boolean = true;
     ssMax: number;
     callCount: number = 1;
@@ -45,12 +41,19 @@ export class DeepDivePage implements OnInit {
     sectionNameIcon: string;
     sectionNameTitle: string = this.category;
     geoLocation:string;
-
     carouselGraph:any;
     carouselVideo:any;
     carouselData: any;
 
-    constructor(private _schedulesService:SchedulesService, private _deepDiveData: DeepDiveService, private _activatedRoute: ActivatedRoute, private _geoLocation: GeoLocation) {}
+    constructor(
+        private _schedulesService:SchedulesService,
+        private _deepDiveData: DeepDiveService,
+        private _activatedRoute: ActivatedRoute,
+        private _geoLocation: GeoLocation,
+        private _seo:SeoService,
+        private _router:Router,
+    ) {}
+
 
     ngOnDestroy(){
       this.routeSubscription.unsubscribe();
@@ -79,8 +82,9 @@ export class DeepDivePage implements OnInit {
 
     private sectionFrontName(){
       var displayName = GlobalSettings.getTCXscope(this.scope).displayName;
+      var secIcon = GlobalSettings.getTCXscope(this.scope).icon;
       return this.sectionName = {
-         icon: GlobalSettings.getTCXscope(this.scope).icon,
+         icon: secIcon ? secIcon : 'fa-news',
          title: displayName ? displayName : GlobalFunctions.toTitleCase(this.scope)
        }
     }
@@ -118,6 +122,22 @@ export class DeepDivePage implements OnInit {
       }
     }
 
+    private addMetaTags(){
+        let metaDesc = GlobalSettings.getPageTitle('Dive into the most recent news about your favorite sports, movies and read the latest articles on politics, business, travel etc.', 'Deep Dive');
+        let link = window.location.href;
+
+        this._seo.setCanonicalLink(link);
+        this.scope=="all"?this._seo.setOgTitle('TCX Deep Dive'): this._seo.setOgTitle(this.scope);
+        this._seo.setOgDesc(metaDesc);
+        this._seo.setOgType('Website');
+        this._seo.setOgUrl(link);
+        this._seo.setOgImage(GlobalSettings.getImageUrl('/app/public/mainLogo.png'));
+        this._seo.setTitle('TCX Deep Dive');
+        this._seo.setMetaDescription(metaDesc);
+        this._seo.setMetaRobots('INDEX, FOLLOW');
+
+    }
+
     changeScope($event) {
       this.changeScopeVar = $event;
       this.getSideScroll();
@@ -133,7 +153,7 @@ export class DeepDivePage implements OnInit {
       if(this.scope == 'all'){
         pageScope = 'breaking';
       }
-      this._deepDiveData.getCarouselData(pageScope, this.carouselData, '25', '1', this.geoLocation, (carData)=>{
+      this._deepDiveData.getCarouselData(pageScope, this.carouselData, '15', '1', this.geoLocation, (carData)=>{
         this.carouselData = carData;
       })
     }
@@ -192,6 +212,7 @@ export class DeepDivePage implements OnInit {
             this.getGeoLocation();
             this.getDeepDiveVideo();
             this.sectionFrontName();
+            this.addMetaTags();
           });
     }
   }

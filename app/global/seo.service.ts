@@ -27,12 +27,21 @@ export class SeoService {
   private ogUrl: HTMLElement;
   private ogImage: HTMLElement;
   private ogDesc: HTMLElement;
-  private ogId:HTMLElement;
-  private ogDate:HTMLElement;
-  private ogAuthor:HTMLElement;
-  private ogKeyword:HTMLElement;
-  private ogSubKeyword:HTMLElement;
-  private robots: HTMLElement;
+  private es_search_type: HTMLElement;
+  private es_source: HTMLElement;
+  private es_article_id: HTMLElement;
+  private es_article_title: HTMLElement;
+  private es_keyword: HTMLElement;
+  private es_published_date: HTMLElement;
+  private es_author: HTMLElement;
+  private es_publisher: HTMLElement;
+  private es_image_url: HTMLElement;
+  private es_article_teaser: HTMLElement;
+  private es_article_url: HTMLElement;
+  private es_article_type: HTMLElement;
+
+
+    private robots: HTMLElement;
   private DOM: any;
 
  /**
@@ -55,11 +64,19 @@ export class SeoService {
     this.ogUrl = this.getOgMetaElement("og:url");
     this.ogImage = this.getOgMetaElement("og:image");
     this.ogDesc = this.getOgMetaElement("og:description");
-    this.ogId = this.getOgMetaElement("og:id");
-    this.ogDate = this.getOgMetaElement("og:date");
-    this.ogAuthor = this.getOgMetaElement("og:author");
-    this.ogKeyword = this.getOgMetaElement('og:keyword');
-    this.ogSubKeyword = this.getOgMetaElement('og:subkeyword')
+    this.es_search_type= this.getOrCreateMetaElement('es_search_type');
+     this.es_source= this.getOrCreateMetaElement('es_source');
+     this.es_article_id= this.getOrCreateMetaElement('es_article_id');
+     this.es_article_title= this.getOrCreateMetaElement('es_article_title');
+     this.es_keyword= this.getOrCreateMetaElement('es_keyword');
+     this.es_published_date= this.getOrCreateMetaElement('es_published_date');
+     this.es_author= this.getOrCreateMetaElement('es_author');
+     this.es_publisher= this.getOrCreateMetaElement('es_publisher');
+     this.es_image_url= this.getOrCreateMetaElement('es_image_url');
+     this.es_article_teaser= this.getOrCreateMetaElement('es_article_teaser');
+     this.es_article_url= this.getOrCreateMetaElement('es_article_url');
+     this.es_article_type= this.getOrCreateMetaElement('es_article_type');
+
 
   }
 
@@ -120,21 +137,51 @@ export class SeoService {
   public setOgDesc(description: string) {
     this.ogDesc.setAttribute('content', description);
   }
-  public setOgId(id:string) {
-      this.ogId.setAttribute('content', id);
-  }
-  public setOgDate(date:string){
-      this.ogDate.setAttribute('content',date);
-  }
-  public setOgAuthor(author:string){
-      this.ogAuthor.setAttribute('content', author);
-  }
-  public setOgKeyword(keyword:string){
-      this.ogKeyword.setAttribute('content',keyword);
-  }
-  public setOgSubKeyword(subkeyword:string){
-      this.ogSubKeyword.setAttribute('content',subkeyword);
-  }
+    public setsearchtype(es_search_type: string){
+      this.es_search_type.setAttribute('content', es_search_type);
+    };
+    public setsource(es_source:string){
+        this.es_source.setAttribute('content', es_source);
+    };
+    public setarticleid(es_article_id){
+        this.es_article_id.setAttribute('content', es_article_id);
+    };
+    public setarticletitle(es_article_title){
+        this.es_article_title.setAttribute('content', es_article_title);
+
+    };
+    public setkeyword(es_keyword){
+        this.es_keyword.setAttribute('content', es_keyword);
+
+    };
+    public setpublisheddate(es_published_date){
+        this.es_published_date.setAttribute('content',es_published_date);
+
+    };
+    public setauthor(es_author){
+        this.es_author.setAttribute('content', es_author);
+
+    };
+    public setpublisher(es_publisher){
+        this.es_publisher.setAttribute('content', es_publisher);
+    };
+    public setimage_url(es_image_url){
+        this.es_image_url.setAttribute('content', es_image_url);
+
+    };
+    public setteaser(es_article_teaser){
+        this.es_article_teaser.setAttribute('content', es_article_teaser);
+
+    };
+    public setarticleurl(es_article_url){
+        this.es_article_url.setAttribute('content', es_article_url);
+
+    };
+    public setarticletype(es_article_type){
+        this.es_article_type.setAttribute('content', es_article_type);
+
+    };
+
 
    /**
     * get the HTML Element when it is in the markup, or create it.

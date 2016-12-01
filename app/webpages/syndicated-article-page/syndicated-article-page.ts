@@ -148,21 +148,26 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         )
     }
     private metaTags(data, artType) {
-
-
-        let metaDesc;
-        if (data.teaser != null) {
-            metaDesc = data.teaser;
-        } else {
-            metaDesc = data.article_data.article[0];
-        }
+        let metaDesc = GlobalSettings.getPageTitle('Dive into the most recent news about your favorite sports, movies and read the latest articles on politics, business, travel etc.', 'Articles');
         let link = window.location.href;
+
+        this._seo.setCanonicalLink(link);
+        this._seo.setOgDesc(metaDesc);
+        this._seo.setOgType('Website');
+        this._seo.setOgUrl(link);
+        this._seo.setOgImage(GlobalSettings.getImageUrl('/app/public/mainLogo.png'));
+        this._seo.setTitle('TCX Syndicate article');
+        this._seo.setMetaDescription(metaDesc);
+        this._seo.setMetaRobots('INDEX, FOLLOW');
+        this._seo.setOgTitle(this.subcategory);
+
+
         if(artType=="story") {
             let image;
             if (this.imageData != null) {
-                image = this.imageData[0];
+                image = data.article_data.images[0].image_url;
             } else {
-                image = GlobalSettings.getImageUrl(data.image_url);
+                image = data.image_url;
             }
             let articleAuthor = '';
             if (data.author) {
@@ -180,38 +185,31 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
                 }
 
             }
-            this._seo.setCanonicalLink(link);
-            this._seo.setOgTitle(data.title);
-            this._seo.setOgDesc(metaDesc);
-            this._seo.setOgType('Website');
-            this._seo.setOgUrl(link);
-            this._seo.setOgImage(image);
-            this._seo.setTitle(data.title);
-            this._seo.setMetaDescription(metaDesc);
-            this._seo.setMetaRobots('INDEX, FOLLOW');
-            this._seo.setOgId(data.article_id);
-            this._seo.setOgAuthor(articleAuthor);
-            this._seo.setOgDate(data.last_updated);
-            this._seo.setOgKeyword(data.keywords[0]);
-            data.keywords[1] ? this._seo.setOgSubKeyword(data.keywords[1]) : this._seo.setOgSubKeyword(data.keywords[0]);
+            this._seo.setsource(data.source);
+            this._seo.setarticletitle(data.title);
+            this._seo.setimage_url(image);
+            this._seo.setarticleurl(link);
+            this._seo.setarticletype(this.subcategory);
+            this._seo.setarticleid(data.article_id);
+            this._seo.setauthor(articleAuthor);
+            this._seo.setpublisheddate(data.last_updated);
+            this._seo.setkeyword(data.keywords);
+            this._seo.setsearchtype('article');
+            this._seo.setpublisher(data.publisher);
+            data.teaser?this._seo.setteaser(data.teaser):this._seo.setteaser(data.article_data.article[0]);
+
         }else{
-            this._seo.setCanonicalLink(link);
-            this._seo.setOgTitle(data.title);
-            this._seo.setOgType('Website');
-            this._seo.setOgDesc(metaDesc);
-            this._seo.setOgUrl(link);
-            this._seo.setOgImage(data.video_thumbnail);
-            this._seo.setMetaDescription(metaDesc);
-            this._seo.setMetaRobots('INDEX, FOLLOW');
-            this._seo.setOgId(data.id);
-            this._seo.setOgKeyword(data.keyword);
+            this._seo.setarticletitle(data.title);
+            this._seo.setarticleurl(link);
+            this._seo.setimage_url(data.video_thumbnail);
+            this._seo.setarticleid(data.id);
+            this._seo.setkeyword(data.keyword);
+            this._seo.setteaser(data.teaser);
+            this._seo.setsearchtype('article');
         }
     }
 
     @HostListener('window:scroll',['$event']) onScroll(e){
-
-
-
         var trendingElement= e.target.body.getElementsByClassName('trending-small')[0];
         if(window.innerHeight + window.scrollY >= document.body.scrollHeight){
             this.getDeepDiveArticle(this.category, this.trendingLength, this.subcategory, this.eventType, this.articleID);

@@ -34,7 +34,14 @@ export class DeepDiveService {
     } else {
       callURL += '&keyword[]=' + category;
     }
-    callURL += "&source[]=snt_ai&source[]=tca&random=1&metaDataOnly=1";
+    if(category == "breaking"){
+      let yesterday = moment().add(-1).format('YYYY-MM-DD');
+      let now = moment().format('YYYY-MM-DD');
+      // console.log("yesterday", yesterday, now);
+      callURL += "&source[]=tca&random=1&metaDataOnly=1";
+    } else {
+      callURL += "&source[]=snt_ai&source[]=tca&random=1&metaDataOnly=1";
+    }
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {

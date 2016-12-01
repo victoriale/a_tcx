@@ -215,36 +215,21 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
 
     @HostListener('window:scroll',['$event']) onScroll(e){
         var scrollingElement=e.target.body.getElementsByClassName('article-widget')[0];
-        var title=e.target.body.getElementsByClassName('articles-page-title')[0];
-        if(title.offsetHeight && title.offsetHeight<56){
-            if(scrollingElement){
-                if(window.scrollY > 825){
-                    var sctop = window.scrollY-825+20+'px';
-                    this._render.setElementStyle(scrollingElement,'top', sctop);
-                }else {
-                    this._render.setElementStyle(scrollingElement, "top", '0')
-                }
-            }
-        }else if(title.offsetHeight && title.offsetHeight>56 && title.offsetHeight<100){
-            if(scrollingElement){
-                if(window.scrollY > 850){
-                    var sctop = window.scrollY-850+'px';
-                    this._render.setElementStyle(scrollingElement,'top', sctop);
-                }else {
-                    this._render.setElementStyle(scrollingElement, "top", '0')
-                }
-            }
-        }else{
-            if(scrollingElement){
-                if(window.scrollY > 895){
-                    var sctop = window.scrollY-895+'px';
-                    this._render.setElementStyle(scrollingElement,'top', sctop);
-                }else {
-                    this._render.setElementStyle(scrollingElement, "top", '0')
-                }
+        var header = e.target.body.getElementsByClassName('header')[0];
+        var articleTitle = e.target.body.getElementsByClassName('articles-page-title')[0];
+        var imageCarousel = e.target.body.getElementsByClassName('images-media')[0];
+        var padding = 21;
+
+        let topCSS = header.offsetHeight + articleTitle.offsetHeight + imageCarousel.offsetHeight - padding;
+
+        if(scrollingElement){
+            if(window.scrollY > topCSS){
+                var sctop = window.scrollY-topCSS+'px';
+                this._render.setElementStyle(scrollingElement,'top', sctop);
+            }else {
+                this._render.setElementStyle(scrollingElement, "top", '0')
             }
         }
-
         var trendingElement= e.target.body.getElementsByClassName('trending-small')[0];
         if(window.innerHeight + window.scrollY >= document.body.scrollHeight){
             this.getDeepDiveArticle(this.category, this.trendingLength, this.subcategory, this.eventType, this.articleID);

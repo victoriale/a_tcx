@@ -351,8 +351,8 @@ export class SchedulesService {
                     data.data.data[n].date = date + " &bull; " + time;
                     data.data.data[n].homeTeamName = data.data.data[n].lastNameHome;
                     data.data.data[n].awayTeamName = data.data.data[n].lastNameAway;
-                    data.data.data[n].awayProfileUrl = GlobalSettings.getOffsiteLink("nba", data.data.current_scope + "/team/" + data.data.data[n].fullNameAway.replace(/ /g, "-") + "/" + data.data.data[n].idAway);
-                    data.data.data[n].homeProfileUrl = GlobalSettings.getOffsiteLink("nba", data.data.current_scope + "/team/" + data.data.data[n].fullNameAway.replace(/ /g, "-") + "/" + data.data.data[n].idHome);
+                    data.data.data[n].awayProfileUrl = data.data.data[n].fullNameAway ? GlobalSettings.getOffsiteLink("nba", data.data.current_scope + "/team/" + data.data.data[n].fullNameAway.replace(/ /g, "-") + "/" + data.data.data[n].idAway) : null;
+                    data.data.data[n].homeProfileUrl = data.data.data[n].fullNameHome ? GlobalSettings.getOffsiteLink("nba", data.data.current_scope + "/team/" + data.data.data[n].fullNameHome.replace(/ /g, "-") + "/" + data.data.data[n].idHome) : null;
                     if (data.data.data[n].logoUrlAway == "" || data.data.data[n].logoUrlAway == null) {
                         data.data.data[n].logoUrlAway = '/app/public/no-image.png';
                     }
@@ -434,8 +434,8 @@ export class SchedulesService {
                     data.data[n].date = date + " &bull; " + time;
                     data.data[n].homeTeamName = data.data[n].lastNameHome;
                     data.data[n].awayTeamName = data.data[n].lastNameAway;
-                    data.data[n].awayProfileUrl = GlobalSettings.getOffsiteLink("mlb", data.data[n].fullNameAway.replace(/ /g, "-") + "/" + data.data[n].idAway);
-                    data.data[n].homeProfileUrl = GlobalSettings.getOffsiteLink("mlb", data.data[n].fullNameAway.replace(/ /g, "-") + "/" + data.data[n].idHome);
+                    data.data[n].awayProfileUrl = data.data[n].fullNameAway ? GlobalSettings.getOffsiteLink("mlb", data.data[n].fullNameAway.replace(/ /g, "-") + "/" + data.data[n].idAway) : null;
+                    data.data[n].homeProfileUrl = data.data[n].fullNameHome ? GlobalSettings.getOffsiteLink("mlb", data.data[n].fullNameHome.replace(/ /g, "-") + "/" + data.data[n].idHome) : null;
                     if (data.data[n].logoUrlAway == "" || data.data[n].logoUrlAway == null) {
                         data.data[n].logoUrlAway = '/app/public/no-image.png';
                     }

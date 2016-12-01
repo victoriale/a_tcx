@@ -68,7 +68,7 @@ export class SyndicateArticleService {
 
     data.forEach(function(val, index) {
       var info = val.info;
-      var date = GlobalFunctions.formatUpdatedDate(val.last_updated, false)
+      var date = GlobalFunctions.sntGlobalDateFormatting(val.last_updated, 'dayOfWeek');
       var s = {
           extUrl:false,
         imageConfig: {
@@ -115,8 +115,7 @@ export class SyndicateArticleService {
 
       if (val.article_id != currentArticleId && val.title && val.teaser) {
           val['articleCount']=data.length;
-        var date =  moment.unix(Number(val.last_updated));
-        val["date"] = GlobalFunctions.formatUpdatedDate(val.last_updated,true);
+        val["date"] = GlobalFunctions.sntGlobalDateFormatting(val.last_updated, 'timeZone');
         val["image"] = val.image_url != null ? GlobalSettings.getImageUrl(val.image_url) : placeholder;
         val["content"]=val.teaser;
         val['extUrl']=val.source!="snt_ai"?false:true;

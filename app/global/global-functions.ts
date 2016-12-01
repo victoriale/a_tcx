@@ -434,9 +434,9 @@ export class GlobalFunctions {
      */
     static formatUpdatedDate(jsDate:any, includeTimestamp?:boolean, timezone?:string):string {
         var date = moment.unix(Number(jsDate));
-        var str = date.format('dddd') +', '+ date.format('MMM') + date.format('. DD, YYYY ')
+        var str = date.format('dddd') +', '+ date.format('MMM') + date.format('. DD, YYYY')
         if (includeTimestamp) {
-            str += ' at ' + date.format('h:mm A') + ' '+ (timezone !== undefined && timezone !== null ? timezone : "EST");
+            str += ' at ' + date.format('h:mm A z');
         }
         return str;
     }
@@ -543,6 +543,48 @@ export class GlobalFunctions {
                 return "nine";
             default:
                 return num.toString();
+        }
+    }
+    static convertToUnix(input:any){
+        if(typeof input == 'string' && input.match(/^[0-9]+$/) != null) {
+            if(input.length <= 11){
+                var value = Number(input) * 1000; // if input is standard non-milisecond unix
+            } else {
+                var value = Number(input); // if input is in miliseconds
+            }
+        } else {
+            var value = Number(moment(input).format('x')); // convert stringed date to milisecond unix with moment.
+        }
+        return value;
+    }
+
+    static sntGlobalDateFormatting(unixTimestamp:any, identifier?:string, customDate?:string) {
+        var value = GlobalFunctions.convertToUnix(unixTimestamp);
+        let newDate;
+        let monthnum = Number(moment(value).tz('America/New_York').format("MM")) - 1;
+        let month = GlobalFunctions.formatAPMonth(Number(monthnum));
+        let longmonth = moment(value).tz('America/New_York').format('MMMM');
+        let day = moment(value).tz('America/New_York').format('dddd');
+        let dd = moment(value).tz('America/New_York').format("DD");
+        let year = moment(value).tz('America/New_York').format("YYYY");
+        let shortDate = moment(value).tz('America/New_York').format("MM/DD/YY");
+        let timeZone = moment(value).tz('America/New_York').format('h:mmA z');
+        let defaultDate = month + ' ' + dd + ', ' + year;
+
+        switch(identifier){
+            case 'defaultDate': newDate = defaultDate; // Oct. O6, 2016
+                return newDate;
+            case 'shortDate': newDate = moment(value).tz('America/New_York').format("MM/DD/YY"); // mm/dd/yy
+                return newDate;
+            case 'dayOfWeek': newDate = day + ', ' + defaultDate; // Tuesday, Jan. 14, 2016
+                return newDate;
+            case 'timeZone': newDate = day + ', ' + defaultDate + ' ' + timeZone; // Tuesday, Jan. 14, 2016 12:00 (EST)
+                return newDate;
+            case 'bulletedShortDateTime': newDate = day + ', ' + month + ' ' + dd + ' &bull; ' + moment(value).tz('America/New_York').format('h:mmA z'); // Tuesday, Jan. 14, 2016 12:00 (EST)
+                return newDate;
+            case 'custom': break;
+            default:
+                return defaultDate;
         }
     }
 

@@ -110,7 +110,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
                 this.articleData = data.data[0].article_data;
                 this.articleData.url= VerticalGlobalFunctions.formatArticleRoute(this.subcategory,this.articleID,this.eventType);
 
-                this.articleData.publishedDate = GlobalFunctions.formatUpdatedDate(data.data[0].last_updated, true);
+                this.articleData.publishedDate = GlobalFunctions.sntGlobalDateFormatting(data.data[0].last_updated, 'timeZone');
                 this.metaTags(data.data[0], this.eventType);
             }
         )

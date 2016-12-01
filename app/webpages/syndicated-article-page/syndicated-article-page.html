@@ -10,8 +10,8 @@
         <!-- ARTICLE PAGE BEGINS -->
         <span *ngIf="articleData">
           <share-links-component class="articles-page-padding" [shareUrl]="articleData.url"></share-links-component>
-          <h1 class="articles-page-title"><span *ngIf="eventType !='story' && eventType !='video'" [innerHTML]="articleData.title | safeHtml"></span><span *ngIf="eventType == 'story' || eventType == 'video'" [innerHTML]="articleData.title | safeHtml"></span></h1>
-          <sidekick-wrapper-ai [aiSidekick]="aiSidekick" [scope]="scope">
+          <h1 class="articles-page-title"><span [innerHTML]="articleData.title | safeHtml"></span></h1>
+          <sidekick-wrapper-ai [aiSidekick]="aiSidekick" [scope]="subcategory">
               <!-- IF IMAGES ARE AVAILABLE AND NOT VIDEO -->
               <section *ngIf="eventType != 'video'">
                 <!-- <div *ngIf="eventType == 'story'" class="carousel-container">
@@ -27,21 +27,24 @@
               </section>
 
               <section class="articles-page-container row">
-                <div class="arpt col-xs-12 col-lg-9">
+                <div class="arpt col-xs-12 col-xl-9">
                     <!-- ARTICLE INFORMATION -->
                     <section class="arpt-info">
-                      <div *ngIf="eventType == 'story' && articleData.publisher" class="arpt-author">Written By: <span class="text-master" [innerHTML]="articleData.publisher | safeHtml"></span></div>
+                      <div *ngIf="eventType == 'story' && articleData.publisher" class="arpt-author">Written By: <span class="text-master" [innerHTML]="articleData.author | safeHtml"></span>, &nbsp;<span class="text-master" [innerHTML]="articleData.publisher | safeHtml"></span></div>
                       <div class="arpt-date">Posted on: <span [innerHTML]="articleData.publishedDate | safeHtml"></span></div>
                     </section>
                     <!-- DISPLAY ARTICLE -->
 
                     <section *ngIf="eventType == 'story' || eventType == 'video'" class="arpt-main-article">
-                        <div class="content-exerpt" *ngIf="eventType == 'story'" [innerHTML]="articleData.description | safeHtml"></div>
+                        <div *ngIf="eventType == 'story'">
+                            <div class="content-exerpt" *ngFor="let description of articleData.article" [innerHTML]="description | safeHtml"></div>
+                          </div>
                         <div class="content-exerpt" *ngIf="eventType == 'video'" [innerHTML]="articleData.teaser | safeHtml"></div>
                         <div [ngStyle]="{width: '100%', height:'5px','display':'block'}"></div>
                     </section>
-                    <!-- RESPONSIVE WIDGET -->
-                    <sidekick-container-component></sidekick-container-component>
+                    <!-- RESPONSIVE WIDGET-->
+                        <sidekick-container-component></sidekick-container-component>
+
                     <disqus-component *ngIf="!checkPartner"></disqus-component>
 <!--
                     <recommendations-component *ngIf="randomHeadlines" [randomHeadlines]="randomHeadlines" [images]="images"></recommendations-component>
@@ -59,7 +62,7 @@
                     </trending-component>
                 </div>
 
-                <div class="vertical-widget col-lg-3">
+                <div class="vertical-widget col-xl-3">
                     <widget-module [aiSidekick]="aiSidekick" [syndicated]="syndicated" [scope]="scope"></widget-module>
                 </div>
             </section>

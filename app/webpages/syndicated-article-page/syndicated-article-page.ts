@@ -48,7 +48,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         private _seo:SeoService
 
     ){
-        window.scrollTo(0, 0);
+
 
         this.checkPartner = GlobalSettings.getHomeInfo().isPartner;
     }

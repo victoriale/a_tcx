@@ -29,9 +29,9 @@
               <section class="articles-page-container row">
                 <div class="arpt col-xs-12 col-xl-9">
                     <!-- ARTICLE INFORMATION -->
-                    <section class="arpt-info">
-                      <div *ngIf="eventType == 'story' && articleData.publisher" class="arpt-author">Written By: <span class="text-master" [innerHTML]="articleData.author | safeHtml"></span>, &nbsp;<span class="text-master" [innerHTML]="articleData.publisher | safeHtml"></span></div>
-                      <div class="arpt-date">Posted on: <span [innerHTML]="articleData.publishedDate | safeHtml"></span></div>
+                    <section class="arpt-info row">
+                      <div *ngIf="eventType == 'story' && articleData.publisher" class="arpt-author col-sm-12 col-md-6">Written By: <span class="text-master" [innerHTML]="articleData.author | safeHtml"></span>, &nbsp;<span class="text-master" [innerHTML]="articleData.publisher | safeHtml"></span></div>
+                      <div class="arpt-date col-sm-12 col-md-6">Posted on: <span [innerHTML]="articleData.publishedDate | safeHtml"></span></div>
                     </section>
                     <!-- DISPLAY ARTICLE -->
 
@@ -43,7 +43,7 @@
                         <div [ngStyle]="{width: '100%', height:'5px','display':'block'}"></div>
                     </section>
                     <!-- RESPONSIVE WIDGET-->
-                        <sidekick-container-component></sidekick-container-component>
+                    <responsive-widget [scope]="subcategory"></responsive-widget>
 
                     <disqus-component *ngIf="!checkPartner"></disqus-component>
 <!--

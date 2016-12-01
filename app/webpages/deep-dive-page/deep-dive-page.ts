@@ -131,7 +131,7 @@ export class DeepDivePage implements OnInit {
         this._seo.setOgDesc(metaDesc);
         this._seo.setOgType('Website');
         this._seo.setOgUrl(link);
-        this._seo.setOgImage(GlobalSettings.getImageUrl('/app/public/mainLogo.png'));
+        this._seo.setOgImage('/app/public/mainLogo.png');
         this._seo.setTitle('TCX Deep Dive');
         this._seo.setMetaDescription(metaDesc);
         this._seo.setMetaRobots('INDEX, FOLLOW');

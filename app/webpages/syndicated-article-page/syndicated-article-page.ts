@@ -51,6 +51,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
 
 
         this.checkPartner = GlobalSettings.getHomeInfo().isPartner;
+        this.initializePage();
     }
     ngOnInit(){
         this.initializePage();
@@ -89,6 +90,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
             window.dispatchEvent(resizeEvent);
         }
     }
+
     private getSyndicateArticle(articleID) {
         this._synservice.getSyndicateArticleService(articleID).subscribe(
 
@@ -107,8 +109,8 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
                 }
                 this.articleData = data.data[0].article_data;
                 this.articleData.url= VerticalGlobalFunctions.formatArticleRoute(this.subcategory,this.articleID,this.eventType);
-                var date = moment.unix(Number(data.data[0].last_updated));
-                this.articleData.publishedDate = date.format('dddd') +', '+ date.format('MMM') + date.format('. DD, YYYY');
+
+                this.articleData.publishedDate = GlobalFunctions.sntGlobalDateFormatting(data.data[0].last_updated, 'timeZone');
                 this.metaTags(data.data[0], this.eventType);
             }
         )
@@ -185,40 +187,64 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
                 }
 
             }
-            this._seo.setsource(data.source);
-            this._seo.setarticletitle(data.title);
-            this._seo.setimage_url(image);
-            this._seo.setarticleurl(link);
-            this._seo.setarticletype(this.subcategory);
-            this._seo.setarticleid(data.article_id);
-            this._seo.setauthor(articleAuthor);
-            this._seo.setpublisheddate(data.last_updated);
-            this._seo.setkeyword(data.keywords);
-            this._seo.setsearchtype('article');
-            this._seo.setpublisher(data.publisher);
-            data.teaser?this._seo.setteaser(data.teaser):this._seo.setteaser(data.article_data.article[0]);
+            this._seo.setSource(data.source);
+            this._seo.setArticleTitle(data.title);
+            this._seo.setImageUrl(image);
+            this._seo.setArticleUrl(link);
+            this._seo.setArticleType(this.subcategory);
+            this._seo.setArticleId(data.article_id);
+            this._seo.setAuthor(articleAuthor);
+            this._seo.setPublishedDate(data.last_updated);
+            this._seo.setKeyword(data.keywords);
+            this._seo.setSearchType('article');
+            this._seo.setPublisher(data.publisher);
+            this._seo.setSearchString(data.keywords);
+            data.teaser?this._seo.setTeaser(data.teaser):this._seo.setTeaser(data.article_data.article[0]);
 
         }else{
-            this._seo.setarticletitle(data.title);
-            this._seo.setarticleurl(link);
-            this._seo.setimage_url(data.video_thumbnail);
-            this._seo.setarticleid(data.id);
-            this._seo.setkeyword(data.keyword);
-            this._seo.setteaser(data.teaser);
-            this._seo.setsearchtype('article');
+            this._seo.setArticleTitle(data.title);
+            this._seo.setArticleUrl(link);
+            this._seo.setImageUrl(data.video_thumbnail);
+            this._seo.setArticleId(data.id);
+            this._seo.setKeyword(data.keyword);
+            this._seo.setTeaser(data.teaser);
+            this._seo.setSearchType('article');
+            this._seo.setSearchString(data.keywords);
         }
     }
 
     @HostListener('window:scroll',['$event']) onScroll(e){
         var scrollingElement=e.target.body.getElementsByClassName('article-widget')[0];
-        if(scrollingElement){
-            if(window.scrollY > 825){
-                var sctop = window.scrollY-825+20+'px';
-                this._render.setElementStyle(scrollingElement,'top', sctop);
-            }else {
-                this._render.setElementStyle(scrollingElement, "top", '0')
+        var title=e.target.body.getElementsByClassName('articles-page-title')[0];
+        if(title.offsetHeight && title.offsetHeight<56){
+            if(scrollingElement){
+                if(window.scrollY > 825){
+                    var sctop = window.scrollY-825+20+'px';
+                    this._render.setElementStyle(scrollingElement,'top', sctop);
+                }else {
+                    this._render.setElementStyle(scrollingElement, "top", '0')
+                }
+            }
+        }else if(title.offsetHeight && title.offsetHeight>56 && title.offsetHeight<100){
+            if(scrollingElement){
+                if(window.scrollY > 850){
+                    var sctop = window.scrollY-850+'px';
+                    this._render.setElementStyle(scrollingElement,'top', sctop);
+                }else {
+                    this._render.setElementStyle(scrollingElement, "top", '0')
+                }
+            }
+        }else{
+            if(scrollingElement){
+                if(window.scrollY > 895){
+                    var sctop = window.scrollY-895+'px';
+                    this._render.setElementStyle(scrollingElement,'top', sctop);
+                }else {
+                    this._render.setElementStyle(scrollingElement, "top", '0')
+                }
             }
         }
+
         var trendingElement= e.target.body.getElementsByClassName('trending-small')[0];
         if(window.innerHeight + window.scrollY >= document.body.scrollHeight){
             this.getDeepDiveArticle(this.category, this.trendingLength, this.subcategory, this.eventType, this.articleID);

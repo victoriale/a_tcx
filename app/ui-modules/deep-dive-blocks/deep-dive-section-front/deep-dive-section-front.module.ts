@@ -82,32 +82,32 @@ export class DeepDiveSectionFront implements OnInit {
 
   //API for Box Scores
   private getBoxScores(dateParams?) {
-    if(this.safeCounter < 10){
+    // if(this.safeCounter < 10){
       if ( dateParams != null ) {
         this.dateParam = dateParams;
       }
       this._boxScoresService.getBoxScores(this.boxScoresData, this.dateParam.scope, this.dateParam, (boxScoresData, currentBoxScores) => {
         this.boxScoresData = boxScoresData;
         this.currentBoxScores = currentBoxScores;
-        this.safeCounter = 0;
-        if(this.currentBoxScores == null && boxScoresData.transformedDate[dateParams.date] == null){
+        // this.safeCounter = 0;
+        if(this.currentBoxScores == null && boxScoresData.transformedDate[dateParams.date] == null) {
           if(boxScoresData.previousGameDate != null && boxScoresData.transformedDate[dateParams.date] == null){
-            this.dateParam.date = boxScoresData.previousGameDate.event_date;
+            this.dateParam.date = this.dateParam.date ? boxScoresData.previousGameDate.event_date : null;
             this.boxScoresData = null;
             this.currentBoxScores = null;
             this.safeCounter++;
-            this.getBoxScores(this.dateParam);
+            // this.getBoxScores(this.dateParam);
           }else{
             this.safeCounter = 0;
           }
           return;
         }
       });
-    }else{
-      this.dateParam = null;
-      this.boxScoresData = null;
-      this.currentBoxScores = null;
-    }
+    // }else{
+    //   this.dateParam = null;
+    //   this.boxScoresData = null;
+    //   this.currentBoxScores = null;
+    // }
   }
 
   callModules(pageNum){

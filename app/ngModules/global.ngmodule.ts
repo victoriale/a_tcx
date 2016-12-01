@@ -16,7 +16,7 @@ import { SectionFrontTopNav } from '../fe-core/components/section-front-top-nav/
 import { ComplexInnerHtml } from '../fe-core/components/complex-inner-html/complex-inner-html.component';
 import { HeaderComponent } from "../ui-modules/header/header.component";
 import { SectionNameComponent } from "../fe-core/components/section-name/section-name.component";
-import { Search } from "../fe-core/components/search/search.component";
+import { Search } from "../ui-modules/search/search.component";
 import { HamburgerMenuComponent, MenuData } from '../ui-modules/hamburger-menu/hamburger-menu.component';
 import { RectangleImage } from "../fe-core/components/images/rectangle-image/rectangle-image";
 import { CircleImage } from "../fe-core/components/images/circle-image/circle-image";
@@ -57,9 +57,10 @@ import {SanitizeScript, SanitizeHtml, SanitizeRUrl, SanitizeStyle} from "../fe-c
 
 //router
 import { routing  } from '../app.routing';
-import {InputBar} from "../fe-core/components/input-bar/input-bar.component";
-import {ArticleSearchBar} from "../fe-core/components/search-bar-article/search-bar-article.component";
-import {SeoService} from "../global/seo.service";
+import { InputBar } from "../fe-core/components/input-bar/input-bar.component";
+import { ArticleSearchBar } from "../fe-core/components/search-bar-article/search-bar-article.component";
+import { SeoService } from "../global/seo.service";
+import { SearchService } from "../services/search.service";
 
 @NgModule({
     imports: [
@@ -162,7 +163,8 @@ import {SeoService} from "../global/seo.service";
       GlobalSettings,
       GlobalFunctions,
       GeoLocation,
-      SeoService
+      SeoService,
+      SearchService
     ]
 })
 export class GlobalModule { }

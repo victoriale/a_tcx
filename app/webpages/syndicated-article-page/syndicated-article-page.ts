@@ -23,8 +23,8 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     public articleData: any;
     public recomendationData: any;
     public articleID: string;
-    public trendingData:any;
-    public articleType: string;
+    public trendingData:any=[];
+    public eventType: string;
     public imageData=[];
     public imageTitle=[];
     public copyright=[];
@@ -32,20 +32,24 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     @Input() scope: string;
     public category:string;
     public subcategory: string;
+    public loadingshow:boolean;
+    public articleCount:number;
     isStockPhoto:boolean=true;
     isArticle:string;
     prevarticle;
     iframeUrl: any;
     paramsub;
     constructor(
-        private _synservice:SyndicateArticleService, 
-        private activateRoute:ActivatedRoute, 
-        private router:Router, 
-        private _eref:ElementRef, 
+        private _synservice:SyndicateArticleService,
+        private activateRoute:ActivatedRoute,
+        private router:Router,
+        private _eref:ElementRef,
         private _render:Renderer,
         private _seo:SeoService
 
     ){
+
+
         this.checkPartner = GlobalSettings.getHomeInfo().isPartner;
     }
     ngOnInit(){
@@ -54,18 +58,20 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
 
     ngOnChanges(){
         this.initializePage();
+
     }
     initializePage(){
         this.paramsub= this.activateRoute.params.subscribe(
             (param :any)=> {
                 this.articleID = param['articleID'],
-                    this.articleType = param['articleType'],
+                    this.eventType= param['articleType'],
                     this.category=param['category'],
                     this.subcategory=param['subCategory']?param['subCategory']:param['category'];
-                if (this.articleType == "story" && this.articleID) {this.getSyndicateArticle(this.articleID);}
+                if (this.eventType == "story" && this.articleID) {this.getSyndicateArticle(this.articleID);}
                 else {this.getSyndicateVideoArticle(this.subcategory, this.articleID);}
                 this.getRecomendationData(this.category, 3, this.subcategory);
-                this.getDeepDiveArticle(this.category, this.trendingLength, this.subcategory, this.articleType, this.articleID);
+
+
             }
 
         );
@@ -100,10 +106,10 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
                     }
                 }
                 this.articleData = data.data[0].article_data;
-                this.articleData.url= VerticalGlobalFunctions.formatArticleRoute(this.subcategory,this.articleID,this.articleType)
+                this.articleData.url= VerticalGlobalFunctions.formatArticleRoute(this.subcategory,this.articleID,this.eventType);
                 var date = moment.unix(Number(data.data[0].last_updated));
                 this.articleData.publishedDate = date.format('dddd') +', '+ date.format('MMM') + date.format('. DD, YYYY');
-                this.metaTags(data);
+                this.metaTags(data.data[0], this.eventType);
             }
         )
     }
@@ -111,7 +117,9 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         this._synservice.getSyndicateVideoService(subCat,articleID).subscribe(
             data => {
                 this.articleData = data.data;
+                this.articleData.url= VerticalGlobalFunctions.formatArticleRoute(this.subcategory,this.articleID,this.eventType);
                 this.iframeUrl = this.articleData.video_url + "&autoplay=on";
+                this.metaTags(this.articleData, this.eventType);
             }
         )
     }
@@ -119,82 +127,97 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         this.paramsub.unsubscribe();
     }
     getRecomendationData(c,count,sc){
-            this._synservice.getRecArticleData(c,count,sc)
-                .subscribe(data => {
-                    this.recomendationData = this._synservice.transformToRecArticles(data,this.subcategory,this.articleType);
-                });
+        this._synservice.getRecArticleData(c,count,sc)
+            .subscribe(data => {
+                this.recomendationData = this._synservice.transformToRecArticles(data,this.subcategory,this.eventType);
+            });
     }
     private getDeepDiveArticle(c,tl,sc,type,aid) {
-            this._synservice.getTrendingArticles(c,tl,sc).subscribe(
-                data => {
-                    if (this.trendingLength <= 100) {
-                        this.trendingLength = this.trendingLength + 10;
-                        this.trendingData = this._synservice.transformTrending(data.data,sc,type, aid);
-                        this.getDeepDiveArticle(c,tl,sc, type,aid);
-                    }
+        this._synservice.getTrendingArticles(c,tl,sc).subscribe(
+            data => {
+
+                if(data.data.length==this.trendingLength) {
+                    this.loadingshow=true;
+                    this.trendingLength = this.trendingLength + 10;
+                    this.trendingData= this._synservice.transformTrending(data.data, sc, type, aid);
                 }
-            )
-    }
-    private metaTags(data) {
-            let metaDesc;
-            if (data.data[0].teaser != null) {
-                metaDesc = data.data[0].teaser;
-            } else {
-                metaDesc = data.data[0].article_data.article[0];
+                else{
+                    this.loadingshow=false;
+                }
             }
-            let link = window.location.href;
+        )
+    }
+    private metaTags(data, artType) {
+        let metaDesc = GlobalSettings.getPageTitle('Dive into the most recent news about your favorite sports, movies and read the latest articles on politics, business, travel etc.', 'Articles');
+        let link = window.location.href;
+
+        this._seo.setCanonicalLink(link);
+        this._seo.setOgDesc(metaDesc);
+        this._seo.setOgType('Website');
+        this._seo.setOgUrl(link);
+        this._seo.setOgImage(GlobalSettings.getImageUrl('/app/public/mainLogo.png'));
+        this._seo.setTitle('TCX Syndicate article');
+        this._seo.setMetaDescription(metaDesc);
+        this._seo.setMetaRobots('INDEX, FOLLOW');
+        this._seo.setOgTitle(this.subcategory);
+
+
+        if(artType=="story") {
             let image;
             if (this.imageData != null) {
-                image = this.imageData[0];
+                image = data.article_data.images[0].image_url;
             } else {
-                image = GlobalSettings.getImageUrl(data.data[0].image_url);
+                image = data.image_url;
             }
-            let articleAuthor='';
-            if(data.data[0].author){
+            let articleAuthor = '';
+            if (data.author) {
 
-                let authorArray = data.data[0].author.split(' ');
+                let authorArray = data.author.split(' ');
 
-                if(authorArray[0] =='By'){
-                    for(var i=1;i<authorArray.length;i++) {
+                if (authorArray[0] == 'By') {
+                    for (var i = 1; i < authorArray.length; i++) {
                         articleAuthor += authorArray[i] + ' ';
                     }
-                }else{
-                    for(var i=0;i<authorArray.length;i++) {
+                } else {
+                    for (var i = 0; i < authorArray.length; i++) {
                         articleAuthor += authorArray[i] + ' ';
                     }
                 }
 
             }
+            this._seo.setsource(data.source);
+            this._seo.setarticletitle(data.title);
+            this._seo.setimage_url(image);
+            this._seo.setarticleurl(link);
+            this._seo.setarticletype(this.subcategory);
+            this._seo.setarticleid(data.article_id);
+            this._seo.setauthor(articleAuthor);
+            this._seo.setpublisheddate(data.last_updated);
+            this._seo.setkeyword(data.keywords);
+            this._seo.setsearchtype('article');
+            this._seo.setpublisher(data.publisher);
+            data.teaser?this._seo.setteaser(data.teaser):this._seo.setteaser(data.article_data.article[0]);
 
-            this._seo.setCanonicalLink(this.activateRoute.params, this.router);
-            this._seo.setOgTitle(data.data[0].title);
-            this._seo.setOgDesc(metaDesc);
-            this._seo.setOgType('Website');
-            this._seo.setOgUrl(link);
-            this._seo.setOgImage(image);
-            this._seo.setTitle(data.data[0].title);
-            this._seo.setMetaDescription(metaDesc);
-            this._seo.setMetaRobots('INDEX, NOFOLLOW');
-            this._seo.setOgId(data.data[0].article_id);
-            this._seo.setOgAuthor(articleAuthor);
-            this._seo.setOgDate(data.data[0].last_updated);
-            this._seo.setOgKeyword(data.data[0].keywords[0]);
-            data.data[0].keywords[1]?this._seo.setOgSubKeyword(data.data[0].keywords[1]):this._seo.setOgSubKeyword(data.data[0].keywords[0]);
+        }else{
+            this._seo.setarticletitle(data.title);
+            this._seo.setarticleurl(link);
+            this._seo.setimage_url(data.video_thumbnail);
+            this._seo.setarticleid(data.id);
+            this._seo.setkeyword(data.keyword);
+            this._seo.setteaser(data.teaser);
+            this._seo.setsearchtype('article');
+        }
     }
 
-   @HostListener('window:scroll',['$event']) onScroll(e){
-     if(e.target.body.getElementsByClassName('syndicate-widget')[0]) {
-         var element = e.target.body.getElementsByClassName('syndicate-widget')[0];
+    @HostListener('window:scroll',['$event']) onScroll(e){
+        var trendingElement= e.target.body.getElementsByClassName('trending-small')[0];
+        if(window.innerHeight + window.scrollY >= document.body.scrollHeight){
+            this.getDeepDiveArticle(this.category, this.trendingLength, this.subcategory, this.eventType, this.articleID);
 
-         if (window.scrollY > 845) {
-             var a = window.scrollY - 845 + 35 + "px";
-             this._render.setElementStyle(element, "top", a)
-         }
-         else {
-             this._render.setElementStyle(element, "top", '0')
-         }
-     }
-}
+        };
+
+
+    }
 
 
 }

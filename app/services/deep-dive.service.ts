@@ -39,7 +39,7 @@ export class DeepDiveService {
     if(category != "breaking"){
       callURL += "&source[]=snt_ai";
     }
-    callURL += "&source[]=tca&source[]=tca-curated&random=1&metaDataOnly=1";
+    callURL += "&source[]=tca-curated&random=1&metaDataOnly=1";
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {

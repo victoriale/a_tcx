@@ -1,4 +1,5 @@
 import {Component, Input, Output, ChangeDetectorRef, OnInit} from '@angular/core';
+import { GlobalSettings } from "../../global/global-settings";
 
 @Component({
   selector: 'responsive-widget',
@@ -6,14 +7,27 @@ import {Component, Input, Output, ChangeDetectorRef, OnInit} from '@angular/core
 })
 
 export class ResponsiveWidget implements OnInit {
-  @Input() embedPlace: string;
-  @Input() displayAtRes: string;
-  @Input() scope: string;
+  @Input() embedPlace: string;//not sure why we need this
+  // @Input() displayAtRes: string;
+  // @Input() scope: string;
   windowWidth: number = window.innerWidth;
-  widgetMed:boolean=false;
-  widgetSml:boolean=false;
-
+  // widgetMed:boolean=false;
+  // widgetSml:boolean=false;
+  srcLink: string;
+  @Input() category: string;
+  @Input() subCategory: string;
   ngOnInit() {
+    if(this.category){
+      var topScope = GlobalSettings.getTCXscope(this.category).topScope;
+      topScope = topScope != "real-estate" ? topScope : "real estate";
+      this.category = topScope ? topScope : 'keyword-' + this.category;
+      this.subCategory = this.subCategory && this.subCategory != this.category && this.category != "real estate" ? this.subCategory : "";
+    } else {
+      this.category = "breaking";
+      this.subCategory = "";
+    }
+    this.srcLink = "/app/ads/horizontal_widget.html?category=" + this.category + "&sub_category=" + this.subCategory;
+    // this.isSmall = window.innerWidth <= 814;
     // this.displayAtRes = "_" + this.displayAtRes + "only"
     // var windowWidth = window.innerWidth;
     // if(windowWidth < 768){

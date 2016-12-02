@@ -23,8 +23,7 @@ export class DeepDiveService {
     var headers = this.setToken();
     var callURL = GlobalSettings.getTCXscope(category).tcxApi + "/articles";
     //http://dev-tcxmedia-api.synapsys.us/articles?help=1
-    //http://dev-tcxmedia-api.synapsys.us/articles?articleType=about-the-teams
-    //http://dev-tcxmedia-api.synapsys.us/articles?&category=breaking
+    //http://dev-tcxmedia-api.synapsys.us/articles?&keyword[]=food&source[]=snt_ai&source[]=tca-curated&random=1&metaDataOnly=1&page=1&count=5
     if(limit !== null && page !== null){
       callURL += '?count=' + limit + '&page=' + page;
     }
@@ -35,7 +34,12 @@ export class DeepDiveService {
     } else {
       callURL += '&keyword[]=' + category;
     }
-    callURL += "&source[]=snt_ai&source[]=tca&random=1&metaDataOnly=1";
+    if(category == "breaking"){
+      callURL += "&source[]=tca";
+    } else {
+      callURL += "&source[]=snt_ai&source[]=tca";
+    }
+    callURL += "&random=1&metaDataOnly=1";
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
@@ -47,7 +51,7 @@ export class DeepDiveService {
     //always returns the first batch of articles
        this.getDeepDiveBatchService(scope, limit, batch, state)
        .subscribe(data=>{
-         var transformedData = this.carouselTransformData(data);
+         var transformedData = this.carouselTransformData(data, scope);
          callback(transformedData);
        },
        err => {
@@ -109,7 +113,7 @@ export class DeepDiveService {
           time_stamp: date ? date : "",
           video_thumbnail: val.video_thumbnail ? val.video_thumbnail : sampleImage,
           embed_url: val.video_url != null ? val.video_url : null,
-          video_url: VerticalGlobalFunctions.formatArticleRoute(scope, val.id, "video"),
+          video_url: VerticalGlobalFunctions.formatArticleRoute(keywords, val.id, "video"),
           keyUrl: VerticalGlobalFunctions.formatSectionFrontRoute(keywords),
           teaser: val.teaser
         }
@@ -168,7 +172,7 @@ export class DeepDiveService {
         return articleStackArray;
     }// transformToArticleStack ENDS
 
-    carouselTransformData(arrayData:Array<ArticleStackData>){
+    carouselTransformData(arrayData:Array<ArticleStackData>, scope){
       if(arrayData == null || typeof arrayData == 'undefined' || arrayData.length == 0 || arrayData === undefined){
         return null;
       }
@@ -177,7 +181,21 @@ export class DeepDiveService {
         var curdate = new Date();
         var curmonthdate = curdate.getDate();
         var timeStamp = moment(Number(val.last_updated)).format("MMMM Do, YYYY h:mm:ss a");
+
+        var routeLink;
+        var extLink;
+        var category = val.article_sub_type ? val.article_sub_type : val.article_type;
+        if(val.source == "snt_ai"){
+          routeLink = GlobalSettings.getOffsiteLink(val.scope, VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id));
+          extLink = true;
+        } else {
+          routeLink = VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, "story");
+          extLink = false;
+        }
+
         let carData = {
+          articlelink: routeLink != "" ? routeLink : '/deep-dive',
+          extUrl: extLink,
           source: val.source,
           report_type: val.report_type,
           image_url: GlobalSettings.getImageUrl(val['image_url']),

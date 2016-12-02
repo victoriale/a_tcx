@@ -2,6 +2,7 @@ import { VerticalGlobalFunctions } from "../global/vertical-global-functions";
 import { Http, Headers, HttpModule } from "@angular/http";
 import { GlobalSettings } from "../global/global-settings";
 import { Injectable } from "@angular/core";
+import {GlobalFunctions} from "../global/global-functions";
 
 declare var moment;
 
@@ -35,6 +36,7 @@ export class SyndicateArticleService {
     return this._http.get(callURL)
       .map(res => res.json())
       .map(data => {
+
         return data;
       })
   }
@@ -42,11 +44,11 @@ export class SyndicateArticleService {
     /* var headers = this.setToken();*/
     var callURL
     if (subcategory!=category) {
-      callURL = this._syndicateUrl + '?source[]=tca&source[]=snt_ai&count=' + count + "&category=" + category + "&subCategory=" + subcategory + "&random=1";
+      callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&category=" + category + "&subCategory=" + subcategory + "&random=1";
 
     } else {
         category = category == 'real-estate'? 'real+estate':category;
-      callURL = this._syndicateUrl + '?source[]=tca&source[]=snt_ai&count=' + count + "&category=" + category + "&random=1";
+      callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&category=" + category + "&random=1";
     }
     return this._http.get(callURL)
       .map(res => res.json())
@@ -66,8 +68,7 @@ export class SyndicateArticleService {
 
     data.forEach(function(val, index) {
       var info = val.info;
-      var date = moment.unix(Number(val.last_updated));
-      date = '<span class="hide-320">' + date.format('dddd') + ', </span>' + date.format('MMM') + date.format('. DD, YYYY');
+      var date = GlobalFunctions.sntGlobalDateFormatting(val.last_updated, 'dayOfWeek');
       var s = {
           extUrl:false,
         imageConfig: {
@@ -92,10 +93,10 @@ export class SyndicateArticleService {
 
     if (subcategory!=category) {
 
-      callURL = this._syndicateUrl + '?source[]=tca&source[]=snt_ai&count=' + count + "&category=" + category + "&subCategory=" + subcategory + "&random=1";
+      callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&category=" + category + "&subCategory=" + subcategory;
     } else {
         category = category == 'real-estate'? 'real+estate':category;
-      callURL = this._syndicateUrl + '?source[]=tca&source[]=snt_ai&count=' + count + "&category=" + category + "&random=1";
+      callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&category=" + category;
     }
     return this._http.get(callURL)
       .map(res => res.json())
@@ -108,15 +109,35 @@ export class SyndicateArticleService {
   transformTrending(data, scope, articleType, currentArticleId) {
     articleType = "story";
     var placeholder = "/app/public/placeholder_XL.png"
+
     data.forEach(function(val, index) {
-      if (val.article_id != currentArticleId) {
-          var date =  moment.unix(Number(val.last_updated));
-        val["date"] = '<span class="hide-320">' + date.format('dddd') + ', </span>' + date.format('MMM') + date.format('. DD, YYYY');
+
+
+      if (val.article_id != currentArticleId && val.title && val.teaser) {
+          val['articleCount']=data.length;
+        val["date"] = GlobalFunctions.sntGlobalDateFormatting(val.last_updated, 'timeZone');
         val["image"] = val.image_url != null ? GlobalSettings.getImageUrl(val.image_url) : placeholder;
         val["content"]=val.teaser;
         val['extUrl']=val.source!="snt_ai"?false:true;
         val["url"] = val.source!="snt_ai"?VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType):GlobalSettings.getOffsiteLink(val.scope, VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, articleType, val.event_id));
         //console.log(VerticalGlobalFunctions.formatNewsRoute(val.id,this.articleType),"News Route");
+          var artwriter='';
+          if(val.author){
+
+              let authorArray = val.author.split(' ');
+
+              if(authorArray[0] =='By'){
+                  for(var i=1;i<authorArray.length;i++) {
+                      artwriter += authorArray[i] + ' ';
+                  }
+              }else{
+                  for(var i=0;i<authorArray.length;i++) {
+                      artwriter += authorArray[i] + ' ';
+                  }
+              }
+
+          }
+          val['author']=artwriter;
       }
     })
     return data;

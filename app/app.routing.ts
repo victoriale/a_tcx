@@ -33,7 +33,7 @@ const relativeChildRoutes = [
     },
     {
         path: ':category/:subCategory/article/:articleType/:articleID',
-    //redirectTo: 'news/:articleType/:articleID',
+        //redirectTo: 'news/:articleType/:articleID',
         component: SyndicatedArticlePage,
     },
     {

@@ -59,6 +59,7 @@ ToC
 @modBoxShadow: 0 0 10px 0 rgba(0,0,0,0.2);
 @whiteGradient: rgba(255, 255, 255, 0);
 @backgroundTransparent: rgba(0, 0, 0, 0.75);
+@storyOverlay: rgba(24,24,24,.65);
 
 @touchDownLoyalSqrtHover: rgba(45, 62, 80, @imageHoverOpacityHalf);
 @touchDownLoyalImageHover: rgba(45, 62, 80, @imageHoverOpacity);
@@ -268,6 +269,18 @@ img{
   @media @tablet{
     display: none!important;
   }
+}
+
+.hide-1280{
+  @media @desktop-l{
+    display: none;
+  }
+}
+.responsive-widget{
+  .flexDisplay;
+  .flexJustify(center);
+  margin-bottom: 30px;
+  @media @desktop-l{display: none; margin-bottom: 0}
 }
 .no-select{
   -webkit-touch-callout: none;

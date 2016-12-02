@@ -29,17 +29,17 @@ export class DeepDiveService {
     }
     if(category == "breaking" || category == "trending"){
       callURL += '&category=' + category;
+    } else if(category == "real-estate"){
+      callURL += '&keyword[]=' + category.replace(/-/g, " ");
     } else {
-      if(category == "real-estate"){
-        callURL += '&keyword[]=' + category.replace(/-/g, " ");
-      } else {
-        callURL += '&keyword[]=' + category;
-      }
+      callURL += '&keyword[]=' + category;
     }
-    if(category != "breaking"){
-      callURL += "&source[]=snt_ai";
+    if(category == "breaking"){
+      callURL += "&source[]=tca";
+    } else {
+      callURL += "&source[]=snt_ai&source[]=tca";
     }
-    callURL += "&source[]=tca-curated&source[]=tca&random=1&metaDataOnly=1";
+    callURL += "&random=1&metaDataOnly=1";
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {

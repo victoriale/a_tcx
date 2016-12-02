@@ -43,7 +43,7 @@
                         <div [ngStyle]="{width: '100%', height:'5px','display':'block'}"></div>
                     </section>
                     <!-- RESPONSIVE WIDGET-->
-                    <responsive-widget [scope]="subcategory"></responsive-widget>
+                    <responsive-widget [category]="category" [subCategory]="subcategory"></responsive-widget>
 
                     <disqus-component *ngIf="!checkPartner"></disqus-component>
 <!--

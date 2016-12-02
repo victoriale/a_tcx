@@ -13,7 +13,7 @@
           <h1 class="articles-page-title"><span [innerHTML]="articleData.title | safeHtml"></span></h1>
           <sidekick-wrapper-ai [aiSidekick]="aiSidekick" [scope]="subcategory">
               <!-- IF IMAGES ARE AVAILABLE AND NOT VIDEO -->
-              <section *ngIf="eventType != 'video'">
+              <section *ngIf="eventType != 'video' && !is_stock">
                 <!-- <div *ngIf="eventType == 'story'" class="carousel-container">
                   <images-media-carousel [imageData]="imageData" [copyright]="copyright" [imageTitle]="imageTitle"></images-media-carousel>
                 </div> -->

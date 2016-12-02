@@ -160,7 +160,6 @@ export class DeepDiveBlockMain implements OnInit {
   getDeepDiveVideo(){
       this._deepDiveData.getDeepDiveVideoBatchService("sports", 15, 1, this.geoLocation)
       .subscribe(data => {
-        console.log("data", data);
         if(data.length > 0){
           let videoBatch1 = data.splice(0, 5);
           this.videoDataBatch1 = videoBatch1 ? this._deepDiveData.transformSportVideoBatchData(videoBatch1, "sports") : null;

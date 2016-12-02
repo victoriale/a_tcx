@@ -40,6 +40,7 @@ export class DeepDiveService {
       callURL += "&source[]=snt_ai";
     }
     callURL += "&source[]=tca&source[]=tca-curated&random=1&metaDataOnly=1";
+    console.log(callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {

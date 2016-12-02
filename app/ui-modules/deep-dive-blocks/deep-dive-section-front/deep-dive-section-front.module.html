@@ -9,7 +9,7 @@
       <deep-dive-video-module [videoData]="videoDataBatch"></deep-dive-video-module>
     </div>
     <!-- WIDGET -->
-    <div *ngIf="videoDataBatch && item.stackTop1" class="deep-dive-module">
+    <div *ngIf="videoDataBatch && item.stackTop1" class="responsive-widget">
       <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
     </div>
     <!-- SEARCH BOX FOR TYPE 2 ONLY and NOT WEATHER-->
@@ -39,7 +39,7 @@
       <billboard-module [category]="category" [subCategory]="scope"></billboard-module>
     </div>
     <!-- WIDGET FOR TYPE 2 ONLY and NOT SPORTS (NO SEARCH BOX)-->
-    <div *ngIf="(scope != 'sports' && deepDiveType === 1 && first) || deepDiveType === 2" class="deep-dive-module">
+    <div *ngIf="(scope != 'sports' && deepDiveType === 1 && first) || deepDiveType === 2" class="responsive-widget">
       <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
     </div>
     <!-- SIX PACKS -->
@@ -51,7 +51,7 @@
       <search-box-module [category]="category" [scope]="scope" [searchData]="searchData" (scopeEmit)="changeScope($event)" (userInput)="navigateSearch($event)"></search-box-module>
     </div>
     <!-- WIDGET FOR TYPE 1 ONLY-->
-    <div *ngIf="deepDiveType === 1 && scope != 'sports' && item.recData" class="deep-dive-module">
+    <div *ngIf="deepDiveType === 1 && scope != 'sports' && item.recData" class="responsive-widget">
       <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
     </div>
     <!-- ARTICLE STACK TYPE 1 -->
@@ -63,7 +63,7 @@
       <article-stack-2-module [articleStack2DataTop]="item.stackTop2" [articleStack2DataBatch]="item.stackRow2"></article-stack-2-module>
     </div>
     <!-- WIDGET FOR TYPE 1 ONLY-->
-    <div *ngIf="item.stackTop1 && item.stackTop2 && deepDiveType === 1" class="deep-dive-module">
+    <div *ngIf="item.stackTop1 && item.stackTop2 && deepDiveType === 1" class="responsive-widget">
       <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
     </div>
     <!-- SIX PACKS -->
@@ -71,7 +71,7 @@
       <deep-dive-recommendation [recData]="item.recData"></deep-dive-recommendation>
     </div>
     <!-- WIDGET FOR TYPE 2 ONLY-->
-    <div *ngIf="deepDiveType === 2 && item.recData && item.stackTop2" class="deep-dive-module">
+    <div *ngIf="deepDiveType === 2 && item.recData && item.stackTop2" class="responsive-widget">
       <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
     </div>
   </div>

@@ -61,6 +61,19 @@ export class DeepDivePage implements OnInit {
     //Subscribe to getGeoLocation in geo-location.service.ts. On Success call getNearByCities function.
     getGeoLocation() {
       var defaultState = 'ca';
+      if(GlobalSettings.getPartnerId()){
+        // this._geoLocation.getLocation.subscribe( res => {
+        //   console.log(res);
+        // });
+        let geoLocation = this._geoLocation.getLocation();
+        // this.geoLocation = geoLocation.state;
+        // this.selectedLocation = geoLocation.city.replace(/ /g, "%20") + "-" + geoLocation.state;
+        this.getHourlyWeatherData(this.topScope);
+        this.getSideScroll();
+      }else{
+        // this._geoLocation.getLocation.subscribe( res => {
+        //   console.log(res);
+        // });
         this._geoLocation.getGeoLocation()
             .subscribe(
                 geoLocationData => {
@@ -78,6 +91,7 @@ export class DeepDivePage implements OnInit {
                   this.getSideScroll();
                 }
             );
+      }
     }
 
     private sectionFrontName(){
@@ -153,8 +167,10 @@ export class DeepDivePage implements OnInit {
       if(this.scope == 'all'){
         pageScope = 'breaking';
       }
+      console.log(pageScope, this.geoLocation);
       this._deepDiveData.getCarouselData(pageScope, this.carouselData, '15', '1', this.geoLocation, (carData)=>{
         this.carouselData = carData;
+        console.log(carData);
       })
     }
 
@@ -199,6 +215,7 @@ export class DeepDivePage implements OnInit {
     initializePage(){
       this.routeSubscription = this._activatedRoute.params.subscribe(
           (param:any) => {
+            console.log(param);
             this.category = param['category'] ? param['category'] : 'all';
             this.scope = param['subCategory'] ? param['subCategory'] : this.category;
             if (param['subCategory']) {
@@ -209,6 +226,7 @@ export class DeepDivePage implements OnInit {
             this.topScope = this.tcxVars ? this.tcxVars.topScope : this.category;
             this.changeScopeVar = this.tcxVars.scope;
             this.deepDiveType = GlobalSettings.getTCXscope(this.scope).pageType ? GlobalSettings.getTCXscope(this.scope).pageType : 3;
+
             this.getGeoLocation();
             this.getDeepDiveVideo();
             this.sectionFrontName();

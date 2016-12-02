@@ -10,6 +10,7 @@ import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { GlobalSettings } from "../global/global-settings";
 import { GlobalFunctions } from "../global/global-functions";
 import { GeoLocation } from "../global/global-service";
+import { PartnerHeader } from "../global/global-service";
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 /*** COMPONENTS ***/
 import { SectionFrontTopNav } from '../fe-core/components/section-front-top-nav/section-front-top-nav.component';
@@ -164,7 +165,8 @@ import { SearchService } from "../services/search.service";
       GlobalFunctions,
       GeoLocation,
       SeoService,
-      SearchService
+      SearchService,
+      PartnerHeader
     ]
 })
 export class GlobalModule { }

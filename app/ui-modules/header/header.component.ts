@@ -2,6 +2,8 @@ import { Component, Input, OnInit, OnChanges, Output, EventEmitter, ElementRef, 
 import { GlobalSettings } from "../../global/global-settings";
 import { HeaderLinksService } from '../../services/header-links.service';
 import { DeepDiveService } from '../../services/deep-dive.service';
+import { PartnerHeader } from "../../global/global-service";
+import { GeoLocation } from "../../global/global-service";
 
 declare var stButtons: any;
 declare var jQuery:any;
@@ -12,10 +14,11 @@ declare var jQuery:any;
 })
 
 export class HeaderComponent implements OnInit,OnChanges {
-  @Input('partner') partnerID:string;
+  @Input() partnerID:string;
+  @Input() partnerScript: any;
   @Output() tabSelected = new EventEmitter();
   public logoUrl:string = 'app/public/TCX_Logo_Outlined.svg';
-  public partnerLogoUrl: string = 'app/public/Football-DeepDive_Logo_Outlined-W.svg';
+  public partnerLogoUrl: string = 'app/public/TCX_Logo_Outlined.svg';
   private _stickyHeader: string;
   public searchInput: any = {
        placeholderText: "Search for a topic...",
@@ -29,17 +32,12 @@ export class HeaderComponent implements OnInit,OnChanges {
   public isSearchOpened: boolean = false;
   public isActive: boolean = false;
   public breakingHeadLines: any;
-    scrollTopPrev: number = 0;
-  // public _sportLeagueAbbrv: string = GlobalSettings.getSportLeagueAbbrv();
-  // public _collegeDivisionAbbrv: string = GlobalSettings.getCollegeDivisionAbbrv();
-  // public _sportName: string = GlobalSettings.getSportName().toUpperCase();
+  scrollTopPrev: number = 0;
+
   private elementRef:any;
 
-  constructor(elementRef: ElementRef, private _renderer: Renderer, private _deepDiveData : DeepDiveService){
+  constructor(elementRef: ElementRef, private _renderer: Renderer, private _deepDiveData : DeepDiveService, private _partnerData: PartnerHeader, private _geoLocation: GeoLocation){
     this.elementRef = elementRef;
-    // GlobalSettings.getParentParams(_router, parentParams =>
-    //   this.scope = parentParams.scope
-    // );
   }
 
   getBreakingData(){

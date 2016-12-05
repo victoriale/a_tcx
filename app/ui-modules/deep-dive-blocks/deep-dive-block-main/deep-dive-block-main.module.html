@@ -1,4 +1,4 @@
-<div id="deep-dive-block-main" class="deep-dive-block">
+<div id="deep-dive-block-main" class="deep-dive-block" (window:scroll)="onScroll($event)">
   <!-- BREAKING NEWS -->
   <!-- ARTICLE STACK TYPE 1 -->
   <div *ngIf="breakingStack && breakingStack.length > 3" class="deep-dive-module">

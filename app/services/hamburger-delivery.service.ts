@@ -6,7 +6,7 @@ import {GlobalSettings} from '../global/global-settings';
 export class HamburgerDeliveryService {
   static createMenu(){
     var topRoute = "";
-    var partner = GlobalSettings.getPartnerId();
+    var partner = GlobalSettings.storedPartnerId();
     if (partner == null || partner == ""){
       topRoute = "/deep-dive";
     }

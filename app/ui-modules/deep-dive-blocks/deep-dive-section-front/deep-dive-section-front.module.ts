@@ -73,7 +73,9 @@ export class DeepDiveSectionFront implements OnInit {
         err => {
           console.log("Error getting video batch data:", err);
       });
-  }
+  } //getDeepDiveVideo
+
+
 
   private onScroll(event) {
     if (this.callApi && (this.blockIndex <= this.newArray.length) && (jQuery(document).height() - window.innerHeight - jQuery("footer").height() <= jQuery(window).scrollTop())) {
@@ -81,7 +83,9 @@ export class DeepDiveSectionFront implements OnInit {
       this.blockIndex = this.blockIndex + 1;
       this.callModules(this.blockIndex);
     }
-  }
+  } //onScroll
+
+
 
   //API for Box Scores
   private getBoxScores(dateParams?) {
@@ -111,7 +115,9 @@ export class DeepDiveSectionFront implements OnInit {
     //   this.boxScoresData = null;
     //   this.currentBoxScores = null;
     // }
-  }
+  } //getBoxScores
+
+
 
   callModules(pageNum){
     this.getDeepDiveVideo(pageNum);
@@ -163,14 +169,14 @@ export class DeepDiveSectionFront implements OnInit {
     }
   }
   changeScope(event){
-    this.searchData.searchModTitle = GlobalSettings.getTCXscope(event).searchTitle + " " + GlobalSettings.getTCXscope(this.scope).displayName.toUpperCase();
+    this.searchData.searchModTitle = GlobalSettings.getTCXscope(event).searchTitle + " " + GlobalSettings.getTCXscope(this.scope).displayName;
     this.searchData.searchSubTitle = GlobalSettings.getTCXscope(this.scope).searchSubTitle;
   }
   createSearchBox(scope){
     var modSearchTitle;
     let sportsList;
     if(this.category == "sports"){
-      modSearchTitle = GlobalSettings.getTCXscope(scope).searchTitle + " " + GlobalSettings.getTCXscope(scope).displayName.toUpperCase();
+      modSearchTitle = GlobalSettings.getTCXscope(scope).searchTitle + " " + GlobalSettings.getTCXscope(scope).displayName;
       sportsList = [
         {
           key: 'NFL',
@@ -215,10 +221,10 @@ export class DeepDiveSectionFront implements OnInit {
     //Box Scores
     var currentUnixDate = new Date().getTime();
     //convert currentDate(users local time) to Unix and push it into boxScoresAPI as YYYY-MM-DD in EST using moment timezone (America/New_York)
-    this.dateParam ={
+    this.dateParam = {
       scope: this.scope,//current profile page
       teamId: '',
       date: moment.tz( currentUnixDate , 'America/New_York' ).format('YYYY-MM-DD')
     }
-  }
+  } //getDateParams
 }

@@ -46,6 +46,7 @@
   position: relative;
   overflow: hidden;
   margin: 0 auto;
+
   .carousel-modal{
     top:25%;
   }
@@ -90,10 +91,16 @@
    }
  }
   @media @tablet {
+    .trending-small-article-title{
+      &:hover{
+        color:@masterBrandColor;
+      }
+    }
     .circles {
       background-color: transparent;
       border: none;
       font-size: 60px;
+      text-shadow: 0 0 5px rgba(0, 0, 0, 0.45);
       &:hover {
         background-color: transparent;
         border: none;
@@ -159,7 +166,7 @@
     .globalDefaultFont(40px, 800);
     text-align: left;
     margin-top:0px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     padding-top: 10px;
     @media @mobile{
       font-size: 20px;

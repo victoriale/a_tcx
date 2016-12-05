@@ -2,7 +2,6 @@ import { Component, Input, OnInit, OnChanges, Output, EventEmitter, ElementRef, 
 import { GlobalSettings } from "../../global/global-settings";
 import { HeaderLinksService } from '../../services/header-links.service';
 import { DeepDiveService } from '../../services/deep-dive.service';
-import { PartnerHeader } from "../../global/global-service";
 import { GeoLocation } from "../../global/global-service";
 
 declare var stButtons: any;
@@ -13,7 +12,7 @@ declare var jQuery:any;
     templateUrl: './app/ui-modules/header/header.component.html'
 })
 
-export class HeaderComponent implements OnInit,OnChanges {
+export class HeaderComponent implements OnInit {
   @Input() partnerID:string;
   @Input() partnerScript: any;
   @Output() tabSelected = new EventEmitter();
@@ -36,7 +35,7 @@ export class HeaderComponent implements OnInit,OnChanges {
 
   private elementRef:any;
 
-  constructor(elementRef: ElementRef, private _renderer: Renderer, private _deepDiveData : DeepDiveService, private _partnerData: PartnerHeader, private _geoLocation: GeoLocation){
+  constructor(elementRef: ElementRef, private _renderer: Renderer, private _deepDiveData : DeepDiveService, private _geoLocation: GeoLocation){
     this.elementRef = elementRef;
   }
 
@@ -148,11 +147,4 @@ export class HeaderComponent implements OnInit,OnChanges {
     // }, 1000);
   }
 
-  ngOnChanges() {
-    // GlobalSettings.getParentParams(this._router, parentParams =>
-    //   {
-    //     this.scope = parentParams.scope;
-    //   }
-    // );
-  }
 }

@@ -11,43 +11,6 @@ import {Observable} from "rxjs/Observable";
 import { GlobalFunctions } from "../global/global-functions";
 import { GlobalSettings } from "../global/global-settings";
 
-@Injectable()
-
-export class PartnerHeader {
-    public protocolToUse: string = (location.protocol == "https:") ? "https" : "http";
-    constructor(public http: Http) { }
-    //getPartnerData
-    getPartnerData(partner_id) {
-        var partnerID = partner_id.split('-');
-
-        //handles some cases where domain registries are different
-        var combinedID = [];
-        var domainRegisters = [];
-        for (var i = 0; i < partnerID.length; i++) {
-            if (partnerID[i] == "com" || partnerID[i] == "gov" || partnerID[i] == "net" || partnerID[i] == "org" || partnerID[i] == "co") {
-                combinedID.push(partnerID[i]);
-            } else {
-                domainRegisters.push(partnerID[i]);
-            }
-        }
-
-        partner_id = domainRegisters.join('-') + "." + combinedID.join('.');
-
-        var fullUrl = GlobalSettings.getPartnerApiUrl(partner_id);
-        // console.log(fullUrl);
-        return this.http.get(fullUrl, {
-        })
-            .map(
-            res => res.json()
-            )
-            .map(
-            data => {
-                return data;
-            }
-            )
-    }
-}
-
 export interface geoLocate {
     partner_id?: string;
     partner_script?: string;
@@ -58,12 +21,13 @@ export interface geoLocate {
 
 @Injectable()
 
-export class GeoLocation {
+export class GeoLocation{
     geoData: geoLocate;
 
     geoObservable: Observable<any>
 
     constructor(public http: Http) { }
+
 
     getPartnerData(partner_id) {
         var partnerID = partner_id.split('-');
@@ -152,6 +116,7 @@ export class GeoLocation {
             } else {
                 this.geoObservable = this.getGeoLocation();
             }
+            console.log(this.geoObservable);
             return this.geoObservable;
         }
     };

@@ -51,7 +51,7 @@ export class DeepDivePage implements OnInit {
         private _activatedRoute: ActivatedRoute,
         private _geoLocation: GeoLocation,
         private _seo:SeoService,
-        private _router:Router,
+        private _router:Router
     ) {}
 
 
@@ -60,38 +60,13 @@ export class DeepDivePage implements OnInit {
     }
     //Subscribe to getGeoLocation in geo-location.service.ts. On Success call getNearByCities function.
     getGeoLocation() {
-      var defaultState = 'ca';
-      if(GlobalSettings.getPartnerId()){
-        this._geoLocation.grabLocation().subscribe( res => {
-          console.log(res);
-        });
-
-        // this.geoLocation = geoLocation.state;
-        // this.selectedLocation = geoLocation.city.replace(/ /g, "%20") + "-" + geoLocation.state;
+      //TODO replace once added router guard has been implemented where GeoLocation is required before route generates
+      this._geoLocation.grabLocation().subscribe( res => {
+        this.geoLocation = res.state;
+        this.selectedLocation = res.city + "-" + res.state;
         this.getHourlyWeatherData(this.topScope);
         this.getSideScroll();
-      }else{
-        // this._geoLocation.getLocation.subscribe( res => {
-        //   console.log(res);
-        // });
-        this._geoLocation.getGeoLocation()
-            .subscribe(
-                geoLocationData => {
-                  this.geoLocation = geoLocationData[0].state;
-                  this.geoLocation = this.geoLocation.toLowerCase();
-                  this.selectedLocation = geoLocationData[0].city.replace(/ /g, "%20") + "-" + geoLocationData[0].state;
-                  this.getHourlyWeatherData(this.topScope);
-                  this.getSideScroll();
-                },
-                err => {
-                  console.log("Geo Location Error:", err);
-                  this.geoLocation = defaultState;
-                  this.selectedLocation = 'wichita-ks';
-                  this.getHourlyWeatherData(this.topScope);
-                  this.getSideScroll();
-                }
-            );
-      }
+      });
     }
 
     private sectionFrontName(){
@@ -167,10 +142,8 @@ export class DeepDivePage implements OnInit {
       if(this.scope == 'all'){
         pageScope = 'breaking';
       }
-      console.log(pageScope, this.geoLocation);
       this._deepDiveData.getCarouselData(pageScope, this.carouselData, '15', '1', this.geoLocation, (carData)=>{
         this.carouselData = carData;
-        console.log(carData);
       })
     }
 
@@ -215,7 +188,6 @@ export class DeepDivePage implements OnInit {
     initializePage(){
       this.routeSubscription = this._activatedRoute.params.subscribe(
           (param:any) => {
-            console.log(param);
             this.category = param['category'] ? param['category'] : 'all';
             this.scope = param['subCategory'] ? param['subCategory'] : this.category;
             if (param['subCategory']) {

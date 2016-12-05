@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GlobalSettings } from "../global/global-settings";
-import { PartnerHeader } from "../global/global-service";
 import { GeoLocation } from "../global/global-service";
 
 @Component({
@@ -13,15 +12,15 @@ export class AppComponent {
   public partnerScript: string;
   private isLoading:boolean = true;
 
-  constructor(private _activatedRoute:ActivatedRoute, private _partnerData: PartnerHeader, private _geoLocation: GeoLocation){
+  constructor(private _activatedRoute:ActivatedRoute, private _geoLocation: GeoLocation){
     this._activatedRoute.params.subscribe(
         (params:any) => {
-            console.log('Partner:',params);
             //function that grabs the designated location needed for the client and if a partnerID is sent through then it will also set the partnerID and partnerScript for their Header
-            this._geoLocation.grabLocation(this.partnerID).subscribe(res => {
-              console.log(res);
+            GlobalSettings.storedPartnerId(params.partner_id);
+            this.partnerID = params.partner_id;
+            this._geoLocation.grabLocation(params.partner_id).subscribe(res => {
               if(res.partner_id){
-                GlobalSettings.storePartnerId(res.partner_id);
+                GlobalSettings.storedPartnerId(res.partner_id);
                 this.partnerID = res.partner_id;
               }
               if(res.partner_script){
@@ -36,7 +35,7 @@ export class AppComponent {
   //will default to a geo location if none was provided
   getPartnerHeader(){//Since it we are receiving
     if(this.partnerID != null){
-      this._partnerData.getPartnerData(this.partnerID)
+      this._geoLocation.getPartnerData(this.partnerID)
         .subscribe(
           partnerScript => {
             console.log(partnerScript);

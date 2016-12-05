@@ -110,6 +110,7 @@ export interface gameDayInfoInterface {
 export class BoxScoresService {
 
   private _apiUrl: string;//prob wont be used since each sport is so different
+  private firstBoxScoresRun: boolean = true;
 
   constructor(public http: Http){}
 
@@ -121,7 +122,8 @@ export class BoxScoresService {
   }
 
   // call to get data
-  getBoxScoresService(scope, date, teamId?){
+  getBoxScoresService(scope, date, teamId?) {
+    console.log('---getBoxScoresService---');
     var headers = this.setToken();
     let chosenDate = date;
     var callURL;
@@ -145,6 +147,9 @@ export class BoxScoresService {
       callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/tcx/boxScores/league/'+scope+'/'+date+'/addAi';
       break;
     }
+
+    console.log('callURL - ',callURL);
+
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
@@ -154,13 +159,17 @@ export class BoxScoresService {
           aiContent: data.data.aiContent,
           date: chosenDate,
           nextGameDate:transformedDate.nextGameDate,
-          previousGameDate:transformedDate.previousGameDate,
+          previousGameDate:transformedDate.previousGameDate
         }
       })
   } //getBoxScoresService
 
+
+
   // form box scores data
   transformBoxScores(data, scope?){
+    console.log('---transformBoxScores---');
+    console.log('data - ',data);
     var boxScoreObj = {};
     var newBoxScores = {};
     let currWeekGameDates = {};
@@ -243,12 +252,15 @@ export class BoxScoresService {
         } //if (boxScoresData[gameDate])
       } // END for ( var gameDate in data.data )
     }
+
+
     var transformedData = {
       currentScope: scope,
       previousGameDate: data.previousGameDate,
       nextGameDate: data.nextGameDate,
       data: newBoxScores
-    };
+    }
+    console.log('transformedData - ',transformedData);
     return transformedData;
   }
 
@@ -271,11 +283,11 @@ export class BoxScoresService {
               // schedule: data.transformedDate[data.date] != null ? this.formatSchedule(data.transformedDate[data.date][0], scopedDateParam.scope, scopedDateParam.profile) : null, //UNUSED IN TCX
               aiContent: data.aiContent != null ? this.aiHeadLine(data.aiContent, scopedDateParam.scope) : null, //TODO
               nextGameDate:data.nextGameDate,
-              previousGameDate:data.previousGameDate,
+              previousGameDate:data.previousGameDate
             };
             currentBoxScores = currentBoxScores.gameInfo != null ? currentBoxScores :null;
             callback(data, currentBoxScores);
-          }else{//if initial day fails then recall data
+          } else {//if initial day fails then recall data
             let currentBoxScores = null;
             callback(data, currentBoxScores);
           }
@@ -288,10 +300,9 @@ export class BoxScoresService {
           gameInfo: this.formatGameInfo(boxScoresData.transformedDate[dateParam.date],dateParam.scope, dateParam.profile),
           // schedule: dateParam.profile != 'league' && boxScoresData.transformedDate[dateParam.date] != null? this.formatSchedule(boxScoresData.transformedDate[dateParam.date][0], dateParam.teamId, dateParam.profile) : null, //UNUSED IN TCX
           aiContent: boxScoresData.aiContent != null ? this.aiHeadLine(boxScoresData.aiContent, scopedDateParam.scope) : null, //TODO
-          nextGameDate:boxScoresData.nextGameDate,
-          previousGameDate:boxScoresData.previousGameDate,
+          nextGameDate: boxScoresData.nextGameDate,
+          previousGameDate: boxScoresData.previousGameDate
         };
-
         currentBoxScores = currentBoxScores.gameInfo != null ? currentBoxScores :null;
         callback(boxScoresData, currentBoxScores);
       }
@@ -387,6 +398,7 @@ export class BoxScoresService {
       callURL = GlobalSettings.getTCXscope(scope).verticalApi + '/league/gameDatesWeekly/'+scope+'/'+date; //TODO when TCX API is sestup
       break;
     }
+    console.log('callURL - ',callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {

@@ -17,7 +17,6 @@ export class HeaderComponent implements OnInit {
     @Output() tabSelected = new EventEmitter();
     public logoUrl: string = 'app/public/TCX_Logo_Outlined.svg';
     public partnerLogoUrl: string = 'app/public/TCX_Logo_Outlined.svg';
-    private _stickyHeader: string;
     public searchInput: any = {
         placeholderText: "Search for a topic...",
         hasSuggestions: true
@@ -25,12 +24,12 @@ export class HeaderComponent implements OnInit {
     public hamburgerMenuData: Array<any>;
     public hamburgerMenuInfo: Array<any>;
     public headerLinks: Array<any> = HeaderLinksService.createMenu();
-    public titleHeader: string;
     public isOpened: boolean = false;
     public isSearchOpened: boolean = false;
     public isActive: boolean = false;
     public breakingHeadLines: any;
-    scrollTopPrev: number = 0;
+    scrollTopPrev: number = 0; // to help with scroll polarity + or - scroll
+    scrollUp: boolean = false; // determin is user is scrolling up or down relates to scrollTopPrev
 
     private elementRef: any;
 
@@ -64,11 +63,26 @@ export class HeaderComponent implements OnInit {
         var scrollTop = event.srcElement.body.scrollTop;
         // var saladBar = document.getElementById('salad-bar-top');
         //check if partner header exist and the sticky header shall stay and not partner header
-
         let heightBeforeStick = header.offsetHeight - stickyItem.offsetHeight;
 
-        if(scrollTop > heightBeforeStick){
+        let scrollPolarity = scrollTop - this.scrollTopPrev;
+
+        if(scrollPolarity > 0){// scrollUp is true scrollPolarity is negative which will add the header back
+          this.scrollUp = false;
+        }else{
+          this.scrollUp = true;
+        }
+        this.scrollTopPrev = scrollTop;
+
+        if(scrollTop > heightBeforeStick){// if body scrollTop is greater than height before sticky header then add fix header class
           stickyItem.classList.add('fixedHeader');
+
+          //
+          if(this.scrollUp){
+            stickyItem.classList.remove('fixedHeader');
+          }else{
+            stickyItem.classList.add('fixedHeader');
+          }
         }else{
           stickyItem.classList.remove('fixedHeader');
         }

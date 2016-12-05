@@ -38,7 +38,6 @@ export class AppComponent {
       this._geoLocation.getPartnerData(this.partnerID)
         .subscribe(
           partnerScript => {
-            console.log(partnerScript);
             if(partnerScript['results'] != null){
               this.partnerScript = partnerScript['results'].header.script;
 

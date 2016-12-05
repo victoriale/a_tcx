@@ -29,6 +29,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     public imageTitle=[];
     public copyright=[];
     public trendingLength: number = 10;
+    public is_stock:boolean;
     @Input() scope: string;
     public category:string;
     public subcategory: string;
@@ -95,23 +96,29 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         this._synservice.getSyndicateArticleService(articleID).subscribe(
 
             data => {
-
-                if (data.data[0].article_data.images == null) {
-                    this.imageData  = ["/app/public/placeholder_XL.png"];
-                }
-                else {
-                    var imageLength=data.data[0].article_data.images.length;
-                    for( var i=0;i<imageLength;i++) {
-                        this.imageData[this.imageData.length]=GlobalSettings.getImageUrl(data.data[0].article_data.images[i].image_url);
-                        this.copyright[this.copyright.length]=data.data[0].article_data.images[i].image_copyright;
-                        this.imageTitle[this.imageTitle.length]=data.data[0].article_data.images[i].image_title;
+                if(data.data[0]) {
+                    if(data.data[0].is_stock_photo && data.data[0].is_stock_photo==true){
+                        this.is_stock=true;
+                    }else{
+                        this.is_stock=false;
                     }
-                }
-                this.articleData = data.data[0].article_data;
-                this.articleData.url= VerticalGlobalFunctions.formatArticleRoute(this.subcategory,this.articleID,this.eventType);
+                    if (data.data[0].article_data.images == null) {
+                        this.imageData = ["/app/public/placeholder_XL.png"];
+                    }
+                    else {
+                        var imageLength = data.data[0].article_data.images.length;
+                        for (var i = 0; i < imageLength; i++) {
+                            this.imageData[this.imageData.length] = GlobalSettings.getImageUrl(data.data[0].article_data.images[i].image_url);
+                            this.copyright[this.copyright.length] = data.data[0].article_data.images[i].image_copyright;
+                            this.imageTitle[this.imageTitle.length] = data.data[0].article_data.images[i].image_title;
+                        }
+                    }
+                    this.articleData = data.data[0].article_data;
+                    this.articleData.url = VerticalGlobalFunctions.formatArticleRoute(this.subcategory, this.articleID, this.eventType);
 
-                this.articleData.publishedDate = GlobalFunctions.sntGlobalDateFormatting(data.data[0].last_updated, 'timeZone');
-                this.metaTags(data.data[0], this.eventType);
+                    this.articleData.publishedDate = GlobalFunctions.sntGlobalDateFormatting(data.data[0].last_updated, 'timeZone');
+                    this.metaTags(data.data[0], this.eventType);
+                }
             }
         )
     }

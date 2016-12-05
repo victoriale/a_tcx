@@ -226,12 +226,13 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         var articleTitle = e.target.body.getElementsByClassName('articles-page-title')[0];
         var imageCarousel = e.target.body.getElementsByClassName('images-media')[0];
         var padding = 21;
+        var fixedHeader = e.target.body.getElementsByClassName('fixedHeader')[0] != null ? e.target.body.getElementsByClassName('fixedHeader')[0].offsetHeight : 0;
 
         let topCSS = 0;
         topCSS = header != null ? topCSS + header.offsetHeight : topCSS;
         topCSS = articleTitle != null ? topCSS + articleTitle.offsetHeight : topCSS;
         topCSS = imageCarousel != null ? topCSS + imageCarousel.offsetHeight : topCSS;
-        topCSS = topCSS - padding;
+        topCSS = topCSS - padding + fixedHeader;
 
         if(scrollingElement){
             if(window.scrollY > topCSS){

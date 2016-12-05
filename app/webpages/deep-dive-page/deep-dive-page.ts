@@ -62,10 +62,10 @@ export class DeepDivePage implements OnInit {
     getGeoLocation() {
       var defaultState = 'ca';
       if(GlobalSettings.getPartnerId()){
-        // this._geoLocation.getLocation.subscribe( res => {
-        //   console.log(res);
-        // });
-        let geoLocation = this._geoLocation.getLocation();
+        this._geoLocation.grabLocation().subscribe( res => {
+          console.log(res);
+        });
+
         // this.geoLocation = geoLocation.state;
         // this.selectedLocation = geoLocation.city.replace(/ /g, "%20") + "-" + geoLocation.state;
         this.getHourlyWeatherData(this.topScope);

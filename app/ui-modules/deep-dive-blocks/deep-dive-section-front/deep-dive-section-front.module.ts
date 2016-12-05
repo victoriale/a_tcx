@@ -163,14 +163,14 @@ export class DeepDiveSectionFront implements OnInit {
     }
   }
   changeScope(event){
-    this.searchData.searchModTitle = GlobalSettings.getTCXscope(event).searchTitle + " " + GlobalSettings.getTCXscope(this.scope).displayName.toUpperCase();
+    this.searchData.searchModTitle = GlobalSettings.getTCXscope(event).searchTitle + " " + GlobalSettings.getTCXscope(this.scope).displayName;
     this.searchData.searchSubTitle = GlobalSettings.getTCXscope(this.scope).searchSubTitle;
   }
   createSearchBox(scope){
     var modSearchTitle;
     let sportsList;
     if(this.category == "sports"){
-      modSearchTitle = GlobalSettings.getTCXscope(scope).searchTitle + " " + GlobalSettings.getTCXscope(scope).displayName.toUpperCase();
+      modSearchTitle = GlobalSettings.getTCXscope(scope).searchTitle + " " + GlobalSettings.getTCXscope(scope).displayName;
       sportsList = [
         {
           key: 'NFL',

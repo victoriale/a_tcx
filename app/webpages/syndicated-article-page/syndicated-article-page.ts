@@ -122,6 +122,23 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
                         }
                     }
                     this.articleData = data.data[0].article_data;
+                    var artwriter='';
+                    if(this.articleData.author){
+
+                        let authorArray = this.articleData.author.split(' ');
+
+                        if(authorArray[0] =='By'){
+                            for(var i=1;i<authorArray.length;i++) {
+                                artwriter += authorArray[i] + ' ';
+                            }
+                        }else{
+                            for(var i=0;i<authorArray.length;i++) {
+                                artwriter += authorArray[i] + ' ';
+                            }
+                        }
+
+                    }
+                    this.articleData.author=artwriter;
                     this.articleData.url = VerticalGlobalFunctions.formatArticleRoute(this.subcategory, this.articleID, this.eventType);
 
                     this.articleData.publishedDate = GlobalFunctions.sntGlobalDateFormatting(data.data[0].last_updated, 'timeZone');

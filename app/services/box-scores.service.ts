@@ -123,7 +123,6 @@ export class BoxScoresService {
 
   // call to get data
   getBoxScoresService(scope, date, teamId?) {
-    console.log('---getBoxScoresService---');
     var headers = this.setToken();
     let chosenDate = date;
     var callURL;
@@ -148,8 +147,6 @@ export class BoxScoresService {
       break;
     }
 
-    console.log('callURL - ',callURL);
-
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
@@ -168,8 +165,6 @@ export class BoxScoresService {
 
   // form box scores data
   transformBoxScores(data, scope?){
-    console.log('---transformBoxScores---');
-    console.log('data - ',data);
     var boxScoreObj = {};
     var newBoxScores = {};
     let currWeekGameDates = {};
@@ -260,7 +255,6 @@ export class BoxScoresService {
       nextGameDate: data.nextGameDate,
       data: newBoxScores
     }
-    console.log('transformedData - ',transformedData);
     return transformedData;
   }
 
@@ -279,6 +273,7 @@ export class BoxScoresService {
 
             let currentBoxScores = {
               moduleTitle: this.moduleHeader(data.date, profileName),
+              gameDate: data.date,
               gameInfo: this.formatGameInfo(data.transformedDate[data.date],scopedDateParam.scope, scopedDateParam.profile),
               // schedule: data.transformedDate[data.date] != null ? this.formatSchedule(data.transformedDate[data.date][0], scopedDateParam.scope, scopedDateParam.profile) : null, //UNUSED IN TCX
               aiContent: data.aiContent != null ? this.aiHeadLine(data.aiContent, scopedDateParam.scope) : null, //TODO
@@ -297,6 +292,7 @@ export class BoxScoresService {
       if( boxScoresData.transformedDate[dateParam.date] != null ){
         let currentBoxScores = {
           moduleTitle: this.moduleHeader(dateParam.date, profileName),
+          gameDate: dateParam.date,
           gameInfo: this.formatGameInfo(boxScoresData.transformedDate[dateParam.date],dateParam.scope, dateParam.profile),
           // schedule: dateParam.profile != 'league' && boxScoresData.transformedDate[dateParam.date] != null? this.formatSchedule(boxScoresData.transformedDate[dateParam.date][0], dateParam.teamId, dateParam.profile) : null, //UNUSED IN TCX
           aiContent: boxScoresData.aiContent != null ? this.aiHeadLine(boxScoresData.aiContent, scopedDateParam.scope) : null, //TODO
@@ -398,7 +394,6 @@ export class BoxScoresService {
       callURL = GlobalSettings.getTCXscope(scope).verticalApi + '/league/gameDatesWeekly/'+scope+'/'+date; //TODO when TCX API is sestup
       break;
     }
-    console.log('callURL - ',callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {

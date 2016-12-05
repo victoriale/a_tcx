@@ -67,7 +67,7 @@ export class HeaderComponent implements OnInit {
 
         let scrollPolarity = scrollTop - this.scrollTopPrev;
 
-        if(scrollPolarity > 0){// scrollUp is true scrollPolarity is negative which will add the header back
+        if(scrollPolarity > 0 || scrollTop == 0){// scrollUp is true scrollPolarity is negative which will add the header back
           this.scrollUp = false;
         }else{
           this.scrollUp = true;
@@ -83,7 +83,7 @@ export class HeaderComponent implements OnInit {
           }else{
             stickyItem.classList.add('fixedHeader');
           }
-        }else{
+        } else{
           stickyItem.classList.remove('fixedHeader');
         }
 

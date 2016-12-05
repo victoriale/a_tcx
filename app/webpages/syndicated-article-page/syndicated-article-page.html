@@ -42,7 +42,7 @@
                         <div class="content-exerpt" *ngIf="eventType == 'video'" [innerHTML]="articleData.teaser | safeHtml"></div>
                         <div [ngStyle]="{width: '100%', height:'5px','display':'block'}"></div>
                     </section>
-                    <billboard-component></billboard-component>
+                    <billboard-module [category]="category" [subCategory]="subcategory"></billboard-module>
                     <!-- RESPONSIVE WIDGET-->
                     <responsive-widget [category]="category" [subCategory]="subcategory"></responsive-widget>
 

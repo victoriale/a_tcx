@@ -116,7 +116,6 @@ export class GeoLocation{
             } else {
                 this.geoObservable = this.getGeoLocation();
             }
-            console.log(this.geoObservable);
             return this.geoObservable;
         }
     };

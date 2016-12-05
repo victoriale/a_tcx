@@ -37,7 +37,7 @@ export class DeepDiveService {
     if(category == "breaking"){
       callURL += "&source[]=tca";
     } else {
-      callURL += "&source[]=snt_ai&source[]=tca";
+      callURL += "&source[]=snt_ai&source[]=tca-curated";
     }
     callURL += "&random=1&metaDataOnly=1";
     return this.http.get(callURL, {headers: headers})

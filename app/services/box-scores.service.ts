@@ -509,8 +509,8 @@ export class BoxScoresService {
       }
       else{
         verticalContentLive = "";
-        liveStatus = false
-        if((currentTime < gameInfo.startDateTimestamp) && !gameInfo.live){
+        liveStatus = false;
+        if((currentTime < gameInfo.startDateTimestamp) && gameInfo.live == false){
           segmentTitle = moment(gameDate.startDateTimestamp).tz('America/New_York').format('h:mm A z');
         }else{
           segmentTitle = 'Final';
@@ -520,7 +520,7 @@ export class BoxScoresService {
       info = {
         gameHappened:gameInfo.segmentsPlayed != null ?  true : false,
         //segment will display the segment the game is on otherwise if returning null then display the date Time the game is going to be played
-        segment:'Final',
+        segment: segmentTitle,
         liveStatus: liveStatus,
         liveStat1: liveStat1,
         liveStat2: liveStat2,

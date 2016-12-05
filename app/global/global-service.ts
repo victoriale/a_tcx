@@ -30,20 +30,20 @@ export class GeoLocation{
 
 
     getPartnerData(partner_id) {
-        var partnerID = partner_id.split('-');
-
-        //handles some cases where domain registries are different
-        var combinedID = [];
-        var domainRegisters = [];
-        for (var i = 0; i < partnerID.length; i++) {
-            if (partnerID[i] == "com" || partnerID[i] == "gov" || partnerID[i] == "net" || partnerID[i] == "org" || partnerID[i] == "co") {
-                combinedID.push(partnerID[i]);
-            } else {
-                domainRegisters.push(partnerID[i]);
-            }
-        }
-
-        partner_id = domainRegisters.join('-') + "." + combinedID.join('.');
+        // var partnerID = partner_id.split('-');
+        //
+        // //handles some cases where domain registries are different
+        // var combinedID = [];
+        // var domainRegisters = [];
+        // for (var i = 0; i < partnerID.length; i++) {
+        //     if (partnerID[i] == "com" || partnerID[i] == "gov" || partnerID[i] == "net" || partnerID[i] == "org" || partnerID[i] == "co") {
+        //         combinedID.push(partnerID[i]);
+        //     } else {
+        //         domainRegisters.push(partnerID[i]);
+        //     }
+        // }
+        //
+        // partner_id = domainRegisters.join('-') + "." + combinedID.join('.');
 
         var fullUrl = GlobalSettings.getPartnerApiUrl(partner_id);
         // console.log(fullUrl);

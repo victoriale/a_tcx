@@ -69,7 +69,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
                     this.subcategory=param['subCategory']?param['subCategory']:param['category'];
                 if (this.eventType == "story" && this.articleID) {this.getSyndicateArticle(this.articleID);}
                 else {this.getSyndicateVideoArticle(this.subcategory, this.articleID);}
-                this.getRecomendationData(this.category, 3, this.subcategory);
+                this.getRecomendationData(this.category, 20, this.subcategory);
                 this.getDeepDiveArticle(this.category, this.trendingLength, this.subcategory, this.eventType, this.articleID);
 
 
@@ -92,10 +92,14 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     }
 
     private getSyndicateArticle(articleID) {
+
+
         this._synservice.getSyndicateArticleService(articleID).subscribe(
 
             data => {
-
+                this.imageData=[];
+                this.imageTitle=[];
+                this.copyright=[];
                 if(data.data[0]) {
                     if(data.data[0].is_stock_photo && data.data[0].is_stock_photo==true){
                         this.is_stock=true;
@@ -143,18 +147,24 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         this.recomendationData=[];
         this._synservice.getRecArticleData(c,count,sc)
             .subscribe(data => {
-                this.recomendationData = this._synservice.transformToRecArticles(data,this.subcategory,this.eventType);
+                this.recomendationData = [];
+                this.recomendationData = this._synservice.transformToRecArticles(data,this.subcategory,this.eventType, this.articleID);
             });
     }
     private getDeepDiveArticle(c,tl,sc,type,aid) {
-        this.trendingData=[];
+        this.loadingshow=true;
+
         this._synservice.getTrendingArticles(c,tl,sc).subscribe(
             data => {
 
                 if(data.data.length==this.trendingLength) {
                     this.loadingshow=true;
                     this.trendingLength = this.trendingLength + 10;
-                    this.trendingData= this._synservice.transformTrending(data.data, sc, type, aid);
+                    this.trendingData= this._synservice.transformTrending(data.data, sc, type, aid).filter(function (val) {
+                        if(val.article_data.title){
+                            return val;
+                        }
+                    });
                 }
                 else{
                     this.loadingshow=false;

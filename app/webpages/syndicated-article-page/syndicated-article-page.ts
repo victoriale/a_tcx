@@ -49,8 +49,6 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         private _seo:SeoService
 
     ){
-
-
         this.checkPartner = GlobalSettings.getHomeInfo().isPartner;
         this.initializePage();
     }
@@ -72,6 +70,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
                 if (this.eventType == "story" && this.articleID) {this.getSyndicateArticle(this.articleID);}
                 else {this.getSyndicateVideoArticle(this.subcategory, this.articleID);}
                 this.getRecomendationData(this.category, 3, this.subcategory);
+                this.getDeepDiveArticle(this.category, this.trendingLength, this.subcategory, this.eventType, this.articleID);
 
 
             }
@@ -96,14 +95,19 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         this._synservice.getSyndicateArticleService(articleID).subscribe(
 
             data => {
+
                 if(data.data[0]) {
                     if(data.data[0].is_stock_photo && data.data[0].is_stock_photo==true){
                         this.is_stock=true;
                     }else{
                         this.is_stock=false;
                     }
-                    if (data.data[0].article_data.images == null) {
-                        this.imageData = ["/app/public/placeholder_XL.png"];
+                    if (data.data[0].article_data.images == null || data.data[0].article_data.images == undefined || data.data[0].article_data.images.length==0) {
+                       if(data.data[0].image_url!=null ||data.data[0].image_url!= undefined){
+                           this.imageData[0]=GlobalSettings.getImageUrl(data.data[0].image_url);
+                       }else{
+                           this.is_stock=true;
+                       }
                     }
                     else {
                         var imageLength = data.data[0].article_data.images.length;
@@ -136,12 +140,14 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         this.paramsub.unsubscribe();
     }
     getRecomendationData(c,count,sc){
+        this.recomendationData=[];
         this._synservice.getRecArticleData(c,count,sc)
             .subscribe(data => {
                 this.recomendationData = this._synservice.transformToRecArticles(data,this.subcategory,this.eventType);
             });
     }
     private getDeepDiveArticle(c,tl,sc,type,aid) {
+        this.trendingData=[];
         this._synservice.getTrendingArticles(c,tl,sc).subscribe(
             data => {
 
@@ -154,6 +160,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
                     this.loadingshow=false;
                 }
             }
+
         )
     }
     private metaTags(data, artType) {
@@ -173,10 +180,12 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
 
         if(artType=="story") {
             let image;
-            if (this.imageData != null) {
-                image = data.article_data.images[0].image_url;
-            } else {
-                image = data.image_url;
+            if (data.article_data.images.length>=1  && data.article_data.images[0].image_url) {
+                image = GlobalSettings.getImageUrl(data.article_data.images[0].image_url) ;
+            } else if(data.article_data.images.length==0 ||data.article_data.images== null || data.article_data.images == undefined && data.image_url){
+                image =GlobalSettings.getImageUrl(data.image_url);
+            } else{
+                image=GlobalSettings.getImageUrl("/app/public/placeholder_XL.png");
             }
             let articleAuthor = '';
             if (data.author) {

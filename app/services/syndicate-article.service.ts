@@ -23,7 +23,6 @@ export class SyndicateArticleService {
             var headers = this.setToken();
     */
     var callURL = this._syndicateUrl + '?articleID=' + articleID;
-    console.log(callURL);
     return this._http.get(callURL)
       .map(res => res.json())
       .map(data => {
@@ -51,7 +50,6 @@ export class SyndicateArticleService {
         category = category == 'real-estate'? 'real+estate':category;
       callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&category=" + category + "&random=1";
     }
-    console.log(callURL);
     return this._http.get(callURL)
       .map(res => res.json())
       .map(data => {
@@ -91,7 +89,6 @@ export class SyndicateArticleService {
         articleStackArray=articleStackArray.slice(0,3)
     }
     });
-    console.log(articleStackArray,"rec data");
     if(articleStackArray.length==3) {
         return articleStackArray;
     }
@@ -109,7 +106,6 @@ export class SyndicateArticleService {
         category = category == 'real-estate'? 'real+estate':category;
       callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&category=" + category;
     }
-    console.log(callURL);
 
     return this._http.get(callURL)
       .map(res => res.json())

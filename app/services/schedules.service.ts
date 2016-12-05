@@ -577,15 +577,15 @@ export class SchedulesService {
             var offset = Intl.DateTimeFormat().resolvedOptions().timeZone;
             let date = moment(Number(val.eventStartTime)).tz(offset).format('dddd, MMM. D').toUpperCase();
             let time = moment(Number(val.eventStartTime)).tz(offset).format('h:mm A z');
-            let team1FullName = val.team1FullName;
-            let team2FullName = val.team2FullName;
+            let team1FullName = val.team1FullName ? val.team1FullName : null;
+            let team2FullName = val.team2FullName ? val.team2FullName : null;
 
-            let team1FBSName = val.team1Abbreviation + " " + team1FullName.replace(val.team1Market + " ", '');
-            let team2FBSName = val.team2Abbreviation + " " + team2FullName.replace(val.team2Market + " ", '');
-            if (team1FBSName.length > 13) {
+            let team1FBSName = team1FullName ? val.team1Abbreviation + " " + team1FullName.replace(val.team1Market + " ", '') : null;
+            let team2FBSName = team2FullName ? val.team2Abbreviation + " " + team2FullName.replace(val.team2Market + " ", '') : null;
+            if (team1FBSName && team1FBSName.length > 13) {
                 team1FBSName = val.team1Abbreviation;
             }
-            if (team2FBSName.length > 13) {
+            if (team2FBSName && team2FBSName.length > 13) {
                 team2FBSName = val.team2Abbreviation;
             }
 

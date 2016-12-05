@@ -1,4 +1,4 @@
-<header class="header container-fluid" id="pageHeader" (window:scroll)="onScrollStick($event)" [style.top]="_stickyHeader">
+<header class="header container-fluid" id="pageHeader" (window:scroll)="onScrollStick($event)" [class.fixedHeader]="scrollUp">
   <div id="partner" *ngIf="partnerID && partnerScript" [innerHTML]="partnerScript | safeHtml"></div>
   <section class="header-top" [class.header-partner]="partnerID">
     <div *ngIf="!partnerID" class="header-logo">

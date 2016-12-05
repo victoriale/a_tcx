@@ -48,11 +48,11 @@ export class HamburgerDeliveryService {
           {
             menuTitle: "MLB",
             url: topRoute + '/sports/mlb'
-          },
-          {
-            menuTitle: "NHL",
-            url: topRoute + '/sports/nhl'
           }
+          // {
+          //   menuTitle: "NHL",
+          //   url: topRoute + '/sports/nhl'
+          // }
         ]
       },
       {

@@ -198,10 +198,10 @@ export class DeepDiveSectionFront implements OnInit {
           key: 'MLB',
           value: "MLB",
         },
-        {
-          key: 'NHL',
-          value: "NHL",
-        },
+        // {
+        //   key: 'NHL',
+        //   value: "NHL",
+        // },
       ];
     }else{
       sportsList = null;

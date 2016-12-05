@@ -1,3 +1,8 @@
+<section *ngIf="error">
+    <div class="loading-container">
+        <span class="loading-text">The page you are trying to reach is unavailable. You will be redirected to your previous page shortly.</span>
+    </div>
+</section>
 <div *ngIf="articleData" id="deep-dive-section-front" class="deep-dive-block" (window:scroll)="onScroll($event)">
   <div *ngFor="let item of newArray; let first=first">
     <!-- ARTICLE STACK TYPE 1 -->
@@ -9,8 +14,8 @@
       <deep-dive-video-module [videoData]="videoDataBatch"></deep-dive-video-module>
     </div>
     <!-- WIDGET -->
-    <div *ngIf="videoDataBatch && item.stackTop1" class="deep-dive-module">
-      <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
+    <div *ngIf="videoDataBatch && item.stackTop1" class="responsive-widget">
+      <responsive-widget [category]="category" [subCategory]="scope"></responsive-widget>
     </div>
     <!-- SEARCH BOX FOR TYPE 2 ONLY and NOT WEATHER-->
     <div *ngIf="deepDiveType === 2 && scope!='weather' && first" class="deep-dive-module">
@@ -39,40 +44,44 @@
       <billboard-module [category]="category" [subCategory]="scope"></billboard-module>
     </div>
     <!-- WIDGET FOR TYPE 2 ONLY and NOT SPORTS (NO SEARCH BOX)-->
-    <div *ngIf="(scope != 'sports' && deepDiveType === 1 && first) || deepDiveType === 2" class="deep-dive-module">
-      <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
+    <div *ngIf="(scope != 'sports' && deepDiveType === 1 && first) || deepDiveType === 2" class="responsive-widget">
+      <responsive-widget [category]="category" [subCategory]="scope"></responsive-widget>
     </div>
     <!-- SIX PACKS -->
-    <div *ngIf="item.recData" class="deep-dive-module">
-      <deep-dive-recommendation [recData]="item.recData"></deep-dive-recommendation>
+    <div *ngIf="item.recData1" class="deep-dive-module">
+      <deep-dive-recommendation [recData]="item.recData1"></deep-dive-recommendation>
     </div>
     <!-- SEARCH BOX FOR TYPE 1 ONLY-->
     <div *ngIf="deepDiveType === 1 && scope != 'sports' && first" class="deep-dive-module">
       <search-box-module [category]="category" [scope]="scope" [searchData]="searchData" (scopeEmit)="changeScope($event)" (userInput)="navigateSearch($event)"></search-box-module>
     </div>
     <!-- WIDGET FOR TYPE 1 ONLY-->
-    <div *ngIf="deepDiveType === 1 && scope != 'sports' && item.recData" class="deep-dive-module">
-      <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
+    <div *ngIf="deepDiveType === 1 && scope != 'sports' && item.recData1" class="responsive-widget">
+      <responsive-widget [category]="category" [subCategory]="scope"></responsive-widget>
     </div>
     <!-- ARTICLE STACK TYPE 1 -->
-    <div *ngIf="deepDiveType === 1 && item.stackTop1" class="deep-dive-module">
-      <article-stack-1-module [stackTop]="item.stackTop1" [stackRow]="item.stackRow1"></article-stack-1-module>
+    <div *ngIf="deepDiveType === 1 && item.stackTop2" class="deep-dive-module">
+      <article-stack-1-module [stackTop]="item.stackTop2" [stackRow]="item.stackRow2"></article-stack-1-module>
     </div>
     <!-- ARTICLE STACK TYPE 2 -->
-    <div *ngIf="item.stackTop2" class="deep-dive-module">
-      <article-stack-2-module [articleStack2DataTop]="item.stackTop2" [articleStack2DataBatch]="item.stackRow2"></article-stack-2-module>
+    <div *ngIf="item.stackTop3" class="deep-dive-module">
+      <article-stack-2-module [articleStack2DataTop]="item.stackTop3" [articleStack2DataBatch]="item.stackRow3"></article-stack-2-module>
     </div>
     <!-- WIDGET FOR TYPE 1 ONLY-->
-    <div *ngIf="item.stackTop1 && item.stackTop2 && deepDiveType === 1" class="deep-dive-module">
-      <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
+    <div *ngIf="item.stackTop2 && item.stackTop3 && deepDiveType === 1" class="responsive-widget">
+      <responsive-widget [category]="category" [subCategory]="scope"></responsive-widget>
     </div>
     <!-- SIX PACKS -->
-    <div *ngIf="item.recData" class="deep-dive-module">
-      <deep-dive-recommendation [recData]="item.recData"></deep-dive-recommendation>
+    <div *ngIf="item.recData2" class="deep-dive-module">
+      <deep-dive-recommendation [recData]="item.recData2"></deep-dive-recommendation>
     </div>
     <!-- WIDGET FOR TYPE 2 ONLY-->
-    <div *ngIf="deepDiveType === 2 && item.recData && item.stackTop2" class="deep-dive-module">
-      <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
+    <div *ngIf="deepDiveType === 2 && item.recData2 && item.stackTop2" class="responsive-widget">
+      <responsive-widget [category]="category" [subCategory]="scope"></responsive-widget>
     </div>
+  </div>
+  <div *ngIf="callApi" class="loading-more">
+      <img class="loading-more-gif" src="/app/public/tcx-loading.gif" />
+      <span class="loading-more_text"> Loading More</span>
   </div>
 </div>

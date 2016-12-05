@@ -1,18 +1,19 @@
-<header class="header container-fluid fixedHeader" id="pageHeader" (window:scroll)="onScrollStick($event)" [style.top]="_stickyHeader">
-  <div *ngIf="!partnerID" class="header-logo">
-    <a routerLink="/deep-dive"><img src={{logoUrl}}></a>
-  </div>
-  <div *ngIf="partnerID" class="header-logo">
-    <a routerLink="/deep-dive"><img src={{partnerLogoUrl}}></a>
-  </div>
+<header class="header container-fluid" id="pageHeader" (window:scroll)="onScrollStick($event)" [style.top]="_stickyHeader">
+  <div id="partner" *ngIf="partnerID && partnerScript" [innerHTML]="partnerScript | safeHtml"></div>
   <section class="header-top" [class.header-partner]="partnerID">
+    <div *ngIf="!partnerID" class="header-logo">
+      <a *ngIf="logoUrl" routerLink="deep-dive"><img src={{logoUrl}}></a>
+    </div>
+    <div *ngIf="partnerID" class="header-logo">
+      <a *ngIf="partnerLogoUrl" routerLink="deep-dive"><img src={{partnerLogoUrl}}></a>
+    </div>
     <div class="header-left">
     </div>
     <div class="header-right">
       <div class="header-share st_sharethis_large"><i class="fa fa-share-alt"></i></div>
     </div>
   </section>
-  <section class="header-bottom" [class.header-partner]="partnerID">
+  <section class="header-bottom" id="header-bottom" [class.header-partner]="partnerID">
     <div class="header-left">
       <!-- <div class="header-hamburger" tabindex="999"> -->
       <!-- menucheck class is for the document click funtion to determine to close it when in view -->
@@ -53,7 +54,7 @@
           <div class="parallelogram searchcheck" [class.searchOpened]="isSearchOpened"></div>
         </div>
         <div class="header-search-searchBox searchcheck">
-          <search [searchInput]="searchInput"></search>
+          <!-- <search [searchInput]="searchInput"></search> -->
         </div>
       </div>
     </div>
@@ -62,5 +63,3 @@
     <div id="salad-bar"></div>
   </div> -->
 </header>
-<div class="spacer">
-</div>

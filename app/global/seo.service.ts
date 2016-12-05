@@ -39,6 +39,10 @@ export class SeoService {
   private es_article_teaser: HTMLElement;
   private es_article_url: HTMLElement;
   private es_article_type: HTMLElement;
+  private es_is_article:HTMLElement;
+  private es_end_date:HTMLElement;
+  private es_start_date:HTMLElement;
+  private es_search_string:HTMLElement;
 
 
     private robots: HTMLElement;
@@ -76,6 +80,11 @@ export class SeoService {
      this.es_article_teaser= this.getOrCreateMetaElement('es_article_teaser');
      this.es_article_url= this.getOrCreateMetaElement('es_article_url');
      this.es_article_type= this.getOrCreateMetaElement('es_article_type');
+     this.es_is_article= this.getOrCreateMetaElement('es_is_article');
+     this.es_end_date= this.getOrCreateMetaElement('es_end_date');
+     this.es_start_date= this.getOrCreateMetaElement('es_start_date');
+     this.es_search_string= this.getOrCreateMetaElement('es_search_string');
+
 
 
   }
@@ -137,50 +146,63 @@ export class SeoService {
   public setOgDesc(description: string) {
     this.ogDesc.setAttribute('content', description);
   }
-    public setsearchtype(es_search_type: string){
+    public setSearchType(es_search_type: string){
       this.es_search_type.setAttribute('content', es_search_type);
     };
-    public setsource(es_source:string){
+    public setSource(es_source:string){
         this.es_source.setAttribute('content', es_source);
     };
-    public setarticleid(es_article_id){
+    public setArticleId(es_article_id){
         this.es_article_id.setAttribute('content', es_article_id);
     };
-    public setarticletitle(es_article_title){
+    public setArticleTitle(es_article_title){
         this.es_article_title.setAttribute('content', es_article_title);
 
     };
-    public setkeyword(es_keyword){
+    public setKeyword(es_keyword){
         this.es_keyword.setAttribute('content', es_keyword);
 
     };
-    public setpublisheddate(es_published_date){
+    public setPublishedDate(es_published_date){
         this.es_published_date.setAttribute('content',es_published_date);
 
     };
-    public setauthor(es_author){
+    public setAuthor(es_author){
         this.es_author.setAttribute('content', es_author);
 
     };
-    public setpublisher(es_publisher){
+    public setPublisher(es_publisher){
         this.es_publisher.setAttribute('content', es_publisher);
     };
-    public setimage_url(es_image_url){
+    public setImageUrl(es_image_url){
         this.es_image_url.setAttribute('content', es_image_url);
 
     };
-    public setteaser(es_article_teaser){
+    public setTeaser(es_article_teaser){
         this.es_article_teaser.setAttribute('content', es_article_teaser);
 
     };
-    public setarticleurl(es_article_url){
+    public setArticleUrl(es_article_url){
         this.es_article_url.setAttribute('content', es_article_url);
 
     };
-    public setarticletype(es_article_type){
+    public setArticleType(es_article_type){
         this.es_article_type.setAttribute('content', es_article_type);
 
     };
+    public setIsArticle(es_is_article){
+        this.es_is_article.setAttribute('content', es_is_article);
+    }
+    public setEndDate(es_end_date){
+        this.es_end_date.setAttribute('content', es_end_date);
+    }
+    public setStartDate(es_start_date){
+        this.es_start_date.setAttribute('content', es_start_date);
+    }
+    public setSearchString(es_search_string){
+        this.es_search_string.setAttribute('content', es_search_string);
+    }
+
 
 
    /**

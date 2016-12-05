@@ -51,7 +51,7 @@ export class DeepDivePage implements OnInit {
         private _activatedRoute: ActivatedRoute,
         private _geoLocation: GeoLocation,
         private _seo:SeoService,
-        private _router:Router,
+        private _router:Router
     ) {}
 
 
@@ -60,24 +60,13 @@ export class DeepDivePage implements OnInit {
     }
     //Subscribe to getGeoLocation in geo-location.service.ts. On Success call getNearByCities function.
     getGeoLocation() {
-      var defaultState = 'ca';
-        this._geoLocation.getGeoLocation()
-            .subscribe(
-                geoLocationData => {
-                  this.geoLocation = geoLocationData[0].state;
-                  this.geoLocation = this.geoLocation.toLowerCase();
-                  this.selectedLocation = geoLocationData[0].city.replace(/ /g, "%20") + "-" + geoLocationData[0].state;
-                  this.getHourlyWeatherData(this.topScope);
-                  this.getSideScroll();
-                },
-                err => {
-                  console.log("Geo Location Error:", err);
-                  this.geoLocation = defaultState;
-                  this.selectedLocation = 'wichita-ks';
-                  this.getHourlyWeatherData(this.topScope);
-                  this.getSideScroll();
-                }
-            );
+      //TODO replace once added router guard has been implemented where GeoLocation is required before route generates
+      this._geoLocation.grabLocation().subscribe( res => {
+        this.geoLocation = res.state;
+        this.selectedLocation = res.city + "-" + res.state;
+        this.getHourlyWeatherData(this.topScope);
+        this.getSideScroll();
+      });
     }
 
     private sectionFrontName(){
@@ -131,7 +120,7 @@ export class DeepDivePage implements OnInit {
         this._seo.setOgDesc(metaDesc);
         this._seo.setOgType('Website');
         this._seo.setOgUrl(link);
-        this._seo.setOgImage(GlobalSettings.getImageUrl('/app/public/mainLogo.png'));
+        this._seo.setOgImage('/app/public/mainLogo.png');
         this._seo.setTitle('TCX Deep Dive');
         this._seo.setMetaDescription(metaDesc);
         this._seo.setMetaRobots('INDEX, FOLLOW');
@@ -209,6 +198,7 @@ export class DeepDivePage implements OnInit {
             this.topScope = this.tcxVars ? this.tcxVars.topScope : this.category;
             this.changeScopeVar = this.tcxVars.scope;
             this.deepDiveType = GlobalSettings.getTCXscope(this.scope).pageType ? GlobalSettings.getTCXscope(this.scope).pageType : 3;
+
             this.getGeoLocation();
             this.getDeepDiveVideo();
             this.sectionFrontName();

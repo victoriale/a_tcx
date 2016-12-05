@@ -29,6 +29,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     public imageTitle=[];
     public copyright=[];
     public trendingLength: number = 10;
+    public is_stock:boolean;
     @Input() scope: string;
     public category:string;
     public subcategory: string;
@@ -51,6 +52,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
 
 
         this.checkPartner = GlobalSettings.getHomeInfo().isPartner;
+        this.initializePage();
     }
     ngOnInit(){
         this.initializePage();
@@ -89,27 +91,34 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
             window.dispatchEvent(resizeEvent);
         }
     }
+
     private getSyndicateArticle(articleID) {
         this._synservice.getSyndicateArticleService(articleID).subscribe(
 
             data => {
-
-                if (data.data[0].article_data.images == null) {
-                    this.imageData  = ["/app/public/placeholder_XL.png"];
-                }
-                else {
-                    var imageLength=data.data[0].article_data.images.length;
-                    for( var i=0;i<imageLength;i++) {
-                        this.imageData[this.imageData.length]=GlobalSettings.getImageUrl(data.data[0].article_data.images[i].image_url);
-                        this.copyright[this.copyright.length]=data.data[0].article_data.images[i].image_copyright;
-                        this.imageTitle[this.imageTitle.length]=data.data[0].article_data.images[i].image_title;
+                if(data.data[0]) {
+                    if(data.data[0].is_stock_photo && data.data[0].is_stock_photo==true){
+                        this.is_stock=true;
+                    }else{
+                        this.is_stock=false;
                     }
+                    if (data.data[0].article_data.images == null) {
+                        this.imageData = ["/app/public/placeholder_XL.png"];
+                    }
+                    else {
+                        var imageLength = data.data[0].article_data.images.length;
+                        for (var i = 0; i < imageLength; i++) {
+                            this.imageData[this.imageData.length] = GlobalSettings.getImageUrl(data.data[0].article_data.images[i].image_url);
+                            this.copyright[this.copyright.length] = data.data[0].article_data.images[i].image_copyright;
+                            this.imageTitle[this.imageTitle.length] = data.data[0].article_data.images[i].image_title;
+                        }
+                    }
+                    this.articleData = data.data[0].article_data;
+                    this.articleData.url = VerticalGlobalFunctions.formatArticleRoute(this.subcategory, this.articleID, this.eventType);
+
+                    this.articleData.publishedDate = GlobalFunctions.sntGlobalDateFormatting(data.data[0].last_updated, 'timeZone');
+                    this.metaTags(data.data[0], this.eventType);
                 }
-                this.articleData = data.data[0].article_data;
-                this.articleData.url= VerticalGlobalFunctions.formatArticleRoute(this.subcategory,this.articleID,this.eventType);
-                var date = moment.unix(Number(data.data[0].last_updated));
-                this.articleData.publishedDate = date.format('dddd') +', '+ date.format('MMM') + date.format('. DD, YYYY');
-                this.metaTags(data.data[0], this.eventType);
             }
         )
     }
@@ -185,35 +194,48 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
                 }
 
             }
-            this._seo.setsource(data.source);
-            this._seo.setarticletitle(data.title);
-            this._seo.setimage_url(image);
-            this._seo.setarticleurl(link);
-            this._seo.setarticletype(this.subcategory);
-            this._seo.setarticleid(data.article_id);
-            this._seo.setauthor(articleAuthor);
-            this._seo.setpublisheddate(data.last_updated);
-            this._seo.setkeyword(data.keywords);
-            this._seo.setsearchtype('article');
-            this._seo.setpublisher(data.publisher);
-            data.teaser?this._seo.setteaser(data.teaser):this._seo.setteaser(data.article_data.article[0]);
+            this._seo.setSource(data.source);
+            this._seo.setArticleTitle(data.title);
+            this._seo.setImageUrl(image);
+            this._seo.setArticleUrl(link);
+            this._seo.setArticleType(this.subcategory);
+            this._seo.setArticleId(data.article_id);
+            this._seo.setAuthor(articleAuthor);
+            this._seo.setPublishedDate(data.last_updated);
+            this._seo.setKeyword(data.keywords);
+            this._seo.setSearchType('article');
+            this._seo.setPublisher(data.publisher);
+            this._seo.setSearchString(data.keywords);
+            data.teaser?this._seo.setTeaser(data.teaser):this._seo.setTeaser(data.article_data.article[0]);
 
         }else{
-            this._seo.setarticletitle(data.title);
-            this._seo.setarticleurl(link);
-            this._seo.setimage_url(data.video_thumbnail);
-            this._seo.setarticleid(data.id);
-            this._seo.setkeyword(data.keyword);
-            this._seo.setteaser(data.teaser);
-            this._seo.setsearchtype('article');
+            this._seo.setArticleTitle(data.title);
+            this._seo.setArticleUrl(link);
+            this._seo.setImageUrl(data.video_thumbnail);
+            this._seo.setArticleId(data.id);
+            this._seo.setKeyword(data.keyword);
+            this._seo.setTeaser(data.teaser);
+            this._seo.setSearchType('article');
+            this._seo.setSearchString(data.keywords);
         }
     }
 
     @HostListener('window:scroll',['$event']) onScroll(e){
         var scrollingElement=e.target.body.getElementsByClassName('article-widget')[0];
+        var header = e.target.body.getElementsByClassName('header')[0];
+        var articleTitle = e.target.body.getElementsByClassName('articles-page-title')[0];
+        var imageCarousel = e.target.body.getElementsByClassName('images-media')[0];
+        var padding = 21;
+
+        let topCSS = 0;
+        topCSS = header != null ? topCSS + header.offsetHeight : topCSS;
+        topCSS = articleTitle != null ? topCSS + articleTitle.offsetHeight : topCSS;
+        topCSS = imageCarousel != null ? topCSS + imageCarousel.offsetHeight : topCSS;
+        topCSS = topCSS - padding;
+
         if(scrollingElement){
-            if(window.scrollY > 825){
-                var sctop = window.scrollY-825+20+'px';
+            if(window.scrollY > topCSS){
+                var sctop = window.scrollY-topCSS+'px';
                 this._render.setElementStyle(scrollingElement,'top', sctop);
             }else {
                 this._render.setElementStyle(scrollingElement, "top", '0')

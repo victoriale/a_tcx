@@ -1,3 +1,9 @@
+.fixedHeader{
+  position:fixed;
+  top:0;
+  z-index: 9999;
+}
+
 .placeholderImg{
   width: 184px;
   height: 35px;
@@ -7,7 +13,7 @@
   width: 100%;
 }
 .header{
-  position: fixed;
+  position: relative;
   top:0;
   z-index: 99999;
   width: 100%;
@@ -26,10 +32,12 @@
   &-top{
     height: 45px;
     background-color: @masterBrandColor;
+    position: relative;
     .flexDisplay;
     .flexJustify(space-between);
   }//header-top ends
   &-bottom {
+    width:100%;
     .flexDisplay;
     .flexJustify(space-between);
   }
@@ -198,7 +206,7 @@
           pointer-events: none;
           background: linear-gradient(to right, rgba(68, 68, 68, 1) 0%,rgba(68, 68, 68, 0) 10%,rgba(68, 68, 68, 0) 90%, rgba(68, 68, 68, 1) 100%);
           z-index: 1;
-        } 
+        }
         .breaking-text {
           position: absolute;
           white-space: nowrap;

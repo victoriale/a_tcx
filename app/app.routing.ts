@@ -33,7 +33,7 @@ const relativeChildRoutes = [
     },
     {
         path: ':category/:subCategory/article/:articleType/:articleID',
-    //redirectTo: 'news/:articleType/:articleID',
+        //redirectTo: 'news/:articleType/:articleID',
         component: SyndicatedArticlePage,
     },
     {
@@ -78,8 +78,7 @@ const appRoutes: Routes = [
         path: '',
         redirectTo:'deep-dive',
         pathMatch:'full'
-    },
-
+    }
     ];
 
 // [routerLink]=["jimmy", {relativeTo: this.route}]

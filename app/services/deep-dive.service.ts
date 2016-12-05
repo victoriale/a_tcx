@@ -35,7 +35,7 @@ export class DeepDiveService {
       callURL += '&keyword[]=' + category;
     }
     if(category == "breaking"){
-      callURL += "&source[]=tca";
+      callURL += "&source[]=tca-curated";
     } else {
       callURL += "&source[]=snt_ai&source[]=tca-curated";
     }

@@ -1,7 +1,7 @@
 .article-widget{
   @media @mobile{display:none}
   @media @tablet{display:none}
-  @media @desktop-l{display:block;padding-left:8px;margin-top: 10px}
+  @media @desktop-l{display:block;padding-left:8px;margin-top: 20px}
 }
 .large {
   display: block;
@@ -46,6 +46,7 @@
   position: relative;
   overflow: hidden;
   margin: 0 auto;
+
   .carousel-modal{
     top:25%;
   }
@@ -79,6 +80,7 @@
      font-size: 12px;
      padding-top: 6px;
      padding-left: 6px;
+     background-color: rgba(0, 0, 0, 0.65);
    }
    .articleBlock {
      .video-stack {
@@ -90,10 +92,16 @@
    }
  }
   @media @tablet {
+    .trending-small-article-title{
+      &:hover{
+        color:@masterBrandColor;
+      }
+    }
     .circles {
       background-color: transparent;
       border: none;
       font-size: 60px;
+      text-shadow: 0 0 5px rgba(0, 0, 0, 0.45);
       &:hover {
         background-color: transparent;
         border: none;
@@ -159,14 +167,21 @@
     .globalDefaultFont(40px, 800);
     text-align: left;
     margin-top:0px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     padding-top: 10px;
     @media @mobile{
       font-size: 20px;
       padding: 0 10px;
       width: 100%;
     }
+    @media @desktop-m{
+      .globalDefaultFont(50px, 800);
+    }
+    @media @desktop-l{
+      .globalDefaultFont(58px, 800);
+    }
   }
+  .expand-button{background-color: rgba(0, 0, 0, 0.65);}
   .trending-article-content{line-height: 1.3}
   .arpt{
     overflow: hidden;

@@ -55,7 +55,7 @@ export class WidgetCarouselModule {
         }
         var y_buffer = 50;
         var maxScroll = partnerHeight - scrollTop;
-        var carouselTop = jQuery('.deep-dive-container1').height() - scrollTop;
+        var carouselTop = (jQuery('.deep-dive-container1').height() + 30) - scrollTop ; // +30 for margin
         if (!this.aiSidekick) {
             this.sidekickHeight = 0;
         } else {
@@ -79,6 +79,7 @@ export class WidgetCarouselModule {
         if(carouselTop <=0){
           carouselTop = 0;
         }
+        
         //this.headerHeight = carouselTop + padding + maxScroll + this.sidekickHeight + 'px';
         //set class on blue bar and widget once user has scrolled past the carousel and top partner header
         if ((document.getElementById('partner') != null && carouselTop <= 0) || (document.getElementById('partner') == null && carouselTop <= blueBar)) {

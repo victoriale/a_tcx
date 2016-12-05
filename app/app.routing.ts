@@ -78,8 +78,7 @@ const appRoutes: Routes = [
         path: '',
         redirectTo:'deep-dive',
         pathMatch:'full'
-    },
-
+    }
     ];
 
 // [routerLink]=["jimmy", {relativeTo: this.route}]

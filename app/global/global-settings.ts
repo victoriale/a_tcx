@@ -666,12 +666,11 @@ export class GlobalSettings {
       return _apiURL;
     }
 
-    static storePartnerId(partnerId) {
-      this._partnerId = partnerId;
-    }
-
-    static getPartnerId():string {
-        return this._partnerId;
+    static storedPartnerId(partnerId?) {
+      if(this._partnerId != null){
+        this._partnerId = partnerId;
+      }
+      return this._partnerId;
     }
 
     static getApiUrl():string {

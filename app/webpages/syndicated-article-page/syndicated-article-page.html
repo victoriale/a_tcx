@@ -31,11 +31,11 @@
                     <!-- ARTICLE INFORMATION -->
                     <section class="arpt-info row">
                       <div *ngIf="eventType == 'story' && articleData.publisher" class="arpt-author col-sm-12 col-md-6">Written By: <span class="text-master" [innerHTML]="articleData.author | safeHtml"></span>, &nbsp;<span class="text-master" [innerHTML]="articleData.publisher | safeHtml"></span></div>
-                      <div class="arpt-date col-sm-12 col-md-6">Posted on: <span [innerHTML]="articleData.publishedDate | safeHtml"></span></div>
+                      <div *ngIf="eventType == 'story' && articleData.publisher" class="arpt-date col-sm-12 col-md-6">Posted on: <span [innerHTML]="articleData.publishedDate | safeHtml"></span></div>
                     </section>
                     <!-- DISPLAY ARTICLE -->
 
-                    <section *ngIf="eventType == 'story' || eventType == 'video'" class="arpt-main-article">
+                    <section *ngIf="eventType == 'story' || eventType == 'video'" [ngStyle]="{'margin-top': eventType == 'video'? '5px' : '0px'}" class="arpt-main-article">
                         <div *ngIf="eventType == 'story'">
                             <div class="content-exerpt" *ngFor="let description of articleData.article" [innerHTML]="description | safeHtml"></div>
                           </div>
@@ -69,6 +69,6 @@
                 </div>
             </section>
           </sidekick-wrapper-ai>
-      </span>s
+      </span>
     </div>
 </div>

@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { DeepDiveService } from '../services/deep-dive.service';
 import { BoxScoresService } from '../services/box-scores.service';
 
-import { SideScrollSchedule } from '../fe-core/modules/side-scroll-schedules/side-scroll-schedules.module';
+import { SideScrollSchedule } from '../ui-modules/side-scroll-schedules/side-scroll-schedules.module';
 import { ScheduleBox } from '../fe-core/components/schedule-box/schedule-box.component';
 import { SideScroll } from '../ui-modules/side-scroll/side-scroll.component';
 import { SchedulesService } from '../services/schedules.service';

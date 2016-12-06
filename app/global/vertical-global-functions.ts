@@ -49,6 +49,18 @@ export class VerticalGlobalFunctions {
         },
     }[scope].rel_link
   }
+
+  static getWhiteLabel(){
+    let partner = GlobalSettings.storedPartnerId();
+    let route;
+    if(partner){
+      route = '/'+partner+'/news'
+    }else{
+      route = '/deep-dive'
+    }
+    return route;
+  }
+
    static formatTeamRoute(teamName: string, teamId: string): Array<any> {
      var teamRoute: Array<any>;
      if (typeof teamName != 'undefined' && teamName != null) {
@@ -107,14 +119,15 @@ export class VerticalGlobalFunctions {
 
   static formatSectionFrontRoute(category: string): Array<any> {
     var sectionFrontRoute: Array<any>;
+    let route = this.getWhiteLabel();
     if(category != null){
       if(typeof GlobalSettings.getTCXscope(category) == "undefined"){
-        return category !== null ? ['/deep-dive', category] : ['/deep-dive'];
+        return category !== null ? [route, category] : [route];
       }
       if(GlobalSettings.getTCXscope(category).parentScope != null){
-        sectionFrontRoute = ['/deep-dive', GlobalSettings.getTCXscope(category).parentScope, category];
+        sectionFrontRoute = [route, GlobalSettings.getTCXscope(category).parentScope, category];
       } else {
-        sectionFrontRoute = ['/deep-dive', category];
+        sectionFrontRoute = [route, category];
       }
       return sectionFrontRoute ? sectionFrontRoute : ['Error-page'];
     }else{
@@ -124,13 +137,14 @@ export class VerticalGlobalFunctions {
 
   static formatArticleRoute(category: string, articleID: string, articleType: string): Array<any> {
     var articleRoute: Array<any>;
+    let route = this.getWhiteLabel();
     if(category === null){
       return ['Error-page'];
     }
     if(GlobalSettings.getTCXscope(category).parentScope != null){
-      articleRoute = ['/deep-dive', GlobalSettings.getTCXscope(category).parentScope, category, 'article', articleType, articleID];
+      articleRoute = [route, GlobalSettings.getTCXscope(category).parentScope, category, 'article', articleType, articleID];
     } else {
-      articleRoute = ['/deep-dive', category, 'article', articleType, articleID];
+      articleRoute = [route, category, 'article', articleType, articleID];
     }
     return articleRoute ? articleRoute : ['Error-page'];
   }

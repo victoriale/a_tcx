@@ -227,7 +227,7 @@ export class DeepDiveService {
       var sampleImage = "/app/public/placeholder_XL.png";
       var articleStackData = {
           article_id: 88,
-          article_url: '/deep-dive',
+          article_url: route,
           keywords: ['Deep Dive'],
           source: 'test',
           report_type: 'report type',

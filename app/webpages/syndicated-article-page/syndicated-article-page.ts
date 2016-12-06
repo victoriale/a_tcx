@@ -282,7 +282,8 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
                     this._render.setElementStyle(scrollingElement, 'top', sctop);
                 }else{
                     var headerTop=e.target.body.getElementsByClassName('header-top')[0];
-                    var sctop = headerTop.offsetHeight? window.scrollY - topCSS + headerTop.offsetHeight + 10 + 'px' :window.scrollY - topCSS + 'px';
+                    var partnerheadTop=document.getElementById('partner_header')?document.getElementById('partner_header').offsetHeight:0;
+                    var sctop = headerTop.offsetHeight? window.scrollY - topCSS + headerTop.offsetHeight + partnerheadTop + 10 + 'px' :window.scrollY - topCSS + partnerheadTop + 'px';
                     this._render.setElementStyle(scrollingElement, 'top', sctop);
                 }
             }else {

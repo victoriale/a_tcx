@@ -190,6 +190,8 @@ export class DeepDivePage implements OnInit {
     initializePage(){
       this.routeSubscription = this._activatedRoute.params.subscribe(
           (param:any) => {
+            this.carouselGraph = null;
+            this.carouselVideo = null;
             this.category = param['category'] ? param['category'] : 'all';
             this.scope = param['subCategory'] ? param['subCategory'] : this.category;
             if (param['subCategory']) {

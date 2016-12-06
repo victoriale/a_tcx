@@ -148,6 +148,10 @@ export class DeepDiveService {
               author = val.author ? val.author.replace(/by/gi, "") + ", ": null;
               publisher = author ? val.publisher : "Published by: " + val.publisher;
             }
+            var limitDesc = val.teaser.substring(0, 360);
+            if(val.teaser.length > 360){
+              limitDesc += "...";
+            }
             var articleStackData = {
               id: val.article_id,
               articleUrl: routeLink != "" ? routeLink : '/deep-dive',
@@ -157,7 +161,7 @@ export class DeepDiveService {
               title: val.title ? val.title : "No title available",
               author: author,
               publisher: val.publisher && val.author ? "Written by: " + "<span class='text-master'>" + author + publisher + "</span>": null,
-              teaser: val.teaser ? val.teaser : "No teaser available",
+              teaser: val.teaser ? limitDesc : "No teaser available",
               imageConfig: {
                 imageClass: "embed-responsive-16by9",
                 imageUrl: val.image_url ? GlobalSettings.getImageUrl(val.image_url) : sampleImage,

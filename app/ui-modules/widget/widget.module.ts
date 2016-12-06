@@ -9,8 +9,6 @@ declare var jQuery:any;
 })
 
 export class WidgetModule {
-    @Input() aiSidekick:boolean;
-    @Input() syndicated:boolean;
     @Input() scope:string;
     sidekickHeight:number = 0;
     headerHeight:string;

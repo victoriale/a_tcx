@@ -64,6 +64,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     initializePage(){
         this.paramsub= this.activateRoute.params.subscribe(
             (param :any)=> {
+                window.scrollTo(0, 0);
                 this.articleID = param['articleID'],
                     this.eventType= param['articleType'],
                     this.category=param['category'],

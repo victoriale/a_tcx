@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, HostListener, Renderer} from '@angular/core';
 import {GlobalSettings} from "../../global/global-settings";
 
 @Component({
@@ -12,6 +12,12 @@ export class TermOfService implements OnInit{
   currentUrl: string = window.location.href;
 
   socialMedia:Array<any> = GlobalSettings.getSocialMedia(this.currentUrl);
+
+  scrollTopPrev:number = 0;
+
+  constructor(private _render:Renderer){
+
+  }
 
   ngOnInit(){
     this.aboutUsData = {
@@ -135,5 +141,35 @@ export class TermOfService implements OnInit{
         }
       ]
     }
+  }
+  @HostListener('window:scroll',['$event']) onScroll(e){
+    var scrollWidget=e.target.body.getElementsByClassName('condition-page-container2b')[0];
+    var header = e.target.body.getElementsByClassName('header')[0];
+    var fixedHeader = e.target.body.getElementsByClassName('fixedHeader')[0] != null ? e.target.body.getElementsByClassName('fixedHeader')[0].offsetHeight : 0;
+    let widgetTop = 0;
+    widgetTop = header != null ? widgetTop + header.offsetHeight : widgetTop;
+    widgetTop = widgetTop - fixedHeader;
+    var scrollTop = e.srcElement.body.scrollTop;
+    let scrollUp = scrollTop - this.scrollTopPrev>0?true:false;
+    this.scrollTopPrev=scrollTop;
+    if(scrollWidget){
+      if(window.scrollY>widgetTop){
+        if(scrollUp) {
+          var topstyle = window.scrollY - widgetTop + 'px';
+          this._render.setElementStyle(scrollWidget, 'top', topstyle);
+        }else{
+          var headerTop=e.target.body.getElementsByClassName('header-top')[0];
+          var partnerheadTop=document.getElementById('partner_header')?document.getElementById('partner_header').offsetHeight:0;
+          var topstyle = headerTop.offsetHeight? window.scrollY - widgetTop + headerTop.offsetHeight + partnerheadTop + 35 + 'px' :window.scrollY - widgetTop + partnerheadTop + 'px';
+          this._render.setElementStyle(scrollWidget, 'top', topstyle);
+        }
+
+
+      }else{
+        this._render.setElementStyle(scrollWidget, 'top', '0px');
+
+      }
+    }
+
   }
 }

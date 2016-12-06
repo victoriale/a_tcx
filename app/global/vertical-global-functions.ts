@@ -107,15 +107,19 @@ export class VerticalGlobalFunctions {
 
   static formatSectionFrontRoute(category: string): Array<any> {
     var sectionFrontRoute: Array<any>;
-    if(typeof GlobalSettings.getTCXscope(category) == "undefined"){
-      return category !== null ? ['/deep-dive', category] : ['/deep-dive'];
+    if(category != null){
+      if(typeof GlobalSettings.getTCXscope(category) == "undefined"){
+        return category !== null ? ['/deep-dive', category] : ['/deep-dive'];
+      }
+      if(GlobalSettings.getTCXscope(category).parentScope != null){
+        sectionFrontRoute = ['/deep-dive', GlobalSettings.getTCXscope(category).parentScope, category];
+      } else {
+        sectionFrontRoute = ['/deep-dive', category];
+      }
+      return sectionFrontRoute ? sectionFrontRoute : ['Error-page'];
+    }else{
+      return ['Error-page'];
     }
-    if(GlobalSettings.getTCXscope(category).parentScope != null){
-      sectionFrontRoute = ['/deep-dive', GlobalSettings.getTCXscope(category).parentScope, category];
-    } else {
-      sectionFrontRoute = ['/deep-dive', category];
-    }
-    return sectionFrontRoute ? sectionFrontRoute : ['Error-page'];
   }
 
   static formatArticleRoute(category: string, articleID: string, articleType: string): Array<any> {

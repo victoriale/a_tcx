@@ -64,6 +64,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     initializePage(){
         this.paramsub= this.activateRoute.params.subscribe(
             (param :any)=> {
+                window.scrollTo(0, 0);
                 this.articleID = param['articleID'],
                     this.eventType= param['articleType'],
                     this.category=param['category'],
@@ -262,6 +263,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         var header = e.target.body.getElementsByClassName('header')[0];
         var articleTitle = e.target.body.getElementsByClassName('articles-page-title')[0];
         var imageCarousel = e.target.body.getElementsByClassName('images-media')[0];
+        var videoElement = e.target.body.getElementsByClassName('videoFrame')[0];
         var sharebtns = e.target.body.getElementsByClassName('art-hdr')[0];
         var fixedHeader = e.target.body.getElementsByClassName('fixedHeader')[0] != null ? e.target.body.getElementsByClassName('fixedHeader')[0].offsetHeight : 0;
 
@@ -270,6 +272,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         topCSS = sharebtns !=null ? topCSS + sharebtns.offsetHeight : topCSS;
         topCSS = articleTitle != null ? topCSS + articleTitle.offsetHeight : topCSS;
         topCSS = imageCarousel != null ? topCSS + imageCarousel.offsetHeight : topCSS;
+        topCSS = videoElement != null ? topCSS + videoElement.offsetHeight : topCSS;
         topCSS = topCSS - fixedHeader;
         var scrollTop = e.srcElement.body.scrollTop;
         let scrollUp = scrollTop - this.scrollTopPrev>0?true:false;

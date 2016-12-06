@@ -3,7 +3,7 @@
 export class GlobalSettings {
     private static _env = window.location.hostname.split('.')[0];
     private static _proto = window.location.protocol;
-    private static _partnerId:string = '';
+    private static _partnerId:string;
 
     private static _newsUrl:string = 'newsapi.synapsys.us';
 
@@ -591,10 +591,10 @@ export class GlobalSettings {
         case 'nba':
         case 'ncaam':
           if (partnerCode != null) {
-            link = "http://myhoopszone.com/" + partnerCode + "/" + relativeUrl;
+            link = "http://www.myhoopszone.com/" + partnerCode + "/" + relativeUrl;
           }
           else {
-            link = "http://hoopsloyal.com" + "/" + relativeUrl;
+            link = "http://www.hoopsloyal.com" + "/" + relativeUrl;
           }
           break;
         //BASEBALL URL
@@ -604,18 +604,18 @@ export class GlobalSettings {
               link = "http://baseball." + partnerCode + "/" + relativeUrl;
             }
             else {
-              link = "http://myhomerunzone.com/" + partnerCode + "/" + relativeUrl;
+              link = "http://www.myhomerunzone.com/" + partnerCode + "/" + relativeUrl;
             }
           }
           else {
-            link = "http://homerunloyal.com" + "/" + relativeUrl;
+            link = "http://www.homerunloyal.com" + "/" + relativeUrl;
           }
           break;
         //FINANCE URL
         case 'business':
 
           if (partnerCode != null) {
-            link = "http://myinvestkit.com/" + partnerCode + "/" + relativeUrl;
+            link = "http://www.myinvestkit.com/" + partnerCode + "/" + relativeUrl;
           }
           else {
 
@@ -626,10 +626,10 @@ export class GlobalSettings {
         //REALESTATE URL
         case 'real-estate':
           if (partnerCode != null) {
-            link = "http://myhousekit.com/" + partnerCode + "/" + relativeUrl;
+            link = "http://www.myhousekit.com/" + partnerCode + "/" + relativeUrl;
           }
           else {
-            link = "http://joyfulhome.com" + "/" + relativeUrl;
+            link = "http://www.joyfulhome.com" + "/" + relativeUrl;
           }
           break;
       }
@@ -666,7 +666,7 @@ export class GlobalSettings {
     }
 
     static storedPartnerId(partnerId?) {
-      if(this._partnerId != null){
+      if(partnerId != null){
         this._partnerId = partnerId;
       }
       return this._partnerId;
@@ -722,18 +722,18 @@ export class GlobalSettings {
 
     static getHomeInfo(){
       //grabs the domain name of the site and sees if it is our partner page
-      var partner = false;
+      var partner = this.storedPartnerId() != null ? true : false;
       var isHome = false;
       var hide = false;
       var hostname = window.location.hostname;
-      var partnerPage = /mytcxzone/.test(hostname) || /^newspaper\./.test(hostname); //todo: change to correct domain not localhost
+      var partnerPage = /mytcxzone/.test(hostname) || /^newspaper\./.test(hostname) || this.storedPartnerId() != null; //todo: change to correct domain not localhost
       var urlSplit = window.location.pathname.split('/');
       var name = "";
       var partnerName = "";
       var isSubdomainPartner = /^newspaper\./.test(hostname);
       if(partnerPage){
         partner = partnerPage;
-        partnerName = urlSplit[1];
+        partnerName = this.storedPartnerId();
         name = urlSplit[2];
       }
       else {

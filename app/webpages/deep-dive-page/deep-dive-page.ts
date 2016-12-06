@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {Component, OnInit, OnDestroy, HostListener, Renderer} from '@angular/core';
 import { SchedulesService } from '../../services/schedules.service';
 import { DeepDiveService } from '../../services/deep-dive.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -44,6 +44,7 @@ export class DeepDivePage implements OnInit {
     carouselGraph:any;
     carouselVideo:any;
     carouselData: any;
+    scrollTopPrev:number = 0;
 
     constructor(
         private _schedulesService:SchedulesService,
@@ -51,7 +52,8 @@ export class DeepDivePage implements OnInit {
         private _activatedRoute: ActivatedRoute,
         private _geoLocation: GeoLocation,
         private _seo:SeoService,
-        private _router:Router
+        private _router:Router,
+        private _render:Renderer
     ) {}
 
 
@@ -188,6 +190,8 @@ export class DeepDivePage implements OnInit {
     initializePage(){
       this.routeSubscription = this._activatedRoute.params.subscribe(
           (param:any) => {
+            this.carouselGraph = null;
+            this.carouselVideo = null;
             this.category = param['category'] ? param['category'] : 'all';
             this.scope = param['subCategory'] ? param['subCategory'] : this.category;
             if (param['subCategory']) {
@@ -204,5 +208,38 @@ export class DeepDivePage implements OnInit {
             this.sectionFrontName();
             this.addMetaTags();
           });
+    }
+
+    @HostListener('window:scroll',['$event']) onScroll(e){
+        var scrollingWidget=e.target.body.getElementsByClassName('deep-dive-container2b')[0];
+        var header = e.target.body.getElementsByClassName('header')[0];
+        var carouselHeight = e.target.body.getElementsByClassName('deep-dive-container1')[0];
+        var fixedHeader = e.target.body.getElementsByClassName('fixedHeader')[0] != null ? e.target.body.getElementsByClassName('fixedHeader')[0].offsetHeight : 0;
+        let topStyle = 0;
+        topStyle = header != null ? topStyle + header.offsetHeight : topStyle;
+        topStyle = carouselHeight != null? topStyle +carouselHeight.offsetHeight :topStyle;
+        topStyle = topStyle - fixedHeader;
+        var scrollTop = e.srcElement.body.scrollTop;
+        let scrollUp = scrollTop - this.scrollTopPrev>0?true:false;
+        this.scrollTopPrev=scrollTop;
+        if(scrollingWidget){
+            if(window.scrollY>topStyle){
+                if(scrollUp) {
+                    var widtop = window.scrollY - topStyle - 10 + 'px';
+                    this._render.setElementStyle(scrollingWidget, 'top', widtop);
+                }else{
+                    var headerTop=e.target.body.getElementsByClassName('header-top')[0];
+                    var partnerheadTop=document.getElementById('partner_header')?document.getElementById('partner_header').offsetHeight:0;
+                    var widtop = headerTop.offsetHeight? window.scrollY - topStyle + headerTop.offsetHeight + partnerheadTop + 25 + 'px' :window.scrollY - topStyle + partnerheadTop + 'px';
+                    this._render.setElementStyle(scrollingWidget, 'top', widtop);
+                }
+
+
+            }else{
+                this._render.setElementStyle(scrollingWidget, 'top', '0px');
+
+            }
+        }
+
     }
   }

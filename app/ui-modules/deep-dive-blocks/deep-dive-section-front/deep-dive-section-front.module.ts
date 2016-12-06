@@ -33,6 +33,7 @@ export class DeepDiveSectionFront implements OnInit {
   safeCounter: number = 0;
   searchData: any;
   routeSubscription:any;
+  urlScope:any;
   constructor(private _boxScoresService: BoxScoresService, private _deepDiveData: DeepDiveService){}
   getFirstArticleStackData(pageNum){
     if(this.callApi){
@@ -162,15 +163,29 @@ export class DeepDiveSectionFront implements OnInit {
   }
 
   navigateSearch(e) {
+    if(!this.urlScope){
+        this.urlScope=this.scope;
+    }
     if(e.key == "Enter"){
-      var rel_url = VerticalGlobalFunctions.createSearchLink(this.scope) + e.target.value;
-      var fullSearchUrl = GlobalSettings.getOffsiteLink(this.scope, rel_url);
-      window.open(fullSearchUrl);
+        if(e.target.value) {
+            var rel_url = VerticalGlobalFunctions.createSearchLink(this.urlScope) + e.target.value;
+            var fullSearchUrl = GlobalSettings.getOffsiteLink(this.urlScope, rel_url);
+            window.open(fullSearchUrl);
+        }
+    }else if(e.type == "click"){
+      var inputVal= e.target.offsetParent.previousElementSibling.lastChild.value;
+      if(inputVal) {
+          var rel_url = VerticalGlobalFunctions.createSearchLink(this.urlScope) + inputVal;
+          var fullSearchUrl = GlobalSettings.getOffsiteLink(this.urlScope, rel_url);
+          window.open(fullSearchUrl);
+      }
+
     }
   }
   changeScope(event){
-    this.searchData.searchModTitle = GlobalSettings.getTCXscope(event).searchTitle + " " + GlobalSettings.getTCXscope(this.scope).displayName;
-    this.searchData.searchSubTitle = GlobalSettings.getTCXscope(this.scope).searchSubTitle;
+    this.urlScope=event;
+    this.searchData.searchModTitle = GlobalSettings.getTCXscope(event).searchTitle + " " + GlobalSettings.getTCXscope(event).displayName;
+    this.searchData.searchSubTitle = GlobalSettings.getTCXscope(event).searchSubTitle;
   }
   createSearchBox(scope){
     var modSearchTitle;

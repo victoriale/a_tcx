@@ -35,6 +35,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     public subcategory: string;
     public loadingshow:boolean;
     public articleCount:number;
+    public scrollTopPrev:number=0;
     isStockPhoto:boolean=true;
     isArticle:string;
     prevarticle;
@@ -122,6 +123,23 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
                         }
                     }
                     this.articleData = data.data[0].article_data;
+                    var artwriter='';
+                    if(this.articleData.author){
+
+                        let authorArray = this.articleData.author.split(' ');
+
+                        if(authorArray[0] =='By'){
+                            for(var i=1;i<authorArray.length;i++) {
+                                artwriter += authorArray[i] + ' ';
+                            }
+                        }else{
+                            for(var i=0;i<authorArray.length;i++) {
+                                artwriter += authorArray[i] + ' ';
+                            }
+                        }
+
+                    }
+                    this.articleData.author=artwriter;
                     this.articleData.url = VerticalGlobalFunctions.formatArticleRoute(this.subcategory, this.articleID, this.eventType);
 
                     this.articleData.publishedDate = GlobalFunctions.sntGlobalDateFormatting(data.data[0].last_updated, 'timeZone');
@@ -244,19 +262,30 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         var header = e.target.body.getElementsByClassName('header')[0];
         var articleTitle = e.target.body.getElementsByClassName('articles-page-title')[0];
         var imageCarousel = e.target.body.getElementsByClassName('images-media')[0];
-        var padding = 21;
+        var sharebtns = e.target.body.getElementsByClassName('art-hdr')[0];
         var fixedHeader = e.target.body.getElementsByClassName('fixedHeader')[0] != null ? e.target.body.getElementsByClassName('fixedHeader')[0].offsetHeight : 0;
 
         let topCSS = 0;
         topCSS = header != null ? topCSS + header.offsetHeight : topCSS;
+        topCSS = sharebtns !=null ? topCSS + sharebtns.offsetHeight : topCSS;
         topCSS = articleTitle != null ? topCSS + articleTitle.offsetHeight : topCSS;
         topCSS = imageCarousel != null ? topCSS + imageCarousel.offsetHeight : topCSS;
-        topCSS = topCSS - padding + fixedHeader;
+        topCSS = topCSS - fixedHeader;
+        var scrollTop = e.srcElement.body.scrollTop;
+        let scrollUp = scrollTop - this.scrollTopPrev>0?true:false;
+        this.scrollTopPrev=scrollTop;
 
         if(scrollingElement){
             if(window.scrollY > topCSS){
-                var sctop = window.scrollY-topCSS+'px';
-                this._render.setElementStyle(scrollingElement,'top', sctop);
+                if(scrollUp) {
+                    var sctop = window.scrollY - topCSS - 25 + 'px';
+                    this._render.setElementStyle(scrollingElement, 'top', sctop);
+                }else{
+                    var headerTop=e.target.body.getElementsByClassName('header-top')[0];
+                    var partnerheadTop=document.getElementById('partner_header')?document.getElementById('partner_header').offsetHeight:0;
+                    var sctop = headerTop.offsetHeight? window.scrollY - topCSS + headerTop.offsetHeight + partnerheadTop + 10 + 'px' :window.scrollY - topCSS + partnerheadTop + 'px';
+                    this._render.setElementStyle(scrollingElement, 'top', sctop);
+                }
             }else {
                 this._render.setElementStyle(scrollingElement, "top", '0')
             }

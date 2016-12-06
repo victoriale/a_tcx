@@ -1,7 +1,7 @@
 .article-widget{
   @media @mobile{display:none}
   @media @tablet{display:none}
-  @media @desktop-l{display:block;padding-left:8px;margin-top: 20px}
+  @media @desktop-l{display:block;padding-left:8px;margin-top: 10px}
 }
 .large {
   display: block;
@@ -46,7 +46,9 @@
   position: relative;
   overflow: hidden;
   margin: 0 auto;
-
+  .content-exerpt{
+    margin-bottom: 20px;
+  }
   .carousel-modal{
     top:25%;
   }
@@ -66,6 +68,7 @@
      top: 18%;
      right: 3%;
      font-size: 22px;
+     z-index: 1;
    }
    .carousel-modal{
      width: 100%;
@@ -138,6 +141,7 @@
  }
   @media @tablet {
     .carousel-modal-exit{
+      z-index: 1;
       top: 10%;
       right: 8.5%;
       cursor: pointer;

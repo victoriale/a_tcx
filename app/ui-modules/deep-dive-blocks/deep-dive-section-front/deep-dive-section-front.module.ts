@@ -167,14 +167,18 @@ export class DeepDiveSectionFront implements OnInit {
         this.urlScope=this.scope;
     }
     if(e.key == "Enter"){
-      var rel_url = VerticalGlobalFunctions.createSearchLink(this.urlScope) + e.target.value;
-      var fullSearchUrl = GlobalSettings.getOffsiteLink(this.urlScope, rel_url);
-      window.open(fullSearchUrl);
+        if(e.target.value) {
+            var rel_url = VerticalGlobalFunctions.createSearchLink(this.urlScope) + e.target.value;
+            var fullSearchUrl = GlobalSettings.getOffsiteLink(this.urlScope, rel_url);
+            window.open(fullSearchUrl);
+        }
     }else if(e.type == "click"){
       var inputVal= e.target.offsetParent.previousElementSibling.lastChild.value;
-      var rel_url = VerticalGlobalFunctions.createSearchLink(this.urlScope) + inputVal;
-      var fullSearchUrl = GlobalSettings.getOffsiteLink(this.urlScope, rel_url);
-      window.open(fullSearchUrl);
+      if(inputVal) {
+          var rel_url = VerticalGlobalFunctions.createSearchLink(this.urlScope) + inputVal;
+          var fullSearchUrl = GlobalSettings.getOffsiteLink(this.urlScope, rel_url);
+          window.open(fullSearchUrl);
+      }
 
     }
   }

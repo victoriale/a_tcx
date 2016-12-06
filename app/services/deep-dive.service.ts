@@ -127,6 +127,8 @@ export class DeepDiveService {
       if(data == null){return null;}//TODO tell backend to return null when no data
       var sampleImage = "/app/public/placeholder_XL.png";
       var articleStackArray = [];
+      let route = VerticalGlobalFunctions.getWhiteLabel();
+
       data.forEach(function(val, index){
           if(val.article_id != null && typeof val.article_id != 'undefined'){
             if(val.last_updated){
@@ -150,7 +152,7 @@ export class DeepDiveService {
             }
             var articleStackData = {
               id: val.article_id,
-              articleUrl: routeLink != "" ? routeLink : '/deep-dive',
+              articleUrl: routeLink != "" ? routeLink : route,
               extUrl: extLink,
               keyword: key,
               timeStamp: date ? date : "",
@@ -164,7 +166,7 @@ export class DeepDiveService {
                 urlRouteArray: routeLink,
                 extUrl: extLink
               },
-              keyUrl: key != "all" ? VerticalGlobalFunctions.formatSectionFrontRoute(key) : ['/deep-dive']
+              keyUrl: key != "all" ? VerticalGlobalFunctions.formatSectionFrontRoute(key) : [route]
             }
             articleStackArray.push(articleStackData);
           }
@@ -173,6 +175,9 @@ export class DeepDiveService {
     }// transformToArticleStack ENDS
 
     carouselTransformData(arrayData:Array<ArticleStackData>, scope){
+
+      let route = VerticalGlobalFunctions.getWhiteLabel();
+
       if(arrayData == null || typeof arrayData == 'undefined' || arrayData.length == 0 || arrayData === undefined){
         return null;
       }
@@ -194,7 +199,7 @@ export class DeepDiveService {
         }
 
         let carData = {
-          articlelink: routeLink != "" ? routeLink : '/deep-dive',
+          articlelink: routeLink != "" ? routeLink : route,
           extUrl: extLink,
           source: val.source,
           report_type: val.report_type,
@@ -202,6 +207,7 @@ export class DeepDiveService {
           title:  "<span> Today's News: </span>",
           headline: val['title'],
           keywords: val['keywords'][0],
+          keyUrl: VerticalGlobalFunctions.formatSectionFrontRoute(val['keywords'][0]),
           teaser: val['teaser'].replace('_',': ').replace(/<p[^>]*>/g, ""),
           article_id:val['article_id'],
           article_url: val['article_url'],
@@ -216,6 +222,8 @@ export class DeepDiveService {
     }
 
     carouselDummyData(){
+      let route = VerticalGlobalFunctions.getWhiteLabel();
+
       var sampleImage = "/app/public/placeholder_XL.png";
       var articleStackData = {
           article_id: 88,
@@ -232,7 +240,7 @@ export class DeepDiveService {
           imageConfig: {
             imageClass: "embed-responsive-16by9",
             imageUrl: sampleImage,
-            urlRouteArray: ['/deep-dive']
+            urlRouteArray: [route]
           },
         }
         return [articleStackData,articleStackData,articleStackData,articleStackData,articleStackData];

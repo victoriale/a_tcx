@@ -666,7 +666,7 @@ export class GlobalSettings {
     }
 
     static storedPartnerId(partnerId?) {
-      if(this._partnerId != null){
+      if(partnerId != null){
         this._partnerId = partnerId;
       }
       return this._partnerId;
@@ -722,18 +722,18 @@ export class GlobalSettings {
 
     static getHomeInfo(){
       //grabs the domain name of the site and sees if it is our partner page
-      var partner = false;
+      var partner = this.storedPartnerId() != null ? true : false;
       var isHome = false;
       var hide = false;
       var hostname = window.location.hostname;
-      var partnerPage = /mytcxzone/.test(hostname) || /^newspaper\./.test(hostname); //todo: change to correct domain not localhost
+      var partnerPage = /mytcxzone/.test(hostname) || /^newspaper\./.test(hostname) || this.storedPartnerId() != null; //todo: change to correct domain not localhost
       var urlSplit = window.location.pathname.split('/');
       var name = "";
       var partnerName = "";
       var isSubdomainPartner = /^newspaper\./.test(hostname);
       if(partnerPage){
         partner = partnerPage;
-        partnerName = urlSplit[1];
+        partnerName = this.storedPartnerId();
         name = urlSplit[2];
       }
       else {

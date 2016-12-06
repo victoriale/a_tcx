@@ -1,18 +1,13 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Rx';
 import {GlobalSettings} from '../global/global-settings';
+import { VerticalGlobalFunctions } from "../global/vertical-global-functions";
 
 @Injectable()
 export class HeaderLinksService {
   static createMenu(){
-    var topRoute = "";
     var partner = GlobalSettings.storedPartnerId();
-    if (partner == null || partner == ""){
-      topRoute = "/deep-dive";
-    }
-    else {
-      topRoute = partner +  "/news";
-    }
+    let topRoute = VerticalGlobalFunctions.getWhiteLabel();
     var menuData = [{
         menuTitle: "SPORTS",
         url: topRoute + '/sports'

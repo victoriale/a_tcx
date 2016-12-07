@@ -32,11 +32,18 @@ export class AboutUsPage implements OnInit{
     var scrollWidget=e.target.body.getElementsByClassName('condition-page-container2b')[0];
       var header = e.target.body.getElementsByClassName('header')[0];
       var fixedHeader = e.target.body.getElementsByClassName('fixedHeader')[0] != null ? e.target.body.getElementsByClassName('fixedHeader')[0].offsetHeight : 0;
+      var footer = e.target.body.getElementsByClassName('footer')[0];
+
       let widgetTop = 0;
       widgetTop = header != null ? widgetTop + header.offsetHeight : widgetTop;
       widgetTop = widgetTop - fixedHeader;
+      let bottomCSS=0;
+      bottomCSS = footer!=null? bottomCSS + footer.offsetHeight: bottomCSS;
+
       var scrollTop = e.srcElement.body.scrollTop;
       let scrollUp = scrollTop - this.scrollTopPrev>0?true:false;
+      var scrollBottom = e.target.body.scrollHeight-e.target.body.scrollTop==e.target.body.clientHeight?true:false;
+
       this.scrollTopPrev=scrollTop;
       if(scrollWidget){
           if(window.scrollY>widgetTop){
@@ -49,7 +56,10 @@ export class AboutUsPage implements OnInit{
                   var topstyle = headerTop.offsetHeight? window.scrollY - widgetTop + headerTop.offsetHeight + partnerheadTop + 35 + 'px' :window.scrollY - widgetTop + partnerheadTop + 'px';
                   this._render.setElementStyle(scrollWidget, 'top', topstyle);
               }
-
+              if(scrollBottom){
+                  var newTopCSS =window.scrollY - widgetTop - bottomCSS - 30+ 'px';
+                  this._render.setElementStyle(scrollWidget,'top', newTopCSS);
+              }
 
           }else{
               this._render.setElementStyle(scrollWidget, 'top', '0px');

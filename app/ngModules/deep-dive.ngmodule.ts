@@ -32,8 +32,7 @@ import { CalendarCarousel } from '../fe-core/components/carousels/calendar/calen
 import { DatePicker } from '../fe-core/components/date-picker/date-picker.component';
 import { GameArticle } from '../fe-core/components/game-article/game-article.component';
 
-//pipes
-import { StatHyphenValuePipe } from '../fe-core/pipes/stat-hyphen.pipe';
+
 
 @NgModule({
     imports:[
@@ -52,8 +51,6 @@ import { StatHyphenValuePipe } from '../fe-core/pipes/stat-hyphen.pipe';
       ArticleStack1Module,
       ArticleStack2Module,
       VideoStackComponent,
-      BoxScoresModule,
-      StatHyphenValuePipe,
       BoxScoresModule,
       DatePicker,
       GameInfo,

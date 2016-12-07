@@ -13,12 +13,45 @@ declare let Fuse: any;
 export class SearchService{
     public pageMax: number = 10;
     public searchJSON: any;
+    private _searchApi:string=GlobalSettings.getApiUrl();
 
     public searchAPI: string = "http://dev-touchdownloyal-api.synapsys.us" + '/landingPage/search';
     constructor(private http: Http, private _router:Router){
 
         //Get initial search JSON data
         this.getSearchJSON()
+    }
+
+    searchArticleService(userInput){
+        var callUrl = this._searchApi + '/' +'elasticSearch'+'/'+userInput;
+        return this.http.get(callUrl)
+            .map(res=>res.json())
+            .map(data => {
+             return data;
+            })
+    }
+    transformSearchResults(data) {
+
+        var placeholder = "/app/public/placeholder_XL.png"
+
+        data.forEach(function(val, index) {
+            console.log(val);
+            val['articleId']=val._source.id;
+            val["publishedDate"] = GlobalFunctions.sntGlobalDateFormatting(val._source.lastModified, 'timeZone');
+            val["imagePathData"] = {
+                imageClass: "embed-responsive-16by9",
+                imageUrl:val._source.image_url?GlobalSettings.getImageUrl(val._source.image_url):GlobalSettings.getImageUrl(placeholder),
+                urlRouteArray: '/deep-dive',
+            };
+            val['title']=val._source.title;
+            val["teaser"]=val._source.content;
+            val['articleUrl']=val._source.url;
+            val["provider"] = 'unknown';
+            val['keyword']='unknown';
+            val['author']='unknown';
+            val['publisher']='unknown';
+        })
+        return data;
     }
 
     //Function get search JSON object

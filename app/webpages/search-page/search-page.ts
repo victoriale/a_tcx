@@ -3,6 +3,7 @@ import {Component} from "@angular/core";
 import {SearchInput} from "../../fe-core/components/search/search.component";
 import {SyndicateArticleData} from "../../fe-core/interfaces/syndicate-article.data";
 import {ActivatedRoute} from "@angular/router";
+import {SearchService} from "../../services/search.service";
 @Component({
     selector:"search-page",
     templateUrl:"app/webpages/search-page/search-page.html",
@@ -12,16 +13,29 @@ export class SearchPage{
     pageSearchSubTitle="Search for a topic or keyword that interests you!";
     paramsub:any;
     userInput;
-    constructor(private activateRoute:ActivatedRoute){
+    searchArticlesData:any;
+    ghf:any;
+    constructor(private activateRoute:ActivatedRoute, private searchService:SearchService){
         this.paramsub=activateRoute.params.subscribe(
-            (param :any)=> {this.userInput= param['userInput']}
-
+            (param :any)=> {
+                this.userInput= param['userInput'];
+                this.getSearchResult(this.userInput);
+            }
         );
+
     }
     ngOnInit(){
 
     }
-    searchArticlesData:Array<SyndicateArticleData>=[
+    private getSearchResult(i){
+        this.searchService.searchArticleService(i).subscribe(
+            data=>{
+                this.searchArticlesData=this.searchService.transformSearchResults(data);
+                console.log(this.searchArticlesData);
+            }
+        )
+    }
+/*    searchArticlesData:Array<SyndicateArticleData>=[
         {
             isStockPhoto:false,
             articleId: 1,
@@ -108,7 +122,7 @@ export class SearchPage{
             articleUrl: "", // link of the article source
             provider:"Provider 5",//provider information
         },
-    ];
+    ];*/
     ngOnDestroy(){
         this.paramsub.unsubscribe();
     }

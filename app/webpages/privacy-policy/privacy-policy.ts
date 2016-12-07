@@ -16,7 +16,7 @@ export class PrivacyPolicy implements OnInit{
   scrollTopPrev:number = 0;
 
   constructor(private _render:Renderer){
-
+      window.scrollTo(0, 0);
   }
 
 

@@ -14,7 +14,9 @@ export class AboutUsPage implements OnInit{
   socialMedia:Array<any> = GlobalSettings.getSocialMedia(this.currentUrl);
 
     scrollTopPrev:number = 0;
-    constructor(private _render:Renderer){}
+    constructor(private _render:Renderer){
+        window.scrollTo(0, 0);
+    }
 
   ngOnInit(){
     this.aboutUsData = {

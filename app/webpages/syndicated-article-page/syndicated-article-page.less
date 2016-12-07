@@ -46,6 +46,7 @@
   position: relative;
   overflow: hidden;
   margin: 0 auto;
+
   .videoFrame{
     padding-top: 0;
   }
@@ -81,7 +82,6 @@
      background-color:rgba(0, 0, 0, 0.8);
    }
    .carousel-modal-container-img{
-     background-size: cover;
      width:90%;
      height: 65%;
      top:25%;
@@ -145,8 +145,8 @@
   @media @tablet {
     .carousel-modal-exit{
       z-index: 1;
-      top: 10%;
-      right: 8.5%;
+      top: 125px;
+      right: 9.5%;
       cursor: pointer;
     }
     .carousel-modal{
@@ -157,7 +157,7 @@
       background-color:rgba(0, 0, 0, 0.8);
     }
     .carousel-modal-container-img{
-      background-size: cover;
+      background-size: contain;
       width:80%;
       height: 70%;
       top:17%;

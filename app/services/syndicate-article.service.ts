@@ -8,7 +8,7 @@ declare var moment;
 
 @Injectable()
 export class SyndicateArticleService {
-  private _syndicateUrl: string = GlobalSettings.getSyndicateUrl();
+  private _syndicateUrl: string = GlobalSettings.getArticleBatchUrl();
 
   constructor(public _http: Http) { }
 

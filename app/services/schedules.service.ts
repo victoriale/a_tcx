@@ -615,6 +615,7 @@ export class SchedulesService {
                 homeLink: GlobalSettings.getOffsiteLink("nfl", scope + "/team/" + val.team1FullName + "/" + val.team1Id),
                 reportDisplay: reportText,
                 reportLink: reportUrl,
+                extUrl:true,
                 isLive: val.eventStatus == 'inprogress' ? 'schedule-live' : '',
                 inning: val.eventQuarter != null ? "Current: Quarter " + Number(val.eventQuarter) + "<sup>" + GlobalFunctions.Suffix(Number(val.eventQuarter)) + "</sup>" : null
             }

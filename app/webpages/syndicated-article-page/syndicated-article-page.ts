@@ -294,7 +294,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
                     this._render.setElementStyle(scrollingElement, 'top', sctop);
                 }
                 if(scrollBottom && window.innerHeight - footer.offsetHeight <600){
-                    var newTopCSS =window.scrollY - topCSS - bottomCSS - 50+ 'px';
+                    var newTopCSS = window.scrollY - topCSS - bottomCSS - 50+ 'px';
                     this._render.setElementStyle(scrollingElement,'top', newTopCSS);
                 }
             }else {

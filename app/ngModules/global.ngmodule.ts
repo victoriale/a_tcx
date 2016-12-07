@@ -11,6 +11,7 @@ import { GlobalSettings } from "../global/global-settings";
 import { GlobalFunctions } from "../global/global-functions";
 import { GeoLocation } from "../global/global-service";
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
+
 /*** COMPONENTS ***/
 import { SectionFrontTopNav } from '../ui-modules/section-front-top-nav/section-front-top-nav.component';
 import { ComplexInnerHtml } from '../fe-core/components/complex-inner-html/complex-inner-html.component';
@@ -23,7 +24,7 @@ import { CircleImage } from "../fe-core/components/images/circle-image/circle-im
 import { HoverImage } from "../fe-core/components/images/hover-image";
 import { ImagesMedia } from "../fe-core/components/carousels/images-media-carousel/images-media-carousel.component";
 import { CircleButton } from "../fe-core/components/buttons/circle/circle.button";
-
+import { ArticleScheduleComponent } from "../fe-core/components/articles/article-schedule/article-schedule.component";
 import { ModuleHeader } from "../fe-core/components/module-header/module-header.component";
 import { ArticleBlockComponent } from "../fe-core/components/article-block/article-block.component";
 import { DropdownComponent } from "../fe-core/components/dropdown/dropdown.component";
@@ -37,16 +38,20 @@ import { InfoComponent } from '../fe-core/components/page-information/page-infor
 import {ShareLinksComponent} from "../fe-core/components/articles/share-links/share-links.component";
 import {BillboardComponent} from "../fe-core/components/articles/billboard/billboard.component";
 import {SidekickContainerComponent} from "../fe-core/components/articles/sidekick-container/sidekick-container.component";
+import { ScoreBoard } from "../fe-core/components/score-board/score-board.component";
+
 /*** MODULES ***/
 import { BillboardModule } from "../fe-core/modules/billboard/billboard.module";
 import { ChatterboxModule } from "../fe-core/modules/chatterbox/chatterbox.module";
 import { SearchBoxModule } from "../fe-core/modules/search-box-module/search-box-module.module";
 import { DeepDiveRecommendation } from "../fe-core/modules/deep-dive-recommendation/deep-dive-recommendation.module";
+
 /*** UI MODULES AND WIDGETS ***/
 import { FooterComponent } from "../ui-modules/footer/footer.component";
 import { ResponsiveWidget } from "../ui-modules/responsive-widget/responsive-widget.component";
 import { WidgetCarouselModule } from "../ui-modules/widget/widget-carousel.module";
 import { WidgetModule } from "../ui-modules/widget/widget.module";
+
 /*** WEBPAGES ***/
 import { AboutUsPage } from "../webpages/aboutus/aboutus";
 import { PrivacyPolicy } from "../webpages/privacy-policy/privacy-policy";
@@ -54,6 +59,7 @@ import { TermOfService } from "../webpages/term-of-service/term-of-service";
 
 //Pipes
 import {SanitizeScript, SanitizeHtml, SanitizeRUrl, SanitizeStyle} from "../fe-core/pipes/safe.pipe";
+import { StatHyphenValuePipe } from "../fe-core/pipes/stat-hyphen.pipe";
 
 //router
 import { routing  } from '../app.routing';
@@ -92,6 +98,7 @@ import { SearchService } from "../services/search.service";
       SanitizeRUrl,
       SanitizeStyle,
       SanitizeScript,
+      StatHyphenValuePipe,
       ScrollableContent,
       DropdownComponent,
 	    Larousel,
@@ -112,7 +119,9 @@ import { SearchService } from "../services/search.service";
       ShareLinksComponent,
       BillboardComponent,
       SidekickContainerComponent,
-      ComplexInnerHtml
+      ComplexInnerHtml,
+      ArticleScheduleComponent,
+      ScoreBoard
 
     ],
     exports: [
@@ -136,6 +145,7 @@ import { SearchService } from "../services/search.service";
       SanitizeRUrl,
       SanitizeStyle,
       SanitizeScript,
+      StatHyphenValuePipe,
       Larousel,
       DropdownComponent,
       Search,
@@ -154,7 +164,9 @@ import { SearchService } from "../services/search.service";
       ChatterboxModule,
       ResponsiveWidget,
       BillboardComponent,
-      SidekickContainerComponent
+      SidekickContainerComponent,
+      ArticleScheduleComponent,
+      ScoreBoard
     ],
     providers: [
       VerticalGlobalFunctions,

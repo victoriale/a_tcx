@@ -169,7 +169,7 @@ export class TermOfService implements OnInit{
           var topstyle = headerTop.offsetHeight? window.scrollY - widgetTop + headerTop.offsetHeight + partnerheadTop + 35 + 'px' :window.scrollY - widgetTop + partnerheadTop + 'px';
           this._render.setElementStyle(scrollWidget, 'top', topstyle);
         }
-          if(scrollBottom){
+          if(scrollBottom && window.innerHeight - footer.offsetHeight <600){
               var newTopCSS =window.scrollY - widgetTop - bottomCSS - 30+ 'px';
               this._render.setElementStyle(scrollWidget,'top', newTopCSS);
           }

@@ -31,28 +31,30 @@
                     <!-- ARTICLE INFORMATION -->
                     <section class="arpt-info row">
                       <div *ngIf="eventType == 'story' && articleData.publisher" class="arpt-author col-sm-12 col-md-6">Written By: <span class="text-master" [innerHTML]="articleData.author | safeHtml"></span>, &nbsp;<span class="text-master" [innerHTML]="articleData.publisher | safeHtml"></span></div>
-                      <div class="arpt-date col-sm-12 col-md-6">Posted on: <span [innerHTML]="articleData.publishedDate | safeHtml"></span></div>
+                      <div *ngIf="eventType == 'story' && articleData.publisher" class="arpt-date col-sm-12 col-md-6">Posted on: <span [innerHTML]="articleData.publishedDate | safeHtml"></span></div>
                     </section>
                     <!-- DISPLAY ARTICLE -->
 
-                    <section *ngIf="eventType == 'story' || eventType == 'video'" class="arpt-main-article">
+                    <section *ngIf="eventType == 'story' || eventType == 'video'" [ngStyle]="{'margin-top': eventType == 'video'? '5px' : '0px'}" class="arpt-main-article">
                         <div *ngIf="eventType == 'story'">
                             <div class="content-exerpt" *ngFor="let description of articleData.article" [innerHTML]="description | safeHtml"></div>
                           </div>
                         <div class="content-exerpt" *ngIf="eventType == 'video'" [innerHTML]="articleData.teaser | safeHtml"></div>
                         <div [ngStyle]="{width: '100%', height:'5px','display':'block'}"></div>
                     </section>
+                    <billboard-module [category]="category" [subCategory]="subcategory"></billboard-module>
                     <!-- RESPONSIVE WIDGET-->
                     <responsive-widget [category]="category" [subCategory]="subcategory"></responsive-widget>
 
                     <disqus-component *ngIf="!checkPartner"></disqus-component>
+                    <chatterbox-module></chatterbox-module>
 <!--
                     <recommendations-component *ngIf="randomHeadlines" [randomHeadlines]="randomHeadlines" [images]="images"></recommendations-component>
 -->
                     <div class="other-stories"><i class="fa-heart-o"></i> Other Stories You Will Love </div>
                     <article-block-component [articleBlockData]="recomendationData" [bootstrapGrid]="'col-sm-12 col-md-3'"></article-block-component>
 
-                    <trending-component [scope]="scope"
+                    <trending-component [scope]="subcategory"
                                         [currentArticleId]="articleID"
                                         [eventType]="eventType"
                                         [geoLocation]="geoLocation"
@@ -63,7 +65,7 @@
                 </div>
 
                 <div class="article-widget col-xl-3">
-                    <widget-module [aiSidekick]="aiSidekick" [syndicated]="syndicated" [scope]="scope"></widget-module>
+                    <widget-module [scope]="subcategory"></widget-module>
                 </div>
             </section>
           </sidekick-wrapper-ai>

@@ -17,6 +17,7 @@ export class HeaderComponent implements OnInit {
     @Output() tabSelected = new EventEmitter();
     public logoUrl: string = 'app/public/TCX_Logo_Outlined.svg';
     public partnerLogoUrl: string = 'app/public/TCX_Logo_Outlined.svg';
+    public homeUrl: Array<string>;
     public searchInput: any = {
         placeholderText: "Search for a topic...",
         hasSuggestions: true
@@ -67,7 +68,7 @@ export class HeaderComponent implements OnInit {
 
         let scrollPolarity = scrollTop - this.scrollTopPrev;
 
-        if(scrollPolarity > 0){// scrollUp is true scrollPolarity is negative which will add the header back
+        if(scrollPolarity > 0 || scrollTop == 0){// scrollUp is true scrollPolarity is negative which will add the header back
           this.scrollUp = false;
         }else{
           this.scrollUp = true;
@@ -83,7 +84,7 @@ export class HeaderComponent implements OnInit {
           }else{
             stickyItem.classList.add('fixedHeader');
           }
-        }else{
+        } else{
           stickyItem.classList.remove('fixedHeader');
         }
 
@@ -133,6 +134,12 @@ export class HeaderComponent implements OnInit {
     }
 
     ngOnInit() {
+
+        if(this.partnerID){
+          this.homeUrl = ["/"+this.partnerID, "news"];
+        }else{
+          this.homeUrl = ["/deep-dive"];
+        }
         this.getBreakingData();
         stButtons.locateElements();
         this._renderer.listenGlobal('document', 'mousedown', (event) => {

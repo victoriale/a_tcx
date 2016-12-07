@@ -106,7 +106,6 @@ export class SyndicateArticleService {
         category = category == 'real-estate'? 'real+estate':category;
       callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&category=" + category;
     }
-
     return this._http.get(callURL)
       .map(res => res.json())
       .map(data => {

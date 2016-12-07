@@ -2,10 +2,10 @@
   <div id="partner" *ngIf="partnerID && partnerScript" [innerHTML]="partnerScript | safeHtml"></div>
   <section class="header-top" [class.header-partner]="partnerID">
     <div *ngIf="!partnerID" class="header-logo">
-      <a *ngIf="logoUrl" routerLink="deep-dive"><img src={{logoUrl}}></a>
+      <a *ngIf="logoUrl" [routerLink]="homeUrl"><img src={{logoUrl}}></a>
     </div>
     <div *ngIf="partnerID" class="header-logo">
-      <a *ngIf="partnerLogoUrl" routerLink="deep-dive"><img src={{partnerLogoUrl}}></a>
+      <a *ngIf="partnerLogoUrl" [routerLink]="homeUrl"><img src={{partnerLogoUrl}}></a>
     </div>
     <div class="header-left">
     </div>

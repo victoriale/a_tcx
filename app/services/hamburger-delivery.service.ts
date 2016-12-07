@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Rx';
 import {GlobalSettings} from '../global/global-settings';
+import { ActivatedRoute } from '@angular/router';
 
 @Injectable()
 export class HamburgerDeliveryService {
@@ -11,16 +12,16 @@ export class HamburgerDeliveryService {
       topRoute = "/deep-dive";
     }
     else {
-      topRoute = partner +  "/news";
+      topRoute = "/" + partner + "/news";
     }
     var menuData = [{
         menuTitle: "Home",
         url: topRoute
       },
-      {
-        menuTitle: "Trending",
-        url: topRoute + '/trending'
-      },
+      // {
+      //   menuTitle: "Trending",
+      //   url: topRoute + '/trending'
+      // },
       {
         menuTitle: "Breaking",
         url: topRoute + '/breaking'
@@ -48,11 +49,11 @@ export class HamburgerDeliveryService {
           {
             menuTitle: "MLB",
             url: topRoute + '/sports/mlb'
-          },
-          {
-            menuTitle: "NHL",
-            url: topRoute + '/sports/nhl'
           }
+          // {
+          //   menuTitle: "NHL",
+          //   url: topRoute + '/sports/nhl'
+          // }
         ]
       },
       {

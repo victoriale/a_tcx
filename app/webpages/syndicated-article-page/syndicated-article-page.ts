@@ -209,9 +209,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
 
         if(artType=="story") {
             let image;
-            if (data.article_data.images.length>=1  && data.article_data.images[0].image_url) {
-                image = GlobalSettings.getImageUrl(data.article_data.images[0].image_url) ;
-            } else if(data.article_data.images.length==0 ||data.article_data.images== null || data.article_data.images == undefined && data.image_url){
+           if(data.image_url != undefined && data.image_url != null){
                 image =GlobalSettings.getImageUrl(data.image_url);
             } else{
                 image=GlobalSettings.getImageUrl("/app/public/placeholder_XL.png");
@@ -266,6 +264,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         var videoElement = e.target.body.getElementsByClassName('videoFrame')[0];
         var sharebtns = e.target.body.getElementsByClassName('art-hdr')[0];
         var fixedHeader = e.target.body.getElementsByClassName('fixedHeader')[0] != null ? e.target.body.getElementsByClassName('fixedHeader')[0].offsetHeight : 0;
+        var footer = e.target.body.getElementsByClassName('footer')[0];
 
         let topCSS = 0;
         topCSS = header != null ? topCSS + header.offsetHeight : topCSS;
@@ -274,8 +273,13 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         topCSS = imageCarousel != null ? topCSS + imageCarousel.offsetHeight : topCSS;
         topCSS = videoElement != null ? topCSS + videoElement.offsetHeight : topCSS;
         topCSS = topCSS - fixedHeader;
+
+        let bottomCSS=0;
+        bottomCSS = footer!=null? bottomCSS + footer.offsetHeight: bottomCSS;
+
         var scrollTop = e.srcElement.body.scrollTop;
         let scrollUp = scrollTop - this.scrollTopPrev>0?true:false;
+        var scrollBottom = e.target.body.scrollHeight-e.target.body.scrollTop==e.target.body.clientHeight?true:false;
         this.scrollTopPrev=scrollTop;
 
         if(scrollingElement){
@@ -289,10 +293,16 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
                     var sctop = headerTop.offsetHeight? window.scrollY - topCSS + headerTop.offsetHeight + partnerheadTop + 10 + 'px' :window.scrollY - topCSS + partnerheadTop + 'px';
                     this._render.setElementStyle(scrollingElement, 'top', sctop);
                 }
+                if(scrollBottom){
+                    var newTopCSS =window.scrollY - topCSS - bottomCSS - 50+ 'px';
+                    this._render.setElementStyle(scrollingElement,'top', newTopCSS);
+                }
             }else {
                 this._render.setElementStyle(scrollingElement, "top", '0')
             }
+
         }
+
         var trendingElement= e.target.body.getElementsByClassName('trending-small')[0];
         if(window.innerHeight + window.scrollY >= document.body.scrollHeight){
             this.getDeepDiveArticle(this.category, this.trendingLength, this.subcategory, this.eventType, this.articleID);

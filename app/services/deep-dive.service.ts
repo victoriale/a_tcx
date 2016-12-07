@@ -21,7 +21,7 @@ export class DeepDiveService {
 
   getDeepDiveBatchService(category: string, limit: number, page: number, state?: string){
     var headers = this.setToken();
-    var callURL = GlobalSettings.getTCXscope(category).tcxApi + "/articles";
+    var callURL = GlobalSettings.getArticleBatchUrl();
     //http://dev-tcxmedia-api.synapsys.us/articles?help=1
     //http://dev-tcxmedia-api.synapsys.us/articles?&keyword[]=food&source[]=snt_ai&source[]=tca-curated&random=1&metaDataOnly=1&page=1&count=5
     if(limit !== null && page !== null){

@@ -239,7 +239,7 @@ export class DeepDivePage implements OnInit {
                     var widtop = headerTop.offsetHeight? window.scrollY - topStyle + headerTop.offsetHeight + partnerheadTop + 25 + 'px' :window.scrollY - topStyle + partnerheadTop + 'px';
                     this._render.setElementStyle(scrollingWidget, 'top', widtop);
                 }
-                if(scrollBottom){
+                if(scrollBottom && window.innerHeight - footer.offsetHeight <600){
                     var newTopCSS =window.scrollY - topStyle - bottomCSS - 20+ 'px';
                     this._render.setElementStyle(scrollingWidget,'top', newTopCSS);
                 }

@@ -58,7 +58,7 @@ import { PrivacyPolicy } from "../webpages/privacy-policy/privacy-policy";
 import { TermOfService } from "../webpages/term-of-service/term-of-service";
 
 //Pipes
-import {SanitizeScript, SanitizeHtml, SanitizeRUrl, SanitizeStyle} from "../fe-core/pipes/safe.pipe";
+import {SanitizeScript, SanitizeHtml, SanitizeRUrl, SanitizeStyle, SanitizeUrl} from "../fe-core/pipes/safe.pipe";
 import { StatHyphenValuePipe } from "../fe-core/pipes/stat-hyphen.pipe";
 
 //router
@@ -96,6 +96,7 @@ import { SearchService } from "../services/search.service";
       WidgetCarouselModule,
       SanitizeHtml,
       SanitizeRUrl,
+      SanitizeUrl,
       SanitizeStyle,
       SanitizeScript,
       StatHyphenValuePipe,

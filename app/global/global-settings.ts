@@ -77,7 +77,7 @@ export class GlobalSettings {
           scope:'nfl',
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'football',
-          displayName: 'Football',
+          displayName: 'NFL',
           verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
           aiApi:this.getVerticalEnv('-touchdownloyal-ai.synapsys.us'),
           tcxApi: this.getApiUrl(),
@@ -98,7 +98,7 @@ export class GlobalSettings {
           scope:'ncaaf',
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'football',
-          displayName: 'Football',
+          displayName: 'NCAAF',
           verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
           aiApi:this.getVerticalEnv('-touchdownloyal-ai.synapsys.us'),
           tcxApi: this.getApiUrl(),
@@ -119,7 +119,7 @@ export class GlobalSettings {
           scope:'ncaaf',
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'football',
-          displayName: 'Football',
+          displayName: 'FBS',
           verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
           aiApi:this.getVerticalEnv('-touchdownloyal-ai.synapsys.us'),
           tcxApi: this.getApiUrl(),
@@ -140,7 +140,7 @@ export class GlobalSettings {
           scope:'mlb',
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'baseball',
-          displayName: 'Baseball',
+          displayName: 'MLB',
           verticalApi: this.getVerticalEnv('-homerunloyal-api.synapsys.us'),
           aiApi:this.getVerticalEnv('-homerunloyal-ai.synapsys.us'),
           tcxApi: this.getApiUrl(),
@@ -161,7 +161,7 @@ export class GlobalSettings {
           scope:'nba',
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'basketball',
-          displayName: 'Basketball',
+          displayName: 'NBA',
           verticalApi: this.getVerticalEnv('-sports-api.synapsys.us'),
           aiApi:this.getVerticalEnv('-sports-ai'),
           tcxApi: this.getApiUrl(),
@@ -182,7 +182,7 @@ export class GlobalSettings {
           scope:'ncaam',
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope:'basketball',
-          displayName:'Basketball',
+          displayName:'NCAAM',
           verticalApi:this.getVerticalEnv('-sports-api.synapsys.us'),
           aiApi: this.getVerticalEnv('-sports-ai'),
           tcxApi: this.getApiUrl(),
@@ -202,7 +202,7 @@ export class GlobalSettings {
           parentScope: 'sports',
           scope:'nhl',
           topScope: 'hockey',
-          displayName: 'Hockey',
+          displayName: 'NHL',
           verticalApi: this.getApiUrl() + '/tcx',
           aiApi: null,
           tcxApi: this.getApiUrl(),
@@ -612,7 +612,7 @@ export class GlobalSettings {
           }
           break;
         //FINANCE URL
-        case 'business':
+        case 'finance':
 
           if (partnerCode != null) {
             link = "http://www.myinvestkit.com/" + partnerCode + "/" + relativeUrl;

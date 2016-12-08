@@ -102,7 +102,7 @@ export class DeepDiveService {
       data.forEach(function(val, index){
         if(val.time_stamp){
           var date =  moment(Number(val.time_stamp));
-          date = '<span class="hide-320">' + date.format('dddd') + ', </span>' + date.format('MMM') + date.format('. DD, YYYY');
+          date = date.format('dddd') + ', ' + date.format('MMM') + date.format('. DD, YYYY');
         }
         var keywords = val.keyword ? val.keyword : scope;
         var d = {

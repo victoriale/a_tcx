@@ -101,7 +101,7 @@ export class SideScrollSchedule{
         this.titleText = "<span class='hide-mobile'>" + this.sideScrollData.current.current_temperature + "°<span class='weather-divider'>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</span></span>" + this.sideScrollData.current.city + ", " + this.sideScrollData.current.state;
         this.titleIcon = this.sideScrollData.current.current_icon;
           break;
-      case "finance":
+      case "business":
         this.titleText = "Market Movers: All Exchanges"
         this.titleIcon = "fa-briefcase-case-two";
           break;

@@ -206,7 +206,7 @@ export class SchedulesService {
                         data.data[scope][n].profileUrl = "";
                     }
                     else {
-                        data.data[scope][n].profileUrl = GlobalSettings.getOffsiteLink("finance", data.data[scope][n].companySymbol + "/" + data.data[scope][n].fullCompanyName.replace(/ /g, "-") + "/company/" + data.data[scope][n].companyId);
+                        data.data[scope][n].profileUrl = GlobalSettings.getOffsiteLink("business", data.data[scope][n].companySymbol + "/" + data.data[scope][n].fullCompanyName.replace(/ /g, "-") + "/company/" + data.data[scope][n].companyId);
                     }
                     if (data.data[scope][n].logoUrl == "" || data.data[scope][n].logoUrl == null) {
                         data.data[scope][n].logoUrl = '/app/public/no-image.png';
@@ -482,7 +482,7 @@ export class SchedulesService {
 
     setupSlideScroll(topScope, data, scope, profile, eventStatus, limit, pageNum, selectedLocation, callback: Function, year?, week?) {
 
-        if (topScope == "finance") {
+        if (topScope == "business") {
             //(scope, profile, eventStatus, limit, pageNum, id?)
             this.getFinanceData(scope, 'league', eventStatus, limit, pageNum)
                 .subscribe(data => {

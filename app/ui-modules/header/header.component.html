@@ -43,7 +43,7 @@
           <div class="breaking-fader"></div>
           <div class="breaking-text">
             <!-- placeholder text please remove -->
-            <a *ngFor="let item of breakingHeadLines;" href="item.articleUrl"><span [innerHTML]="item.title | safeHtml"></span>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</a>
+            <a *ngFor="let item of breakingHeadLines;" [routerLink]="item.articleUrl"><span [innerHTML]="item.title | safeHtml"></span>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</a>
           </div>
         </div>
       </div>

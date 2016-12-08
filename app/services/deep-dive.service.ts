@@ -130,8 +130,8 @@ export class DeepDiveService {
 
       data.forEach(function(val, index){
           if(val.article_id != null && typeof val.article_id != 'undefined'){
-            if(val.last_updated){
-              var date =  moment.unix(Number(val.last_updated));
+            if(val.publication_date){
+              var date =  moment.unix(Number(val.publication_date));
               date = '<span class="hide-320">' + date.format('dddd') + ', </span>' + date.format('MMM') + date.format('. DD, YYYY');
             }
             var key = val.keywords[0];
@@ -198,7 +198,7 @@ export class DeepDiveService {
       arrayData.forEach(function(val,index){
         var curdate = new Date();
         var curmonthdate = curdate.getDate();
-        var timeStamp = moment(Number(val.last_updated)).format("MMMM Do, YYYY h:mm:ss a");
+        var timeStamp = moment(Number(val.publication_date)).format("MMMM Do, YYYY h:mm:ss a");
 
         var routeLink;
         var extLink;
@@ -224,7 +224,7 @@ export class DeepDiveService {
           teaser: val['teaser'].replace('_',': ').replace(/<p[^>]*>/g, ""),
           article_id:val['article_id'],
           article_url: val['article_url'],
-          last_updated: val.last_updated,
+          last_updated: val.publication_date,
         };
         if(carData['teaser'].length >= 200){
           carData['teaser'].substr(0,200) + '...';
@@ -236,7 +236,6 @@ export class DeepDiveService {
 
     carouselDummyData(){
       let route = VerticalGlobalFunctions.getWhiteLabel();
-
       var sampleImage = "/app/public/placeholder_XL.png";
       var articleStackData = {
           article_id: 88,

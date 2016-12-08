@@ -100,7 +100,7 @@ export class SchedulesService {
                     output.current['location'] = data.city + ', ' + data.state;
                     output.current['city'] = data.city;
                     output.current['current_condition'] = data.current_condition;
-                    output.current['current_icon'] = GlobalSettings.getImageUrl(data.current_icon).replace('.svg', '_light.svg');
+                    output.current['current_icon'] = GlobalSettings.getImageUrl(data.current_icon);
                     output.current['current_scope'] = data.current_scope;
                     output.current['description'] = "<span class='text-heavy'>"+data.current_condition+"</span> until "+ moment(data.data[1].unix_timestamp).format("h A z"); //TODO
                     output.current['current_time'] = moment().format("dddd h:mm A");

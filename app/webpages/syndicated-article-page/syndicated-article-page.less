@@ -45,7 +45,9 @@
   position: relative;
   overflow: hidden;
   margin: 0 auto;
-
+  .video-stack-thumbnail{
+    overflow: hidden;
+  }
   .videoFrame{
     padding-top: 0;
   }
@@ -170,9 +172,9 @@
   .video-stack {
     @media @tablet{
       overflow: hidden;
-      &:first-child{padding-left: 0; padding-right: ~"calc(40px/3)"}
-      &:nth-child(2){padding-right: 0; padding-left: ~"calc(40px/3)"}
-      &:nth-child(3){padding-right: 0; padding-left: ~"calc(40px/3)"}
+      padding:0 ~"calc(25px/6)";
+      &:first-child{padding-left: 0; padding-right: ~"calc(25px/3)"}
+      &:nth-child(3){padding-right: 0; padding-left: ~"calc(25px/3)"}
     }
   }
 
@@ -307,7 +309,6 @@
   padding-bottom: 56%; /* 16:9 */
   padding-top: 25px;
   height: 0;
-  min-width: 320px;
 }
 .videoFrame iframe {
   position: absolute;

@@ -123,7 +123,7 @@ export class DeepDivePage implements OnInit {
         this._seo.setOgType('Website');
         this._seo.setOgUrl(link);
         this._seo.setOgImage('/app/public/mainLogo.png');
-        this._seo.setTitle('TCX Deep Dive');
+        this._seo.setTitle(this.scope + ' Deep Dive | TCX');
         this._seo.setMetaDescription(metaDesc);
         this._seo.setMetaRobots('INDEX, FOLLOW');
 

@@ -169,10 +169,16 @@
   }
   .video-stack {
     @media @tablet{
-      min-width:33.33%
+      min-width:33.33%;
+      padding: 0 ~"calc(40px/6)";
+      &:first-child{padding-left: 0; padding-right: ~"calc(40px/3)"}
+      &:nth-child(3){padding-right: 0; padding-left: ~"calc(40px/3)"}
     }
   }
-  .stacktop-image{  min-width: 100%;  padding-right: 13px; margin-bottom: 8px }
+  .stacktop-image{
+    min-width: 100%;
+    margin-bottom: 8px;
+  }
   @media @mobile{
     .stacktop-image {
       padding-right: 0;

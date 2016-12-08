@@ -36,9 +36,6 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     public loadingshow:boolean;
     public articleCount:number;
     public scrollTopPrev:number=0;
-    isStockPhoto:boolean=true;
-    isArticle:string;
-    prevarticle;
     iframeUrl: any;
     paramsub;
     constructor(
@@ -97,55 +94,11 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
 
 
         this._synservice.getSyndicateArticleService(articleID).subscribe(
-
             data => {
-                this.imageData=[];
-                this.imageTitle=[];
-                this.copyright=[];
-                if(data.data[0]) {
-                    if(data.data[0].is_stock_photo && data.data[0].is_stock_photo==true){
-                        this.is_stock=true;
-                    }else{
-                        this.is_stock=false;
-                    }
-                    if (data.data[0].article_data.images == null || data.data[0].article_data.images == undefined || data.data[0].article_data.images.length==0) {
-                       if(data.data[0].image_url!=null ||data.data[0].image_url!= undefined){
-                           this.imageData[0]=GlobalSettings.getImageUrl(data.data[0].image_url);
-                       }else{
-                           this.is_stock=true;
-                       }
-                    }
-                    else {
-                        var imageLength = data.data[0].article_data.images.length;
-                        for (var i = 0; i < imageLength; i++) {
-                            this.imageData[this.imageData.length] = GlobalSettings.getImageUrl(data.data[0].article_data.images[i].image_url);
-                            this.copyright[this.copyright.length] = data.data[0].article_data.images[i].image_copyright;
-                            this.imageTitle[this.imageTitle.length] = data.data[0].article_data.images[i].image_title;
-                        }
-                    }
-                    this.articleData = data.data[0].article_data;
-                    var artwriter='';
-                    if(this.articleData.author){
-
-                        let authorArray = this.articleData.author.split(' ');
-
-                        if(authorArray[0] =='By'){
-                            for(var i=1;i<authorArray.length;i++) {
-                                artwriter += authorArray[i] + ' ';
-                            }
-                        }else{
-                            for(var i=0;i<authorArray.length;i++) {
-                                artwriter += authorArray[i] + ' ';
-                            }
-                        }
-
-                    }
-                    this.articleData.author=artwriter;
-                    this.articleData.url = VerticalGlobalFunctions.formatArticleRoute(this.subcategory, this.articleID, this.eventType);
-
-                    this.articleData.publishedDate = GlobalFunctions.sntGlobalDateFormatting(data.data[0].last_updated, 'timeZone');
-                    this.metaTags(data.data[0], this.eventType);
-                }
+                this.articleData=this._synservice.transformMainArticle(data.data,this.subcategory,articleID,this.eventType);
+                this.imageData=this.articleData.imageData;
+                this.imageTitle=this.articleData.imageTitle;
+                this.copyright=this.articleData.copyright;
             }
         )
     }
@@ -179,11 +132,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
                 if(data.data.length==this.trendingLength) {
                     this.loadingshow=true;
                     this.trendingLength = this.trendingLength + 10;
-                    this.trendingData= this._synservice.transformTrending(data.data, sc, type, aid).filter(function (val) {
-                        if(val.article_data.title){
-                            return val;
-                        }
-                    });
+                    this.trendingData= this._synservice.transformTrending(data.data, sc, type, aid);
                 }
                 else{
                     this.loadingshow=false;

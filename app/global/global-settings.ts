@@ -7,8 +7,8 @@ export class GlobalSettings {
 
     private static _newsUrl:string = 'newsapi.synapsys.us';
 
-    private static _apiUrl:string = '-tcxmedia-api.synapsys.us';
-    private static _articleUrl:string = '-tcxmedia-ai.synapsys.us/tcx';
+    private static _apiUrl:string = '-article-library.synapsys.us';
+    private static _articleUrl:string = '-article-library.synapsys.us/tcx';
 
 
     private static _articleBatchUrl:string= "-article-library.synapsys.us/articles";
@@ -49,7 +49,7 @@ export class GlobalSettings {
     //this is proned to be removed but used as dummy data
     private static _tdlAPI: string = '-touchdownloyal-api.synapsys.us/tcx';
     private static _hrlAPI: string = '-homerunloyal-api.synapsys.us/tcx';
-    private static _tcxAPI: string = '-tcxmedia-api.synapsys.us/tcx';
+    private static _tcxAPI: string = '-article-library.synapsys.us/tcx';
 
     static getEnv(env:string):string {
       if (env == "localhost"){//remove qa when we have qa env setup

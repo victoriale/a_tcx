@@ -222,7 +222,7 @@ export class GlobalSettings {
           parentScope: null,
           scope:'all',
           scopeList: ["AMEX", "NYSE", "NASDAQ", "ALL"],
-          topScope: 'finance',
+          topScope: 'business',
           displayName: 'Business',
           verticalApi: this.getVerticalEnv('-finance-api.synapsys.us'),
           aiApi: null,
@@ -612,7 +612,7 @@ export class GlobalSettings {
           }
           break;
         //FINANCE URL
-        case 'finance':
+        case 'business':
 
           if (partnerCode != null) {
             link = "http://www.myinvestkit.com/" + partnerCode + "/" + relativeUrl;

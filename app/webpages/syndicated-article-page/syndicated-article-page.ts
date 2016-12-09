@@ -97,7 +97,7 @@ export class SyndicatedArticlePage implements OnDestroy{
                 this.imageData=this.articleData.imageData;
                 this.imageTitle=this.articleData.imageTitle;
                 this.copyright=this.articleData.copyright;
-                this.metaTags(this.articleData,articleID);
+                this.metaTags(data.data[0],this.eventType);
             }
         )
     }
@@ -190,7 +190,7 @@ export class SyndicatedArticlePage implements OnDestroy{
 
             }
             this._seo.setSource(data.source);
-            this._seo.setArticleTitle(data.title);
+            this._seo.setArticleTitle(data.title.replace(/\'/g, "'"));
             this._seo.setImageUrl(image);
             this._seo.setArticleUrl(link);
             this._seo.setArticleType(this.subcategory);
@@ -204,7 +204,7 @@ export class SyndicatedArticlePage implements OnDestroy{
             data.teaser?this._seo.setTeaser(data.teaser):this._seo.setTeaser(data.article_data.article[0]);
 
         }else{
-            this._seo.setArticleTitle(data.title);
+            this._seo.setArticleTitle(data.title.replace(/\'/g, "'"));
             this._seo.setArticleUrl(link);
             this._seo.setImageUrl(data.video_thumbnail);
             this._seo.setArticleId(data.id);

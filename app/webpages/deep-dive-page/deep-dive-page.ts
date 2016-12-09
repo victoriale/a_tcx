@@ -116,14 +116,15 @@ export class DeepDivePage implements OnInit {
     private addMetaTags(){
         let metaDesc = GlobalSettings.getPageTitle('Dive into the most recent news about your favorite sports, movies and read the latest articles on politics, business, travel etc.', 'Deep Dive');
         let link = window.location.href;
-
+        let title = this.scope != "all" ? GlobalSettings.getTCXscope(this.scope).displayName : "Home";
+        title += " Deep Dive";
         this._seo.setCanonicalLink(link);
         this.scope=="all"?this._seo.setOgTitle('TCX Deep Dive'): this._seo.setOgTitle(this.scope);
         this._seo.setOgDesc(metaDesc);
         this._seo.setOgType('Website');
         this._seo.setOgUrl(link);
         this._seo.setOgImage('/app/public/mainLogo.png');
-        this._seo.setTitle('TCX Deep Dive');
+        this._seo.setTitle(title);
         this._seo.setMetaDescription(metaDesc);
         this._seo.setMetaRobots('INDEX, FOLLOW');
 
@@ -215,12 +216,18 @@ export class DeepDivePage implements OnInit {
         var header = e.target.body.getElementsByClassName('header')[0];
         var carouselHeight = e.target.body.getElementsByClassName('deep-dive-container1')[0];
         var fixedHeader = e.target.body.getElementsByClassName('fixedHeader')[0] != null ? e.target.body.getElementsByClassName('fixedHeader')[0].offsetHeight : 0;
+        var footer = e.target.body.getElementsByClassName('footer')[0];
+
         let topStyle = 0;
         topStyle = header != null ? topStyle + header.offsetHeight : topStyle;
         topStyle = carouselHeight != null? topStyle +carouselHeight.offsetHeight :topStyle;
         topStyle = topStyle - fixedHeader;
+        let bottomCSS=0;
+        bottomCSS = footer!=null? bottomCSS + footer.offsetHeight: bottomCSS;
         var scrollTop = e.srcElement.body.scrollTop;
         let scrollUp = scrollTop - this.scrollTopPrev>0?true:false;
+        var scrollBottom = e.target.body.scrollHeight-e.target.body.scrollTop==e.target.body.clientHeight?true:false;
+
         this.scrollTopPrev=scrollTop;
         if(scrollingWidget){
             if(window.scrollY>topStyle){
@@ -232,6 +239,10 @@ export class DeepDivePage implements OnInit {
                     var partnerheadTop=document.getElementById('partner_header')?document.getElementById('partner_header').offsetHeight:0;
                     var widtop = headerTop.offsetHeight? window.scrollY - topStyle + headerTop.offsetHeight + partnerheadTop + 25 + 'px' :window.scrollY - topStyle + partnerheadTop + 'px';
                     this._render.setElementStyle(scrollingWidget, 'top', widtop);
+                }
+                if(scrollBottom && window.innerHeight - footer.offsetHeight <600){
+                    var newTopCSS =window.scrollY - topStyle - bottomCSS - 20+ 'px';
+                    this._render.setElementStyle(scrollingWidget,'top', newTopCSS);
                 }
 
 

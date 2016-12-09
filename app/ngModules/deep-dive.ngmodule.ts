@@ -10,7 +10,7 @@ import { BoxScoresService } from '../services/box-scores.service';
 
 import { SideScrollSchedule } from '../ui-modules/side-scroll-schedules/side-scroll-schedules.module';
 import { ScheduleBox } from '../fe-core/components/schedule-box/schedule-box.component';
-import { SideScroll } from '../ui-modules/side-scroll/side-scroll.component';
+import { SideScroll } from '../fe-core/components/carousels/side-scroll/side-scroll.component';
 import { SchedulesService } from '../services/schedules.service';
 
 //deep-dive blocks
@@ -32,8 +32,7 @@ import { CalendarCarousel } from '../fe-core/components/carousels/calendar/calen
 import { DatePicker } from '../fe-core/components/date-picker/date-picker.component';
 import { GameArticle } from '../fe-core/components/game-article/game-article.component';
 
-//pipes
-import { StatHyphenValuePipe } from '../fe-core/pipes/stat-hyphen.pipe';
+
 
 @NgModule({
     imports:[
@@ -52,8 +51,6 @@ import { StatHyphenValuePipe } from '../fe-core/pipes/stat-hyphen.pipe';
       ArticleStack1Module,
       ArticleStack2Module,
       VideoStackComponent,
-      BoxScoresModule,
-      StatHyphenValuePipe,
       BoxScoresModule,
       DatePicker,
       GameInfo,

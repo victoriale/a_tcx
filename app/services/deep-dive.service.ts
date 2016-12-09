@@ -21,7 +21,7 @@ export class DeepDiveService {
 
   getDeepDiveBatchService(category: string, limit: number, page: number, state?: string){
     var headers = this.setToken();
-    var callURL = GlobalSettings.getTCXscope(category).tcxApi + "/articles";
+    var callURL = GlobalSettings.getArticleBatchUrl();
     //http://dev-tcxmedia-api.synapsys.us/articles?help=1
     //http://dev-tcxmedia-api.synapsys.us/articles?&keyword[]=food&source[]=snt_ai&source[]=tca-curated&random=1&metaDataOnly=1&page=1&count=5
     if(limit !== null && page !== null){
@@ -81,7 +81,6 @@ export class DeepDiveService {
           callURL += '/' + location;
         }
       }
-      // console.log(callURL);
       return this.http.get(callURL, {headers: headers})
         .map(res => res.json())
         .map(data => {
@@ -103,7 +102,7 @@ export class DeepDiveService {
       data.forEach(function(val, index){
         if(val.time_stamp){
           var date =  moment(Number(val.time_stamp));
-          date = '<span class="hide-320">' + date.format('dddd') + ', </span>' + date.format('MMM') + date.format('. DD, YYYY');
+          date = date.format('dddd') + ', ' + date.format('MMM') + date.format('. DD, YYYY');
         }
         var keywords = val.keyword ? val.keyword : scope;
         var d = {
@@ -131,11 +130,20 @@ export class DeepDiveService {
 
       data.forEach(function(val, index){
           if(val.article_id != null && typeof val.article_id != 'undefined'){
-            if(val.last_updated){
-              var date =  moment.unix(Number(val.last_updated));
+            if(val.publication_date){
+              var date =  moment.unix(Number(val.publication_date));
               date = '<span class="hide-320">' + date.format('dddd') + ', </span>' + date.format('MMM') + date.format('. DD, YYYY');
             }
-            var key = val.subcategory != "none" ? val.subcategory : (val.category ? val.category : "all");
+            var key = val.keywords[0];
+            if(val.subcategory != "none" && val.subcategory){
+              key = val.subcategory;
+            } else {
+              if(val.category){
+                key = val.category;
+              } else {
+                key = val.keywords[0];
+              }
+            }
             var routeLink;
             var extLink;
             var author = null;
@@ -150,16 +158,21 @@ export class DeepDiveService {
               author = val.author ? val.author.replace(/by/gi, "") + ", ": null;
               publisher = author ? val.publisher : "Published by: " + val.publisher;
             }
+            var limitDesc = val.teaser.substr(0, 360);// limit teaser character to 360 count
+            limitDesc = limitDesc.substr(0, Math.min(limitDesc.length, limitDesc.lastIndexOf(" ")));// and not cutting the word
+            if(val.teaser.length > 360 || limitDesc.length < val.teaser.length){
+              limitDesc += "...";
+            }
             var articleStackData = {
               id: val.article_id,
               articleUrl: routeLink != "" ? routeLink : route,
               extUrl: extLink,
               keyword: key,
               timeStamp: date ? date : "",
-              title: val.title ? val.title : "No title available",
+              title: val.title ? val.title.replace(/\'/g, "'") : "No title available",
               author: author,
               publisher: val.publisher && val.author ? "Written by: " + "<span class='text-master'>" + author + publisher + "</span>": null,
-              teaser: val.teaser ? val.teaser : "No teaser available",
+              teaser: val.teaser ? limitDesc.replace(/\'/g, "'") : "No teaser available",
               imageConfig: {
                 imageClass: "embed-responsive-16by9",
                 imageUrl: val.image_url ? GlobalSettings.getImageUrl(val.image_url) : sampleImage,
@@ -185,7 +198,7 @@ export class DeepDiveService {
       arrayData.forEach(function(val,index){
         var curdate = new Date();
         var curmonthdate = curdate.getDate();
-        var timeStamp = moment(Number(val.last_updated)).format("MMMM Do, YYYY h:mm:ss a");
+        var timeStamp = moment(Number(val.publication_date)).format("MMMM Do, YYYY h:mm:ss a");
 
         var routeLink;
         var extLink;
@@ -211,7 +224,7 @@ export class DeepDiveService {
           teaser: val['teaser'].replace('_',': ').replace(/<p[^>]*>/g, ""),
           article_id:val['article_id'],
           article_url: val['article_url'],
-          last_updated: val.last_updated,
+          last_updated: val.publication_date,
         };
         if(carData['teaser'].length >= 200){
           carData['teaser'].substr(0,200) + '...';
@@ -223,7 +236,6 @@ export class DeepDiveService {
 
     carouselDummyData(){
       let route = VerticalGlobalFunctions.getWhiteLabel();
-
       var sampleImage = "/app/public/placeholder_XL.png";
       var articleStackData = {
           article_id: 88,

@@ -7,11 +7,11 @@ export class GlobalSettings {
 
     private static _newsUrl:string = 'newsapi.synapsys.us';
 
-    private static _apiUrl:string = '-tcxmedia-api.synapsys.us';
-    private static _articleUrl:string = '-tcxmedia-ai.synapsys.us/tcx';
+    private static _apiUrl:string = '-article-library.synapsys.us';
+    private static _articleUrl:string = '-article-library.synapsys.us/tcx';
 
 
-    private static _synArticleUrl:string= "-tcxmedia-api.synapsys.us/articles";
+    private static _articleBatchUrl:string= "-article-library.synapsys.us/articles";
 
     private static _partnerApiUrl: string = 'apireal.synapsys.us/listhuv/?action=get_partner_data&domain=';
 
@@ -49,7 +49,7 @@ export class GlobalSettings {
     //this is proned to be removed but used as dummy data
     private static _tdlAPI: string = '-touchdownloyal-api.synapsys.us/tcx';
     private static _hrlAPI: string = '-homerunloyal-api.synapsys.us/tcx';
-    private static _tcxAPI: string = '-tcxmedia-api.synapsys.us/tcx';
+    private static _tcxAPI: string = '-article-library.synapsys.us/tcx';
 
     static getEnv(env:string):string {
       if (env == "localhost"){//remove qa when we have qa env setup
@@ -77,7 +77,7 @@ export class GlobalSettings {
           scope:'nfl',
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'football',
-          displayName: 'Football',
+          displayName: 'NFL',
           verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
           aiApi:this.getVerticalEnv('-touchdownloyal-ai.synapsys.us'),
           tcxApi: this.getApiUrl(),
@@ -98,7 +98,7 @@ export class GlobalSettings {
           scope:'ncaaf',
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'football',
-          displayName: 'Football',
+          displayName: 'NCAAF',
           verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
           aiApi:this.getVerticalEnv('-touchdownloyal-ai.synapsys.us'),
           tcxApi: this.getApiUrl(),
@@ -119,7 +119,7 @@ export class GlobalSettings {
           scope:'ncaaf',
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'football',
-          displayName: 'Football',
+          displayName: 'FBS',
           verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
           aiApi:this.getVerticalEnv('-touchdownloyal-ai.synapsys.us'),
           tcxApi: this.getApiUrl(),
@@ -140,7 +140,7 @@ export class GlobalSettings {
           scope:'mlb',
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'baseball',
-          displayName: 'Baseball',
+          displayName: 'MLB',
           verticalApi: this.getVerticalEnv('-homerunloyal-api.synapsys.us'),
           aiApi:this.getVerticalEnv('-homerunloyal-ai.synapsys.us'),
           tcxApi: this.getApiUrl(),
@@ -161,7 +161,7 @@ export class GlobalSettings {
           scope:'nba',
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'basketball',
-          displayName: 'Basketball',
+          displayName: 'NBA',
           verticalApi: this.getVerticalEnv('-sports-api.synapsys.us'),
           aiApi:this.getVerticalEnv('-sports-ai'),
           tcxApi: this.getApiUrl(),
@@ -182,7 +182,7 @@ export class GlobalSettings {
           scope:'ncaam',
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope:'basketball',
-          displayName:'Basketball',
+          displayName:'NCAAM',
           verticalApi:this.getVerticalEnv('-sports-api.synapsys.us'),
           aiApi: this.getVerticalEnv('-sports-ai'),
           tcxApi: this.getApiUrl(),
@@ -202,7 +202,7 @@ export class GlobalSettings {
           parentScope: 'sports',
           scope:'nhl',
           topScope: 'hockey',
-          displayName: 'Hockey',
+          displayName: 'NHL',
           verticalApi: this.getApiUrl() + '/tcx',
           aiApi: null,
           tcxApi: this.getApiUrl(),
@@ -222,7 +222,7 @@ export class GlobalSettings {
           parentScope: null,
           scope:'all',
           scopeList: ["AMEX", "NYSE", "NASDAQ", "ALL"],
-          topScope: 'finance',
+          topScope: 'business',
           displayName: 'Business',
           verticalApi: this.getVerticalEnv('-finance-api.synapsys.us'),
           aiApi: null,
@@ -839,8 +839,8 @@ export class GlobalSettings {
   static getHomePageLinkName() {
     return this._homepageLinkName;
   }
-  static getSyndicateUrl(){
-      return this._proto + "//" + this.getEnv(this._env) + this._synArticleUrl;
+  static getArticleBatchUrl(){
+      return this._proto + "//" + this.getEnv(this._env) + this._articleBatchUrl;
   }
 
 }

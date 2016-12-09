@@ -5,6 +5,8 @@ import {ActivatedRoute, Route, Router, NavigationStart, Event as NavigationEvent
 import {GlobalFunctions} from "../../global/global-functions";
 import {VerticalGlobalFunctions} from "../../global/vertical-global-functions";
 import {SeoService} from "../../global/seo.service";
+import {runInNewContext} from "vm";
+import {element} from "@angular/upgrade/src/angular_js";
 
 declare var jQuery:any;
 declare var moment;
@@ -15,7 +17,7 @@ declare var moment;
 
 })
 
-export class SyndicatedArticlePage implements OnChanges,OnDestroy{
+export class SyndicatedArticlePage implements OnDestroy{
     public partnerID: string;
     checkPartner: boolean;
     public geoLocation:string;
@@ -23,7 +25,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     public articleData: any;
     public recomendationData: any;
     public articleID: string;
-    public trendingData:any=[];
+    public trendingData:Array<any>=[];
     public eventType: string;
     public imageData=[];
     public imageTitle=[];
@@ -36,9 +38,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     public loadingshow:boolean;
     public articleCount:number;
     public scrollTopPrev:number=0;
-    isStockPhoto:boolean=true;
-    isArticle:string;
-    prevarticle;
+    public prevArticles;
     iframeUrl: any;
     paramsub;
     constructor(
@@ -52,14 +52,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     ){
         this.checkPartner = GlobalSettings.getHomeInfo().isPartner;
         this.initializePage();
-    }
-    ngOnInit(){
-        this.initializePage();
-    }
-
-    ngOnChanges(){
-        this.initializePage();
-
+        this.getDeepDiveArticle(this.category, this.trendingLength, this.subcategory, this.eventType, this.articleID);
     }
     initializePage(){
         this.paramsub= this.activateRoute.params.subscribe(
@@ -69,18 +62,20 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
                     this.eventType= param['articleType'],
                     this.category=param['category'],
                     this.subcategory=param['subCategory']?param['subCategory']:param['category'];
-                if (this.eventType == "story" && this.articleID) {this.getSyndicateArticle(this.articleID);}
-                else {this.getSyndicateVideoArticle(this.subcategory, this.articleID);}
-                this.getRecomendationData(this.category, 20, this.subcategory);
-                this.getDeepDiveArticle(this.category, this.trendingLength, this.subcategory, this.eventType, this.articleID);
-
-
+                if (this.eventType == "story" && this.articleID) {
+                    this.getSyndicateArticle(this.articleID);
+                }
+                else {
+                    this.getSyndicateVideoArticle(this.subcategory, this.articleID);
+                }
+                this.getRecomendationData(this.category, 4, this.subcategory);
             }
 
         );
 
 
     }
+
     ngAfterViewInit(){
         // to run the resize event on load
         try {
@@ -97,55 +92,12 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
 
 
         this._synservice.getSyndicateArticleService(articleID).subscribe(
-
             data => {
-                this.imageData=[];
-                this.imageTitle=[];
-                this.copyright=[];
-                if(data.data[0]) {
-                    if(data.data[0].is_stock_photo && data.data[0].is_stock_photo==true){
-                        this.is_stock=true;
-                    }else{
-                        this.is_stock=false;
-                    }
-                    if (data.data[0].article_data.images == null || data.data[0].article_data.images == undefined || data.data[0].article_data.images.length==0) {
-                       if(data.data[0].image_url!=null ||data.data[0].image_url!= undefined){
-                           this.imageData[0]=GlobalSettings.getImageUrl(data.data[0].image_url);
-                       }else{
-                           this.is_stock=true;
-                       }
-                    }
-                    else {
-                        var imageLength = data.data[0].article_data.images.length;
-                        for (var i = 0; i < imageLength; i++) {
-                            this.imageData[this.imageData.length] = GlobalSettings.getImageUrl(data.data[0].article_data.images[i].image_url);
-                            this.copyright[this.copyright.length] = data.data[0].article_data.images[i].image_copyright;
-                            this.imageTitle[this.imageTitle.length] = data.data[0].article_data.images[i].image_title;
-                        }
-                    }
-                    this.articleData = data.data[0].article_data;
-                    var artwriter='';
-                    if(this.articleData.author){
-
-                        let authorArray = this.articleData.author.split(' ');
-
-                        if(authorArray[0] =='By'){
-                            for(var i=1;i<authorArray.length;i++) {
-                                artwriter += authorArray[i] + ' ';
-                            }
-                        }else{
-                            for(var i=0;i<authorArray.length;i++) {
-                                artwriter += authorArray[i] + ' ';
-                            }
-                        }
-
-                    }
-                    this.articleData.author=artwriter;
-                    this.articleData.url = VerticalGlobalFunctions.formatArticleRoute(this.subcategory, this.articleID, this.eventType);
-
-                    this.articleData.publishedDate = GlobalFunctions.sntGlobalDateFormatting(data.data[0].last_updated, 'timeZone');
-                    this.metaTags(data.data[0], this.eventType);
-                }
+                this.articleData=this._synservice.transformMainArticle(data.data,this.subcategory,articleID,this.eventType);
+                this.imageData=this.articleData.imageData;
+                this.imageTitle=this.articleData.imageTitle;
+                this.copyright=this.articleData.copyright;
+                this.metaTags(data.data[0],this.eventType);
             }
         )
     }
@@ -162,12 +114,12 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     ngOnDestroy(){
         this.paramsub.unsubscribe();
     }
+
     getRecomendationData(c,count,sc){
-        this.recomendationData=[];
         this._synservice.getRecArticleData(c,count,sc)
             .subscribe(data => {
-                this.recomendationData = [];
-                this.recomendationData = this._synservice.transformToRecArticles(data,this.subcategory,this.eventType, this.articleID);
+                this.recomendationData=[];
+                this.recomendationData = this._synservice.transformToRecArticles(data.data,this.subcategory,this.eventType, this.articleID);
             });
     }
     private getDeepDiveArticle(c,tl,sc,type,aid) {
@@ -176,14 +128,21 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         this._synservice.getTrendingArticles(c,tl,sc).subscribe(
             data => {
 
-                if(data.data.length==this.trendingLength) {
+                if(data.length==10) {
                     this.loadingshow=true;
+                    var newArray = this._synservice.transformTrending(data, sc, type, aid);
+                    for(var i=0;i<newArray.length;i++) {
+                        this.trendingData.push(newArray[i]);
+                    }
                     this.trendingLength = this.trendingLength + 10;
-                    this.trendingData= this._synservice.transformTrending(data.data, sc, type, aid).filter(function (val) {
-                        if(val.article_data.title){
-                            return val;
-                        }
-                    });
+                }else if(data.length>0 && data.length<10){
+                    this.loadingshow=true;
+
+                    var newArray = this._synservice.transformTrending(data, sc, type, aid);
+                    for(var i=0;i<newArray.length;i++) {
+                        this.trendingData.push(newArray[i]);
+                    }
+                    this.trendingLength = this.trendingLength + data.length;
                 }
                 else{
                     this.loadingshow=false;
@@ -203,15 +162,13 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         this._seo.setOgImage(GlobalSettings.getImageUrl('/app/public/mainLogo.png'));
         this._seo.setTitle('TCX Syndicate article');
         this._seo.setMetaDescription(metaDesc);
-        this._seo.setMetaRobots('INDEX, FOLLOW');
+        this._seo.setMetaRobots('INDEX, NOFOLLOW');
         this._seo.setOgTitle(this.subcategory);
 
 
         if(artType=="story") {
             let image;
-            if (data.article_data.images.length>=1  && data.article_data.images[0].image_url) {
-                image = GlobalSettings.getImageUrl(data.article_data.images[0].image_url) ;
-            } else if(data.article_data.images.length==0 ||data.article_data.images== null || data.article_data.images == undefined && data.image_url){
+           if(data.image_url != undefined && data.image_url != null){
                 image =GlobalSettings.getImageUrl(data.image_url);
             } else{
                 image=GlobalSettings.getImageUrl("/app/public/placeholder_XL.png");
@@ -233,7 +190,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
 
             }
             this._seo.setSource(data.source);
-            this._seo.setArticleTitle(data.title);
+            this._seo.setArticleTitle(data.title.replace(/\'/g, "'"));
             this._seo.setImageUrl(image);
             this._seo.setArticleUrl(link);
             this._seo.setArticleType(this.subcategory);
@@ -247,7 +204,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
             data.teaser?this._seo.setTeaser(data.teaser):this._seo.setTeaser(data.article_data.article[0]);
 
         }else{
-            this._seo.setArticleTitle(data.title);
+            this._seo.setArticleTitle(data.title.replace(/\'/g, "'"));
             this._seo.setArticleUrl(link);
             this._seo.setImageUrl(data.video_thumbnail);
             this._seo.setArticleId(data.id);
@@ -266,6 +223,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         var videoElement = e.target.body.getElementsByClassName('videoFrame')[0];
         var sharebtns = e.target.body.getElementsByClassName('art-hdr')[0];
         var fixedHeader = e.target.body.getElementsByClassName('fixedHeader')[0] != null ? e.target.body.getElementsByClassName('fixedHeader')[0].offsetHeight : 0;
+        var footer = e.target.body.getElementsByClassName('footer')[0];
 
         let topCSS = 0;
         topCSS = header != null ? topCSS + header.offsetHeight : topCSS;
@@ -274,8 +232,13 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         topCSS = imageCarousel != null ? topCSS + imageCarousel.offsetHeight : topCSS;
         topCSS = videoElement != null ? topCSS + videoElement.offsetHeight : topCSS;
         topCSS = topCSS - fixedHeader;
+
+        let bottomCSS=0;
+        bottomCSS = footer!=null? bottomCSS + footer.offsetHeight: bottomCSS;
+
         var scrollTop = e.srcElement.body.scrollTop;
         let scrollUp = scrollTop - this.scrollTopPrev>0?true:false;
+        var scrollBottom = e.target.body.scrollHeight-e.target.body.scrollTop==e.target.body.clientHeight?true:false;
         this.scrollTopPrev=scrollTop;
 
         if(scrollingElement){
@@ -289,12 +252,18 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
                     var sctop = headerTop.offsetHeight? window.scrollY - topCSS + headerTop.offsetHeight + partnerheadTop + 10 + 'px' :window.scrollY - topCSS + partnerheadTop + 'px';
                     this._render.setElementStyle(scrollingElement, 'top', sctop);
                 }
+                if(scrollBottom && window.innerHeight - footer.offsetHeight <600){
+                    var newTopCSS = window.scrollY - topCSS - bottomCSS - 50+ 'px';
+                    this._render.setElementStyle(scrollingElement,'top', newTopCSS);
+                }
             }else {
                 this._render.setElementStyle(scrollingElement, "top", '0')
             }
+
         }
+
         var trendingElement= e.target.body.getElementsByClassName('trending-small')[0];
-        if(window.innerHeight + window.scrollY >= document.body.scrollHeight){
+        if(window.innerHeight + window.scrollY >= document.body.scrollHeight && this.trendingLength>10){
             this.getDeepDiveArticle(this.category, this.trendingLength, this.subcategory, this.eventType, this.articleID);
 
         };

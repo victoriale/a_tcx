@@ -15,7 +15,7 @@ declare var moment;
 
 })
 
-export class SyndicatedArticlePage implements OnChanges,OnDestroy{
+export class SyndicatedArticlePage implements OnDestroy{
     public partnerID: string;
     checkPartner: boolean;
     public geoLocation:string;
@@ -23,7 +23,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     public articleData: any;
     public recomendationData: any;
     public articleID: string;
-    public trendingData:any=[];
+    public trendingData:Array<any>=[];
     public eventType: string;
     public imageData=[];
     public imageTitle=[];
@@ -50,14 +50,6 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         this.checkPartner = GlobalSettings.getHomeInfo().isPartner;
         this.initializePage();
     }
-    ngOnInit(){
-        this.initializePage();
-    }
-
-    ngOnChanges(){
-        this.initializePage();
-
-    }
     initializePage(){
         this.paramsub= this.activateRoute.params.subscribe(
             (param :any)=> {
@@ -68,9 +60,8 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
                     this.subcategory=param['subCategory']?param['subCategory']:param['category'];
                 if (this.eventType == "story" && this.articleID) {this.getSyndicateArticle(this.articleID);}
                 else {this.getSyndicateVideoArticle(this.subcategory, this.articleID);}
-                this.getRecomendationData(this.category, 20, this.subcategory);
+                this.getRecomendationData(this.category, 4, this.subcategory);
                 this.getDeepDiveArticle(this.category, this.trendingLength, this.subcategory, this.eventType, this.articleID);
-
 
             }
 
@@ -78,6 +69,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
 
 
     }
+
     ngAfterViewInit(){
         // to run the resize event on load
         try {
@@ -115,12 +107,12 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     ngOnDestroy(){
         this.paramsub.unsubscribe();
     }
+
     getRecomendationData(c,count,sc){
-        this.recomendationData=[];
         this._synservice.getRecArticleData(c,count,sc)
             .subscribe(data => {
-                this.recomendationData = [];
-                this.recomendationData = this._synservice.transformToRecArticles(data,this.subcategory,this.eventType, this.articleID);
+                this.recomendationData=[];
+                this.recomendationData = this._synservice.transformToRecArticles(data.data,this.subcategory,this.eventType, this.articleID);
             });
     }
     private getDeepDiveArticle(c,tl,sc,type,aid) {
@@ -129,10 +121,20 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         this._synservice.getTrendingArticles(c,tl,sc).subscribe(
             data => {
 
-                if(data.data.length==this.trendingLength) {
+                if(data.length==10) {
                     this.loadingshow=true;
                     this.trendingLength = this.trendingLength + 10;
-                    this.trendingData= this._synservice.transformTrending(data.data, sc, type, aid);
+                    var newArray = this._synservice.transformTrending(data, sc, type, aid);
+                    for(var i=0;i<newArray.length;i++) {
+                        this.trendingData.push(newArray[i]);
+                    }
+                }else if(data.length>0){
+                    this.loadingshow=true;
+                    this.trendingLength = this.trendingLength + data.length;
+                    var newArray = this._synservice.transformTrending(data, sc, type, aid);
+                    for(var i=0;i<newArray.length;i++) {
+                        this.trendingData.push(newArray[i]);
+                    }
                 }
                 else{
                     this.loadingshow=false;
@@ -152,7 +154,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         this._seo.setOgImage(GlobalSettings.getImageUrl('/app/public/mainLogo.png'));
         this._seo.setTitle('TCX Syndicate article');
         this._seo.setMetaDescription(metaDesc);
-        this._seo.setMetaRobots('INDEX, FOLLOW');
+        this._seo.setMetaRobots('INDEX, NOFOLLOW');
         this._seo.setOgTitle(this.subcategory);
 
 

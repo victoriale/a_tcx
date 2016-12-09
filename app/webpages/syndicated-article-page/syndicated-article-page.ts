@@ -97,6 +97,7 @@ export class SyndicatedArticlePage implements OnDestroy{
                 this.imageData=this.articleData.imageData;
                 this.imageTitle=this.articleData.imageTitle;
                 this.copyright=this.articleData.copyright;
+                this.metaTags(this.articleData,articleID);
             }
         )
     }

@@ -2,11 +2,11 @@ import {Component, OnInit, HostListener, Renderer} from '@angular/core';
 import {GlobalSettings} from "../../global/global-settings";
 
 @Component({
-  selector: 'term-of-service',
-  templateUrl: 'app/webpages/term-of-service/term-of-service.html',
+  selector: 'terms-of-service',
+  templateUrl: 'app/webpages/terms-of-service/terms-of-service.html',
 })
 
-export class TermOfService implements OnInit{
+export class TermsOfService implements OnInit{
   aboutUsData: any;
 
   currentUrl: string = window.location.href;

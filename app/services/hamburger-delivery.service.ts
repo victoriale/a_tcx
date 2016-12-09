@@ -69,8 +69,8 @@ export class HamburgerDeliveryService {
         url: topRoute + '/entertainment',
         nesterChildren: [
           {
-            menuTitle: "TVs",
-            url: topRoute + '/entertainment/tvs'
+            menuTitle: "Television",
+            url: topRoute + '/entertainment/television'
           },
           {
             menuTitle: "Movies",
@@ -79,10 +79,6 @@ export class HamburgerDeliveryService {
           {
             menuTitle: "Music",
             url: topRoute + '/entertainment/music'
-          },
-          {
-            menuTitle: "Celebrities",
-            url: topRoute + '/entertainment/celebrities'
           }
         ]
       },

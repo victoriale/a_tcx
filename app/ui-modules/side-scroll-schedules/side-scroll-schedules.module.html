@@ -1,4 +1,4 @@
-<section class="ss_container top-scope-{{localTopScope}} page-scope-{{pageScope}}" *ngIf="localTopScope != null">
+<section class="ss_container top-scope-{{localTopScope}} page-scope-{{pageScope}}" *ngIf="localTopScope != null && sideScrollData.blocks.length > 1">
   <div class="ss_title">
     <span class="ss_title-2">
       <i class="fa {{titleIcon}}" *ngIf="localTopScope != 'weather'"></i>

@@ -326,7 +326,7 @@ export class GlobalSettings {
         'entertainment':{
           parentScope: null,
           scope:'all',
-          scopeList: ["Celebrities", "Music", "Movies", "TV", "All"],
+          scopeList: ["Music", "Movies", "Television", "All"],
           topScope: 'entertainment',
           displayName: 'Entertainment',
           verticalApi: null,
@@ -340,12 +340,12 @@ export class GlobalSettings {
           color:'#00b9e3',
           hoverColor: "rgba(0, 185, 227, 0.75)"
         },
-        'tv':{
+        'television':{
           parentScope: 'entertainment',
-          scope:'tv',
-          scopeList: ["Celebrities", "Music", "Movies", "TV", "All"],
+          scope:'television',
+          scopeList: ["Music", "Movies", "Television", "All"],
           topScope: 'entertainment',
-          displayName: 'TV',
+          displayName: 'Television',
           verticalApi: null,
           aiApi: null,
           tcxApi: this.getApiUrl(),
@@ -360,7 +360,7 @@ export class GlobalSettings {
         'movies':{
           parentScope: 'entertainment',
           scope:'movies',
-          scopeList: ["Celebrities", "Music", "Movies", "TV", "All"],
+          scopeList: ["Music", "Movies", "Television", "All"],
           topScope: 'entertainment',
           displayName: 'Movies',
           verticalApi: null,
@@ -377,7 +377,7 @@ export class GlobalSettings {
         'music':{
           parentScope: 'entertainment',
           scope:'music',
-          scopeList: ["Celebrities", "Music", "Movies", "TV", "All"],
+          scopeList: ["Music", "Movies", "Television", "All"],
           topScope: 'entertainment',
           displayName: 'Music',
           verticalApi: null,
@@ -391,23 +391,23 @@ export class GlobalSettings {
           color:'#00b9e3',
           hoverColor: "rgba(0, 185, 227, 0.75)"
         },
-        'celebrities':{
-          parentScope: 'entertainment',
-          scope:'celebrities',
-          scopeList: ["Celebrities", "Music", "Movies", "TV", "All"],
-          topScope: 'entertainment',
-          displayName: 'Celebrities',
-          verticalApi: null,
-          aiApi: null,
-          tcxApi: this.getApiUrl(),
-          showEventSlider: false,
-          showBoxScores:false,
-          showSFTopNav: true,
-          icon:'fa-film',
-          pageType: 3,
-          color:'#00b9e3',
-          hoverColor: "rgba(0, 185, 227, 0.75)"
-        },
+        // 'celebrities':{
+        //   parentScope: 'entertainment',
+        //   scope:'celebrities',
+        //   scopeList: ["Celebrities", "Music", "Movies", "TV", "All"],
+        //   topScope: 'entertainment',
+        //   displayName: 'Celebrities',
+        //   verticalApi: null,
+        //   aiApi: null,
+        //   tcxApi: this.getApiUrl(),
+        //   showEventSlider: false,
+        //   showBoxScores:false,
+        //   showSFTopNav: true,
+        //   icon:'fa-film',
+        //   pageType: 3,
+        //   color:'#00b9e3',
+        //   hoverColor: "rgba(0, 185, 227, 0.75)"
+        // },
         'lifestyle':{
           parentScope: null,
           scope:'lifestyle',

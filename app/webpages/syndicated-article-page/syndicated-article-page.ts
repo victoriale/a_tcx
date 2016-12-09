@@ -5,6 +5,8 @@ import {ActivatedRoute, Route, Router, NavigationStart, Event as NavigationEvent
 import {GlobalFunctions} from "../../global/global-functions";
 import {VerticalGlobalFunctions} from "../../global/vertical-global-functions";
 import {SeoService} from "../../global/seo.service";
+import {runInNewContext} from "vm";
+import {element} from "@angular/upgrade/src/angular_js";
 
 declare var jQuery:any;
 declare var moment;
@@ -36,6 +38,7 @@ export class SyndicatedArticlePage implements OnDestroy{
     public loadingshow:boolean;
     public articleCount:number;
     public scrollTopPrev:number=0;
+    public prevArticles;
     iframeUrl: any;
     paramsub;
     constructor(
@@ -49,6 +52,7 @@ export class SyndicatedArticlePage implements OnDestroy{
     ){
         this.checkPartner = GlobalSettings.getHomeInfo().isPartner;
         this.initializePage();
+        this.getDeepDiveArticle(this.category, this.trendingLength, this.subcategory, this.eventType, this.articleID);
     }
     initializePage(){
         this.paramsub= this.activateRoute.params.subscribe(
@@ -58,11 +62,13 @@ export class SyndicatedArticlePage implements OnDestroy{
                     this.eventType= param['articleType'],
                     this.category=param['category'],
                     this.subcategory=param['subCategory']?param['subCategory']:param['category'];
-                if (this.eventType == "story" && this.articleID) {this.getSyndicateArticle(this.articleID);}
-                else {this.getSyndicateVideoArticle(this.subcategory, this.articleID);}
+                if (this.eventType == "story" && this.articleID) {
+                    this.getSyndicateArticle(this.articleID);
+                }
+                else {
+                    this.getSyndicateVideoArticle(this.subcategory, this.articleID);
+                }
                 this.getRecomendationData(this.category, 4, this.subcategory);
-                this.getDeepDiveArticle(this.category, this.trendingLength, this.subcategory, this.eventType, this.articleID);
-
             }
 
         );
@@ -123,18 +129,19 @@ export class SyndicatedArticlePage implements OnDestroy{
 
                 if(data.length==10) {
                     this.loadingshow=true;
+                    var newArray = this._synservice.transformTrending(data, sc, type, aid);
+                    for(var i=0;i<newArray.length;i++) {
+                        this.trendingData.push(newArray[i]);
+                    }
                     this.trendingLength = this.trendingLength + 10;
-                    var newArray = this._synservice.transformTrending(data, sc, type, aid);
-                    for(var i=0;i<newArray.length;i++) {
-                        this.trendingData.push(newArray[i]);
-                    }
-                }else if(data.length>0){
+                }else if(data.length>0 && data.length<10){
                     this.loadingshow=true;
-                    this.trendingLength = this.trendingLength + data.length;
+
                     var newArray = this._synservice.transformTrending(data, sc, type, aid);
                     for(var i=0;i<newArray.length;i++) {
                         this.trendingData.push(newArray[i]);
                     }
+                    this.trendingLength = this.trendingLength + data.length;
                 }
                 else{
                     this.loadingshow=false;
@@ -255,7 +262,7 @@ export class SyndicatedArticlePage implements OnDestroy{
         }
 
         var trendingElement= e.target.body.getElementsByClassName('trending-small')[0];
-        if(window.innerHeight + window.scrollY >= document.body.scrollHeight){
+        if(window.innerHeight + window.scrollY >= document.body.scrollHeight && this.trendingLength>10){
             this.getDeepDiveArticle(this.category, this.trendingLength, this.subcategory, this.eventType, this.articleID);
 
         };

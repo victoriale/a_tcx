@@ -100,7 +100,7 @@ export class SchedulesService {
                     output.current['location'] = data.city + ', ' + data.state;
                     output.current['city'] = data.city;
                     output.current['current_condition'] = data.current_condition;
-                    output.current['current_icon'] = GlobalSettings.getImageUrl(data.current_icon).replace('.svg', '_light.svg');
+                    output.current['current_icon'] = GlobalSettings.getImageUrl(data.current_icon);
                     output.current['current_scope'] = data.current_scope;
                     output.current['description'] = "<span class='text-heavy'>"+data.current_condition+"</span> until "+ moment(data.data[1].unix_timestamp).format("h A z"); //TODO
                     output.current['current_time'] = moment().format("dddd h:mm A");
@@ -206,7 +206,7 @@ export class SchedulesService {
                         data.data[scope][n].profileUrl = "";
                     }
                     else {
-                        data.data[scope][n].profileUrl = GlobalSettings.getOffsiteLink("finance", data.data[scope][n].companySymbol + "/" + data.data[scope][n].fullCompanyName.replace(/ /g, "-") + "/company/" + data.data[scope][n].companyId);
+                        data.data[scope][n].profileUrl = GlobalSettings.getOffsiteLink("business", data.data[scope][n].companySymbol + "/" + data.data[scope][n].fullCompanyName.replace(/ /g, "-") + "/company/" + data.data[scope][n].companyId);
                     }
                     if (data.data[scope][n].logoUrl == "" || data.data[scope][n].logoUrl == null) {
                         data.data[scope][n].logoUrl = '/app/public/no-image.png';
@@ -482,7 +482,7 @@ export class SchedulesService {
 
     setupSlideScroll(topScope, data, scope, profile, eventStatus, limit, pageNum, selectedLocation, callback: Function, year?, week?) {
 
-        if (topScope == "finance") {
+        if (topScope == "business") {
             //(scope, profile, eventStatus, limit, pageNum, id?)
             this.getFinanceData(scope, 'league', eventStatus, limit, pageNum)
                 .subscribe(data => {
@@ -615,6 +615,7 @@ export class SchedulesService {
                 homeLink: GlobalSettings.getOffsiteLink("nfl", scope + "/team/" + val.team1FullName + "/" + val.team1Id),
                 reportDisplay: reportText,
                 reportLink: reportUrl,
+                extUrl:true,
                 isLive: val.eventStatus == 'inprogress' ? 'schedule-live' : '',
                 inning: val.eventQuarter != null ? "Current: Quarter " + Number(val.eventQuarter) + "<sup>" + GlobalFunctions.Suffix(Number(val.eventQuarter)) + "</sup>" : null
             }

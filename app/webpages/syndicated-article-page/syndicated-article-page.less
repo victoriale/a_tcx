@@ -27,7 +27,6 @@
     padding-top: 56.25%; //to keep 16:9 ratio
   }
   .images-media{
-    height: 100%;
     position: absolute;
     top: 0;
     left: 0;
@@ -46,16 +45,17 @@
   position: relative;
   overflow: hidden;
   margin: 0 auto;
-
+  .art-hdr{display: inline-flex}
+  .video-stack-thumbnail{
+    overflow: hidden;
+  }
   .videoFrame{
     padding-top: 0;
   }
   .content-exerpt{
     margin-bottom: 20px;
   }
-  .carousel-modal{
-    top:25%;
-  }
+
   .arpt-info{
     width:100%;
   }
@@ -69,29 +69,15 @@
   }
  @media @mobile{
    .carousel-modal-exit{
-     top: 18%;
-     right: 3%;
+     right: 0;
      font-size: 22px;
      z-index: 1;
    }
    .carousel-modal{
-     width: 100%;
-     left: 0;
-     top:0;
-     height: 100%;
+
      background-color:rgba(0, 0, 0, 0.8);
    }
-   .carousel-modal-container-img{
-     width:90%;
-     height: 65%;
-     top:25%;
-     left: 5%;
-
-   }
    .carousel-modal-grey-bar{
-     width: 90%;
-     left: 5%;
-     bottom:6%;
      background-color: transparent;
      padding: 0;
      &-title{
@@ -101,6 +87,7 @@
    }
    .carousel-modal{
      .circles{
+       top: -50px;
         background-color:transparent;
        font-size: 45px;
      }
@@ -111,10 +98,6 @@
    .circles{
      border:none;
      background-color: @masterBrandColor;
-   }
-   .carousel-modal-container-img-navigation{
-     margin-top: -45px;
-     position: absolute;
    }
    .arpt-info .arpt-author{
      margin-bottom: 3px;
@@ -145,29 +128,13 @@
   @media @tablet {
     .carousel-modal-exit{
       z-index: 1;
-      top: 125px;
-      right: 9.5%;
+      right: 0;
       cursor: pointer;
     }
     .carousel-modal{
-      width: 100%;
-      left: 0;
-      top:0;
-      height: 100%;
       background-color:rgba(0, 0, 0, 0.8);
     }
-    .carousel-modal-container-img{
-      background-size: contain;
-      width:80%;
-      height: 70%;
-      top:17%;
-      left: 10%;
-
-    }
     .carousel-modal-grey-bar{
-      width: 80%;
-      left: 10%;
-      bottom:10%;
       background-color: transparent;
     }
     .carousel-modal{
@@ -205,10 +172,13 @@
   }
   .video-stack {
     @media @tablet{
-      min-width:33.33%
+      overflow: hidden;
+      padding:0 ~"calc(25px/6)";
+      &:first-child{padding-left: 0; padding-right: ~"calc(25px/3)"}
+      &:nth-child(3){padding-right: 0; padding-left: ~"calc(25px/3)"}
     }
   }
-  .stacktop-image{  min-width: 100%;  padding-right: 13px; margin-bottom: 8px }
+
   @media @mobile{
     .stacktop-image {
       padding-right: 0;
@@ -340,7 +310,6 @@
   padding-bottom: 56%; /* 16:9 */
   padding-top: 25px;
   height: 0;
-  min-width: 320px;
 }
 .videoFrame iframe {
   position: absolute;

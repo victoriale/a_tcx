@@ -144,7 +144,7 @@ export class SyndicateArticleService {
                   },
                   keyword: val.keywords.length>0? val.keywords[0].toUpperCase():scope,
                   timeStamp: date,
-                  title: val.title? val.title: "",
+                  title: val.title? val.title.replace(/\'/g, "'"): "",
 
                   articleUrl: val.source != "snt_ai" ? VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType) : GlobalSettings.getOffsiteLink(val.scope, VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, articleType, val.event_id)),
 
@@ -206,6 +206,7 @@ export class SyndicateArticleService {
               }
           }
           val['author']=articleWriter;
+          val['title']= val.title? val.title.replace(/\'/g, "'"): "";
     })
     return data;
   }

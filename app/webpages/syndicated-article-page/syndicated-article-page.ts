@@ -5,6 +5,8 @@ import {ActivatedRoute, Route, Router, NavigationStart, Event as NavigationEvent
 import {GlobalFunctions} from "../../global/global-functions";
 import {VerticalGlobalFunctions} from "../../global/vertical-global-functions";
 import {SeoService} from "../../global/seo.service";
+import {runInNewContext} from "vm";
+import {element} from "@angular/upgrade/src/angular_js";
 
 declare var jQuery:any;
 declare var moment;
@@ -15,7 +17,7 @@ declare var moment;
 
 })
 
-export class SyndicatedArticlePage implements OnChanges,OnDestroy{
+export class SyndicatedArticlePage implements OnDestroy{
     public partnerID: string;
     checkPartner: boolean;
     public geoLocation:string;
@@ -23,7 +25,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     public articleData: any;
     public recomendationData: any;
     public articleID: string;
-    public trendingData:any=[];
+    public trendingData:Array<any>=[];
     public eventType: string;
     public imageData=[];
     public imageTitle=[];
@@ -36,6 +38,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     public loadingshow:boolean;
     public articleCount:number;
     public scrollTopPrev:number=0;
+    public prevArticles;
     iframeUrl: any;
     paramsub;
     constructor(
@@ -49,14 +52,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     ){
         this.checkPartner = GlobalSettings.getHomeInfo().isPartner;
         this.initializePage();
-    }
-    ngOnInit(){
-        this.initializePage();
-    }
-
-    ngOnChanges(){
-        this.initializePage();
-
+        this.getDeepDiveArticle(this.category, this.trendingLength, this.subcategory, this.eventType, this.articleID);
     }
     initializePage(){
         this.paramsub= this.activateRoute.params.subscribe(
@@ -66,18 +62,20 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
                     this.eventType= param['articleType'],
                     this.category=param['category'],
                     this.subcategory=param['subCategory']?param['subCategory']:param['category'];
-                if (this.eventType == "story" && this.articleID) {this.getSyndicateArticle(this.articleID);}
-                else {this.getSyndicateVideoArticle(this.subcategory, this.articleID);}
-                this.getRecomendationData(this.category, 20, this.subcategory);
-                this.getDeepDiveArticle(this.category, this.trendingLength, this.subcategory, this.eventType, this.articleID);
-
-
+                if (this.eventType == "story" && this.articleID) {
+                    this.getSyndicateArticle(this.articleID);
+                }
+                else {
+                    this.getSyndicateVideoArticle(this.subcategory, this.articleID);
+                }
+                this.getRecomendationData(this.category, 4, this.subcategory);
             }
 
         );
 
 
     }
+
     ngAfterViewInit(){
         // to run the resize event on load
         try {
@@ -115,12 +113,12 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
     ngOnDestroy(){
         this.paramsub.unsubscribe();
     }
+
     getRecomendationData(c,count,sc){
-        this.recomendationData=[];
         this._synservice.getRecArticleData(c,count,sc)
             .subscribe(data => {
-                this.recomendationData = [];
-                this.recomendationData = this._synservice.transformToRecArticles(data,this.subcategory,this.eventType, this.articleID);
+                this.recomendationData=[];
+                this.recomendationData = this._synservice.transformToRecArticles(data.data,this.subcategory,this.eventType, this.articleID);
             });
     }
     private getDeepDiveArticle(c,tl,sc,type,aid) {
@@ -129,10 +127,21 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         this._synservice.getTrendingArticles(c,tl,sc).subscribe(
             data => {
 
-                if(data.data.length==this.trendingLength) {
+                if(data.length==10) {
                     this.loadingshow=true;
+                    var newArray = this._synservice.transformTrending(data, sc, type, aid);
+                    for(var i=0;i<newArray.length;i++) {
+                        this.trendingData.push(newArray[i]);
+                    }
                     this.trendingLength = this.trendingLength + 10;
-                    this.trendingData= this._synservice.transformTrending(data.data, sc, type, aid);
+                }else if(data.length>0 && data.length<10){
+                    this.loadingshow=true;
+
+                    var newArray = this._synservice.transformTrending(data, sc, type, aid);
+                    for(var i=0;i<newArray.length;i++) {
+                        this.trendingData.push(newArray[i]);
+                    }
+                    this.trendingLength = this.trendingLength + data.length;
                 }
                 else{
                     this.loadingshow=false;
@@ -152,7 +161,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         this._seo.setOgImage(GlobalSettings.getImageUrl('/app/public/mainLogo.png'));
         this._seo.setTitle('TCX Syndicate article');
         this._seo.setMetaDescription(metaDesc);
-        this._seo.setMetaRobots('INDEX, FOLLOW');
+        this._seo.setMetaRobots('INDEX, NOFOLLOW');
         this._seo.setOgTitle(this.subcategory);
 
 
@@ -253,7 +262,7 @@ export class SyndicatedArticlePage implements OnChanges,OnDestroy{
         }
 
         var trendingElement= e.target.body.getElementsByClassName('trending-small')[0];
-        if(window.innerHeight + window.scrollY >= document.body.scrollHeight){
+        if(window.innerHeight + window.scrollY >= document.body.scrollHeight && this.trendingLength>10){
             this.getDeepDiveArticle(this.category, this.trendingLength, this.subcategory, this.eventType, this.articleID);
 
         };

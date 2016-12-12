@@ -2,8 +2,6 @@ import {Injectable} from '@angular/core';
 import { Router } from '@angular/router';
 import {Observable} from 'rxjs/Rx';
 import {Http} from '@angular/http';
-import {SearchComponentResult, SearchComponentData} from '../fe-core/components/search/search.component';
-// import {SearchPageInput} from '../fe-core/modules/search-page/search-page.module';
 import {GlobalFunctions} from '../global/global-functions';
 import {VerticalGlobalFunctions}  from '../global/vertical-global-functions';
 import {GlobalSettings} from '../global/global-settings';
@@ -13,449 +11,853 @@ declare let Fuse: any;
 export class SearchService{
     public pageMax: number = 10;
     public searchJSON: any;
+    private _searchApi:string=GlobalSettings.getApiUrl();
 
     public searchAPI: string = "http://dev-touchdownloyal-api.synapsys.us" + '/landingPage/search';
     constructor(private http: Http, private _router:Router){
-
-        //Get initial search JSON data
-        this.getSearchJSON()
     }
 
-    //Function get search JSON object
-    getSearchJSON(){
-
-      //this.newSearchAPI = this.newSearchAPI+scope;
-        return this.http.get(this.searchAPI, {
+    searchArticleService(userInput,currentPage){
+        var callUrl = this._searchApi + '/' +'elasticSearch'+'/'+userInput+'/'+ currentPage;
+        console.log(callUrl,"fhdjahfjsdh");
+        return this.http.get(callUrl)
+            .map(res=>res.json())
+            .map(data => {
+             return data;
+            },  err => {
+                console.log('ERROR search results');
             })
-            .map(
-                res => res.json()
-            ).subscribe(
-                data => {
-                    this.searchJSON = data;
-                },
-                err => {
-                  console.log('ERROR search results');
-                    this.searchJSON = null
-                }
-            )
     }
-    //Function get search JSON object
-    getSearch(){
-        return this.http.get(this.searchAPI, {
+    transformSearchResults(data) {
 
-            })
-            .map(
-                res => res.json()
-            ).map(
-                data => {
-                    return data;
-                },
-                err => {
-                  console.log('ERROR search results');
-                }
-            )
+        var placeholder = "/app/public/placeholder_XL.png"
+
+        data.forEach(function(val, index) {
+            val['articleId']=val._source.id;
+            val["publishedDate"] = GlobalFunctions.sntGlobalDateFormatting(val._source.lastModified, 'timeZone');
+            val["imagePathData"] = {
+                imageClass: "embed-responsive-16by9",
+                imageUrl:val._source.image_url?GlobalSettings.getImageUrl(val._source.image_url):GlobalSettings.getImageUrl(placeholder),
+                urlRouteArray: '/deep-dive',
+            };
+            val['title']=val._source.title;
+            val["teaser"]=val._source.content;
+            val['articleUrl']=val._source.url;
+            val["provider"] = 'unknown';
+            val['keyword']='unknown';
+            val['author']='unknown';
+            val['publisher']='unknown';
+        })
+        return data;
     }
 
-    /*
-     *  Functions for search component
-     */
-
-    //Function used by search input to get suggestions dropdown
-    getSearchDropdownData(router:Router, term: string){
-        //TODO: Wrap in async
-        let data = this.searchJSON;
-        let dataSearch = {
-          players: [],
-          teams: []
-        };
-        for(var s in data){
-          data[s]['players'].forEach(function(item){
-            item['scope'] = s == 'fbs'? 'ncaaf': 'nfl';
-            dataSearch.players.push(item);
-          })
-          data[s]['teams'].forEach(function(item){
-            item['scope'] = s == 'fbs'? 'ncaaf': 'nfl';
-            dataSearch.teams.push(item);
-          })
+    getdummydata(currentPage) {
+        currentPage=currentPage-1;
+        var startElem;
+        if(currentPage==0) {
+            startElem = 0;
+        }else if(currentPage>0){
+            startElem = currentPage*10;
         }
-
-        //Search for players and teams
-        let playerResults = this.searchPlayers(term, null, dataSearch.players);
-        let teamResults = this.searchTeams(term, null, dataSearch.teams);
-        //Transform data to useable format
-        let searchResults = this.resultsToDropdown(router, playerResults, teamResults);
-        //Build output to send to search component
-        let searchOutput: SearchComponentData = {
-            term: term,
-            searchResults: searchResults
-        };
-        return Observable.of(searchOutput);
-    }
-
-    //Convert players and teams to needed dropdown array format
-    resultsToDropdown(router, playerResults, teamResults){
-        let searchArray: Array<SearchComponentResult> = [];
-        let partnerScope = GlobalSettings.getHomeInfo();
-        let count = 0, max = 4;
-        for(let i = 0, length = teamResults.length; i < length; i++){
-            //Exit loop if max dropdown count
-            if(count >= max){
-                break;
-            }
-            let item = teamResults[i];
-            let teamName = item.teamName;
-
-            //generate route for team
-            let route = VerticalGlobalFunctions.formatTeamRoute(teamName, item.teamId);
-            // if(partnerScope.isPartner && item.scope != null){
-            //   route.unshift(this.getRelativePath(router)+'Partner-home',{scope:item.scope,partnerId:partnerScope.partnerName});
-            // }else{
-            //   route.unshift(this.getRelativePath(router)+'Default-home',{scope:item.scope});
-            // }
-
-            count++;
-            searchArray.push({
-                title: teamName,
-                value: teamName,
-                imageUrl: {
-                    imageClass: "image-43",
-                    mainImage: {
-                      imageUrl: GlobalSettings.getImageUrl(item.teamLogo),
-                      hoverText: "<i class='fa fa-mail-forward search-text'></i>",
-                      imageClass: "border-1",
-                      urlRouteArray: route,
-                    }
-                },
-                routerLink: route
-              })
-        }
-
-        for(let i = 0, length = playerResults.length; i < length; i++){
-            //Exit loop if max dropdown count
-            if(count >= max){
-                break;
-            }
-            count++;
-            let item = playerResults[i];
-            let playerName = item.playerName;
-            let route = VerticalGlobalFunctions.formatPlayerRoute(item.teamName, playerName, item.playerId);
-            // if(partnerScope.isPartner && item.scope != null){
-            //   route.unshift(this.getRelativePath(router)+'Partner-home',{scope:item.scope,partnerId:partnerScope.partnerName});
-            // }else{
-            //   route.unshift(this.getRelativePath(router)+'Default-home',{scope:item.scope});
-            // }
-            searchArray.push({
-                title: '<span class="text-heavy">' + playerName + '</span> - ' + item.teamName,
-                value: playerName,
-                imageUrl: {
-                    imageClass: "image-43",
-                    mainImage: {
-                      imageUrl: GlobalSettings.getImageUrl(item.imageUrl),
-                      urlRouteArray: route,
-                      hoverText: "<i class='fa fa-mail-forward search-text'></i>",
-                      imageClass: "border-1"
-                    }
-                },
-                routerLink: route
-            })
-        }
-        return searchArray;
-    }
-
-    //Function to build search route
-    getSearchRoute(term: string){
-        let searchRoute: Array<any>;
-        //Build search Route
-        if ( term ) {
-            searchRoute = ['search', 'articles',{query: term}];
-        }else{
-            searchRoute = null;
-        }
-        return searchRoute !== null ? searchRoute : ['Error-page'];
-    }
-
-    /*
-     * Functions for search page
-     */
-
-    getSearchPageData(router: Router, partnerId: string, query: string, scope, data){
-        let dataSearch = {
-          players: [],
-          teams: []
-        };
-        //coming from router as possibly ncaaf and will need to change it to fbs for api then swap it back to ncaaf for display
-        scope = scope == 'ncaaf'?'fbs':scope;
-
-        if(scope !== null){
-          data[scope]['players'].forEach(function(item){
-            item['scope'] = scope == 'fbs' ? 'ncaaf': 'nfl';
-            dataSearch.players.push(item);
-          });
-          data[scope]['teams'].forEach(function(item){
-            item['scope'] = scope == 'fbs' ? 'ncaaf': 'nfl';
-            dataSearch.teams.push(item);
-          })
-        }else{
-          for(var s in data){
-            data[s]['players'].forEach(function(item){
-              item['scope'] = s == 'fbs'? 'ncaaf': 'nfl';
-              dataSearch.players.push(item);
-            })
-            data[s]['teams'].forEach(function(item){
-              item['scope'] = s == 'fbs'? 'ncaaf': 'nfl';
-              dataSearch.teams.push(item);
-            })
-          }
-        }
-
-        //converts to usable scope for api calls null is default value for all
-        // scope = scope != null ? GlobalSettings.getScope(scope):null;
-        //Search for players and teams
-        let playerResults = this.searchPlayers(query, scope, dataSearch.players);
-        let teamResults = this.searchTeams(query, scope, dataSearch.teams);
-
-        let searchResults = this.resultsToTabs(router, partnerId, query, playerResults, teamResults);
-
-        return {
-          results: searchResults,
-          filters: this.filterDropdown()
-        };
-    }
-
-    filterDropdown(){
-      var dropdownFilter = [{
-        key: null,
-        value: 'ALL',
-      },{
-        key: 'nfl',
-        value: 'NFL',
-      },{
-        key: 'ncaaf',
-        value: 'NCAAF',
-      }];
-      return dropdownFilter;
-    }
-
-    //Convert players and teams to tabs format
-    resultsToTabs(router: Router, partnerId: string, query, playerResults, teamResults){
-      let self = this;
-      let partnerScope = GlobalSettings.getHomeInfo();
-
-        let searchPageInput = {
-            searchComponent : {
-                placeholderText: 'Search for a player or team...',
-                hasSuggestions: true,
-                initialText: query
-            },
-            heroImage: '/app/public/homePage_hero1.png',
-            headerText: 'Discover The Latest In Football',
-            subHeaderText: 'Find the Players and Teams you love.',
-            query: query,
-            tabData: [
+            return [
                 {
-                    tabName: 'Player (' + playerResults.length + ')',
-                    isTabDefault: playerResults.length >= teamResults.length ? true : false,
-                    results: [],
-                    error:{
-                      message:"Sorry we can't find a <span class='text-heavy'>Player Profile</span> matching your search term(s) ''<span class='query-blue'>"+query+"</span>'', please try your search again.",
-                      icon:'fa-search-icon'
+                    isStockPhoto: false,
+                    articleId: 1,
+                    title: "Title of the article 1 : orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 1",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 1 ", // author full name
+                    publisher: "Publisher 1", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQvl4MrtvCnxmU9xGdJZvXki5TSXz_aDJ0UpEPzpUz5GHdpIBKS",
+                        urlRouteArray: '/deep-dive'
                     },
-                    pageMax:this.pageMax,
-                    totalResults:playerResults.length,
-                    paginationParameters: {
-                        index: 1,
-                        max: 10,//default value will get changed in next function
-                        paginationType: 'module'
-                    }
+                    //imagePathData: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQvl4MrtvCnxmU9xGdJZvXki5TSXz_aDJ0UpEPzpUz5GHdpIBKS",//for  >1 images in the carousel
+                    teaser: "teaser 1 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 1",//provider information
+                }, {
+                    isStockPhoto: false,
+                    articleId: 2,
+                    title: "Title of the article 2: orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 2",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 2", // author full name
+                    publisher: "Publisher 2", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",//for  >1 images in the carousel
+                    teaser: "teaser 2 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 2",//provider information
+                }, {
+                    isStockPhoto: false,
+                    articleId: 3,
+                    title: "Title of the article 3: orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 3",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 3 ", // author full name
+                    publisher: "Publisher 3", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSapwoNLnSIwdEf_8Z0atxkenYk7W_p3Nod2p6VDjKD5WQ8K4wj",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSapwoNLnSIwdEf_8Z0atxkenYk7W_p3Nod2p6VDjKD5WQ8K4wj",//for  >1 images in the carousel
+                    teaser: "teaser 3 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 3",//provider information
+                }, {
+                    isStockPhoto: false,
+                    articleId: 1,
+                    title: "Title of the article 4: orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 4",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 4 ", // author full name
+                    publisher: "Publisher 4", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",//for  >1 images in the carousel
+                    teaser: "teaser 4 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 4",//provider information
+                }, {
+                    isStockPhoto: false,
+                    articleId: 5,
+                    title: "Title of the article 5",
+                    keyword: "Keyword 5",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 5 ", // author full name
+                    publisher: "Publisher 5", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "http://media.caranddriver.com/images/media/51/25-cars-worth-waiting-for-lp-ford-gt-photo-658253-s-original.jpg",//for  >1 images in the carousel
+                    teaser: "teaser 5 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 5",//provider information
                 },
                 {
-                    tabName: 'Team (' + teamResults.length + ')',
-                    isTabDefault: teamResults.length > playerResults.length ? true : false,
-                    results: [],
-                    error:{
-                      message:"Sorry we can't find a <span class='text-heavy'>Team Profile</span> matching your search term(s) '<span class='query-blue'>"+query+"</span>', please try your search again.",
-                      icon:'fa-search-icon'
+                    isStockPhoto: false,
+                    articleId: 6,
+                    title: "Title of the article 6 : orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 6",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 1 ", // author full name
+                    publisher: "Publisher 1", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQvl4MrtvCnxmU9xGdJZvXki5TSXz_aDJ0UpEPzpUz5GHdpIBKS",
+                        urlRouteArray: '/deep-dive'
                     },
-                    pageMax:this.pageMax,
-                    totalResults:teamResults.length,
-                    paginationParameters: {
-                        index: 1,
-                        max: 10,//default value will get changed in next function
-                        paginationType: 'module'
-                    }
-                }
-            ]
-        };
+                    //imagePathData: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQvl4MrtvCnxmU9xGdJZvXki5TSXz_aDJ0UpEPzpUz5GHdpIBKS",//for  >1 images in the carousel
+                    teaser: "teaser 1 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 1",//provider information
+                }, {
+                    isStockPhoto: false,
+                    articleId: 7,
+                    title: "Title of the article 7: orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 7",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 2", // author full name
+                    publisher: "Publisher 2", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",//for  >1 images in the carousel
+                    teaser: "teaser 2 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 2",//provider information
+                }, {
+                    isStockPhoto: false,
+                    articleId: 8,
+                    title: "Title of the article 8: orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 8",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 3 ", // author full name
+                    publisher: "Publisher 3", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSapwoNLnSIwdEf_8Z0atxkenYk7W_p3Nod2p6VDjKD5WQ8K4wj",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSapwoNLnSIwdEf_8Z0atxkenYk7W_p3Nod2p6VDjKD5WQ8K4wj",//for  >1 images in the carousel
+                    teaser: "teaser 3 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 3",//provider information
+                }, {
+                    isStockPhoto: false,
+                    articleId: 9,
+                    title: "Title of the article 9: orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 9",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 4 ", // author full name
+                    publisher: "Publisher 4", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",//for  >1 images in the carousel
+                    teaser: "teaser 4 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 4",//provider information
+                }, {
+                    isStockPhoto: false,
+                    articleId: 10,
+                    title: "Title of the article 10",
+                    keyword: "Keyword 10",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 5 ", // author full name
+                    publisher: "Publisher 5", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "http://media.caranddriver.com/images/media/51/25-cars-worth-waiting-for-lp-ford-gt-photo-658253-s-original.jpg",//for  >1 images in the carousel
+                    teaser: "teaser 5 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 5",//provider information
+                },
+                {
+                    isStockPhoto: false,
+                    articleId: 11,
+                    title: "Title of the article 11 : orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 11",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 1 ", // author full name
+                    publisher: "Publisher 1", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQvl4MrtvCnxmU9xGdJZvXki5TSXz_aDJ0UpEPzpUz5GHdpIBKS",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQvl4MrtvCnxmU9xGdJZvXki5TSXz_aDJ0UpEPzpUz5GHdpIBKS",//for  >1 images in the carousel
+                    teaser: "teaser 1 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 1",//provider information
+                }, {
+                    isStockPhoto: false,
+                    articleId: 12,
+                    title: "Title of the article 12: orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 12",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 2", // author full name
+                    publisher: "Publisher 2", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",//for  >1 images in the carousel
+                    teaser: "teaser 2 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 2",//provider information
+                }, {
+                    isStockPhoto: false,
+                    articleId: 13,
+                    title: "Title of the article 13: orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 13",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 3 ", // author full name
+                    publisher: "Publisher 3", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSapwoNLnSIwdEf_8Z0atxkenYk7W_p3Nod2p6VDjKD5WQ8K4wj",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSapwoNLnSIwdEf_8Z0atxkenYk7W_p3Nod2p6VDjKD5WQ8K4wj",//for  >1 images in the carousel
+                    teaser: "teaser 3 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 3",//provider information
+                }, {
+                    isStockPhoto: false,
+                    articleId: 14,
+                    title: "Title of the article 14: orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 14",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 4 ", // author full name
+                    publisher: "Publisher 4", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",//for  >1 images in the carousel
+                    teaser: "teaser 4 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 4",//provider information
+                }, {
+                    isStockPhoto: false,
+                    articleId: 15,
+                    title: "Title of the article 15",
+                    keyword: "Keyword 15",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 5 ", // author full name
+                    publisher: "Publisher 5", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "http://media.caranddriver.com/images/media/51/25-cars-worth-waiting-for-lp-ford-gt-photo-658253-s-original.jpg",//for  >1 images in the carousel
+                    teaser: "teaser 5 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 5",//provider information
+                },
+                {
+                    isStockPhoto: false,
+                    articleId: 16,
+                    title: "Title of the article 16 : orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 16",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 1 ", // author full name
+                    publisher: "Publisher 1", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQvl4MrtvCnxmU9xGdJZvXki5TSXz_aDJ0UpEPzpUz5GHdpIBKS",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQvl4MrtvCnxmU9xGdJZvXki5TSXz_aDJ0UpEPzpUz5GHdpIBKS",//for  >1 images in the carousel
+                    teaser: "teaser 1 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 1",//provider information
+                }, {
+                    isStockPhoto: false,
+                    articleId: 17,
+                    title: "Title of the article 17: orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 17",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 2", // author full name
+                    publisher: "Publisher 2", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",//for  >1 images in the carousel
+                    teaser: "teaser 2 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 2",//provider information
+                }, {
+                    isStockPhoto: false,
+                    articleId: 18,
+                    title: "Title of the article 18: orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 18",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 3 ", // author full name
+                    publisher: "Publisher 3", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSapwoNLnSIwdEf_8Z0atxkenYk7W_p3Nod2p6VDjKD5WQ8K4wj",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSapwoNLnSIwdEf_8Z0atxkenYk7W_p3Nod2p6VDjKD5WQ8K4wj",//for  >1 images in the carousel
+                    teaser: "teaser 3 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 3",//provider information
+                }, {
+                    isStockPhoto: false,
+                    articleId: 19,
+                    title: "Title of the article 19: orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 19",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 4 ", // author full name
+                    publisher: "Publisher 4", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",//for  >1 images in the carousel
+                    teaser: "teaser 4 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 4",//provider information
+                }, {
+                    isStockPhoto: false,
+                    articleId: 20,
+                    title: "Title of the article 20",
+                    keyword: "Keyword 20",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 5 ", // author full name
+                    publisher: "Publisher 5", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "http://media.caranddriver.com/images/media/51/25-cars-worth-waiting-for-lp-ford-gt-photo-658253-s-original.jpg",//for  >1 images in the carousel
+                    teaser: "teaser 5 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 5",//provider information
+                },
+                {
+                    isStockPhoto: false,
+                    articleId: 21,
+                    title: "Title of the article 21 : orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 21",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 1 ", // author full name
+                    publisher: "Publisher 1", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQvl4MrtvCnxmU9xGdJZvXki5TSXz_aDJ0UpEPzpUz5GHdpIBKS",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQvl4MrtvCnxmU9xGdJZvXki5TSXz_aDJ0UpEPzpUz5GHdpIBKS",//for  >1 images in the carousel
+                    teaser: "teaser 1 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 1",//provider information
+                }, {
+                    isStockPhoto: false,
+                    articleId: 22,
+                    title: "Title of the article 22: orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 22",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 2", // author full name
+                    publisher: "Publisher 2", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",//for  >1 images in the carousel
+                    teaser: "teaser 2 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 2",//provider information
+                }, {
+                    isStockPhoto: false,
+                    articleId: 23,
+                    title: "Title of the article 23: orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 23",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 3 ", // author full name
+                    publisher: "Publisher 3", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSapwoNLnSIwdEf_8Z0atxkenYk7W_p3Nod2p6VDjKD5WQ8K4wj",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSapwoNLnSIwdEf_8Z0atxkenYk7W_p3Nod2p6VDjKD5WQ8K4wj",//for  >1 images in the carousel
+                    teaser: "teaser 3 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 3",//provider information
+                }, {
+                    isStockPhoto: false,
+                    articleId: 24,
+                    title: "Title of the article 24: orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 24",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 4 ", // author full name
+                    publisher: "Publisher 4", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",//for  >1 images in the carousel
+                    teaser: "teaser 4 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 4",//provider information
+                }, {
+                    isStockPhoto: false,
+                    articleId: 25,
+                    title: "Title of the article 25",
+                    keyword: "Keyword 25",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 5 ", // author full name
+                    publisher: "Publisher 5", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "http://media.caranddriver.com/images/media/51/25-cars-worth-waiting-for-lp-ford-gt-photo-658253-s-original.jpg",//for  >1 images in the carousel
+                    teaser: "teaser 5 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 5",//provider information
+                },
+                {
+                    isStockPhoto: false,
+                    articleId: 26,
+                    title: "Title of the article 26 : orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 26",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 1 ", // author full name
+                    publisher: "Publisher 1", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQvl4MrtvCnxmU9xGdJZvXki5TSXz_aDJ0UpEPzpUz5GHdpIBKS",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQvl4MrtvCnxmU9xGdJZvXki5TSXz_aDJ0UpEPzpUz5GHdpIBKS",//for  >1 images in the carousel
+                    teaser: "teaser 1 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 1",//provider information
+                }, {
+                    isStockPhoto: false,
+                    articleId: 27,
+                    title: "Title of the article 27: orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 27",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 2", // author full name
+                    publisher: "Publisher 2", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",//for  >1 images in the carousel
+                    teaser: "teaser 2 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 2",//provider information
+                }, {
+                    isStockPhoto: false,
+                    articleId: 28,
+                    title: "Title of the article 28: orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 28",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 3 ", // author full name
+                    publisher: "Publisher 3", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSapwoNLnSIwdEf_8Z0atxkenYk7W_p3Nod2p6VDjKD5WQ8K4wj",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSapwoNLnSIwdEf_8Z0atxkenYk7W_p3Nod2p6VDjKD5WQ8K4wj",//for  >1 images in the carousel
+                    teaser: "teaser 3 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 3",//provider information
+                }, {
+                    isStockPhoto: false,
+                    articleId: 29,
+                    title: "Title of the article 29: orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 29",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 4 ", // author full name
+                    publisher: "Publisher 4", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",//for  >1 images in the carousel
+                    teaser: "teaser 4 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 4",//provider information
+                }, {
+                    isStockPhoto: false,
+                    articleId: 30,
+                    title: "Title of the article 30",
+                    keyword: "Keyword 30",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 5 ", // author full name
+                    publisher: "Publisher 5", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "http://media.caranddriver.com/images/media/51/25-cars-worth-waiting-for-lp-ford-gt-photo-658253-s-original.jpg",//for  >1 images in the carousel
+                    teaser: "teaser 5 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 5",//provider information
+                },
+                {
+                    isStockPhoto: false,
+                    articleId: 31,
+                    title: "Title of the article 31 : orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 31",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 1 ", // author full name
+                    publisher: "Publisher 1", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQvl4MrtvCnxmU9xGdJZvXki5TSXz_aDJ0UpEPzpUz5GHdpIBKS",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQvl4MrtvCnxmU9xGdJZvXki5TSXz_aDJ0UpEPzpUz5GHdpIBKS",//for  >1 images in the carousel
+                    teaser: "teaser 1 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 1",//provider information
+                }, {
+                    isStockPhoto: false,
+                    articleId: 32,
+                    title: "Title of the article 32: orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 32",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 2", // author full name
+                    publisher: "Publisher 2", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",//for  >1 images in the carousel
+                    teaser: "teaser 2 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 2",//provider information
+                }, {
+                    isStockPhoto: false,
+                    articleId: 33,
+                    title: "Title of the article 33: orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 33",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 3 ", // author full name
+                    publisher: "Publisher 3", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSapwoNLnSIwdEf_8Z0atxkenYk7W_p3Nod2p6VDjKD5WQ8K4wj",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSapwoNLnSIwdEf_8Z0atxkenYk7W_p3Nod2p6VDjKD5WQ8K4wj",//for  >1 images in the carousel
+                    teaser: "teaser 3 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 3",//provider information
+                }, {
+                    isStockPhoto: false,
+                    articleId: 34,
+                    title: "Title of the article 34: orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 34",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 4 ", // author full name
+                    publisher: "Publisher 4", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",//for  >1 images in the carousel
+                    teaser: "teaser 4 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 4",//provider information
+                }, {
+                    isStockPhoto: false,
+                    articleId: 35,
+                    title: "Title of the article 35",
+                    keyword: "Keyword 35",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 5 ", // author full name
+                    publisher: "Publisher 5", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "http://media.caranddriver.com/images/media/51/25-cars-worth-waiting-for-lp-ford-gt-photo-658253-s-original.jpg",//for  >1 images in the carousel
+                    teaser: "teaser 5 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 5",//provider information
+                },
+                {
+                    isStockPhoto: false,
+                    articleId: 36,
+                    title: "Title of the article 36 : orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 36",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 1 ", // author full name
+                    publisher: "Publisher 1", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQvl4MrtvCnxmU9xGdJZvXki5TSXz_aDJ0UpEPzpUz5GHdpIBKS",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQvl4MrtvCnxmU9xGdJZvXki5TSXz_aDJ0UpEPzpUz5GHdpIBKS",//for  >1 images in the carousel
+                    teaser: "teaser 1 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 1",//provider information
+                }, {
+                    isStockPhoto: false,
+                    articleId: 37,
+                    title: "Title of the article 37: orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 37",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 2", // author full name
+                    publisher: "Publisher 2", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",//for  >1 images in the carousel
+                    teaser: "teaser 2 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 2",//provider information
+                }, {
+                    isStockPhoto: false,
+                    articleId: 38,
+                    title: "Title of the article 38: orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 38",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 3 ", // author full name
+                    publisher: "Publisher 3", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSapwoNLnSIwdEf_8Z0atxkenYk7W_p3Nod2p6VDjKD5WQ8K4wj",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSapwoNLnSIwdEf_8Z0atxkenYk7W_p3Nod2p6VDjKD5WQ8K4wj",//for  >1 images in the carousel
+                    teaser: "teaser 3 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 3",//provider information
+                }, {
+                    isStockPhoto: false,
+                    articleId: 39,
+                    title: "Title of the article 39: orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 39",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 4 ", // author full name
+                    publisher: "Publisher 4", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",//for  >1 images in the carousel
+                    teaser: "teaser 4 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 4",//provider information
+                }, {
+                    isStockPhoto: false,
+                    articleId: 40,
+                    title: "Title of the article 40",
+                    keyword: "Keyword 40",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 5 ", // author full name
+                    publisher: "Publisher 5", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "http://media.caranddriver.com/images/media/51/25-cars-worth-waiting-for-lp-ford-gt-photo-658253-s-original.jpg",//for  >1 images in the carousel
+                    teaser: "teaser 5 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 5",//provider information
+                },
+                {
+                    isStockPhoto: false,
+                    articleId: 41,
+                    title: "Title of the article 41 : orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 41",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 1 ", // author full name
+                    publisher: "Publisher 1", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQvl4MrtvCnxmU9xGdJZvXki5TSXz_aDJ0UpEPzpUz5GHdpIBKS",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQvl4MrtvCnxmU9xGdJZvXki5TSXz_aDJ0UpEPzpUz5GHdpIBKS",//for  >1 images in the carousel
+                    teaser: "teaser 1 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 1",//provider information
+                }, {
+                    isStockPhoto: false,
+                    articleId: 42,
+                    title: "Title of the article 42: orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 42",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 2", // author full name
+                    publisher: "Publisher 2", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",//for  >1 images in the carousel
+                    teaser: "teaser 2 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 2",//provider information
+                }, {
+                    isStockPhoto: false,
+                    articleId: 43,
+                    title: "Title of the article 43: orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 43",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 3 ", // author full name
+                    publisher: "Publisher 3", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSapwoNLnSIwdEf_8Z0atxkenYk7W_p3Nod2p6VDjKD5WQ8K4wj",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSapwoNLnSIwdEf_8Z0atxkenYk7W_p3Nod2p6VDjKD5WQ8K4wj",//for  >1 images in the carousel
+                    teaser: "teaser 3 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 3",//provider information
+                }, {
+                    isStockPhoto: false,
+                    articleId: 44,
+                    title: "Title of the article 44: orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 44",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 4 ", // author full name
+                    publisher: "Publisher 4", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",//for  >1 images in the carousel
+                    teaser: "teaser 4 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 4",//provider information
+                }, {
+                    isStockPhoto: false,
+                    articleId: 45,
+                    title: "Title of the article 45",
+                    keyword: "Keyword 45",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 5 ", // author full name
+                    publisher: "Publisher 5", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "http://www.thesupercars.org/wp-content/uploads/2011/04/2011-Porsche-Panamera-Individualization-Programme-white.jpg",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "http://media.caranddriver.com/images/media/51/25-cars-worth-waiting-for-lp-ford-gt-photo-658253-s-original.jpg",//for  >1 images in the carousel
+                    teaser: "teaser 5 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 5",//provider information
+                },
+                {
+                    isStockPhoto: false,
+                    articleId: 46,
+                    title: "Title of the article 46 : orem Ipsum is simply dummy text of the printing and typesetting industry",
+                    keyword: "Keyword 46",
+                    publishedDate: "sept 29 2016", // unix time in millisecond
+                    author: "Author 1 ", // author full name
+                    publisher: "Publisher 1", // publisher full name
+                    imagePathData: {
+                        imageClass: "embed-responsive-16by9",
+                        imageUrl: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQvl4MrtvCnxmU9xGdJZvXki5TSXz_aDJ0UpEPzpUz5GHdpIBKS",
+                        urlRouteArray: '/deep-dive'
+                    },
+                    //imagePathData: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQvl4MrtvCnxmU9xGdJZvXki5TSXz_aDJ0UpEPzpUz5GHdpIBKS",//for  >1 images in the carousel
+                    teaser: "teaser 1 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,", //description
+                    articleUrl: "", // link of the article source
+                    provider: "Provider 1",//provider information
+                },
 
-        let setTabDefault = searchPageInput.tabData
-        var objCounter = 0;
-        var objData1 = [];
+            ].splice(startElem,10);
 
-        playerResults.forEach(function(item){
-            let playerName = item.playerName;
-            let title = GlobalFunctions.convertToPossessive(playerName) + " Player Profile";
-            //TODO: use router functions to get URL
-            // let urlText = 'http://www.homerunloyal.com/';
-            // urlText += '<span class="text-heavy">player/' + GlobalFunctions.toLowerKebab(item.teamName) + '/' + GlobalFunctions.toLowerKebab(playerName) + '/' + item.playerId + '</span>';
-            let route = VerticalGlobalFunctions.formatPlayerRoute(item.teamName, playerName, item.playerId);
-            // if(partnerScope.isPartner && item.scope != null){
-            //   route.unshift(self.getRelativePath(router)+'Partner-home',{scope:item.scope,partnerId:partnerScope.partnerName});
-            // }else{
-            //   route.unshift(self.getRelativePath(router)+'Default-home',{scope:item.scope});
-            // }
-            // let relativePath = router.generate(route).toUrlPath();
-            // if ( relativePath.length > 0 && relativePath.charAt(0) == '/' ) {
-            //     relativePath = item.scope+ '/' + relativePath.substr(1);
-            // }
-            let urlText = '<p>' + GlobalSettings.getHomePage(partnerId, false) + '/<b>' + "relativePath" + '</b></p>';
-            let regExp = new RegExp(playerName, 'g');
-            let description = item.playerDescription.replace(regExp, ('<span class="text-heavy">' + playerName + '</span>'));
-
-            if(typeof objData1[objCounter] == 'undefined' || objData1[objCounter] === null){//create paginated objData.  if objData array does not exist then create new obj array
-              objData1[objCounter] = [];
-              objData1[objCounter].push({
-                  title: title,
-                  urlText: urlText,
-                  url: route,
-                  description: description
-              })
-            }else{// otherwise push in data
-              objData1[objCounter].push({
-                  title: title,
-                  urlText: urlText,
-                  url: route,
-                  description: description
-              })
-              if(objData1[objCounter].length >= self.pageMax){// increment the objCounter to go to next array
-                objCounter++;
-              }
-            }
-        });
-        searchPageInput.tabData[0].results = objData1;
-        searchPageInput.tabData[0].paginationParameters.max = searchPageInput.tabData[0].results.length;
-
-        var objCounter = 0;
-        var objData2 = [];
-
-        teamResults.forEach(function(item){
-            let teamName = item.teamName;
-            let title = GlobalFunctions.convertToPossessive(teamName) + " Team Profile";
-            //TODO: use router functions to get URL
-            // let urlText = 'http://www.homerunloyal.com/';
-            // urlText += '<span class="text-heavy">team/' + GlobalFunctions.toLowerKebab(teamName) + '/' + item.teamId;
-            let route = VerticalGlobalFunctions.formatTeamRoute(teamName, item.teamId);
-            // if(partnerScope.isPartner && item.scope != null){
-            //   route.unshift(self.getRelativePath(router)+'Partner-home',{scope:item.scope,partnerId:partnerScope.partnerName});
-            // }else{
-            //   route.unshift(self.getRelativePath(router)+'Default-home',{scope:item.scope});
-            // }
-            // let relativePath = router.generate(route).toUrlPath();
-            // if ( relativePath.length > 0 && relativePath.charAt(0) == '/' ) {
-            //     relativePath = item.scope + '/' + relativePath.substr(1);
-            // }
-            let urlText = GlobalSettings.getHomePage(partnerId, false) + '/<span class="text-heavy">' + "relativePath" + '</span>';
-            let regExp = new RegExp(teamName, 'g');
-            let description = item.teamDescription.replace(regExp, ('<span class="text-heavy">' + teamName + '</span>'));
-
-            if(typeof objData2[objCounter] == 'undefined' || objData2[objCounter] === null){//create paginated objData.  if objData array does not exist then create new obj array
-              objData2[objCounter] = [];
-              objData2[objCounter].push({
-                  title: title,
-                  urlText: urlText,
-                  url: route,
-                  description: description
-              })
-            }else{// otherwise push in data
-              objData2[objCounter].push({
-                  title: title,
-                  urlText: urlText,
-                  url: route,
-                  description: description
-              })
-              if(objData2[objCounter].length >= self.pageMax){// increment the objCounter to go to next array
-                objCounter++;
-              }
-            }
-        });
-
-        searchPageInput.tabData[1].results = objData2;
-        searchPageInput.tabData[1].paginationParameters.max = searchPageInput.tabData[1].results.length;
-        return searchPageInput;
     }
 
-    /*
-     *  Search Functions used by both component and page
-     */
-     static _orderByComparatorPlayer(a:any, b:any):number{
-       if ((a.score - b.score) == 0){
-         if (a.item.playerName.toLowerCase() > b.item.playerName.toLowerCase()){return 1;} else {return -1;}
-       }
-       else {
-         return a.score - b.score;
-       }
-     }
-     static _orderByComparatorTeam(a:any, b:any):number{
-       if ((a.score - b.score) == 0){
-         if (a.item.teamName.toLowerCase() > b.item.teamName.toLowerCase()){return 1;} else {return -1;}
-       }
-       else {
-         return a.score - b.score;
-       }
-     }
-    //Function to search through players. Outputs array of players that match criteria
-    searchPlayers(term, scope, data){
-      let fuse = new Fuse(data, {
-          //Fields the search is based on
-          keys: [{
-            name: 'playerFirstName',
-            weight: 0.5
-          }, {
-            name: 'playerLastName',
-            weight: 0.3
-          }, {
-              name: 'playerName',
-              weight: 0.2
-          }],
-          //At what point does the match algorithm give up. A threshold of 0.0 requires a perfect match (of both letters and location),
-          // a threshold of 1.0 would match anything.
-          threshold: 0.1,
-          distance: 10,
-          tokenize: false,
-          sortFn: SearchService._orderByComparatorPlayer
-      });
-      return fuse.search(term);
-    }
 
-    //Function to search through teams. Outputs array of teams that match criteria
-    searchTeams(term, scope, data){
-      let fuse = new Fuse(data, {
-          //Fields the search is based on
-          keys: ['teamName'],
-          //At what point does the match algorithm give up. A threshold of 0.0 requires a perfect match (of both letters and location), a threshold of 1.0 would match anything.
-          threshold: 0.2,
-          shouldSort: true,
-          sortFn: SearchService._orderByComparatorTeam
-      });
-      return fuse.search(term);
-    }
 
-    // getRelativePath(router:Router){
-    //   let counter = 0;
-    //   let hasParent = true;
-    //   let route = router;
-    //   for (var i = 0; hasParent == true; i++){
-    //     if(route.parent != null){
-    //       counter++;
-    //       route = route.parent;
-    //     }else{
-    //       hasParent = false;
-    //       let relPath = '';
-    //       for(var c = 1 ; c <= counter; c++){
-    //         relPath += '../';
-    //       }
-    //       return relPath;
-    //     }
-    //   }
-    // }
 
 }

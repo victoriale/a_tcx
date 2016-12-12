@@ -1,69 +1,67 @@
 <header class="header container-fluid" id="pageHeader" (window:scroll)="onScrollStick($event)" [class.fixedHeader]="scrollUp">
-  <div id="partner" *ngIf="partnerID && partnerScript" [innerHTML]="partnerScript | safeHtml"></div>
-  <section class="header-top" [class.header-partner]="partnerID">
-    <div *ngIf="!partnerID" class="header-logo">
-      <a *ngIf="logoUrl" [routerLink]="homeUrl"><img src={{logoUrl}}></a>
-    </div>
-    <div *ngIf="partnerID" class="header-logo">
-      <a *ngIf="partnerLogoUrl" [routerLink]="homeUrl"><img src={{partnerLogoUrl}}></a>
-    </div>
-    <div class="header-left">
-    </div>
-    <div class="header-right">
-      <div class="header-share st_sharethis_large"><i class="fa fa-share-alt"></i></div>
-    </div>
-  </section>
-
-  <section class="header-bottom" id="header-bottom" [class.header-partner]="partnerID">
-    <div class="header-container">
-    <div class="header-left">
-      <!-- <div class="header-hamburger" tabindex="999"> -->
-      <!-- menucheck class is for the document click funtion to determine to close it when in view -->
-      <div class="header-hamburger menucheck" (click)="getMenu($event)">
-        <i class="fa fa-bars menucheck" *ngIf="!isOpened"></i>
-        <span class="remove menucheck" *ngIf="isOpened"><img src="app/public/icon-x.svg"></span>
-        <span class="header-hamburger-title menucheck">MENU</span>
-        <div class="parallelogram menucheck" [class.menuOpened]="isOpened"></div>
-        <div *ngIf="isOpened" class="header-hamburger-dropDown">
-          <hamburger-menu-component ></hamburger-menu-component>
+    <div id="partner" *ngIf="partnerID && partnerScript" [innerHTML]="partnerScript | safeHtml"></div>
+    <section class="header-top" [class.header-partner]="partnerID">
+        <div *ngIf="!partnerID" class="header-logo">
+            <a *ngIf="logoUrl" [routerLink]="homeUrl"><img src={{logoUrl}}></a>
         </div>
-      </div>
-
-      <div class="main-links" *ngIf="headerLinks">
-        <div *ngFor="let menuData of headerLinks">
-          <a routerLink="{{menuData.url}}">
-            {{menuData.menuTitle}}
-          </a>
+        <div *ngIf="partnerID" class="header-logo">
+            <a *ngIf="partnerLogoUrl" [routerLink]="homeUrl"><img src={{partnerLogoUrl}}></a>
         </div>
-      </div>
-
-    </div>
-    <div class="header-right">
-      <div *ngIf="breakingHeadLines" class="breaking-parallelogram">
-        <div class="breaking-title">BREAKING</div>
-        <div class="breaking-scroller">
-          <div class="breaking-fader"></div>
-          <div class="breaking-text">
-            <!-- placeholder text please remove -->
-            <a *ngFor="let item of breakingHeadLines;" [routerLink]="item.articleUrl"><span [innerHTML]="item.title | safeHtml"></span>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</a>
-          </div>
+        <div class="header-left">
         </div>
-      </div>
-      <div class="header-search searchcheck" [class.active]="isSearchOpened">
-        <div class="header-search-searchBtn searchcheck" [class.active]="isSearchOpened" (keydown)="searchKeydown($event)" (click)="openSearch($event)">
-          <i class="fa fa-search searchcheck" *ngIf="!isSearchOpened"></i>
-          <div class="remove searchcheck" *ngIf="isSearchOpened"><img src="app/public/icon-x.svg"></div>
-          <div class="parallelogram searchcheck" [class.searchOpened]="isSearchOpened"></div>
+        <div class="header-right">
+            <div class="header-share st_sharethis_large"><i class="fa fa-share-alt"></i></div>
         </div>
-        <!--<div class="header-search-searchBox searchcheck">
-          <search [searchInput]="searchInput"></search>
-        </div>-->
-      </div>
-    </div>
-    </div>
-  </section>
+    </section>
+    <section class="header-bottom" id="header-bottom" [class.header-partner]="partnerID">
+        <div class="header-bottom-style row">
+            <div class="header-left col-xs-6 col-md-10 col-lg-8 col-xl-6">
+                <!-- <div class="header-hamburger" tabindex="999"> -->
+                <!-- menucheck class is for the document click funtion to determine to close it when in view -->
+                <div class="header-hamburger menucheck" (click)="getMenu($event)">
+                    <i class="fa fa-bars menucheck" *ngIf="!isOpened"></i>
+                    <span class="remove menucheck" *ngIf="isOpened"><img src="app/public/icon-x.svg"></span>
+                    <span class="header-hamburger-title menucheck">MENU</span>
+                    <div class="parallelogram menucheck" [class.menuOpened]="isOpened"></div>
+                    <div *ngIf="isOpened" class="header-hamburger-dropDown">
+                        <hamburger-menu-component></hamburger-menu-component>
+                    </div>
+                </div>
 
-  <!-- <div id="salad-bar-top" class="fixedHeader" [style.top]="_stickyHeader">
-    <div id="salad-bar"></div>
-  </div> -->
+                <div class="main-links" *ngIf="headerLinks">
+                    <div *ngFor="let menuData of headerLinks">
+                        <a routerLink="{{menuData.url}}">
+                            {{menuData.menuTitle}}
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="header-right col-xs-6 col-md-2 col-lg-4 col-xl-6">
+                <div *ngIf="breakingHeadLines" class="breaking-parallelogram">
+                    <div class="breaking-title">BREAKING</div>
+                    <div class="breaking-scroller">
+                        <div class="breaking-fader"></div>
+                        <div class="breaking-text">
+                            <!-- placeholder text please remove -->
+                            <a *ngFor="let item of breakingHeadLines;" [routerLink]="item.articleUrl"><span [innerHTML]="item.title | safeHtml"></span>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-search searchcheck" [class.active]="isSearchOpened">
+                    <div class="header-search-searchBtn searchcheck" [class.active]="isSearchOpened" (keydown)="searchKeydown($event)" (click)="openSearch($event)">
+                        <i class="fa fa-search searchcheck" *ngIf="!isSearchOpened"></i>
+                        <div class="remove searchcheck" *ngIf="isSearchOpened"><img src="app/public/icon-x.svg"></div>
+                        <div class="parallelogram searchcheck" [class.searchOpened]="isSearchOpened"></div>
+                    </div>
+                    <div class="header-search-searchBox searchcheck">
+                        <search [searchInput]="searchInput"></search>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- <div id="salad-bar-top" class="fixedHeader" [style.top]="_stickyHeader">
+      <div id="salad-bar"></div>
+    </div> -->
 </header>

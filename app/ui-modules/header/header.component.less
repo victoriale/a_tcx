@@ -37,26 +37,23 @@
     .flexJustify(space-between);
   }//header-top ends
   &-container{
-   display: inline-flex;
+    display: inline-flex;
     @media @tablet{
       width:100%;
       max-width:1280px;
+
     }
     @media @desktop-l {
       width: 1280px;
-
     }
   }
   &-bottom {
-    @media @mobile{
-      .flexJustify(space-between);
-    }
     //max-width: 1280px;
     background-color:@textEmphasisGrey;
     margin:0 auto;
     width:100%;
     .flexDisplay;
-    .flexJustify(center);
+    .flexJustify(space-between);
   }
   &-partner {
     background-color: @textEmphasisGrey;

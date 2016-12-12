@@ -2,6 +2,7 @@
   position:fixed !important;
   top:0 !important;
   z-index: 9999 !important;
+  width:100%;
 }
 
 .placeholderImg{
@@ -36,7 +37,20 @@
     .flexDisplay;
     .flexJustify(space-between);
   }//header-top ends
+  &-container{
+    @media @desktop-m{
+      max-width:1280px;
+      display: inline-flex;
+    }
+    @media @desktop-l {
+      width: 1280px;
+      display: inline-flex;
+    }
+  }
   &-bottom {
+    //max-width: 1280px;
+    background-color:@textEmphasisGrey;
+    margin:0 auto;
     width:100%;
     .flexDisplay;
     .flexJustify(space-between);
@@ -52,6 +66,7 @@
   }
   &-left{
     max-width: 320px;
+    margin-right: 25px;
     .flexDisplay;
     .flexJustify(space-between);
     .main-links {
@@ -86,6 +101,7 @@
     height: 35px;
     cursor: pointer;
     position: relative;
+
     .globalDefaultModFont(20px, 400, @white);
     .flexDisplay;
     .flexDirection(column);

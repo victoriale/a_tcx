@@ -13,7 +13,9 @@
       <div class="header-share st_sharethis_large"><i class="fa fa-share-alt"></i></div>
     </div>
   </section>
+
   <section class="header-bottom" id="header-bottom" [class.header-partner]="partnerID">
+    <div class="header-container">
     <div class="header-left">
       <!-- <div class="header-hamburger" tabindex="999"> -->
       <!-- menucheck class is for the document click funtion to determine to close it when in view -->
@@ -54,11 +56,13 @@
           <div class="parallelogram searchcheck" [class.searchOpened]="isSearchOpened"></div>
         </div>
         <div class="header-search-searchBox searchcheck">
-           <search [searchInput]="searchInput"></search>
+          <search [searchInput]="searchInput"></search>
         </div>
       </div>
     </div>
+    </div>
   </section>
+
   <!-- <div id="salad-bar-top" class="fixedHeader" [style.top]="_stickyHeader">
     <div id="salad-bar"></div>
   </div> -->

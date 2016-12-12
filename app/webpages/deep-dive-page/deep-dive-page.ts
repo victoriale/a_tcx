@@ -116,14 +116,15 @@ export class DeepDivePage implements OnInit {
     private addMetaTags(){
         let metaDesc = GlobalSettings.getPageTitle('Dive into the most recent news about your favorite sports, movies and read the latest articles on politics, business, travel etc.', 'Deep Dive');
         let link = window.location.href;
-
+        let title = this.scope != "all" ? GlobalSettings.getTCXscope(this.scope).displayName : "Home";
+        title += " Deep Dive";
         this._seo.setCanonicalLink(link);
         this.scope=="all"?this._seo.setOgTitle('TCX Deep Dive'): this._seo.setOgTitle(this.scope);
         this._seo.setOgDesc(metaDesc);
         this._seo.setOgType('Website');
         this._seo.setOgUrl(link);
         this._seo.setOgImage('/app/public/mainLogo.png');
-        this._seo.setTitle(this.scope + ' Deep Dive | TCX');
+        this._seo.setTitle(title);
         this._seo.setMetaDescription(metaDesc);
         this._seo.setMetaRobots('INDEX, FOLLOW');
 

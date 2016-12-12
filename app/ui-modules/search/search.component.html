@@ -1,9 +1,8 @@
 <div *ngIf="searchInput" class="search-large searchcheck">
     <form (ngSubmit)="onSubmit()">
         <div class="search-input-container">
-
             <input class="search-input autocomplete" disabled [value]="autoCompleteText" />
-            <input class="search-input main searchcheck" [formControl]="term" [class.search-empty]="!hasInputText" (keydown)="searchKeydown($event)"  autocomplete="off" placeholder="{{searchInput.placeholderText}}" />
+            <input class="search-input main searchcheck" [formControl]="term" [class.search-empty]="!hasInputText" (keydown)="searchKeydown($event)" autocomplete="off" placeholder="{{searchInput.placeholderText}}" />
         </div>
         <button type="submit" class="search-button searchcheck">
             <i class="fa fa-search"></i>

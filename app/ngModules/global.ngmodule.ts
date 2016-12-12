@@ -55,7 +55,7 @@ import { WidgetModule } from "../ui-modules/widget/widget.module";
 /*** WEBPAGES ***/
 import { AboutUsPage } from "../webpages/aboutus/aboutus";
 import { PrivacyPolicy } from "../webpages/privacy-policy/privacy-policy";
-import { TermOfService } from "../webpages/term-of-service/term-of-service";
+import { TermsOfService } from "../webpages/terms-of-service/terms-of-service";
 
 //Pipes
 import {SanitizeScript, SanitizeHtml, SanitizeRUrl, SanitizeStyle, SanitizeUrl} from "../fe-core/pipes/safe.pipe";
@@ -113,7 +113,7 @@ import { SearchService } from "../services/search.service";
       BillboardModule,
       AboutUsPage,
       PrivacyPolicy,
-      TermOfService,
+      TermsOfService,
       InfoComponent,
       ChatterboxModule,
       ResponsiveWidget,
@@ -160,7 +160,7 @@ import { SearchService } from "../services/search.service";
       BillboardModule,
       AboutUsPage,
       PrivacyPolicy,
-      TermOfService,
+      TermsOfService,
       InfoComponent,
       ChatterboxModule,
       ResponsiveWidget,

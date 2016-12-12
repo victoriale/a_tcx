@@ -241,7 +241,6 @@ export class SchedulesService {
         var headers = this.setToken();
         // var callURL = GlobalSettings.getVerticalEnv('-tcxmedia-api.synapsys.us') + "/sidescroll/weather/" + selectedLocation + "/" + scope.toLowerCase();
         var callURL = GlobalSettings.getTCXscope('weather').verticalApi + "/tcx/sidescroll/weather/" + selectedLocation + "/" + scope.toLowerCase();
-
         //optional week parameters
         return this.http.get(callURL, { headers: headers })
             .map(res => res.json())
@@ -532,7 +531,7 @@ export class SchedulesService {
         //Configure HTTP Headers
         var headers = this.setToken();
         //var callURL = GlobalSettings.getVerticalEnv('-tcxmedia-api.synapsys.us') + "/sidescroll/weather/availableLocations/" + query;
-        var callURL = GlobalSettings.getTCXscope('weather').verticalApi + "/sidescroll/weather/availableLocations/" + query;
+        var callURL = GlobalSettings.getTCXscope('weather').verticalApi + "/tcx/sidescroll/weather/availableLocations/" + query;
         //optional week parameters
         return this.http.get(callURL, { headers: headers })
             .map(res => res.json())

@@ -36,24 +36,16 @@
     .flexDisplay;
     .flexJustify(space-between);
   }//header-top ends
-  &-container{
-    display: inline-flex;
-    @media @tablet{
-      width:100%;
-      max-width:1280px;
-
-    }
-    @media @desktop-l {
-      width: 1280px;
-    }
-  }
   &-bottom {
-    //max-width: 1280px;
-    background-color:@textEmphasisGrey;
-    margin:0 auto;
     width:100%;
     .flexDisplay;
     .flexJustify(space-between);
+    &-style{
+      max-width: 1280px;
+      margin: 0 auto;
+      width: 100%;
+      .flexDisplay;
+    }
   }
   &-partner {
     background-color: @textEmphasisGrey;
@@ -244,7 +236,7 @@
         -webkit-animation-play-state: paused;
         -moz-animation-play-state: paused;
         -o-animation-play-state: paused;
-        animation-play-state: paused;
+         animation-play-state: paused;
       }
     }
   }
@@ -406,12 +398,12 @@
       background-color: darken(@masterBrandColor, 10%);
     }
     span:first-child{
-      display: none;
+        display: none;
     }
 
   }//header-share ends
   .st_sharethis_large{
-    display:flex;
+      display:flex;
     span:first-child{
       span:first-child{
         height: 65px;
@@ -470,8 +462,8 @@
       height: 35px;
       .flexJustify(center);
       &-searchBtn{
-        display: none;
-      }
+       display: none;
+     }
       &-searchBox{
         display: block;
       }

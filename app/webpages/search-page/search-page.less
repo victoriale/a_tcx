@@ -3,6 +3,7 @@
   height: auto;
   min-width: 320px;
   margin: 0;
+  overflow: hidden;
   .dropdown-list{
     top: 32px;
   }
@@ -48,7 +49,7 @@
         margin-right: 15px;
         .globalDefaultModFont(25px, 400, @white);
       }
-    }s
+    }
     .search-large{
       position: relative;
       top: -1px;
@@ -111,17 +112,9 @@
     max-width: 1280px;
   }
   .search-widget{
-    display:none;
-    @media @tablet{
-      display:none;
-    }
-    @media @desktop-l{
-      display: block;
-      position: relative;
-      width: 300px;
-      height: 600px;
-      margin-top: 4%;
-    }
+    @media @mobile{display:none}
+    @media @tablet{display:none}
+    @media @desktop-l{display:block;padding-left:8px;margin-top: 12px}
   }
   .dropdown-list-scroll .scrollable-item .dropdown-list-option{
     width:80%;
@@ -141,7 +134,5 @@
       width:600px
     }
   }
-  .widget-top, .widget-top-ddp{
-    margin-top: 25%;
-  }
+
 }

@@ -68,69 +68,68 @@
   .carousel-modal-exit{
     background-color: transparent;
   }
- @media @mobile{
+  @media @mobile{
 
-   .trending-small-article-img img{
-     height: 100%;
+    .trending-small-article-img img{
+      height:100%;
+    }
+    .carousel-modal-exit{
+      right: 0;
+      font-size: 22px;
+      z-index: 1;
+    }
+    .carousel-modal{
 
-   }
-   .carousel-modal-exit{
-     right: 0;
-     font-size: 22px;
-     z-index: 1;
-   }
-   .carousel-modal{
+      background-color:rgba(0, 0, 0, 0.8);
+    }
+    .carousel-modal-grey-bar{
+      background-color: transparent;
+      padding: 0;
+      &-title{
+        display: inline-flex;
+      }
 
-     background-color:rgba(0, 0, 0, 0.8);
-   }
-   .carousel-modal-grey-bar{
-     background-color: transparent;
-     padding: 0;
-     &-title{
-       display: inline-flex;
-     }
-
-   }
-   .carousel-modal{
-     .circles{
-       top: -50px;
+    }
+    .carousel-modal{
+      .circles{
+        top: -50px;
         background-color:transparent;
-       font-size: 45px;
-     }
-     .circles-right{
-       left:80px;
-     }
-   }
-   .circles{
-     border:none;
-     background-color: @masterBrandColor;
-   }
-   .arpt-info .arpt-author{
-     margin-bottom: 3px;
-   }
-   .arpt-info .arpt-date{
-     text-align:left;
-     float:left;
-     margin-top:0;
-     margin-bottom: 10px;
-   }
-   .expand-button{
-     width:25px;
-     height:25px;
-     font-size: 12px;
-     padding-top: 6px;
-     padding-left: 6px;
-     background-color: rgba(0, 0, 0, 0.65);
-   }
-   .articleBlock {
-     .video-stack {
-       .video-title-top{
-         padding: 0 10px;
-       }
+        font-size: 45px;
+      }
+      .circles-right{
+        left:80px;
+      }
+    }
+    .circles{
+      border:none;
+      background-color: @masterBrandColor;
+    }
+    .arpt-info .arpt-author{
+      margin-bottom: 3px;
+    }
+    .arpt-info .arpt-date{
+      text-align:left;
+      float:left;
+      margin-top:0;
+      margin-bottom: 10px;
+    }
+    .expand-button{
+      width:25px;
+      height:25px;
+      font-size: 12px;
+      padding-top: 6px;
+      padding-left: 6px;
+      background-color: rgba(0, 0, 0, 0.65);
+    }
+    .articleBlock {
+      .video-stack {
+        .video-title-top{
+          padding: 0 10px;
+        }
 
-     }
-   }
- }
+      }
+    }
+  }
   @media @tablet {
     .carousel-modal-exit{
       z-index: 1;

@@ -54,12 +54,6 @@
     width:100%;
     .flexDisplay;
     .flexJustify(space-between);
-    &-style{
-      max-width: 1280px;
-      margin: 0 auto;
-      width: 100%;
-      .flexDisplay;
-    }
   }
   &-partner {
     background-color: @textEmphasisGrey;
@@ -71,12 +65,10 @@
     }
   }
   &-left{
-<<<<<<< HEAD
     max-width: 320px;
     margin-right: 25px;
-=======
->>>>>>> develop
     .flexDisplay;
+    .flexJustify(space-between);
     .main-links {
       height: 35px;
       overflow: hidden;
@@ -173,11 +165,10 @@
   }//header-hamburger ends
   &-logo{
     position: absolute;
-    width: 100%;
-    height: 100%;
+    left: ~"calc(50% - 70px)";
+    top: 10px;
     .flexDisplay;
     .flexAlignItems(center);
-    .flexJustify(center);
     img{
       width: 140px;
       height: 25px;
@@ -185,14 +176,13 @@
   }
   &-right{
     .flexDisplay;
-    .flexJustify(flex-end);
     .breaking-parallelogram {
       display: none;
       margin-right:10px;
-      width: 415px;
+      width: 395px;
       height: 35px;
       border: none;
-      background: @fontIconGrey;
+      background: #444444;
       -webkit-transform:    skewX(-25deg);
       transform:    skewX(-25deg);
       z-index: 0;
@@ -280,7 +270,7 @@
       width: 55px;
       height: 35px;
       border: none;
-      background: @fontIconGrey;
+      background: #444444;
       -webkit-transform:    skewX(-25deg);
       transform:    skewX(-25deg);
       z-index: 0;
@@ -295,11 +285,11 @@
       height: 55px;
       top: 35px;
       @media @mobile {
-        background-color: @fontIconGrey;
+        background-color: #444444;
         width:100vw;
       }
       @media @tablet {
-        background-color: @fontIconGrey;
+        background-color: #444444;
       }
       @media @desktop-m {
         background-color: @textEmphasisGrey;
@@ -444,14 +434,16 @@
   }
 }
 @media @tablet{
-  // .header-left {
-  //   max-width: 640px;
-  // }
+  .header-left {
+    max-width: 655px;
+  }
   .header{
     &-top{
       height: 45px;
     }
     &-logo{
+      left: ~"calc(50% - 70px)";
+      top: 10px;
       img{
         width: 140px;
         height: 25px;
@@ -482,8 +474,8 @@
       height: 35px;
       .flexJustify(center);
       &-searchBtn{
-       display: none;
-     }
+        display: none;
+      }
       &-searchBox{
         display: block;
       }

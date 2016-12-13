@@ -4,8 +4,14 @@
   min-width: 320px;
   margin: 0;
   overflow: hidden;
+  .droptitle{
+    width:300px;
+    right: 90px;
+  }
   .dropdown-list{
+    width: 300px;
     top: 32px;
+    right: -10px;
   }
   .dropdown-caret-top{
 
@@ -117,10 +123,10 @@
     @media @desktop-l{display:block;padding-left:8px;margin-top: 12px}
   }
   .dropdown-list-scroll .scrollable-item .dropdown-list-option{
-    width:80%;
+    width:257px;
     margin-left: 5px;
     @media @mobile{
-      width: 69%;
+      width:257px;
     }
   }
   .search-large .search-dropdown-title{
@@ -133,6 +139,11 @@
     @media @tablet{
       width:600px
     }
+  }
+
+  .widget-top, .widget-top-ddp{
+    position: absolute;
+    margin-top: 36px;
   }
 
 }

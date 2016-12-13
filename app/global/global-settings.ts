@@ -562,7 +562,15 @@ export class GlobalSettings {
       }
       return result;
     }
-    static getOffsiteLink(scope, key: string, str1: string, id?: string | number, str2?: string, str3?: string, str4?: string){
+    /*
+      scope: vertical scope/category, ex: NBA, mlb, nfl, etc.
+      key: page type to link, ex: team for team pages, article for article pages, etc.
+      str1: required, use for path of url, ex: team name, company name, search string, etc.
+      id: event id or article id if needed, not required
+      str2: addition to use for url path if needed, not required
+      str3, str4,...: not added but can if needed in the future
+    */
+    static getOffsiteLink(scope, key: string, str1: string, id?: string | number, str2?: string){
       var link = null;
       var siteVars = this.getHomeInfo();
       var partnerCode;
@@ -578,18 +586,19 @@ export class GlobalSettings {
           if (partnerCode != null) {
             key = key.replace(/team/g, "t").replace(/search/g, "s");
           }
-          if (scope == "nba") {
-            scope = scope.toUpperCase();
-          }
           if(key == "team" || key == "t"){//team link
-            if(scope != "mlb"){
-              link = scope + "/";
+            if(scope != "mlb"){//if not baseball then add scope
+              if (scope == "nba") {
+                link = "NBA/";//exception: need nba scope to be uppercase
+              } else {
+                link = scope + "/";
+              }
             }
             link += key + "/" + str1 + "/" + id;
           } else if(key == "search" || key == "s"){//search link
-            link = key + "/" + str1;
-          } else {//article link
-            link = str1;
+            link = key + "/" + str1;//ex to use: GlobalSettings.getOffsiteLink(scope, "search", string_to_search);
+          } else {
+            link = str1;//ex to use: GlobalSettings.getOffsiteLink(scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'pregame', eventId));
           }
           break;
         case 'business':

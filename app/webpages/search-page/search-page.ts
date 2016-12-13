@@ -15,12 +15,19 @@ export class SearchPage{
     currentPage:number=1;
     pageCount:number=5;
     articleCount:number=this.pageCount*10;
+    keywordFilter:any;
+    sortFilter:any;
     public scrollTopPrev:number=0;
+    filter1:string;
+    filter2:string;
     constructor(private activateRoute:ActivatedRoute, private searchService:SearchService, private _render:Renderer){
         this.paramsub=activateRoute.params.subscribe(
             (param :any)=> {
                 this.userInput= param['userInput'];
                 this.getSearchResult(this.userInput,this.currentPage);
+                this.keywordFilter=this.searchService.getkeyWords();
+                this.sortFilter=this.searchService.getSortOptions();
+
             }
         );
 
@@ -29,8 +36,8 @@ export class SearchPage{
     ngOnChanges(){
 
     }
-    private getSearchResult(i,currentPage){
-        this.searchService.searchArticleService(i,currentPage).subscribe(
+    private getSearchResult(i,currentPage,filter1?,filter2?){
+        this.searchService.searchArticleService(i,currentPage,filter1,filter2).subscribe(
             data=>{
                 if(data.data.article_data) {
                     this.searchArticlesData = this.searchService.transformSearchResults(data.data);
@@ -48,6 +55,16 @@ export class SearchPage{
         this.currentPage=e;
         this.getSearchResult(this.userInput,this.currentPage);
     }
+    chosenFilter1(e){
+        this.filter1=e;
+        this.filter2?this.getSearchResult(this.userInput,1,this.filter1,this.filter2):this.getSearchResult(this.userInput,1,this.filter1);
+
+    }
+    chosenFilter2(e){
+        this.filter2=e;
+        this.filter1?this.getSearchResult(this.userInput,1,this.filter1,this.filter2):this.getSearchResult(this.userInput,1,this.filter2);
+    }
+
     @HostListener('window:scroll',['$event']) onScroll(e){
         var scrollingElement=e.target.body.getElementsByClassName('search-widget')[0];
         var header = e.target.body.getElementsByClassName('header')[0];

@@ -80,6 +80,7 @@ export class SchedulesService {
 
         callURL += '/' + limit + '/' + pageNum;  //default pagination limit: 5; page: 1
         //optional week parameters
+        console.log("url", callURL);
         return this.http.get(callURL, { headers: headers })
             .map(res => res.json())
             .map(data => {
@@ -322,79 +323,74 @@ export class SchedulesService {
         return this.http.get(callURL, { headers: headers })
             .map(res => res.json())
             .map(data => {
+                data = data.data;
                 var output = { scopeList: [], blocks: [] }
-                for (var i = 0; i < data.data.scopeList.length; i++) {
-                    output.scopeList.push(data.data.scopeList[i].toUpperCase());
+                for (var i = 0; i < data.scopeList.length; i++) {
+                    output.scopeList.push(data.scopeList[i].toUpperCase());
                 }
-                for (var n = 0; n < data.data.data.length; n++) {
-                    switch (data.data.data[n].eventStatus) {
+                for (var n = 0; n < data.data.length; n++) {
+                    switch (data.data[n].eventStatus) {
                         case "pre-event":
-                            data.data.data[n].reportDisplay = "PRE GAME REPORT";
-                            data.data.data[n].reportLink = GlobalSettings.getOffsiteLink(scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'pregame', data.data.data[n].eventId));
+                            data.data[n].reportDisplay = "PRE GAME REPORT";
+                            data.data[n].reportLink = GlobalSettings.getOffsiteLink(scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'pregame', data.data[n].eventId));
                             break;
                         case "post-event":
-                            data.data.data[n].reportDisplay = "POST GAME REPORT";
-                            data.data.data[n].reportLink = GlobalSettings.getOffsiteLink(scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'postgame', data.data.data[n].eventId));
+                            data.data[n].reportDisplay = "POST GAME REPORT";
+                            data.data[n].reportLink = GlobalSettings.getOffsiteLink(scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'postgame', data.data[n].eventId));
                             break;
                         case "cancelled":
-                            data.data.data[n].reportDisplay = "GAME IS CANCELED";
+                            data.data[n].reportDisplay = "GAME IS CANCELED";
                             break;
                         case "postponed":
-                            data.data.data[n].reportDisplay = "GAME IS POSTPONED";
+                            data.data[n].reportDisplay = "GAME IS POSTPONED";
                             break;
                         default:
-                            data.data.data[n].reportDisplay = "GAME REPORT";
+                            data.data[n].reportDisplay = "GAME REPORT";
                     }
                     var offset = Intl.DateTimeFormat().resolvedOptions().timeZone;
-                    let date = moment(Number(data.data.data[n].startTime)).tz(offset).format('dddd, MMM. D').toUpperCase();
-                    let time = moment(Number(data.data.data[n].startTime)).tz(offset).format('h:mm A z');
+                    let date = moment(Number(data.data[n].startTime)).tz(offset).format('dddd, MMM. D').toUpperCase();
+                    let time = moment(Number(data.data[n].startTime)).tz(offset).format('h:mm A z');
 
 
-                    data.data.data[n].date = date + " &bull; " + time;
-                    data.data.data[n].homeTeamName = data.data.data[n].lastNameHome;
+                    data.data[n].date = date + " &bull; " + time;
+                    data.data[n].homeTeamName = data.data[n].lastNameHome;
 
-                    data.data.data[n].awayTeamName = data.data.data[n].lastNameAway;
-                    let fullNameAway = data.data.data[n].fullNameAway ? data.data.data[n].fullNameAway.replace(/ /g, "-") : null;
-                    let fullNameHome = data.data.data[n].fullNameHome ? data.data.data[n].fullNameHome.replace(/ /g, "-"): null;
-                    data.data.data[n].awayProfileUrl = data.data.data[n].fullNameAway ? GlobalSettings.getOffsiteLink("nba", "team", fullNameAway, data.data.data[n].idAway) : null;
-
-                    // console.log("awayProfileUrl", data.data.data[n].awayProfileUrl);
-
-                    data.data.data[n].homeProfileUrl = data.data.data[n].fullNameHome ? GlobalSettings.getOffsiteLink("nba", "team", fullNameHome, data.data.data[n].idHome) : null;
-
-                    // console.log("homeProfileUrl", data.data.data[n].homeProfileUrl, "full name", data.data.data[n].fullNameHome, "replace", fullNameHome, "id", data.data.data[n].idHome);
-
-                    if (data.data.data[n].logoUrlAway == "" || data.data.data[n].logoUrlAway == null) {
-                        data.data.data[n].logoUrlAway = '/app/public/no-image.png';
+                    data.data[n].awayTeamName = data.data[n].lastNameAway;
+                    let fullNameAway = data.data[n].fullNameAway ? data.data[n].fullNameAway.replace(/ /g, "-") : null;
+                    let fullNameHome = data.data[n].fullNameHome ? data.data[n].fullNameHome.replace(/ /g, "-"): null;
+                    data.data[n].awayProfileUrl = data.data[n].fullNameAway ? GlobalSettings.getOffsiteLink("nba", "team", fullNameAway, data.data[n].idAway) : null;
+                    data.data[n].homeProfileUrl = data.data[n].fullNameHome ? GlobalSettings.getOffsiteLink("nba", "team", fullNameHome, data.data[n].idHome) : null;
+                    if (data.data[n].logoUrlAway == "" || data.data.data[n].logoUrlAway == null) {
+                        data.data[n].logoUrlAway = '/app/public/no-image.png';
                     }
                     else {
-                        data.data.data[n].logoUrlAway = GlobalSettings.getSportsImageUrl("/" + data.data.data[n].logoUrlAway);
+                        data.data[n].logoUrlAway = GlobalSettings.getSportsImageUrl("/" + data.data[n].logoUrlAway);
                     }
-                    if (data.data.data[n].logoUrlHome == "" || data.data.data[n].logoUrlHome == null) {
-                        data.data.data[n].logoUrlHome = '/app/public/no-image.png';
+                    if (data.data[n].logoUrlHome == "" || data.data[n].logoUrlHome == null) {
+                        data.data[n].logoUrlHome = '/app/public/no-image.png';
                     }
                     else {
-                        data.data.data[n].logoUrlHome = GlobalSettings.getSportsImageUrl("/" + data.data.data[n].logoUrlHome);
+                        data.data[n].logoUrlHome = GlobalSettings.getSportsImageUrl("/" + data.data[n].logoUrlHome);
                     }
                     data.data.data[n].awayImageConfig = {
                         imageClass: "image-70",
                         mainImage: {
-                            url: GlobalSettings.getOffsiteLink("nba", "team", fullNameAway, data.data.data[n].idAway),
-                            imageUrl: data.data.data[n].logoUrlAway,
+                            url: GlobalSettings.getOffsiteLink("nba", "team", fullNameAway, data.data[n].idAway),
+                            imageUrl: data.data[n].logoUrlAway,
                             imageClass: "border-1",
                             hoverText: "<p>View</p> Profile"
                         }
                     };
-                    data.data.data[n].homeImageConfig = {
+                    data.data[n].homeImageConfig = {
                         imageClass: "image-70",
                         mainImage: {
-                            url: GlobalSettings.getOffsiteLink("nba", "team", fullNameHome, data.data.data[n].idHome),
-                            imageUrl: data.data.data[n].logoUrlHome,
+                            url: GlobalSettings.getOffsiteLink("nba", "team", fullNameHome, data.data[n].idHome),
+                            imageUrl: data.data[n].logoUrlHome,
                             imageClass: "border-1",
                             hoverText: "<p>View</p> Profile"
                         }
                     };
-                    output.blocks.push(data.data.data[n]);
+                    output.blocks.push(data.data[n]);
                 }
                 output.blocks.push(
                     {

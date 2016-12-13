@@ -325,7 +325,7 @@ export class BoxScoresService {
         }
         if ( p ) {
           let urlRoute = VerticalGlobalFunctions.formatExternalArticleRoute(scope, p, val.event);
-          urlRoute = GlobalSettings.getOffsiteLink(scope, urlRoute);
+          urlRoute = GlobalSettings.getOffsiteLink(scope, "article", urlRoute);
           var Box = {
             eventType: eventType,
             eventId: p,
@@ -334,7 +334,7 @@ export class BoxScoresService {
             url: VerticalGlobalFunctions.formatAiArticleRoute(p, val.event),
             title: title,
             teaser: teaser,
-            urlRouteArray: 'http://www.touchdownloyal.com/articles/'+scope+'/'+p+'/'+eventId,
+            urlRouteArray: urlRoute,
             imageConfig:{
               imageClass: "image-320x180-sm",
               imageUrl: homeImage,
@@ -458,10 +458,10 @@ export class BoxScoresService {
         awayData.lastName = awayData.name.split(' ')[awayData.name.split(' ').length-1];
       }
       // NBA & NCAAM needs nickname datapoint
-      let homeLink = isPartner == false ? self.formatTeamRelLinks(scope, homeData.lastName, homeData.id)[scope].vertical_link : self.formatTeamRelLinks(scope, homeData.lastName, homeData.id)[scope].partner_link; //TODO
-      let awayLink = isPartner == false ? self.formatTeamRelLinks(scope, awayData.lastName, awayData.id)[scope].vertical_link : self.formatTeamRelLinks(scope, awayData.lastName, awayData.id)[scope].partner_link;//TODO
-      homeLink = GlobalSettings.getOffsiteLink(scope, homeLink);
-      awayLink = GlobalSettings.getOffsiteLink(scope, awayLink);
+      // let homeLink = isPartner == false ? self.formatTeamRelLinks(scope, homeData.lastName, homeData.id)[scope].vertical_link : self.formatTeamRelLinks(scope, homeData.lastName, homeData.id)[scope].partner_link; //TODO
+      // let awayLink = isPartner == false ? self.formatTeamRelLinks(scope, awayData.lastName, awayData.id)[scope].vertical_link : self.formatTeamRelLinks(scope, awayData.lastName, awayData.id)[scope].partner_link;//TODO
+      var homeLink = GlobalSettings.getOffsiteLink(scope, "team", awayData.lastName, awayData.id);
+      var awayLink = GlobalSettings.getOffsiteLink(scope, "team", awayData.lastName, awayData.id);
 
       var aiContent = data.aiContent != null ? self.formatArticle(data):null; //TODO
       if(scope == 'ncaam' || scope == 'nba'){

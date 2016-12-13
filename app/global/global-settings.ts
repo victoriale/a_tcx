@@ -613,7 +613,6 @@ export class GlobalSettings {
           break;
       }// end switch
       link = this.partnerUrlTransform(scope, link);
-      console.log(link, "link");
       return link;
     }
     static partnerUrlTransform(scope, relativeUrl){

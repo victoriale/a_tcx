@@ -358,11 +358,11 @@ export class SchedulesService {
                     let fullNameHome = data.data.data[n].fullNameHome ? data.data.data[n].fullNameHome.replace(/ /g, "-"): null;
                     data.data.data[n].awayProfileUrl = data.data.data[n].fullNameAway ? GlobalSettings.getOffsiteLink("nba", "team", fullNameAway, data.data.data[n].idAway) : null;
 
-                    console.log("awayProfileUrl", data.data.data[n].awayProfileUrl);
+                    // console.log("awayProfileUrl", data.data.data[n].awayProfileUrl);
 
                     data.data.data[n].homeProfileUrl = data.data.data[n].fullNameHome ? GlobalSettings.getOffsiteLink("nba", "team", fullNameHome, data.data.data[n].idHome) : null;
 
-                    console.log("homeProfileUrl", data.data.data[n].homeProfileUrl, "full name", data.data.data[n].fullNameHome, "replace", fullNameHome, "id", data.data.data[n].idHome);
+                    // console.log("homeProfileUrl", data.data.data[n].homeProfileUrl, "full name", data.data.data[n].fullNameHome, "replace", fullNameHome, "id", data.data.data[n].idHome);
 
                     if (data.data.data[n].logoUrlAway == "" || data.data.data[n].logoUrlAway == null) {
                         data.data.data[n].logoUrlAway = '/app/public/no-image.png';

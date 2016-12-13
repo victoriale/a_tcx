@@ -150,7 +150,7 @@ export class DeepDiveService {
             var publisher = null;
             var category = val.article_sub_type ? val.article_sub_type : val.article_type;
             if(val.source == "snt_ai"){
-              routeLink = GlobalSettings.getOffsiteLink(val.scope, VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id));
+              routeLink = GlobalSettings.getOffsiteLink(val.scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id));
               extLink = true;
             } else {
               routeLink = VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, "story");
@@ -169,10 +169,10 @@ export class DeepDiveService {
               extUrl: extLink,
               keyword: key,
               timeStamp: date ? date : "",
-              title: val.title ? val.title.replace(/\'/g, "'") : "No title available",
+              title: val.title ? val.title : "No title available",
               author: author,
               publisher: val.publisher && val.author ? "Written by: " + "<span class='text-master'>" + author + publisher + "</span>": null,
-              teaser: val.teaser ? limitDesc.replace(/\'/g, "'") : "No teaser available",
+              teaser: val.teaser ? limitDesc : "No teaser available",
               imageConfig: {
                 imageClass: "embed-responsive-16by9",
                 imageUrl: val.image_url ? GlobalSettings.getImageUrl(val.image_url) : sampleImage,
@@ -204,7 +204,7 @@ export class DeepDiveService {
         var extLink;
         var category = val.article_sub_type ? val.article_sub_type : val.article_type;
         if(val.source == "snt_ai"){
-          routeLink = GlobalSettings.getOffsiteLink(val.scope, VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id));
+          routeLink = GlobalSettings.getOffsiteLink(val.scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id));
           extLink = true;
         } else {
           routeLink = VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, "story");

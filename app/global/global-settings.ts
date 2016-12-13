@@ -10,7 +10,6 @@ export class GlobalSettings {
     private static _apiUrl:string = '-article-library.synapsys.us';
     private static _articleUrl:string = '-article-library.synapsys.us/tcx';
 
-
     private static _articleBatchUrl:string= "-article-library.synapsys.us/articles";
 
     private static _partnerApiUrl: string = 'apireal.synapsys.us/listhuv/?action=get_partner_data&domain=';
@@ -563,8 +562,69 @@ export class GlobalSettings {
       }
       return result;
     }
-
-    static getOffsiteLink(scope, relativeUrl){
+    /*
+      scope: vertical scope/category, ex: NBA, mlb, nfl, etc.
+      key: page type to link, ex: team for team pages, article for article pages, etc.
+      str1: required, use for path of url, ex: team name, company name, search string, etc.
+      id: event id or article id if needed, not required
+      str2: addition to use for url path if needed, not required
+      str3, str4,...: not added but can if needed in the future
+    */
+    static getOffsiteLink(scope, key: string, str1: string, id?: string | number, str2?: string){
+      var link = null;
+      var siteVars = this.getHomeInfo();
+      var partnerCode;
+      if (siteVars.isPartner) {
+        partnerCode = siteVars.partnerName;
+      }
+      switch(scope){
+        case 'nba':
+        case 'ncaam':
+        case 'nfl':
+        case 'ncaaf':
+        case 'mlb':
+          if (partnerCode != null) {
+            key = key.replace(/team/g, "t").replace(/search/g, "s");
+          }
+          if(key == "team" || key == "t"){//team link
+            if(scope != "mlb"){//if not baseball then add scope
+              if (scope == "nba") {
+                link = "NBA/";//exception: need nba scope to be uppercase
+              } else {
+                link = scope + "/";
+              }
+            }
+            link += key + "/" + str1 + "/" + id;
+          } else if(key == "search" || key == "s"){//search link
+            link = key + "/" + str1;//ex to use: GlobalSettings.getOffsiteLink(scope, "search", string_to_search);
+          } else {
+            link = str1;//ex to use: GlobalSettings.getOffsiteLink(scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'pregame', eventId));
+          }
+          break;
+        case 'business':
+          if (partnerCode != null) {
+            if(key == "company"){// str1: symbol, id: company id, str2: company name
+              key = key ? key.replace(/company/g, "c") : null;
+              link = str2 + "/" + str1 + "/" + key + "/" + id;
+            }
+          } else {
+            if(key == "company"){
+              link = str1 + "/" + str2 + "/" + key + "/" + id;
+            }
+          }
+          break;
+        //REALESTATE URL
+        case 'real-estate':
+          if (partnerCode != null) {
+              key = key ? key.replace(/listing/g, "index") : null;
+          }
+          link = key + "/" + str1;
+          break;
+      }// end switch
+      link = this.partnerUrlTransform(scope, link);
+      return link;
+    }
+    static partnerUrlTransform(scope, relativeUrl){
       var link = "";
       var siteVars = this.getHomeInfo();
       var partnerCode;
@@ -584,7 +644,7 @@ export class GlobalSettings {
             }
           }
           else {
-            link = "http://www.touchdownloyal.com" + "/" + relativeUrl;
+            link = "http://www.touchdownloyal.com/" + relativeUrl;
           }
           break;
         //BASKETBALL URL
@@ -594,7 +654,7 @@ export class GlobalSettings {
             link = "http://www.myhoopszone.com/" + partnerCode + "/" + relativeUrl;
           }
           else {
-            link = "http://www.hoopsloyal.com" + "/" + relativeUrl;
+            link = "http://www.hoopsloyal.com/" + relativeUrl;
           }
           break;
         //BASEBALL URL
@@ -608,7 +668,7 @@ export class GlobalSettings {
             }
           }
           else {
-            link = "http://www.homerunloyal.com" + "/" + relativeUrl;
+            link = "http://www.homerunloyal.com/" + relativeUrl;
           }
           break;
         //FINANCE URL
@@ -629,7 +689,7 @@ export class GlobalSettings {
             link = "http://www.myhousekit.com/" + partnerCode + "/" + relativeUrl;
           }
           else {
-            link = "http://www.joyfulhome.com" + "/" + relativeUrl;
+            link = "http://www.joyfulhome.com/" + relativeUrl;
           }
           break;
       }

@@ -21,6 +21,7 @@ export class DeepDiveSectionFront implements OnInit {
   articleData: Array<ArticleStackData>;
   articleCallLimit:number = 31;
   callArticleApi: boolean = true;
+  callVideoApi: boolean = true;
   blockIndex: number = 1;
   boxScoresData: any;
   boxScoresScroll: boolean= true;
@@ -65,15 +66,21 @@ export class DeepDiveSectionFront implements OnInit {
   }
 
   getDeepDiveVideo(pageNum){
+    if(this.callVideoApi){
       this._deepDiveData.getDeepDiveVideoBatchService(this.scope, this.videoCallLimit, pageNum, this.geoLocation).subscribe(
         data => {
           if(data){
             this.videoDataBatch = this._deepDiveData.transformSportVideoBatchData(data, this.scope);
+            this.callVideoApi = true;
+          } else {
+            this.callVideoApi = false;
+            this.videoDataBatch = null;
           }
         },
         err => {
           console.log("Error getting video batch data:", err);
       });
+    }
   } //getDeepDiveVideo
 
   private onScroll(event) {
@@ -140,6 +147,7 @@ export class DeepDiveSectionFront implements OnInit {
       this.blockIndex = 1;
       this.newArray = [];
       this.callArticleApi = true;
+      this.callVideoApi = true;
       this.articleData = null;
       this.createSearchBox(this.scope);
       this.callModules(this.blockIndex);

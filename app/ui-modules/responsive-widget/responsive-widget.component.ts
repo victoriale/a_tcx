@@ -16,8 +16,8 @@ export class ResponsiveWidget implements OnInit {
   srcLink: string;
   @Input() category: string;
   @Input() subCategory: string;
-  ngOnInit() {
-    if(this.category){
+  getData(){
+    if(this.category && this.category != "all"){
       var topScope = GlobalSettings.getTCXscope(this.category).topScope;
       topScope = topScope != "real-estate" ? topScope : "real estate";
       this.category = topScope ? topScope : 'keyword-' + this.category;
@@ -27,6 +27,9 @@ export class ResponsiveWidget implements OnInit {
       this.subCategory = "";
     }
     this.srcLink = "/app/ads/horizontal_widget.html?category=" + this.category + "&sub_category=" + this.subCategory;
+  }
+  ngOnInit() {
+    this.getData();
     // this.isSmall = window.innerWidth <= 814;
     // this.displayAtRes = "_" + this.displayAtRes + "only"
     // var windowWidth = window.innerWidth;
@@ -38,6 +41,9 @@ export class ResponsiveWidget implements OnInit {
     //   this.widgetMed = true;
     // }
     this.windowWidth = window.innerWidth;
+  }
+  ngOnChanges(){
+    this.getData();
   }
   private onWindowLoadOrResize(event) {
     var windowWidth = event.target.innerWidth;

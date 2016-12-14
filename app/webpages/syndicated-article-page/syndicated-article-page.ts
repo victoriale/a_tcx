@@ -190,7 +190,7 @@ export class SyndicatedArticlePage implements OnDestroy{
 
             }
             this._seo.setSource(data.source);
-            this._seo.setArticleTitle(data.title.replace(/\'/g, "'"));
+            this._seo.setArticleTitle(data.title.replace(/\\'/g, "'"));
             this._seo.setImageUrl(image);
             this._seo.setArticleUrl(link);
             this._seo.setArticleType(this.subcategory);
@@ -203,12 +203,12 @@ export class SyndicatedArticlePage implements OnDestroy{
             this._seo.setSearchString(data.keywords);//should be user input for search
             data.teaser?this._seo.setTeaser(data.teaser):this._seo.setTeaser(data.article_data.article[0]);
 
-        }else{
-            this._seo.setArticleTitle(data.title.replace(/\'/g, "'"));
+        }else{//video pages, etc. not article pages
+            this._seo.setArticleTitle(data.title.replace(/\\'/g, "'"));
             this._seo.setArticleUrl(link);
             this._seo.setImageUrl(data.video_thumbnail);
-            this._seo.setArticleId(data.id);//check if article_id or just id
-            this._seo.setKeyword(data.keyword);//need to check why plural and not plural
+            this._seo.setArticleId(data.id);
+            this._seo.setKeyword(data.keyword);
             this._seo.setTeaser(data.teaser);
             this._seo.setSearchType('article');
             this._seo.setSearchString(data.keywords);

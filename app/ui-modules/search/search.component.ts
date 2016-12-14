@@ -235,7 +235,7 @@ export class Search{
           searchRoute = dropdownLink;*/
 
         }
-        this._router.navigate(['/deep-dive','search','articles',term ]);
+        this._router.navigate(['/news-feed','search','articles',term ]);
         // this._router.navigate(searchRoute);
 
         //Clear out autocomplete text and close dropdown when search occurs

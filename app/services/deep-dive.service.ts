@@ -42,7 +42,6 @@ export class DeepDiveService {
       callURL += "&source[]=tca-curated";
     }
     callURL += "&random=1&metaDataOnly=1";
-    console.log("callURL", callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {

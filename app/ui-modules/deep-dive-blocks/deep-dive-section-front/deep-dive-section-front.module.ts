@@ -46,11 +46,11 @@ export class DeepDiveSectionFront implements OnInit {
           var obj = {
               stackTop1: this.articleData.length > 0 ? this.articleData.splice(0,1) : null,
               stackRow1: this.articleData.length > 0 ? this.articleData.splice(0,6) : null,
+              recData1: this.articleData.length > 0 ? this.articleData.splice(0,6) : null,
               stackTop2: this.articleData.length > 0 ? this.articleData.splice(0,1) : null,
               stackRow2: this.articleData.length > 0 ? this.articleData.splice(0,6) : null,
               stackTop3: this.articleData.length > 0 ? this.articleData.splice(0,1) : null,
               stackRow3: this.articleData.length > 0 ? this.articleData.splice(0,4) : null,
-              recData1: this.articleData.length > 0 ? this.articleData.splice(0,6) : null,
               recData2: this.articleData.length > 0 ? this.articleData.splice(0,6) : null,
           };
           this.newArray.push(obj);

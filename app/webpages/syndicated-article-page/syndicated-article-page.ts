@@ -167,7 +167,6 @@ export class SyndicatedArticlePage implements OnDestroy{
 
 
         if(artType=="story") {
-          console.log("story data", data);
             let image;
            if(data.image_url != undefined && data.image_url != null){
                 image =GlobalSettings.getImageUrl(data.image_url);
@@ -205,7 +204,6 @@ export class SyndicatedArticlePage implements OnDestroy{
             data.teaser?this._seo.setTeaser(data.teaser):this._seo.setTeaser(data.article_data.article[0]);
 
         }else{
-          console.log("not story", data);
             this._seo.setArticleTitle(data.title.replace(/\'/g, "'"));
             this._seo.setArticleUrl(link);
             this._seo.setImageUrl(data.video_thumbnail);

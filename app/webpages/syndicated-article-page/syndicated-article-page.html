@@ -47,10 +47,8 @@
                     <responsive-widget [category]="category" [subCategory]="subcategory"></responsive-widget>
 
                     <disqus-component *ngIf="!checkPartner"></disqus-component>
-                    <chatterbox-module></chatterbox-module>
-<!--
-                    <recommendations-component *ngIf="randomHeadlines" [randomHeadlines]="randomHeadlines" [images]="images"></recommendations-component>
--->
+                    <chatterbox-module [category]="category" [subCategory]="subcategory"></chatterbox-module>
+
                     <div class="other-stories"><i class="fa-heart-o"></i> Other Stories You Will Love </div>
                     <article-block-component [articleBlockData]="recomendationData" [bootstrapGrid]="'col-sm-12 col-md-4'"></article-block-component>
 
@@ -60,7 +58,6 @@
                                         [geoLocation]="geoLocation"
                                         [trendingData]="trendingData"
                                         [showLoading]="loadingshow">
-
                     </trending-component>
                 </div>
 

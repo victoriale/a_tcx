@@ -499,7 +499,7 @@ export class GlobalSettings {
         },
         'all':{
           parentScope: null,
-          scope:'deep-dive',
+          scope:'news-feed',
           topScope: null,
           displayName: null,
           verticalApi: null,
@@ -517,7 +517,7 @@ export class GlobalSettings {
       if(category[section] == null){// default return
         return {
           parentScope: null,
-          scope:'deep-dive',
+          scope:'news-feed',
           topScope: null,
           displayName: null,
           verticalApi: null,
@@ -595,8 +595,6 @@ export class GlobalSettings {
               }
             }
             link += key + "/" + str1 + "/" + id;
-          } else if(key == "search" || key == "s"){//search link
-            link = key + "/" + str1;//ex to use: GlobalSettings.getOffsiteLink(scope, "search", string_to_search);
           } else {
             link = str1;//ex to use: GlobalSettings.getOffsiteLink(scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'pregame', eventId));
           }
@@ -803,7 +801,7 @@ export class GlobalSettings {
       if(partnerPage && (name == '' || name == 'news')){
         hide = true;
         isHome = true;
-      }else if(!partnerPage && (name == '' || name == 'deep-dive')){
+      }else if(!partnerPage && (name == '' || name == 'news-feed')){
         hide = false;
         isHome = true;
       }else{
@@ -896,11 +894,11 @@ export class GlobalSettings {
     static getEstYear() {
       return this._estYear;
     }
-  static getHomePageLinkName() {
-    return this._homepageLinkName;
-  }
-  static getArticleBatchUrl(){
-      return this._proto + "//" + this.getEnv(this._env) + this._articleBatchUrl;
-  }
+    static getHomePageLinkName() {
+      return this._homepageLinkName;
+    }
+    static getArticleBatchUrl(){
+        return this._proto + "//" + this.getEnv(this._env) + this._articleBatchUrl;
+    }
 
 }

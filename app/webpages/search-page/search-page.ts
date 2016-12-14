@@ -27,15 +27,12 @@ export class SearchPage{
                 this.getSearchResult(this.userInput,this.currentPage);
                 this.keywordFilter=this.searchService.getkeyWords();
                 this.sortFilter=this.searchService.getSortOptions();
-
             }
         );
-
     }
 
-    ngOnChanges(){
+    ngOnChanges(){}
 
-    }
     private getSearchResult(i,currentPage,filter1?,filter2?){
         this.searchService.searchArticleService(i,currentPage,filter1,filter2).subscribe(
             data=>{

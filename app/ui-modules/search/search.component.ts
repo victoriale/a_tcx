@@ -270,7 +270,8 @@ export class Search{
             //Only continue stream if the input value has changed from the last iteration
             .distinctUntilChanged()
             // Cancel any previous iterations if they have not completed their cycle. Also used to empty dropdown list if input is blank
-            .switchMap((term: string) => term.length > 0 ? self._searchService.getSearchDropdownData(this._router, term) : Observable.of({term: term, searchResults: []}))
+            .switchMap((term: string) => term.length > 0 ? self._searchService.getSortOptions() : Observable.of({term: term, searchResults: []}))
+            // .switchMap((term: string) => term.length > 0 ? self._searchService.getSortOptions(this._router, term) : Observable.of({term: term, searchResults: []}))
             .subscribe(data => {
                 let term = data.term;
                 let searchResults = data.searchResults;

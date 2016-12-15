@@ -16,8 +16,8 @@ export class WidgetModule {
     srcLink: string;
     @Input() category: string;
     @Input() subCategory: string;
-    ngOnInit() {
-      if(this.category){
+    getData(){
+      if(this.category && this.category != "all"){
         var topScope = GlobalSettings.getTCXscope(this.category).topScope;
         topScope = topScope != "real-estate" ? topScope : "real estate";
         this.category = topScope ? topScope : 'keyword-' + this.category;
@@ -27,6 +27,9 @@ export class WidgetModule {
         this.subCategory = "";
       }
       this.srcLink = "/app/ads/vertical_widget.html?category=" + this.category + "&sub_category=" + this.subCategory;
+    }
+    ngOnInit() {
+      this.getData();
         // this.isProSport = this.scope == 'nfl' ? true: false;
         // var titleHeight = jQuery('.articles-page-title').height();
         // var padding = document.getElementById('pageHeader').offsetHeight;
@@ -51,7 +54,9 @@ export class WidgetModule {
         // }
         // }
     }
-
+    ngOnChanges(){
+      this.getData();
+    }
     // Page is being scrolled
     onScroll(event) {
         // var partnerHeight = 0;

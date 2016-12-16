@@ -317,7 +317,6 @@ export class SchedulesService {
         var headers = this.setToken();
         // var callURL = GlobalSettings.getVerticalEnv('-sports-api.synapsys.us') + "/NBAHoops/call_controller.php?scope=" + scope.toLowerCase() + "&action=tcx&option=tcx_side_scroll&perPage=50&pageNum=1";
         var callURL = GlobalSettings.getTCXscope(scope).verticalApi + "/NBAHoops/call_controller.php?scope=" + scope.toLowerCase() + "&action=tcx&option=tcx_side_scroll&perPage=50&pageNum=1";
-
         //optional week parameters
         return this.http.get(callURL, { headers: headers })
             .map(res => res.json())
@@ -359,7 +358,7 @@ export class SchedulesService {
                     let fullNameHome = data.data[n].fullNameHome ? data.data[n].fullNameHome.replace(/ /g, "-"): null;
                     data.data[n].awayProfileUrl = data.data[n].fullNameAway ? GlobalSettings.getOffsiteLink("nba", "team", fullNameAway, data.data[n].idAway) : null;
                     data.data[n].homeProfileUrl = data.data[n].fullNameHome ? GlobalSettings.getOffsiteLink("nba", "team", fullNameHome, data.data[n].idHome) : null;
-                    if (data.data[n].logoUrlAway == "" || data.data.data[n].logoUrlAway == null) {
+                    if (data.data[n].logoUrlAway == "" || data.data[n].logoUrlAway == null) {
                         data.data[n].logoUrlAway = '/app/public/no-image.png';
                     }
                     else {
@@ -371,7 +370,7 @@ export class SchedulesService {
                     else {
                         data.data[n].logoUrlHome = GlobalSettings.getSportsImageUrl("/" + data.data[n].logoUrlHome);
                     }
-                    data.data.data[n].awayImageConfig = {
+                    data.data[n].awayImageConfig = {
                         imageClass: "image-70",
                         mainImage: {
                             url: GlobalSettings.getOffsiteLink("nba", "team", fullNameAway, data.data[n].idAway),
@@ -408,7 +407,6 @@ export class SchedulesService {
         var headers = this.setToken();
         // var callURL = GlobalSettings.getVerticalEnv('-homerunloyal-api.synapsys.us') + "/tcx/league/schedule/pre-event/50/1";
         var callURL = GlobalSettings.getTCXscope(scope).verticalApi + "/tcx/" + scope + "/schedule/pre-event/50/1";
-
         //optional week parameters
         return this.http.get(callURL, { headers: headers })
             .map(res => res.json())
@@ -497,7 +495,7 @@ export class SchedulesService {
         }
         else if (topScope == "football") {
             //(scope, profile, eventStatus, limit, pageNum, id?)
-            this.getBoxSchedule(scope, 'league', eventStatus, limit, pageNum)
+            this.getBoxSchedule(scope, 'league', eventStatus, limit, 1)
                 .subscribe(data => {
                     var formattedData = this.transformSlideScroll(scope, data.data);
                     callback(formattedData);
@@ -538,7 +536,7 @@ export class SchedulesService {
         //Configure HTTP Headers
         var headers = this.setToken();
         //var callURL = GlobalSettings.getVerticalEnv('-tcxmedia-api.synapsys.us') + "/sidescroll/weather/availableLocations/" + query;
-        var callURL = GlobalSettings.getTCXscope('weather').verticalApi + "/sidescroll/weather/availableLocations/" + query;
+        var callURL = GlobalSettings.getTCXscope('weather').verticalApi + "/tcx/sidescroll/weather/availableLocations/" + query;
         //optional week parameters
         return this.http.get(callURL, { headers: headers })
             .map(res => res.json())

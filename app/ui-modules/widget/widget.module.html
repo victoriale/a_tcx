@@ -1,3 +1,3 @@
 <div class="widget" id="widget"  (window:scroll)="onScroll($event)">
-<iframe frameborder="0" scrolling="no" allowtransparency="true" src="/app/ads/vertical_widget.html" [ngStyle]="{'display': 'block', 'height': '600px','width': '300px','margin': '0px','border': '0px','overflow': 'hidden','z-index': '0'}" ></iframe>
+<iframe frameborder="0" scrolling="no" allowtransparency="true" [src]="srcLink | safeRUrl" [ngStyle]="{'display': 'block', 'height': '600px','width': '300px','margin': '0px','border': '0px','overflow': 'hidden','z-index': '0'}" ></iframe>
 </div>

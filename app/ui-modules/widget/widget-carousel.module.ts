@@ -14,14 +14,14 @@ export class WidgetCarouselModule {
     headerHeight:string;
 
     ngOnInit() {
-        var titleHeight = jQuery('.articles-page-title').height();
+        var titleHeight = jQuery('.articles-page-title').height();// get main title height on article pages
 
-        var padding = 420;
-        if( document.getElementById('pageHeader') != null){
-        var padding = document.getElementById('pageHeader').offsetHeight + 420;
+        var padding = 420;// height of larousel on news feed page
+        if( document.getElementById('pageHeader') != null){// page header is tcx header and salad bar combined
+            var padding = document.getElementById('pageHeader').offsetHeight + 420;
         }
 
-        if( document.getElementById('partner') != null){
+        if( document.getElementById('partner') != null){// check if on partner page then need to get parter header height and add it to the padding top
             var partnerHeight = document.getElementById('partner').offsetHeight;
             padding += partnerHeight;
         }
@@ -79,7 +79,7 @@ export class WidgetCarouselModule {
         if(carouselTop <=0){
           carouselTop = 0;
         }
-        
+
         //this.headerHeight = carouselTop + padding + maxScroll + this.sidekickHeight + 'px';
         //set class on blue bar and widget once user has scrolled past the carousel and top partner header
         if ((document.getElementById('partner') != null && carouselTop <= 0) || (document.getElementById('partner') == null && carouselTop <= blueBar)) {

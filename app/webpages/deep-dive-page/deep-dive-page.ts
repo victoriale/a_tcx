@@ -195,6 +195,7 @@ export class DeepDivePage implements OnInit {
             this.carouselVideo = null;
             this.category = param['category'] ? param['category'] : 'all';
             this.scope = param['subCategory'] ? param['subCategory'] : this.category;
+            this.scope= this.scope.replace(/-/g, " ");
             if (param['subCategory']) {
               this.tcxVars = GlobalSettings.getTCXscope(param['subCategory']);
             } else {

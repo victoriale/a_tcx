@@ -44,7 +44,7 @@ export class SearchService{
             val["imagePathData"] = {
                 imageClass: "embed-responsive-16by9",
                 imageUrl:val.image_url?val.image_url:GlobalSettings.getImageUrl(placeholder),
-                urlRouteArray: '/deep-dive',
+                urlRouteArray: '/news-feed',
             };
             val['title']=val.title;
             val["teaser"]=val.teaser.replace(/<ng2-route>|<\/ng2-route>/g,'');
@@ -183,6 +183,5 @@ export class SearchService{
              },*/
         ];
     }
-
 
 }

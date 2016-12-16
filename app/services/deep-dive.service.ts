@@ -29,15 +29,17 @@ export class DeepDiveService {
     }
     if(category == "breaking" || category == "trending"){
       callURL += '&category=' + category;
+    } else if( GlobalSettings.getTCXscope(category).topScope == 'basketball' || GlobalSettings.getTCXscope(category).topScope == 'football') {
+      callURL += '&subCategory=' + category;
     } else if(category == "real-estate"){
       callURL += '&keyword[]=' + category.replace(/-/g, " ");
     } else {
       callURL += '&keyword[]=' + category;
     }
-    if(category == "breaking"){
-      callURL += "&source[]=tca-curated";
-    } else {
+    if(GlobalSettings.getTCXscope(category).topScope == 'basketball' || GlobalSettings.getTCXscope(category).topScope == 'football'){//Only NBA, NCAAM, NFL, AND NCAAF have AI articles
       callURL += "&source[]=snt_ai&source[]=tca-curated";
+    } else {
+      callURL += "&source[]=tca-curated";
     }
     callURL += "&random=1&metaDataOnly=1";
     return this.http.get(callURL, {headers: headers})
@@ -149,11 +151,11 @@ export class DeepDiveService {
             var author = null;
             var publisher = null;
             var category = val.article_sub_type ? val.article_sub_type : val.article_type;
-            if(val.source == "snt_ai"){
+            if(val.source == "snt_ai"){// If AI article then redirect to the corresponding vertical
               routeLink = GlobalSettings.getOffsiteLink(val.scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id));
               extLink = true;
             } else {
-              routeLink = VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, "story");
+              routeLink = VerticalGlobalFunctions.formatArticleRoute(scope.replace(/\s/g , "-") , val.article_id, "story");
               extLink = false;
               author = val.author ? val.author.replace(/by/gi, "") + ", ": null;
               publisher = author ? val.publisher : "Published by: " + val.publisher;
@@ -179,7 +181,7 @@ export class DeepDiveService {
                 urlRouteArray: routeLink,
                 extUrl: extLink
               },
-              keyUrl: key != "all" ? VerticalGlobalFunctions.formatSectionFrontRoute(key) : [route]
+              keyUrl: key != "all" ? VerticalGlobalFunctions.formatSectionFrontRoute(key.replace(/\s/g , "-")) : [route]
             }
             articleStackArray.push(articleStackData);
           }

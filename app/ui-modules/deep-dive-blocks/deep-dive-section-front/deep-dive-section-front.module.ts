@@ -20,7 +20,8 @@ export class DeepDiveSectionFront implements OnInit {
   @Input() deepDiveType: any;
   articleData: Array<ArticleStackData>;
   articleCallLimit:number = 31;
-  callApi: boolean = true;
+  callArticleApi: boolean = true;
+  callVideoApi: boolean = true;
   blockIndex: number = 1;
   boxScoresData: any;
   boxScoresScroll: boolean= true;
@@ -35,9 +36,9 @@ export class DeepDiveSectionFront implements OnInit {
   routeSubscription:any;
   urlScope:any;
   constructor(private _boxScoresService: BoxScoresService, private _deepDiveData: DeepDiveService){}
-  getFirstArticleStackData(pageNum){
-    if(this.callApi){
-      this.callApi = false;
+  getArticleStackData(pageNum){
+    if(this.callArticleApi){
+      this.callArticleApi = false;
       this.routeSubscription = this._deepDiveData.getDeepDiveBatchService(this.scope, this.articleCallLimit, pageNum)
       .subscribe(data => {
         if(data){
@@ -45,17 +46,17 @@ export class DeepDiveSectionFront implements OnInit {
           var obj = {
               stackTop1: this.articleData.length > 0 ? this.articleData.splice(0,1) : null,
               stackRow1: this.articleData.length > 0 ? this.articleData.splice(0,6) : null,
+              recData1: this.articleData.length > 0 ? this.articleData.splice(0,6) : null,
               stackTop2: this.articleData.length > 0 ? this.articleData.splice(0,1) : null,
               stackRow2: this.articleData.length > 0 ? this.articleData.splice(0,6) : null,
               stackTop3: this.articleData.length > 0 ? this.articleData.splice(0,1) : null,
               stackRow3: this.articleData.length > 0 ? this.articleData.splice(0,4) : null,
-              recData1: this.articleData.length > 0 ? this.articleData.splice(0,6) : null,
               recData2: this.articleData.length > 0 ? this.articleData.splice(0,6) : null,
           };
           this.newArray.push(obj);
-          this.callApi = true;
+          this.callArticleApi = true;
         } else {
-          this.callApi = false;
+          this.callArticleApi = false;
         }
       },
       err => {
@@ -65,28 +66,30 @@ export class DeepDiveSectionFront implements OnInit {
   }
 
   getDeepDiveVideo(pageNum){
+    if(this.callVideoApi){
       this._deepDiveData.getDeepDiveVideoBatchService(this.scope, this.videoCallLimit, pageNum, this.geoLocation).subscribe(
         data => {
           if(data){
             this.videoDataBatch = this._deepDiveData.transformSportVideoBatchData(data, this.scope);
+            this.callVideoApi = true;
+          } else {
+            this.callVideoApi = false;
+            this.videoDataBatch = null;
           }
         },
         err => {
           console.log("Error getting video batch data:", err);
       });
+    }
   } //getDeepDiveVideo
 
-
-
   private onScroll(event) {
-    if (this.callApi && (this.blockIndex <= this.newArray.length) && (jQuery(document).height() - window.innerHeight - jQuery("footer").height() <= jQuery(window).scrollTop())) {
+    if (this.callArticleApi && (this.blockIndex <= this.newArray.length) && (jQuery(document).height() - window.innerHeight - jQuery("footer").height() <= jQuery(window).scrollTop())) {
       //fire when scrolled into footer
       this.blockIndex = this.blockIndex + 1;
       this.callModules(this.blockIndex);
     }
   } //onScroll
-
-
 
   //API for Box Scores
   private getBoxScores(dateParams?) {
@@ -118,11 +121,9 @@ export class DeepDiveSectionFront implements OnInit {
     // }
   } //getBoxScores
 
-
-
   callModules(pageNum){
     this.getDeepDiveVideo(pageNum);
-    this.getFirstArticleStackData(pageNum);
+    this.getArticleStackData(pageNum);
     if(GlobalSettings.getTCXscope(this.scope).showBoxScores){
       this.getBoxScores(this.dateParam);
     }else{
@@ -145,7 +146,8 @@ export class DeepDiveSectionFront implements OnInit {
       }
       this.blockIndex = 1;
       this.newArray = [];
-      this.callApi = true;
+      this.callArticleApi = true;
+      this.callVideoApi = true;
       this.articleData = null;
       this.createSearchBox(this.scope);
       this.callModules(this.blockIndex);
@@ -169,14 +171,14 @@ export class DeepDiveSectionFront implements OnInit {
     if(e.key == "Enter"){
         if(e.target.value) {
             var rel_url = VerticalGlobalFunctions.createSearchLink(this.urlScope) + e.target.value;
-            var fullSearchUrl = GlobalSettings.getOffsiteLink(this.urlScope, rel_url);
+            var fullSearchUrl = GlobalSettings.getOffsiteLink(this.urlScope, "search", rel_url);
             window.open(fullSearchUrl);
         }
     }else if(e.type == "click"){
       var inputVal= e.target.offsetParent.previousElementSibling.lastChild.value;
       if(inputVal) {
           var rel_url = VerticalGlobalFunctions.createSearchLink(this.urlScope) + inputVal;
-          var fullSearchUrl = GlobalSettings.getOffsiteLink(this.urlScope, rel_url);
+          var fullSearchUrl = GlobalSettings.getOffsiteLink(this.urlScope, "search", rel_url);
           window.open(fullSearchUrl);
       }
 
@@ -212,11 +214,7 @@ export class DeepDiveSectionFront implements OnInit {
         {
           key: 'MLB',
           value: "MLB",
-        },
-        // {
-        //   key: 'NHL',
-        //   value: "NHL",
-        // },
+        }
       ];
     }else{
       sportsList = null;

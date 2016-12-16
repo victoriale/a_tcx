@@ -1,4 +1,4 @@
-
+import { GeoLocation } from "./global-service";
 
 export class GlobalSettings {
     private static _env = window.location.hostname.split('.')[0];
@@ -11,6 +11,7 @@ export class GlobalSettings {
     private static _articleUrl:string = '-article-library.synapsys.us/tcx';
 
     private static _articleBatchUrl:string= "-article-library.synapsys.us/articles";
+    private static _domainApiUrl:string= "devapi.synapsys.us/widgets/deepdive/bar/domain_api.php?dom=";
 
     private static _partnerApiUrl: string = 'apireal.synapsys.us/listhuv/?action=get_partner_data&domain=';
 
@@ -896,6 +897,9 @@ export class GlobalSettings {
     }
     static getHomePageLinkName() {
       return this._homepageLinkName;
+    }
+    static getDomainAPI(partnerID) {
+      return this._domainApiUrl + partnerID;
     }
     static getArticleBatchUrl(){
         return this._proto + "//" + this.getEnv(this._env) + this._articleBatchUrl;

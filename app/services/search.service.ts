@@ -18,10 +18,16 @@ export class SearchService{
     }
 
     searchArticleService(userInput,currentPage,filter1?,filter2?){
-        var callUrl
-        if(filter1 && filter2){
-            callUrl = this._searchApi + '/' + 'elasticSearch' + '/' + userInput + '/' + 10 + '/' + currentPage + '/' +filter1 + '/' + filter2;
-
+        var callUrl = null;
+        if(filter1 || filter2){
+            callUrl = this._searchApi + '/' + 'elasticSearch' + '/' + userInput + '/' + 10 + '/' + currentPage + '?';
+            if(filter1){
+              callUrl += 'category=football';//TODO default to football until more data available
+              // callUrl += 'category=' + filter1;
+            } else if(filter2){
+              if(filter1){callUrl += '&';}
+              callUrl += 'sortType=' + filter2;
+            }
         }else {
             callUrl = this._searchApi + '/' + 'elasticSearch' + '/' + userInput + '/' + 10 + '/' + currentPage;
         }
@@ -35,7 +41,6 @@ export class SearchService{
     }
     transformSearchResults(data) {
         data=data.article_data;
-
         var placeholder = "/app/public/placeholder_XL.png"
 
         data.forEach(function(val, index) {
@@ -47,7 +52,7 @@ export class SearchService{
                 urlRouteArray: '/news-feed',
             };
             val['title']=val.title;
-            val["teaser"]=val.teaser.replace(/<ng2-route>|<\/ng2-route>/g,'');
+            val["teaser"]=val.teaser.replace(/<ng2-route>|<\/ng2-route>|/ig,'');
             val['articleUrl']=val.article_url;
             val['keyword']=val.filter_keywords[0];
             val['author']=val.author;

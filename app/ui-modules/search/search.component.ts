@@ -63,7 +63,7 @@ export interface SearchInput {
 
 export class Search{
     @Input() searchInput: SearchInput;
-
+    @Input() partnerID: string;
     //NgControl of input
     public term:any = new FormControl();
     //Array of suggestions dropdown
@@ -235,7 +235,11 @@ export class Search{
           searchRoute = dropdownLink;*/
 
         }
-        this._router.navigate(['/news-feed','search','articles',term ]);
+        if(this.partnerID){
+          this._router.navigate(['/'+this.partnerID, 'news', 'search', 'articles', term]);
+        } else {
+          this._router.navigate(['/news-feed','search','articles',term]);
+        }
         // this._router.navigate(searchRoute);
 
         //Clear out autocomplete text and close dropdown when search occurs

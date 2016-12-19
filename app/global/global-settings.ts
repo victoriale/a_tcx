@@ -1,4 +1,5 @@
 import { GeoLocation } from "./global-service";
+import { GlobalFunctions } from "./global-functions";
 
 export class GlobalSettings {
     private static _env = window.location.hostname.split('.')[0];
@@ -119,7 +120,7 @@ export class GlobalSettings {
           scope:'ncaaf',
           scopeList: ["MLB", "NCAAM", "NBA", "NCAAF", "NFL", "All"],
           topScope: 'football',
-          displayName: 'FBS',
+          displayName: 'NCAAF',
           verticalApi: this.getVerticalEnv('-touchdownloyal-api.synapsys.us'),
           aiApi:this.getVerticalEnv('-touchdownloyal-ai.synapsys.us'),
           tcxApi: this.getApiUrl(),
@@ -391,23 +392,6 @@ export class GlobalSettings {
           color:'#00b9e3',
           hoverColor: "rgba(0, 185, 227, 0.75)"
         },
-        // 'celebrities':{
-        //   parentScope: 'entertainment',
-        //   scope:'celebrities',
-        //   scopeList: ["Celebrities", "Music", "Movies", "TV", "All"],
-        //   topScope: 'entertainment',
-        //   displayName: 'Celebrities',
-        //   verticalApi: null,
-        //   aiApi: null,
-        //   tcxApi: this.getApiUrl(),
-        //   showEventSlider: false,
-        //   showBoxScores:false,
-        //   showSFTopNav: true,
-        //   icon:'fa-film',
-        //   pageType: 3,
-        //   color:'#00b9e3',
-        //   hoverColor: "rgba(0, 185, 227, 0.75)"
-        // },
         'lifestyle':{
           parentScope: null,
           scope:'lifestyle',
@@ -520,7 +504,7 @@ export class GlobalSettings {
           parentScope: null,
           scope:'news-feed',
           topScope: null,
-          displayName: null,
+          displayName: GlobalFunctions.toTitleCase(section),
           verticalApi: null,
           aiApi: null,
           tcxApi: this.getApiUrl(),

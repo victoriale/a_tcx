@@ -57,7 +57,6 @@ import { ChatterboxModule } from "../ui-modules/chatterbox/chatterbox.module";
 import { AboutUsPage } from "../webpages/aboutus/aboutus";
 import { PrivacyPolicy } from "../webpages/privacy-policy/privacy-policy";
 import { TermsOfService } from "../webpages/terms-of-service/terms-of-service";
-import { ErrorPage } from "../webpages/error-page/error-page.page";
 
 //Pipes
 import {SanitizeScript, SanitizeHtml, SanitizeRUrl, SanitizeStyle, SanitizeUrl} from "../fe-core/pipes/safe.pipe";
@@ -125,8 +124,7 @@ import { SearchService } from "../services/search.service";
       ComplexInnerHtml,
       ArticleScheduleComponent,
       ScoreBoard,
-      LoadMoreButtonComponent,
-      ErrorPage
+      LoadMoreButtonComponent
     ],
     exports: [
       SectionFrontTopNav,
@@ -171,8 +169,7 @@ import { SearchService } from "../services/search.service";
       SidekickContainerComponent,
       ArticleScheduleComponent,
       ScoreBoard,
-      LoadMoreButtonComponent,
-      ErrorPage
+      LoadMoreButtonComponent
     ],
     providers: [
       VerticalGlobalFunctions,

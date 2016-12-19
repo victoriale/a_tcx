@@ -101,7 +101,7 @@ export class SchedulesService {
                     output.current['current_condition'] = data.current_condition;
                     output.current['current_icon'] = data.current_icon ? GlobalSettings.getImageUrl(data.current_icon).replace(".svg","_light.svg") : null;
                     output.current['current_scope'] = data.current_scope;
-                    output.current['description'] = "<span class='text-heavy'>"+data.current_condition+"</span> until "+ moment(data.data[1].unix_timestamp).format("h A z"); //TODO
+                    output.current['description'] = "<span class='text-heavy'>"+data.current_condition+"</span> until "+ moment(data.data[1].unix_timestamp).format("h A z");
                     output.current['current_time'] = moment().format("dddd h:mm A");
                     output.current['current_temperature'] = ((data.current_temperature * (9 / 5)) - 459.67).toFixed(0);
                     output.current['temperature_low'] = data.temperature_low != null ? ((data.temperature_low * (9 / 5)) - 459.67).toFixed(0) : null;
@@ -269,9 +269,8 @@ export class SchedulesService {
                         //convert from kelvin to farenheight
                         var offset = Intl.DateTimeFormat().resolvedOptions().timeZone;
                         if (scope.toLowerCase() == "hourly") {
-                            data.data[n].unix_timestamp = moment.unix(data.data[n].unix_timestamp).tz(offset).format("h:mm A z");
+                            data.data[n].unix_timestamp = moment.unix(data.data[n].unix_timestamp).format("h:mm A z");
                             data.data[n].temperature = ((data.data[n].temperature * (9 / 5)) - 459.67).toFixed(0) + "&deg;";
-
                         }
                         else {
                             data.data[n].unix_timestamp = moment.unix(data.data[n].unix_timestamp).format("dddd, MMM. DD, YYYY").toUpperCase();
@@ -345,8 +344,8 @@ export class SchedulesService {
                             data.data[n].reportDisplay = "GAME REPORT";
                     }
                     var offset = Intl.DateTimeFormat().resolvedOptions().timeZone;
-                    let date = moment(Number(data.data[n].startTime)).tz(offset).format('dddd, MMM. D').toUpperCase();
-                    let time = moment(Number(data.data[n].startTime)).tz(offset).format('h:mm A z');
+                    let date = moment(Number(data.data[n].startTime)).format('dddd, MMM. D').toUpperCase();
+                    let time = moment(Number(data.data[n].startTime)).format('h:mm A z');
 
 
                     data.data[n].date = date + " &bull; " + time;
@@ -432,8 +431,8 @@ export class SchedulesService {
                             data.data[n].reportDisplay = "GAME REPORT";
                     }
                     var offset = Intl.DateTimeFormat().resolvedOptions().timeZone;
-                    let date = moment(Number(data.data[n].eventDate)).tz(offset).format('dddd, MMM. D').toUpperCase();
-                    let time = moment(Number(data.data[n].eventDate)).tz(offset).format('h:mm A z');
+                    let date = moment(Number(data.data[n].eventDate)).format('dddd, MMM. D').toUpperCase();
+                    let time = moment(Number(data.data[n].eventDate)).format('h:mm A z');
                     data.data[n].date = date + " &bull; " + time;
                     data.data[n].homeTeamName = data.data[n].lastNameHome;
                     data.data[n].awayTeamName = data.data[n].lastNameAway;
@@ -578,8 +577,8 @@ export class SchedulesService {
                 }
             }
             var offset = Intl.DateTimeFormat().resolvedOptions().timeZone;
-            let date = moment(Number(val.eventStartTime)).tz(offset).format('dddd, MMM. D').toUpperCase();
-            let time = moment(Number(val.eventStartTime)).tz(offset).format('h:mm A z');
+            let date = moment(Number(val.eventStartTime)).format('dddd, MMM. D').toUpperCase();
+            let time = moment(Number(val.eventStartTime)).format('h:mm A z');
             let team1FullName = val.team1FullName ? val.team1FullName : null;
             let team2FullName = val.team2FullName ? val.team2FullName : null;
 

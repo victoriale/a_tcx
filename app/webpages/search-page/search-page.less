@@ -4,14 +4,8 @@
   min-width: 320px;
   margin: 0;
   overflow: hidden;
-  .droptitle{
-    width:300px;
-    right: 90px;
-  }
   .dropdown-list{
-    width: 300px;
     top: 32px;
-    right: -10px;
     border-color: @strokeGrey;
   }
   .dropdown .scrollable-item-scroller{
@@ -40,6 +34,7 @@
 
       }
     }
+
     .search-large .search-input {
       border-top-left-radius: 2px;
       border-bottom-left-radius: 2px;
@@ -51,6 +46,14 @@
     }
   }
   @media @tablet{
+    .droptitle{
+      right:48%;
+      width:300px;
+    }
+    .dropdown-list {
+      right: -2%;
+      width:300px;
+    }
     .search-large .search-input-container {
       width: 87.96%;
 

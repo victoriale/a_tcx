@@ -51,17 +51,19 @@ export class SearchService{
             val['articleId']=val.article_id;
             val["publishedDate"] = GlobalFunctions.sntGlobalDateFormatting(val.published_date, 'timeZone');
             val["imagePathData"] = {
+                extUrl:true,
                 imageClass: "embed-responsive-16by9",
                 imageUrl:val.image_url?val.image_url:GlobalSettings.getImageUrl(placeholder),
-                urlRouteArray: '/news-feed',
+                urlRouteArray: val.article_url,
             };
             val['title']=val.title;
             val["teaser"]=val.teaser.replace(/<ng2-route>|<\/ng2-route>|/ig,'');
-            val['articleUrl']=val.article_url;
             val['keyword']=val.filter_keywords[0];
             val['author']=val.author;
             val['publisher']=val.publisher;
             val['is_stock_photo']=val.is_stock_photo;
+            //val["url"] = val.source!="snt_ai"?VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, "story"):GlobalSettings.getOffsiteLink(val.scope,"article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, articleType, val.event_id));
+
         })
         return data;
     }

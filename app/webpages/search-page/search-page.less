@@ -12,9 +12,20 @@
     width: 300px;
     top: 32px;
     right: -10px;
+    border-color: @strokeGrey;
+  }
+  .dropdown .scrollable-item-scroller{
+    width:7px;
   }
   .dropdown-caret-top{
-
+    top:2px;
+    right:12px;
+    &::after{
+      border-bottom-color:@strokeGrey;
+    }
+  }
+  .dropdown-caret-top-active::after, .dropdown-caret-top-hover::after{
+    border-bottom-color:@strokeGrey;
   }
   .search-large{
     margin-top: -0.1%;

@@ -33,6 +33,7 @@ export class SearchService{
 
 
         }
+        console.log(callUrl,"link");
         return this.http.get(callUrl)
             .map(res=>res.json())
             .map(data => {
@@ -122,7 +123,7 @@ export class SearchService{
                 value:"NCAAM",
             },
             {
-                key:'football',
+                key:'nfl',
                 value:"NFL",
             },
             {
@@ -183,10 +184,6 @@ export class SearchService{
              key:'past30days',
              value:"Past 30 Days",
              },
-             /*{
-             key:'MostViews',
-             value:"Most Views",
-             },*/
         ];
     }
 

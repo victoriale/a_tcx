@@ -12,35 +12,41 @@ export class SearchPage{
     paramsub:any;
     userInput;
     searchArticlesData:any;
-    currentPage:number=1;
+    currentPage:number=0;
     pageCount:number;
-    articleCount:number=this.pageCount*10;
+    articleCount:number;
     keywordFilter:any;
     sortFilter:any;
+    error:any;
     public scrollTopPrev:number=0;
     filter1:string;
     filter2:string;
     constructor(private activateRoute:ActivatedRoute, private searchService:SearchService, private _render:Renderer){
         this.paramsub=activateRoute.params.subscribe(
             (param :any)=> {
+                this.currentPage=0; //initialize current page to start page (i.e currently 0 in the API)
                 this.userInput= param['userInput'];
                 this.getSearchResult(this.userInput,this.currentPage);
-                this.keywordFilter=this.searchService.getkeyWords();
-                this.sortFilter=this.searchService.getSortOptions();
+                this.keywordFilter=this.searchService.getkeyWords(); //get all the keywords for the dropdown
+                this.sortFilter=this.searchService.getSortOptions(); //get all the sort options for the dropdown
             }
         );
     }
 
     ngOnChanges(){}
 
+    /* method to get the articles*/
     private getSearchResult(i,currentPage,filter1?,filter2?){
         this.searchService.searchArticleService(i,currentPage,filter1,filter2).subscribe(
             data=>{
                 if(data.data.article_data) {
                     this.searchArticlesData = this.searchService.transformSearchResults(data.data);
-                    this.pageCount=data.data.total_pages-1;
+                    this.pageCount=data.data.total_pages;
+                    this.articleCount=this.pageCount*10;
                 }else{
                     this.searchArticlesData=null;
+                    this.pageCount=0;
+                    this.articleCount=this.pageCount*10;
                 }
             }
         )
@@ -49,32 +55,22 @@ export class SearchPage{
     ngOnDestroy(){
         this.paramsub.unsubscribe();
     }
-    getPageOnClick(e){
+    getPageOnClick(e){ //e => page number i
         this.currentPage=e;
-        this.getSearchResult(this.userInput,this.currentPage);
-    }
-    chosenFilter1(e){
-        console.log(e,"filter1");
-        if(e!="all"){
-            this.filter1=e;
-            this.filter2!="none"?this.getSearchResult(this.userInput,1,this.filter1,this.filter2):this.getSearchResult(this.userInput,1,this.filter1,undefined);
+        this.getSearchResult(this.userInput,this.currentPage,this.filter1,this.filter2);
 
-        }
-        else{
-            this.getSearchResult(this.userInput,this.currentPage);
-        }
 
     }
-    chosenFilter2(e){
-        console.log(e,"fillter2");
-        if(e!="none"){
-            this.filter2=e;
-            this.filter1!="all"?this.getSearchResult(this.userInput,1,this.filter1,this.filter2):this.getSearchResult(this.userInput,1,undefined,this.filter2);
+    chosenFilter1(e){ //e => selection from the dropdown filter: categories
+        this.currentPage=0;
+        this.filter1=e;
+        this.getSearchResult(this.userInput,this.currentPage,this.filter1,this.filter2)
 
-             }
-        else{
-            this.getSearchResult(this.userInput,this.currentPage);
-        }
+    }
+    chosenFilter2(e){ //e => selection from the dropdown filter: sort options
+        this.currentPage=0;
+        this.filter2=e;
+        this.getSearchResult(this.userInput,this.currentPage,this.filter1,this.filter2)
          }
 
     @HostListener('window:scroll',['$event']) onScroll(e){

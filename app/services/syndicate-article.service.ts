@@ -128,7 +128,6 @@ export class SyndicateArticleService {
   }
 
   transformToRecArticles(data, scope, articleType, currentArticleId) {
-    console.log(data);
     if(!data){
       return null;
     }

@@ -11,7 +11,6 @@
     <!-- <link rel="shortcut icon" href="/app/public/mainLogo.jpg" /> -->
 
     <!-- 1. Load libraries -->
-    <!-- <script src="lib/es6-shim.min.js"></script> -->
     <script src="lib/core.min.js"></script>
     <script src="lib/Reflect.js"></script>
     <script src="lib/system.src.js"></script>
@@ -28,7 +27,7 @@
 
     <!-- social share button on home page -->
     <script type="text/javascript">var switchTo5x=true;</script>
-    <script type="text/javascript" src="https://ws.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript" src="https://ws.sharethis.com/button/buttons.js" defer></script>
 
     <!-- highcharts - dependencies are jquery to be called first -->
     <script src="lib/highcharts.js"></script>
@@ -43,10 +42,6 @@
             this.page.identifier = (window.location.pathname + " ").replace("/"," ");
             this.page.url = window.location.href + "#!newthread";
         };
-    </script>
-
-    <script>
-      System.import('app').catch(function(err){ console.error(err); });
     </script>
 
     <!-- Share This button-->
@@ -80,6 +75,6 @@
     <!--END css-->
     <app-domain>Loading...</app-domain>
     <!-- 2. Load Configure SystemJS -->
+    <script src="lib/bundle.js"></script>
   </body>
-  <script src="lib/bundle.js"></script>
 </html>

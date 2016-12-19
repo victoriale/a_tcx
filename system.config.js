@@ -6,7 +6,6 @@
   // map tells the System loader where to look for things
   var map = {
     // our app is within the app folder
-    'app'                                 :'dist/app',
     // angular bundles
     '@angular/core'                       :'dist/lib/core',
     '@angular/common'                     :'dist/lib/common',
@@ -19,13 +18,12 @@
     // other libraries
     'symbol-observable'                   :'dist/lib',
     'rxjs'                                :'dist/lib',
-    'angular2-in-memory-web-api'          :'dist/lib/angular2-in-memory-web-api'
+    'app'                                 :'dist/app'
   };
 
   var packages = {
-    'app':                              { main: './main.js', defaultExtension: 'js' },
+    'app':                              { format: "register", defaultExtension: 'js' },
     'rxjs':                             { defaultExtension: 'js' },
-    'angular2-in-memory-web-api':       { main: './index.js', defaultExtension: 'js' },
     'symbol-observable':                { defaultExtension: 'js' }
   };
 

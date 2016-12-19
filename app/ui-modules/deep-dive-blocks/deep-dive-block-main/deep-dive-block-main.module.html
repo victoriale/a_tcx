@@ -103,7 +103,7 @@
   </div>
   <!-- RANDOM VIDEO -->
   <!-- VIDEO STACK -->
-  <div *ngIf="videoDataBatch3" class="deep-dive-module">
+  <div *ngIf="videoDataBatch3 && blockIndex > 4" class="deep-dive-module">
     <section-name-component [secName]="secName[13]"></section-name-component>
     <deep-dive-video-module [videoData]="videoDataBatch3"></deep-dive-video-module>
   </div>

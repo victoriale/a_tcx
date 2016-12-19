@@ -94,13 +94,12 @@ export class SchedulesService {
         return this.http.get(callURL, { headers: headers })
             .map(res => res.json())
             .map(data => {
-
                 var output = { scopeList: [], blocks: [], current: {} };
                 if (data.data != null) {
                     output.current['location'] = data.city + ', ' + data.state;
                     output.current['city'] = data.city;
                     output.current['current_condition'] = data.current_condition;
-                    output.current['current_icon'] = GlobalSettings.getImageUrl(data.current_icon).replace(".svg","_light.svg");
+                    output.current['current_icon'] = data.current_icon ? GlobalSettings.getImageUrl(data.current_icon).replace(".svg","_light.svg") : null;
                     output.current['current_scope'] = data.current_scope;
                     output.current['description'] = "<span class='text-heavy'>"+data.current_condition+"</span> until "+ moment(data.data[1].unix_timestamp).format("h A z"); //TODO
                     output.current['current_time'] = moment().format("dddd h:mm A");
@@ -122,7 +121,7 @@ export class SchedulesService {
                     output.current['options'] = {
                         chart: {
                             backgroundColor: 'transparent',
-                            type: 'area',
+                            type: 'areaspline',
                             marginLeft: 0,
                             marginRight: 0,
                             marginTop: 0,
@@ -147,7 +146,7 @@ export class SchedulesService {
                             enabled: false
                         },
                         plotOptions: {
-                            area: {
+                            areaspline: {
                                 pointStart: 1940,
                                 fillColor: 'rgba(252, 209, 48, 0.25)',
                                 lineColor: '#ffdf30',

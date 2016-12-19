@@ -1,0 +1,8 @@
+<section *ngIf="srcLink" (window:resize)="onResize($event)">
+    <div *ngIf="!isSmall">
+      <iframe frameborder="0" scrolling="no" allowtransparency="true" [src]="srcLink | safeRUrl" [ngStyle]="{'display': 'block','width': '100%', 'height': '450px', 'margin': '0px','border': '0px','overflow': 'hidden','z-index': '0'}"></iframe>
+    </div>
+    <div *ngIf="isSmall">
+      <iframe frameborder="0" scrolling="no" allowtransparency="true" [src]="srcLink | safeRUrl" [ngStyle]="{'display': 'block','width': '100%', 'height': '855px', 'margin': '0px','border': '0px','overflow': 'hidden','z-index': '0'}"></iframe>
+    </div>
+</section>

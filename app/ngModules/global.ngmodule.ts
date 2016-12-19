@@ -42,11 +42,11 @@ import {SidekickContainerComponent} from "../fe-core/components/articles/sidekic
 import { ScoreBoard } from "../fe-core/components/score-board/score-board.component";
 
 /*** MODULES ***/
-import { BillboardModule } from "../fe-core/modules/billboard/billboard.module";
 import { SearchBoxModule } from "../fe-core/modules/search-box-module/search-box-module.module";
 import { DeepDiveRecommendation } from "../fe-core/modules/deep-dive-recommendation/deep-dive-recommendation.module";
 
 /*** UI MODULES AND WIDGETS ***/
+import { BillboardModule } from "../ui-modules/billboard/billboard.module";
 import { FooterComponent } from "../ui-modules/footer/footer.component";
 import { ResponsiveWidget } from "../ui-modules/responsive-widget/responsive-widget.component";
 import { WidgetCarouselModule } from "../ui-modules/widget/widget-carousel.module";

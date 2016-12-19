@@ -1,11 +1,8 @@
 <header class="header container-fluid" id="pageHeader" (window:scroll)="onScrollStick($event)" [class.fixedHeader]="scrollUp">
   <div id="partner" *ngIf="partnerID && partnerScript" [innerHTML]="partnerScript | safeHtml"></div>
-  <section class="header-top" [class.header-partner]="partnerID">
-    <div *ngIf="!partnerID" class="header-logo">
+  <section *ngIf="!partnerID" class="header-top" [class.header-partner]="partnerID">
+    <div class="header-logo">
       <a *ngIf="logoUrl" [routerLink]="homeUrl"><img src={{logoUrl}}></a>
-    </div>
-    <div *ngIf="partnerID" class="header-logo">
-      <a *ngIf="partnerLogoUrl" [routerLink]="homeUrl"><img src={{partnerLogoUrl}}></a>
     </div>
     <div class="header-left">
     </div>
@@ -55,7 +52,7 @@
             <div class="parallelogram searchcheck" [class.searchOpened]="isSearchOpened"></div>
           </div>
           <div class="header-search-searchBox searchcheck">
-            <search [searchInput]="searchInput"></search>
+            <search [searchInput]="searchInput" [partnerID]="partnerID"></search>
           </div>
         </div>
       </div>

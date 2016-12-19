@@ -95,7 +95,7 @@ export class DeepDiveService {
   }// getDeepDiveVideoBatchService ENDS
 
     transformSportVideoBatchData(data: Array<VideoStackData>, scope?){
-      if(data === null || typeof data == "undefined" || data.length == 0){
+      if(data == null || typeof data == "undefined" || data.length == 0){
         return null;
       }
       var sampleImage = "/app/public/placeholder_XL.png";
@@ -125,7 +125,7 @@ export class DeepDiveService {
 
     // Article Batch Transformed Data
     transformToArticleStack(data: Array<ArticleStackData>, scope?){
-      if(data == null){return null;}//TODO tell backend to return null when no data
+      if(data == null){return null;}
       var sampleImage = "/app/public/placeholder_XL.png";
       var articleStackArray = [];
       let route = VerticalGlobalFunctions.getWhiteLabel();
@@ -155,7 +155,7 @@ export class DeepDiveService {
               routeLink = GlobalSettings.getOffsiteLink(val.scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id));
               extLink = true;
             } else {
-              routeLink = VerticalGlobalFunctions.formatArticleRoute(scope.replace(/\s/g , "-") , val.article_id, "story");
+              routeLink = scope ? VerticalGlobalFunctions.formatArticleRoute(scope.replace(/\s/g , "-") , val.article_id, "story") : null;
               extLink = false;
               author = val.author ? val.author.replace(/by/gi, "") + ", ": null;
               publisher = author ? val.publisher : "Published by: " + val.publisher;
@@ -222,8 +222,8 @@ export class DeepDiveService {
           title:  "<span> Today's News: </span>",
           headline: val['title'],
           keywords: val['keywords'][0],
-          keyUrl: VerticalGlobalFunctions.formatSectionFrontRoute(val['keywords'][0]),
-          teaser: val['teaser'].replace('_',': ').replace(/<p[^>]*>/g, ""),
+          keyUrl: val['keywords'][0] ? VerticalGlobalFunctions.formatSectionFrontRoute(val['keywords'][0].replace(/\s/g, "-")) : ["/news-feed"],
+          teaser: val['teaser'] ? val['teaser'].replace('_',': ').replace(/<p[^>]*>/g, "") : "",
           article_id:val['article_id'],
           article_url: val['article_url'],
           last_updated: val.publication_date,

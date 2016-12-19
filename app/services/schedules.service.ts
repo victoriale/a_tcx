@@ -121,7 +121,7 @@ export class SchedulesService {
                     output.current['options'] = {
                         chart: {
                             backgroundColor: 'transparent',
-                            type: 'area',
+                            type: 'areaspline',
                             marginLeft: 0,
                             marginRight: 0,
                             marginTop: 0,
@@ -146,7 +146,7 @@ export class SchedulesService {
                             enabled: false
                         },
                         plotOptions: {
-                            area: {
+                            areaspline: {
                                 pointStart: 1940,
                                 fillColor: 'rgba(252, 209, 48, 0.25)',
                                 lineColor: '#ffdf30',

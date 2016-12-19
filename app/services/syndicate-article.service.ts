@@ -158,7 +158,6 @@ export class SyndicateArticleService {
       });
       // if(articleStackArray.length==3){ return articleStackArray;}
       // else{return articleStackArray.slice(0,3)}
-      console.log(articleStackArray);
       return articleStackArray;
   }
   //http://dev-tcxmedia-api.synapsys.us/articles?source=tca&count=10&category=entertainment&subCategory=television

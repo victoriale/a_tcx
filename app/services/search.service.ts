@@ -33,7 +33,6 @@ export class SearchService{
 
 
         }
-        console.log(callUrl);
         return this.http.get(callUrl)
             .map(res=>res.json())
             .map(data => {

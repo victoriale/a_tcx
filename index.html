@@ -6,12 +6,9 @@
     <title>TCX</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#00a4ca "/>
+    <meta http-equiv="Content-Language" content="en">
     <!-- <link rel="shortcut icon" href="/app/public/mainLogo.jpg" /> -->
-
-    <!--css-->
-    <link href="/app/global/stylesheets/tcx-font.css" rel="stylesheet">
-    <link href="/app/global/stylesheets/master.css" rel="stylesheet">
-    <!--END css-->
 
     <!-- 1. Load libraries -->
     <!-- <script src="lib/es6-shim.min.js"></script> -->
@@ -47,10 +44,7 @@
             this.page.url = window.location.href + "#!newthread";
         };
     </script>
-    <script type="text/javascript">stLight.options({publisher: "ab81b5e8-9aea-4921-9930-26ce6925e901", doNotHash: false, doNotCopy: false, hashAddressBar: false, onhover: false});</script>
 
-    <!-- 2. Configure SystemJS -->
-    <script src="systemjs.config.js"></script>
     <script>
       System.import('app').catch(function(err){ console.error(err); });
     </script>
@@ -76,9 +70,16 @@
       ga('create', 'UA-85017411-1', 'auto');
       // ga('send', 'pageview');
     </script>
+
   </head>
   <!-- 3. Display the application -->
   <body>
+    <!--async css-->
+    <link href="/app/global/stylesheets/tcx-font.css" rel="stylesheet" lazyload>
+    <link href="/app/global/stylesheets/master.css" rel="stylesheet" lazyload>
+    <!--END css-->
     <app-domain>Loading...</app-domain>
+    <!-- 2. Load Configure SystemJS -->
   </body>
+  <script src="lib/bundle.js"></script>
 </html>

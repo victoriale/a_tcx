@@ -13,7 +13,7 @@ export class SearchPage{
     userInput;
     searchArticlesData:any;
     currentPage:number=1;
-    pageCount:number=5;
+    pageCount:number;
     articleCount:number=this.pageCount*10;
     keywordFilter:any;
     sortFilter:any;
@@ -38,6 +38,7 @@ export class SearchPage{
             data=>{
                 if(data.data.article_data) {
                     this.searchArticlesData = this.searchService.transformSearchResults(data.data);
+                    this.pageCount=data.data.total_pages-1;
                 }else{
                     this.searchArticlesData=null;
                 }
@@ -53,14 +54,28 @@ export class SearchPage{
         this.getSearchResult(this.userInput,this.currentPage);
     }
     chosenFilter1(e){
-        this.filter1=e;
-        this.filter2?this.getSearchResult(this.userInput,1,this.filter1,this.filter2):this.getSearchResult(this.userInput,1,this.filter1);
+        console.log(e,"filter1");
+        if(e!="all"){
+            this.filter1=e;
+            this.filter2!="none"?this.getSearchResult(this.userInput,1,this.filter1,this.filter2):this.getSearchResult(this.userInput,1,this.filter1,undefined);
+
+        }
+        else{
+            this.getSearchResult(this.userInput,this.currentPage);
+        }
 
     }
     chosenFilter2(e){
-        this.filter2=e;
-        this.filter1?this.getSearchResult(this.userInput,1,this.filter1,this.filter2):this.getSearchResult(this.userInput,1,this.filter2);
-    }
+        console.log(e,"fillter2");
+        if(e!="none"){
+            this.filter2=e;
+            this.filter1!="all"?this.getSearchResult(this.userInput,1,this.filter1,this.filter2):this.getSearchResult(this.userInput,1,undefined,this.filter2);
+
+             }
+        else{
+            this.getSearchResult(this.userInput,this.currentPage);
+        }
+         }
 
     @HostListener('window:scroll',['$event']) onScroll(e){
         var scrollingElement=e.target.body.getElementsByClassName('search-widget')[0];

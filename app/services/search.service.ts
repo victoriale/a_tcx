@@ -9,31 +9,33 @@ declare let Fuse: any;
 
 @Injectable()
 export class SearchService{
-    public pageMax: number = 10;
-    public searchJSON: any;
     private _searchApi:string=GlobalSettings.getApiUrl();
-
-    public searchAPI: string = "http://dev-touchdownloyal-api.synapsys.us" + '/landingPage/search';
-    constructor(private http: Http, private _router:Router){
-    }
+    constructor(private http: Http, private _router:Router){}
 
     searchArticleService(userInput,currentPage,filter1?,filter2?){
         var callUrl = null;
-        if(filter1||filter2){
+        //if user clicked on any of the dropdown filters then filter 1 and filer 2 has respected values to add to API
+        if( filter1 || filter2 ){
+
             callUrl = this._searchApi + '/' + 'elasticSearch' + '/' + userInput + '/' + 10 + '/' + currentPage + '?';
-            if(filter2&&filter2!="none"&&filter2!=undefined){
-                //callUrl += 'category=football';//TODO default to football until more data available
+
+            if(filter2 && filter2 != "none" && filter2 != undefined){
+
                 callUrl += 'sortType=' + filter2;
+
             }
+
             if(filter1 && filter1!="all" && filter1!=undefined){
+
                 callUrl += '&'+ 'category=' + filter1;
+
             }
-        }else {
-            callUrl = this._searchApi + '/' + 'elasticSearch' + '/' + userInput + '/' + 10 + '/' + currentPage;
-
-
         }
-        console.log(callUrl,"link");
+
+        // if there are no filters then the default API is called
+        else {
+            callUrl = this._searchApi + '/' + 'elasticSearch' + '/' + userInput + '/' + 10 + '/' + currentPage;
+        }
         return this.http.get(callUrl)
             .map(res=>res.json())
             .map(data => {

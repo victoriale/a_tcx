@@ -63,7 +63,7 @@ export interface SearchInput {
 
 export class Search{
     @Input() searchInput: SearchInput;
-
+    @Input() partnerID: string;
     //NgControl of input
     public term:any = new FormControl();
     //Array of suggestions dropdown
@@ -235,7 +235,11 @@ export class Search{
           searchRoute = dropdownLink;*/
 
         }
-        this._router.navigate(['/deep-dive','search','articles',term ]);
+        if(this.partnerID){
+          this._router.navigate(['/'+this.partnerID, 'news', 'search', 'articles', term]);
+        } else {
+          this._router.navigate(['/news-feed','search','articles',term]);
+        }
         // this._router.navigate(searchRoute);
 
         //Clear out autocomplete text and close dropdown when search occurs
@@ -270,7 +274,8 @@ export class Search{
             //Only continue stream if the input value has changed from the last iteration
             .distinctUntilChanged()
             // Cancel any previous iterations if they have not completed their cycle. Also used to empty dropdown list if input is blank
-            .switchMap((term: string) => term.length > 0 ? self._searchService.getSearchDropdownData(this._router, term) : Observable.of({term: term, searchResults: []}))
+            .switchMap((term: string) => term.length > 0 ? self._searchService.getSortOptions() : Observable.of({term: term, searchResults: []}))
+            // .switchMap((term: string) => term.length > 0 ? self._searchService.getSortOptions(this._router, term) : Observable.of({term: term, searchResults: []}))
             .subscribe(data => {
                 let term = data.term;
                 let searchResults = data.searchResults;

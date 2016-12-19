@@ -49,7 +49,6 @@ export class GeoLocation{
       }
 
         var fullUrl = GlobalSettings.getPartnerApiUrl(partner_id);
-        // console.log(fullUrl);
         return this.http.get(fullUrl, {
         })
             .map(
@@ -80,6 +79,18 @@ export class GeoLocation{
             }
             )
             .share();
+    }
+
+    getDomainApi(partner_id){
+      var callURL = partner_id && typeof partner_id != 'undefined' ? GlobalSettings.getDomainAPI(partner_id) : null;
+      // console.log("callURL", callURL);
+      return this.http.get(callURL, {})
+      .map(res=>res.json())
+      .map(data=>{
+        // console.log("DATA", data);
+        return data;
+      })
+      .share();
     }
 
     //api to get geo location

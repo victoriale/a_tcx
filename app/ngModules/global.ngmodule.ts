@@ -29,6 +29,7 @@ import { ModuleHeader } from "../fe-core/components/module-header/module-header.
 import { ArticleBlockComponent } from "../fe-core/components/article-block/article-block.component";
 import { DropdownComponent } from "../fe-core/components/dropdown/dropdown.component";
 import { LoadingComponent } from "../fe-core/components/loading/loading.component";
+import { LoadMoreButtonComponent } from "../fe-core/components/load-more-button/load-more-button.component";
 import { ScrollableContent } from "../fe-core/components/scrollable-content/scrollable-content.component";
 import { SidekickWrapperAI } from "../fe-core/components/sidekick-wrapper-ai/sidekick-wrapper-ai.component";
 import { Larousel } from '../fe-core/components/larousel/larousel';
@@ -41,16 +42,16 @@ import {SidekickContainerComponent} from "../fe-core/components/articles/sidekic
 import { ScoreBoard } from "../fe-core/components/score-board/score-board.component";
 
 /*** MODULES ***/
-import { BillboardModule } from "../fe-core/modules/billboard/billboard.module";
-import { ChatterboxModule } from "../fe-core/modules/chatterbox/chatterbox.module";
 import { SearchBoxModule } from "../fe-core/modules/search-box-module/search-box-module.module";
 import { DeepDiveRecommendation } from "../fe-core/modules/deep-dive-recommendation/deep-dive-recommendation.module";
 
 /*** UI MODULES AND WIDGETS ***/
+import { BillboardModule } from "../ui-modules/billboard/billboard.module";
 import { FooterComponent } from "../ui-modules/footer/footer.component";
 import { ResponsiveWidget } from "../ui-modules/responsive-widget/responsive-widget.component";
 import { WidgetCarouselModule } from "../ui-modules/widget/widget-carousel.module";
 import { WidgetModule } from "../ui-modules/widget/widget.module";
+import { ChatterboxModule } from "../ui-modules/chatterbox/chatterbox.module";
 
 /*** WEBPAGES ***/
 import { AboutUsPage } from "../webpages/aboutus/aboutus";
@@ -122,8 +123,8 @@ import { SearchService } from "../services/search.service";
       SidekickContainerComponent,
       ComplexInnerHtml,
       ArticleScheduleComponent,
-      ScoreBoard
-
+      ScoreBoard,
+      LoadMoreButtonComponent
     ],
     exports: [
       SectionFrontTopNav,
@@ -167,7 +168,8 @@ import { SearchService } from "../services/search.service";
       BillboardComponent,
       SidekickContainerComponent,
       ArticleScheduleComponent,
-      ScoreBoard
+      ScoreBoard,
+      LoadMoreButtonComponent
     ],
     providers: [
       VerticalGlobalFunctions,

@@ -16,10 +16,6 @@ const relativeChildRoutes = [
         component: SearchPage
     },*/
     {
-        path: 'about-us',
-        component: AboutUsPage
-    },
-    {
         path: 'privacy-policy',
         component: PrivacyPolicy
     },
@@ -60,7 +56,7 @@ const relativeChildRoutes = [
 
 const appRoutes: Routes = [
     {
-        path: 'deep-dive',
+        path: 'news-feed',
         component: AppComponent,
         children: relativeChildRoutes
     },
@@ -76,8 +72,12 @@ const appRoutes: Routes = [
     },
     {
         path: '',
-        redirectTo:'deep-dive',
+        redirectTo:'news-feed',
         pathMatch:'full'
+    },
+    {
+        path: 'about-us',
+        component: AboutUsPage
     }
     ];
 
@@ -85,6 +85,6 @@ const appRoutes: Routes = [
 
 
 
-// [routerLink]=["/deep-dive/:category/:subCategory", 'sports', 'nfl']
+// [routerLink]=["/news-feed/:category/:subCategory", 'sports', 'nfl']
 
 export const routing = RouterModule.forRoot(appRoutes);

@@ -16,7 +16,6 @@ export class HeaderComponent implements OnInit {
     @Input() partnerScript: any;
     @Output() tabSelected = new EventEmitter();
     public logoUrl: string = 'app/public/TCX_Logo_Outlined.svg';
-    public partnerLogoUrl: string = 'app/public/TCX_Logo_Outlined.svg';
     public homeUrl: Array<string>;
     public searchInput: any = {
         placeholderText: "Search for a topic...",
@@ -138,7 +137,7 @@ export class HeaderComponent implements OnInit {
         if(this.partnerID){
           this.homeUrl = ["/"+this.partnerID, "news"];
         }else{
-          this.homeUrl = ["/deep-dive"];
+          this.homeUrl = ["/news-feed"];
         }
         this.getBreakingData();
         stButtons.locateElements();

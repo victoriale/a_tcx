@@ -94,13 +94,12 @@ export class SchedulesService {
         return this.http.get(callURL, { headers: headers })
             .map(res => res.json())
             .map(data => {
-
                 var output = { scopeList: [], blocks: [], current: {} };
                 if (data.data != null) {
                     output.current['location'] = data.city + ', ' + data.state;
                     output.current['city'] = data.city;
                     output.current['current_condition'] = data.current_condition;
-                    output.current['current_icon'] = GlobalSettings.getImageUrl(data.current_icon);
+                    output.current['current_icon'] = data.current_icon ? GlobalSettings.getImageUrl(data.current_icon).replace(".svg","_light.svg") : null;
                     output.current['current_scope'] = data.current_scope;
                     output.current['description'] = "<span class='text-heavy'>"+data.current_condition+"</span> until "+ moment(data.data[1].unix_timestamp).format("h A z"); //TODO
                     output.current['current_time'] = moment().format("dddd h:mm A");
@@ -317,84 +316,78 @@ export class SchedulesService {
         var headers = this.setToken();
         // var callURL = GlobalSettings.getVerticalEnv('-sports-api.synapsys.us') + "/NBAHoops/call_controller.php?scope=" + scope.toLowerCase() + "&action=tcx&option=tcx_side_scroll&perPage=50&pageNum=1";
         var callURL = GlobalSettings.getTCXscope(scope).verticalApi + "/NBAHoops/call_controller.php?scope=" + scope.toLowerCase() + "&action=tcx&option=tcx_side_scroll&perPage=50&pageNum=1";
-
         //optional week parameters
         return this.http.get(callURL, { headers: headers })
             .map(res => res.json())
             .map(data => {
+                data = data.data;
                 var output = { scopeList: [], blocks: [] }
-                for (var i = 0; i < data.data.scopeList.length; i++) {
-                    output.scopeList.push(data.data.scopeList[i].toUpperCase());
+                for (var i = 0; i < data.scopeList.length; i++) {
+                    output.scopeList.push(data.scopeList[i].toUpperCase());
                 }
-                for (var n = 0; n < data.data.data.length; n++) {
-                    switch (data.data.data[n].eventStatus) {
+                for (var n = 0; n < data.data.length; n++) {
+                    switch (data.data[n].eventStatus) {
                         case "pre-event":
-                            data.data.data[n].reportDisplay = "PRE GAME REPORT";
-                            data.data.data[n].reportLink = GlobalSettings.getOffsiteLink(scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'pregame', data.data.data[n].eventId));
+                            data.data[n].reportDisplay = "PRE GAME REPORT";
+                            data.data[n].reportLink = GlobalSettings.getOffsiteLink(scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'pregame', data.data[n].eventId));
                             break;
                         case "post-event":
-                            data.data.data[n].reportDisplay = "POST GAME REPORT";
-                            data.data.data[n].reportLink = GlobalSettings.getOffsiteLink(scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'postgame', data.data.data[n].eventId));
+                            data.data[n].reportDisplay = "POST GAME REPORT";
+                            data.data[n].reportLink = GlobalSettings.getOffsiteLink(scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'postgame', data.data[n].eventId));
                             break;
                         case "cancelled":
-                            data.data.data[n].reportDisplay = "GAME IS CANCELED";
+                            data.data[n].reportDisplay = "GAME IS CANCELED";
                             break;
                         case "postponed":
-                            data.data.data[n].reportDisplay = "GAME IS POSTPONED";
+                            data.data[n].reportDisplay = "GAME IS POSTPONED";
                             break;
                         default:
-                            data.data.data[n].reportDisplay = "GAME REPORT";
+                            data.data[n].reportDisplay = "GAME REPORT";
                     }
                     var offset = Intl.DateTimeFormat().resolvedOptions().timeZone;
-                    let date = moment(Number(data.data.data[n].startTime)).tz(offset).format('dddd, MMM. D').toUpperCase();
-                    let time = moment(Number(data.data.data[n].startTime)).tz(offset).format('h:mm A z');
+                    let date = moment(Number(data.data[n].startTime)).tz(offset).format('dddd, MMM. D').toUpperCase();
+                    let time = moment(Number(data.data[n].startTime)).tz(offset).format('h:mm A z');
 
 
-                    data.data.data[n].date = date + " &bull; " + time;
-                    data.data.data[n].homeTeamName = data.data.data[n].lastNameHome;
+                    data.data[n].date = date + " &bull; " + time;
+                    data.data[n].homeTeamName = data.data[n].lastNameHome;
 
-                    data.data.data[n].awayTeamName = data.data.data[n].lastNameAway;
-                    let fullNameAway = data.data.data[n].fullNameAway ? data.data.data[n].fullNameAway.replace(/ /g, "-") : null;
-                    let fullNameHome = data.data.data[n].fullNameHome ? data.data.data[n].fullNameHome.replace(/ /g, "-"): null;
-                    data.data.data[n].awayProfileUrl = data.data.data[n].fullNameAway ? GlobalSettings.getOffsiteLink("nba", "team", fullNameAway, data.data.data[n].idAway) : null;
-
-                    // console.log("awayProfileUrl", data.data.data[n].awayProfileUrl);
-
-                    data.data.data[n].homeProfileUrl = data.data.data[n].fullNameHome ? GlobalSettings.getOffsiteLink("nba", "team", fullNameHome, data.data.data[n].idHome) : null;
-
-                    // console.log("homeProfileUrl", data.data.data[n].homeProfileUrl, "full name", data.data.data[n].fullNameHome, "replace", fullNameHome, "id", data.data.data[n].idHome);
-
-                    if (data.data.data[n].logoUrlAway == "" || data.data.data[n].logoUrlAway == null) {
-                        data.data.data[n].logoUrlAway = '/app/public/no-image.png';
+                    data.data[n].awayTeamName = data.data[n].lastNameAway;
+                    let fullNameAway = data.data[n].fullNameAway ? data.data[n].fullNameAway.replace(/ /g, "-") : null;
+                    let fullNameHome = data.data[n].fullNameHome ? data.data[n].fullNameHome.replace(/ /g, "-"): null;
+                    data.data[n].awayProfileUrl = data.data[n].fullNameAway ? GlobalSettings.getOffsiteLink("nba", "team", fullNameAway, data.data[n].idAway) : null;
+                    data.data[n].homeProfileUrl = data.data[n].fullNameHome ? GlobalSettings.getOffsiteLink("nba", "team", fullNameHome, data.data[n].idHome) : null;
+                    if (data.data[n].logoUrlAway == "" || data.data[n].logoUrlAway == null) {
+                        data.data[n].logoUrlAway = '/app/public/no-image.png';
                     }
                     else {
-                        data.data.data[n].logoUrlAway = GlobalSettings.getSportsImageUrl("/" + data.data.data[n].logoUrlAway);
+                        data.data[n].logoUrlAway = GlobalSettings.getSportsImageUrl("/" + data.data[n].logoUrlAway);
                     }
-                    if (data.data.data[n].logoUrlHome == "" || data.data.data[n].logoUrlHome == null) {
-                        data.data.data[n].logoUrlHome = '/app/public/no-image.png';
+                    if (data.data[n].logoUrlHome == "" || data.data[n].logoUrlHome == null) {
+                        data.data[n].logoUrlHome = '/app/public/no-image.png';
                     }
                     else {
-                        data.data.data[n].logoUrlHome = GlobalSettings.getSportsImageUrl("/" + data.data.data[n].logoUrlHome);
+                        data.data[n].logoUrlHome = GlobalSettings.getSportsImageUrl("/" + data.data[n].logoUrlHome);
                     }
-                    data.data.data[n].awayImageConfig = {
+                    data.data[n].awayImageConfig = {
                         imageClass: "image-70",
                         mainImage: {
-                            url: GlobalSettings.getOffsiteLink("nba", "team", fullNameAway, data.data.data[n].idAway),
-                            imageUrl: data.data.data[n].logoUrlAway,
+                            url: GlobalSettings.getOffsiteLink("nba", "team", fullNameAway, data.data[n].idAway),
+                            imageUrl: data.data[n].logoUrlAway,
                             imageClass: "border-1",
                             hoverText: "<p>View</p> Profile"
                         }
                     };
-                    data.data.data[n].homeImageConfig = {
+                    data.data[n].homeImageConfig = {
                         imageClass: "image-70",
                         mainImage: {
-                            url: GlobalSettings.getOffsiteLink("nba", "team", fullNameHome, data.data.data[n].idHome),
-                            imageUrl: data.data.data[n].logoUrlHome,
+                            url: GlobalSettings.getOffsiteLink("nba", "team", fullNameHome, data.data[n].idHome),
+                            imageUrl: data.data[n].logoUrlHome,
                             imageClass: "border-1",
                             hoverText: "<p>View</p> Profile"
                         }
                     };
-                    output.blocks.push(data.data.data[n]);
+                    output.blocks.push(data.data[n]);
                 }
                 output.blocks.push(
                     {
@@ -413,7 +406,6 @@ export class SchedulesService {
         var headers = this.setToken();
         // var callURL = GlobalSettings.getVerticalEnv('-homerunloyal-api.synapsys.us') + "/tcx/league/schedule/pre-event/50/1";
         var callURL = GlobalSettings.getTCXscope(scope).verticalApi + "/tcx/" + scope + "/schedule/pre-event/50/1";
-
         //optional week parameters
         return this.http.get(callURL, { headers: headers })
             .map(res => res.json())
@@ -502,7 +494,7 @@ export class SchedulesService {
         }
         else if (topScope == "football") {
             //(scope, profile, eventStatus, limit, pageNum, id?)
-            this.getBoxSchedule(scope, 'league', eventStatus, limit, pageNum)
+            this.getBoxSchedule(scope, 'league', eventStatus, limit, 1)
                 .subscribe(data => {
                     var formattedData = this.transformSlideScroll(scope, data.data);
                     callback(formattedData);
@@ -543,7 +535,7 @@ export class SchedulesService {
         //Configure HTTP Headers
         var headers = this.setToken();
         //var callURL = GlobalSettings.getVerticalEnv('-tcxmedia-api.synapsys.us') + "/sidescroll/weather/availableLocations/" + query;
-        var callURL = GlobalSettings.getTCXscope('weather').verticalApi + "/sidescroll/weather/availableLocations/" + query;
+        var callURL = GlobalSettings.getTCXscope('weather').verticalApi + "/tcx/sidescroll/weather/availableLocations/" + query;
         //optional week parameters
         return this.http.get(callURL, { headers: headers })
             .map(res => res.json())

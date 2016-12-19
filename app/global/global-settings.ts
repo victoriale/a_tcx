@@ -1,4 +1,4 @@
-
+import { GeoLocation } from "./global-service";
 
 export class GlobalSettings {
     private static _env = window.location.hostname.split('.')[0];
@@ -11,6 +11,7 @@ export class GlobalSettings {
     private static _articleUrl:string = '-article-library.synapsys.us/tcx';
 
     private static _articleBatchUrl:string= "-article-library.synapsys.us/articles";
+    private static _domainApiUrl:string= "devapi.synapsys.us/widgets/deepdive/bar/domain_api.php?dom=";
 
     private static _partnerApiUrl: string = 'apireal.synapsys.us/listhuv/?action=get_partner_data&domain=';
 
@@ -499,7 +500,7 @@ export class GlobalSettings {
         },
         'all':{
           parentScope: null,
-          scope:'deep-dive',
+          scope:'news-feed',
           topScope: null,
           displayName: null,
           verticalApi: null,
@@ -517,7 +518,7 @@ export class GlobalSettings {
       if(category[section] == null){// default return
         return {
           parentScope: null,
-          scope:'deep-dive',
+          scope:'news-feed',
           topScope: null,
           displayName: null,
           verticalApi: null,
@@ -562,7 +563,15 @@ export class GlobalSettings {
       }
       return result;
     }
-    static getOffsiteLink(scope, key: string, str1: string, id?: string | number, str2?: string, str3?: string, str4?: string){
+    /*
+      scope: vertical scope/category, ex: NBA, mlb, nfl, etc.
+      key: page type to link, ex: team for team pages, article for article pages, etc.
+      str1: required, use for path of url, ex: team name, company name, search string, etc.
+      id: event id or article id if needed, not required
+      str2: addition to use for url path if needed, not required
+      str3, str4,...: not added but can if needed in the future
+    */
+    static getOffsiteLink(scope, key: string, str1: string, id?: string | number, str2?: string){
       var link = null;
       var siteVars = this.getHomeInfo();
       var partnerCode;
@@ -578,18 +587,17 @@ export class GlobalSettings {
           if (partnerCode != null) {
             key = key.replace(/team/g, "t").replace(/search/g, "s");
           }
-          if (scope == "nba") {
-            scope = scope.toUpperCase();
-          }
           if(key == "team" || key == "t"){//team link
-            if(scope != "mlb"){
-              link = scope + "/";
+            if(scope != "mlb"){//if not baseball then add scope
+              if (scope == "nba") {
+                link = "NBA/";//exception: need nba scope to be uppercase
+              } else {
+                link = scope + "/";
+              }
             }
             link += key + "/" + str1 + "/" + id;
-          } else if(key == "search" || key == "s"){//search link
-            link = key + "/" + str1;
-          } else {//article link
-            link = str1;
+          } else {
+            link = str1;//ex to use: GlobalSettings.getOffsiteLink(scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'pregame', eventId));
           }
           break;
         case 'business':
@@ -794,7 +802,7 @@ export class GlobalSettings {
       if(partnerPage && (name == '' || name == 'news')){
         hide = true;
         isHome = true;
-      }else if(!partnerPage && (name == '' || name == 'deep-dive')){
+      }else if(!partnerPage && (name == '' || name == 'news-feed')){
         hide = false;
         isHome = true;
       }else{
@@ -887,11 +895,14 @@ export class GlobalSettings {
     static getEstYear() {
       return this._estYear;
     }
-  static getHomePageLinkName() {
-    return this._homepageLinkName;
-  }
-  static getArticleBatchUrl(){
-      return this._proto + "//" + this.getEnv(this._env) + this._articleBatchUrl;
-  }
+    static getHomePageLinkName() {
+      return this._homepageLinkName;
+    }
+    static getDomainAPI(partnerID) {
+      return this._domainApiUrl + partnerID;
+    }
+    static getArticleBatchUrl(){
+        return this._proto + "//" + this.getEnv(this._env) + this._articleBatchUrl;
+    }
 
 }

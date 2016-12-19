@@ -46,15 +46,13 @@ export class SyndicateArticleService {
           'copyright':[],
           'publishedDate':'',
           'article':[],
-
       };
       if(data.author){
           let authorArray = data.author.split(' ');
           if(authorArray[0] =='By'){
-              for(var i=1;i<authorArray.length;i++) {artwriter += authorArray[i] + ' ';}
-          }
-          else{
-              for(var i=0;i<authorArray.length;i++) {artwriter += authorArray[i] + ' ';}
+              for(var i=1;i<authorArray.length;i++){artwriter += authorArray[i] + ' ';}
+          }else{
+              for(var i=0;i<authorArray.length;i++){artwriter += authorArray[i] + ' ';}
           }
       }
       if(data.is_stock_photo && data.is_stock_photo==true){
@@ -69,14 +67,14 @@ export class SyndicateArticleService {
       mainArticleData['publishedDate'] = GlobalFunctions.sntGlobalDateFormatting(data.publication_date, 'timeZone');
 
       if(data.article_data[0] == "This article is currently being written... Please try again shortly."){
-          if(data.image_url!=null ||data.image_url!= undefined){
+          if(data.image_url!=null || typeof data.image_url != 'undefined'){
               imageData[0]=GlobalSettings.getImageUrl(data.image_url);
           }else{
               mainArticleData['is_stock']=true;
           }
       }
       else{
-          if (data.article_data.images == null || data.article_data.images == undefined || data.article_data.images.length==0) {
+          if (data.article_data.images === null || typeof data.article_data.images == 'undefined' || data.article_data.images.length == 0) {
               if(data.image_url!=null ||data.image_url!= undefined){
                   imageData[0]=GlobalSettings.getImageUrl(data.image_url);
               }else{
@@ -90,26 +88,28 @@ export class SyndicateArticleService {
                   imageTitle[imageTitle.length] = data.article_data.images[i].image_title;
               }
           }
-
        }
       mainArticleData['imageData'] = imageData;
       mainArticleData['imageTitle'] = imageTitle;
       mainArticleData['copyright'] = copyright;
-      data.article_data.article? mainArticleData['article'] = data.article_data.article: mainArticleData['article'][0] = "This article is currently being written... Please try again shortly.";
-
+      if(data.article_data.article){
+        mainArticleData['article'] = data.article_data.article;
+      }else{
+        mainArticleData['article'] = "This article is currently being written... Please try again shortly.";
+      }
       return mainArticleData;
   }
-  getSyndicateVideoService(subcategory,articleID) {
+  getSyndicateVideoService(subcategory, articleID){
     //Configure HTTP Headers
     /*var headers = this.setToken();*/
     var callURL = GlobalSettings.getApiUrl() + '/tcx/videoSingle/' +subcategory +'/'+ articleID;
     return this._http.get(callURL)
       .map(res => res.json())
       .map(data => {
-
         return data;
       })
   }
+
   getRecArticleData(category, count, subcategory?) {
     /* var headers = this.setToken();*/
     var callURL
@@ -124,10 +124,15 @@ export class SyndicateArticleService {
       .map(res => res.json())
       .map(data => {
         return data;
-      });
+      })
   }
 
   transformToRecArticles(data, scope, articleType, currentArticleId) {
+    console.log(data);
+    if(!data){
+      return null;
+    }
+
       articleType = "story";
       var sampleImage = "/app/public/placeholder_XL.png";
       var articleStackArray = [];
@@ -139,24 +144,23 @@ export class SyndicateArticleService {
                       imageClass: "embed-responsive-16by9",
                       imageUrl: val.image_url != null ? GlobalSettings.getImageUrl(val.image_url) : sampleImage,
                       extUrl: val.source != "snt_ai" ? false : true,
-                      urlRouteArray: val.source != "snt_ai" ? VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType) : GlobalSettings.getOffsiteLink(val.scope, VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, articleType, val.event_id)),
+                      urlRouteArray: val.source != "snt_ai" ? VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType) : GlobalSettings.getOffsiteLink(val.scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, articleType, val.event_id)),
                       imageDesc: "",
                   },
                   keyword: val.keywords.length>0? val.keywords[0].toUpperCase():scope,
                   timeStamp: date,
                   title: val.title? val.title.replace(/\'/g, "'"): "",
 
-                  articleUrl: val.source != "snt_ai" ? VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType) : GlobalSettings.getOffsiteLink(val.scope, VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, articleType, val.event_id)),
+                  articleUrl: val.source != "snt_ai" ? VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType) : GlobalSettings.getOffsiteLink(val.scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, articleType, val.event_id)),
 
               }
               articleStackArray.push(s);
           }
       });
-      if(articleStackArray.length==3){ return articleStackArray;}
-      else{return articleStackArray.slice(0,3)}
-
-
-
+      // if(articleStackArray.length==3){ return articleStackArray;}
+      // else{return articleStackArray.slice(0,3)}
+      console.log(articleStackArray);
+      return articleStackArray;
   }
   //http://dev-tcxmedia-api.synapsys.us/articles?source=tca&count=10&category=entertainment&subCategory=television
   getTrendingArticles(category, count, subcategory?) {
@@ -174,8 +178,9 @@ export class SyndicateArticleService {
       .map(res => res.json())
       .map(data => {
         trendingArticles=data.data;
-            startElement = count - 10;
-          trendingArticles=trendingArticles.slice(startElement);
+        if(!trendingArticles){return null;}
+        startElement = count - 10;
+        trendingArticles=trendingArticles.slice(startElement);
         return trendingArticles;
       })
   }
@@ -190,7 +195,7 @@ export class SyndicateArticleService {
         val["image"] = val.image_url != null ? GlobalSettings.getImageUrl(val.image_url) : GlobalSettings.getImageUrl(placeholder);
         val["content"]=val.teaser;
         val['extUrl']=val.source!="snt_ai"?false:true;
-        val["url"] = val.source!="snt_ai"?VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType):GlobalSettings.getOffsiteLink(val.scope, VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, articleType, val.event_id));
+        val["url"] = val.source!="snt_ai"?VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType):GlobalSettings.getOffsiteLink(val.scope,"article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, articleType, val.event_id));
         val['teaser']=val.teaser?val.teaser:val.article_data.article[0];
           var articleWriter='';
           if(val.author){

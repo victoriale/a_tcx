@@ -95,7 +95,7 @@ export class DeepDiveService {
   }// getDeepDiveVideoBatchService ENDS
 
     transformSportVideoBatchData(data: Array<VideoStackData>, scope?){
-      if(data === null || typeof data == "undefined" || data.length == 0){
+      if(data == null || typeof data == "undefined" || data.length == 0){
         return null;
       }
       var sampleImage = "/app/public/placeholder_XL.png";
@@ -125,7 +125,7 @@ export class DeepDiveService {
 
     // Article Batch Transformed Data
     transformToArticleStack(data: Array<ArticleStackData>, scope?){
-      if(data == null){return null;}//TODO tell backend to return null when no data
+      if(data == null){return null;}
       var sampleImage = "/app/public/placeholder_XL.png";
       var articleStackArray = [];
       let route = VerticalGlobalFunctions.getWhiteLabel();

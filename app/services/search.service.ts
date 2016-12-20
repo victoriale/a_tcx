@@ -9,26 +9,31 @@ declare let Fuse: any;
 
 @Injectable()
 export class SearchService{
-    public pageMax: number = 10;
-    public searchJSON: any;
     private _searchApi:string=GlobalSettings.getApiUrl();
-
-    public searchAPI: string = "http://dev-touchdownloyal-api.synapsys.us" + '/landingPage/search';
-    constructor(private http: Http, private _router:Router){
-    }
+    constructor(private http: Http, private _router:Router){}
 
     searchArticleService(userInput,currentPage,filter1?,filter2?){
         var callUrl = null;
-        if(filter1 || filter2){
+        //if user clicked on any of the dropdown filters then filter 1 and filer 2 has respected values to add to API
+        if( filter1 || filter2 ){
+
             callUrl = this._searchApi + '/' + 'elasticSearch' + '/' + userInput + '/' + 10 + '/' + currentPage + '?';
-            if(filter1){
-              callUrl += 'category=football';//TODO default to football until more data available
-              // callUrl += 'category=' + filter1;
-            } else if(filter2){
-              if(filter1){callUrl += '&';}
-              callUrl += 'sortType=' + filter2;
+
+            if(filter2 && filter2 != "none" && filter2 != undefined){
+
+                callUrl += 'sortType=' + filter2;
+
             }
-        }else {
+
+            if(filter1 && filter1!="all" && filter1!=undefined){
+
+                callUrl += '&'+ 'category=' + filter1;
+
+            }
+        }
+
+        // if there are no filters then the default API is called
+        else {
             callUrl = this._searchApi + '/' + 'elasticSearch' + '/' + userInput + '/' + 10 + '/' + currentPage;
         }
         return this.http.get(callUrl)
@@ -42,22 +47,23 @@ export class SearchService{
     transformSearchResults(data) {
         data=data.article_data;
         var placeholder = "/app/public/placeholder_XL.png"
-
         data.forEach(function(val, index) {
             val['articleId']=val.article_id;
             val["publishedDate"] = GlobalFunctions.sntGlobalDateFormatting(val.published_date, 'timeZone');
             val["imagePathData"] = {
+                extUrl:true,
                 imageClass: "embed-responsive-16by9",
                 imageUrl:val.image_url?val.image_url:GlobalSettings.getImageUrl(placeholder),
-                urlRouteArray: '/news-feed',
+                urlRouteArray: val.article_url,
             };
             val['title']=val.title;
             val["teaser"]=val.teaser.replace(/<ng2-route>|<\/ng2-route>|/ig,'');
-            val['articleUrl']=val.article_url;
             val['keyword']=val.filter_keywords[0];
             val['author']=val.author;
             val['publisher']=val.publisher;
             val['is_stock_photo']=val.is_stock_photo;
+            //val["url"] = val.source!="snt_ai"?VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, "story"):GlobalSettings.getOffsiteLink(val.scope,"article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, articleType, val.event_id));
+
         })
         return data;
     }
@@ -65,91 +71,91 @@ export class SearchService{
     getkeyWords(){
         return [
             {
-                key:"All",
+                key:"all",
                 value:"All Keywords",
             },
             {
-                key:"Automotive",
+                key:"automotive",
                 value:"Automotive",
             },
             {
-                key:"Business",
+                key:"business",
                 value:"Business",
             },
             {
-                key:'Celebrities',
+                key:'celebrities',
                 value:"Celebrities",
             },
             {
-                key:'Entertainment',
+                key:'entertainment',
                 value:"Entertainment",
             },
             {
-                key:'Food',
+                key:'food',
                 value:"Food",
             },
             {
-                key:'Health',
+                key:'health',
                 value:"Health",
             },
             {
-                key:'Lifestyle',
+                key:'lifestyle',
                 value:"Lifestyle",
             },
             {
-                key:'MLB',
+                key:'mlb',
                 value:"MLB",
             },
             {
-                key:'Movies',
+                key:'movies',
                 value:"Movies",
             },
             {
-                key:'Music',
+                key:'music',
                 value:"Music",
             },
             {
-                key:'NBA',
+                key:'nba',
                 value:"NBA",
             },
             {
-                key:'NCAAF',
+                key:'ncaaf',
                 value:"NCAAF",
             },
             {
-                key:'NCAAM',
+                key:'ncaam',
                 value:"NCAAM",
             },
             {
-                key:'NFL',
+                key:'nfl',
                 value:"NFL",
             },
             {
-                key:'Politics',
+                key:'politics',
                 value:"Politics",
             },
             {
-                key:'Real Estate',
+                key:'realestate',
                 value:"Real Estate",
             },
             {
-                key:'Sports',
+                key:'sports',
                 value:"Sports",
             },
             {
-                key:'Travel',
+                key:'travel',
                 value:"Travel",
             },
             {
-                key:'Trending',
+                key:'trending',
                 value:"Trending",
             },
             {
-                key:'Television Shows',
+                key:'tv',
                 value:"Television Shows",
             },
             {
-                key:'Weather',
+                key:'weather',
                 value:"Weather",
             }];
 
@@ -158,34 +164,30 @@ export class SearchService{
     getSortOptions(){
         return [
             {
-                key:'None',
+                key:'none',
                 value:"None",
             },
 
             {
-                key:"MostRecent",
+                key:"recent",
                 value:"Most Recent",
             },
             {
-                key:'Oldest',
+                key:'oldest',
                 value:"Oldest",
             },
             {
-                key:'last24Hours',
-                value:"Last 24 Hours",
+                key:'past24hours',
+                value:"Past 24 Hours",
             },
             {
                 key:'past7days',
                 value:"Past 7 Days",
             },
-            /*{
-             key:'MostShares',
-             value:"Most Shares",
+            {
+             key:'past30days',
+             value:"Past 30 Days",
              },
-             {
-             key:'MostViews',
-             value:"Most Views",
-             },*/
         ];
     }
 

@@ -29,19 +29,6 @@ gulp.task('minify-css',['less'], function() {
     .pipe(gulp.dest('dist/app/global/stylesheets'));
 });
 
-//minify javascript
-// gulp.task('compress', ['copy:dev-assets'], function() {
-//   gulp.src('dist/app/**/*.js')
-//     .pipe(minify({
-//         ext:{
-//             src:'-debug.js',
-//             min:'.js'
-//         },
-//         exclude: ['dist/lib'],
-//     }))
-//     .pipe(gulp.dest('dist/app'))
-// });
-
 // TypeScript compile
 gulp.task('compile', ['clean'], function () {
   return gulp
@@ -90,6 +77,37 @@ gulp.task('copy:libs', ['clean'], function() {
     .pipe(gulp.dest('dist/lib'));
 });
 
+// copy static assets - i.e. non TypeScript compiled source
+gulp.task('copy:assets', ['clean'], function() {
+  gulp.src(['index.html', 'robots.txt'])
+    .pipe(gulp.dest('dist'));
+
+  return gulp.src(['app/**/*', 'master.css', '!app/**/*.ts', '!app/**/*.less', '!app/fe-core/components/**/*.html', '!app/fe-core/modules/**/*.html', '!app/webpages/**/*.html'], { base : './' })
+    .pipe(gulp.dest('dist'))
+});
+
+/** then bundle */
+gulp.task('bundle', ['clean', 'copy:libs'], function () {
+    // optional constructor options
+    // sets the baseURL and loads the configuration file
+    var builder = new Builder('', 'dist/lib/system.config.js');
+    /*
+     the parameters of the below buildStatic() method are:
+     - your transcompiled application boot file (the one wich would contain the bootstrap(MyApp, [PROVIDERS]) function - in my case 'dist/app/boot.js'
+     - the output (file into which it would output the bundled code)
+     - options {}
+     */
+    return builder
+        .buildStatic('dist/app/main.js', 'dist/lib/bundle.js', {minify: true, sourceMaps: true})
+        .then(function () {
+            console.log('Build complete');
+        })
+        .catch(function (err) {
+            console.log('Build error');
+            console.log(err);
+        });
+});
+
 gulp.task('less', ['clean'], function() {
     return gulp.src(['./app/**/*.less'])
         .pipe(concat('master.css'))
@@ -97,19 +115,9 @@ gulp.task('less', ['clean'], function() {
         .pipe(gulp.dest('dist/app/global/stylesheets'));
 });
 
-// gulp.task('build', ['compile', 'less', 'copy:libs', 'copy:assets', 'minify-css', 'compress']);
-gulp.task('build', ['compile', 'less', 'copy:libs', 'copy:assets', 'minify-css','bundle']);
-gulp.task('buildAndReload', ['build'], reload);
-
-gulp.task('build-tests', ['compile-tests', 'build']);
-gulp.task('test', ['build-tests']);
-
-/**
-  *
-  *BELOW ARE ALL FOR DEV BUILD TO RUN FOR DEVELOPMENT
-  *
-  */
-// Run gulp browsersync for development
+/*
+ * PROD BUILD
+ */
 gulp.task('serve', ['build'], function() {
     browserSync({
         server: {
@@ -120,23 +128,15 @@ gulp.task('serve', ['build'], function() {
 
   gulp.watch(['app/**/*', 'index.html', 'master.css'], ['buildAndReload']);
 });
-// copy static assets - i.e. non TypeScript compiled source
-gulp.task('copy:assets', ['clean'], function() {
-  gulp.src(['index.html', 'robots.txt'])
-    .pipe(gulp.dest('dist'));
 
-  gulp.src('systemjs.config.js')
-    .pipe(rename('systemjs.config.js'))
-    .pipe(gulp.dest('dist'));
-
-  return gulp.src(['app/**/*', 'master.css', '!app/**/*.ts', '!app/**/*.less', '!app/fe-core/components/**/*.html', '!app/fe-core/modules/**/*.html', '!app/webpages/**/*.html'], { base : './' })
-    .pipe(gulp.dest('dist'))
-});
-gulp.task('build', ['compile', 'less', 'copy:libs', 'copy:assets', 'minify-css']);
+gulp.task('build', ['compile', 'less', 'minify-css', 'copy:libs', 'copy:assets', 'bundle']);
 gulp.task('buildAndReload', ['build'], reload);
 
-gulp.task('default', ['build']);
-
+/**
+  *
+  *BELOW ARE ALL FOR DEV BUILD TO RUN FOR DEVELOPMENT
+  *
+  */
 
 /*
  * DEV BUILD

@@ -68,6 +68,8 @@ import { InputBar } from "../fe-core/components/input-bar/input-bar.component";
 import { ArticleSearchBar } from "../fe-core/components/search-bar-article/search-bar-article.component";
 import { SeoService } from "../global/seo.service";
 import { SearchService } from "../services/search.service";
+import {ErrorComponent} from "../fe-core/components/error/error.component";
+import {NoDataBox} from "../fe-core/components/error/data-box/data-box.component";
 
 @NgModule({
     imports: [
@@ -124,7 +126,9 @@ import { SearchService } from "../services/search.service";
       ComplexInnerHtml,
       ArticleScheduleComponent,
       ScoreBoard,
-      LoadMoreButtonComponent
+      LoadMoreButtonComponent,
+      ErrorComponent,
+      NoDataBox,
     ],
     exports: [
       SectionFrontTopNav,
@@ -169,7 +173,9 @@ import { SearchService } from "../services/search.service";
       SidekickContainerComponent,
       ArticleScheduleComponent,
       ScoreBoard,
-      LoadMoreButtonComponent
+      LoadMoreButtonComponent,
+      ErrorComponent,
+      NoDataBox
     ],
     providers: [
       VerticalGlobalFunctions,

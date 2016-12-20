@@ -4,6 +4,7 @@ import { ArticleStackData, VideoStackData } from "../../../fe-core/interfaces/de
 import { BoxScoresService } from '../../../services/box-scores.service';
 import { GlobalSettings } from "../../../global/global-settings";
 import { VerticalGlobalFunctions } from "../../../global/vertical-global-functions";
+import {GlobalFunctions} from "../../../global/global-functions";
 
 declare var moment;
 declare var jQuery: any;
@@ -201,14 +202,16 @@ export class DeepDiveSectionFront implements OnInit {
     }
     changeScope(event) {
         this.urlScope = event;
-        this.searchData.searchModTitle = GlobalSettings.getTCXscope(event).searchTitle + " " + GlobalSettings.getTCXscope(event).displayName;
+        var addTopScope=GlobalSettings.getTCXscope(event).topScope;
+        this.searchData.searchModTitle = GlobalSettings.getTCXscope(event).searchTitle + " " + GlobalFunctions.toTitleCase(addTopScope);
         this.searchData.searchSubTitle = GlobalSettings.getTCXscope(event).searchSubTitle;
     }
     createSearchBox(scope) {
         var modSearchTitle;
         let sportsList;
         if (this.category == "sports") {
-            modSearchTitle = GlobalSettings.getTCXscope(scope).searchTitle + " " + GlobalSettings.getTCXscope(scope).displayName;
+            var titlescope =GlobalSettings.getTCXscope(scope).topScope;
+            modSearchTitle = GlobalSettings.getTCXscope(scope).searchTitle + " " + GlobalFunctions.toTitleCase(titlescope);
             sportsList = [
                 {
                     key: 'NFL',

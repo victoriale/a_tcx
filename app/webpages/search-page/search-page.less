@@ -4,17 +4,22 @@
   min-width: 320px;
   margin: 0;
   overflow: hidden;
-  .droptitle{
-    width:300px;
-    right: 90px;
-  }
   .dropdown-list{
-    width: 300px;
     top: 32px;
-    right: -10px;
+    border-color: @strokeGrey;
+  }
+  .dropdown .scrollable-item-scroller{
+    width:7px;
   }
   .dropdown-caret-top{
-
+    top:2px;
+    right:12px;
+    &::after{
+      border-bottom-color:@strokeGrey;
+    }
+  }
+  .dropdown-caret-top-active::after, .dropdown-caret-top-hover::after{
+    border-bottom-color: @backgroundGrey;
   }
   .search-large{
     margin-top: -0.1%;
@@ -29,6 +34,9 @@
 
       }
     }
+    .scrollable-item-wrapper{
+      width:59px;
+    }
     .search-large .search-input {
       border-top-left-radius: 2px;
       border-bottom-left-radius: 2px;
@@ -40,6 +48,14 @@
     }
   }
   @media @tablet{
+    .droptitle{
+      right:48%;
+      width:300px;
+    }
+    .dropdown-list {
+      right: -2%;
+      width:300px;
+    }
     .search-large .search-input-container {
       width: 87.96%;
 

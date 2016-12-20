@@ -149,16 +149,17 @@ export class SyndicateArticleService {
                   keyword: val.keywords.length>0? val.keywords[0].toUpperCase():scope,
                   timeStamp: date,
                   title: val.title? val.title.replace(/\'/g, "'"): "",
-
+                  extUrl:val.source != "snt_ai" ? false : true,
+                  keyUrl: val['keywords'][0] ? VerticalGlobalFunctions.formatSectionFrontRoute(val['keywords'][0]) : ["/news-feed"],
                   articleUrl: val.source != "snt_ai" ? VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType) : GlobalSettings.getOffsiteLink(val.scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, articleType, val.event_id)),
 
               }
               articleStackArray.push(s);
           }
       });
-      // if(articleStackArray.length==3){ return articleStackArray;}
-      // else{return articleStackArray.slice(0,3)}
-      return articleStackArray;
+       if(articleStackArray.length==3){ return articleStackArray;}
+       else{return articleStackArray.slice(0,3)}
+
   }
   //http://dev-tcxmedia-api.synapsys.us/articles?source=tca&count=10&category=entertainment&subCategory=television
   getTrendingArticles(category, count, subcategory?) {

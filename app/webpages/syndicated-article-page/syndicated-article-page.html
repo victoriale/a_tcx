@@ -44,8 +44,9 @@
                     </section>
                     <billboard-module [category]="category" [subCategory]="subcategory"></billboard-module>
                     <!-- RESPONSIVE WIDGET-->
-                    <responsive-widget [category]="category" [subCategory]="subcategory"></responsive-widget>
-
+                    <div class="responsive-widget" [ngStyle]="{'margin-top': '30px'}">
+                        <responsive-widget [category]="category" [subCategory]="subcategory"></responsive-widget>
+                    </div>
                     <disqus-component *ngIf="!checkPartner"></disqus-component>
                     <chatterbox-module [category]="category" [subCategory]="subcategory"></chatterbox-module>
 

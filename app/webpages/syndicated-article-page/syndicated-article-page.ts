@@ -68,7 +68,7 @@ export class SyndicatedArticlePage implements OnDestroy{
                 else {
                     this.getSyndicateVideoArticle(this.subcategory, this.articleID);
                 }
-                this.getRecomendationData(this.category, 3, this.subcategory);
+                this.getRecomendationData(this.category, 4, this.subcategory);
             }
 
         );

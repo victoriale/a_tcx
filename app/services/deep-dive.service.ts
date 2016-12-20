@@ -36,12 +36,7 @@ export class DeepDiveService {
     } else {
       callURL += '&keyword[]=' + category;
     }
-    if(GlobalSettings.getTCXscope(category).topScope == 'basketball' || GlobalSettings.getTCXscope(category).topScope == 'football'){//Only NBA, NCAAM, NFL, AND NCAAF have AI articles
-      callURL += "&source[]=snt_ai&source[]=tca-curated";
-    } else {
-      callURL += "&source[]=tca-curated";
-    }
-    callURL += "&random=1&metaDataOnly=1";
+    callURL += "&source[]=snt_ai&source[]=tca-curated&random=1&metaDataOnly=1";
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
@@ -173,7 +168,7 @@ export class DeepDiveService {
               timeStamp: date ? date : "",
               title: val.title ? val.title : "No title available",
               author: author,
-              publisher: val.publisher && val.author ? "Written by: " + "<span class='text-master'>" + author + publisher + "</span>": null,
+              publisher: val.publisher && val.author ? "Written by: " + "<b class='text-master'>" + author + publisher + "</b>": null,
               teaser: val.teaser ? limitDesc : "No teaser available",
               imageConfig: {
                 imageClass: "embed-responsive-16by9",

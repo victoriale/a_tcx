@@ -16,6 +16,10 @@ const relativeChildRoutes = [
         component: SearchPage
     },*/
     {
+        path: 'about-us',
+        component: AboutUsPage
+    },
+    {
         path: 'privacy-policy',
         component: PrivacyPolicy
     },

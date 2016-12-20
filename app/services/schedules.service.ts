@@ -172,6 +172,7 @@ export class SchedulesService {
                             data: output.blocks,
                         }]
                     };
+
                     return output;
                 } else { // gracefully error if no data is returned
                     output = this.getDummyGraphResult();
@@ -267,7 +268,6 @@ export class SchedulesService {
                         data.data[n]['eos'] = "false";
                         data.data[n]['icon'] = GlobalSettings.getImageUrl(data.data[n]['icon']);
                         //convert from kelvin to farenheight
-                        var offset = Intl.DateTimeFormat().resolvedOptions().timeZone;
                         if (scope.toLowerCase() == "hourly") {
                             data.data[n].unix_timestamp = moment.unix(data.data[n].unix_timestamp).format("h:mm A z");
                             data.data[n].temperature = ((data.data[n].temperature * (9 / 5)) - 459.67).toFixed(0) + "&deg;";
@@ -314,7 +314,7 @@ export class SchedulesService {
         //Configure HTTP Headers
         var headers = this.setToken();
         // var callURL = GlobalSettings.getVerticalEnv('-sports-api.synapsys.us') + "/NBAHoops/call_controller.php?scope=" + scope.toLowerCase() + "&action=tcx&option=tcx_side_scroll&perPage=50&pageNum=1";
-        var callURL = GlobalSettings.getTCXscope(scope).verticalApi + "/NBAHoops/call_controller.php?scope=" + scope.toLowerCase() + "&action=tcx&option=tcx_side_scroll&perPage=50&pageNum=1";
+        var callURL = GlobalSettings.getTCXscope(scope).verticalApi + "/NBAHoops/call_controller.php?scope=" + scope.toLowerCase() + "&action=tcx&option=tcx_side_scroll&perPage=25&pageNum=1";
         //optional week parameters
         return this.http.get(callURL, { headers: headers })
             .map(res => res.json())
@@ -343,7 +343,6 @@ export class SchedulesService {
                         default:
                             data.data[n].reportDisplay = "GAME REPORT";
                     }
-                    var offset = Intl.DateTimeFormat().resolvedOptions().timeZone;
                     let date = moment(Number(data.data[n].startTime)).format('dddd, MMM. D').toUpperCase();
                     let time = moment(Number(data.data[n].startTime)).format('h:mm A z');
 
@@ -430,7 +429,6 @@ export class SchedulesService {
                         default:
                             data.data[n].reportDisplay = "GAME REPORT";
                     }
-                    var offset = Intl.DateTimeFormat().resolvedOptions().timeZone;
                     let date = moment(Number(data.data[n].eventDate)).format('dddd, MMM. D').toUpperCase();
                     let time = moment(Number(data.data[n].eventDate)).format('h:mm A z');
                     data.data[n].date = date + " &bull; " + time;
@@ -576,7 +574,6 @@ export class SchedulesService {
                     reportText = 'POST GAME REPORT';
                 }
             }
-            var offset = Intl.DateTimeFormat().resolvedOptions().timeZone;
             let date = moment(Number(val.eventStartTime)).format('dddd, MMM. D').toUpperCase();
             let time = moment(Number(val.eventStartTime)).format('h:mm A z');
             let team1FullName = val.team1FullName ? val.team1FullName : null;

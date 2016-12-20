@@ -15,8 +15,8 @@ export class BillboardModule implements OnInit{
     @Input() category: string;
     @Input() subCategory: string;
     getData(){
-      if(this.category && this.category != "all"){
-        var topScope = GlobalSettings.getTCXscope(this.category).topScope;
+      var topScope = GlobalSettings.getTCXscope(this.category).topScope ? GlobalSettings.getTCXscope(this.category).topScope : null;
+      if(this.category != "all" && topScope){
         topScope = topScope != "real-estate" ? topScope : "real estate";
         this.category = topScope ? topScope : 'keyword-' + this.category;
         this.subCategory = this.subCategory && this.subCategory != this.category && this.category != "real estate" ? this.subCategory : "";

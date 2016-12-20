@@ -23,7 +23,7 @@
         </div>
       </div>
     <span *ngIf="topNav != true">
-      <span class="ss_title-1" *ngFor="let scopeItem of scopeList" (click)="scopeChange(scopeItem)" [class.ss-title-active]="scope.replace(' ', '-').toUpperCase() == scopeItem.replace(' ', '-').toUpperCase()" >{{scopeItem}}</span>
+      <span class="ss_title-1" *ngFor="let scopeItem of scopeList" (click)="scopeChange(scopeItem)" [class.ss-title-active]="scope.toUpperCase().replace(' ', '-') == scopeItem.toUpperCase().replace(' ', '-')" >{{scopeItem.replace('Hourly', '24 Hours')}}</span>
     </span>
   </div>
   <side-scroll *ngIf="usableData && localTopScope != 'sports' && localTopScope != 'entertainment' && sideScrollData && sideScrollData.blocks.length > 1" (reloadSame)="reloadSame($event)" (carouselCount)="counter($event)" [current]="curCount" [maxLength]="scrollLength" [data]="sideScrollData">

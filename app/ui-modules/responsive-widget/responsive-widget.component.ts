@@ -8,17 +8,13 @@ import { GlobalSettings } from "../../global/global-settings";
 
 export class ResponsiveWidget implements OnInit {
   @Input() embedPlace: string;//not sure why we need this
-  // @Input() displayAtRes: string;
-  // @Input() scope: string;
-  windowWidth: number = window.innerWidth;
-  // widgetMed:boolean=false;
-  // widgetSml:boolean=false;
-  srcLink: string;
   @Input() category: string;
   @Input() subCategory: string;
+  windowWidth: number = window.innerWidth;
+  srcLink: string;
   getData(){
-    if(this.category && this.category != "all"){
-      var topScope = GlobalSettings.getTCXscope(this.category).topScope;
+    var topScope = GlobalSettings.getTCXscope(this.category).topScope ? GlobalSettings.getTCXscope(this.category).topScope : null;
+    if(topScope && this.category != "all"){
       topScope = topScope != "real-estate" ? topScope : "real estate";
       this.category = topScope ? topScope : 'keyword-' + this.category;
       this.subCategory = this.subCategory && this.subCategory != this.category && this.category != "real estate" ? this.subCategory : "";
@@ -30,16 +26,6 @@ export class ResponsiveWidget implements OnInit {
   }
   ngOnInit() {
     this.getData();
-    // this.isSmall = window.innerWidth <= 814;
-    // this.displayAtRes = "_" + this.displayAtRes + "only"
-    // var windowWidth = window.innerWidth;
-    // if(windowWidth < 768){
-    //   this.widgetSml = true;
-    //   this.widgetMed = false;
-    // }else if(windowWidth < 1280 && windowWidth >= 768){
-    //   this.widgetSml = false;
-    //   this.widgetMed = true;
-    // }
     this.windowWidth = window.innerWidth;
   }
   ngOnChanges(){
@@ -47,13 +33,6 @@ export class ResponsiveWidget implements OnInit {
   }
   private onWindowLoadOrResize(event) {
     var windowWidth = event.target.innerWidth;
-    // if(windowWidth < 768){
-    //   this.widgetSml = true;
-    //   this.widgetMed = false;
-    // }else if(windowWidth < 1280 && windowWidth >= 768){
-    //   this.widgetSml = false;
-    //   this.widgetMed = true;
-    // }
     this.windowWidth = windowWidth;
   }
 }

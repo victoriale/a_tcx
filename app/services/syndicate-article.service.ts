@@ -66,14 +66,6 @@ export class SyndicateArticleService {
       mainArticleData['publisher'] = data.publisher;
       mainArticleData['publishedDate'] = GlobalFunctions.sntGlobalDateFormatting(data.publication_date, 'timeZone');
 
-      if(data.article_data[0] == "This article is currently being written... Please try again shortly."){
-          if(data.image_url!=null || typeof data.image_url != 'undefined'){
-              imageData[0]=GlobalSettings.getImageUrl(data.image_url);
-          }else{
-              mainArticleData['is_stock']=true;
-          }
-      }
-      else{
           if (data.article_data.images === null || typeof data.article_data.images == 'undefined' || data.article_data.images.length == 0) {
               if(data.image_url!=null ||data.image_url!= undefined){
                   imageData[0]=GlobalSettings.getImageUrl(data.image_url);
@@ -88,7 +80,6 @@ export class SyndicateArticleService {
                   imageTitle[imageTitle.length] = data.article_data.images[i].image_title;
               }
           }
-       }
       mainArticleData['imageData'] = imageData;
       mainArticleData['imageTitle'] = imageTitle;
       mainArticleData['copyright'] = copyright;
@@ -97,6 +88,7 @@ export class SyndicateArticleService {
       }else{
         mainArticleData['article'] = "This article is currently being written... Please try again shortly.";
       }
+
       return mainArticleData;
   }
   getSyndicateVideoService(subcategory, articleID){
@@ -149,16 +141,17 @@ export class SyndicateArticleService {
                   keyword: val.keywords.length>0? val.keywords[0].toUpperCase():scope,
                   timeStamp: date,
                   title: val.title? val.title.replace(/\'/g, "'"): "",
-
+                  extUrl:val.source != "snt_ai" ? false : true,
+                  keyUrl: val['keywords'][0] ? VerticalGlobalFunctions.formatSectionFrontRoute(val['keywords'][0]) : ["/news-feed"],
                   articleUrl: val.source != "snt_ai" ? VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType) : GlobalSettings.getOffsiteLink(val.scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, articleType, val.event_id)),
 
               }
               articleStackArray.push(s);
           }
       });
-      // if(articleStackArray.length==3){ return articleStackArray;}
-      // else{return articleStackArray.slice(0,3)}
-      return articleStackArray;
+       if(articleStackArray.length==3){ return articleStackArray;}
+       else{return articleStackArray.slice(0,3)}
+
   }
   //http://dev-tcxmedia-api.synapsys.us/articles?source=tca&count=10&category=entertainment&subCategory=television
   getTrendingArticles(category, count, subcategory?) {

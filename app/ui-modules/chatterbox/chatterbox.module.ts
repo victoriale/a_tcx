@@ -11,6 +11,7 @@ declare var jQuery:any;
 
 export class ChatterboxModule implements OnInit {
     srcLink: string;
+    isSmall:boolean = false;
     @Input() category: string;
     @Input() subCategory: string;
     getData(){
@@ -24,15 +25,15 @@ export class ChatterboxModule implements OnInit {
         this.subCategory = "";
       }
       this.srcLink = "/app/ads/chatterbox.html?category=" + this.category + "&sub_category=" + this.subCategory;
-      window.addEventListener("message", this.receiveSize, false);
     }
     ngOnInit() {
       this.getData();
+      this.isSmall = document.body.scrollWidth < 600;
     }
     ngOnChanges(){
       this.getData();
     }
-    receiveSize(e) {
-        document.getElementById("chatterbox-section").style.height = e.data;
+    onResize(event) {
+      this.isSmall = document.body.scrollWidth < 600;
     }
 }

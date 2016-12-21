@@ -66,14 +66,6 @@ export class SyndicateArticleService {
       mainArticleData['publisher'] = data.publisher;
       mainArticleData['publishedDate'] = GlobalFunctions.sntGlobalDateFormatting(data.publication_date, 'timeZone');
 
-      if(data.article_data[0] == "This article is currently being written... Please try again shortly."){
-          if(data.image_url!=null || typeof data.image_url != 'undefined'){
-              imageData[0]=GlobalSettings.getImageUrl(data.image_url);
-          }else{
-              mainArticleData['is_stock']=true;
-          }
-      }
-      else{
           if (data.article_data.images === null || typeof data.article_data.images == 'undefined' || data.article_data.images.length == 0) {
               if(data.image_url!=null ||data.image_url!= undefined){
                   imageData[0]=GlobalSettings.getImageUrl(data.image_url);
@@ -88,7 +80,6 @@ export class SyndicateArticleService {
                   imageTitle[imageTitle.length] = data.article_data.images[i].image_title;
               }
           }
-       }
       mainArticleData['imageData'] = imageData;
       mainArticleData['imageTitle'] = imageTitle;
       mainArticleData['copyright'] = copyright;
@@ -97,6 +88,7 @@ export class SyndicateArticleService {
       }else{
         mainArticleData['article'] = "This article is currently being written... Please try again shortly.";
       }
+
       return mainArticleData;
   }
   getSyndicateVideoService(subcategory, articleID){

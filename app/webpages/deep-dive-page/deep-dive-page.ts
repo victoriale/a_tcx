@@ -186,14 +186,10 @@ export class DeepDivePage implements OnInit, AfterViewInit {
 
     ngOnInit(){
       this.initializePage();
-
     }
 
     ngOnChanges(){
       this.initializePage();
-    }
-    ngAfterViewInit(){
-
     }
     initializePage(){
       this.routeSubscription = this._activatedRoute.params.subscribe(

@@ -101,7 +101,7 @@ export class SyndicateArticleService {
         return data;
       })
   }
-
+//http://dev-tcxmedia-api.synapsys.us/articles?source=tca&count=3&category=entertainment&subCategory=television
   getRecArticleData(category, count, subcategory?) {
     /* var headers = this.setToken();*/
     var callURL

@@ -186,7 +186,6 @@ export class DeepDivePage implements OnInit{
 
     ngOnInit(){
       this.initializePage();
-
     }
 
     ngOnChanges(){

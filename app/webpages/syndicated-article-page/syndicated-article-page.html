@@ -9,7 +9,7 @@
 
         <!-- ARTICLE PAGE BEGINS -->
         <span *ngIf="articleData">
-            <share-links-component class="articles-page-padding" id="shareLinksBtn" [shareUrl]="articleData.url"></share-links-component>
+            <share-links-component class="articles-page-padding" id="shareLinksBtn" [shareUrl]= "windowUrl"></share-links-component>
           <h1 class="articles-page-title" id="articleMainTitle"><span [innerHTML]="articleData.title | safeHtml"></span></h1>
           <sidekick-wrapper-ai [aiSidekick]="aiSidekick" [scope]="subcategory">
               <!-- IF IMAGES ARE AVAILABLE AND NOT VIDEO -->

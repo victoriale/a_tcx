@@ -42,13 +42,14 @@
                         <div class="content-exerpt" *ngIf="eventType == 'video'" [innerHTML]="articleData.teaser | safeHtml"></div>
                         <div [ngStyle]="{width: '100%', height:'5px','display':'block'}"></div>
                     </section>
-                    <billboard-module [category]="category" [subCategory]="subcategory"></billboard-module>
+                    <div class="deep-dive-module"><billboard-module [category]="category" [subCategory]="subcategory"></billboard-module></div>
                     <!-- RESPONSIVE WIDGET-->
-                    <div class="responsive-widget" [ngStyle]="{'margin-top': '30px'}">
+                    <div class="responsive-widget">
                         <responsive-widget [category]="category" [subCategory]="subcategory"></responsive-widget>
                     </div>
                     <disqus-component *ngIf="!checkPartner"></disqus-component>
-                    <chatterbox-module [category]="category" [subCategory]="subcategory"></chatterbox-module>
+
+                    <div class="deep-dive-module"><chatterbox-module [category]="category" [subCategory]="subcategory"></chatterbox-module></div>
 
                     <div class="other-stories"><i class="fa-heart-o"></i> Other Stories You Will Love </div>
                     <article-block-component [articleBlockData]="recomendationData" [bootstrapGrid]="'col-sm-12 col-md-4'"></article-block-component>

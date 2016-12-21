@@ -155,10 +155,18 @@ export class DeepDiveService {
               author = val.author ? val.author.replace(/by/gi, "") + ", ": null;
               publisher = author ? val.publisher : "Published by: " + val.publisher;
             }
-            var limitDesc = val.teaser.substr(0, 360);// limit teaser character to 360 count
-            limitDesc = limitDesc.substr(0, Math.min(limitDesc.length, limitDesc.lastIndexOf(" ")));// and not cutting the word
-            if(val.teaser.length > 360 || limitDesc.length < val.teaser.length){
-              limitDesc += "...";
+            if(val.teaser){
+              var limitDesc = val.teaser.substr(0, 360);// limit teaser character to 360 count
+              limitDesc = limitDesc.substr(0, Math.min(limitDesc.length, limitDesc.lastIndexOf(" ")));// and not cutting the word
+              if(val.teaser.length > 360 || limitDesc.length < val.teaser.length){
+                limitDesc += "...";
+              }
+            }
+            if(val.title){
+              var limitTitle = val.title.substr(0, 200);//// limit title character to 200 count
+              if(val.title.length > 200 || limitTitle.length < val.title.length){
+                limitTitle += "...";
+              }
             }
             var articleStackData = {
               id: val.article_id,
@@ -166,7 +174,7 @@ export class DeepDiveService {
               extUrl: extLink,
               keyword: key,
               timeStamp: date ? date : "",
-              title: val.title ? val.title : "No title available",
+              title: val.title ? limitTitle : "No title available",
               author: author,
               publisher: val.publisher && val.author ? "Written by: " + "<b class='text-master'>" + author + publisher + "</b>": null,
               teaser: val.teaser ? limitDesc : "No teaser available",

@@ -47,7 +47,8 @@
                     <responsive-widget [category]="category" [subCategory]="subcategory"></responsive-widget>
 
                     <disqus-component *ngIf="!checkPartner"></disqus-component>
-                    <chatterbox-module [category]="category" [subCategory]="subcategory"></chatterbox-module>
+
+                    <div class="deep-dive-module"><chatterbox-module [category]="category" [subCategory]="subcategory"></chatterbox-module></div>
 
                     <div class="other-stories"><i class="fa-heart-o"></i> Other Stories You Will Love </div>
                     <article-block-component [articleBlockData]="recomendationData" [bootstrapGrid]="'col-sm-12 col-md-4'"></article-block-component>

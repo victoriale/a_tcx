@@ -25,20 +25,15 @@ export class ChatterboxModule implements OnInit {
         this.subCategory = "";
       }
       this.srcLink = "/app/ads/chatterbox.html?category=" + this.category + "&sub_category=" + this.subCategory;
-      window.addEventListener("message", this.receiveSize, false);
     }
     ngOnInit() {
       this.getData();
-      this.isSmall = window.innerWidth <= 600;
+      this.isSmall = document.body.scrollWidth < 600;
     }
     ngOnChanges(){
       this.getData();
     }
     onResize(event) {
-      this.isSmall = event.target.innerWidth <= 600;
-    }
-    receiveSize(e) {
-        document.getElementById("chatterbox-section").style.height = e.data;
-        console.log("e", e);
+      this.isSmall = document.body.scrollWidth < 600;
     }
 }

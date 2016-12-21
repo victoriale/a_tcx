@@ -170,8 +170,11 @@ export class SyndicateArticleService {
       .map(data => {
         trendingArticles=data.data;
         if(!trendingArticles){return null;}
-        startElement = count - 10;
-        trendingArticles=trendingArticles.slice(startElement);
+        if(trendingArticles.length>=20){
+            startElement = count - 10;
+            trendingArticles=trendingArticles.slice(startElement);
+            return trendingArticles;
+        }
         return trendingArticles;
       })
   }
@@ -181,7 +184,6 @@ export class SyndicateArticleService {
     articleType = "story";
     var placeholder = "/app/public/placeholder_XL.png";
     data.forEach(function(val, index) {
-        val['articleCount']=data.length;
         val["date"] = GlobalFunctions.sntGlobalDateFormatting(val.publication_date, 'timeZone');
         val["image"] = val.image_url != null ? GlobalSettings.getImageUrl(val.image_url) : GlobalSettings.getImageUrl(placeholder);
         val["content"]=val.teaser;

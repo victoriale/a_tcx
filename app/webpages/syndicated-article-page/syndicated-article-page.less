@@ -1,7 +1,7 @@
 .article-widget{
   @media @mobile{display:none}
   @media @tablet{display:none}
-  @media @desktop-l{display:block;padding-left:8px;margin-top: 12px}
+  @media @desktop-l{display:block;padding-left:8px;}
 }
 .large {
   display: block;
@@ -192,7 +192,7 @@
       margin-top: 15px;
     }
   }
-  &-container{.flexDisplay;}
+  &-container{.flexDisplay; margin-top:10px;}
   @media @mobile{
     .expand, .images, .sm-images {display: none}//.expand, .images, .sm-images ends
 
@@ -280,7 +280,6 @@
     &-date {
       .globalDefaultModFont(12px, 400, @bulletGrey);
       line-height: 1em;
-      margin-top: 12px;
       text-align: right;
       width: 100%;
       float: right;
@@ -305,7 +304,6 @@
       @media @mobile{padding: 0 10px}
       .flexDisplay;
       .flexJustify(space-between);
-      .arpt-author{margin-top: 12px}
     }
   }
 }

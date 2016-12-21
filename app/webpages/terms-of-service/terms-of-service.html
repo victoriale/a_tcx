@@ -1,4 +1,4 @@
-<section class="condition-page">
+<section verticalWidgetScroll class="condition-page">
   <div class="condition-page-container2a col-sm-12 col-xl-9">
     <information-component *ngIf="aboutUsData" [socialMedia]="socialMedia" [infoData]="aboutUsData"></information-component>
       <section class="info-paragraph terms-of-service">
@@ -238,7 +238,7 @@
     </section>
     <div class="responsive-widget"><responsive-widget [category]="'breaking'" [subCategory]="''"></responsive-widget></div>
   </div>
-  <div class="condition-page-container2b col-xl-3">
+  <div class="condition-page-container2b col-xl-3" id="verticalSideScroller">
     <vertical-widget [category]="'breaking'" [subCategory]="''"></vertical-widget>
   </div>
 </section>

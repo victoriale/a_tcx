@@ -101,7 +101,7 @@ export class SyndicateArticleService {
         return data;
       })
   }
-
+//http://dev-tcxmedia-api.synapsys.us/articles?source=tca&count=3&category=entertainment&subCategory=television
   getRecArticleData(category, count, subcategory?) {
     /* var headers = this.setToken();*/
     var callURL
@@ -150,7 +150,7 @@ export class SyndicateArticleService {
           }
       });
        if(articleStackArray.length==3){ return articleStackArray;}
-       else{return articleStackArray.slice(0,3)}
+       else if(articleStackArray.length>3){return articleStackArray.slice(1)}
 
   }
   //http://dev-tcxmedia-api.synapsys.us/articles?source=tca&count=10&category=entertainment&subCategory=television
@@ -170,8 +170,11 @@ export class SyndicateArticleService {
       .map(data => {
         trendingArticles=data.data;
         if(!trendingArticles){return null;}
-        startElement = count - 10;
-        trendingArticles=trendingArticles.slice(startElement);
+        if(count>10){
+            startElement = count - 10;
+            trendingArticles=trendingArticles.slice(startElement);
+            return trendingArticles;
+        }
         return trendingArticles;
       })
   }
@@ -181,7 +184,6 @@ export class SyndicateArticleService {
     articleType = "story";
     var placeholder = "/app/public/placeholder_XL.png";
     data.forEach(function(val, index) {
-        val['articleCount']=data.length;
         val["date"] = GlobalFunctions.sntGlobalDateFormatting(val.publication_date, 'timeZone');
         val["image"] = val.image_url != null ? GlobalSettings.getImageUrl(val.image_url) : GlobalSettings.getImageUrl(placeholder);
         val["content"]=val.teaser;

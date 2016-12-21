@@ -217,7 +217,9 @@ export class SyndicatedArticlePage implements OnDestroy{
 
     @HostListener('window:scroll',['$event']) onScroll(e){
         var trendingElement= e.target.body.getElementsByClassName('trending-small')[0];
-        if(window.innerHeight + window.scrollY >= document.body.scrollHeight && this.trendingLength>10){
+        var topHeight= window.pageYOffset? window.pageYOffset: window.scrollY;
+        var scrollerHeight = e.target.documentElement.scrollHeight?e.target.documentElement.scrollHeight:e.target.body.scrollHeight;
+        if(window.innerHeight + topHeight >= scrollerHeight && this.trendingLength>10){
             this.getDeepDiveArticle(this.category, this.trendingLength, this.subcategory, this.eventType, this.articleID);
 
         };

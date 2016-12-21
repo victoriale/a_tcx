@@ -150,7 +150,7 @@ export class SyndicateArticleService {
           }
       });
        if(articleStackArray.length==3){ return articleStackArray;}
-       else{return articleStackArray.slice(0,3)}
+       else if(articleStackArray.length>3){return articleStackArray.slice(1)}
 
   }
   //http://dev-tcxmedia-api.synapsys.us/articles?source=tca&count=10&category=entertainment&subCategory=television
@@ -170,7 +170,7 @@ export class SyndicateArticleService {
       .map(data => {
         trendingArticles=data.data;
         if(!trendingArticles){return null;}
-        if(trendingArticles.length>=20){
+        if(count>10){
             startElement = count - 10;
             trendingArticles=trendingArticles.slice(startElement);
             return trendingArticles;

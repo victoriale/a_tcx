@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, HostListener, Renderer, ElementRef, AfterViewInit} from '@angular/core';
+import {Component, OnInit, OnDestroy, HostListener, Renderer, ElementRef} from '@angular/core';
 import { SchedulesService } from '../../services/schedules.service';
 import { DeepDiveService } from '../../services/deep-dive.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -17,7 +17,7 @@ declare var jQuery: any;
     templateUrl: 'app/webpages/deep-dive-page/deep-dive-page.html'
 })
 
-export class DeepDivePage implements OnInit, AfterViewInit {
+export class DeepDivePage implements OnInit{
     scope: string;
     //side scroller
     sideScrollData: any;
@@ -191,6 +191,7 @@ export class DeepDivePage implements OnInit, AfterViewInit {
     ngOnChanges(){
       this.initializePage();
     }
+
     initializePage(){
       this.routeSubscription = this._activatedRoute.params.subscribe(
           (param:any) => {

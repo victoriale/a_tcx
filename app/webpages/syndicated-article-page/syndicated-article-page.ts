@@ -18,6 +18,7 @@ declare var moment;
 })
 
 export class SyndicatedArticlePage implements OnDestroy{
+    windowUrl= window.location.href;
     public partnerID: string;
     checkPartner: boolean;
     public geoLocation:string;

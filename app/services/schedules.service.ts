@@ -533,6 +533,7 @@ export class SchedulesService {
         var headers = this.setToken();
         //var callURL = GlobalSettings.getVerticalEnv('-tcxmedia-api.synapsys.us') + "/sidescroll/weather/availableLocations/" + query;
         var callURL = GlobalSettings.getTCXscope('weather').verticalApi + "/tcx/sidescroll/weather/availableLocations/" + query;
+        console.log(callURL, "available locations");
         //optional week parameters
         return this.http.get(callURL, { headers: headers })
             .map(res => res.json())

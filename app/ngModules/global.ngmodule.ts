@@ -70,7 +70,10 @@ import { SeoService } from "../global/seo.service";
 import { SearchService } from "../services/search.service";
 import {ErrorComponent} from "../fe-core/components/error/error.component";
 import {NoDataBox} from "../fe-core/components/error/data-box/data-box.component";
+
+//Global custom Directives
 import {verticalWidgetScrollDirective} from "../fe-core/custom-directives/verticalWidgetScroll.directive";
+import {WindowClickDirective} from "../fe-core/custom-directives/windowClick.directive";
 
 @NgModule({
     imports: [
@@ -106,7 +109,7 @@ import {verticalWidgetScrollDirective} from "../fe-core/custom-directives/vertic
       StatHyphenValuePipe,
       ScrollableContent,
       DropdownComponent,
-	    Larousel,
+      Larousel,
       NewsBox,
       LineChartComponent,
       SectionNameComponent,
@@ -130,7 +133,8 @@ import {verticalWidgetScrollDirective} from "../fe-core/custom-directives/vertic
       LoadMoreButtonComponent,
       ErrorComponent,
       NoDataBox,
-      verticalWidgetScrollDirective
+      verticalWidgetScrollDirective,
+      WindowClickDirective,
     ],
     exports: [
       SectionFrontTopNav,
@@ -178,7 +182,8 @@ import {verticalWidgetScrollDirective} from "../fe-core/custom-directives/vertic
       LoadMoreButtonComponent,
       ErrorComponent,
       NoDataBox,
-      verticalWidgetScrollDirective
+      verticalWidgetScrollDirective,
+      WindowClickDirective
     ],
     providers: [
       VerticalGlobalFunctions,

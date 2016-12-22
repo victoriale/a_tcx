@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
+import {Component, Input, Output, EventEmitter, Renderer} from '@angular/core';
 import { SchedulesService } from '../../services/schedules.service';
 declare var jQuery:any;
 
@@ -31,7 +31,7 @@ export class SideScrollSchedule{
   autocompleteItems: Array<any> = [];
   showError: boolean = false;
 
-  constructor(private _schedulesService:SchedulesService) {}
+  constructor(private _schedulesService:SchedulesService, private _render:Renderer) {}
   reloadSame() {
     let usableData = Object.assign({},this.usableData);
     for (var i = 0; i < this.originalBlocks.length; i++) {
@@ -49,6 +49,8 @@ export class SideScrollSchedule{
     this.changeScope.next(selection.replace(/ /g, "-").toLowerCase());
   }
   keypress(event) {
+    var activeDropDown = document.getElementById('active-dropdown');
+    this._render.setElementStyle(activeDropDown,'display','block');
     var textEntered = event.target.value.replace(/ /g, "%20"); // handle spaces in the text for URL safe entry
     if (event.code != "Enter") {
       if (this.keyPressReady == true && event.target.value != "") { //only fire if we have not fired in the last n miliseconds

@@ -107,9 +107,9 @@ export class DeepDiveSectionFront implements OnInit {
                     if (data) {
                         this.articleData = this._deepDiveData.transformToArticleStack(data, this.scope);
                         var obj = {
-                            stackTop1: this.articleData.length > 0 ? this.articleData.splice(0, 1) : null,
-                            stackRow1: this.articleData.length > 0 ? this.articleData.splice(0, 6) : null,
-                            recData1: this.articleData.length > 0 ? this.articleData.splice(0, 6) : null,
+                            stackTop1: this.articleData.length > 0  && pageNum != 1 ? this.articleData.splice(0, 1) : null,//not pageNum 1 so it doesn't repeat on the second set
+                            stackRow1: this.articleData.length > 0  && pageNum != 1 ? this.articleData.splice(0, 6) : null,
+                            recData1: this.articleData.length > 0  && pageNum != 1 ? this.articleData.splice(0, 6) : null,
                             stackTop2: this.articleData.length > 0 ? this.articleData.splice(0, 1) : null,
                             stackRow2: this.articleData.length > 0 ? this.articleData.splice(0, 6) : null,
                             stackTop3: this.articleData.length > 0 ? this.articleData.splice(0, 1) : null,
@@ -209,6 +209,7 @@ export class DeepDiveSectionFront implements OnInit {
     createSearchBox(scope) {
         var modSearchTitle;
         let sportsList;
+        scope = scope == "real estate" ? "real-estate" : scope;//TODO backend should send back both with/without hyphen
         if (this.category == "sports") {
             var titlescope =GlobalSettings.getTCXscope(scope).topScope;
             modSearchTitle = GlobalSettings.getTCXscope(scope).searchTitle + " " + GlobalFunctions.toTitleCase(titlescope);

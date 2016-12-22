@@ -1,4 +1,5 @@
 <header class="header container-fluid" id="pageHeader" (window:scroll)="onScrollStick($event)" [class.fixedHeader]="scrollUp">
+<div id = "topPartnerHeader">
   <div id="partner" *ngIf="partnerID && partnerScript" [innerHTML]="partnerScript | safeHtml"></div>
   <section *ngIf="!partnerID" class="header-top" [class.header-partner]="partnerID">
     <div class="header-logo">
@@ -10,6 +11,7 @@
       <div class="header-share st_sharethis_large"><i class="fa fa-share-alt"></i></div>
     </div>
   </section>
+</div>
   <section class="header-bottom" id="bottomHeader" [class.header-partner]="partnerID">
     <div class="header-bottom-style row">
       <div class="header-left col-xs-6 col-md-10 col-lg-8 col-xl-6">

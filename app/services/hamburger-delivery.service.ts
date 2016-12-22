@@ -108,7 +108,7 @@ export class HamburgerDeliveryService {
       },
       {
         menuTitle: "Automotive",
-        url: topRoute + '/Automotive'
+        url: topRoute + '/automotive'
       }
     ];
     var menuInfo = [];

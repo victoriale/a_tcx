@@ -127,8 +127,9 @@ export class DeepDiveService {
 
       data.forEach(function(val, index){
           if(val.article_id != null && typeof val.article_id != 'undefined'){
-            if(val.publication_date){
-              var date =  moment.unix(Number(val.publication_date));
+            if(val.publication_date || val.last_updated){
+              let d =  val.publication_date ? val.publication_date : val.last_updated;
+              var date = moment.unix(Number(d));
               date = '<span class="hide-320">' + date.format('dddd') + ', </span>' + date.format('MMM') + date.format('. DD, YYYY');
             }
             var key = val.keywords[0];
@@ -184,7 +185,7 @@ export class DeepDiveService {
                 urlRouteArray: routeLink,
                 extUrl: extLink
               },
-              keyUrl: key != "all" ? VerticalGlobalFunctions.formatSectionFrontRoute(key.replace(/\s/g , "-")) : [route]
+              keyUrl: key != "all" && key ? VerticalGlobalFunctions.formatSectionFrontRoute(key.replace(/\s/g , "-")) : [route]
             }
             articleStackArray.push(articleStackData);
           }
@@ -203,7 +204,10 @@ export class DeepDiveService {
       arrayData.forEach(function(val,index){
         var curdate = new Date();
         var curmonthdate = curdate.getDate();
-        var timeStamp = moment(Number(val.publication_date)).format("MMMM Do, YYYY h:mm:ss a");
+        let d = val.publication_date ? val.publication_date : val.last_updated;
+        if(d){
+          var timeStamp = moment(Number(d)).format("MMMM Do, YYYY h:mm:ss a");
+        }
 
         var routeLink;
         var extLink;
@@ -224,7 +228,7 @@ export class DeepDiveService {
           image_url: GlobalSettings.getImageUrl(val['image_url']),
           title:  "<span> Today's News: </span>",
           headline: val['title'],
-          keywords: val['keywords'][0],
+          keywords: val['keywords'] ? val['keywords'][0] : "NEWS",
           keyUrl: val['keywords'][0] ? VerticalGlobalFunctions.formatSectionFrontRoute(val['keywords'][0].replace(/\s/g, "-")) : ["/news-feed"],
           teaser: val['teaser'] ? val['teaser'].replace('_',': ').replace(/<p[^>]*>/g, "") : "",
           article_id:val['article_id'],

@@ -58,9 +58,9 @@ export class HeaderComponent implements OnInit {
     }
     // Page is being scrolled
     onScrollStick(event) {
-        var header = document.getElementById('pageHeader');
-        var stickyItem = document.getElementById('header-bottom');
-        var scrollTop = event.srcElement.body.scrollTop;
+        var header =event.target.getElementById('pageHeader');
+        var stickyItem = event.target.getElementById('bottomHeader');
+        var scrollTop = event.target.documentElement.scrollTop?event.target.documentElement.scrollTop:event.target.body.scrollTop;
         // var saladBar = document.getElementById('salad-bar-top');
         //check if partner header exist and the sticky header shall stay and not partner header
         let heightBeforeStick = header.offsetHeight - stickyItem.offsetHeight;

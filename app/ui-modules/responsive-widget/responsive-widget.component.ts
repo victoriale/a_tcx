@@ -13,11 +13,11 @@ export class ResponsiveWidget implements OnInit {
   windowWidth: number = window.innerWidth;
   srcLink: string;
   getData(){
+    if(this.category == "real estate"){this.category = "real-estate";}
     var topScope = GlobalSettings.getTCXscope(this.category).topScope ? GlobalSettings.getTCXscope(this.category).topScope : null;
     if(topScope && this.category != "all"){
-      topScope = topScope != "real-estate" ? topScope : "real estate";
       this.category = topScope ? topScope : 'keyword-' + this.category;
-      this.subCategory = this.subCategory && this.subCategory != this.category && this.category != "real estate" ? this.subCategory : "";
+      this.subCategory = this.subCategory && this.subCategory != this.category && this.category != "real-estate" ? this.subCategory : "";
     } else {
       this.category = "breaking";
       this.subCategory = "";

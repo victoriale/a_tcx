@@ -1,4 +1,4 @@
-<section class="ss_container top-scope-{{localTopScope}} page-scope-{{pageScope}}" *ngIf="localTopScope != null && sideScrollData.blocks.length > 1">
+<section windowClick class="ss_container top-scope-{{localTopScope}} page-scope-{{pageScope}}" *ngIf="localTopScope != null && sideScrollData.blocks.length > 1">
   <div class="ss_title">
     <span class="ss_title-2">
       <i class="fa {{titleIcon}}" *ngIf="localTopScope != 'weather'"></i>
@@ -6,6 +6,7 @@
       <div id="weather-search" class="weather-search" *ngIf="localTopScope == 'weather'">
         <input type="text" name="fname" class="weather-search-input" placeholder="Search for a city..." (keyup)="keypress($event)">
         <i class="fa fa-arrow-right-thin"></i>
+        <div id="active-dropdown">
         <div class="autocomplete-dropdown" *ngIf="autocompleteItems.length > 0 || showError">
           <div class="arrow-up"></div>
           <div class="autocomplete-dropdown-title">Suggestions</div>
@@ -21,6 +22,7 @@
             </span>
           </div>
         </div>
+      </div>
       </div>
     <span *ngIf="topNav != true">
       <span class="ss_title-1" *ngFor="let scopeItem of scopeList" (click)="scopeChange(scopeItem)" [class.ss-title-active]="scope.toUpperCase().replace(' ', '-') == scopeItem.toUpperCase().replace(' ', '-')" >{{scopeItem.replace('Hourly', '24 Hours')}}</span>

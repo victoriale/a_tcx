@@ -18,6 +18,7 @@ declare var moment;
 })
 
 export class SyndicatedArticlePage implements OnDestroy{
+    windowUrl= window.location.href;
     public partnerID: string;
     checkPartner: boolean;
     public geoLocation:string;
@@ -68,7 +69,7 @@ export class SyndicatedArticlePage implements OnDestroy{
                 else {
                     this.getSyndicateVideoArticle(this.subcategory, this.articleID);
                 }
-                this.getRecomendationData(this.category, 3, this.subcategory);
+                this.getRecomendationData(this.category, 4, this.subcategory);
             }
 
         );
@@ -216,54 +217,10 @@ export class SyndicatedArticlePage implements OnDestroy{
     }
 
     @HostListener('window:scroll',['$event']) onScroll(e){
-        var scrollingElement=e.target.body.getElementsByClassName('article-widget')[0];
-        var header = e.target.body.getElementsByClassName('header')[0];
-        var articleTitle = e.target.body.getElementsByClassName('articles-page-title')[0];
-        var imageCarousel = e.target.body.getElementsByClassName('images-media')[0];
-        var videoElement = e.target.body.getElementsByClassName('videoFrame')[0];
-        var sharebtns = e.target.body.getElementsByClassName('art-hdr')[0];
-        var fixedHeader = e.target.body.getElementsByClassName('fixedHeader')[0] != null ? e.target.body.getElementsByClassName('fixedHeader')[0].offsetHeight : 0;
-        var footer = e.target.body.getElementsByClassName('footer')[0];
-
-        let topCSS = 0;
-        topCSS = header != null ? topCSS + header.offsetHeight : topCSS;
-        topCSS = sharebtns !=null ? topCSS + sharebtns.offsetHeight : topCSS;
-        topCSS = articleTitle != null ? topCSS + articleTitle.offsetHeight : topCSS;
-        topCSS = imageCarousel != null ? topCSS + imageCarousel.offsetHeight : topCSS;
-        topCSS = videoElement != null ? topCSS + videoElement.offsetHeight : topCSS;
-        topCSS = topCSS - fixedHeader;
-
-        let bottomCSS=0;
-        bottomCSS = footer!=null? bottomCSS + footer.offsetHeight: bottomCSS;
-
-        var scrollTop = e.srcElement.body.scrollTop;
-        let scrollUp = scrollTop - this.scrollTopPrev>0?true:false;
-        var scrollBottom = e.target.body.scrollHeight-e.target.body.scrollTop==e.target.body.clientHeight?true:false;
-        this.scrollTopPrev=scrollTop;
-
-        if(scrollingElement){
-            if(window.scrollY > topCSS){
-                if(scrollUp) {
-                    var sctop = window.scrollY - topCSS - 25 + 'px';
-                    this._render.setElementStyle(scrollingElement, 'top', sctop);
-                }else{
-                    var headerTop=e.target.body.getElementsByClassName('header-top')[0];
-                    var partnerheadTop=document.getElementById('partner_header')?document.getElementById('partner_header').offsetHeight:0;
-                    var sctop = headerTop.offsetHeight? window.scrollY - topCSS + headerTop.offsetHeight + partnerheadTop + 10 + 'px' :window.scrollY - topCSS + partnerheadTop + 'px';
-                    this._render.setElementStyle(scrollingElement, 'top', sctop);
-                }
-                if(scrollBottom && window.innerHeight - footer.offsetHeight <600){
-                    var newTopCSS = window.scrollY - topCSS - bottomCSS - 50+ 'px';
-                    this._render.setElementStyle(scrollingElement,'top', newTopCSS);
-                }
-            }else {
-                this._render.setElementStyle(scrollingElement, "top", '0')
-            }
-
-        }
-
         var trendingElement= e.target.body.getElementsByClassName('trending-small')[0];
-        if(window.innerHeight + window.scrollY >= document.body.scrollHeight && this.trendingLength>10){
+        var topHeight= window.pageYOffset? window.pageYOffset: window.scrollY;
+        var scrollerHeight = e.target.documentElement.scrollHeight?e.target.documentElement.scrollHeight:e.target.body.scrollHeight;
+        if(window.innerHeight + topHeight >= scrollerHeight && this.trendingLength>10){
             this.getDeepDiveArticle(this.category, this.trendingLength, this.subcategory, this.eventType, this.articleID);
 
         };

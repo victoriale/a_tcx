@@ -71,6 +71,10 @@ import { SearchService } from "../services/search.service";
 import {ErrorComponent} from "../fe-core/components/error/error.component";
 import {NoDataBox} from "../fe-core/components/error/data-box/data-box.component";
 
+//Global custom Directives
+import {verticalWidgetScrollDirective} from "../fe-core/custom-directives/verticalWidgetScroll.directive";
+import {WindowClickDirective} from "../fe-core/custom-directives/windowClick.directive";
+
 @NgModule({
     imports: [
       CommonModule,
@@ -105,7 +109,7 @@ import {NoDataBox} from "../fe-core/components/error/data-box/data-box.component
       StatHyphenValuePipe,
       ScrollableContent,
       DropdownComponent,
-	    Larousel,
+      Larousel,
       NewsBox,
       LineChartComponent,
       SectionNameComponent,
@@ -129,6 +133,8 @@ import {NoDataBox} from "../fe-core/components/error/data-box/data-box.component
       LoadMoreButtonComponent,
       ErrorComponent,
       NoDataBox,
+      verticalWidgetScrollDirective,
+      WindowClickDirective,
     ],
     exports: [
       SectionFrontTopNav,
@@ -175,7 +181,9 @@ import {NoDataBox} from "../fe-core/components/error/data-box/data-box.component
       ScoreBoard,
       LoadMoreButtonComponent,
       ErrorComponent,
-      NoDataBox
+      NoDataBox,
+      verticalWidgetScrollDirective,
+      WindowClickDirective
     ],
     providers: [
       VerticalGlobalFunctions,

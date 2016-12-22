@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, HostListener, Renderer} from '@angular/core';
+import {Component, OnInit, OnDestroy, HostListener, Renderer, ElementRef} from '@angular/core';
 import { SchedulesService } from '../../services/schedules.service';
 import { DeepDiveService } from '../../services/deep-dive.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -17,7 +17,7 @@ declare var jQuery: any;
     templateUrl: 'app/webpages/deep-dive-page/deep-dive-page.html'
 })
 
-export class DeepDivePage implements OnInit {
+export class DeepDivePage implements OnInit{
     scope: string;
     //side scroller
     sideScrollData: any;
@@ -45,6 +45,7 @@ export class DeepDivePage implements OnInit {
     carouselVideo:any;
     carouselData: any;
     scrollTopPrev:number = 0;
+    scrollingWidget;
 
     constructor(
         private _schedulesService:SchedulesService,
@@ -53,8 +54,11 @@ export class DeepDivePage implements OnInit {
         private _geoLocation: GeoLocation,
         private _seo:SeoService,
         private _router:Router,
-        private _render:Renderer
-    ) {}
+        private _render:Renderer,
+        private _eleref:ElementRef
+    ) {
+
+    }
 
 
     ngOnDestroy(){
@@ -203,55 +207,11 @@ export class DeepDivePage implements OnInit {
             }
             this.topScope = this.tcxVars ? this.tcxVars.topScope : this.category;
             this.changeScopeVar = this.tcxVars.scope;
-            this.deepDiveType = GlobalSettings.getTCXscope(this.scope).pageType ? GlobalSettings.getTCXscope(this.scope).pageType : 3;
-
+            this.deepDiveType = GlobalSettings.getTCXscope(this.scope.replace(/ /g, "-")).pageType ? GlobalSettings.getTCXscope(this.scope.replace(/ /g, "-")).pageType : 3;
             this.getGeoLocation();
             this.getDeepDiveVideo();
             this.sectionFrontName();
             this.addMetaTags();
           });
-    }
-
-    @HostListener('window:scroll',['$event']) onScroll(e){
-        var scrollingWidget=e.target.body.getElementsByClassName('deep-dive-container2b')[0];
-        var header = e.target.body.getElementsByClassName('header')[0];
-        var carouselHeight = e.target.body.getElementsByClassName('deep-dive-container1')[0];
-        var fixedHeader = e.target.body.getElementsByClassName('fixedHeader')[0] != null ? e.target.body.getElementsByClassName('fixedHeader')[0].offsetHeight : 0;
-        var footer = e.target.body.getElementsByClassName('footer')[0];
-
-        let topStyle = 0;
-        topStyle = header != null ? topStyle + header.offsetHeight : topStyle;
-        topStyle = carouselHeight != null? topStyle +carouselHeight.offsetHeight :topStyle;
-        topStyle = topStyle - fixedHeader;
-        let bottomCSS=0;
-        bottomCSS = footer!=null? bottomCSS + footer.offsetHeight: bottomCSS;
-        var scrollTop = e.srcElement.body.scrollTop;
-        let scrollUp = scrollTop - this.scrollTopPrev>0?true:false;
-        var scrollBottom = e.target.body.scrollHeight-e.target.body.scrollTop==e.target.body.clientHeight?true:false;
-
-        this.scrollTopPrev=scrollTop;
-        if(scrollingWidget){
-            if(window.scrollY>topStyle){
-                if(scrollUp) {
-                    var widtop = window.scrollY - topStyle - 10 + 'px';
-                    this._render.setElementStyle(scrollingWidget, 'top', widtop);
-                }else{
-                    var headerTop=e.target.body.getElementsByClassName('header-top')[0];
-                    var partnerheadTop=document.getElementById('partner_header')?document.getElementById('partner_header').offsetHeight:0;
-                    var widtop = headerTop.offsetHeight? window.scrollY - topStyle + headerTop.offsetHeight + partnerheadTop + 25 + 'px' :window.scrollY - topStyle + partnerheadTop + 'px';
-                    this._render.setElementStyle(scrollingWidget, 'top', widtop);
-                }
-                if(scrollBottom && window.innerHeight - footer.offsetHeight <600){
-                    var newTopCSS =window.scrollY - topStyle - bottomCSS - 20+ 'px';
-                    this._render.setElementStyle(scrollingWidget,'top', newTopCSS);
-                }
-
-
-            }else{
-                this._render.setElementStyle(scrollingWidget, 'top', '0px');
-
-            }
-        }
-
     }
   }

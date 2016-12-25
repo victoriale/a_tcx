@@ -9,7 +9,7 @@ import {SearchResultsComponent} from "../fe-core/components/search-results-compo
 
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 @NgModule({
-    imports:[CommonModule,GlobalModule,ReactiveFormsModule],
+    imports:[GlobalModule],
     declarations:[SearchPage,SearchPageFilter,SearchArticleResults,SearchResultsComponent],
     /*exports:[],
     providers:[],*/

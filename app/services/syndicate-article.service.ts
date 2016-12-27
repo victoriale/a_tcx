@@ -129,13 +129,14 @@ export class SyndicateArticleService {
       var articleStackArray = [];
       data.forEach(function(val, index) {
           if (val.article_id != currentArticleId){
+              var category = val.article_sub_type ? val.article_sub_type : val.article_type;
               var date = GlobalFunctions.sntGlobalDateFormatting(val.publication_date, 'dayOfWeek');
               var s = {
                   imageConfig: {
                       imageClass: "embed-responsive-16by9",
                       imageUrl: val.image_url != null ? GlobalSettings.getImageUrl(val.image_url) : sampleImage,
                       extUrl: val.source != "snt_ai" ? false : true,
-                      urlRouteArray: val.source != "snt_ai" ? VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType) : GlobalSettings.getOffsiteLink(val.scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, articleType, val.event_id)),
+                      urlRouteArray: val.source != "snt_ai" ? VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType) : GlobalSettings.getOffsiteLink(val.scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id)),
                       imageDesc: "",
                   },
                   keyword: val.keywords.length>0? val.keywords[0].toUpperCase():scope,

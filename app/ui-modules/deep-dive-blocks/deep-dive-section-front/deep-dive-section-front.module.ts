@@ -133,7 +133,6 @@ export class DeepDiveSectionFront implements OnInit {
         if (this.callVideoApi && pageNum > 0) {
             this._deepDiveData.getDeepDiveVideoBatchService(this.scope, this.videoCallLimit, pageNum, this.geoLocation).subscribe(
                 data => {
-                    console.log(this.blockIndex);
                     if (data && pageNum != 1) {
                         this.videoDataBatch = this._deepDiveData.transformSportVideoBatchData(data, this.scope);
                         this.callVideoApi = true;

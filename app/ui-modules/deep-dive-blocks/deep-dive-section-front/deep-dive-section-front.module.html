@@ -22,7 +22,7 @@
       <search-box-module [category]="category" [scope]="scope" [searchData]="searchData" (scopeEmit)="changeScope($event)" (userInput)="navigateSearch($event)"></search-box-module>
     </div>
      <!-- BOX SCORE FOR TYPE 1 ONLY-->
-    <div *ngIf="dateParam && deepDiveType === 1 && first" class="deep-dive-boxScores row">
+    <div *ngIf="scope != 'sports' && deepDiveType === 1 && first" class="deep-dive-boxScores row">
       <box-scores
         class="col-lg-8"
         [scope]="scope"

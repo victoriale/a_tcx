@@ -161,7 +161,7 @@ export class SyndicateArticleService {
     if (subcategory!=category) {
       callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&category=" + category + "&subCategory=" + subcategory;
     } else {
-        category = category == 'real-estate'? 'real+estate':category;
+      category = category == 'real-estate'? 'real+estate':category;
       callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&category=" + category;
     }
     var trendingArticles;
@@ -185,11 +185,12 @@ export class SyndicateArticleService {
     articleType = "story";
     var placeholder = "/app/public/placeholder_XL.png";
     data.forEach(function(val, index) {
+        var category = val.article_sub_type ? val.article_sub_type : val.article_type;
         val["date"] = GlobalFunctions.sntGlobalDateFormatting(val.publication_date, 'timeZone');
         val["image"] = val.image_url != null ? GlobalSettings.getImageUrl(val.image_url) : GlobalSettings.getImageUrl(placeholder);
         val["content"]=val.teaser;
         val['extUrl']=val.source!="snt_ai"?false:true;
-        val["url"] = val.source!="snt_ai"?VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType):GlobalSettings.getOffsiteLink(val.scope,"article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, articleType, val.event_id));
+        val["url"] = val.source!="snt_ai"?VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType):GlobalSettings.getOffsiteLink(val.scope,"article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id));
         val['teaser']=val.teaser?val.teaser:val.article_data.article[0];
           var articleWriter='';
           if(val.author){

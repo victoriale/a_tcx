@@ -49,11 +49,6 @@ export class DeepDiveSectionFront implements OnInit {
             this.blockIndex = this.blockIndex + 1;
             this.callModules(this.blockIndex);
         }
-        // if (this.callArticleApi && (this.blockIndex <= this.newArray.length) && (jQuery(document).height() - window.innerHeight - jQuery("footer").height() <= jQuery(window).scrollTop())) {
-        //   //fire when scrolled into footer
-        //   this.blockIndex = this.blockIndex + 1;
-        // this.callModules(this.blockIndex);
-        // }
     } //onScroll
 
     callModules(pageNum) {
@@ -96,6 +91,7 @@ export class DeepDiveSectionFront implements OnInit {
         }
     }
 
+    //get all article data on page
     getArticleStackData(pageNum) {
         if (this.callArticleApi) {
             this.callArticleApi = false;
@@ -117,7 +113,11 @@ export class DeepDiveSectionFront implements OnInit {
                             recData2: this.articleData.length > 0 ? this.articleData.splice(0, 6) : null,
                         };
                         this.newArray.push(obj);
-                        this.callArticleApi = true;
+                        if(data.length < callLimit){
+                          this.callArticleApi = false;
+                        } else {
+                          this.callArticleApi = true;
+                        }
                     } else {
                         this.callArticleApi = false;
                     }
@@ -128,11 +128,13 @@ export class DeepDiveSectionFront implements OnInit {
         }
     }
 
+    //get all video data on page
     getDeepDiveVideo(pageNum) {
         if (this.callVideoApi && pageNum > 0) {
             this._deepDiveData.getDeepDiveVideoBatchService(this.scope, this.videoCallLimit, pageNum, this.geoLocation).subscribe(
                 data => {
-                    if (data) {
+                    console.log(this.blockIndex);
+                    if (data && pageNum != 1) {
                         this.videoDataBatch = this._deepDiveData.transformSportVideoBatchData(data, this.scope);
                         this.callVideoApi = true;
                     } else {

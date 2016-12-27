@@ -59,25 +59,22 @@ export class DeepDiveService {
 
   getDeepDiveVideoBatchService(category: string, limit: number, page: number, location?: string){
       var headers = this.setToken();
-      var callURL = GlobalSettings.getTCXscope(category).tcxApi;
+      var callURL = GlobalSettings.getHeadlineUrl();
       if(limit === null || typeof limit == 'undefined'){
         limit = 5;
         page = 1;
       }
-      callURL += '/tcx/videoBatch/' + category;
-        //http://dev-homerunloyal-api.synapsys.us/tcx/videoBatch/league/5/1
+      callURL += '/videoBatch/' + category;
+      //http://dev-article-library.synapsys.us/tcx/videoBatch/sports/10/1
       if(GlobalSettings.getTCXscope(category).topScope == "basketball"){
-        //http://dev-tcxmedia-api.synapsys.us/tcx/videoBatch/nba/1/5
         callURL += '/' + page + '/' + limit;
       } else {
-        //http://dev-touchdownloyal-api.synapsys.us/tcx/videoBatch/fbs/5/2
-        //http://dev-touchdownloyal-api.synapsys.us/tcx/videoBatch/nfl/5/2/ks
-        //http://dev-tcxmedia-api.synapsys.us/videoBatch/sports/10/1
         callURL += '/' + limit + '/' + page;
         if(GlobalSettings.getTCXscope(category).topScope == "nfl" && location !== null){
           callURL += '/' + location;
         }
       }
+      console.log(callURL);
       return this.http.get(callURL, {headers: headers})
         .map(res => res.json())
         .map(data => {
@@ -151,7 +148,7 @@ export class DeepDiveService {
               routeLink = GlobalSettings.getOffsiteLink(val.scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id));
               extLink = true;
             } else {
-              routeLink = scope ? VerticalGlobalFunctions.formatArticleRoute(scope.replace(/\s/g , "-") , val.article_id, "story") : null;
+              routeLink = scope ? VerticalGlobalFunctions.formatArticleRoute(key.replace(/\s+/g, '-').toLowerCase(), val.article_id, "story") : null;
               extLink = false;
               author = val.author ? val.author.replace(/by/gi, "") + ", ": null;
               publisher = author ? val.publisher : "Published by: " + val.publisher;

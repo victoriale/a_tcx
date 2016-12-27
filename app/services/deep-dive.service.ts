@@ -74,7 +74,6 @@ export class DeepDiveService {
           callURL += '/' + location;
         }
       }
-      console.log(callURL);
       return this.http.get(callURL, {headers: headers})
         .map(res => res.json())
         .map(data => {

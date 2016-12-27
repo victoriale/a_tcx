@@ -34,7 +34,7 @@
       </box-scores>
       <!-- AiContent for BoxScores for Type 1 -->
       <game-article
-        *ngIf="currentBoxScores && currentBoxScores.aiContent && deepDiveType === 1 && first"
+        *ngIf="currentBoxScores && currentBoxScores.aiContent"
         [gameArticle]="currentBoxScores.aiContent"
         class="col-lg-4">
       </game-article>

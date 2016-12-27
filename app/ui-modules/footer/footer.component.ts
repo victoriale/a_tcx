@@ -25,7 +25,7 @@ export class FooterComponent implements OnInit {
       }
     }
     ngOnInit() {
-        this.copyRight = "Copyright " + GlobalSettings.getEstYear() + ", TCX. Inc."
+        this.copyRight = "Copyright " + GlobalSettings.getEstYear() + " TCX. Inc."
         this.loadData(this.partner);
     }
 }

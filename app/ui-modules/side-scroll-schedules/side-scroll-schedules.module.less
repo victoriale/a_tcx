@@ -81,27 +81,29 @@
     .dropdown-item:last-of-type {
       border-bottom: none;
     }
-    .dropdown-item:hover {
-      background-color: @masterBrandColor;
-      color: @white;
-      margin-top: -1px;
-      padding-top:11px;
-      border-bottom: 1px solid @white;
-      .arrow-up {
-        border-bottom: 5px solid @masterBrandColor;
+    @media @tablet{
+      .dropdown-item:hover {
+        background-color: @masterBrandColor;
+        color: @white;
+        margin-top: -1px;
+        padding-top:11px;
+        border-bottom: 1px solid @white;
+        .arrow-up {
+          border-bottom: 5px solid @masterBrandColor;
+        }
       }
-    }
-    .dropdown-item:first-of-type:hover {
-      background-color: @masterBrandColor;
-      border-bottom: 1px solid @white;
-      margin-top: 0;
-      padding-top:10px;
-    }
-    .dropdown-item:last-of-type:hover {
-      background-color: @masterBrandColor;
-      margin-top: -1px;
-      padding-top:11px;
-      border-bottom: 1px solid @masterBrandColor;
+      .dropdown-item:first-of-type:hover {
+        background-color: @masterBrandColor;
+        border-bottom: 1px solid @white;
+        margin-top: 0;
+        padding-top:10px;
+      }
+      .dropdown-item:last-of-type:hover {
+        background-color: @masterBrandColor;
+        margin-top: -1px;
+        padding-top:11px;
+        border-bottom: 1px solid @masterBrandColor;
+      }
     }
   }
 }
@@ -123,11 +125,13 @@
     padding: 0 8px;
     border: 1px solid @black;
     margin-left: 5px;
-  }
-  &-1:hover {
-    background-color: @black;
-    color: @white;
     cursor: pointer;
+  }
+  @media @tablet{
+    &-1:hover {
+      background-color: @black;
+      color: @white;
+    }
   }
   .ss-title-active {
     background-color: @black;

@@ -4,12 +4,6 @@ import { AppComponent }  from '../app-component/app.component';
 import {CommonModule} from "@angular/common";
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
-import { ScrollerFunctions } from '../global/scroller-functions';
-import { VerticalGlobalFunctions } from "../global/vertical-global-functions";
-import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
-import { GlobalSettings } from "../global/global-settings";
-import { GlobalFunctions } from "../global/global-functions";
-import { GeoLocation } from "../global/global-service";
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 /*** COMPONENTS ***/
@@ -66,11 +60,12 @@ import { StatHyphenValuePipe } from "../fe-core/pipes/stat-hyphen.pipe";
 import { routing  } from '../app.routing';
 import { InputBar } from "../fe-core/components/input-bar/input-bar.component";
 import { ArticleSearchBar } from "../fe-core/components/search-bar-article/search-bar-article.component";
-import { SeoService } from "../global/seo.service";
-import { SearchService } from "../services/search.service";
 import {ErrorComponent} from "../fe-core/components/error/error.component";
 import {NoDataBox} from "../fe-core/components/error/data-box/data-box.component";
+
+//Global custom Directives
 import {verticalWidgetScrollDirective} from "../fe-core/custom-directives/verticalWidgetScroll.directive";
+import {WindowClickDirective} from "../fe-core/custom-directives/windowClick.directive";
 
 @NgModule({
     imports: [
@@ -106,7 +101,7 @@ import {verticalWidgetScrollDirective} from "../fe-core/custom-directives/vertic
       StatHyphenValuePipe,
       ScrollableContent,
       DropdownComponent,
-	    Larousel,
+      Larousel,
       NewsBox,
       LineChartComponent,
       SectionNameComponent,
@@ -130,9 +125,14 @@ import {verticalWidgetScrollDirective} from "../fe-core/custom-directives/vertic
       LoadMoreButtonComponent,
       ErrorComponent,
       NoDataBox,
-      verticalWidgetScrollDirective
+      verticalWidgetScrollDirective,
+      WindowClickDirective,
     ],
     exports: [
+      CommonModule,
+      HttpModule,
+      FormsModule,
+      ReactiveFormsModule,
       SectionFrontTopNav,
       HeaderComponent,
       HoverImage,
@@ -178,17 +178,8 @@ import {verticalWidgetScrollDirective} from "../fe-core/custom-directives/vertic
       LoadMoreButtonComponent,
       ErrorComponent,
       NoDataBox,
-      verticalWidgetScrollDirective
+      verticalWidgetScrollDirective,
+      WindowClickDirective
     ],
-    providers: [
-      VerticalGlobalFunctions,
-      ScrollerFunctions,
-      SanitizeScript,
-      GlobalSettings,
-      GlobalFunctions,
-      GeoLocation,
-      SeoService,
-      SearchService
-    ]
 })
 export class GlobalModule { }

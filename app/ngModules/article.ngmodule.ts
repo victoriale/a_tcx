@@ -8,16 +8,13 @@ import {routing} from "../app.routing";
 import {TrendingComponent} from "../fe-core/components/articles/trending/trending.component";
 @NgModule({
     imports:[
-        CommonModule,
         GlobalModule,
         routing,
     ],
     declarations:[
         SyndicatedArticlePage, DisqusComponent, TrendingComponent
     ],
-    exports:[
-        SyndicatedArticlePage, DisqusComponent, TrendingComponent
-    ],
+    exports:[],
     providers: [SyndicateArticleService]
 })
 

@@ -585,9 +585,14 @@ export class GlobalSettings {
             if(scope != "mlb"){//if not baseball then add scope
               if (scope == "nba") {
                 link = "NBA/";//exception: need nba scope to be uppercase
-              } else {
+              }else if (scope=="ncaam"){
+                link = "ncaa/";
+              }
+              else {
                 link = scope + "/";
               }
+            }else if(scope == "mlb"){
+              link="/";
             }
             link += key + "/" + str1 + "/" + id;
           } else {

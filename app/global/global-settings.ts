@@ -69,6 +69,25 @@ export class GlobalSettings {
         return false;
       }
     }
+    /**
+      Get Env. for Offsite Link
+    **/
+    static offSiteEnv(scope: string, partnerCode?: string): string{
+      var e;
+      if(this.isProd()){//if prod and is not a special domain
+        e = "www";
+        if(partnerCode){
+          e = this.checkPartnerDomain(partnerCode) ? "" : "www";
+        }
+      } else {
+        if(scope.toLowerCase() != "nba" || scope.toLowerCase() != "ncaam" || scope.toLowerCase() != "basketball"){//basketball doesn't have qa environment
+          e = this.getEnv(this._env);
+        } else {
+          e = "dev";
+        }
+      }
+      return e;
+    }
 
     static getTCXscope(section){
       var category = {
@@ -578,7 +597,7 @@ export class GlobalSettings {
         case 'nfl':
         case 'ncaaf':
         case 'mlb':
-          if (partnerCode != null) {
+          if (partnerCode != null && (this.checkPartnerDomain(partnerCode) && (scope != "nfl" || scope != "ncaaf" || scope != "mlb"))) {// only replace team to t or search to s only if this.checkPartnerDomain(partnerCode) is true and on nfl/ncaaf/mlb pages only
             key = key.replace(/team/g, "t").replace(/search/g, "s");
           }
           if(key == "team" || key == "t"){//team link
@@ -638,21 +657,21 @@ export class GlobalSettings {
               link = "http://football." + partnerCode + "/" + relativeUrl;
             }
             else {
-              link = "http://mytouchdownzone.com/" + partnerCode + "/" + relativeUrl;
+              link = "http://" + this.offSiteEnv(scope) + "mytouchdownzone.com/" + partnerCode + "/" + relativeUrl;
             }
           }
           else {
-            link = "http://www.touchdownloyal.com/" + relativeUrl;
+            link = "http://" + this.offSiteEnv(scope) + ".touchdownloyal.com/" + relativeUrl;
           }
           break;
         //BASKETBALL URL
         case 'nba':
         case 'ncaam':
           if (partnerCode != null) {
-            link = "http://www.myhoopszone.com/" + partnerCode + "/" + relativeUrl;
+            link = "http://" + this.offSiteEnv(scope) + ".myhoopszone.com/" + partnerCode + "/" + relativeUrl;
           }
           else {
-            link = "http://www.hoopsloyal.com/" + relativeUrl;
+            link = "http://" + this.offSiteEnv(scope) + ".hoopsloyal.com/" + relativeUrl;
           }
           break;
         //BASEBALL URL
@@ -662,32 +681,32 @@ export class GlobalSettings {
               link = "http://baseball." + partnerCode + "/" + relativeUrl;
             }
             else {
-              link = "http://www.myhomerunzone.com/" + partnerCode + "/" + relativeUrl;
+              link = "http://" + this.offSiteEnv(scope) + ".myhomerunzone.com/" + partnerCode + "/" + relativeUrl;
             }
           }
           else {
-            link = "http://www.homerunloyal.com/" + relativeUrl;
+            link = "http://" + this.offSiteEnv(scope) + ".homerunloyal.com/" + relativeUrl;
           }
           break;
         //FINANCE URL
         case 'business':
 
           if (partnerCode != null) {
-            link = "http://www.myinvestkit.com/" + partnerCode + "/" + relativeUrl;
+            link = "http://" + this.offSiteEnv(scope) + ".myinvestkit.com/" + partnerCode + "/" + relativeUrl;
           }
           else {
 
-            link = "http://www.investkit.com/" + relativeUrl;
+            link = "http://" + this.offSiteEnv(scope) + ".investkit.com/" + relativeUrl;
 
           }
           break;
         //REALESTATE URL
         case 'real-estate':
           if (partnerCode != null) {
-            link = "http://www.myhousekit.com/" + partnerCode + "/" + relativeUrl;
+            link = "http://" + this.offSiteEnv(scope) + ".myhousekit.com/" + partnerCode + "/" + relativeUrl;
           }
           else {
-            link = "http://www.joyfulhome.com/" + relativeUrl;
+            link = "http://" + this.offSiteEnv(scope) + ".joyfulhome.com/" + relativeUrl;
           }
           break;
       }

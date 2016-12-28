@@ -434,8 +434,10 @@ export class SchedulesService {
                     data.data[n].date = date + " &bull; " + time;
                     data.data[n].homeTeamName = data.data[n].lastNameHome;
                     data.data[n].awayTeamName = data.data[n].lastNameAway;
-                    data.data[n].awayProfileUrl = data.data[n].fullNameAway ? GlobalSettings.getOffsiteLink("mlb", "team", data.data[n].fullNameAway.replace(/ /g, "-"), data.data[n].idAway) : null;
-                    data.data[n].homeProfileUrl = data.data[n].fullNameHome ? GlobalSettings.getOffsiteLink("mlb", "team", data.data[n].fullNameHome.replace(/ /g, "-"), data.data[n].idHome) : null;
+                    let fullNameAway = data.data[n].fullNameAway ? data.data[n].fullNameAway.replace(/ /g, "-") : null;
+                    let fullNameHome = data.data[n].fullNameHome ? data.data[n].fullNameHome.replace(/ /g, "-") : null;
+                    data.data[n].awayProfileUrl = data.data[n].fullNameAway ? GlobalSettings.getOffsiteLink("mlb", "team", fullNameAway, data.data[n].idAway) : null;
+                    data.data[n].homeProfileUrl = data.data[n].fullNameHome ? GlobalSettings.getOffsiteLink("mlb", "team", fullNameHome, data.data[n].idHome) : null;
                     if (data.data[n].logoUrlAway == "" || data.data[n].logoUrlAway == null) {
                         data.data[n].logoUrlAway = '/app/public/no-image.png';
                     }
@@ -587,7 +589,6 @@ export class SchedulesService {
             if (team2FBSName && team2FBSName.length > 13) {
                 team2FBSName = val.team2Abbreviation;
             }
-
             newData = {
                 date: date + " &bull; " + time,
                 awayImageConfig: {
@@ -608,8 +609,8 @@ export class SchedulesService {
                         hoverText: "<p>View</p> Profile"
                     }
                 },
-                awayTeamName: scope == 'ncaaf' ? team2FBSName : team2FullName.replace(val.team2Market + " ", ''),
-                homeTeamName: scope == 'ncaaf' ? team1FBSName : team1FullName.replace(val.team1Market + " ", ''),
+                awayTeamName: scope == 'ncaaf' ? team2FBSName : team2FullName ? team2FullName.replace(val.team2Market + " ", '') : null,
+                homeTeamName: scope == 'ncaaf' ? team1FBSName : team1FullName ? team1FullName.replace(val.team1Market + " ", '') : null,
                 awayLink: GlobalSettings.getOffsiteLink("nfl", "team", val.team2FullName, val.team2Id),
                 homeLink: GlobalSettings.getOffsiteLink("nfl", "team", val.team1FullName, val.team1Id),
                 reportDisplay: reportText,

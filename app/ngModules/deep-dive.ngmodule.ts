@@ -36,10 +36,8 @@ import { GameArticle } from '../fe-core/components/game-article/game-article.com
 
 @NgModule({
     imports:[
-      CommonModule,
       GlobalModule,
-      routing,
-      FormsModule
+        routing,
     ],
     declarations:[
       DeepDivePage,
@@ -60,17 +58,7 @@ import { GameArticle } from '../fe-core/components/game-article/game-article.com
       DeepDiveBlockMain,
       DeepDiveSectionFront,
     ],
-    exports:[
-      DeepDivePage,
-      StackRowsComponent,
-      ArticleStacktopComponent,
-      ArticleStack1Module,
-      ArticleStack2Module,
-      VideoStackComponent,
-      DeepDiveVideoModule,
-      DeepDiveBlockMain,
-      DeepDiveSectionFront,
-    ],
+    exports:[],
     providers: [
       DeepDiveService,
       BoxScoresService,

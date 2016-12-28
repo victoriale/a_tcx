@@ -652,7 +652,7 @@ export class GlobalSettings {
               link = "http://football." + partnerCode + "/" + relativeUrl;
             }
             else {
-              link = "http://" + this.offSiteEnv(scope) + "mytouchdownzone.com/" + partnerCode + "/" + relativeUrl;
+              link = "http://" + this.offSiteEnv(scope) + ".mytouchdownzone.com/" + partnerCode + "/" + relativeUrl;
             }
           }
           else {

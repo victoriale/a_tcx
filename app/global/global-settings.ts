@@ -604,9 +604,14 @@ export class GlobalSettings {
             if(scope != "mlb"){//if not baseball then add scope
               if (scope == "nba") {
                 link = "NBA/";//exception: need nba scope to be uppercase
-              } else {
+              }else if (scope=="ncaam"){
+                link = "ncaa/";
+              }
+              else {
                 link = scope + "/";
               }
+            }else if(scope == "mlb"){
+              link="/";
             }
             link += key + "/" + str1 + "/" + id;
           } else {
@@ -652,7 +657,7 @@ export class GlobalSettings {
               link = "http://football." + partnerCode + "/" + relativeUrl;
             }
             else {
-              link = "http://" + this.offSiteEnv(scope) + "mytouchdownzone.com/" + partnerCode + "/" + relativeUrl;
+              link = "http://" + this.offSiteEnv(scope) + ".mytouchdownzone.com/" + partnerCode + "/" + relativeUrl;
             }
           }
           else {

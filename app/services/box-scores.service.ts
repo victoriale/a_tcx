@@ -457,12 +457,9 @@ export class BoxScoresService {
       if(awayData.lastName != null){
         awayData.lastName = awayData.name.split(' ')[awayData.name.split(' ').length-1];
       }
-      // NBA & NCAAM needs nickname datapoint
-      // let homeLink = isPartner == false ? self.formatTeamRelLinks(scope, homeData.lastName, homeData.id)[scope].vertical_link : self.formatTeamRelLinks(scope, homeData.lastName, homeData.id)[scope].partner_link; //TODO
-      // let awayLink = isPartner == false ? self.formatTeamRelLinks(scope, awayData.lastName, awayData.id)[scope].vertical_link : self.formatTeamRelLinks(scope, awayData.lastName, awayData.id)[scope].partner_link;//TODO
-      var homeLink = GlobalSettings.getOffsiteLink(scope, "team", awayData.lastName, awayData.id);
-      var awayLink = GlobalSettings.getOffsiteLink(scope, "team", awayData.lastName, awayData.id);
 
+         var homeLink =  self.formatTeamRelLinks(scope, data.fullNameHome, homeData.id, isPartner);
+         var awayLink = self.formatTeamRelLinks(scope, data.fullNameAway, awayData.id, isPartner);
       var aiContent = data.aiContent != null ? self.formatArticle(data):null; //TODO
       if(scope == 'ncaam' || scope == 'nba'){
         var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getSportsImageUrl('/'+homeData.logo), homeLink); //TODO
@@ -572,31 +569,36 @@ export class BoxScoresService {
 
   formatScoreBoard(data){}// so far unused on TCX
 
-  formatTeamRelLinks(scope, teamName, id){
+  formatTeamRelLinks(scope, teamName, id, isPartner:boolean){
     teamName = teamName ? teamName.toLowerCase() : null;
     var relPath = {
       'nfl':{
-        'vertical_link': teamName ? 'nfl/team/'+teamName.split(' ').join('-')+'/'+id : null,
-        'partner_link': teamName ? 'nfl/t/'+teamName.split(' ').join('-')+'/'+id : null,
+        'vertical_link': teamName ? GlobalSettings.getOffsiteLink(scope,'team',teamName.split(' ').join('-'),id ): null,
+        'partner_link': teamName ? GlobalSettings.getOffsiteLink(scope,'t',teamName.split(' ').join('-'),id ): null,
       },
       'ncaaf':{
-        'vertical_link': teamName ? 'ncaaf/team/'+teamName.split(' ').join('-')+'/'+id : null,
-        'partner_link': teamName ? 'ncaaf/t/'+teamName.split(' ').join('-')+'/'+id : null,
+        'vertical_link': teamName ? GlobalSettings.getOffsiteLink(scope,'team',teamName.split(' ').join('-'),id ): null,
+        'partner_link': teamName ? GlobalSettings.getOffsiteLink(scope,'t',teamName.split(' ').join('-'),id ): null,
       },
       'mlb':{
-        'vertical_link': teamName ? 'team/'+teamName.split(' ').join('-')+'/'+id : null,
-        'partner_link': teamName ? 't/'+teamName.split(' ').join('-')+'/'+id : null,
+        'vertical_link': teamName ? GlobalSettings.getOffsiteLink(scope,'team',teamName.split(' ').join('-'),id ): null,
+        'partner_link': teamName ? GlobalSettings.getOffsiteLink(scope,'t',teamName.split(' ').join('-'),id ): null,
       },
       'nba':{
-        'vertical_link': teamName ? 'nba/team/'+teamName.split(' ').join('-')+'/'+id : null,
-        'partner_link': teamName ? 'nba/t/'+teamName.split(' ').join('-')+'/'+id : null,
+        'vertical_link': teamName ? GlobalSettings.getOffsiteLink(scope,'team',teamName.split(' ').join('-'),id ): null,
+        'partner_link': teamName ? GlobalSettings.getOffsiteLink(scope,'t',teamName.split(' ').join('-'),id ): null,
       },
       'ncaam':{
-        'vertical_link': teamName ? 'ncaa/team/'+teamName.split(' ').join('-')+'/'+id : null,
-        'partner_link': teamName ? 'ncaa/t/'+teamName.split(' ').join('-')+'/'+id : null,
+        'vertical_link': teamName ? GlobalSettings.getOffsiteLink(scope,'team',teamName.split(' ').join('-'),id ): null,
+        'partner_link': teamName ? GlobalSettings.getOffsiteLink(scope,'t',teamName.split(' ').join('-'),id ): null,
       },
     };
-    return relPath;
+    if(isPartner){
+      return relPath[scope]['partner_link'];
+    } else{
+      return relPath[scope]['vertical_link'];
+
+    }
   }
   //used to send into image component in the format it needs but per module it differs so each service will have its own imageData
   imageData(imageClass, imageBorder, mainImg, mainImgRoute?){

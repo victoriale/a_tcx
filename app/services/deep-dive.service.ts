@@ -59,20 +59,16 @@ export class DeepDiveService {
 
   getDeepDiveVideoBatchService(category: string, limit: number, page: number, location?: string){
       var headers = this.setToken();
-      var callURL = GlobalSettings.getTCXscope(category).tcxApi;
+      var callURL = GlobalSettings.getHeadlineUrl();
       if(limit === null || typeof limit == 'undefined'){
         limit = 5;
         page = 1;
       }
-      callURL += '/tcx/videoBatch/' + category;
-        //http://dev-homerunloyal-api.synapsys.us/tcx/videoBatch/league/5/1
+      callURL += '/videoBatch/' + category;
+      //http://dev-article-library.synapsys.us/tcx/videoBatch/sports/10/1
       if(GlobalSettings.getTCXscope(category).topScope == "basketball"){
-        //http://dev-tcxmedia-api.synapsys.us/tcx/videoBatch/nba/1/5
         callURL += '/' + page + '/' + limit;
       } else {
-        //http://dev-touchdownloyal-api.synapsys.us/tcx/videoBatch/fbs/5/2
-        //http://dev-touchdownloyal-api.synapsys.us/tcx/videoBatch/nfl/5/2/ks
-        //http://dev-tcxmedia-api.synapsys.us/videoBatch/sports/10/1
         callURL += '/' + limit + '/' + page;
         if(GlobalSettings.getTCXscope(category).topScope == "nfl" && location !== null){
           callURL += '/' + location;
@@ -127,8 +123,9 @@ export class DeepDiveService {
 
       data.forEach(function(val, index){
           if(val.article_id != null && typeof val.article_id != 'undefined'){
-            if(val.publication_date){
-              var date =  moment.unix(Number(val.publication_date));
+            if(val.publication_date || val.last_updated){
+              let d =  val.publication_date ? val.publication_date : val.last_updated;
+              var date = moment.unix(Number(d));
               date = '<span class="hide-320">' + date.format('dddd') + ', </span>' + date.format('MMM') + date.format('. DD, YYYY');
             }
             var key = val.keywords[0];
@@ -150,7 +147,7 @@ export class DeepDiveService {
               routeLink = GlobalSettings.getOffsiteLink(val.scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id));
               extLink = true;
             } else {
-              routeLink = scope ? VerticalGlobalFunctions.formatArticleRoute(scope.replace(/\s/g , "-") , val.article_id, "story") : null;
+              routeLink = scope ? VerticalGlobalFunctions.formatArticleRoute(key.replace(/\s+/g, '-').toLowerCase(), val.article_id, "story") : null;
               extLink = false;
               author = val.author ? val.author.replace(/by/gi, "") + ", ": null;
               publisher = author ? val.publisher : "Published by: " + val.publisher;
@@ -184,7 +181,7 @@ export class DeepDiveService {
                 urlRouteArray: routeLink,
                 extUrl: extLink
               },
-              keyUrl: key != "all" ? VerticalGlobalFunctions.formatSectionFrontRoute(key.replace(/\s/g , "-")) : [route]
+              keyUrl: key != "all" && key ? VerticalGlobalFunctions.formatSectionFrontRoute(key.replace(/\s/g , "-")) : [route]
             }
             articleStackArray.push(articleStackData);
           }
@@ -203,7 +200,10 @@ export class DeepDiveService {
       arrayData.forEach(function(val,index){
         var curdate = new Date();
         var curmonthdate = curdate.getDate();
-        var timeStamp = moment(Number(val.publication_date)).format("MMMM Do, YYYY h:mm:ss a");
+        let d = val.publication_date ? val.publication_date : val.last_updated;
+        if(d){
+          var timeStamp = moment(Number(d)).format("MMMM Do, YYYY h:mm:ss a");
+        }
 
         var routeLink;
         var extLink;
@@ -224,7 +224,7 @@ export class DeepDiveService {
           image_url: GlobalSettings.getImageUrl(val['image_url']),
           title:  "<span> Today's News: </span>",
           headline: val['title'],
-          keywords: val['keywords'][0],
+          keywords: val['keywords'] ? val['keywords'][0] : "NEWS",
           keyUrl: val['keywords'][0] ? VerticalGlobalFunctions.formatSectionFrontRoute(val['keywords'][0].replace(/\s/g, "-")) : ["/news-feed"],
           teaser: val['teaser'] ? val['teaser'].replace('_',': ').replace(/<p[^>]*>/g, "") : "",
           article_id:val['article_id'],

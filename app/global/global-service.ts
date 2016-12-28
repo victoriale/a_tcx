@@ -58,7 +58,10 @@ export class GeoLocation{
             data => {
                 if (data['results'] != null) {
                     let partnerScript = data['results'].header.script;
-                    let partnerLocation = data['results']['location']['realestate']['location_id'];
+                    let partnerLocation = data['results']['location']['realestate']['location']['city'][0];
+                    if(!partnerLocation){
+                      partnerLocation = data['results']['location']['realestate']['location_id'];
+                    }
                     if (!this.geoData) {
                         this.geoData = {};
                     }

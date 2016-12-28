@@ -431,11 +431,11 @@ export class SchedulesService {
                     }
                     let date = moment(Number(data.data[n].eventDate)).format('dddd, MMM. D').toUpperCase();
                     let time = moment(Number(data.data[n].eventDate)).format('h:mm A z');
+                    let fullNameAway = data.data[n].fullNameAway ? data.data[n].fullNameAway.replace(/\s+/g, '-') : null;
+                    let fullNameHome = data.data[n].fullNameHome ? data.data[n].fullNameHome.replace(/\s+/g, '-') : null;
                     data.data[n].date = date + " &bull; " + time;
                     data.data[n].homeTeamName = data.data[n].lastNameHome;
                     data.data[n].awayTeamName = data.data[n].lastNameAway;
-                    let fullNameAway = data.data[n].fullNameAway ? data.data[n].fullNameAway.replace(/ /g, "-") : null;
-                    let fullNameHome = data.data[n].fullNameHome ? data.data[n].fullNameHome.replace(/ /g, "-") : null;
                     data.data[n].awayProfileUrl = data.data[n].fullNameAway ? GlobalSettings.getOffsiteLink("mlb", "team", fullNameAway, data.data[n].idAway) : null;
                     data.data[n].homeProfileUrl = data.data[n].fullNameHome ? GlobalSettings.getOffsiteLink("mlb", "team", fullNameHome, data.data[n].idHome) : null;
                     if (data.data[n].logoUrlAway == "" || data.data[n].logoUrlAway == null) {
@@ -578,23 +578,27 @@ export class SchedulesService {
             }
             let date = moment(Number(val.eventStartTime)).format('dddd, MMM. D').toUpperCase();
             let time = moment(Number(val.eventStartTime)).format('h:mm A z');
-            let team1FullName = val.team1FullName ? val.team1FullName : null;
-            let team2FullName = val.team2FullName ? val.team2FullName : null;
+            let team1FullName = val.team1FullName ? val.team1FullName.replace(/\s+/g, '-') : null;
+            let team2FullName = val.team2FullName ? val.team2FullName.replace(/\s+/g, '-') : null;
+            let homeTeamName = val.team1FullName ? val.team1FullName.replace(val.team1Market + " ", '') : null;
+            let awayTeamName = val.team2FullName ? val.team2FullName.replace(val.team2Market + " ", '') : null;
 
-            let team1FBSName = team1FullName ? val.team1Abbreviation + " " + team1FullName.replace(val.team1Market + " ", '') : null;
-            let team2FBSName = team2FullName ? val.team2Abbreviation + " " + team2FullName.replace(val.team2Market + " ", '') : null;
+            let team1FBSName = val.team1FullName ? val.team1Abbreviation + " " + homeTeamName : null;
+            let team2FBSName = val.team2FullName ? val.team2Abbreviation + " " + awayTeamName : null;
+
             if (team1FBSName && team1FBSName.length > 13) {
                 team1FBSName = val.team1Abbreviation;
             }
             if (team2FBSName && team2FBSName.length > 13) {
                 team2FBSName = val.team2Abbreviation;
             }
+
             newData = {
                 date: date + " &bull; " + time,
                 awayImageConfig: {
                     imageClass: "image-70",
                     mainImage: {
-                        url: GlobalSettings.getOffsiteLink("nfl", "team", val.team2FullName, val.team2Id),
+                        url: GlobalSettings.getOffsiteLink("nfl", "team", team2FullName, val.team2Id),
                         imageUrl: GlobalSettings.getImageUrl(val.team1Logo),
                         imageClass: "border-1",
                         hoverText: "<p>View</p> Profile"
@@ -603,16 +607,16 @@ export class SchedulesService {
                 homeImageConfig: {
                     imageClass: "image-70",
                     mainImage: {
-                        url: GlobalSettings.getOffsiteLink("nfl", "team", val.team1FullName, val.team1Id),
+                        url: GlobalSettings.getOffsiteLink("nfl", "team", team1FullName, val.team1Id),
                         imageUrl: GlobalSettings.getImageUrl(val.team2Logo),
                         imageClass: "border-1",
                         hoverText: "<p>View</p> Profile"
                     }
                 },
-                awayTeamName: scope == 'ncaaf' ? team2FBSName : team2FullName ? team2FullName.replace(val.team2Market + " ", '') : null,
-                homeTeamName: scope == 'ncaaf' ? team1FBSName : team1FullName ? team1FullName.replace(val.team1Market + " ", '') : null,
-                awayLink: GlobalSettings.getOffsiteLink("nfl", "team", val.team2FullName, val.team2Id),
-                homeLink: GlobalSettings.getOffsiteLink("nfl", "team", val.team1FullName, val.team1Id),
+                awayTeamName: scope == 'ncaaf' ? team2FBSName : awayTeamName,
+                homeTeamName: scope == 'ncaaf' ? team1FBSName : homeTeamName,
+                awayLink: GlobalSettings.getOffsiteLink("nfl", "team", team2FullName, val.team2Id),
+                homeLink: GlobalSettings.getOffsiteLink("nfl", "team", team1FullName, val.team1Id),
                 reportDisplay: reportText,
                 reportLink: reportUrl,
                 extUrl:true,

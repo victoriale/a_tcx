@@ -80,7 +80,6 @@ export class SchedulesService {
 
         callURL += '/' + limit + '/' + pageNum;  //default pagination limit: 5; page: 1
         //optional week parameters
-        console.log("url", callURL);
         return this.http.get(callURL, { headers: headers })
             .map(res => res.json())
             .map(data => {

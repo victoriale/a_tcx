@@ -56,7 +56,7 @@ export class DeepDiveBlockMain implements OnInit {
         var scrollTop = window.pageYOffset? window.pageYOffset: window.scrollY;
         var footer = document.getElementById('footer');
         var footerHeight=footer?footer.offsetHeight:0;
-        var maxScroll = bodyHeight - window.innerHeight - footerHeight;
+
         if(window.innerHeight + scrollTop >= bodyHeight ){
             //fire when scrolled into footer
             this.blockIndex = this.blockIndex + 1;

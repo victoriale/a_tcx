@@ -598,7 +598,7 @@ export class SchedulesService {
                 awayImageConfig: {
                     imageClass: "image-70",
                     mainImage: {
-                        url: GlobalSettings.getOffsiteLink("nfl", "team", team2FullName, val.team2Id),
+                        url: GlobalSettings.getOffsiteLink(scope, "team", team2FullName, val.team2Id),
                         imageUrl: GlobalSettings.getImageUrl(val.team1Logo),
                         imageClass: "border-1",
                         hoverText: "<p>View</p> Profile"
@@ -607,7 +607,7 @@ export class SchedulesService {
                 homeImageConfig: {
                     imageClass: "image-70",
                     mainImage: {
-                        url: GlobalSettings.getOffsiteLink("nfl", "team", team1FullName, val.team1Id),
+                        url: GlobalSettings.getOffsiteLink(scope, "team", team1FullName, val.team1Id),
                         imageUrl: GlobalSettings.getImageUrl(val.team2Logo),
                         imageClass: "border-1",
                         hoverText: "<p>View</p> Profile"
@@ -615,8 +615,8 @@ export class SchedulesService {
                 },
                 awayTeamName: scope == 'ncaaf' ? team2FBSName : awayTeamName,
                 homeTeamName: scope == 'ncaaf' ? team1FBSName : homeTeamName,
-                awayLink: GlobalSettings.getOffsiteLink("nfl", "team", team2FullName, val.team2Id),
-                homeLink: GlobalSettings.getOffsiteLink("nfl", "team", team1FullName, val.team1Id),
+                awayLink: GlobalSettings.getOffsiteLink(scope, "team", team2FullName, val.team2Id),
+                homeLink: GlobalSettings.getOffsiteLink(scope, "team", team1FullName, val.team1Id),
                 reportDisplay: reportText,
                 reportLink: reportUrl,
                 extUrl:true,

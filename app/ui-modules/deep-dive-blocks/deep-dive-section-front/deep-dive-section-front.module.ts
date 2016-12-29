@@ -39,16 +39,16 @@ export class DeepDiveSectionFront implements OnInit {
     constructor(private _boxScoresService: BoxScoresService, private _deepDiveData: DeepDiveService) { }
 
     private onScroll(event) {
-        var bodyHeight = event.srcElement.body.scrollHeight;
-        var scrollTop = event.srcElement.body.scrollTop;
+        var bodyHeight = event.target.documentElement.scrollHeight?event.target.documentElement.scrollHeight:event.target.body.scrollHeight;
+        var scrollTop = window.pageYOffset? window.pageYOffset: window.scrollY;
         var footer = document.getElementById('footer');
+        var footerHeight=footer?footer.offsetHeight:0;
 
-        var maxScroll = bodyHeight - window.innerHeight - footer.offsetHeight;
-        if (this.callArticleApi && (this.blockIndex <= this.newArray.length) && (bodyHeight - window.innerHeight - footer.offsetHeight) <= scrollTop) {
+        if(window.innerHeight + scrollTop >= bodyHeight ){
             //fire when scrolled into footer
             this.blockIndex = this.blockIndex + 1;
             this.callModules(this.blockIndex);
-        }
+        };
     } //onScroll
 
     callModules(pageNum) {

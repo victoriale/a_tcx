@@ -325,6 +325,7 @@ export class SchedulesService {
                     output.scopeList.push(data.scopeList[i].toUpperCase());
                 }
                 for (var n = 0; n < data.data.length; n++) {
+                    data.data[n].extUrl = true;
                     switch (data.data[n].eventStatus) {
                         case "pre-event":
                             data.data[n].reportDisplay = "PRE GAME REPORT";
@@ -556,6 +557,7 @@ export class SchedulesService {
             let partner = GlobalSettings.getHomeInfo();
             var reportLink;
             let reportUrl;
+
             if (val.eventStatus == 'inprogress') {
                 if (Number(val.eventQuarter) > 1) {// so that ai gets a chance to generate an article and no one really needs an article created for first quarter
                     reportUrl = GlobalSettings.getOffsiteLink(scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'in-game-report', val.eventId));

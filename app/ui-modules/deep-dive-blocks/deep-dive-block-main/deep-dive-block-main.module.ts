@@ -52,16 +52,17 @@ export class DeepDiveBlockMain implements OnInit {
     }
 
     private onScroll(event) {
-        var bodyHeight = event.srcElement.body.scrollHeight;
-        var scrollTop = event.srcElement.body.scrollTop;
+        var bodyHeight = event.target.documentElement.scrollHeight?event.target.documentElement.scrollHeight:event.target.body.scrollHeight;
+        var scrollTop = window.pageYOffset? window.pageYOffset: window.scrollY;
         var footer = document.getElementById('footer');
-
-        var maxScroll = bodyHeight - window.innerHeight - footer.offsetHeight;
-        if (this.callApi && (bodyHeight - window.innerHeight - footer.offsetHeight) <= scrollTop) {
+        var footerHeight=footer?footer.offsetHeight:0;
+        var maxScroll = bodyHeight - window.innerHeight - footerHeight;
+        if(window.innerHeight + scrollTop >= bodyHeight ){
             //fire when scrolled into footer
             this.blockIndex = this.blockIndex + 1;
-             this.callModules();
-        }
+            this.callModules();
+        };
+
     }
 
     getBreakingData() {

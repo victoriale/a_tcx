@@ -597,7 +597,7 @@ export class GlobalSettings {
         case 'nfl':
         case 'ncaaf':
         case 'mlb':
-          if (partnerCode != null && (this.checkPartnerDomain(partnerCode) && (scope != "nfl" || scope != "ncaaf" || scope != "mlb"))) {// only replace team to t or search to s only if this.checkPartnerDomain(partnerCode) is true and on nfl/ncaaf/mlb pages only
+          if (partnerCode != null && (this.checkPartnerDomain(partnerCode) && (scope != "nfl" && scope != "ncaaf" && scope != "mlb"))) {// only replace team to t or search to s only if this.checkPartnerDomain(partnerCode) is true and on nfl/ncaaf/mlb pages only
             key = key.replace(/team/g, "t").replace(/search/g, "s");
           }
           if(key == "team" || key == "t"){//team link

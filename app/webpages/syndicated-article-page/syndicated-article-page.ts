@@ -169,7 +169,7 @@ export class SyndicatedArticlePage implements OnDestroy{
 
         if(artType=="story") {
             let image;
-            if(data.image_url != undefined && data.image_url != null){
+           if(data.image_url != undefined && data.image_url != null){
                 image =GlobalSettings.getImageUrl(data.image_url);
             } else{
                 image=GlobalSettings.getImageUrl("/app/public/placeholder_XL.png");

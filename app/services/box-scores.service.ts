@@ -574,19 +574,19 @@ export class BoxScoresService {
     var relPath = {
       'nfl':{
         'vertical_link': teamName ? GlobalSettings.getOffsiteLink(scope,'team',teamName.split(' ').join('-'),id ): null,
-        'partner_link': teamName ? GlobalSettings.getOffsiteLink(scope,'t',teamName.split(' ').join('-'),id ): null,
+        'partner_link': teamName ? GlobalSettings.getOffsiteLink(scope,'team',teamName.split(' ').join('-'),id ): null,//partner site eg: http://football.chicagotribune.com/nfl/team/detroit-lions/156
       },
       'ncaaf':{
         'vertical_link': teamName ? GlobalSettings.getOffsiteLink(scope,'team',teamName.split(' ').join('-'),id ): null,
-        'partner_link': teamName ? GlobalSettings.getOffsiteLink(scope,'t',teamName.split(' ').join('-'),id ): null,
+        'partner_link': teamName ? GlobalSettings.getOffsiteLink(scope,'team',teamName.split(' ').join('-'),id ): null,
       },
       'mlb':{
         'vertical_link': teamName ? GlobalSettings.getOffsiteLink(scope,'team',teamName.split(' ').join('-'),id ): null,
-        'partner_link': teamName ? GlobalSettings.getOffsiteLink(scope,'t',teamName.split(' ').join('-'),id ): null,
+        'partner_link': teamName ? GlobalSettings.getOffsiteLink(scope,'team',teamName.split(' ').join('-'),id ): null,
       },
       'nba':{
         'vertical_link': teamName ? GlobalSettings.getOffsiteLink(scope,'team',teamName.split(' ').join('-'),id ): null,
-        'partner_link': teamName ? GlobalSettings.getOffsiteLink(scope,'t',teamName.split(' ').join('-'),id ): null,
+        'partner_link': teamName ? GlobalSettings.getOffsiteLink(scope,'t',teamName.split(' ').join('-'),id ): null, // partnersite eg: http://www.myhoopszone.com/chicagotribune.com/NBA/t/miami-heat/340
       },
       'ncaam':{
         'vertical_link': teamName ? GlobalSettings.getOffsiteLink(scope,'team',teamName.split(' ').join('-'),id ): null,

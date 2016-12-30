@@ -88,7 +88,6 @@ export class SyndicateArticleService {
       }else{
         mainArticleData['article'] = "This article is currently being written... Please try again shortly.";
       }
-
       return mainArticleData;
   }
   getSyndicateVideoService(subcategory, articleID){

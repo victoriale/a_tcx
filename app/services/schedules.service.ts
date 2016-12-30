@@ -325,6 +325,7 @@ export class SchedulesService {
                     output.scopeList.push(data.scopeList[i].toUpperCase());
                 }
                 for (var n = 0; n < data.data.length; n++) {
+                    data.data[n].extUrl = true;
                     switch (data.data[n].eventStatus) {
                         case "pre-event":
                             data.data[n].reportDisplay = "PRE GAME REPORT";
@@ -556,6 +557,7 @@ export class SchedulesService {
             let partner = GlobalSettings.getHomeInfo();
             var reportLink;
             let reportUrl;
+
             if (val.eventStatus == 'inprogress') {
                 if (Number(val.eventQuarter) > 1) {// so that ai gets a chance to generate an article and no one really needs an article created for first quarter
                     reportUrl = GlobalSettings.getOffsiteLink(scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'in-game-report', val.eventId));
@@ -598,7 +600,7 @@ export class SchedulesService {
                 awayImageConfig: {
                     imageClass: "image-70",
                     mainImage: {
-                        url: GlobalSettings.getOffsiteLink("nfl", "team", team2FullName, val.team2Id),
+                        url: GlobalSettings.getOffsiteLink(scope, "team", team2FullName, val.team2Id),
                         imageUrl: GlobalSettings.getImageUrl(val.team1Logo),
                         imageClass: "border-1",
                         hoverText: "<p>View</p> Profile"
@@ -607,7 +609,7 @@ export class SchedulesService {
                 homeImageConfig: {
                     imageClass: "image-70",
                     mainImage: {
-                        url: GlobalSettings.getOffsiteLink("nfl", "team", team1FullName, val.team1Id),
+                        url: GlobalSettings.getOffsiteLink(scope, "team", team1FullName, val.team1Id),
                         imageUrl: GlobalSettings.getImageUrl(val.team2Logo),
                         imageClass: "border-1",
                         hoverText: "<p>View</p> Profile"
@@ -615,8 +617,8 @@ export class SchedulesService {
                 },
                 awayTeamName: scope == 'ncaaf' ? team2FBSName : awayTeamName,
                 homeTeamName: scope == 'ncaaf' ? team1FBSName : homeTeamName,
-                awayLink: GlobalSettings.getOffsiteLink("nfl", "team", team2FullName, val.team2Id),
-                homeLink: GlobalSettings.getOffsiteLink("nfl", "team", team1FullName, val.team1Id),
+                awayLink: GlobalSettings.getOffsiteLink(scope, "team", team2FullName, val.team2Id),
+                homeLink: GlobalSettings.getOffsiteLink(scope, "team", team1FullName, val.team1Id),
                 reportDisplay: reportText,
                 reportLink: reportUrl,
                 extUrl:true,

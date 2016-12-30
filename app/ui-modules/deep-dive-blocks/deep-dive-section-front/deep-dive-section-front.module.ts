@@ -39,16 +39,16 @@ export class DeepDiveSectionFront implements OnInit {
     constructor(private _boxScoresService: BoxScoresService, private _deepDiveData: DeepDiveService) { }
 
     private onScroll(event) {
-        var bodyHeight = event.srcElement.body.scrollHeight;
-        var scrollTop = event.srcElement.body.scrollTop;
+        var bodyHeight = event.target.documentElement.scrollHeight?event.target.documentElement.scrollHeight:event.target.body.scrollHeight;
+        var scrollTop = window.pageYOffset? window.pageYOffset: window.scrollY;
         var footer = document.getElementById('footer');
+        var footerHeight=footer?footer.offsetHeight:0;
 
-        var maxScroll = bodyHeight - window.innerHeight - footer.offsetHeight;
-        if (this.callArticleApi && (this.blockIndex <= this.newArray.length) && (bodyHeight - window.innerHeight - footer.offsetHeight) <= scrollTop) {
+        if(window.innerHeight + scrollTop >= bodyHeight ){
             //fire when scrolled into footer
             this.blockIndex = this.blockIndex + 1;
             this.callModules(this.blockIndex);
-        }
+        };
     } //onScroll
 
     callModules(pageNum) {
@@ -105,12 +105,12 @@ export class DeepDiveSectionFront implements OnInit {
                         var obj = {
                             stackTop1: this.articleData.length > 0  && pageNum != 1 ? this.articleData.splice(0, 1) : null,//not pageNum 1 so it doesn't repeat on the second set
                             stackRow1: this.articleData.length > 0  && pageNum != 1 ? this.articleData.splice(0, 6) : null,
-                            recData1: this.articleData.length > 0  && pageNum != 1 ? this.articleData.splice(0, 6) : null,
+                            recData1: this.articleData.length > 2  && pageNum != 1 ? this.articleData.length >= 3 && this.articleData.length < 6 ? this.articleData.splice(0, 3) : this.articleData.splice(0, 6) : null,
                             stackTop2: this.articleData.length > 0 ? this.articleData.splice(0, 1) : null,
                             stackRow2: this.articleData.length > 0 ? this.articleData.splice(0, 6) : null,
                             stackTop3: this.articleData.length > 0 ? this.articleData.splice(0, 1) : null,
                             stackRow3: this.articleData.length > 0 ? this.articleData.splice(0, 4) : null,
-                            recData2: this.articleData.length > 0 ? this.articleData.splice(0, 6) : null,
+                            recData2: this.articleData.length > 2  && pageNum != 1 ? this.articleData.length >= 3 && this.articleData.length < 6 ? this.articleData.splice(0, 3) : this.articleData.splice(0, 6) : null,
                         };
                         this.newArray.push(obj);
                         if(data.length < callLimit){

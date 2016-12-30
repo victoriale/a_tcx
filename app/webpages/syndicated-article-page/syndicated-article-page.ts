@@ -1,7 +1,4 @@
-import {
-    Component, AfterViewInit, Input, OnChanges, OnDestroy, HostListener, ElementRef, Renderer,
-    ViewChild
-} from '@angular/core';
+import {Component, AfterViewInit, Input, OnChanges, OnDestroy, HostListener, ElementRef, Renderer} from '@angular/core';
 import {SyndicateArticleService} from "../../services/syndicate-article.service";
 import {GlobalSettings} from "../../global/global-settings";
 import {ActivatedRoute, Route, Router, NavigationStart, Event as NavigationEvent} from "@angular/router";
@@ -20,9 +17,7 @@ declare var moment;
 
 })
 
-export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
-
-
+export class SyndicatedArticlePage implements OnDestroy{
     windowUrl= window.location.href;
     public partnerID: string;
     checkPartner: boolean;
@@ -60,7 +55,6 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
         this.initializePage();
         this.getDeepDiveArticle(this.category, this.trendingLength, this.subcategory, this.eventType, this.articleID);
     }
-
     initializePage(){
         this.paramsub= this.activateRoute.params.subscribe(
             (param :any)=> {
@@ -84,7 +78,6 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
     }
 
     ngAfterViewInit(){
-
         // to run the resize event on load
         try {
             window.dispatchEvent(new Event('load'));
@@ -176,7 +169,7 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
 
         if(artType=="story") {
             let image;
-           if(data.image_url != undefined && data.image_url != null){
+            if(data.image_url != undefined && data.image_url != null){
                 image =GlobalSettings.getImageUrl(data.image_url);
             } else{
                 image=GlobalSettings.getImageUrl("/app/public/placeholder_XL.png");
@@ -223,7 +216,6 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
         }
     }
 
-
     @HostListener('window:scroll',['$event']) onScroll(e){
         var trendingElement= e.target.body.getElementsByClassName('trending-small')[0];
         var topHeight= window.pageYOffset? window.pageYOffset: window.scrollY;
@@ -234,10 +226,6 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
         };
 
 
-
-    }
-    page(){
-        alert('loa')
     }
 
 

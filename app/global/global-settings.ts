@@ -767,7 +767,7 @@ export class GlobalSettings {
 
     static getImageUrl(relativePath):string {
       var relPath;
-      var domain_env = this.getEnv(this._env)
+      var domain_env = this.getEnv(this._env);
       if(domain_env =="dev"){
         relPath = relativePath != null && relativePath != "" ? this._proto + "//" + domain_env  +'-'+ this._imageUrl + relativePath: '/app/public/no-image.png';
         return relPath;

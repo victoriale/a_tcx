@@ -45,7 +45,6 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
     public articleCount:number;
     public scrollTopPrev:number=0;
     public prevArticles;
-    initer:boolean=false;
     iframeUrl: any;
     paramsub;
     constructor(
@@ -237,10 +236,8 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
 
 
     }
-    page(e){
-
-        console.log(this._eref.nativeElement.getElementsByClassName('loading-text')!=null?this.initer=true: this.initer=false);
-        console.log(this.initer);
+    page(){
+        alert('loa')
     }
 
 

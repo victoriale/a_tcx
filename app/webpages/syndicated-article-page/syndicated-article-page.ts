@@ -1,4 +1,7 @@
-import {Component, AfterViewInit, Input, OnChanges, OnDestroy, HostListener, ElementRef, Renderer} from '@angular/core';
+import {
+    Component, AfterViewInit, Input, OnChanges, OnDestroy, HostListener, ElementRef, Renderer,
+    ViewChild
+} from '@angular/core';
 import {SyndicateArticleService} from "../../services/syndicate-article.service";
 import {GlobalSettings} from "../../global/global-settings";
 import {ActivatedRoute, Route, Router, NavigationStart, Event as NavigationEvent} from "@angular/router";
@@ -17,7 +20,9 @@ declare var moment;
 
 })
 
-export class SyndicatedArticlePage implements OnDestroy{
+export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
+
+
     windowUrl= window.location.href;
     public partnerID: string;
     checkPartner: boolean;
@@ -40,6 +45,7 @@ export class SyndicatedArticlePage implements OnDestroy{
     public articleCount:number;
     public scrollTopPrev:number=0;
     public prevArticles;
+    initer:boolean=false;
     iframeUrl: any;
     paramsub;
     constructor(
@@ -55,6 +61,7 @@ export class SyndicatedArticlePage implements OnDestroy{
         this.initializePage();
         this.getDeepDiveArticle(this.category, this.trendingLength, this.subcategory, this.eventType, this.articleID);
     }
+
     initializePage(){
         this.paramsub= this.activateRoute.params.subscribe(
             (param :any)=> {
@@ -78,6 +85,7 @@ export class SyndicatedArticlePage implements OnDestroy{
     }
 
     ngAfterViewInit(){
+
         // to run the resize event on load
         try {
             window.dispatchEvent(new Event('load'));
@@ -216,6 +224,7 @@ export class SyndicatedArticlePage implements OnDestroy{
         }
     }
 
+
     @HostListener('window:scroll',['$event']) onScroll(e){
         var trendingElement= e.target.body.getElementsByClassName('trending-small')[0];
         var topHeight= window.pageYOffset? window.pageYOffset: window.scrollY;
@@ -226,6 +235,12 @@ export class SyndicatedArticlePage implements OnDestroy{
         };
 
 
+
+    }
+    page(e){
+
+        console.log(this._eref.nativeElement.getElementsByClassName('loading-text')!=null?this.initer=true: this.initer=false);
+        console.log(this.initer);
     }
 
 

@@ -108,7 +108,7 @@ export class SchedulesService {
                     output.current['temperature_high'] = data.temperature_high != null ? ((data.temperature_high * (9 / 5)) - 459.67).toFixed(0) : null;
                     output.current['state'] = data.state;
                     output.current['zipcode'] = data.zipcode;
-                    output.current['background'] = GlobalSettings.getImageUrl(data.background);
+                    output.current['background'] = GlobalSettings.getImageUrl(data.background) + GlobalSettings._imgWideScreen;
                     for (var n = 0; n < data.data.length; n++) {
                         //convert from kelvin to farenheight
                         let x = Number(data.data[n].unix_timestamp);
@@ -174,7 +174,8 @@ export class SchedulesService {
                     };
 
                     return output;
-                } else { // gracefully error if no data is returned
+                }
+                else { // gracefully error if no data is returned
                     output = this.getDummyGraphResult();
                     return output;
                 }
@@ -218,7 +219,7 @@ export class SchedulesService {
                         imageClass: "image-70",
                         mainImage: {
                             url: data.data[scope][n].profileUrl,
-                            imageUrl: data.data[scope][n].logoUrl,
+                            imageUrl: data.data[scope][n].logoUrl + GlobalSettings._imgLogo,
                             imageClass: "border-1",
                             hoverText: "<p>View</p> Profile"
                         }
@@ -372,7 +373,7 @@ export class SchedulesService {
                         imageClass: "image-70",
                         mainImage: {
                             url: GlobalSettings.getOffsiteLink(scope, "team", fullNameAway, data.data[n].idAway),
-                            imageUrl: data.data[n].logoUrlAway,
+                            imageUrl: data.data[n].logoUrlAway + GlobalSettings._imgLogo,
                             imageClass: "border-1",
                             hoverText: "<p>View</p> Profile"
                         }
@@ -381,7 +382,7 @@ export class SchedulesService {
                         imageClass: "image-70",
                         mainImage: {
                             url: GlobalSettings.getOffsiteLink(scope, "team", fullNameHome, data.data[n].idHome),
-                            imageUrl: data.data[n].logoUrlHome,
+                            imageUrl: data.data[n].logoUrlHome + GlobalSettings._imgLogo,
                             imageClass: "border-1",
                             hoverText: "<p>View</p> Profile"
                         }
@@ -443,19 +444,19 @@ export class SchedulesService {
                         data.data[n].logoUrlAway = '/app/public/no-image.png';
                     }
                     else {
-                        data.data[n].logoUrlAway = GlobalSettings.getSportsImageUrl(data.data[n].logoUrlAway);
+                        data.data[n].logoUrlAway = GlobalSettings.getSportsImageUrl(data.data[n].logoUrlAway) + GlobalSettings._imgLogo;
                     }
                     if (data.data[n].logoUrlHome == "" || data.data[n].logoUrlHome == null) {
                         data.data[n].logoUrlHome = '/app/public/no-image.png';
                     }
                     else {
-                        data.data[n].logoUrlHome = GlobalSettings.getSportsImageUrl(data.data[n].logoUrlHome);
+                        data.data[n].logoUrlHome = GlobalSettings.getSportsImageUrl(data.data[n].logoUrlHome) + GlobalSettings._imgLogo;
                     }
                     data.data[n].awayImageConfig = {
                         imageClass: "image-70",
                         mainImage: {
                             url: data.data[n].awayProfileUrl,
-                            imageUrl: data.data[n].logoUrlAway,
+                            imageUrl: data.data[n].logoUrlAway + GlobalSettings._imgLogo,
                             imageClass: "border-1",
                             hoverText: "<p>View</p> Profile"
                         }
@@ -464,7 +465,7 @@ export class SchedulesService {
                         imageClass: "image-70",
                         mainImage: {
                             url: data.data[n].homeProfileUrl,
-                            imageUrl: data.data[n].logoUrlHome,
+                            imageUrl: data.data[n].logoUrlHome + GlobalSettings._imgLogo,
                             imageClass: "border-1",
                             hoverText: "<p>View</p> Profile"
                         }
@@ -601,7 +602,7 @@ export class SchedulesService {
                     imageClass: "image-70",
                     mainImage: {
                         url: GlobalSettings.getOffsiteLink(scope, "team", team2FullName, val.team2Id),
-                        imageUrl: GlobalSettings.getImageUrl(val.team2Logo),
+                        imageUrl: GlobalSettings.getImageUrl(val.team2Logo) + GlobalSettings._imgLogo,
                         imageClass: "border-1",
                         hoverText: "<p>View</p> Profile"
                     }
@@ -610,7 +611,7 @@ export class SchedulesService {
                     imageClass: "image-70",
                     mainImage: {
                         url: GlobalSettings.getOffsiteLink(scope, "team", team1FullName, val.team1Id),
-                        imageUrl: GlobalSettings.getImageUrl(val.team1Logo),
+                        imageUrl: GlobalSettings.getImageUrl(val.team1Logo)  + GlobalSettings._imgLogo,
                         imageClass: "border-1",
                         hoverText: "<p>View</p> Profile"
                     }
@@ -635,94 +636,6 @@ export class SchedulesService {
                 subMessage: "The list will now start over."
             });
         return modifiedArray;
-    }
-
-
-    dummyWeatherData() {
-        return {
-            success: true,
-            message: "",
-            data: [
-                {
-                    unix_timestamp: 1476122400,
-                    condition: "Scattered Clouds",
-                    temperature: "292.86",
-                    time_of_day: "day",
-                    icon: "/weather/icons/scattered_clouds_d.svg"
-                },
-                {
-                    unix_timestamp: 1476133200,
-                    condition: "Light Rain",
-                    temperature: "294.28",
-                    time_of_day: "day",
-                    icon: "/weather/icons/light_rain_d.svg"
-                },
-                {
-                    unix_timestamp: 1476144000,
-                    condition: "Light Rain",
-                    temperature: "293.03",
-                    time_of_day: "night",
-                    icon: "/weather/icons/light_rain_n.svg"
-                },
-                {
-                    unix_timestamp: 1476154800,
-                    condition: "Sky Is Clear",
-                    temperature: "291.31",
-                    time_of_day: "night",
-                    icon: "/weather/icons/sky_is_clear_n.svg"
-                },
-                {
-                    unix_timestamp: 1476165600,
-                    condition: "Sky Is Clear",
-                    temperature: "289.72",
-                    time_of_day: "night",
-                    icon: "/weather/icons/sky_is_clear_n.svg"
-                },
-                {
-                    unix_timestamp: 1476176400,
-                    condition: "Sky Is Clear",
-                    temperature: "288.23",
-                    time_of_day: "night",
-                    icon: "/weather/icons/sky_is_clear_n.svg"
-                },
-                {
-                    unix_timestamp: 1476187200,
-                    condition: "Sky Is Clear",
-                    temperature: "287.12",
-                    time_of_day: "night",
-                    icon: "/weather/icons/sky_is_clear_n.svg"
-                },
-                {
-                    unix_timestamp: 1476198000,
-                    condition: "Sky Is Clear",
-                    temperature: "290.88",
-                    time_of_day: "day",
-                    icon: "/weather/icons/sky_is_clear_d.svg"
-                },
-                {
-                    unix_timestamp: 1476208800,
-                    condition: "Few Clouds",
-                    temperature: "296.42",
-                    time_of_day: "day",
-                    icon: "/weather/icons/few_clouds_d.svg"
-                }
-            ],
-            current_scope: "hourly",
-            scope_list: [
-                "hourly",
-                "5-day",
-                "10-day"
-            ],
-            state: "KS",
-            city: "Wichita",
-            zipcode: "67201",
-            current_temperature: "292.86",
-            current_condition: "Light Rain",
-            current_icon: "/weather/icons/light_rain_d.svg",
-            background: "/weather/icons/light_rain.jpg",
-            temperature_high: null,
-            temperature_low: null
-        };
     }
 
     getDummyGraphResult(){

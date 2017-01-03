@@ -51,6 +51,10 @@ export class GlobalSettings {
     private static _tdlAPI: string = '-touchdownloyal-api.synapsys.us/tcx';
     private static _hrlAPI: string = '-homerunloyal-api.synapsys.us/tcx';
     private static _tcxAPI: string = '-article-library.synapsys.us/tcx';
+    static _imgLogo: string = '?width=100';
+    static _imgMobile: string = '?width=400';
+    static _imgFullScreen: string = '?width=800';
+    static _imgWideScreen: string = '?width=1440';
 
     static getEnv(env:string):string {
       if (env == "localhost"){//remove qa when we have qa env setup
@@ -769,6 +773,7 @@ export class GlobalSettings {
       var relPath;
       var domain_env = this.getEnv(this._env);
       if(domain_env =="dev" || domain_env =="qa" ){
+        domain_env = "dev";
         relPath = relativePath != null && relativePath != "" ? this._proto + "//" + domain_env  +'-'+ this._imageUrl + relativePath: '/app/public/no-image.png';
         return relPath;
       }else{

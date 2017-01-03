@@ -1,10 +1,9 @@
-<div verticalWidgetScroll class="articles-page" >
-    <div (window:load)="page($event)">
+<div verticalWidgetScroll class="articles-page">
     <div class="articles-page-content">
         <!-- ERROR MESSAGE HERE -->
         <section *ngIf="errorPage" >
             <div class="loading-container">
-                <span class="loading-text" #articleErrorPage>The article you are trying to reach is unavailable. You will be redirected to the home page shortly.</span>
+                <span class="loading-text">The article you are trying to reach is unavailable. You will be redirected to your previous page shortly.</span>
             </div>
         </section>
 
@@ -70,6 +69,5 @@
             </section>
           </sidekick-wrapper-ai>
       </span>
-    </div>
     </div>
 </div>

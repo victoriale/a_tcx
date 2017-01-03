@@ -47,7 +47,6 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
     public articleCount:number;
     public scrollTopPrev:number=0;
     public prevArticles;
-    initer:boolean=false;
     iframeUrl: any;
     paramsub;
     errorPage:boolean=false;
@@ -231,7 +230,7 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
 
         if(artType=="story") {
             let image;
-           if(data.image_url != undefined && data.image_url != null){
+            if(data.image_url != undefined && data.image_url != null){
                 image =GlobalSettings.getImageUrl(data.image_url);
             } else{
                 image=GlobalSettings.getImageUrl("/app/public/placeholder_XL.png");
@@ -291,11 +290,7 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
 
 
     }
-    page(e){
-/*
-        console.log(this._eref.nativeElement.getElementsByClassName('loading-text')!=null?this.initer=true: this.initer=false);
-        console.log(this.initer);*/
-    }
+
 
 
 }

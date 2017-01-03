@@ -766,8 +766,17 @@ export class GlobalSettings {
     }
 
     static getImageUrl(relativePath):string {
-        var relPath = relativePath != null && relativePath != "" ? this._proto + "//" + this._imageUrl + relativePath: '/app/public/no-image.png';
+      var relPath;
+      var domain_env = this.getEnv(this._env);
+      if(domain_env =="dev"){
+        relPath = relativePath != null && relativePath != "" ? this._proto + "//" + domain_env  +'-'+ this._imageUrl + relativePath: '/app/public/no-image.png';
         return relPath;
+      }else{
+        relPath = relativePath != null && relativePath != "" ? this._proto + "//" + this._imageUrl + relativePath: '/app/public/no-image.png';
+        return relPath;
+      }
+
+
     }
 
     static getSportsImageUrl(relativePath):string {

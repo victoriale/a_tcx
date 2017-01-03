@@ -1,4 +1,7 @@
-import {Component, AfterViewInit, Input, OnChanges, OnDestroy, HostListener, ElementRef, Renderer} from '@angular/core';
+import {
+    Component, AfterViewInit, Input, OnChanges, OnDestroy, HostListener, ElementRef, Renderer,
+    ViewChild
+} from '@angular/core';
 import {SyndicateArticleService} from "../../services/syndicate-article.service";
 import {GlobalSettings} from "../../global/global-settings";
 import {ActivatedRoute, Route, Router, NavigationStart, Event as NavigationEvent} from "@angular/router";
@@ -7,6 +10,8 @@ import {VerticalGlobalFunctions} from "../../global/vertical-global-functions";
 import {SeoService} from "../../global/seo.service";
 import {runInNewContext} from "vm";
 import {element} from "@angular/upgrade/src/angular_js";
+import {error} from "util";
+import {Location} from "@angular/common";
 
 declare var jQuery:any;
 declare var moment;
@@ -17,7 +22,9 @@ declare var moment;
 
 })
 
-export class SyndicatedArticlePage implements OnDestroy{
+export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
+
+
     windowUrl= window.location.href;
     public partnerID: string;
     checkPartner: boolean;
@@ -42,19 +49,22 @@ export class SyndicatedArticlePage implements OnDestroy{
     public prevArticles;
     iframeUrl: any;
     paramsub;
+    errorPage:boolean=false;
     constructor(
         private _synservice:SyndicateArticleService,
         private activateRoute:ActivatedRoute,
         private router:Router,
         private _eref:ElementRef,
         private _render:Renderer,
-        private _seo:SeoService
+        private _seo:SeoService,
+        private _location:Location
 
     ){
         this.checkPartner = GlobalSettings.getHomeInfo().isPartner;
         this.initializePage();
         this.getDeepDiveArticle(this.category, this.trendingLength, this.subcategory, this.eventType, this.articleID);
     }
+
     initializePage(){
         this.paramsub= this.activateRoute.params.subscribe(
             (param :any)=> {
@@ -71,13 +81,11 @@ export class SyndicatedArticlePage implements OnDestroy{
                 }
                 this.getRecomendationData(this.category, 4, this.subcategory);
             }
-
         );
-
-
     }
 
     ngAfterViewInit(){
+
         // to run the resize event on load
         try {
             window.dispatchEvent(new Event('load'));
@@ -94,22 +102,73 @@ export class SyndicatedArticlePage implements OnDestroy{
 
         this._synservice.getSyndicateArticleService(articleID).subscribe(
             data => {
-                this.articleData=this._synservice.transformMainArticle(data.data,this.subcategory,articleID,this.eventType);
-                this.imageData=this.articleData.imageData;
-                this.imageTitle=this.articleData.imageTitle;
-                this.copyright=this.articleData.copyright;
-                this.metaTags(data.data[0],this.eventType);
+                try{
+                    if(data.data&& data.data[0].article_data.article) {
+                        this.errorPage=false;
+                        this.articleData = this._synservice.transformMainArticle(data.data, this.subcategory, articleID, this.eventType);
+                        this.imageData = this.articleData.imageData;
+                        this.imageTitle = this.articleData.imageTitle;
+                        this.copyright = this.articleData.copyright;
+                        this.metaTags(data.data[0], this.eventType);
+                    }else throw new Error('oops! No article data');
+                }
+                catch (e){
+                    this.errorPage=true;
+                    var self=this;
+                    setTimeout(function () {
+                        //removes error page from browser history
+                        self._location.replaceState('/');
+                        self.router.navigateByUrl('/news-feed');
+                    }, 5000);
+
+                }
+            },
+            err=>{
+                this.errorPage=true;
+                var self=this;
+                setTimeout(function () {
+                    //removes error page from browser history
+                    self._location.replaceState('/');
+                    self.router.navigateByUrl('/news-feed');
+                }, 5000);
             }
         )
+
     }
     private getSyndicateVideoArticle(subCat, articleID){
         this._synservice.getSyndicateVideoService(subCat,articleID).subscribe(
             data => {
-                this.articleData = data.data;
-                this.articleData.url= VerticalGlobalFunctions.formatArticleRoute(this.subcategory,this.articleID,this.eventType);
-                this.iframeUrl = this.articleData.video_url + "&autoplay=on";
-                this.metaTags(this.articleData, this.eventType);
+                try{
+                    if(data.data){
+                        this.errorPage=false;
+                        this.articleData = data.data;
+                        this.articleData.url= VerticalGlobalFunctions.formatArticleRoute(this.subcategory,this.articleID,this.eventType);
+                        this.iframeUrl = this.articleData.video_url + "&autoplay=on";
+                        this.metaTags(this.articleData, this.eventType);
+                    }else throw new Error('oops! No video article data');
+                }
+                catch (e){
+                    this.errorPage=true;
+                    var self=this;
+                    setTimeout(function () {
+                        //removes error page from browser history
+                        self._location.replaceState('/');
+                        self.router.navigateByUrl('/news-feed');
+                    }, 5000);
+
+                }
+
+            },
+            err=>{
+                this.errorPage=true;
+                var self=this;
+                setTimeout(function () {
+                    //removes error page from browser history
+                    self._location.replaceState('/');
+                    self.router.navigateByUrl('/news-feed');
+                }, 5000);
             }
+
         )
     }
     ngOnDestroy(){
@@ -169,7 +228,7 @@ export class SyndicatedArticlePage implements OnDestroy{
 
         if(artType=="story") {
             let image;
-           if(data.image_url != undefined && data.image_url != null){
+            if(data.image_url != undefined && data.image_url != null){
                 image =GlobalSettings.getImageUrl(data.image_url);
             } else{
                 image=GlobalSettings.getImageUrl("/app/public/placeholder_XL.png");
@@ -224,9 +283,5 @@ export class SyndicatedArticlePage implements OnDestroy{
             this.getDeepDiveArticle(this.category, this.trendingLength, this.subcategory, this.eventType, this.articleID);
 
         };
-
-
     }
-
-
 }

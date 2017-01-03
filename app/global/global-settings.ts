@@ -51,6 +51,10 @@ export class GlobalSettings {
     private static _tdlAPI: string = '-touchdownloyal-api.synapsys.us/tcx';
     private static _hrlAPI: string = '-homerunloyal-api.synapsys.us/tcx';
     private static _tcxAPI: string = '-article-library.synapsys.us/tcx';
+    static _imgLogo: string = '?width=100';
+    static _imgMobile: string = '?width=400';
+    static _imgFullScreen: string = '?width=800';
+    static _imgWideScreen: string = '?width=1440';
 
     static getEnv(env:string):string {
       if (env == "localhost"){//remove qa when we have qa env setup

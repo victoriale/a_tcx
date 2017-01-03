@@ -58,9 +58,10 @@ export class DeepDiveBlockMain implements OnInit {
         var footerHeight=footer?footer.offsetHeight:0;
 
         if(window.innerHeight + scrollTop >= bodyHeight ){
+            console.log("touch bottom");
             //fire when scrolled into footer
             this.blockIndex = this.blockIndex + 1;
-            this.callModules();
+            this.callModules(this.blockIndex);
         };
 
     }
@@ -196,26 +197,35 @@ export class DeepDiveBlockMain implements OnInit {
                 console.log("Error getting video batch data");
             });
     }
-    callModules() {
-      if(this.blockIndex >= 0 && !this.breakingStack && !this.recDataSports ){
-        this.getBreakingData();
-        this.getSportsData();
-      }else if(this.blockIndex > 1 && !this.businessStack && !this.politicsStack){
-        this.getBusinessData();
-        this.getPoliticsData();
-      }else if(this.blockIndex > 2 && !this.recDataHealth && !this.recDataHealth){
-        this.getEntertainData();
-        this.getHealthData();
-      }else if(this.blockIndex > 3 && !this.lifestyleStack && !this.estateStack){
-        this.getLifeStyleData();
-        this.getRealEstateData();
-      }else if(this.blockIndex > 4 && !this.recDataTravel && !this.weatherStack){
-        this.getTravelData();
-        this.getWeatherData();
-      }else if(this.blockIndex > 5 && !this.recDataAuto && !this.foodStack){
-        this.getAutomotiveData();
-        this.getFoodData();
-      }
+    callModules(index) {
+      var self=this;
+      var callMethodByIndex={
+          0:function(){
+                 self.getBreakingData();
+                 self.getSportsData();
+          },
+          1:function(){
+                  self.getBusinessData();
+                  self.getPoliticsData();
+          },
+          2:function(){
+                  self.getEntertainData();
+                  self.getHealthData();
+          },
+          3:function(){
+                  self.getLifeStyleData();
+                  self.getRealEstateData();
+          },
+          4:function(){
+                  self.getTravelData();
+                  self.getWeatherData();
+          },
+          5:function(){
+                  self.getAutomotiveData();
+                  self.getFoodData();
+          }
+      };
+      callMethodByIndex[index]();
       if(!this.videoDataBatch1 && this.blockIndex > 2){
         this.getDeepDiveVideo();
       }
@@ -223,6 +233,6 @@ export class DeepDiveBlockMain implements OnInit {
 
     ngOnInit() {
         this.secName = this.getSectionNameData();
-        this.callModules();
+        this.callModules(this.blockIndex);
     }
 }

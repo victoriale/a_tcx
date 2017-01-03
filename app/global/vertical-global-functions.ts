@@ -98,6 +98,7 @@ export class VerticalGlobalFunctions {
       var output = scope + "/articles/"+ articleType + "/" + articleID;
     }
     else if (scope == "nba" || scope == "ncaam") {
+      if(scope == "ncaam"){scope = "ncaa";}
       var output = scope + "/article/"+ articleType + "/" + articleID;
     }
     else {

@@ -10,6 +10,8 @@ import {VerticalGlobalFunctions} from "../../global/vertical-global-functions";
 import {SeoService} from "../../global/seo.service";
 import {runInNewContext} from "vm";
 import {element} from "@angular/upgrade/src/angular_js";
+import {error} from "util";
+import {Location} from "@angular/common";
 
 declare var jQuery:any;
 declare var moment;
@@ -48,13 +50,15 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
     initer:boolean=false;
     iframeUrl: any;
     paramsub;
+    errorPage:boolean=false;
     constructor(
         private _synservice:SyndicateArticleService,
         private activateRoute:ActivatedRoute,
         private router:Router,
         private _eref:ElementRef,
         private _render:Renderer,
-        private _seo:SeoService
+        private _seo:SeoService,
+        private _location:Location
 
     ){
         this.checkPartner = GlobalSettings.getHomeInfo().isPartner;
@@ -102,22 +106,72 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
 
         this._synservice.getSyndicateArticleService(articleID).subscribe(
             data => {
-                this.articleData=this._synservice.transformMainArticle(data.data,this.subcategory,articleID,this.eventType);
-                this.imageData=this.articleData.imageData;
-                this.imageTitle=this.articleData.imageTitle;
-                this.copyright=this.articleData.copyright;
-                this.metaTags(data.data[0],this.eventType);
+                try{
+                    if(data.data) {
+                        this.errorPage=false;
+                        this.articleData = this._synservice.transformMainArticle(data.data, this.subcategory, articleID, this.eventType);
+                        this.imageData = this.articleData.imageData;
+                        this.imageTitle = this.articleData.imageTitle;
+                        this.copyright = this.articleData.copyright;
+                        this.metaTags(data.data[0], this.eventType);
+                    }else throw new Error('oops! No article data');
+                }
+                catch (e){
+                    this.errorPage=true;
+                    var self=this;
+                    setTimeout(function () {
+                        //removes error page from browser history
+                        self._location.replaceState('/');
+                        self.router.navigateByUrl('/news-feed');
+                    }, 5000);
+
+                }
+            },
+            err=>{
+                this.errorPage=true;
+                var self=this;
+                setTimeout(function () {
+                    //removes error page from browser history
+                    self._location.replaceState('/');
+                    self.router.navigateByUrl('/news-feed');
+                }, 5000);
             }
         )
+
     }
     private getSyndicateVideoArticle(subCat, articleID){
         this._synservice.getSyndicateVideoService(subCat,articleID).subscribe(
             data => {
-                this.articleData = data.data;
-                this.articleData.url= VerticalGlobalFunctions.formatArticleRoute(this.subcategory,this.articleID,this.eventType);
-                this.iframeUrl = this.articleData.video_url + "&autoplay=on";
-                this.metaTags(this.articleData, this.eventType);
+                try{
+                    if(data.data){
+                        this.articleData = data.data;
+                        this.articleData.url= VerticalGlobalFunctions.formatArticleRoute(this.subcategory,this.articleID,this.eventType);
+                        this.iframeUrl = this.articleData.video_url + "&autoplay=on";
+                        this.metaTags(this.articleData, this.eventType);
+                    }else throw new Error('oops! No video article data');
+                }
+                catch (e){
+                    this.errorPage=true;
+                    var self=this;
+                    setTimeout(function () {
+                        //removes error page from browser history
+                        self._location.replaceState('/');
+                        self.router.navigateByUrl('/news-feed');
+                    }, 5000);
+
+                }
+
+            },
+            err=>{
+                this.errorPage=true;
+                var self=this;
+                setTimeout(function () {
+                    //removes error page from browser history
+                    self._location.replaceState('/');
+                    self.router.navigateByUrl('/news-feed');
+                }, 5000);
             }
+
         )
     }
     ngOnDestroy(){
@@ -238,9 +292,9 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
 
     }
     page(e){
-
+/*
         console.log(this._eref.nativeElement.getElementsByClassName('loading-text')!=null?this.initer=true: this.initer=false);
-        console.log(this.initer);
+        console.log(this.initer);*/
     }
 
 

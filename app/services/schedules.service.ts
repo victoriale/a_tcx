@@ -329,7 +329,7 @@ export class SchedulesService {
                     switch (data.data[n].eventStatus) {
                         case "pre-event":
                             data.data[n].reportDisplay = "PRE GAME REPORT";
-                            data.data[n].reportLink = GlobalSettings.getOffsiteLink(scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'pregame', data.data[n].eventId));
+                            data.data[n].reportLink = GlobalSettings.getOffsiteLink(scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'pregame-report', data.data[n].eventId));
                             break;
                         case "post-event":
                             data.data[n].reportDisplay = "POST GAME REPORT";
@@ -354,8 +354,8 @@ export class SchedulesService {
                     data.data[n].awayTeamName = data.data[n].lastNameAway;
                     let fullNameAway = data.data[n].fullNameAway ? data.data[n].fullNameAway.replace(/ /g, "-") : null;
                     let fullNameHome = data.data[n].fullNameHome ? data.data[n].fullNameHome.replace(/ /g, "-"): null;
-                    data.data[n].awayProfileUrl = data.data[n].fullNameAway ? GlobalSettings.getOffsiteLink("nba", "team", fullNameAway, data.data[n].idAway) : null;
-                    data.data[n].homeProfileUrl = data.data[n].fullNameHome ? GlobalSettings.getOffsiteLink("nba", "team", fullNameHome, data.data[n].idHome) : null;
+                    data.data[n].awayProfileUrl = data.data[n].fullNameAway ? GlobalSettings.getOffsiteLink(scope, "team", fullNameAway, data.data[n].idAway) : null;
+                    data.data[n].homeProfileUrl = data.data[n].fullNameHome ? GlobalSettings.getOffsiteLink(scope, "team", fullNameHome, data.data[n].idHome) : null;
                     if (data.data[n].logoUrlAway == "" || data.data[n].logoUrlAway == null) {
                         data.data[n].logoUrlAway = '/app/public/no-image.png';
                     }
@@ -371,7 +371,7 @@ export class SchedulesService {
                     data.data[n].awayImageConfig = {
                         imageClass: "image-70",
                         mainImage: {
-                            url: GlobalSettings.getOffsiteLink("nba", "team", fullNameAway, data.data[n].idAway),
+                            url: GlobalSettings.getOffsiteLink(scope, "team", fullNameAway, data.data[n].idAway),
                             imageUrl: data.data[n].logoUrlAway,
                             imageClass: "border-1",
                             hoverText: "<p>View</p> Profile"
@@ -380,7 +380,7 @@ export class SchedulesService {
                     data.data[n].homeImageConfig = {
                         imageClass: "image-70",
                         mainImage: {
-                            url: GlobalSettings.getOffsiteLink("nba", "team", fullNameHome, data.data[n].idHome),
+                            url: GlobalSettings.getOffsiteLink(scope, "team", fullNameHome, data.data[n].idHome),
                             imageUrl: data.data[n].logoUrlHome,
                             imageClass: "border-1",
                             hoverText: "<p>View</p> Profile"

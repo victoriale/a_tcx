@@ -140,6 +140,7 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
             data => {
                 try{
                     if(data.data){
+                        this.errorPage=false;
                         this.articleData = data.data;
                         this.articleData.url= VerticalGlobalFunctions.formatArticleRoute(this.subcategory,this.articleID,this.eventType);
                         this.iframeUrl = this.articleData.video_url + "&autoplay=on";

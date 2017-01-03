@@ -36,7 +36,6 @@ export class DeepDiveService {
     } else {
       callURL += '&keyword[]=' + category;
     }
-    console.log("category", category);
     callURL += "&source[]=snt_ai&source[]=tca-curated&random=1&metaDataOnly=1";
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())

@@ -115,12 +115,12 @@ export class DeepDiveService {
     }// transformDeepDiveVideoBatchData ENDS
 
     // Article Batch Transformed Data
-    transformToArticleStack(data: Array<ArticleStackData>, scope?){
+    transformToArticleStack(data: Array<ArticleStackData>, scope?, imageSize?){
       if(data == null){return null;}
       var sampleImage = "/app/public/placeholder_XL.png";
       var articleStackArray = [];
       let route = VerticalGlobalFunctions.getWhiteLabel();
-
+      imageSize = imageSize ? imageSize : GlobalSettings._imgFullScreen;
       data.forEach(function(val, index){
           if(val.article_id != null && typeof val.article_id != 'undefined'){
             if(val.publication_date || val.last_updated){
@@ -177,7 +177,7 @@ export class DeepDiveService {
               teaser: val.teaser ? limitDesc : "No teaser available",
               imageConfig: {
                 imageClass: "embed-responsive-16by9",
-                imageUrl: val.image_url ? GlobalSettings.getImageUrl(val.image_url) : sampleImage,
+                imageUrl: val.image_url ? GlobalSettings.getImageUrl(val.image_url) + imageSize : sampleImage,
                 urlRouteArray: routeLink,
                 extUrl: extLink
               },
@@ -221,7 +221,7 @@ export class DeepDiveService {
           extUrl: extLink,
           source: val.source,
           report_type: val.report_type,
-          image_url: GlobalSettings.getImageUrl(val['image_url']),
+          image_url: GlobalSettings.getImageUrl(val['image_url']) + GlobalSettings._imgWideScreen,
           title:  "<span> Today's News: </span>",
           headline: val['title'],
           keywords: val['keywords'] ? val['keywords'][0] : "NEWS",

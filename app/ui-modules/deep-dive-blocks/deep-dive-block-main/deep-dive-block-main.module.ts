@@ -78,7 +78,7 @@ export class DeepDiveBlockMain implements OnInit {
         this._deepDiveData.getDeepDiveBatchService("sports", 6, this.batchNum, this.geoLocation)
             .subscribe(data => {
                 data = data.length > 2 ? data.length >=3 && data.length < 6 ? data.splice(0,3) : data.splice(0,6): null;
-                this.recDataSports = this._deepDiveData.transformToArticleStack(data, "sports");
+                this.recDataSports = this._deepDiveData.transformToArticleStack(data, "sports", GlobalSettings._imgMobile);
             },
             err => {
                 console.log("Error getting Sports News data");
@@ -106,7 +106,7 @@ export class DeepDiveBlockMain implements OnInit {
         this._deepDiveData.getDeepDiveBatchService("entertainment", 6, this.batchNum, this.geoLocation)
             .subscribe(data => {
               data = data.length > 2 ? data.length >= 3 && data.length < 6 ? data.splice(0,3) : data.splice(0,6): null;
-              this.recDataEntertain = this._deepDiveData.transformToArticleStack(data, "entertainment");
+              this.recDataEntertain = this._deepDiveData.transformToArticleStack(data, "entertainment", GlobalSettings._imgMobile);
             },
             err => {
                 console.log("Error getting Entertainment News data");
@@ -116,7 +116,7 @@ export class DeepDiveBlockMain implements OnInit {
         this._deepDiveData.getDeepDiveBatchService("health", 6, this.batchNum, this.geoLocation)
             .subscribe(data => {
               data = data.length > 2 ? data.length >= 3 && data.length < 6 ? data.splice(0,3) : data.splice(0,6): null;
-              this.recDataHealth = this._deepDiveData.transformToArticleStack(data, "health");
+              this.recDataHealth = this._deepDiveData.transformToArticleStack(data, "health", GlobalSettings._imgMobile);
             },
             err => {
                 console.log("Error getting Health News data");
@@ -144,7 +144,7 @@ export class DeepDiveBlockMain implements OnInit {
         this._deepDiveData.getDeepDiveBatchService("travel", 6, this.batchNum, this.geoLocation)
             .subscribe(data => {
               data = data.length > 2 ? data.length >= 3 && data.length < 6 ? data.splice(0,3) : data.splice(0,6): null;
-              this.recDataTravel = this._deepDiveData.transformToArticleStack(data, "travel");
+              this.recDataTravel = this._deepDiveData.transformToArticleStack(data, "travel", GlobalSettings._imgMobile);
             },
             err => {
                 console.log("Error getting Travel News data");
@@ -163,7 +163,7 @@ export class DeepDiveBlockMain implements OnInit {
         this._deepDiveData.getDeepDiveBatchService("automotive", 6, this.batchNum, this.geoLocation)
             .subscribe(data => {
               data = data.length > 2 ? data.length >= 3 && data.length < 6 ? data.splice(0,3) : data.splice(0,6): null;
-              this.recDataAuto = this._deepDiveData.transformToArticleStack(data, "automotive");
+              this.recDataAuto = this._deepDiveData.transformToArticleStack(data, "automotive", GlobalSettings._imgMobile);
             },
             err => {
                 console.log("Error getting Automotive News data");

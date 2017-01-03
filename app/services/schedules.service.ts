@@ -219,7 +219,7 @@ export class SchedulesService {
                         imageClass: "image-70",
                         mainImage: {
                             url: data.data[scope][n].profileUrl,
-                            imageUrl: data.data[scope][n].logoUrl + "?width=100",
+                            imageUrl: data.data[scope][n].logoUrl + GlobalSettings._imgLogo,
                             imageClass: "border-1",
                             hoverText: "<p>View</p> Profile"
                         }
@@ -373,7 +373,7 @@ export class SchedulesService {
                         imageClass: "image-70",
                         mainImage: {
                             url: GlobalSettings.getOffsiteLink(scope, "team", fullNameAway, data.data[n].idAway),
-                            imageUrl: data.data[n].logoUrlAway + "?width=100",
+                            imageUrl: data.data[n].logoUrlAway + GlobalSettings._imgLogo,
                             imageClass: "border-1",
                             hoverText: "<p>View</p> Profile"
                         }
@@ -382,7 +382,7 @@ export class SchedulesService {
                         imageClass: "image-70",
                         mainImage: {
                             url: GlobalSettings.getOffsiteLink(scope, "team", fullNameHome, data.data[n].idHome),
-                            imageUrl: data.data[n].logoUrlHome + "?width=100",
+                            imageUrl: data.data[n].logoUrlHome + GlobalSettings._imgLogo,
                             imageClass: "border-1",
                             hoverText: "<p>View</p> Profile"
                         }
@@ -444,19 +444,19 @@ export class SchedulesService {
                         data.data[n].logoUrlAway = '/app/public/no-image.png';
                     }
                     else {
-                        data.data[n].logoUrlAway = GlobalSettings.getSportsImageUrl(data.data[n].logoUrlAway) + "?width=100";
+                        data.data[n].logoUrlAway = GlobalSettings.getSportsImageUrl(data.data[n].logoUrlAway) + GlobalSettings._imgLogo;
                     }
                     if (data.data[n].logoUrlHome == "" || data.data[n].logoUrlHome == null) {
                         data.data[n].logoUrlHome = '/app/public/no-image.png';
                     }
                     else {
-                        data.data[n].logoUrlHome = GlobalSettings.getSportsImageUrl(data.data[n].logoUrlHome) + "?width=100";
+                        data.data[n].logoUrlHome = GlobalSettings.getSportsImageUrl(data.data[n].logoUrlHome) + GlobalSettings._imgLogo;
                     }
                     data.data[n].awayImageConfig = {
                         imageClass: "image-70",
                         mainImage: {
                             url: data.data[n].awayProfileUrl,
-                            imageUrl: data.data[n].logoUrlAway + "?width=100",
+                            imageUrl: data.data[n].logoUrlAway + GlobalSettings._imgLogo,
                             imageClass: "border-1",
                             hoverText: "<p>View</p> Profile"
                         }
@@ -465,7 +465,7 @@ export class SchedulesService {
                         imageClass: "image-70",
                         mainImage: {
                             url: data.data[n].homeProfileUrl,
-                            imageUrl: data.data[n].logoUrlHome + "?width=100",
+                            imageUrl: data.data[n].logoUrlHome + GlobalSettings._imgLogo,
                             imageClass: "border-1",
                             hoverText: "<p>View</p> Profile"
                         }
@@ -602,7 +602,7 @@ export class SchedulesService {
                     imageClass: "image-70",
                     mainImage: {
                         url: GlobalSettings.getOffsiteLink(scope, "team", team2FullName, val.team2Id),
-                        imageUrl: GlobalSettings.getImageUrl(val.team2Logo) + "?width=100",
+                        imageUrl: GlobalSettings.getImageUrl(val.team2Logo) + GlobalSettings._imgLogo,
                         imageClass: "border-1",
                         hoverText: "<p>View</p> Profile"
                     }
@@ -611,7 +611,7 @@ export class SchedulesService {
                     imageClass: "image-70",
                     mainImage: {
                         url: GlobalSettings.getOffsiteLink(scope, "team", team1FullName, val.team1Id),
-                        imageUrl: GlobalSettings.getImageUrl(val.team1Logo)  + "?width=100",
+                        imageUrl: GlobalSettings.getImageUrl(val.team1Logo)  + GlobalSettings._imgLogo,
                         imageClass: "border-1",
                         hoverText: "<p>View</p> Profile"
                     }

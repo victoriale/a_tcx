@@ -23,11 +23,9 @@ export class SyndicateArticleService {
             var headers = this.setToken();
     */
     var callURL = this._syndicateUrl + '?articleID=' + articleID;
-    return this._http.get(callURL)
+    return this._http.get(callURL).retry(2)
       .map(res => res.json())
-      .map(data => {
-        return data;
-      })
+      .map(data => data)
   }
 
   transformMainArticle(data,sc,ai,et){

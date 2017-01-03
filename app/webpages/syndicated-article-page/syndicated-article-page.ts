@@ -81,10 +81,7 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
                 }
                 this.getRecomendationData(this.category, 4, this.subcategory);
             }
-
         );
-
-
     }
 
     ngAfterViewInit(){
@@ -277,7 +274,6 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
         }
     }
 
-
     @HostListener('window:scroll',['$event']) onScroll(e){
         var trendingElement= e.target.body.getElementsByClassName('trending-small')[0];
         var topHeight= window.pageYOffset? window.pageYOffset: window.scrollY;
@@ -286,11 +282,5 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
             this.getDeepDiveArticle(this.category, this.trendingLength, this.subcategory, this.eventType, this.articleID);
 
         };
-
-
-
     }
-
-
-
 }

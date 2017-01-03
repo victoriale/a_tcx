@@ -31,10 +31,8 @@ export class DeepDiveService {
       callURL += '&category=' + category;
     } else if( GlobalSettings.getTCXscope(category).topScope == 'basketball' || GlobalSettings.getTCXscope(category).topScope == 'football') {
       callURL += '&subCategory=' + category;
-    } else if(category == "real-estate"){
-      callURL += '&keyword[]=' + category.replace(/-/g, " ");
     } else {
-      callURL += '&keyword[]=' + category;
+      callURL += '&keyword[]=' + category.replace(/-/g, "+");
     }
     callURL += "&source[]=snt_ai&source[]=tca-curated&random=1&metaDataOnly=1";
     return this.http.get(callURL, {headers: headers})

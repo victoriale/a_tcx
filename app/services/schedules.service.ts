@@ -602,7 +602,7 @@ export class SchedulesService {
                     imageClass: "image-70",
                     mainImage: {
                         url: GlobalSettings.getOffsiteLink(scope, "team", team2FullName, val.team2Id),
-                        imageUrl: GlobalSettings.getImageUrl(val.team1Logo) + "?width=100",
+                        imageUrl: GlobalSettings.getImageUrl(val.team2Logo) + "?width=100",
                         imageClass: "border-1",
                         hoverText: "<p>View</p> Profile"
                     }
@@ -611,7 +611,7 @@ export class SchedulesService {
                     imageClass: "image-70",
                     mainImage: {
                         url: GlobalSettings.getOffsiteLink(scope, "team", team1FullName, val.team1Id),
-                        imageUrl: GlobalSettings.getImageUrl(val.team2Logo) + "?width=100",
+                        imageUrl: GlobalSettings.getImageUrl(val.team1Logo)  + "?width=100",
                         imageClass: "border-1",
                         hoverText: "<p>View</p> Profile"
                     }

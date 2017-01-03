@@ -103,7 +103,7 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
         this._synservice.getSyndicateArticleService(articleID).subscribe(
             data => {
                 try{
-                    if(data.data) {
+                    if(data.data&& data.data[0].article_data.article) {
                         this.errorPage=false;
                         this.articleData = this._synservice.transformMainArticle(data.data, this.subcategory, articleID, this.eventType);
                         this.imageData = this.articleData.imageData;

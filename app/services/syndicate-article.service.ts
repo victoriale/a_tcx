@@ -45,6 +45,7 @@ export class SyndicateArticleService {
           'publishedDate':'',
           'article':[],
           'trendingKeyword':'',
+
       };
       if(data.author){
           let authorArray = data.author.split(' ');
@@ -82,6 +83,7 @@ export class SyndicateArticleService {
       mainArticleData['imageData'] = imageData;
       mainArticleData['imageTitle'] = imageTitle;
       mainArticleData['copyright'] = copyright;
+      mainArticleData['is_stock'] = data.is_stock_photo;
       if(data.subcategory != "none" && data.subcategory){
           mainArticleData['trendingKeyword']=data.subcategory
       }else if(data.category != "none" && data.category){

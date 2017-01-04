@@ -113,6 +113,7 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
                         this.imageData = this.articleData.imageData;
                         this.imageTitle = this.articleData.imageTitle;
                         this.copyright = this.articleData.copyright;
+                        this.is_stock=this.articleData.is_stock;
                         this.trendingKeyword=this.articleData.trendingKeyword;
                         this.getRecomendationData(this.category, 4, this.trendingKeyword);
                         this.getDeepDiveArticle(this.category, this.trendingLength, this.trendingKeyword, this.eventType, this.articleID);

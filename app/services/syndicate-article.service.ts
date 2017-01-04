@@ -44,6 +44,8 @@ export class SyndicateArticleService {
           'copyright':[],
           'publishedDate':'',
           'article':[],
+          'trendingKeyword':'',
+
       };
       if(data.author){
           let authorArray = data.author.split(' ');
@@ -81,11 +83,15 @@ export class SyndicateArticleService {
       mainArticleData['imageData'] = imageData;
       mainArticleData['imageTitle'] = imageTitle;
       mainArticleData['copyright'] = copyright;
-      if(data.article_data.article){
-        mainArticleData['article'] = data.article_data.article;
+      mainArticleData['is_stock'] = data.is_stock_photo;
+      if(data.subcategory != "none" && data.subcategory){
+          mainArticleData['trendingKeyword']=data.subcategory
+      }else if(data.category != "none" && data.category){
+          mainArticleData['trendingKeyword']=data.category
       }else{
-        mainArticleData['article'] = "This article is currently being written... Please try again shortly.";
+          mainArticleData['trendingKeyword']=data.keywords[0];
       }
+      mainArticleData['article'] = data.article_data.article;
       return mainArticleData;
   }
   getSyndicateVideoService(subcategory, articleID){
@@ -102,12 +108,20 @@ export class SyndicateArticleService {
   getRecArticleData(category, count, subcategory?) {
     /* var headers = this.setToken();*/
     var callURL
-    if (subcategory!=category) {
-      callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&category=" + category + "&subCategory=" + subcategory + "&random=1";
+    if (subcategory!=category ) {
+        if(GlobalSettings.getTCXscope(subcategory).topScope == 'basketball' || GlobalSettings.getTCXscope(subcategory).topScope == 'football'){
+            callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&category=" + category + "&subCategory=" + subcategory + "&random=1";
+        }else{
+            callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&keyword[]=" + subcategory + "&random=1";
+        }
 
     } else {
         category = category == 'real-estate'? 'real+estate':category;
-      callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&category=" + category + "&random=1";
+        if(category == "breaking" || category == "trending"){
+            callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&category=" + category + "&random=1";
+        }else{
+            callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&keyword[]=" + category + "&random=1";
+        }
     }
     return this._http.get(callURL)
       .map(res => res.json())
@@ -152,15 +166,24 @@ export class SyndicateArticleService {
 
   }
   //http://dev-tcxmedia-api.synapsys.us/articles?source=tca&count=10&category=entertainment&subCategory=television
-  getTrendingArticles(category, count, subcategory?) {
+  getTrendingArticles(category, count, subcategory) {
     var headers = this.setToken();
     var callURL
-    if (subcategory!=category) {
-      callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&category=" + category + "&subCategory=" + subcategory;
-    } else {
-      category = category == 'real-estate'? 'real+estate':category;
-      callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&category=" + category;
-    }
+      if (subcategory!=category ) {
+          if(GlobalSettings.getTCXscope(subcategory).topScope == 'basketball' || GlobalSettings.getTCXscope(subcategory).topScope == 'football'){
+              callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&category=" + category + "&subCategory=" + subcategory
+          }else{
+              callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&keyword[]=" + subcategory
+          }
+
+      } else {
+          category = category == 'real-estate'? 'real+estate':category;
+          if(category == "breaking" || category == "trending"){
+              callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&category=" + category + "&random=1";
+          }else{
+              callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&keyword[]=" + category + "&random=1";
+          }
+      }
     var trendingArticles;
     var startElement;
     return this._http.get(callURL)

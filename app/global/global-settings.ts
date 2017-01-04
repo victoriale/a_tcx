@@ -51,10 +51,13 @@ export class GlobalSettings {
     private static _tdlAPI: string = '-touchdownloyal-api.synapsys.us/tcx';
     private static _hrlAPI: string = '-homerunloyal-api.synapsys.us/tcx';
     private static _tcxAPI: string = '-article-library.synapsys.us/tcx';
-    static _imgLogo: string = '?width=100';
-    static _imgMobile: string = '?width=400';
-    static _imgFullScreen: string = '?width=800';
-    static _imgWideScreen: string = '?width=1440';
+    static _imgSmLogo: number = 45;
+    static _imgMdLogo: number = 70;
+    static _imgLgLogo: number = 100;
+    static _imgMobile: number = 400;
+    static _imgFullScreen: number = 800;
+    static _imgLgScreen: number = 1240;
+    static _imgWideScreen: number = 1920;
 
     static getEnv(env:string):string {
       if (env == "localhost"){//remove qa when we have qa env setup
@@ -769,26 +772,39 @@ export class GlobalSettings {
         return this._proto + "//" + this._widgetUrl;
     }
 
-    static getImageUrl(relativePath):string {
+    static resizeImage(width:number){
+      var resizePath;
+      let r = window.devicePixelRatio;
+      width = width > 1920 ? 1920 : width;//width limit to 1920 if larger
+      width = width * r;
+      resizePath = "?width=" + width;
+      if(width < 100){//increase quality if smaller than 100, default is set to 70
+        resizePath += "&quality=90";
+      }
+      return resizePath;
+    }
+
+    static getImageUrl(relativePath, width?:number):string {
       var relPath;
       var domain_env = this.getEnv(this._env);
       if(domain_env =="dev" || domain_env =="qa" ){
         domain_env = "dev";
         relPath = relativePath != null && relativePath != "" ? this._proto + "//" + domain_env  +'-'+ this._imageUrl + relativePath: '/app/public/no-image.png';
+        width = width ? width : 1920;//if null, set limit to 1920 because it should not be over 1920 width
+        relPath += this.resizeImage(width);
         return relPath;
       }else{
         relPath = relativePath != null && relativePath != "" ? this._proto + "//" + this._imageUrl + relativePath: '/app/public/no-image.png';
         return relPath;
       }
-
-
     }
 
-    static getSportsImageUrl(relativePath):string {
+    static getSportsImageUrl(relativePath, width?:number):string {
         // var relPath = relativePath != null && relativePath != "" ? this._proto + "//" + this.getEnv(this._env) +  "-" + this._sportsimageUrl + relativePath: '/app/public/no-image.svg';
-
         //todo: when the dev and qa sports image servers are made change this from hardcoded prod to dynamic
         var relPath = relativePath != null && relativePath != "" ? this._proto + "//" + "prod" +  "-" + this._sportsimageUrl + '/' + relativePath: '/app/public/no-image.png';
+        width = width ? width : 1920;//if null, set limit to 1920 because it should not be over 1920 width
+        relPath += this.resizeImage(width);
         return relPath;
     }
 

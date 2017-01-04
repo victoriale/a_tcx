@@ -318,7 +318,7 @@ export class BoxScoresService {
           var teaser = aiContent.teaser;
           var date = moment(aiContent.lastUpdated, 'YYYY-MM-DD').format('MMMM D, YYYY');
           if(aiContent['articleData'][p]['images']['home_images'] != null){
-            var homeImage = GlobalSettings.getImageUrl(aiContent['articleData'][p]['images']['home_images'][0].image_url) + GlobalSettings._imgFullScreen;
+            var homeImage = GlobalSettings.getImageUrl(aiContent['articleData'][p]['images']['home_images'][0].image_url, GlobalSettings._imgFullScreen);
           }else{
             var homeImage = VerticalGlobalFunctions.getBackroundImageUrlWithStockFallback(null);
           }
@@ -462,15 +462,15 @@ export class BoxScoresService {
          var awayLink = self.formatTeamRelLinks(scope, data.fullNameAway, awayData.id, isPartner);
       var aiContent = data.aiContent != null ? self.formatArticle(data):null; //TODO
       if(scope == 'ncaam' || scope == 'nba'){
-        var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getSportsImageUrl('/'+homeData.logo) + GlobalSettings._imgLogo, homeLink); //TODO
-        var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getSportsImageUrl('/'+awayData.logo) + GlobalSettings._imgLogo, awayLink); //TODO
+        var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getSportsImageUrl('/'+homeData.logo, GlobalSettings._imgSmLogo), homeLink); //TODO
+        var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getSportsImageUrl('/'+awayData.logo, GlobalSettings._imgSmLogo), awayLink); //TODO
       }else{
         if(scope == 'mlb'){
-          var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getSportsImageUrl(homeData.logo) + GlobalSettings._imgLogo, homeLink); //TODO
-          var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getSportsImageUrl(awayData.logo) + GlobalSettings._imgLogo, awayLink); //TODO
+          var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getSportsImageUrl(homeData.logo, GlobalSettings._imgSmLogo), homeLink); //TODO
+          var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getSportsImageUrl(awayData.logo, GlobalSettings._imgSmLogo), awayLink); //TODO
         }else{
-          var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo) + GlobalSettings._imgLogo, homeLink); //TODO
-          var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo) + GlobalSettings._imgLogo, awayLink); //TODO
+          var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo, GlobalSettings._imgSmLogo), homeLink); //TODO
+          var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo, GlobalSettings._imgSmLogo), awayLink); //TODO
         }
       }
 

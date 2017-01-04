@@ -177,7 +177,7 @@ export class DeepDiveService {
               teaser: val.teaser ? limitDesc : "No teaser available",
               imageConfig: {
                 imageClass: "embed-responsive-16by9",
-                imageUrl: val.image_url ? GlobalSettings.getImageUrl(val.image_url) + imageSize : sampleImage,
+                imageUrl: val.image_url ? GlobalSettings.getImageUrl(val.image_url, imageSize) : sampleImage,
                 urlRouteArray: routeLink,
                 extUrl: extLink
               },
@@ -221,7 +221,7 @@ export class DeepDiveService {
           extUrl: extLink,
           source: val.source,
           report_type: val.report_type,
-          image_url: GlobalSettings.getImageUrl(val['image_url']) + GlobalSettings._imgWideScreen,
+          image_url: GlobalSettings.getImageUrl(val['image_url'], GlobalSettings._imgWideScreen),
           title:  "<span> Today's News: </span>",
           headline: val['title'],
           keywords: val['keywords'] ? val['keywords'][0] : "NEWS",

@@ -68,14 +68,14 @@ export class SyndicateArticleService {
 
           if (data.article_data.images === null || typeof data.article_data.images == 'undefined' || data.article_data.images.length == 0) {
               if(data.image_url!=null ||data.image_url!= undefined){
-                  imageData[0]=GlobalSettings.getImageUrl(data.image_url) + GlobalSettings._imgWideScreen;
+                  imageData[0]=GlobalSettings.getImageUrl(data.image_url, GlobalSettings._imgLgScreen);
               }else{
                   mainArticleData['is_stock']=true;
               }
           } else {
               var imageLength = data.article_data.images.length;
               for (var i = 0; i < imageLength; i++) {
-                  imageData[imageData.length] = GlobalSettings.getImageUrl(data.article_data.images[i].image_url) + GlobalSettings._imgWideScreen;
+                  imageData[imageData.length] = GlobalSettings.getImageUrl(data.article_data.images[i].image_url, GlobalSettings._imgLgScreen);
                   copyright[copyright.length] = data.article_data.images[i].image_copyright;
                   imageTitle[imageTitle.length] = data.article_data.images[i].image_title;
               }
@@ -145,7 +145,7 @@ export class SyndicateArticleService {
               var s = {
                   imageConfig: {
                       imageClass: "embed-responsive-16by9",
-                      imageUrl: val.image_url != null ? GlobalSettings.getImageUrl(val.image_url) + GlobalSettings._imgFullScreen : sampleImage,
+                      imageUrl: val.image_url != null ? GlobalSettings.getImageUrl(val.image_url, GlobalSettings._imgFullScreen) : sampleImage,
                       extUrl: val.source != "snt_ai" ? false : true,
                       urlRouteArray: val.source != "snt_ai" ? VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType) : GlobalSettings.getOffsiteLink(val.scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id)),
                       imageDesc: "",
@@ -207,7 +207,7 @@ export class SyndicateArticleService {
     data.forEach(function(val, index) {
         var category = val.article_sub_type ? val.article_sub_type : val.article_type;
         val["date"] = GlobalFunctions.sntGlobalDateFormatting(val.publication_date, 'timeZone');
-        val["image"] = val.image_url != null ? GlobalSettings.getImageUrl(val.image_url) + GlobalSettings._imgFullScreen : GlobalSettings.getImageUrl(placeholder);
+        val["image"] = val.image_url != null ? GlobalSettings.getImageUrl(val.image_url, GlobalSettings._imgFullScreen) : GlobalSettings.getImageUrl(placeholder);
         val["content"]=val.teaser;
         val['extUrl']=val.source!="snt_ai"?false:true;
         val["url"] = val.source!="snt_ai"?VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType):GlobalSettings.getOffsiteLink(val.scope,"article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id));

@@ -58,7 +58,6 @@ export class DeepDiveBlockMain implements OnInit {
         var footerHeight=footer?footer.offsetHeight:0;
 
         if(window.innerHeight + scrollTop >= bodyHeight ){
-            console.log("touch bottom");
             //fire when scrolled into footer
             this.blockIndex = this.blockIndex + 1;
             this.callModules(this.blockIndex);

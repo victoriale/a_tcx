@@ -53,7 +53,7 @@ export class SearchService{
             val["imagePathData"] = {
                 extUrl:true,
                 imageClass: "embed-responsive-16by9",
-                imageUrl:val.image_url?val.image_url+GlobalSettings._imgMobile:GlobalSettings.getImageUrl(placeholder),
+                imageUrl:val.image_url?val.image_url+"?width="+GlobalSettings._imgMobile:GlobalSettings.getImageUrl(placeholder),
                 urlRouteArray: val.article_url,
             };
             val['title']=val.title;

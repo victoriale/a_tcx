@@ -209,19 +209,19 @@ export class DeepDiveBlockMain implements OnInit {
           },
           2:function(){
                   self.getEntertainData();
-                  self.getHealthData();
+                  self.getFoodData();
           },
           3:function(){
+                  self.getHealthData();
                   self.getLifeStyleData();
-                  self.getRealEstateData();
           },
           4:function(){
+                  self.getRealEstateData();
                   self.getTravelData();
-                  self.getWeatherData();
           },
           5:function(){
-                  self.getAutomotiveData();
-                  self.getFoodData();
+              self.getWeatherData();
+              self.getAutomotiveData();
           }
       };
       callMethodByIndex[index]();

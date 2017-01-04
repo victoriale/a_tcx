@@ -47,6 +47,8 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
     public articleCount:number;
     public scrollTopPrev:number=0;
     public prevArticles;
+    public trendingKeyword:string;
+    public prevKeyword:string;
     iframeUrl: any;
     paramsub;
     errorPage:boolean=false;
@@ -62,7 +64,7 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
     ){
         this.checkPartner = GlobalSettings.getHomeInfo().isPartner;
         this.initializePage();
-        this.getDeepDiveArticle(this.category, this.trendingLength, this.subcategory, this.eventType, this.articleID);
+
     }
 
     initializePage(){
@@ -79,10 +81,11 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
                 else {
                     this.getSyndicateVideoArticle(this.subcategory, this.articleID);
                 }
-                this.getRecomendationData(this.category, 4, this.subcategory);
             }
         );
     }
+
+
 
     ngAfterViewInit(){
 
@@ -104,12 +107,19 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
             data => {
                 try{
                     if(data.data&& data.data[0].article_data.article) {
+
                         this.errorPage=false;
                         this.articleData = this._synservice.transformMainArticle(data.data, this.subcategory, articleID, this.eventType);
                         this.imageData = this.articleData.imageData;
                         this.imageTitle = this.articleData.imageTitle;
                         this.copyright = this.articleData.copyright;
+                        this.is_stock=this.articleData.is_stock;
+                        this.trendingKeyword=this.articleData.trendingKeyword;
+                        this.getRecomendationData(this.category, 4, this.trendingKeyword);
+                        this.getDeepDiveArticle(this.category, this.trendingLength, this.trendingKeyword, this.eventType, this.articleID);
                         this.metaTags(data.data[0], this.eventType);
+
+
                     }else throw new Error('oops! No article data');
                 }
                 catch (e){
@@ -280,7 +290,7 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
         var topHeight= window.pageYOffset? window.pageYOffset: window.scrollY;
         var scrollerHeight = e.target.documentElement.scrollHeight?e.target.documentElement.scrollHeight:e.target.body.scrollHeight;
         if(window.innerHeight + topHeight >= scrollerHeight && this.trendingLength>10){
-            this.getDeepDiveArticle(this.category, this.trendingLength, this.subcategory, this.eventType, this.articleID);
+            this.getDeepDiveArticle(this.category, this.trendingLength, this.trendingKeyword, this.eventType, this.articleID);
 
         };
     }

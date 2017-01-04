@@ -181,6 +181,10 @@ export class DeepDiveService {
                 urlRouteArray: routeLink,
                 extUrl: extLink
               },
+              citationInfo: {//TODO
+                url: "/",
+                info: "title/author"
+              },
               keyUrl: key != "all" && key ? VerticalGlobalFunctions.formatSectionFrontRoute(key.replace(/\s/g , "-")) : [route]
             }
             articleStackArray.push(articleStackData);
@@ -230,6 +234,10 @@ export class DeepDiveService {
           article_id:val['article_id'],
           article_url: val['article_url'],
           last_updated: val.publication_date,
+          citationInfo: {//TODO
+            url: "/",
+            info: "title/author"
+          },
         };
         if(carData['teaser'].length >= 200){
           carData['teaser'].substr(0,200) + '...';

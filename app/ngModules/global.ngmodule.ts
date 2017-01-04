@@ -34,6 +34,7 @@ import {ShareLinksComponent} from "../fe-core/components/articles/share-links/sh
 import {BillboardComponent} from "../fe-core/components/articles/billboard/billboard.component";
 import {SidekickContainerComponent} from "../fe-core/components/articles/sidekick-container/sidekick-container.component";
 import { ScoreBoard } from "../fe-core/components/score-board/score-board.component";
+import { CitationComponent } from "../fe-core/components/citation/citation.component";
 
 /*** MODULES ***/
 import { SearchBoxModule } from "../fe-core/modules/search-box-module/search-box-module.module";
@@ -127,6 +128,7 @@ import {WindowClickDirective} from "../fe-core/custom-directives/windowClick.dir
       NoDataBox,
       verticalWidgetScrollDirective,
       WindowClickDirective,
+      CitationComponent
     ],
     exports: [
       CommonModule,
@@ -179,7 +181,8 @@ import {WindowClickDirective} from "../fe-core/custom-directives/windowClick.dir
       ErrorComponent,
       NoDataBox,
       verticalWidgetScrollDirective,
-      WindowClickDirective
+      WindowClickDirective,
+      CitationComponent
     ],
 })
 export class GlobalModule { }

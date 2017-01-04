@@ -1,6 +1,6 @@
 import {
     Component, AfterViewInit, Input, OnChanges, OnDestroy, HostListener, ElementRef, Renderer,
-    ViewChild, DoCheck
+    ViewChild
 } from '@angular/core';
 import {SyndicateArticleService} from "../../services/syndicate-article.service";
 import {GlobalSettings} from "../../global/global-settings";

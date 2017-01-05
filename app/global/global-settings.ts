@@ -53,9 +53,10 @@ export class GlobalSettings {
     private static _tcxAPI: string = '-article-library.synapsys.us/tcx';
     static _imgSmLogo: number = 45;
     static _imgMdLogo: number = 70;
-    static _imgLgLogo: number = 100;
+    static _imgLgLogo: number = 85;
     static _imgMobile: number = 400;
-    static _imgFullScreen: number = 800;
+    static _imgFullScreen: number = 768;
+    static _imgMdScreen: number = 993;
     static _imgLgScreen: number = 1240;
     static _imgWideScreen: number = 1920;
 

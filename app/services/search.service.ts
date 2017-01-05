@@ -53,7 +53,7 @@ export class SearchService{
             val["imagePathData"] = {
                 extUrl:true,
                 imageClass: "embed-responsive-16by9",
-                imageUrl:val.image_url?val.image_url+GlobalSettings._imgMobile:GlobalSettings.getImageUrl(placeholder),
+                imageUrl:val.image_url?val.image_url+"?width="+GlobalSettings._imgMobile:GlobalSettings.getImageUrl(placeholder),
                 urlRouteArray: val.article_url,
             };
             val['title']=val.title;
@@ -63,7 +63,10 @@ export class SearchService{
             val['publisher']=val.publisher;
             val['is_stock_photo']=val.is_stock_photo;
             //val["url"] = val.source!="snt_ai"?VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, "story"):GlobalSettings.getOffsiteLink(val.scope,"article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, articleType, val.event_id));
-
+            val['citationInfo'] = {//TODO
+              url: "/",
+              info: "title/author"
+            };
         })
         return data;
     }

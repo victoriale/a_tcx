@@ -54,7 +54,7 @@ export class DeepDiveSectionFront implements OnInit {
     callModules(pageNum) {
         this.getDeepDiveVideo(pageNum);
         this.getArticleStackData(pageNum);
-        if (GlobalSettings.getTCXscope(this.scope).showBoxScores && this.boxScoresData == null) {
+        if (GlobalSettings.getTCXscope(this.scope).showBoxScores) {
             this.getBoxScores(this.dateParam);
         } else {
             this.dateParam = null;

@@ -44,6 +44,8 @@ export class SyndicateArticleService {
           'copyright':[],
           'publishedDate':'',
           'article':[],
+          'trendingKeyword':'',
+
       };
       if(data.author){
           let authorArray = data.author.split(' ');
@@ -66,14 +68,14 @@ export class SyndicateArticleService {
 
           if (data.article_data.images === null || typeof data.article_data.images == 'undefined' || data.article_data.images.length == 0) {
               if(data.image_url!=null ||data.image_url!= undefined){
-                  imageData[0]=GlobalSettings.getImageUrl(data.image_url) + GlobalSettings._imgWideScreen;
+                  imageData[0]=GlobalSettings.getImageUrl(data.image_url, GlobalSettings._imgLgScreen);
               }else{
                   mainArticleData['is_stock']=true;
               }
           } else {
               var imageLength = data.article_data.images.length;
               for (var i = 0; i < imageLength; i++) {
-                  imageData[imageData.length] = GlobalSettings.getImageUrl(data.article_data.images[i].image_url) + GlobalSettings._imgWideScreen;
+                  imageData[imageData.length] = GlobalSettings.getImageUrl(data.article_data.images[i].image_url, GlobalSettings._imgLgScreen);
                   copyright[copyright.length] = data.article_data.images[i].image_copyright;
                   imageTitle[imageTitle.length] = data.article_data.images[i].image_title;
               }
@@ -81,11 +83,15 @@ export class SyndicateArticleService {
       mainArticleData['imageData'] = imageData;
       mainArticleData['imageTitle'] = imageTitle;
       mainArticleData['copyright'] = copyright;
-      if(data.article_data.article){
-        mainArticleData['article'] = data.article_data.article;
+      mainArticleData['is_stock'] = data.is_stock_photo;
+      if(data.subcategory != "none" && data.subcategory){
+          mainArticleData['trendingKeyword']=data.subcategory
+      }else if(data.category != "none" && data.category){
+          mainArticleData['trendingKeyword']=data.category
       }else{
-        mainArticleData['article'] = "This article is currently being written... Please try again shortly.";
+          mainArticleData['trendingKeyword']=data.keywords[0];
       }
+      mainArticleData['article'] = data.article_data.article;
       return mainArticleData;
   }
   getSyndicateVideoService(subcategory, articleID){
@@ -102,12 +108,20 @@ export class SyndicateArticleService {
   getRecArticleData(category, count, subcategory?) {
     /* var headers = this.setToken();*/
     var callURL
-    if (subcategory!=category) {
-      callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&category=" + category + "&subCategory=" + subcategory + "&random=1";
+    if (subcategory!=category ) {
+        if(GlobalSettings.getTCXscope(subcategory).topScope == 'basketball' || GlobalSettings.getTCXscope(subcategory).topScope == 'football'){
+            callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&category=" + category + "&subCategory=" + subcategory + "&random=1";
+        }else{
+            callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&keyword[]=" + subcategory + "&random=1";
+        }
 
     } else {
         category = category == 'real-estate'? 'real+estate':category;
-      callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&category=" + category + "&random=1";
+        if(category == "breaking" || category == "trending"){
+            callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&category=" + category + "&random=1";
+        }else{
+            callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&keyword[]=" + category + "&random=1";
+        }
     }
     return this._http.get(callURL)
       .map(res => res.json())
@@ -131,10 +145,14 @@ export class SyndicateArticleService {
               var s = {
                   imageConfig: {
                       imageClass: "embed-responsive-16by9",
-                      imageUrl: val.image_url != null ? GlobalSettings.getImageUrl(val.image_url) + GlobalSettings._imgFullScreen : sampleImage,
+                      imageUrl: val.image_url != null ? GlobalSettings.getImageUrl(val.image_url, GlobalSettings._imgFullScreen) : sampleImage,
                       extUrl: val.source != "snt_ai" ? false : true,
                       urlRouteArray: val.source != "snt_ai" ? VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType) : GlobalSettings.getOffsiteLink(val.scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id)),
                       imageDesc: "",
+                  },
+                  citationInfo: {//TODO
+                    url: "/",
+                    info: "title/author"
                   },
                   keyword: val.keywords.length>0? val.keywords[0].toUpperCase():scope,
                   timeStamp: date,
@@ -152,15 +170,24 @@ export class SyndicateArticleService {
 
   }
   //http://dev-tcxmedia-api.synapsys.us/articles?source=tca&count=10&category=entertainment&subCategory=television
-  getTrendingArticles(category, count, subcategory?) {
+  getTrendingArticles(category, count, subcategory) {
     var headers = this.setToken();
     var callURL
-    if (subcategory!=category) {
-      callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&category=" + category + "&subCategory=" + subcategory;
-    } else {
-      category = category == 'real-estate'? 'real+estate':category;
-      callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&category=" + category;
-    }
+      if (subcategory!=category ) {
+          if(GlobalSettings.getTCXscope(subcategory).topScope == 'basketball' || GlobalSettings.getTCXscope(subcategory).topScope == 'football'){
+              callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&category=" + category + "&subCategory=" + subcategory
+          }else{
+              callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&keyword[]=" + subcategory
+          }
+
+      } else {
+          category = category == 'real-estate'? 'real+estate':category;
+          if(category == "breaking" || category == "trending"){
+              callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&category=" + category + "&random=1";
+          }else{
+              callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&keyword[]=" + category + "&random=1";
+          }
+      }
     var trendingArticles;
     var startElement;
     return this._http.get(callURL)
@@ -184,7 +211,7 @@ export class SyndicateArticleService {
     data.forEach(function(val, index) {
         var category = val.article_sub_type ? val.article_sub_type : val.article_type;
         val["date"] = GlobalFunctions.sntGlobalDateFormatting(val.publication_date, 'timeZone');
-        val["image"] = val.image_url != null ? GlobalSettings.getImageUrl(val.image_url) + GlobalSettings._imgFullScreen : GlobalSettings.getImageUrl(placeholder);
+        val["image"] = val.image_url != null ? GlobalSettings.getImageUrl(val.image_url, GlobalSettings._imgFullScreen) : GlobalSettings.getImageUrl(placeholder);
         val["content"]=val.teaser;
         val['extUrl']=val.source!="snt_ai"?false:true;
         val["url"] = val.source!="snt_ai"?VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType):GlobalSettings.getOffsiteLink(val.scope,"article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id));
@@ -202,6 +229,10 @@ export class SyndicateArticleService {
                   }
               }
           }
+          val['citationInfo'] = {//TODO
+            url: "/",
+            info: "title/author"
+          };
           val['author']=articleWriter;
           val['title']= val.title? val.title.replace(/\'/g, "'"): "";
     })

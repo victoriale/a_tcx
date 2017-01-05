@@ -177,9 +177,13 @@ export class DeepDiveService {
               teaser: val.teaser ? limitDesc : "No teaser available",
               imageConfig: {
                 imageClass: "embed-responsive-16by9",
-                imageUrl: val.image_url ? GlobalSettings.getImageUrl(val.image_url) + imageSize : sampleImage,
+                imageUrl: val.image_url ? GlobalSettings.getImageUrl(val.image_url, imageSize) : sampleImage,
                 urlRouteArray: routeLink,
                 extUrl: extLink
+              },
+              citationInfo: {//TODO
+                url: "/",
+                info: "title/author"
               },
               keyUrl: key != "all" && key ? VerticalGlobalFunctions.formatSectionFrontRoute(key.replace(/\s/g , "-")) : [route]
             }
@@ -221,7 +225,7 @@ export class DeepDiveService {
           extUrl: extLink,
           source: val.source,
           report_type: val.report_type,
-          image_url: GlobalSettings.getImageUrl(val['image_url']) + GlobalSettings._imgWideScreen,
+          image_url: GlobalSettings.getImageUrl(val['image_url'], GlobalSettings._imgWideScreen),
           title:  "<span> Today's News: </span>",
           headline: val['title'],
           keywords: val['keywords'] ? val['keywords'][0] : "NEWS",
@@ -230,6 +234,10 @@ export class DeepDiveService {
           article_id:val['article_id'],
           article_url: val['article_url'],
           last_updated: val.publication_date,
+          citationInfo: {//TODO
+            url: "/",
+            info: "title/author"
+          },
         };
         if(carData['teaser'].length >= 200){
           carData['teaser'].substr(0,200) + '...';

@@ -459,3 +459,6 @@
 .fa-mail-forward:before {
   content: "\4d";
 }
+.fa-external-link-square:before {
+  content: "\57";
+}

@@ -150,6 +150,10 @@ export class SyndicateArticleService {
                       urlRouteArray: val.source != "snt_ai" ? VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType) : GlobalSettings.getOffsiteLink(val.scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id)),
                       imageDesc: "",
                   },
+                  citationInfo: {//TODO
+                    url: "/",
+                    info: "title/author"
+                  },
                   keyword: val.keywords.length>0? val.keywords[0].toUpperCase():scope,
                   timeStamp: date,
                   title: val.title? val.title.replace(/\'/g, "'"): "",
@@ -225,6 +229,10 @@ export class SyndicateArticleService {
                   }
               }
           }
+          val['citationInfo'] = {//TODO
+            url: "/",
+            info: "title/author"
+          };
           val['author']=articleWriter;
           val['title']= val.title? val.title.replace(/\'/g, "'"): "";
     })

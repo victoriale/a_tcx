@@ -128,21 +128,26 @@ export class DeepDiveService {
               var date = moment.unix(Number(d));
               date = '<span class="hide-320">' + date.format('dddd') + ', </span>' + date.format('MMM') + date.format('. DD, YYYY');
             }
-            var key = val.keywords[0];
-            if(val.subcategory != "none" && val.subcategory){
-              key = val.subcategory;
-            } else {
-              if(val.category){
-                key = val.category;
-              } else {
-                key = val.keywords[0];
-              }
-            }
+            var key;
             var routeLink;
             var extLink;
             var author = null;
             var publisher = null;
             var category = val.article_sub_type ? val.article_sub_type : val.article_type;
+            //keywords note: For articles, get the second keyword if possible, second keyword should be the subcategory for curated articles.
+            if(val.keywords.length > 0 && val.keywords[0] != "none" && val.keywords[0]){
+              if(val.keywords.length > 1 && val.keywords[1] != "none" && val.keywords[1] && val.source != "snt_ai"){
+                key = val.keywords[1];
+              } else {
+                key = val.keywords[0];
+              }
+            } else {
+              if(val.subcategory){
+                key = val.subcategory;
+              } else {
+                key = val.category;
+              }
+            }
             if(val.source == "snt_ai"){// If AI article then redirect to the corresponding vertical
               routeLink = GlobalSettings.getOffsiteLink(val.scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id));
               extLink = true;
@@ -165,6 +170,7 @@ export class DeepDiveService {
                 limitTitle += "...";
               }
             }
+
             var articleStackData = {
               id: val.article_id,
               articleUrl: routeLink != "" ? routeLink : route,
@@ -185,7 +191,7 @@ export class DeepDiveService {
                 url: "/",
                 info: "title/author"
               },
-              keyUrl: key != "all" && key ? VerticalGlobalFunctions.formatSectionFrontRoute(key.replace(/\s/g , "-")) : [route]
+              keyUrl: key != "all" && key && typeof key != "underfined" ? VerticalGlobalFunctions.formatSectionFrontRoute(key) : [route]
             }
             articleStackArray.push(articleStackData);
           }

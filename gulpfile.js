@@ -13,6 +13,8 @@ const reload = browserSync.reload;
 const rename = require('gulp-rename'); //for dev
 const embedTemp = require('gulp-angular-embed-templates');
 const uglify = require('gulp-uglify');
+const plumber = require('gulp-plumber');
+const sourcemaps = require('gulp-sourcemaps');
 
 // clean the contents of the distribution directory
 gulp.task('clean', function () {
@@ -39,40 +41,44 @@ gulp.task('compile', ['clean'], function () {
 
 // copy dependencies
 gulp.task('copy:libs', ['clean'], function() {
-  return gulp.src([
-      'node_modules/core-js/client/core.min.js',
-      'node_modules/core-js/client/core.min.js.map',
-      'node_modules/reflect-metadata/Reflect.js',
-      'node_modules/reflect-metadata/Reflect.js.map',
-      'node_modules/systemjs/dist/system.src.js',
-      'node_modules/moment/moment.js',
-      'node_modules/moment-timezone/builds/moment-timezone-with-data-2010-2020.js',
-      'node_modules/zone.js/dist/zone.js',
-      'node_modules/fuse.js/src/fuse.min.js',
-      'node_modules/hammerjs/hammer.min.js',
-      'node_modules/hammerjs/hammer.min.js.map',
-      'node_modules/@angular/core/bundles/core.umd.js',
-      'node_modules/@angular/common/bundles/common.umd.js',
-      'node_modules/@angular/compiler/bundles/compiler.umd.js',
-      'node_modules/@angular/platform-browser/bundles/platform-browser.umd.js',
-      'node_modules/@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.js',
-      'node_modules/@angular/http/bundles/http.umd.js',
-      'node_modules/@angular/router/bundles/router.umd.js',
-      'node_modules/@angular/forms/bundles/forms.umd.js',
-      'node_modules/rxjs/**/*.js',
-      'node_modules/rxjs/**/*.map',
-      'node_modules/symbol-observable/*.js',
-      'node_modules/symbol-observable/*.map',
-      'node_modules/es6-shim/es6-shim.min.js',
-      'node_modules/systemjs/dist/system-polyfills.js',
-      'node_modules/systemjs/dist/system-polyfills.js.map',
-      'node_modules/@angular/**/*.js',
-      'node_modules/@angular/**/*.map',
-      'node_modules/node-uuid/uuid.js',
-      'node_modules/immutable/dist/immutable.js',
-      'node_modules/highcharts/highcharts.js',
-      'node_modules/moment-timezone/moment-timezone.js',//load only one moment timezone otherwise problems will occur
-      'system.config.js'
+    gulp.src(['node_modules/rxjs/**/*.js', 'node_modules/rxjs/**/*.map'])
+        .pipe(gulp.dest('dist/lib/rxjs'));
+    // concatenate non-angular2 libs, shims & systemjs-config
+    gulp.src([
+        'node_modules/core-js/client/core.min.js',
+        'node_modules/reflect-metadata/Reflect.js',
+        'node_modules/systemjs/dist/system.src.js',
+        'node_modules/moment/moment.js',
+        'node_modules/moment-timezone/builds/moment-timezone-with-data-2010-2020.js',
+        'node_modules/systemjs/dist/system-polyfills.js',
+        'node_modules/zone.js/dist/zone.js',
+        'node_modules/fuse.js/src/fuse.min.js',
+        'node_modules/hammerjs/hammer.min.js',
+        'node_modules/jquery/dist/jquery.min.js',
+        'node_modules/es6-shim/es6-shim.min.js',
+        'node_modules/symbol-observable/*.js',
+        'node_modules/node-uuid/uuid.js',
+        'node_modules/highcharts/highcharts.js'
+        /*'node_modules/immutable/dist/immutable.js',*/
+    ])
+        .pipe(concat('nonangularlib.min.js'))
+        .pipe(uglify())
+        .pipe(gulp.dest('dist/lib'));
+
+    gulp.src(['system.config.js'])
+        .pipe(gulp.dest('dist/lib'));
+    // copy source maps
+    gulp.src([
+        'node_modules/core-js/client/core.min.js.map',
+        'node_modules/reflect-metadata/Reflect.js.map',
+        'node_modules/systemjs/dist/system-polyfills.js.map',
+        'node_modules/hammerjs/hammer.min.js.map',
+        'node_modules/es6-shim/es6-shim.map',
+        'node_modules/symbol-observable/*.map'
+    ]).pipe(gulp.dest('dist/lib'));
+
+    return gulp.src([
+        'node_modules/@angular/**/*'
     ])
     .pipe(gulp.dest('dist/lib'));
 });
@@ -98,7 +104,7 @@ gulp.task('bundle', ['clean', 'copy:libs'], function () {
      - options {}
      */
     return builder
-        .buildStatic('dist/app/main.js', 'dist/lib/bundle.js', {minify: true, sourceMaps: true})
+        .buildStatic('dist/app/main.js', 'dist/lib/bundle.js', {minify: true, sourceMaps: true, rollup:true})
         .then(function () {
             console.log('Build complete');
         })

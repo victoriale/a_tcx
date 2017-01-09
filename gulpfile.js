@@ -48,6 +48,7 @@ gulp.task('copy:libs', ['clean'], function() {
         'node_modules/core-js/client/core.min.js',
         'node_modules/reflect-metadata/Reflect.js',
         'node_modules/systemjs/dist/system.src.js',
+        'node_modules/systemjs/dist/system-polyfills.js',
         'node_modules/zone.js/dist/zone.js',
 
     ]) .pipe(concat('initlib.min.js'))
@@ -77,6 +78,7 @@ gulp.task('copy:libs', ['clean'], function() {
     gulp.src([
         'node_modules/core-js/client/core.min.js.map',
         'node_modules/reflect-metadata/Reflect.js.map',
+        'node_modules/systemjs/dist/system-polyfills.js.map',
         'node_modules/hammerjs/hammer.min.js.map',
         'node_modules/es6-shim/es6-shim.map',
         'node_modules/symbol-observable/*.map'

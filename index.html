@@ -15,7 +15,12 @@
     <link href="/app/global/stylesheets/master.css" rel="stylesheet">
     <!--END css-->
       <!-- 1. Load initial libraries -->
-      <script src="lib/nonangularlib.min.js"></script> <!--bundled dependencies-->
+    <script src="lib/initlib.min.js"></script>
+
+    <script type="text/javascript">
+        var __st_loadLate=true; //if __st_loadLate is defined then the widget will not load on domcontent ready
+    </script>
+    <script type="text/javascript" src="https://ws.sharethis.com/button/buttons.js"></script>
   </head>
   <!-- 3. Display the application -->
   <body>
@@ -24,13 +29,14 @@
     <app-domain>Loading...</app-domain>
     <!--For better Performance and to avoid script blocking place external script tags always at the bottom of the body tag-->
 
+    <script async src="lib/nonangularlib.min.js"></script> <!--bundled dependencies-->
 
-    <!-- social share button on home page -->
-    <script type="text/javascript" src="https://ws.sharethis.com/button/buttons.js"></script>
 
     <!-- google api -->
     <script src="https://apis.google.com/js/platform.js" async defer></script>
 
+    <!-- 2. Load Configure SystemJS -->
+    <script src="lib/bundle.js"></script>
     <!-- Disqus -->
     <script async>
         // setup DisQus config for initial load
@@ -39,8 +45,6 @@
             this.page.url = window.location.href + "#!newthread";
         };
     </script>
-
-
     <!-- Google Analytics -->
     <script>
         window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
@@ -50,7 +54,25 @@
     <script async src='https://www.google-analytics.com/analytics.js'></script>
     <!-- End Google Analytics -->
 
-<!--     Google Analytics
+    <!-- Share This button-->
+    <script>
+        (function(){
+            var sc = document.createElement("script");
+            sc.type="text/javascript";
+            sc.async=true;
+            sc.onload=function(){
+                try{
+                    stLight.options({publisher: "ab81b5e8-9aea-4921-9930-26ce6925e901", doNotHash: false, doNotCopy: false, hashAddressBar: true, onhover: false});
+                }catch(e){
+                    window.stButtons = {
+                        locateElements: function() {}
+                    };
+                }
+            }
+        })
+    </script>
+
+   <!--old Google Analytics
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
                 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -60,24 +82,8 @@
         // ga('send', 'pageview');
     </script>-->
 
-    <!-- 2. Load Configure SystemJS -->
-    <script src="lib/bundle.js"></script>
-    <!-- Share This button-->
-    <script defer>
-        (function(){
-            var sc = document.createElement("script");
-            sc.type="text/javascript";
-            sc.async=true;
-            sc.onload=function(){
-                try{
-                    stLight.options({publisher: "ab81b5e8-9aea-4921-9930-26ce6925e901", doNotHash: false, doNotCopy: false, hashAddressBar: false, onhover: false});
-                }catch(e){
-                    window.stButtons = {
-                        locateElements: function() {}
-                    };
-                }
-            }
-        })
-    </script>
+    <!-- social share button on home page -->
+
+
   </body>
 </html>

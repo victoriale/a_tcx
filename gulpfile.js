@@ -46,9 +46,10 @@ gulp.task('copy:libs', ['clean'], function() {
     //concatenate initial libraries
     gulp.src([
         'node_modules/core-js/client/core.min.js',
+        'node_modules/reflect-metadata/Reflect.js',
         'node_modules/systemjs/dist/system.src.js',
         'node_modules/zone.js/dist/zone.js',
-        'node_modules/reflect-metadata/Reflect.js',
+
     ]) .pipe(concat('initlib.min.js'))
         .pipe(uglify())
         .pipe(gulp.dest('dist/lib'));

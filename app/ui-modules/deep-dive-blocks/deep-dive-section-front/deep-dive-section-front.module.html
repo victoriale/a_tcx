@@ -51,12 +51,16 @@
     <div *ngIf="item.recData1" class="deep-dive-module">
       <deep-dive-recommendation [recData]="item.recData1"></deep-dive-recommendation>
     </div>
+    <!-- WIDGET FOR TYPE 3 ONLY-->
+    <div *ngIf="item.recData1 && deepDiveType === 3" class="responsive-widget">
+      <responsive-widget [category]="category" [subCategory]="scope"></responsive-widget>
+    </div>
     <!-- ARTICLE STACK TYPE 1 -->
     <div *ngIf="item.stackTop2" class="deep-dive-module">
       <article-stack-1-module [stackTop]="item.stackTop2" [stackRow]="item.stackRow2"></article-stack-1-module>
     </div>
-    <!-- WIDGET FOR TYPE 3 ONLY-->
-    <div *ngIf="item.recData1 && item.stackTop2 && deepDiveType === 3" class="responsive-widget">
+    <!-- WIDGET FOR TYPE 2 ONLY-->
+    <div *ngIf="item.recData1 && item.stackTop2 && deepDiveType === 2" class="responsive-widget">
       <responsive-widget [category]="category" [subCategory]="scope"></responsive-widget>
     </div>
     <!-- SEARCH BOX FOR TYPE 1 ONLY-->

@@ -65,6 +65,7 @@ export class VerticalGlobalFunctions {
     var sectionFrontRoute: Array<any>;
     let route = this.getWhiteLabel();
     if(category != null){
+      if(category == "real estate"){category = "real-estate";}
       if(typeof GlobalSettings.getTCXscope(category) == "undefined"){
         return category !== null ? [route, category] : [route];
       }

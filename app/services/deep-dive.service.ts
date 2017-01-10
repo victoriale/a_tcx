@@ -188,7 +188,7 @@ export class DeepDiveService {
               },
               citationInfo: {
                 url: val.image_source ? val.image_source : "/",
-                info: (val.image_title ? val.image_title : "") + (val.image_title && val.image_owner ? "/" : "") + (val.image_owner ? val.image_owner : "")
+                info: val.image_title && val.image_owner ? (val.image_title ? val.image_title : "") + (val.image_title && val.image_owner ? "/" : "") + (val.image_owner ? val.image_owner : "") : null
               },
               keyUrl: key != "all" && key && typeof key != "underfined" ? VerticalGlobalFunctions.formatSectionFrontRoute(key) : [route]
             }

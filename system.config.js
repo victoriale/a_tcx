@@ -17,7 +17,7 @@
     '@angular/forms'                      :'dist/lib/forms',
     // other libraries
     'symbol-observable'                   :'dist/lib',
-    'rxjs'                                :'dist/lib',
+    'rxjs'                                :'dist/lib/rxjs',
     'app'                                 :'dist/app'
   };
 

@@ -186,9 +186,10 @@ export class DeepDiveService {
                 urlRouteArray: routeLink,
                 extUrl: extLink
               },
+              image_source: val.image_source ? val.image_source : null,
               citationInfo: {
-                url: val.image_source ? val.image_source : "/",
-                info: val.image_title && val.image_owner ? (val.image_title ? val.image_title : "") + (val.image_title && val.image_owner ? "/" : "") + (val.image_owner ? val.image_owner : "") : null
+                url: val.image_origin_url ? val.image_origin_url : "/",
+                info: (val.image_title ? val.image_title : "") + (val.image_title && val.image_owner ? "/" : "") + (val.image_owner ? val.image_owner : "")
               },
               keyUrl: key != "all" && key && typeof key != "underfined" ? VerticalGlobalFunctions.formatSectionFrontRoute(key) : [route]
             }
@@ -253,8 +254,9 @@ export class DeepDiveService {
           article_id:val['article_id'],
           article_url: val['article_url'],
           last_updated: val.publication_date,
+          image_source: val.image_source ? val.image_source : null,
           citationInfo: {
-            url: val.image_source ? val.image_source : "/",
+            url: val.image_origin_url ? val.image_origin_url : "/",
             info: (val.image_title ? val.image_title : "") + (val.image_title && val.image_owner ? "/" : "") + (val.image_owner ? val.image_owner : "")
           }
         };

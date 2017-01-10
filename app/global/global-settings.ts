@@ -541,7 +541,7 @@ export class GlobalSettings {
           parentScope: null,
           scope:'news-feed',
           topScope: null,
-          displayName: GlobalFunctions.toTitleCase(section.replace(/\+/g, " ")),
+          displayName: section ? GlobalFunctions.toTitleCase(section) : null,
           verticalApi: null,
           aiApi: null,
           tcxApi: this.getApiUrl(),

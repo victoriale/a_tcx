@@ -15,7 +15,7 @@ declare var moment;
 export class DeepDiveBlockMain implements OnInit {
     @Input() geoLocation: string;
     private callApi: boolean = true;
-
+    private commonarticleStack:Array<ArticleStackData>;
     private breakingStack: Array<ArticleStackData>;
     private recDataSports: Array<ArticleStackData>;
     private businessStack: Array<ArticleStackData>;
@@ -58,126 +58,77 @@ export class DeepDiveBlockMain implements OnInit {
         var footerHeight=footer?footer.offsetHeight:0;
 
         if(window.innerHeight + scrollTop >= bodyHeight ){
-            //fire when scrolled into footer
-            this.blockIndex = this.blockIndex + 1;
-            this.callModules(this.blockIndex);
+            if(this.blockIndex<6) {
+                //fire when scrolled into footer
+                this.blockIndex = this.blockIndex + 1;
+                this.callModules(this.blockIndex);
+            }
         };
 
     }
+    getArticleStackData(ctype,count,imgMobile:boolean){
+        console.log("executing " +ctype)
+        var _selfscope=this;
+        function getobjectStackArray(ctype,carray){
+            var objectStackArray = {
+                'breaking':function () {
+                    _selfscope.breakingStack =carray;
+                },
+                'sports':function () {
+                    _selfscope.recDataSports =carray;
+                },
+                 'business':function(){
+                     _selfscope.businessStack=carray;
+                 },
 
-    getBreakingData() {
-        this._deepDiveData.getDeepDiveBatchService("breaking", 7, this.batchNum, this.geoLocation)
-            .subscribe(data => {
-                this.breakingStack = this._deepDiveData.transformToArticleStack(data, "breaking");
-            },
-            err => {
-                console.log("Error getting Breaking News data");
-            });
-    }
-    getSportsData() {
-        this._deepDiveData.getDeepDiveBatchService("sports", 6, this.batchNum, this.geoLocation)
-            .subscribe(data => {
+                'food': function(){
+                        _selfscope.foodStack=carray;
+                    },
+                'politics': function(){
+                        _selfscope.politicsStack=carray;
+                    },
+                'entertainment': function(){
+                    _selfscope.recDataEntertain=carray;
+                },
+                'health': function(){
+                    _selfscope.recDataHealth=carray;
+                },
+                'lifestyle':function(){
+                    _selfscope.lifestyleStack=carray;
+                },
+                'real-estate':function(){
+                    _selfscope.estateStack=carray;
+                },
+                'travel':function(){
+                    _selfscope.recDataTravel=carray;
+                },
+                'weather':function(){
+                    _selfscope.weatherStack=carray;
+                },
+                'automotive':function(){
+                    _selfscope.recDataAuto=carray;
+                }
+            }
+            return objectStackArray[ctype]();
+        }
+
+        var batchNum=this.batchNum;
+        var geoLoc= this.geoLocation;
+        this._deepDiveData.getDeepDiveBatchService(ctype,count,batchNum,geoLoc).subscribe(data=>{
+            if(imgMobile==true){
                 data = data.length > 2 ? data.length >=3 && data.length < 6 ? data.splice(0,3) : data.splice(0,6): null;
-                this.recDataSports = this._deepDiveData.transformToArticleStack(data, "sports", GlobalSettings._imgMobile);
-            },
-            err => {
-                console.log("Error getting Sports News data");
-            });
+                this.commonarticleStack = this._deepDiveData.transformToArticleStack(data, ctype, GlobalSettings._imgMobile);
+                getobjectStackArray(ctype, this.commonarticleStack)
+            }else {
+                this.commonarticleStack = this._deepDiveData.transformToArticleStack(data, ctype);
+                getobjectStackArray(ctype, this.commonarticleStack)
+            }
+        },
+        err=>{
+            console.log("Error getting" + ctype + "News data");
+        })
     }
-    getBusinessData() {
-        this._deepDiveData.getDeepDiveBatchService("business", 7, this.batchNum, this.geoLocation)
-            .subscribe(data => {
-                this.businessStack = this._deepDiveData.transformToArticleStack(data, "business");
-            },
-            err => {
-                console.log("Error getting Business News data");
-            });
-    }
-    getPoliticsData() {
-        this._deepDiveData.getDeepDiveBatchService("politics", 5, this.batchNum, this.geoLocation)
-            .subscribe(data => {
-                this.politicsStack = this._deepDiveData.transformToArticleStack(data, "politics");
-            },
-            err => {
-                console.log("Error getting Politics News data");
-            });
-    }
-    getEntertainData() {
-        this._deepDiveData.getDeepDiveBatchService("entertainment", 6, this.batchNum, this.geoLocation)
-            .subscribe(data => {
-              data = data.length > 2 ? data.length >= 3 && data.length < 6 ? data.splice(0,3) : data.splice(0,6): null;
-              this.recDataEntertain = this._deepDiveData.transformToArticleStack(data, "entertainment", GlobalSettings._imgMobile);
-            },
-            err => {
-                console.log("Error getting Entertainment News data");
-            });
-    }
-    getHealthData() {
-        this._deepDiveData.getDeepDiveBatchService("health", 6, this.batchNum, this.geoLocation)
-            .subscribe(data => {
-              data = data.length > 2 ? data.length >= 3 && data.length < 6 ? data.splice(0,3) : data.splice(0,6): null;
-              this.recDataHealth = this._deepDiveData.transformToArticleStack(data, "health", GlobalSettings._imgMobile);
-            },
-            err => {
-                console.log("Error getting Health News data");
-            });
-    }
-    getLifeStyleData() {
-        this._deepDiveData.getDeepDiveBatchService("lifestyle", 7, this.batchNum, this.geoLocation)
-            .subscribe(data => {
-                this.lifestyleStack = this._deepDiveData.transformToArticleStack(data, "lifestyle");
-            },
-            err => {
-                console.log("Error getting Lifestyle News data");
-            });
-    }
-    getRealEstateData() {
-        this._deepDiveData.getDeepDiveBatchService("real estate", 5, this.batchNum, this.geoLocation)
-            .subscribe(data => {
-                this.estateStack = this._deepDiveData.transformToArticleStack(data, "real-estate");
-            },
-            err => {
-                console.log("Error getting Real Estate News data");
-            });
-    }
-    getTravelData() {
-        this._deepDiveData.getDeepDiveBatchService("travel", 6, this.batchNum, this.geoLocation)
-            .subscribe(data => {
-              data = data.length > 2 ? data.length >= 3 && data.length < 6 ? data.splice(0,3) : data.splice(0,6): null;
-              this.recDataTravel = this._deepDiveData.transformToArticleStack(data, "travel", GlobalSettings._imgMobile);
-            },
-            err => {
-                console.log("Error getting Travel News data");
-            });
-    }
-    getWeatherData() {
-        this._deepDiveData.getDeepDiveBatchService("weather", 7, this.batchNum, this.geoLocation)
-            .subscribe(data => {
-                this.weatherStack = this._deepDiveData.transformToArticleStack(data, "weather");
-            },
-            err => {
-                console.log("Error getting Weather News data");
-            });
-    }
-    getAutomotiveData() {
-        this._deepDiveData.getDeepDiveBatchService("automotive", 6, this.batchNum, this.geoLocation)
-            .subscribe(data => {
-              data = data.length > 2 ? data.length >= 3 && data.length < 6 ? data.splice(0,3) : data.splice(0,6): null;
-              this.recDataAuto = this._deepDiveData.transformToArticleStack(data, "automotive", GlobalSettings._imgMobile);
-            },
-            err => {
-                console.log("Error getting Automotive News data");
-            });
-    }
-    getFoodData() {
-        this._deepDiveData.getDeepDiveBatchService("food", 7, this.batchNum, this.geoLocation)
-            .subscribe(data => {
-                this.foodStack = this._deepDiveData.transformToArticleStack(data, "food");
-            },
-            err => {
-                console.log("Error getting Food News data");
-            });
-    }
+
     getDeepDiveVideo() {
         this._deepDiveData.getDeepDiveVideoBatchService("sports", 15, 1, this.geoLocation)
             .subscribe(data => {
@@ -200,31 +151,31 @@ export class DeepDiveBlockMain implements OnInit {
       var self=this;
       var callMethodByIndex={
           0:function(){
-                 self.getBreakingData();
-                 self.getSportsData();
+                 self.getArticleStackData("breaking",7,false);
+              self.getArticleStackData("sports",6,true);
           },
           1:function(){
-                  self.getBusinessData();
-                  self.getPoliticsData();
+              self.getArticleStackData("business",7,false);
+              self.getArticleStackData("politics",5,false);
           },
           2:function(){
-                  self.getEntertainData();
-                  self.getFoodData();
+              self.getArticleStackData("entertainment",6,true);
+              self.getArticleStackData("food",7,false);
           },
           3:function(){
-                  self.getHealthData();
-                  self.getLifeStyleData();
+              self.getArticleStackData("health",6,true);
+              self.getArticleStackData("lifestyle",7,false);
           },
           4:function(){
-                  self.getRealEstateData();
-                  self.getTravelData();
+              self.getArticleStackData("real-estate",5,false);
+              self.getArticleStackData("travel",6,true);
           },
           5:function(){
-              self.getWeatherData();
-              self.getAutomotiveData();
+              self.getArticleStackData("weather",7,false);
+              self.getArticleStackData("automotive",6,true);
           }
       };
-      callMethodByIndex[index]();
+        if(index<6){callMethodByIndex[index]()};
       if(!this.videoDataBatch1 && this.blockIndex > 2){
         this.getDeepDiveVideo();
       }

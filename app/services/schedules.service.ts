@@ -330,11 +330,11 @@ export class SchedulesService {
                     switch (data.data[n].eventStatus) {
                         case "pre-event":
                             data.data[n].reportDisplay = "PRE GAME REPORT";
-                            data.data[n].reportLink = GlobalSettings.getOffsiteLink(scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'pregame-report', data.data[n].eventId));
+                            data.data[n].reportLink = GlobalSettings.getOffsiteLink(scope, "article", data.data[n].article_url);
                             break;
                         case "post-event":
                             data.data[n].reportDisplay = "POST GAME REPORT";
-                            data.data[n].reportLink = GlobalSettings.getOffsiteLink(scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'postgame', data.data[n].eventId));
+                            data.data[n].reportLink = GlobalSettings.getOffsiteLink(scope, "article", data.data[n].article_url);
                             break;
                         case "cancelled":
                             data.data[n].reportDisplay = "GAME IS CANCELED";
@@ -416,11 +416,11 @@ export class SchedulesService {
                     switch (data.data[n].eventStatus) {
                         case "pre-event":
                             data.data[n].reportDisplay = "PRE GAME REPORT";
-                            data.data[n].reportLink = GlobalSettings.getOffsiteLink(scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'pre-game-report', data.data[n].eventId));
+                            data.data[n].reportLink = GlobalSettings.getOffsiteLink(scope, "article", data.data[n].article_url);
                             break;
                         case "post-event":
                             data.data[n].reportDisplay = "POST GAME REPORT";
-                            data.data[n].reportLink = GlobalSettings.getOffsiteLink(scope, "article",  VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'post-game-report', data.data[n].eventId));
+                            data.data[n].reportLink = GlobalSettings.getOffsiteLink(scope, "article", data.data[n].article_url);
                             break;
                         case "cancelled":
                             data.data[n].reportDisplay = "GAME IS CANCELED";
@@ -561,21 +561,21 @@ export class SchedulesService {
 
             if (val.eventStatus == 'inprogress') {
                 if (Number(val.eventQuarter) > 1) {// so that ai gets a chance to generate an article and no one really needs an article created for first quarter
-                    reportUrl = GlobalSettings.getOffsiteLink(scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'in-game-report', val.eventId));
+                    reportUrl = GlobalSettings.getOffsiteLink(scope, "article", val.article_url);
                     reportText = 'LIVE GAME REPORT';
                 } else {// link if game is inprogress and still 1st quarter
-                    reportUrl = GlobalSettings.getOffsiteLink(scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'pregame-report', val.eventId));
+                    reportUrl = GlobalSettings.getOffsiteLink(scope, "article", val.article_url);
                     reportText = 'PRE GAME REPORT'
                 }
             } else {
                 if (val.eventStatus = 'pregame') {
-                    reportUrl = GlobalSettings.getOffsiteLink(scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'pregame-report', val.eventId));
+                    reportUrl = GlobalSettings.getOffsiteLink(scope, "article", val.article_url);
                     reportText = 'PRE GAME REPORT'
                 } else if (val.eventStatus == 'postgame') {
-                    reportUrl = GlobalSettings.getOffsiteLink(scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'postgame-report', val.eventId));
+                    reportUrl = GlobalSettings.getOffsiteLink(scope, "article", val.article_url);
                     reportText = 'POST GAME REPORT';
                 } else {
-                    reportUrl = GlobalSettings.getOffsiteLink(scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'postgame-report', val.eventId));
+                    reportUrl = GlobalSettings.getOffsiteLink(scope, "article", val.article_url);
                     reportText = 'POST GAME REPORT';
                 }
             }

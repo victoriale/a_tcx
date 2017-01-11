@@ -152,19 +152,19 @@ export class SyndicateArticleService {
                       imageClass: "embed-responsive-16by9",
                       imageUrl: val.image_url != null ? GlobalSettings.getImageUrl(val.image_url, GlobalSettings._imgFullScreen) : sampleImage,
                       extUrl: val.source != "snt_ai" ? false : true,
-                      urlRouteArray: val.source != "snt_ai" ? VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType) : GlobalSettings.getOffsiteLink(val.scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id)),
+                      urlRouteArray: val.source != "snt_ai" ? VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType) : GlobalSettings.getOffsiteLink(val.scope, "article", val.article_url),
                       imageDesc: "",
                   },
-                  citationInfo: {//TODO
-                    url: "/",
-                    info: "title/author"
+                  citationInfo: {
+                    url: val.image_origin_url ? val.image_origin_url : "/",
+                    info: (val.image_title ? val.image_title : "") + (val.image_title && val.image_owner ? "/" : "") + (val.image_owner ? val.image_owner : "")
                   },
                   keyword: val.keywords.length>0? val.keywords[0].toUpperCase():scope,
                   timeStamp: date,
                   title: val.title? val.title.replace(/\'/g, "'"): "",
                   extUrl:val.source != "snt_ai" ? false : true,
                   keyUrl: val['keywords'][0] ? VerticalGlobalFunctions.formatSectionFrontRoute(val['keywords'][0]) : ["/news-feed"],
-                  articleUrl: val.source != "snt_ai" ? VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType) : GlobalSettings.getOffsiteLink(val.scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, articleType, val.event_id)),
+                  articleUrl: val.source != "snt_ai" ? VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType) : GlobalSettings.getOffsiteLink(val.scope, "article", val.article_url),
 
               }
               articleStackArray.push(s);
@@ -219,7 +219,7 @@ export class SyndicateArticleService {
         val["image"] = val.image_url != null ? GlobalSettings.getImageUrl(val.image_url, GlobalSettings._imgFullScreen) : GlobalSettings.getImageUrl(placeholder);
         val["content"]=val.teaser;
         val['extUrl']=val.source!="snt_ai"?false:true;
-        val["url"] = val.source!="snt_ai"?VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType):GlobalSettings.getOffsiteLink(val.scope,"article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id));
+        val["url"] = val.source!="snt_ai"?VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType):GlobalSettings.getOffsiteLink(val.scope,"article", val.article_url);
         val['teaser']=val.teaser?val.teaser:val.article_data.article[0];
           var articleWriter='';
           if(val.author){
@@ -234,10 +234,14 @@ export class SyndicateArticleService {
                   }
               }
           }
-          val['citationInfo'] = {//TODO
-            url: "/",
-            info: "title/author"
-          };
+          if(val.image_origin_url){
+            val['citationInfo'] = {
+              url: val.image_origin_url ? val.image_origin_url : "/",
+              info: (val.image_title ? val.image_title : "") + (val.image_title && val.image_owner ? "/" : "") + (val.image_owner ? val.image_owner : "")
+            };
+          }else{
+            val['citationInfo'] = null;
+          }
           val['author']=articleWriter;
           val['title']= val.title? val.title.replace(/\'/g, "'"): "";
     })

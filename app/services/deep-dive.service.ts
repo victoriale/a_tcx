@@ -149,7 +149,7 @@ export class DeepDiveService {
               }
             }
             if(val.source == "snt_ai"){// If AI article then redirect to the corresponding vertical
-              routeLink = GlobalSettings.getOffsiteLink(val.scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id));
+              routeLink = GlobalSettings.getOffsiteLink(val.scope, "article", val.article_url);
               extLink = true;
             } else {
               routeLink = scope ? VerticalGlobalFunctions.formatArticleRoute(key.toLowerCase(), val.article_id, "story") : null;
@@ -219,7 +219,7 @@ export class DeepDiveService {
         var extLink;
         var category = val.article_sub_type ? val.article_sub_type : val.article_type;
         if(val.source == "snt_ai"){
-          routeLink = GlobalSettings.getOffsiteLink(val.scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id));
+          routeLink = GlobalSettings.getOffsiteLink(val.scope, "article", val.article_url);
           extLink = true;
         } else {
           routeLink = VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, "story");

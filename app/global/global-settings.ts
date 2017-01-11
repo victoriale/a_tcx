@@ -623,7 +623,7 @@ export class GlobalSettings {
             }
             link += key + "/" + str1 + "/" + id;
           } else {
-            link = str1;//ex to use: GlobalSettings.getOffsiteLink(scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'pregame', eventId));
+            link = str1;
           }
           break;
         case 'business':

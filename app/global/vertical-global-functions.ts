@@ -94,19 +94,6 @@ export class VerticalGlobalFunctions {
     return articleRoute ? articleRoute : ['Error-page'];
   }
 
-  static formatExternalArticleRoute(scope, articleType: string, articleID: string) {
-    if (scope == "nfl" || scope == "ncaaf") {
-      var output = scope + "/articles/"+ articleType + "/" + articleID;
-    }
-    else if (scope == "nba" || scope == "ncaam") {
-      if(scope == "ncaam"){scope = "ncaa";}
-      var output = scope + "/article/"+ articleType + "/" + articleID;
-    }
-    else {
-      var output = "articles/" + articleType + "/" + articleID;
-    }
-    return output;
-  }
 
   /**
    * - Formats the height string by removing the dashes and adding

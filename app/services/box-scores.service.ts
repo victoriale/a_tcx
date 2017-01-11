@@ -324,7 +324,8 @@ export class BoxScoresService {
           }
         }
         if ( p ) {
-          let urlRoute = GlobalSettings.getOffsiteLink(scope, "article", val.article_url);
+          let urlRoute = VerticalGlobalFunctions.formatExternalArticleRoute(scope, p, val.event);
+          urlRoute = GlobalSettings.getOffsiteLink(scope, "article", urlRoute);
           var Box = {
             eventType: eventType,
             eventId: p,

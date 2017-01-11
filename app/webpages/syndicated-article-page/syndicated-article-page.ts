@@ -117,10 +117,8 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
                         //removes error page from browser history
                         self._location.replaceState('/');
                         if(this.checkPartner || this.partnerID){
-                          console.log("check", this.checkPartner);
-                          self.router.navigateByUrl(this.partnerID, 'news');
+                          self.router.navigateByUrl('/' + this.partnerID, 'news');
                         } else {
-                          console.log("check test", this.partnerID, this.checkPartner);
                           self.router.navigateByUrl('/news-feed');
                         }
                     }, 5000);
@@ -135,7 +133,7 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
                     self._location.replaceState('/');
                     if(this.checkPartner || this.partnerID){
                       console.log("check", this.checkPartner);
-                      self.router.navigateByUrl(this.partnerID, 'news');
+                      self.router.navigateByUrl('/' + this.partnerID, 'news');
                     } else {
                       console.log("check test", this.partnerID, this.checkPartner);
 

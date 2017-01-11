@@ -75,12 +75,12 @@ export class DeepDivePage implements OnInit{
       });
     }
 
-    private sectionFrontName(){
-      var displayName = GlobalSettings.getTCXscope(this.scope).displayName;
-      var secIcon = GlobalSettings.getTCXscope(this.scope).icon;
+    private sectionFrontName(str:string){
+      var displayName = GlobalSettings.getTCXscope(str).displayName;
+      var secIcon = GlobalSettings.getTCXscope(str).icon;
       return this.sectionName = {
          icon: secIcon ? secIcon : 'fa-news',
-         title: displayName ? displayName : GlobalFunctions.toTitleCase(this.scope)
+         title: displayName ? displayName : GlobalFunctions.toTitleCase(str)
        }
     }
 
@@ -199,8 +199,10 @@ export class DeepDivePage implements OnInit{
             this.carouselVideo = null;
             this.category = param['category'] ? param['category'] : 'all';
             this.scope = param['subCategory'] ? param['subCategory'] : this.category;
-            this.scope= this.scope.replace(/-/g, " ");
-            if (param['subCategory']) {
+            if(this.scope == "real estate"){
+              this.scope = "real-estate";
+            }
+            if(param['subCategory']) {
               this.tcxVars = GlobalSettings.getTCXscope(param['subCategory']);
             } else {
               this.tcxVars = GlobalSettings.getTCXscope(this.category);
@@ -210,7 +212,7 @@ export class DeepDivePage implements OnInit{
             this.deepDiveType = GlobalSettings.getTCXscope(this.scope.replace(/ /g, "-")).pageType ? GlobalSettings.getTCXscope(this.scope.replace(/ /g, "-")).pageType : 3;
             this.getGeoLocation();
             this.getDeepDiveVideo();
-            this.sectionFrontName();
+            this.sectionFrontName(this.scope);
             this.addMetaTags();
           });
     }

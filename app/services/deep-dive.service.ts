@@ -179,7 +179,7 @@ export class DeepDiveService {
               routeLink = GlobalSettings.getOffsiteLink(val.scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id));
               extLink = true;
             } else {
-              routeLink = scope ? VerticalGlobalFunctions.formatArticleRoute(key.replace(/\s+/g, '-').toLowerCase(), val.article_id, "story") : null;
+              routeLink = scope ? VerticalGlobalFunctions.formatArticleRoute(key.toLowerCase(), val.article_id, "story") : null;
               extLink = false;
               author = val.author ? val.author.replace(/by/gi, "") + ", ": null;
               publisher = author ? val.publisher : "Published by: " + val.publisher;
@@ -197,7 +197,6 @@ export class DeepDiveService {
                 limitTitle += "...";
               }
             }
-
             var articleStackData = {
               id: val.article_id,
               articleUrl: routeLink != "" ? routeLink : route,
@@ -214,9 +213,10 @@ export class DeepDiveService {
                 urlRouteArray: routeLink,
                 extUrl: extLink
               },
-              citationInfo: {//TODO
-                url: "/",
-                info: "title/author"
+              image_source: val.image_source ? val.image_source : null,
+              citationInfo: {
+                url: val.image_origin_url ? val.image_origin_url : "/",
+                info: (val.image_title ? val.image_title : "") + (val.image_title && val.image_owner ? "/" : "") + (val.image_owner ? val.image_owner : "")
               },
               keyUrl: key != "all" && key && typeof key != "underfined" ? VerticalGlobalFunctions.formatSectionFrontRoute(key) : [route]
             }
@@ -252,6 +252,20 @@ export class DeepDiveService {
           routeLink = VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, "story");
           extLink = false;
         }
+        var key;
+        if(val.keywords.length > 0 && val.keywords[0] != "none" && val.keywords[0]){
+          if(val.keywords.length > 1 && val.keywords[1] != "none" && val.keywords[1] && val.source != "snt_ai"){
+            key = val.keywords[1];
+          } else {
+            key = val.keywords[0];
+          }
+        } else {
+          if(val.subcategory){
+            key = val.subcategory;
+          } else {
+            key = val.category;
+          }
+        }
 
         let carData = {
           articlelink: routeLink != "" ? routeLink : route,
@@ -261,16 +275,17 @@ export class DeepDiveService {
           image_url: GlobalSettings.getImageUrl(val['image_url'], GlobalSettings._imgWideScreen),
           title:  "<span> Today's News: </span>",
           headline: val['title'],
-          keywords: val['keywords'] ? val['keywords'][0] : "NEWS",
-          keyUrl: val['keywords'][0] ? VerticalGlobalFunctions.formatSectionFrontRoute(val['keywords'][0].replace(/\s/g, "-")) : ["/news-feed"],
+          keywords: key ? key : "NEWS",
+          keyUrl: val['keywords'][0] ? VerticalGlobalFunctions.formatSectionFrontRoute(key) : ["/news-feed"],
           teaser: val['teaser'] ? val['teaser'].replace('_',': ').replace(/<p[^>]*>/g, "") : "",
           article_id:val['article_id'],
           article_url: val['article_url'],
           last_updated: val.publication_date,
-          citationInfo: {//TODO
-            url: "/",
-            info: "title/author"
-          },
+          image_source: val.image_source ? val.image_source : null,
+          citationInfo: {
+            url: val.image_origin_url ? val.image_origin_url : "/",
+            info: (val.image_title ? val.image_title : "") + (val.image_title && val.image_owner ? "/" : "") + (val.image_owner ? val.image_owner : "")
+          }
         };
         if(carData['teaser'].length >= 200){
           carData['teaser'].substr(0,200) + '...';
@@ -301,6 +316,6 @@ export class DeepDiveService {
             urlRouteArray: [route]
           },
         }
-        return [articleStackData,articleStackData,articleStackData,articleStackData,articleStackData];
+        return [articleStackData];
     }
 }// DeepDiveService ENDS

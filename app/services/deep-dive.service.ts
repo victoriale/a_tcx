@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
-import { Http, Headers } from '@angular/http';
+import {Http, Headers, URLSearchParams, RequestOptions} from '@angular/http';
 
 import { VideoStackData, ArticleStackData } from "../fe-core/interfaces/deep-dive.data";
 import { GlobalFunctions } from "../global/global-functions";
 import { GlobalSettings } from "../global/global-settings";
 import { VerticalGlobalFunctions } from "../global/vertical-global-functions";
+import {handleError} from "typings/dist/support/cli";
 
 declare var moment;
 
 @Injectable()
 export class DeepDiveService {
+  private options = new RequestOptions({headers:new Headers()});
   constructor(public http: Http){}
 
   //Function to set custom headers
@@ -19,7 +21,7 @@ export class DeepDiveService {
       return headers;
   }
 
-  getDeepDiveBatchService(category: string, limit: number, page: number, state?: string){
+/*  getDeepDiveBatchService(category: string, limit: number, page: number, state?: string){
     var headers = this.setToken();
     var callURL = GlobalSettings.getArticleBatchUrl();
     //http://dev-tcxmedia-api.synapsys.us/articles?help=1
@@ -37,13 +39,38 @@ export class DeepDiveService {
       callURL += '&keyword[]=' + category;
     }
     callURL += "&source[]=snt_ai&source[]=tca-curated&random=1&metaDataOnly=1";
+    console.log(callURL, "deepdive");
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
         return data.data;
     })
-  }
+  }*/
+  getDeepDiveBatchService(category: string, limit: number, page: number, state?: string){
+    if(category=="real-estate"){
+        category=category.replace(/-/g," ");
+    };
+    let params:URLSearchParams=new URLSearchParams();
 
+    if(GlobalSettings.getTCXscope(category).topScope == 'basketball' || GlobalSettings.getTCXscope(category).topScope == 'football'){
+        params.set("category", "sports");
+        params.set("subCategory",category);
+    };
+    category=="breaking"||"trending"?params.set("category", category):params.set("keyword[]",category);
+    params.set("count", limit.toString());
+    params.set("page",page.toString());
+    params.set("random","1");
+    params.set("metaDataOnly","1");
+    this.options.search=params;
+    let callURL = GlobalSettings.getArticleBatchUrl()+"?&source[]=snt_ai&source[]=tca-curated&random=1&metaDataOnly=1";
+    return this.http.get(callURL, this.options)
+        .map(res => res.json())
+        .map(data => {
+          return data.data;
+        })
+
+
+  }
   getCarouselData(scope, data, limit, batch, state, callback:Function) {
     //always returns the first batch of articles
        this.getDeepDiveBatchService(scope, limit, batch, state)

@@ -67,7 +67,6 @@ export class DeepDiveBlockMain implements OnInit {
 
     }
     getArticleStackData(ctype,count,imgMobile:boolean){
-        console.log("executing " +ctype)
         var _selfscope=this;
         function getobjectStackArray(ctype,carray){
             var objectStackArray = {

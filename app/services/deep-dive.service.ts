@@ -66,7 +66,6 @@ export class DeepDiveService {
     return this.http.get(callURL, this.options)
         .map(res => res.json())
         .map(data => {
-          console.log(data.data);
           return data.data;
         })
 

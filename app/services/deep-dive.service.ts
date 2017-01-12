@@ -6,7 +6,7 @@ import { VideoStackData, ArticleStackData } from "../fe-core/interfaces/deep-div
 import { GlobalFunctions } from "../global/global-functions";
 import { GlobalSettings } from "../global/global-settings";
 import { VerticalGlobalFunctions } from "../global/vertical-global-functions";
-import {handleError} from "typings/dist/support/cli";
+
 
 declare var moment;
 
@@ -52,17 +52,21 @@ export class DeepDiveService {
     };
     let params:URLSearchParams=new URLSearchParams();
 
-    if(GlobalSettings.getTCXscope(category).topScope == 'basketball' || GlobalSettings.getTCXscope(category).topScope == 'football'){
+    if(GlobalSettings.getTCXscope(category).topScope == 'basketball' || GlobalSettings.getTCXscope(category).topScope == 'football'||GlobalSettings.getTCXscope(category).topScope == 'baseball'){
         params.set("category", "sports");
         params.set("subCategory",category);
+    }else if(category=="breaking"||category=="trending"){
+      params.set("category", category)
+    }else{
+      params.set("keyword[]",category)
     };
-    category=="breaking"||"trending"?params.set("category", category):params.set("keyword[]",category);
     params.set("count", limit.toString());
     params.set("page",page.toString());
     params.set("random","1");
     params.set("metaDataOnly","1");
     this.options.search=params;
-    let callURL = GlobalSettings.getArticleBatchUrl()+"?&source[]=snt_ai&source[]=tca-curated&random=1&metaDataOnly=1";
+    let callURL = GlobalSettings.getArticleBatchUrl()+"?&source[]=snt_ai&source[]=tca-curated";
+    
     return this.http.get(callURL, this.options)
         .map(res => res.json())
         .map(data => {

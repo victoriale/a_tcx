@@ -24,7 +24,7 @@ declare var moment;
 
 export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
     windowUrl= window.location.href;
-    public partnerID: string;
+    public partnerID: string = GlobalSettings.storedPartnerId();;
     checkPartner: boolean;
     public geoLocation:string;
     public widgetPlace: string = "widgetForPage";
@@ -60,10 +60,11 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
         private _location:Location
     ){
         this.checkPartner = GlobalSettings.getHomeInfo().isPartner;
-        this.initializePage();
+        this.initializePage(this.partnerID);
+        console.log(this.checkPartner, this.partnerID);
     }
 
-    initializePage(){
+    initializePage(partner){
         this.paramsub= this.activateRoute.params.subscribe(
             (param :any)=> {
                 window.scrollTo(0, 0);
@@ -72,9 +73,9 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
                 this.category=param['category'];
                 this.subcategory=param['subCategory']?param['subCategory']:param['category'];
                 if (this.eventType == "story" && this.articleID) {
-                    this.getSyndicateArticle(this.articleID);
+                    this.getSyndicateArticle(this.articleID, partner);
                 } else {
-                    this.getSyndicateVideoArticle(this.subcategory, this.articleID);
+                    this.getSyndicateVideoArticle(this.subcategory, this.articleID, partner);
                 }
             }
         );
@@ -92,7 +93,7 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
         }
     }
 
-    private getSyndicateArticle(articleID) {
+    private getSyndicateArticle(articleID, partner) {
         this._synservice.getSyndicateArticleService(articleID).subscribe(
             data => {
                 try{
@@ -113,10 +114,12 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
                     this.errorPage=true;
                     var self=this;
                     setTimeout(function () {
+                      console.log("partner 2", this.partnerID, this.checkPartner, partner);
                         //removes error page from browser history
                         self._location.replaceState('/');
-                        if(this.checkPartner || this.partnerID){
-                          self.router.navigateByUrl('/' + this.partnerID, 'news');
+                        if(partner){
+                          console.log("check1");
+                          self.router.navigateByUrl('/' + partner, 'news');
                         } else {
                           self.router.navigateByUrl('/news-feed');
                         }
@@ -131,6 +134,7 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
                     //removes error page from browser history
                     self._location.replaceState('/');
                     if(this.checkPartner || this.partnerID){
+                      console.log("check2");
                       self.router.navigateByUrl('/' + this.partnerID, 'news');
                     } else {
                       self.router.navigateByUrl('/news-feed');
@@ -140,7 +144,7 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
         )
 
     }
-    private getSyndicateVideoArticle(subCat, articleID){
+    private getSyndicateVideoArticle(subCat, articleID, partner){
         this._synservice.getSyndicateVideoService(subCat,articleID).subscribe(
             data => {
                 try{
@@ -158,7 +162,11 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
                     setTimeout(function () {
                         //removes error page from browser history
                         self._location.replaceState('/');
-                        self.router.navigateByUrl('/news-feed');
+                        if(partner){
+                          self.router.navigateByUrl('/' + partner, 'news');
+                        } else {
+                          self.router.navigateByUrl('/news-feed');
+                        }
                     }, 5000);
 
                 }
@@ -170,7 +178,11 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
                 setTimeout(function () {
                     //removes error page from browser history
                     self._location.replaceState('/');
-                    self.router.navigateByUrl('/news-feed');
+                    if(this.checkPartner || this.partnerID){
+                      self.router.navigateByUrl('/' + this.partnerID, 'news');
+                    } else {
+                      self.router.navigateByUrl('/news-feed');
+                    }
                 }, 5000);
             }
 

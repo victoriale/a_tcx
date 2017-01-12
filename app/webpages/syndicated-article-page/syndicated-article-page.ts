@@ -61,7 +61,6 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
     ){
         this.checkPartner = GlobalSettings.getHomeInfo().isPartner;
         this.initializePage();
-        console.log("partner", this.partnerID, this.checkPartner);
     }
 
     initializePage(){

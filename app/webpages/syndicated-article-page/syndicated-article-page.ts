@@ -24,7 +24,7 @@ declare var moment;
 
 export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
     windowUrl= window.location.href;
-    public partnerID: string = GlobalSettings.storedPartnerId();
+    public partnerID: string;
     checkPartner: boolean;
     public geoLocation:string;
     public widgetPlace: string = "widgetForPage";
@@ -132,11 +132,8 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
                     //removes error page from browser history
                     self._location.replaceState('/');
                     if(this.checkPartner || this.partnerID){
-                      console.log("check", this.checkPartner);
                       self.router.navigateByUrl('/' + this.partnerID, 'news');
                     } else {
-                      console.log("check test", this.partnerID, this.checkPartner);
-
                       self.router.navigateByUrl('/news-feed');
                     }
                   }, 5000);

@@ -631,10 +631,14 @@ export class GlobalSettings {
             if(key == "company"){// str1: symbol, id: company id, str2: company name
               key = key ? key.replace(/company/g, "c") : null;
               link = str2 + "/" + str1 + "/" + key + "/" + id;
+            } else if(key == "search"){
+              link = str1.replace("search", "s");
             }
           } else {
             if(key == "company"){
               link = str1 + "/" + str2 + "/" + key + "/" + id;
+            }else if(key == "search"){
+              link = str1;
             }
           }
           break;
@@ -642,12 +646,20 @@ export class GlobalSettings {
         case 'real-estate':
           if (partnerCode != null) {
               key = key ? key.replace(/listing/g, "index") : null;
+              if(key == "search"){
+                link = str1.replace("search", "s");
+              }
+          } else {
+            if(key == "search"){
+              link = str1;
+            } else {
+              link = key + "/" + str1;
+            }
           }
-          link = key + "/" + str1;
           break;
       }// end switch
       if(key != "article"){
-        link += "/";
+        link = "/" + link;
       }
       link = this.partnerUrlTransform(scope, link);
       return link;

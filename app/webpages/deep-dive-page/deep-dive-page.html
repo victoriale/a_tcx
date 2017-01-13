@@ -1,4 +1,9 @@
 <section verticalWidgetScroll class="deep-dive-page container-fluid" >
+  <section *ngIf="errorPage">
+      <div class="loading-container">
+          <span class="loading-text">The page you are trying to reach is unavailable. You will be redirected to your previous page shortly.</span>
+      </div>
+  </section>
   <!-- Place Top Carousel Here in deep-dive-container-1, it should always take full width -->
   <section *ngIf="carouselData" class="deep-dive-container1" id="rectangleCarousel">
      <news-box [carData]="carouselData" [videoData]="carouselVideo" [graphData]="carouselGraph"></news-box>

@@ -24,7 +24,7 @@ declare var moment;
 
 export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
     windowUrl= window.location.href;
-    public partnerID: string = GlobalSettings.storedPartnerId();;
+    public partnerID: string = GlobalSettings.storedPartnerId();
     checkPartner: boolean;
     public geoLocation:string;
     public widgetPlace: string = "widgetForPage";
@@ -61,7 +61,6 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
     ){
         this.checkPartner = GlobalSettings.getHomeInfo().isPartner;
         this.initializePage(this.partnerID);
-        console.log(this.checkPartner, this.partnerID);
     }
 
     initializePage(partner){
@@ -114,11 +113,9 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
                     this.errorPage=true;
                     var self=this;
                     setTimeout(function () {
-                      console.log("partner 2", this.partnerID, this.checkPartner, partner);
                         //removes error page from browser history
                         self._location.replaceState('/');
                         if(partner){
-                          console.log("check1");
                           self.router.navigateByUrl('/' + partner, 'news');
                         } else {
                           self.router.navigateByUrl('/news-feed');
@@ -134,7 +131,6 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
                     //removes error page from browser history
                     self._location.replaceState('/');
                     if(this.checkPartner || this.partnerID){
-                      console.log("check2");
                       self.router.navigateByUrl('/' + this.partnerID, 'news');
                     } else {
                       self.router.navigateByUrl('/news-feed');
@@ -178,7 +174,7 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
                 setTimeout(function () {
                     //removes error page from browser history
                     self._location.replaceState('/');
-                    if(this.checkPartner || this.partnerID){
+                    if(partner){
                       self.router.navigateByUrl('/' + this.partnerID, 'news');
                     } else {
                       self.router.navigateByUrl('/news-feed');

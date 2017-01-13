@@ -1,8 +1,3 @@
-<section *ngIf="errorPage">
-    <div class="loading-container">
-        <span class="loading-text">The page you are trying to reach is unavailable. You will be redirected to your previous page shortly.</span>
-    </div>
-</section>
 <div *ngIf="articleData" id="deep-dive-section-front" class="deep-dive-block" (window:scroll)="onScroll($event)">
   <div *ngFor="let item of newArray; let first=first">
     <!-- ARTICLE STACK TYPE 1 -->

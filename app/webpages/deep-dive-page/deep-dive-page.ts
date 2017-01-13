@@ -62,9 +62,7 @@ export class DeepDivePage implements OnInit{
         private _eleref:ElementRef,
         private _location:Location
     ) {
-
     }
-
 
     ngOnDestroy(){
       this.routeSubscription.unsubscribe();
@@ -162,12 +160,14 @@ export class DeepDivePage implements OnInit{
         }catch(e){
           this.errorPage = true;
           var self=this;
+          var partner = this.partnerID;
           setTimeout(function () {
               //removes error page from browser history
               self._location.replaceState('/');
-              if(this.partnerID){
-                self._router.navigateByUrl('/' + this.partnerID, 'news');
+              if(partner){
+                self._router.navigateByUrl('/' + partner, 'news');
               } else {
+                console.log("non partner check");
                 self._router.navigateByUrl('/news-feed');
               }
           }, 5000);

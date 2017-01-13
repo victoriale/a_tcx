@@ -23,10 +23,8 @@ declare var moment;
 })
 
 export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
-
-
     windowUrl= window.location.href;
-    public partnerID: string;
+    public partnerID: string = GlobalSettings.storedPartnerId();
     checkPartner: boolean;
     public geoLocation:string;
     public widgetPlace: string = "widgetForPage";
@@ -60,35 +58,29 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
         private _render:Renderer,
         private _seo:SeoService,
         private _location:Location
-
     ){
         this.checkPartner = GlobalSettings.getHomeInfo().isPartner;
-        this.initializePage();
-
+        this.initializePage(this.partnerID);
     }
 
-    initializePage(){
+    initializePage(partner){
         this.paramsub= this.activateRoute.params.subscribe(
             (param :any)=> {
                 window.scrollTo(0, 0);
-                this.articleID = param['articleID'],
-                    this.eventType= param['articleType'],
-                    this.category=param['category'],
-                    this.subcategory=param['subCategory']?param['subCategory']:param['category'];
+                this.articleID = param['articleID'];
+                this.eventType= param['articleType'];
+                this.category=param['category'];
+                this.subcategory=param['subCategory']?param['subCategory']:param['category'];
                 if (this.eventType == "story" && this.articleID) {
-                    this.getSyndicateArticle(this.articleID);
-                }
-                else {
-                    this.getSyndicateVideoArticle(this.subcategory, this.articleID);
+                    this.getSyndicateArticle(this.articleID, partner);
+                } else {
+                    this.getSyndicateVideoArticle(this.subcategory, this.articleID, partner);
                 }
             }
         );
     }
 
-
-
     ngAfterViewInit(){
-
         // to run the resize event on load
         try {
             window.dispatchEvent(new Event('load'));
@@ -100,14 +92,11 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
         }
     }
 
-    private getSyndicateArticle(articleID) {
-
-
+    private getSyndicateArticle(articleID, partner) {
         this._synservice.getSyndicateArticleService(articleID).subscribe(
             data => {
                 try{
                     if(data.data&& data.data[0].article_data.article) {
-
                         this.errorPage=false;
                         this.articleData = this._synservice.transformMainArticle(data.data, this.subcategory, articleID, this.eventType);
                         this.imageData = this.articleData.imageData;
@@ -118,9 +107,7 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
                         this.getRecomendationData(this.category, 4, this.trendingKeyword);
                         this.getDeepDiveArticle(this.category, this.trendingLength, this.trendingKeyword, this.eventType, this.articleID);
                         this.metaTags(data.data[0], this.eventType);
-
-
-                    }else throw new Error('oops! No article data');
+                    }else throw new Error('No article data available');
                 }
                 catch (e){
                     this.errorPage=true;
@@ -128,7 +115,11 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
                     setTimeout(function () {
                         //removes error page from browser history
                         self._location.replaceState('/');
-                        self.router.navigateByUrl('/news-feed');
+                        if(partner){
+                          self.router.navigateByUrl('/' + partner, 'news');
+                        } else {
+                          self.router.navigateByUrl('/news-feed');
+                        }
                     }, 5000);
 
                 }
@@ -139,13 +130,17 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
                 setTimeout(function () {
                     //removes error page from browser history
                     self._location.replaceState('/');
-                    self.router.navigateByUrl('/news-feed');
-                }, 5000);
+                    if(this.checkPartner || this.partnerID){
+                      self.router.navigateByUrl('/' + this.partnerID, 'news');
+                    } else {
+                      self.router.navigateByUrl('/news-feed');
+                    }
+                  }, 5000);
             }
         )
 
     }
-    private getSyndicateVideoArticle(subCat, articleID){
+    private getSyndicateVideoArticle(subCat, articleID, partner){
         this._synservice.getSyndicateVideoService(subCat,articleID).subscribe(
             data => {
                 try{
@@ -163,7 +158,11 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
                     setTimeout(function () {
                         //removes error page from browser history
                         self._location.replaceState('/');
-                        self.router.navigateByUrl('/news-feed');
+                        if(partner){
+                          self.router.navigateByUrl('/' + partner, 'news');
+                        } else {
+                          self.router.navigateByUrl('/news-feed');
+                        }
                     }, 5000);
 
                 }
@@ -175,7 +174,11 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
                 setTimeout(function () {
                     //removes error page from browser history
                     self._location.replaceState('/');
-                    self.router.navigateByUrl('/news-feed');
+                    if(partner){
+                      self.router.navigateByUrl('/' + this.partnerID, 'news');
+                    } else {
+                      self.router.navigateByUrl('/news-feed');
+                    }
                 }, 5000);
             }
 

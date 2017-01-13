@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
-import { Http, Headers } from '@angular/http';
+import {Http, Headers, URLSearchParams, RequestOptions} from '@angular/http';
 
 import { VideoStackData, ArticleStackData } from "../fe-core/interfaces/deep-dive.data";
 import { GlobalFunctions } from "../global/global-functions";
 import { GlobalSettings } from "../global/global-settings";
 import { VerticalGlobalFunctions } from "../global/vertical-global-functions";
 
+
 declare var moment;
 
 @Injectable()
 export class DeepDiveService {
+  private options = new RequestOptions({headers:new Headers()});
   constructor(public http: Http){}
 
   //Function to set custom headers
@@ -19,7 +21,7 @@ export class DeepDiveService {
       return headers;
   }
 
-  getDeepDiveBatchService(category: string, limit: number, page: number, state?: string){
+/*  getDeepDiveBatchService(category: string, limit: number, page: number, state?: string){
     var headers = this.setToken();
     var callURL = GlobalSettings.getArticleBatchUrl();
     //http://dev-tcxmedia-api.synapsys.us/articles?help=1
@@ -37,13 +39,42 @@ export class DeepDiveService {
       callURL += '&keyword[]=' + category;
     }
     callURL += "&source[]=snt_ai&source[]=tca-curated&random=1&metaDataOnly=1";
+    console.log(callURL, "deepdive");
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
         return data.data;
     })
-  }
+  }*/
+  getDeepDiveBatchService(category: string, limit: number, page: number, state?: string){
+    if(category=="real-estate"){
+        category=category.replace(/-/g," ");
+    };
+    let params:URLSearchParams=new URLSearchParams();
 
+    if(GlobalSettings.getTCXscope(category).topScope == 'basketball' || GlobalSettings.getTCXscope(category).topScope == 'football'||GlobalSettings.getTCXscope(category).topScope == 'baseball'){
+        params.set("category", "sports");
+        params.set("subCategory",category);
+    }else if(category=="breaking"||category=="trending"){
+      params.set("category", category)
+    }else{
+      params.set("keyword[]",category)
+    };
+    params.set("count", limit.toString());
+    params.set("page",page.toString());
+    params.set("random","1");
+    params.set("metaDataOnly","1");
+    this.options.search=params;
+    let callURL = GlobalSettings.getArticleBatchUrl()+"?&source[]=snt_ai&source[]=tca-curated";
+    
+    return this.http.get(callURL, this.options)
+        .map(res => res.json())
+        .map(data => {
+          return data.data;
+        })
+
+
+  }
   getCarouselData(scope, data, limit, batch, state, callback:Function) {
     //always returns the first batch of articles
        this.getDeepDiveBatchService(scope, limit, batch, state)
@@ -149,7 +180,7 @@ export class DeepDiveService {
               }
             }
             if(val.source == "snt_ai"){// If AI article then redirect to the corresponding vertical
-              routeLink = GlobalSettings.getOffsiteLink(val.scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id));
+              routeLink = GlobalSettings.getOffsiteLink(val.scope, "article", val.article_url);
               extLink = true;
             } else {
               routeLink = scope ? VerticalGlobalFunctions.formatArticleRoute(key.toLowerCase(), val.article_id, "story") : null;
@@ -219,7 +250,7 @@ export class DeepDiveService {
         var extLink;
         var category = val.article_sub_type ? val.article_sub_type : val.article_type;
         if(val.source == "snt_ai"){
-          routeLink = GlobalSettings.getOffsiteLink(val.scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id));
+          routeLink = GlobalSettings.getOffsiteLink(val.scope, "article", val.article_url);
           extLink = true;
         } else {
           routeLink = VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, "story");

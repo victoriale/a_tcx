@@ -96,14 +96,10 @@ export class VerticalGlobalFunctions {
 
   static formatExternalArticleRoute(scope, articleType: string, articleID: string) {
     if (scope == "nfl" || scope == "ncaaf") {
-      var output = scope + "/articles/"+ articleType + "/" + articleID;
-    }
-    else if (scope == "nba" || scope == "ncaam") {
-      if(scope == "ncaam"){scope = "ncaa";}
-      var output = scope + "/article/"+ articleType + "/" + articleID;
+      var output = "/" + scope + "/articles/"+ articleType + "/" + articleID;
     }
     else {
-      var output = "articles/" + articleType + "/" + articleID;
+      var output = "/articles/" + articleType + "/" + articleID;
     }
     return output;
   }

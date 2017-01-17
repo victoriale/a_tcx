@@ -1,5 +1,5 @@
 import { VerticalGlobalFunctions } from "../global/vertical-global-functions";
-import { Http, Headers, HttpModule } from "@angular/http";
+import {Http, Headers, URLSearchParams, RequestOptions} from "@angular/http";
 import { GlobalSettings } from "../global/global-settings";
 import { Injectable } from "@angular/core";
 import {GlobalFunctions} from "../global/global-functions";
@@ -9,8 +9,10 @@ declare var moment;
 @Injectable()
 export class SyndicateArticleService {
   private _syndicateUrl: string = GlobalSettings.getArticleBatchUrl();
+    private headerOptions = new RequestOptions({headers:new Headers()});
 
-  constructor(public _http: Http) { }
+
+    constructor(public _http: Http) { }
 
   setToken() {
     var headers = new Headers({ 'content-type': 'application/json' });
@@ -18,17 +20,16 @@ export class SyndicateArticleService {
     return headers;
   }
   getSyndicateArticleService(articleID) {
-    //Configure HTTP Headers
-    /*
-            var headers = this.setToken();
-    */
-    var callURL = this._syndicateUrl + '?articleID=' + articleID;
-    return this._http.get(callURL).retry(2)
-      .map(res => res.json())
-      .map(data => data)
+      let params:URLSearchParams=new URLSearchParams();
+      params.set("articleID", articleID.toString());
+      this.headerOptions.search=params;
+      var callURL = this._syndicateUrl;
+      return this._http.get(callURL, this.headerOptions).retry(2)
+         .map(res => res.json())
+         .map(data => data)
   }
 
-  transformMainArticle(data,sc,ai,et){
+  transformMainArticle(data,c,sc,ai,et){
       var imageData=[];
       var imageTitle=[];
       var copyright=[];
@@ -60,7 +61,7 @@ export class SyndicateArticleService {
       }else{
           mainArticleData['is_stock']=false;
       }
-      mainArticleData['url'] = VerticalGlobalFunctions.formatArticleRoute(sc, ai, et);
+      mainArticleData['url'] = VerticalGlobalFunctions.formatArticleRoute(c, sc, ai, et);
       mainArticleData['title'] = data.title.replace(/\'/g, "'");
       mainArticleData['author'] = artwriter;
       mainArticleData['publisher'] = data.publisher;
@@ -109,37 +110,44 @@ export class SyndicateArticleService {
         return data;
       })
   }
-//http://dev-tcxmedia-api.synapsys.us/articles?source=tca&count=3&category=entertainment&subCategory=television
-  getRecArticleData(category, count, subcategory?) {
-    /* var headers = this.setToken();*/
-    var callURL
-    if (subcategory!=category ) {
-        if(GlobalSettings.getTCXscope(subcategory).topScope == 'basketball' || GlobalSettings.getTCXscope(subcategory).topScope == 'football'){
-            callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&category=" + category + "&subCategory=" + subcategory + "&random=1";
-        }else{
-            callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&keyword[]=" + subcategory + "&random=1";
-        }
 
-    } else {
-        category = category == 'real-estate'? 'real+estate':category;
-        if(category == "breaking" || category == "trending"){
-            callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&category=" + category + "&random=1";
-        }else{
-            callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&keyword[]=" + category + "&random=1";
-        }
-    }
-    return this._http.get(callURL)
-      .map(res => res.json())
-      .map(data => {
-        return data;
-      })
+  getArticleBatch(category, subcategory,count,trending?,page?){
+      if(subcategory=="real-estate"){
+          subcategory=subcategory.replace(/-/g," ");
+      };
+      let params:URLSearchParams=new URLSearchParams();
+
+      if(GlobalSettings.getTCXscope(subcategory).topScope == 'basketball' || GlobalSettings.getTCXscope(subcategory).topScope == 'football'||GlobalSettings.getTCXscope(subcategory).topScope == 'baseball'){
+          params.set("category", "sports");
+          params.set("subCategory",subcategory);
+      }else{
+          params.set("category", category)
+      };
+      params.set("count", count.toString());
+      params.set("metaDataOnly","1");
+      if(typeof trending==='undefined') {
+          params.set("random","1");
+          this.headerOptions.search=params;
+          let callURL = GlobalSettings.getArticleBatchUrl()+"?&source[]=snt_ai&source[]=tca-curated";
+          return this._http.get(callURL, this.headerOptions)
+              .map(res => res.json())
+              .map(data => {
+                  return data.data;
+              })
+      } else{
+          params.set("trending","1");
+          params.set("page",page.toString());
+          this.headerOptions.search=params;
+          let callURL = GlobalSettings.getArticleBatchUrl();
+          return this._http.get(callURL, this.headerOptions)
+              .map(res => res.json())
+              .map(data => {
+                  return data.data;
+              })
+      }
   }
 
-  transformToRecArticles(data, scope, articleType, currentArticleId) {
-    if(!data){
-      return null;
-    }
-
+  transformToRecArticles(data, c, scope, articleType, currentArticleId) {
       articleType = "story";
       var sampleImage = "/app/public/placeholder_XL.png";
       var articleStackArray = [];
@@ -152,7 +160,7 @@ export class SyndicateArticleService {
                       imageClass: "embed-responsive-16by9",
                       imageUrl: val.image_url != null ? GlobalSettings.getImageUrl(val.image_url, GlobalSettings._imgFullScreen) : sampleImage,
                       extUrl: val.source != "snt_ai" ? false : true,
-                      urlRouteArray: val.source != "snt_ai" ? VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType) : GlobalSettings.getOffsiteLink(val.scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id)),
+                      urlRouteArray: val.source != "snt_ai" ? VerticalGlobalFunctions.formatArticleRoute(c, scope, val.article_id, articleType) : GlobalSettings.getOffsiteLink(val.scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id)),
                       imageDesc: "",
                   },
                   citationInfo: {//TODO
@@ -164,7 +172,7 @@ export class SyndicateArticleService {
                   title: val.title? val.title.replace(/\'/g, "'"): "",
                   extUrl:val.source != "snt_ai" ? false : true,
                   keyUrl: val['keywords'][0] ? VerticalGlobalFunctions.formatSectionFrontRoute(val['keywords'][0]) : ["/news-feed"],
-                  articleUrl: val.source != "snt_ai" ? VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType) : GlobalSettings.getOffsiteLink(val.scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, articleType, val.event_id)),
+                  articleUrl: val.source != "snt_ai" ? VerticalGlobalFunctions.formatArticleRoute(c, scope, val.article_id, articleType) : GlobalSettings.getOffsiteLink(val.scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, articleType, val.event_id)),
 
               }
               articleStackArray.push(s);
@@ -174,43 +182,8 @@ export class SyndicateArticleService {
        else if(articleStackArray.length>3){return articleStackArray.slice(1)}
 
   }
-  //http://dev-tcxmedia-api.synapsys.us/articles?source=tca&count=10&category=entertainment&subCategory=television
-  getTrendingArticles(category, count, subcategory) {
-    var headers = this.setToken();
-    var callURL
-      if (subcategory!=category ) {
-          if(GlobalSettings.getTCXscope(subcategory).topScope == 'basketball' || GlobalSettings.getTCXscope(subcategory).topScope == 'football'){
-              callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&category=" + category + "&subCategory=" + subcategory
-          }else{
-              callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&keyword[]=" + subcategory
-          }
 
-      } else {
-          category = category == 'real-estate'? 'real+estate':category;
-          if(category == "breaking" || category == "trending"){
-              callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&category=" + category + "&random=1";
-          }else{
-              callURL = this._syndicateUrl + '?source[]=tca-curated&source[]=snt_ai&count=' + count + "&keyword[]=" + category + "&random=1";
-          }
-      }
-    var trendingArticles;
-    var startElement;
-    return this._http.get(callURL)
-      .map(res => res.json())
-      .map(data => {
-        trendingArticles=data.data;
-        if(!trendingArticles){return null;}
-        if(count>10){
-            startElement = count - 10;
-            trendingArticles=trendingArticles.slice(startElement);
-            return trendingArticles;
-        }
-        return trendingArticles;
-      })
-  }
-
-
-  transformTrending(data, scope, articleType, currentArticleId) {
+  transformTrending(data, c, scope, articleType, currentArticleId) {
     articleType = "story";
     var placeholder = "/app/public/placeholder_XL.png";
     data.forEach(function(val, index) {
@@ -219,7 +192,7 @@ export class SyndicateArticleService {
         val["image"] = val.image_url != null ? GlobalSettings.getImageUrl(val.image_url, GlobalSettings._imgFullScreen) : GlobalSettings.getImageUrl(placeholder);
         val["content"]=val.teaser;
         val['extUrl']=val.source!="snt_ai"?false:true;
-        val["url"] = val.source!="snt_ai"?VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, articleType):GlobalSettings.getOffsiteLink(val.scope,"article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id));
+        val["url"] = val.source!="snt_ai"?VerticalGlobalFunctions.formatArticleRoute(c, scope, val.article_id, articleType):GlobalSettings.getOffsiteLink(val.scope,"article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id));
         val['teaser']=val.teaser?val.teaser:val.article_data.article[0];
           var articleWriter='';
           if(val.author){

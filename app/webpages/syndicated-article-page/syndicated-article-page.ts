@@ -29,7 +29,6 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
     public partnerID: string;
     checkPartner: boolean;
     public geoLocation:string;
-    public widgetPlace: string = "widgetForPage";
     public articleData: any;
     public recomendationData: any;
     public articleID: string;
@@ -46,9 +45,9 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
     public loadingshow:boolean;
     public articleCount:number;
     public scrollTopPrev:number=0;
-    public prevArticles;
     public trendingKeyword:string;
-    public prevKeyword:string;
+    public callTrendingAPI:boolean=true;
+    public currentPage:number=1;
     iframeUrl: any;
     paramsub;
     errorPage:boolean=false;
@@ -109,14 +108,14 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
                     if(data.data&& data.data[0].article_data.article) {
 
                         this.errorPage=false;
-                        this.articleData = this._synservice.transformMainArticle(data.data, this.subcategory, articleID, this.eventType);
+                        this.articleData = this._synservice.transformMainArticle(data.data, this.category, this.subcategory, articleID, this.eventType);
                         this.imageData = this.articleData.imageData;
                         this.imageTitle = this.articleData.imageTitle;
                         this.copyright = this.articleData.copyright;
                         this.is_stock=this.articleData.is_stock;
                         this.trendingKeyword=this.articleData.trendingKeyword;
-                        this.getRecomendationData(this.category, 4, this.trendingKeyword);
-                        this.getDeepDiveArticle(this.category, this.trendingLength, this.trendingKeyword, this.eventType, this.articleID);
+                        this.getRecomendationData(this.category,this.subcategory, 4, false);
+                        this.getTrendingArticles(this.category,this.subcategory, this.trendingLength, this.eventType, this.articleID, true, this.currentPage);
                         this.metaTags(data.data[0], this.eventType);
 
 
@@ -152,7 +151,7 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
                     if(data.data){
                         this.errorPage=false;
                         this.articleData = data.data;
-                        this.articleData.url= VerticalGlobalFunctions.formatArticleRoute(this.subcategory,this.articleID,this.eventType);
+                        this.articleData.url= VerticalGlobalFunctions.formatArticleRoute(this.category,this.subcategory,this.articleID,this.eventType);
                         this.iframeUrl = this.articleData.video_url + "&autoplay=on";
                         this.metaTags(this.articleData, this.eventType);
                     }else throw new Error('oops! No video article data');
@@ -185,37 +184,50 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
         this.paramsub.unsubscribe();
     }
 
-    getRecomendationData(c,count,sc){
-        this._synservice.getRecArticleData(c,count,sc)
+    getRecomendationData(c,subc,count,istrending:boolean){
+        this._synservice.getArticleBatch(c,subc,count)
             .subscribe(data => {
-                this.recomendationData=[];
-                this.recomendationData = this._synservice.transformToRecArticles(data.data,this.subcategory,this.eventType, this.articleID);
+                try{
+                    if(data){
+                        this.recomendationData=[];
+                        this.recomendationData = this._synservice.transformToRecArticles(data,c, subc,this.eventType, this.articleID);
+                    }else throw new Error("Error getting recommended Articles")
+                } catch(e){
+                    console.log(e.message);
+                }
+
             });
     }
-    private getDeepDiveArticle(c,tl,sc,type,aid) {
+    private getTrendingArticles(c,subc,tl,type,aid,istrending:boolean,cp) {
         this.loadingshow=true;
 
-        this._synservice.getTrendingArticles(c,tl,sc).subscribe(
+        this._synservice.getArticleBatch(c,subc,tl,istrending,cp).subscribe(
             data => {
-
-                if(data.length==10) {
-                    this.loadingshow=true;
-                    var newArray = this._synservice.transformTrending(data, sc, type, aid);
-                    for(var i=0;i<newArray.length;i++) {
-                        this.trendingData.push(newArray[i]);
-                    }
-                    this.trendingLength = this.trendingLength + 10;
-                }else if(data.length>0 && data.length<10){
-                    this.loadingshow=true;
-
-                    var newArray = this._synservice.transformTrending(data, sc, type, aid);
-                    for(var i=0;i<newArray.length;i++) {
-                        this.trendingData.push(newArray[i]);
-                    }
-                    this.trendingLength = this.trendingLength + data.length;
-                }
-                else{
+                try{
+                    if(data){
+                        if(data.length==10) {
+                            this.currentPage++;
+                            this.loadingshow=true;
+                            var newArray = this._synservice.transformTrending(data, c, subc, type, aid);
+                            for(var i=0;i<newArray.length;i++) {
+                                this.trendingData.push(newArray[i]);
+                            }
+                        }else if(data.length>0 && data.length<10){
+                            this.loadingshow=false;
+                            var newArray = this._synservice.transformTrending(data, c, subc, type, aid);
+                            for(var i=0;i<newArray.length;i++) {
+                                this.trendingData.push(newArray[i]);
+                            }
+                            this.currentPage++;
+                        }
+                        else{
+                            this.loadingshow=false;
+                        }
+                    } else throw new Error("Oops! No more Articles")
+                }catch(e){
                     this.loadingshow=false;
+                    this.callTrendingAPI=false;
+                    console.log(e.message);
                 }
             }
 
@@ -289,8 +301,9 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
         var trendingElement= e.target.body.getElementsByClassName('trending-small')[0];
         var topHeight= window.pageYOffset? window.pageYOffset: window.scrollY;
         var scrollerHeight = e.target.documentElement.scrollHeight?e.target.documentElement.scrollHeight:e.target.body.scrollHeight;
-        if(window.innerHeight + topHeight >= scrollerHeight && this.trendingLength>10){
-            this.getDeepDiveArticle(this.category, this.trendingLength, this.trendingKeyword, this.eventType, this.articleID);
+        if(window.innerHeight + topHeight >= scrollerHeight && this.currentPage>1 && this.callTrendingAPI){
+            //callTrendingApi is a boolean variable that decide if we have to call the below methods
+            this.getTrendingArticles(this.category,this.subcategory, this.trendingLength,this.eventType, this.articleID, true, this.currentPage);
 
         };
     }

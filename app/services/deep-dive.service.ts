@@ -21,31 +21,6 @@ export class DeepDiveService {
       return headers;
   }
 
-/*  getDeepDiveBatchService(category: string, limit: number, page: number, state?: string){
-    var headers = this.setToken();
-    var callURL = GlobalSettings.getArticleBatchUrl();
-    //http://dev-tcxmedia-api.synapsys.us/articles?help=1
-    //http://dev-tcxmedia-api.synapsys.us/articles?&keyword[]=food&source[]=snt_ai&source[]=tca-curated&random=1&metaDataOnly=1&page=1&count=5
-    if(limit !== null && page !== null){
-      callURL += '?count=' + limit + '&page=' + page;
-    }
-    if(category == "breaking" || category == "trending"){
-      callURL += '&category=' + category;
-    } else if( GlobalSettings.getTCXscope(category).topScope == 'basketball' || GlobalSettings.getTCXscope(category).topScope == 'football') {
-      callURL += '&subCategory=' + category;
-    } else if(category == "real-estate"){
-      callURL += '&keyword[]=' + category.replace(/-/g, " ");
-    } else {
-      callURL += '&keyword[]=' + category;
-    }
-    callURL += "&source[]=snt_ai&source[]=tca-curated&random=1&metaDataOnly=1";
-    console.log(callURL, "deepdive");
-    return this.http.get(callURL, {headers: headers})
-      .map(res => res.json())
-      .map(data => {
-        return data.data;
-    })
-  }*/
   getDeepDiveBatchService(category: string, limit: number, page: number, state?: string){
     if(category=="real-estate"){
         category=category.replace(/-/g," ");
@@ -136,7 +111,7 @@ export class DeepDiveService {
           time_stamp: date ? date : "",
           video_thumbnail: val.video_thumbnail ? val.video_thumbnail : sampleImage,
           embed_url: val.video_url != null ? val.video_url : null,
-          video_url: VerticalGlobalFunctions.formatArticleRoute(keywords, val.id, "video"),
+          video_url: VerticalGlobalFunctions.formatArticleRoute(scope, keywords, val.id, "video"),
           keyUrl: VerticalGlobalFunctions.formatSectionFrontRoute(keywords),
           teaser: val.teaser
         }
@@ -146,7 +121,7 @@ export class DeepDiveService {
     }// transformDeepDiveVideoBatchData ENDS
 
     // Article Batch Transformed Data
-    transformToArticleStack(data: Array<ArticleStackData>, scope?, imageSize?){
+    transformToArticleStack(data: Array<ArticleStackData>, topcategory?, scope?, imageSize?){
       if(data == null){return null;}
       var sampleImage = "/app/public/placeholder_XL.png";
       var articleStackArray = [];
@@ -183,7 +158,7 @@ export class DeepDiveService {
               routeLink = GlobalSettings.getOffsiteLink(val.scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id));
               extLink = true;
             } else {
-              routeLink = scope ? VerticalGlobalFunctions.formatArticleRoute(key.toLowerCase(), val.article_id, "story") : null;
+              routeLink = topcategory ? VerticalGlobalFunctions.formatArticleRoute(topcategory, key.toLowerCase(), val.article_id, "story") : null;
               extLink = false;
               author = val.author ? val.author.replace(/by/gi, "") + ", ": null;
               publisher = author ? val.publisher : "Published by: " + val.publisher;
@@ -249,13 +224,6 @@ export class DeepDiveService {
         var routeLink;
         var extLink;
         var category = val.article_sub_type ? val.article_sub_type : val.article_type;
-        if(val.source == "snt_ai"){
-          routeLink = GlobalSettings.getOffsiteLink(val.scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id));
-          extLink = true;
-        } else {
-          routeLink = VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, "story");
-          extLink = false;
-        }
         var key;
         if(val.keywords.length > 0 && val.keywords[0] != "none" && val.keywords[0]){
           if(val.keywords.length > 1 && val.keywords[1] != "none" && val.keywords[1] && val.source != "snt_ai"){
@@ -270,6 +238,14 @@ export class DeepDiveService {
             key = val.category;
           }
         }
+        if(val.source == "snt_ai"){
+          routeLink = GlobalSettings.getOffsiteLink(val.scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id));
+          extLink = true;
+        } else {
+          routeLink = VerticalGlobalFunctions.formatArticleRoute(scope, key,val.article_id, "story");
+          extLink = false;
+        }
+
 
         let carData = {
           articlelink: routeLink != "" ? routeLink : route,

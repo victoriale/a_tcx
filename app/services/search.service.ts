@@ -62,11 +62,14 @@ export class SearchService{
             val['author']=val.author;
             val['publisher']=val.publisher;
             val['is_stock_photo']=val.is_stock_photo;
-            //val["url"] = val.source!="snt_ai"?VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, "story"):GlobalSettings.getOffsiteLink(val.scope,"article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, articleType, val.event_id));
-            val['citationInfo'] = {//TODO
-              url: "/",
-              info: "title/author"
-            };
+            if(val.image_origin_url){
+              val['citationInfo'] =  {
+                url: val.image_origin_url ? val.image_origin_url : "/",
+                info: (val.image_title ? val.image_title : "") + (val.image_title && val.image_owner ? "/" : "") + (val.image_owner ? val.image_owner : "")
+              };
+            } else{
+              val['citationInfo'] = null;
+            }
         })
         return data;
     }

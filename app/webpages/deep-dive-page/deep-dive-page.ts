@@ -8,6 +8,8 @@ import { GeoLocation } from "../../global/global-service";
 
 import { SectionNameData } from "../../fe-core/interfaces/deep-dive.data";
 import { SeoService } from "../../global/seo.service";
+import {error} from "util";
+import {Location} from "@angular/common";
 
 declare var moment;
 declare var jQuery: any;
@@ -45,6 +47,8 @@ export class DeepDivePage implements OnInit{
     carouselVideo:any;
     carouselData: any;
     scrollTopPrev:number = 0;
+    errorPage: boolean = false;
+    partnerID: string = GlobalSettings.storedPartnerId();
     scrollingWidget;
 
     constructor(
@@ -55,11 +59,10 @@ export class DeepDivePage implements OnInit{
         private _seo:SeoService,
         private _router:Router,
         private _render:Renderer,
-        private _eleref:ElementRef
+        private _eleref:ElementRef,
+        private _location:Location
     ) {
-
     }
-
 
     ngOnDestroy(){
       this.routeSubscription.unsubscribe();
@@ -150,7 +153,25 @@ export class DeepDivePage implements OnInit{
         pageScope = 'breaking';
       }
       this._deepDiveData.getCarouselData(pageScope, this.carouselData, '15', '1', this.geoLocation, (carData)=>{
-        this.carouselData = carData;
+        try{
+          if(carData){
+            this.carouselData = carData;
+          } else throw new Error('No article data available');
+        }catch(e){
+          this.errorPage = true;
+          var self=this;
+          var partner = this.partnerID;
+          setTimeout(function () {
+              //removes error page from browser history
+              self._location.replaceState('/');
+              if(partner){
+                self._router.navigateByUrl('/' + partner, 'news');
+              } else {
+                console.log("non partner check");
+                self._router.navigateByUrl('/news-feed');
+              }
+          }, 5000);
+        }
       })
     }
 

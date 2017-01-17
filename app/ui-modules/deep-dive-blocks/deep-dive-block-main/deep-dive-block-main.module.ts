@@ -114,7 +114,6 @@ export class DeepDiveBlockMain implements OnInit {
         var batchNum=this.batchNum;
         var geoLoc= this.geoLocation;
         this._deepDiveData.getDeepDiveBatchService(ctype,count,batchNum,geoLoc).subscribe(data=>{
-            console.log(ctype);
             if(imgMobile==true){
                 data = data.length > 2 ? data.length >=3 && data.length < 6 ? data.splice(0,3) : data.splice(0,6): null;
                 this.commonarticleStack = this._deepDiveData.transformToArticleStack(data, ctype, GlobalSettings._imgMobile);

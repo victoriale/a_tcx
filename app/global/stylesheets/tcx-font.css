@@ -462,3 +462,6 @@
 .fa-external-link-square:before {
   content: "\57";
 }
+.fa-swipe-icon:before {
+  content: "\3a";
+}

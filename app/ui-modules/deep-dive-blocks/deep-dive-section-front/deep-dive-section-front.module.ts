@@ -101,7 +101,7 @@ export class DeepDiveSectionFront implements OnInit {
             this.routeSubscription = this._deepDiveData.getDeepDiveBatchService(this.scope, callLimit, pageCall)
                 .subscribe(data => {
                     if (data) {
-                        this.articleData = this._deepDiveData.transformToArticleStack(data, this.scope);
+                        this.articleData = this._deepDiveData.transformToArticleStack(data, this.category, this.scope);
                         var obj = {
                             stackTop1: this.articleData.length > 0  && pageNum != 1 ? this.articleData.splice(0, 1) : null,//not pageNum 1 so it doesn't repeat on the second set
                             stackRow1: this.articleData.length > 0  && pageNum != 1 ? this.articleData.splice(0, 6) : null,

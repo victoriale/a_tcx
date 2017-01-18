@@ -17,44 +17,19 @@ export class DeepDiveService {
 
   //Function to set custom headers
   setToken(){
-      var headers = new Headers();
-      return headers;
+    var headers = new Headers();
+    return headers;
   }
 
-/*  getDeepDiveBatchService(category: string, limit: number, page: number, state?: string){
-    var headers = this.setToken();
-    var callURL = GlobalSettings.getArticleBatchUrl();
-    //http://dev-tcxmedia-api.synapsys.us/articles?help=1
-    //http://dev-tcxmedia-api.synapsys.us/articles?&keyword[]=food&source[]=snt_ai&source[]=tca-curated&random=1&metaDataOnly=1&page=1&count=5
-    if(limit !== null && page !== null){
-      callURL += '?count=' + limit + '&page=' + page;
-    }
-    if(category == "breaking" || category == "trending"){
-      callURL += '&category=' + category;
-    } else if( GlobalSettings.getTCXscope(category).topScope == 'basketball' || GlobalSettings.getTCXscope(category).topScope == 'football') {
-      callURL += '&subCategory=' + category;
-    } else if(category == "real-estate"){
-      callURL += '&keyword[]=' + category.replace(/-/g, " ");
-    } else {
-      callURL += '&keyword[]=' + category;
-    }
-    callURL += "&source[]=snt_ai&source[]=tca-curated&random=1&metaDataOnly=1";
-    console.log(callURL, "deepdive");
-    return this.http.get(callURL, {headers: headers})
-      .map(res => res.json())
-      .map(data => {
-        return data.data;
-    })
-  }*/
   getDeepDiveBatchService(category: string, limit: number, page: number, state?: string){
     if(category=="real-estate"){
-        category=category.replace(/-/g," ");
+      category=category.replace(/-/g," ");
     };
     let params:URLSearchParams=new URLSearchParams();
 
     if(GlobalSettings.getTCXscope(category).topScope == 'basketball' || GlobalSettings.getTCXscope(category).topScope == 'football'||GlobalSettings.getTCXscope(category).topScope == 'baseball'){
-        params.set("category", "sports");
-        params.set("subCategory",category);
+      params.set("category", "sports");
+      params.set("subCategory",category);
     }else if(category=="breaking"||category=="trending"){
       params.set("category", category)
     }else{
@@ -77,16 +52,16 @@ export class DeepDiveService {
   }
   getCarouselData(scope, data, limit, batch, state, callback:Function) {
     //always returns the first batch of articles
-       this.getDeepDiveBatchService(scope, limit, batch, state)
-       .subscribe(data=>{
-         var transformedData = this.carouselTransformData(data, scope);
-         callback(transformedData);
-       },
-       err => {
-         console.log("Error getting carousel batch data");
-         return this.carouselDummyData();
-       });
-   }
+    this.getDeepDiveBatchService(scope, limit, batch, state)
+        .subscribe(data=>{
+              var transformedData = this.carouselTransformData(data, scope);
+              callback(transformedData);
+            },
+            err => {
+              console.log("Error getting carousel batch data");
+              return this.carouselDummyData();
+            });
+  }
 
   getDeepDiveVideoBatchService(category: string, limit?: number, page?: number, location?: string){
       var headers = this.setToken();
@@ -112,9 +87,9 @@ export class DeepDiveService {
         callURL += '/' + limit + '/' + page;
         if(GlobalSettings.getTCXscope(category).topScope == "nfl" && location !== null){
           callURL += '/' + location;
-        }
       }
-      return this.http.get(callURL, {headers: headers})
+    }
+    return this.http.get(callURL, {headers: headers})
         .map(res => res.json())
         .map(data => {
           if(data.data.length > 0){
@@ -122,150 +97,59 @@ export class DeepDiveService {
           }else{
             return null;
           }
-      })
+        })
   }// getDeepDiveVideoBatchService ENDS
 
-    transformSportVideoBatchData(data: Array<VideoStackData>, scope?){
-      if(data == null || typeof data == "undefined" || data.length == 0){
-        return null;
+  transformSportVideoBatchData(data: Array<VideoStackData>, scope?){
+    if(data == null || typeof data == "undefined" || data.length == 0){
+      return null;
+    }
+    var sampleImage = "/app/public/placeholder_XL.png";
+    var videoBatchArray = [];
+    scope = scope ? scope : "sports";
+    data.forEach(function(val, index){
+      if(val.time_stamp){
+        var date =  moment(Number(val.time_stamp));
+        date = date.format('dddd') + ', ' + date.format('MMM') + date.format('. DD, YYYY');
       }
-      var sampleImage = "/app/public/placeholder_XL.png";
-      var videoBatchArray = [];
-      scope = scope ? scope : "sports";
-      data.forEach(function(val, index){
-        if(val.time_stamp){
-          var date =  moment(Number(val.time_stamp));
-          date = date.format('dddd') + ', ' + date.format('MMM') + date.format('. DD, YYYY');
-        }
-        var keywords = val.keyword ? val.keyword : scope;
-        var d = {
-          id: val.id,
-          keyword: keywords,
-          title: val.title ? val.title : "No Title",
-          time_stamp: date ? date : "",
-          video_thumbnail: val.video_thumbnail ? val.video_thumbnail : sampleImage,
-          embed_url: val.video_url != null ? val.video_url : null,
-          video_url: VerticalGlobalFunctions.formatArticleRoute(keywords, val.id, "video"),
-          keyUrl: VerticalGlobalFunctions.formatSectionFrontRoute(keywords),
-          teaser: val.teaser ? val.teaser : ""
-        }
-        videoBatchArray.push(d);
-      });
-      return videoBatchArray;
-    }// transformDeepDiveVideoBatchData ENDS
-
-    // Article Batch Transformed Data
-    transformToArticleStack(data: Array<ArticleStackData>, scope?, imageSize?){
-      if(data == null){return null;}
-      var sampleImage = "/app/public/placeholder_XL.png";
-      var articleStackArray = [];
-      let route = VerticalGlobalFunctions.getWhiteLabel();
-      imageSize = imageSize ? imageSize : GlobalSettings._imgFullScreen;
-      data.forEach(function(val, index){
-          if(val.article_id != null && typeof val.article_id != 'undefined'){
-            if(val.publication_date || val.last_updated){
-              let d =  val.publication_date ? val.publication_date : val.last_updated;
-              var date = moment.unix(Number(d));
-              date = '<span class="hide-320">' + date.format('dddd') + ', </span>' + date.format('MMM') + date.format('. DD, YYYY');
-            }
-            var key;
-            var routeLink;
-            var extLink;
-            var author = null;
-            var publisher = null;
-            var category = val.article_sub_type ? val.article_sub_type : val.article_type;
-            //keywords note: For articles, get the second keyword if possible, second keyword should be the subcategory for curated articles.
-            if(val.keywords.length > 0 && val.keywords[0] != "none" && val.keywords[0]){
-              if(val.keywords.length > 1 && val.keywords[1] != "none" && val.keywords[1] && val.source != "snt_ai"){
-                key = val.keywords[1];
-              } else {
-                key = val.keywords[0];
-              }
-            } else {
-              if(val.subcategory){
-                key = val.subcategory;
-              } else {
-                key = val.category;
-              }
-            }
-            if(val.source == "snt_ai"){// If AI article then redirect to the corresponding vertical
-              routeLink = GlobalSettings.getOffsiteLink(val.scope, "article", val.article_url);
-              extLink = true;
-            } else {
-              routeLink = scope ? VerticalGlobalFunctions.formatArticleRoute(key.toLowerCase(), val.article_id, "story") : null;
-              extLink = false;
-              author = val.author ? val.author.replace(/by/gi, "") + ", ": null;
-              publisher = author ? val.publisher : "Published by: " + val.publisher;
-            }
-            if(val.teaser){
-              var limitDesc = val.teaser.substr(0, 360);// limit teaser character to 360 count
-              limitDesc = limitDesc.substr(0, Math.min(limitDesc.length, limitDesc.lastIndexOf(" ")));// and not cutting the word
-              if(val.teaser.length > 360 || limitDesc.length < val.teaser.length){
-                limitDesc += "...";
-              }
-            }
-            if(val.title){
-              var limitTitle = val.title.substr(0, 200);//// limit title character to 200 count
-              if(val.title.length > 200 || limitTitle.length < val.title.length){
-                limitTitle += "...";
-              }
-            }
-            var articleStackData = {
-              id: val.article_id,
-              articleUrl: routeLink != "" ? routeLink : route,
-              extUrl: extLink,
-              keyword: key,
-              timeStamp: date ? date : "",
-              title: val.title ? limitTitle : "No title available",
-              author: author,
-              publisher: val.publisher && val.author ? "Written by: " + "<b class='text-master'>" + author + publisher + "</b>": null,
-              teaser: val.teaser ? limitDesc : "No teaser available",
-              imageConfig: {
-                imageClass: "embed-responsive-16by9",
-                imageUrl: val.image_url ? GlobalSettings.getImageUrl(val.image_url, imageSize) : sampleImage,
-                urlRouteArray: routeLink,
-                extUrl: extLink
-              },
-              image_source: val.image_source ? val.image_source : null,
-              citationInfo: {
-                url: val.image_origin_url ? val.image_origin_url : "/",
-                info: (val.image_title ? val.image_title : "") + (val.image_title && val.image_owner ? "/" : "") + (val.image_owner ? val.image_owner : "")
-              },
-              keyUrl: key != "all" && key && typeof key != "underfined" ? VerticalGlobalFunctions.formatSectionFrontRoute(key) : [route]
-            }
-            articleStackArray.push(articleStackData);
-          }
-        });
-        return articleStackArray;
-    }// transformToArticleStack ENDS
-
-    carouselTransformData(arrayData:Array<ArticleStackData>, scope){
-
-      let route = VerticalGlobalFunctions.getWhiteLabel();
-
-      if(arrayData == null || typeof arrayData == 'undefined' || arrayData.length == 0 || arrayData === undefined){
-        return null;
+      var keywords = val.keyword ? val.keyword : scope;
+      var d = {
+        id: val.id,
+        keyword: keywords,
+        title: val.title ? val.title : "No Title",
+        time_stamp: date ? date : "",
+        video_thumbnail: val.video_thumbnail ? val.video_thumbnail : sampleImage,
+        embed_url: val.video_url != null ? val.video_url : null,
+        video_url: VerticalGlobalFunctions.formatArticleRoute(scope, keywords, val.id, "video"),
+        keyUrl: VerticalGlobalFunctions.formatSectionFrontRoute(keywords),
+        teaser: val.teaser ? val.teaser : ""
       }
-      var transformData = [];
-      arrayData.forEach(function(val,index){
-        var curdate = new Date();
-        var curmonthdate = curdate.getDate();
-        let d = val.publication_date ? val.publication_date : val.last_updated;
-        if(d){
-          var timeStamp = moment(Number(d)).format("MMMM Do, YYYY h:mm:ss a");
-        }
+      videoBatchArray.push(d);
+    });
+    return videoBatchArray;
+  }// transformDeepDiveVideoBatchData ENDS
 
-        var routeLink;
-        var extLink;
-        var category = val.article_sub_type ? val.article_sub_type : val.article_type;
-        if(val.source == "snt_ai"){
-          routeLink = GlobalSettings.getOffsiteLink(val.scope, "article", val.article_url);
-          extLink = true;
-        } else {
-          routeLink = VerticalGlobalFunctions.formatArticleRoute(scope, val.article_id, "story");
-          extLink = false;
+  // Article Batch Transformed Data
+  transformToArticleStack(data: Array<ArticleStackData>, topcategory?, scope?, imageSize?){
+    if(data == null){return null;}
+    var sampleImage = "/app/public/placeholder_XL.png";
+    var articleStackArray = [];
+    let route = VerticalGlobalFunctions.getWhiteLabel();
+    imageSize = imageSize ? imageSize : GlobalSettings._imgFullScreen;
+    data.forEach(function(val, index){
+      if(val.article_id != null && typeof val.article_id != 'undefined'){
+        if(val.publication_date || val.last_updated){
+          let d =  val.publication_date ? val.publication_date : val.last_updated;
+          var date = moment.unix(Number(d));
+          date = '<span class="hide-320">' + date.format('dddd') + ', </span>' + date.format('MMM') + date.format('. DD, YYYY');
         }
         var key;
+        var routeLink;
+        var extLink;
+        var author = null;
+        var publisher = null;
+        var category = val.article_sub_type ? val.article_sub_type : val.article_type;
+        //keywords note: For articles, get the second keyword if possible, second keyword should be the subcategory for curated articles.
         if(val.keywords.length > 0 && val.keywords[0] != "none" && val.keywords[0]){
           if(val.keywords.length > 1 && val.keywords[1] != "none" && val.keywords[1] && val.source != "snt_ai"){
             key = val.keywords[1];
@@ -279,56 +163,148 @@ export class DeepDiveService {
             key = val.category;
           }
         }
-
-        let carData = {
-          articlelink: routeLink != "" ? routeLink : route,
+        if(val.source == "snt_ai"){// If AI article then redirect to the corresponding vertical
+          routeLink = GlobalSettings.getOffsiteLink(val.scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id));
+          extLink = true;
+        } else {
+          routeLink = topcategory ? VerticalGlobalFunctions.formatArticleRoute(topcategory, key.toLowerCase(), val.article_id, "story") : null;
+          extLink = false;
+          author = val.author ? val.author.replace(/by/gi, "") + ", ": null;
+          publisher = author ? val.publisher : "Published by: " + val.publisher;
+        }
+        if(val.teaser){
+          var limitDesc = val.teaser.substr(0, 360);// limit teaser character to 360 count
+          limitDesc = limitDesc.substr(0, Math.min(limitDesc.length, limitDesc.lastIndexOf(" ")));// and not cutting the word
+          if(val.teaser.length > 360 || limitDesc.length < val.teaser.length){
+            limitDesc += "...";
+          }
+        }
+        if(val.title){
+          var limitTitle = val.title.substr(0, 200);//// limit title character to 200 count
+          if(val.title.length > 200 || limitTitle.length < val.title.length){
+            limitTitle += "...";
+          }
+        }
+        var articleStackData = {
+          id: val.article_id,
+          articleUrl: routeLink != "" ? routeLink : route,
           extUrl: extLink,
-          source: val.source,
-          report_type: val.report_type,
-          image_url: GlobalSettings.getImageUrl(val['image_url'], GlobalSettings._imgWideScreen),
-          title:  "<span> Today's News: </span>",
-          headline: val['title'],
-          keywords: key ? key : "NEWS",
-          keyUrl: val['keywords'][0] ? VerticalGlobalFunctions.formatSectionFrontRoute(key) : ["/news-feed"],
-          teaser: val['teaser'] ? val['teaser'].replace('_',': ').replace(/<p[^>]*>/g, "") : "",
-          article_id:val['article_id'],
-          article_url: val['article_url'],
-          last_updated: val.publication_date,
+          keyword: key,
+          timeStamp: date ? date : "",
+          title: val.title ? limitTitle : "No title available",
+          author: author,
+          publisher: val.publisher && val.author ? "Written by: " + "<b class='text-master'>" + author + publisher + "</b>": null,
+          teaser: val.teaser ? limitDesc : "No teaser available",
+          imageConfig: {
+            imageClass: "embed-responsive-16by9",
+            imageUrl: val.image_url ? GlobalSettings.getImageUrl(val.image_url, imageSize) : sampleImage,
+            urlRouteArray: routeLink,
+            extUrl: extLink
+          },
           image_source: val.image_source ? val.image_source : null,
           citationInfo: {
             url: val.image_origin_url ? val.image_origin_url : "/",
             info: (val.image_title ? val.image_title : "") + (val.image_title && val.image_owner ? "/" : "") + (val.image_owner ? val.image_owner : "")
-          }
-        };
-        if(carData['teaser'].length >= 200){
-          carData['teaser'].substr(0,200) + '...';
-        }
-        transformData.push(carData);
-      });
-      return transformData;
-    }
-
-    carouselDummyData(){
-      let route = VerticalGlobalFunctions.getWhiteLabel();
-      var sampleImage = "/app/public/placeholder_XL.png";
-      var articleStackData = {
-          article_id: 88,
-          article_url: route,
-          keywords: ['Deep Dive'],
-          source: 'test',
-          report_type: 'report type',
-          image_url: sampleImage,
-          last_updated: moment().format("MMMM Do, YYYY h:mm:ss a"),
-          title: "No title available",
-          author: "",
-          publisher: "",
-          teaser: "No teaser available",
-          imageConfig: {
-            imageClass: "embed-responsive-16by9",
-            imageUrl: sampleImage,
-            urlRouteArray: [route]
           },
+          keyUrl: key != "all" && key && typeof key != "underfined" ? VerticalGlobalFunctions.formatSectionFrontRoute(key) : [route]
         }
-        return [articleStackData];
+        articleStackArray.push(articleStackData);
+      }
+    });
+    return articleStackArray;
+  }// transformToArticleStack ENDS
+
+  carouselTransformData(arrayData:Array<ArticleStackData>, scope){
+
+    let route = VerticalGlobalFunctions.getWhiteLabel();
+
+    if(arrayData == null || typeof arrayData == 'undefined' || arrayData.length == 0 || arrayData === undefined){
+      return null;
     }
+    var transformData = [];
+    arrayData.forEach(function(val,index){
+      var curdate = new Date();
+      var curmonthdate = curdate.getDate();
+      let d = val.publication_date ? val.publication_date : val.last_updated;
+      if(d){
+        var timeStamp = moment(Number(d)).format("MMMM Do, YYYY h:mm:ss a");
+      }
+
+      var routeLink;
+      var extLink;
+      var category = val.article_sub_type ? val.article_sub_type : val.article_type;
+      var key;
+      if(val.keywords.length > 0 && val.keywords[0] != "none" && val.keywords[0]){
+        if(val.keywords.length > 1 && val.keywords[1] != "none" && val.keywords[1] && val.source != "snt_ai"){
+          key = val.keywords[1];
+        } else {
+          key = val.keywords[0];
+        }
+      } else {
+        if(val.subcategory){
+          key = val.subcategory;
+        } else {
+          key = val.category;
+        }
+      }
+      if(val.source == "snt_ai"){
+        routeLink = GlobalSettings.getOffsiteLink(val.scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id));
+        extLink = true;
+      } else {
+        routeLink = VerticalGlobalFunctions.formatArticleRoute(scope, key,val.article_id, "story");
+        extLink = false;
+      }
+
+
+      let carData = {
+        articlelink: routeLink != "" ? routeLink : route,
+        extUrl: extLink,
+        source: val.source,
+        report_type: val.report_type,
+        image_url: GlobalSettings.getImageUrl(val['image_url'], GlobalSettings._imgWideScreen),
+        title:  "<span> Today's News: </span>",
+        headline: val['title'],
+        keywords: key ? key : "NEWS",
+        keyUrl: val['keywords'][0] ? VerticalGlobalFunctions.formatSectionFrontRoute(key) : ["/news-feed"],
+        teaser: val['teaser'] ? val['teaser'].replace('_',': ').replace(/<p[^>]*>/g, "") : "",
+        article_id:val['article_id'],
+        article_url: val['article_url'],
+        last_updated: val.publication_date,
+        image_source: val.image_source ? val.image_source : null,
+        citationInfo: {
+          url: val.image_origin_url ? val.image_origin_url : "/",
+          info: (val.image_title ? val.image_title : "") + (val.image_title && val.image_owner ? "/" : "") + (val.image_owner ? val.image_owner : "")
+        }
+      };
+      if(carData['teaser'].length >= 200){
+        carData['teaser'].substr(0,200) + '...';
+      }
+      transformData.push(carData);
+    });
+    return transformData;
+  }
+
+  carouselDummyData(){
+    let route = VerticalGlobalFunctions.getWhiteLabel();
+    var sampleImage = "/app/public/placeholder_XL.png";
+    var articleStackData = {
+      article_id: 88,
+      article_url: route,
+      keywords: ['Deep Dive'],
+      source: 'test',
+      report_type: 'report type',
+      image_url: sampleImage,
+      last_updated: moment().format("MMMM Do, YYYY h:mm:ss a"),
+      title: "No title available",
+      author: "",
+      publisher: "",
+      teaser: "No teaser available",
+      imageConfig: {
+        imageClass: "embed-responsive-16by9",
+        imageUrl: sampleImage,
+        urlRouteArray: [route]
+      },
+    }
+    return [articleStackData];
+  }
 }// DeepDiveService ENDS

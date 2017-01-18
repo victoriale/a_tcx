@@ -149,6 +149,8 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
                         this.articleData.url= VerticalGlobalFunctions.formatArticleRoute(this.category,this.subcategory,this.articleID,this.eventType);
                         this.iframeUrl = this.articleData.video_url + "&autoplay=on";
                         this.metaTags(this.articleData, this.eventType);
+                        this.getRecomendationData(this.category,this.subcategory, 4, false);
+                        this.getTrendingArticles(this.category,this.subcategory, this.trendingLength, this.eventType, this.articleID, true, this.currentPage);
                     }else throw new Error('oops! No video article data');
                 }
                 catch (e){

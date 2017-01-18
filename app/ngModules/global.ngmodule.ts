@@ -67,6 +67,8 @@ import {NoDataBox} from "../fe-core/components/error/data-box/data-box.component
 //Global custom Directives
 import {verticalWidgetScrollDirective} from "../fe-core/custom-directives/verticalWidgetScroll.directive";
 import {WindowClickDirective} from "../fe-core/custom-directives/windowClick.directive";
+import {touchSwipeDirective} from "../fe-core/custom-directives/touchSwipe.directive";
+import {SwipeIconComponent} from "../fe-core/components/swipe-icon/swipe-icon.component";
 
 @NgModule({
     imports: [
@@ -128,7 +130,9 @@ import {WindowClickDirective} from "../fe-core/custom-directives/windowClick.dir
       NoDataBox,
       verticalWidgetScrollDirective,
       WindowClickDirective,
-      CitationComponent
+      CitationComponent,
+      touchSwipeDirective,
+      SwipeIconComponent
     ],
     exports: [
       CommonModule,
@@ -182,7 +186,9 @@ import {WindowClickDirective} from "../fe-core/custom-directives/windowClick.dir
       NoDataBox,
       verticalWidgetScrollDirective,
       WindowClickDirective,
-      CitationComponent
+      CitationComponent,
+      touchSwipeDirective,
+      SwipeIconComponent
     ],
 })
 export class GlobalModule { }

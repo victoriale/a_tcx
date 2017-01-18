@@ -27,9 +27,7 @@
     <script async src="lib/nonangularlib.min.js"></script> <!--bundled dependencies-->
 
     <!--share this bittons-->
-    <script type="text/javascript">
-        var __st_loadLate=true; //if __st_loadLate is defined then the widget will not load on domcontent ready
-    </script>
+    <script type="text/javascript">var switchTo5x=true;</script>
     <script type="text/javascript" src="https://ws.sharethis.com/button/buttons.js"></script>
 
 
@@ -69,15 +67,15 @@
 
     <!-- Share This button-->
     <script type="text/javascript">
-        if ( window.stLight ) {
-            stLight.options({publisher: "ab81b5e8-9aea-4921-9930-26ce6925e901", doNotHash: false, doNotCopy: false, hashAddressBar: false, onhover: false});
-        }
-        else {
-            window.stButtons = {
-                locateElements: function() {}
-            };
-        }
-    </script>
+      if ( window.stLight ) {
+        stLight.options({publisher: "ab81b5e8-9aea-4921-9930-26ce6925e901", doNotHash: true, doNotCopy: false, hashAddressBar: false, onhover: false});
+      }
+      else {
+        window.stButtons = {
+          locateElements: function() {}
+        };
+      }
+      </script>
     <!-- social share button on home page -->
 
    <!--old Google Analytics

@@ -63,21 +63,30 @@ export class DeepDiveService {
             });
   }
 
-  getDeepDiveVideoBatchService(category: string, limit: number, page: number, location?: string){
-    var headers = this.setToken();
-    var callURL = GlobalSettings.getHeadlineUrl();
-    if(limit === null || typeof limit == 'undefined'){
-      limit = 5;
-      page = 1;
-    }
-    callURL += '/videoBatch/' + category;
-    //http://dev-article-library.synapsys.us/tcx/videoBatch/sports/10/1
-    if(GlobalSettings.getTCXscope(category).topScope == "basketball"){
-      callURL += '/' + page + '/' + limit;
-    } else {
-      callURL += '/' + limit + '/' + page;
-      if(GlobalSettings.getTCXscope(category).topScope == "nfl" && location !== null){
-        callURL += '/' + location;
+  getDeepDiveVideoBatchService(category: string, limit?: number, page?: number, location?: string){
+      var headers = this.setToken();
+      var callURL;
+      if(limit === null || typeof limit == 'undefined'){
+        limit = 5;
+        page = 1;
+      }
+      if(category.toLowerCase() == "ncaaf"){category = "fbs";}
+      if(GlobalSettings.getTCXscope(category).topScope == "football" || GlobalSettings.getTCXscope(category).topScope == "baseball"){
+        callURL = GlobalSettings.getTCXscope(category).verticalApi + '/tcx';
+      } else {
+        callURL = GlobalSettings.getHeadlineUrl();
+      }
+      callURL += '/videoBatch/' + category;
+      //http://dev-article-library.synapsys.us/tcx/videoBatch/sports/10/1
+      //http://qa-homerunloyal-api.synapsys.us/tcx/videoBatch/mlb/5/1
+      //http://qa-touchdownloyal-api.synapsys.us/tcx/videoBatch/nfl/5/1
+      //http://qa-touchdownloyal-api.synapsys.us/tcx/videoBatch/fbs/5/1
+      if(GlobalSettings.getTCXscope(category).topScope == "basketball"){
+        callURL += '/' + page + '/' + limit;
+      } else {
+        callURL += '/' + limit + '/' + page;
+        if(GlobalSettings.getTCXscope(category).topScope == "nfl" && location !== null){
+          callURL += '/' + location;
       }
     }
     return this.http.get(callURL, {headers: headers})
@@ -113,7 +122,7 @@ export class DeepDiveService {
         embed_url: val.video_url != null ? val.video_url : null,
         video_url: VerticalGlobalFunctions.formatArticleRoute(scope, keywords, val.id, "video"),
         keyUrl: VerticalGlobalFunctions.formatSectionFrontRoute(keywords),
-        teaser: val.teaser
+        teaser: val.teaser ? val.teaser : ""
       }
       videoBatchArray.push(d);
     });

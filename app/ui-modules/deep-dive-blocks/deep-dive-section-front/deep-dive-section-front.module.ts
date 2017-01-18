@@ -130,10 +130,11 @@ export class DeepDiveSectionFront implements OnInit {
 
     //get all video data on page
     getDeepDiveVideo(pageNum) {
+        pageNum++;
         if (this.callVideoApi && pageNum > 0) {
             this._deepDiveData.getDeepDiveVideoBatchService(this.scope, this.videoCallLimit, pageNum, this.geoLocation).subscribe(
                 data => {
-                    if (data && pageNum != 1) {
+                    if (data) {
                         this.videoDataBatch = this._deepDiveData.transformSportVideoBatchData(data, this.scope);
                         this.callVideoApi = true;
                     } else {

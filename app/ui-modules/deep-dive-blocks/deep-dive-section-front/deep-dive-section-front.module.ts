@@ -28,6 +28,7 @@ export class DeepDiveSectionFront implements OnInit {
     boxScoresScroll: boolean = true;
     currentBoxScores: any;
     dateParam: any;
+    articlesperPage:any;
     newArray: Array<any> = [];
     videoDataTop: Array<VideoStackData>;
     videoDataBatch: Array<VideoStackData>;
@@ -44,7 +45,7 @@ export class DeepDiveSectionFront implements OnInit {
         var footer = document.getElementById('footer');
         var footerHeight=footer?footer.offsetHeight:0;
 
-        if(window.innerHeight + scrollTop >= bodyHeight ){
+        if(window.innerHeight + scrollTop >= bodyHeight && this.callArticleApi){
             //fire when scrolled into footer
             this.blockIndex = this.blockIndex + 1;
             this.callModules(this.blockIndex);
@@ -63,9 +64,10 @@ export class DeepDiveSectionFront implements OnInit {
 
     ngOnInit() {
         window.scrollTo(0, 0);
+        this.callModules(this.blockIndex);
         this.createSearchBox(this.scope);
         this.getDateParams();
-        this.callModules(this.blockIndex);
+
     }
 
     ngOnChanges(event) {
@@ -81,51 +83,71 @@ export class DeepDiveSectionFront implements OnInit {
             if (this.dateParam == null) {
                 this.getDateParams();
             }
-            this.blockIndex = 0;
             this.newArray = [];
             this.callArticleApi = true;
             this.callVideoApi = true;
             this.articleData = null;
             this.createSearchBox(this.scope);
-            this.callModules(this.blockIndex);
+
         }
     }
 
     //get all article data on page
     getArticleStackData(pageNum) {
-        if (this.callArticleApi) {
             this.callArticleApi = false;
             //Temp fix until this gets refactored correctly to make a more dynamic call instead of splicing a large call Limit
             let callLimit = pageNum == 0 ? 13 : this.articleCallLimit;
-            let pageCall = pageNum == 0 ? 1 : pageNum;
+            let pageCall = pageNum;
             this.routeSubscription = this._deepDiveData.getDeepDiveBatchService(this.scope, callLimit, pageCall)
                 .subscribe(data => {
-                    if (data) {
-                        this.articleData = this._deepDiveData.transformToArticleStack(data, this.category, this.scope);
-                        var obj = {
-                            stackTop1: this.articleData.length > 0  && pageNum != 1 ? this.articleData.splice(0, 1) : null,//not pageNum 1 so it doesn't repeat on the second set
-                            stackRow1: this.articleData.length > 0  && pageNum != 1 ? this.articleData.splice(0, 6) : null,
-                            recData1: this.articleData.length > 2  && pageNum != 1 ? this.articleData.length >= 3 && this.articleData.length < 6 ? this.articleData.splice(0, 3) : this.articleData.splice(0, 6) : null,
-                            stackTop2: this.articleData.length > 0 ? this.articleData.splice(0, 1) : null,
-                            stackRow2: this.articleData.length > 0 ? this.articleData.splice(0, 6) : null,
-                            stackTop3: this.articleData.length > 0 ? this.articleData.splice(0, 1) : null,
-                            stackRow3: this.articleData.length > 0 ? this.articleData.splice(0, 4) : null,
-                            recData2: this.articleData.length > 2  && pageNum != 1 ? this.articleData.length >= 3 && this.articleData.length < 6 ? this.articleData.splice(0, 3) : this.articleData.splice(0, 6) : null,
-                        };
-                        this.newArray.push(obj);
-                        if(data.length < callLimit){
-                          this.callArticleApi = false;
-                        } else {
-                          this.callArticleApi = true;
-                        }
-                    } else {
+                    try{
+                        if (data) {
+                            this.articleData = this._deepDiveData.transformToArticleStack(data, this.category, this.scope);
+                            if(pageNum == 0){
+                                this.articlesperPage = {
+                                    stackTop1: this.articleData.length > 0 ? this.articleData.splice(0, 1) : null,//not pageNum 1 so it doesn't repeat on the second set
+                                    stackRow1: this.articleData.length > 0   ? this.articleData.splice(0, 6) : null,
+                                    recData1: this.articleData.length>3?this.articleData.length >= 3 && this.articleData.length < 6 ? this.articleData.splice(0, 3) : this.articleData.splice(0, 6):null,
+                                };
+                            }else if(pageNum ==1){
+                                this.articlesperPage = {
+                                    stackTop2: this.articleData.length > 0 ? this.articleData.splice(0, 1) : null,
+                                    stackRow2: this.articleData.length > 0 ? this.articleData.splice(0, 6) : null,
+                                    stackTop3: this.articleData.length > 0 ? this.articleData.splice(0, 1) : null,
+                                    stackRow3: this.articleData.length > 0 ? this.articleData.splice(0, 4) : null,
+                                    recData2: this.articleData.length>3?this.articleData.length >= 3 && this.articleData.length < 6 ? this.articleData.splice(0, 3) : this.articleData.splice(0, 6):null,
+                                };
+                            }
+                            else{
+                                this.articlesperPage = {
+                                    stackTop1: this.articleData.length > 0 && pageNum!=1? this.articleData.splice(0, 1) : null,//not pageNum 1 so it doesn't repeat on the second set
+                                    stackRow1: this.articleData.length > 0 && pageNum!=1   ? this.articleData.splice(0, 6) : null,
+                                    recData1: this.articleData.length>3?this.articleData.length >= 3 && this.articleData.length < 6 ? this.articleData.splice(0, 3) : this.articleData.splice(0, 6):null,
+                                    stackTop2: this.articleData.length > 0 ? this.articleData.splice(0, 1) : null,
+                                    stackRow2: this.articleData.length > 0 ? this.articleData.splice(0, 6) : null,
+                                    stackTop3: this.articleData.length > 0 ? this.articleData.splice(0, 1) : null,
+                                    stackRow3: this.articleData.length > 0 ? this.articleData.splice(0, 4) : null,
+                                    recData2: this.articleData.length>3?this.articleData.length >= 3 && this.articleData.length < 6 ? this.articleData.splice(0, 3) : this.articleData.splice(0, 6):null,
+                                };
+                            }
+
+                            this.newArray.push(this.articlesperPage);
+                            if(data.length < callLimit){
+                                this.callArticleApi = false;
+                            } else {
+                                this.callArticleApi = true;
+                            }
+                        } else throw new Error('Article stack have no articles');
+
+                    } catch(e){
                         this.callArticleApi = false;
+                        console.log(e.message);
                     }
+
                 },
                 err => {
                     console.log("Error getting article data:", err);
                 });
-        }
     }
 
     //get all video data on page

@@ -84,10 +84,13 @@ export class DeepDiveSectionFront implements OnInit {
                 this.getDateParams();
             }
             this.newArray = [];
+            this.blockIndex=0;
             this.callArticleApi = true;
             this.callVideoApi = true;
             this.articleData = null;
             this.createSearchBox(this.scope);
+            this.callModules(this.blockIndex);
+
 
         }
     }

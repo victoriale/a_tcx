@@ -193,7 +193,7 @@ export class DeepDiveService {
           timeStamp: date ? date : "",
           title: val.title ? limitTitle : "No title available",
           author: author,
-          publisher: val.publisher && val.author ? "Written by: " + "<b class='text-master'>" + author + publisher + "</b>": null,
+          publisher: val.publisher && val.author ? "Written By: " + "<b class='text-master'>" + author + publisher + "</b>": null,
           teaser: val.teaser ? limitDesc : "No teaser available",
           imageConfig: {
             imageClass: "embed-responsive-16by9",

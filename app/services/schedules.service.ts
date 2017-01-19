@@ -341,6 +341,7 @@ export class SchedulesService {
                             break;
                         case "postponed":
                             data.data[n].reportDisplay = "GAME IS POSTPONED";
+                            data.data[n].reportLink = GlobalSettings.getOffsiteLink(scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'pregame-report', data.data[n].eventId));
                             break;
                         default:
                             data.data[n].reportDisplay = "GAME REPORT";
@@ -427,6 +428,7 @@ export class SchedulesService {
                             break;
                         case "postponed":
                             data.data[n].reportDisplay = "GAME POSTPONED";
+                            data.data[n].reportLink = GlobalSettings.getOffsiteLink(scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(scope, 'pre-game-report', data.data[n].eventId));
                             break;
                         default:
                             data.data[n].reportDisplay = "GAME REPORT";

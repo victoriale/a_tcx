@@ -231,6 +231,8 @@
 
 
 
+
+
 .fa-tdl-football:before {
   content: "\68";
 }
@@ -239,9 +241,6 @@
 }
 .fa-clock:before {
   content: "\71";
-}
-.fa-search-icon:before {
-  content: "\72";
 }
 .fa-phone:before {
   content: "\75";
@@ -414,9 +413,6 @@
 .fa-dribble:before {
   content: "\48";
 }
-.fa-strikeouts:before {
-  content: "\7a";
-}
 .fa-play-circle:before {
   content: "\50";
 }
@@ -432,9 +428,6 @@
 .fa-sliders:before {
   content: "\54";
 }
-.fa-arrow-right-thin:before {
-  content: "\55";
-}
 .fa-heart-o:before {
   content: "\56";
 }
@@ -447,21 +440,33 @@
 .fa-comments-o:before {
   content: "\2d";
 }
-.fa-icon-food:before {
-  content: "\2c";
-}
-.fa-icon-nhl:before {
-  content: "\2e";
-}
-.fa-box-scores:before {
-  content: "\2f";
+.fa-strikeouts:before {
+  content: "\7a";
 }
 .fa-mail-forward:before {
   content: "\4d";
+}
+.fa-search-icon-01:before {
+  content: "\72";
 }
 .fa-external-link-square:before {
   content: "\57";
 }
 .fa-swipe-icon:before {
   content: "\3a";
+}
+.fa-fill-1:before {
+  content: "\55";
+}
+.fa-icon-box-scores:before {
+  content: "\2c";
+}
+.fa-icon-food:before {
+  content: "\2e";
+}
+.fa-invest-kit-icon:before {
+  content: "\2f";
+}
+.fa-icon-nhl:before {
+  content: "\3b";
 }

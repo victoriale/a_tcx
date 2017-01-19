@@ -103,7 +103,6 @@ export class DeepDiveSectionFront implements OnInit {
                     try{
                         if (data) {
                             this.articleData = this._deepDiveData.transformToArticleStack(data, this.category, this.scope);
-                            console.log(this.articleData.length, this.articleData, "length now");
                             if(pageNum == 0){
                                 this.articlesperPage = {
                                     stackTop1: this.articleData.length > 0 ? this.articleData.splice(0, 1) : null,//not pageNum 1 so it doesn't repeat on the second set

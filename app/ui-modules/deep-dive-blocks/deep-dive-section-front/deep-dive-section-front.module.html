@@ -5,11 +5,11 @@
       <article-stack-1-module [stackTop]="item.stackTop1" [stackRow]="item.stackRow1"></article-stack-1-module>
     </div>
     <!-- VIDEO STACK -->
-    <div *ngIf="videoDataBatch" class="deep-dive-module">
-      <deep-dive-video-module [videoData]="videoDataBatch"></deep-dive-video-module>
+    <div *ngIf="item.videoStack" class="deep-dive-module">
+      <deep-dive-video-module [videoData]="item.videoStack"></deep-dive-video-module>
     </div>
     <!-- WIDGET -->
-    <div *ngIf="videoDataBatch && item.stackTop1" class="responsive-widget">
+    <div *ngIf="item.videoStack && item.stackTop1" class="responsive-widget">
       <responsive-widget [category]="category" [subCategory]="scope"></responsive-widget>
     </div>
     <!-- SEARCH BOX FOR TYPE 2 ONLY and NOT WEATHER-->

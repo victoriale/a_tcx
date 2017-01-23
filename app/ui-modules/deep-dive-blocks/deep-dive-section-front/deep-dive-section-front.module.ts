@@ -5,6 +5,7 @@ import { BoxScoresService } from '../../../services/box-scores.service';
 import { GlobalSettings } from "../../../global/global-settings";
 import { VerticalGlobalFunctions } from "../../../global/vertical-global-functions";
 import {GlobalFunctions} from "../../../global/global-functions";
+import { NgClass } from '@angular/common';
 
 declare var moment;
 declare var jQuery: any;
@@ -36,6 +37,7 @@ export class DeepDiveSectionFront implements OnInit {
     searchData: any;
     routeSubscription: any;
     urlScope: any;
+    imgSize: number;
     constructor(private _boxScoresService: BoxScoresService, private _deepDiveData: DeepDiveService) { }
 
     private onScroll(event) {

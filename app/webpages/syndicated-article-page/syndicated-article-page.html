@@ -17,7 +17,7 @@
                 <!-- <div *ngIf="eventType == 'story'" class="carousel-container">
                   <images-media-carousel [imageData]="imageData" [copyright]="copyright" [imageTitle]="imageTitle"></images-media-carousel>
                 </div> -->
-                <div *ngIf="imageData.length!=0" class="carousel-container" id="rectangleCarousel">
+                <div *ngIf="imageData" class="carousel-container" id="rectangleCarousel">
                     <images-media-carousel [isProfilePage]="false" [imageData]="imageData" [copyright]="copyright" [imageTitle]="imageTitle"></images-media-carousel>
                 </div>
               </section>

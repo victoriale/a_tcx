@@ -66,23 +66,17 @@ export class SyndicateArticleService {
         mainArticleData['author'] = artwriter;
         mainArticleData['publisher'] = data.publisher;
         mainArticleData['publishedDate'] = GlobalFunctions.sntGlobalDateFormatting(data.publication_date, 'timeZone');
-        if (data.article_data.images === null || typeof data.article_data.images == 'undefined' || data.article_data.images.length == 0) {
-            if(data.image_url!=null ||data.image_url!= undefined){
-                imageData[0]=GlobalSettings.getImageUrl(data.image_url, GlobalSettings._imgLgScreen);
-            }else{
-                mainArticleData['is_stock']=true;
-            }
-        } else {
-            var imageLength = data.article_data.images.length;
-            for (var i = 0; i < imageLength; i++) {
-                imageData[imageData.length] = GlobalSettings.getImageUrl(data.article_data.images[i].image_url, GlobalSettings._imgLgScreen);
-                copyright[copyright.length] = data.article_data.images[i].image_copyright;
-                imageTitle[imageTitle.length] = data.article_data.images[i].image_title;
-            }
+        var imageLength = data.article_data.images.length;
+        if(imageLength > 0){
+          for (var i = 0; i < imageLength; i++) {
+            imageData[imageData.length] = GlobalSettings.getImageUrl(data.article_data.images[i].image_url, GlobalSettings._imgLgScreen);
+            copyright[copyright.length] = data.article_data.images[i].image_copyright;
+            imageTitle[imageTitle.length] = data.article_data.images[i].image_title;
+          }
         }
-        mainArticleData['imageData'] = imageData;
-        mainArticleData['imageTitle'] = imageTitle;
-        mainArticleData['copyright'] = copyright;
+        mainArticleData['imageData'] = imageLength > 0 ? imageData : null;
+        mainArticleData['imageTitle'] = imageTitle ? imageTitle : null;
+        mainArticleData['copyright'] = copyright ? copyright : null;
         mainArticleData['is_stock'] = data.is_stock_photo;
         if(data.keywords.length > 0 && data.keywords[0] != "none" && data.keywords[0]){
             if(data.keywords.length > 1 && data.keywords[1] != "none" && data.keywords[1]){

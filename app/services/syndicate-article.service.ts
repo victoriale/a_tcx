@@ -48,14 +48,6 @@ export class SyndicateArticleService {
             'trendingKeyword':'',
 
         };
-        if(data.author){
-            let authorArray = data.author.split(' ');
-            if(authorArray[0] =='By'){
-                for(var i=1;i<authorArray.length;i++){artwriter += authorArray[i] + ' ';}
-            }else{
-                for(var i=0;i<authorArray.length;i++){artwriter += authorArray[i] + ' ';}
-            }
-        }
         if(data.is_stock_photo && data.is_stock_photo==true){
             mainArticleData['is_stock']=true;
         }else{
@@ -63,7 +55,7 @@ export class SyndicateArticleService {
         }
         mainArticleData['url'] = VerticalGlobalFunctions.formatArticleRoute(c, sc, ai, et);
         mainArticleData['title'] = data.title.replace(/\'/g, "'");
-        mainArticleData['author'] = artwriter;
+        mainArticleData['author'] = data.author ? data.author.replace(/by/gi, "") + ", ": null;
         mainArticleData['publisher'] = data.publisher;
         mainArticleData['publishedDate'] = GlobalFunctions.sntGlobalDateFormatting(data.publication_date, 'timeZone');
         if (data.article_data.images === null || typeof data.article_data.images == 'undefined' || data.article_data.images.length == 0) {
@@ -163,9 +155,9 @@ export class SyndicateArticleService {
                         urlRouteArray: val.source != "snt_ai" ? VerticalGlobalFunctions.formatArticleRoute(c, scope, val.article_id, articleType) : GlobalSettings.getOffsiteLink(val.scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id)),
                         imageDesc: "",
                     },
-                    citationInfo: {//TODO
-                        url: "/",
-                        info: "title/author"
+                    citationInfo: {
+                      url: val.image_origin_url ? val.image_origin_url : "/",
+                      info: (val.image_title ? val.image_title : "") + (val.image_title && val.image_owner ? "/" : "") + (val.image_owner ? val.image_owner : "")
                     },
                     keyword: val.keywords.length>0? val.keywords[0].toUpperCase():scope,
                     timeStamp: date,
@@ -189,29 +181,23 @@ export class SyndicateArticleService {
         data.forEach(function(val, index) {
             var category = val.article_sub_type ? val.article_sub_type : val.article_type;
             val["date"] = GlobalFunctions.sntGlobalDateFormatting(val.publication_date, 'timeZone');
-            val["image"] = val.image_url != null ? GlobalSettings.getImageUrl(val.image_url, GlobalSettings._imgFullScreen) : GlobalSettings.getImageUrl(placeholder);
-            val["content"]=val.teaser;
             val['extUrl']=val.source!="snt_ai"?false:true;
+            val["content"]=val.teaser;
             val["url"] = val.source!="snt_ai"?VerticalGlobalFunctions.formatArticleRoute(c, scope, val.article_id, articleType):GlobalSettings.getOffsiteLink(val.scope,"article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id));
             val['teaser']=val.teaser?val.teaser:val.article_data.article[0];
-            var articleWriter='';
-            if(val.author){
-                let authorArray = val.author.split(' ');
-                if(authorArray[0] =='By'){
-                    for(var i=1;i<authorArray.length;i++) {
-                        articleWriter += authorArray[i] + ' ';
-                    }
-                }else{
-                    for(var i=0;i<authorArray.length;i++) {
-                        articleWriter += authorArray[i] + ' ';
-                    }
-                }
-            }
-            val['citationInfo'] = {//TODO
-                url: "/",
-                info: "title/author"
+            val["imageConfig"]={
+              imageClass: "embed-responsive-16by9",
+              imageUrl: val.image_url ? GlobalSettings.getImageUrl(val.image_url, 620) : placeholder,
+              urlRouteArray: val["url"],
+              extUrl: val['extUrl']
             };
-            val['author']=articleWriter;
+
+            var articleWriter='';
+            val['citationInfo'] = {
+              url: val.image_origin_url ? val.image_origin_url : "/",
+              info: (val.image_title ? val.image_title : "") + (val.image_title && val.image_owner ? "/" : "") + (val.image_owner ? val.image_owner : "")
+            };
+            val['author']=val.author ? val.author.replace(/by/gi, "") + ", ": null;
             val['title']= val.title? val.title.replace(/\'/g, "'"): "";
         })
         return data;

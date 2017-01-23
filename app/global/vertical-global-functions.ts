@@ -80,22 +80,29 @@ export class VerticalGlobalFunctions {
     }
   }
 
-  static formatArticleRoute(category: string, articleID: string, articleType: string): Array<any> {
+  static formatArticleRoute(category: string, subcategory:string, articleID: string, articleType: string): Array<any> {
     var articleRoute: Array<any>;
     let route = this.getWhiteLabel();
     if(category === null){
       return ['Error-page'];
     }
-    if(GlobalSettings.getTCXscope(category).parentScope != null){
-      articleRoute = [route, GlobalSettings.getTCXscope(category).parentScope, category, 'article', articleType, articleID];
+    if(category=="real-estate"){
+      category=category.replace(/-/g," ");
+    };
+
+    if (category==subcategory){
+      articleRoute = [route,subcategory, 'article', articleType, articleID];
+    } else if(GlobalSettings.getTCXscope(subcategory).parentScope != null){
+      articleRoute = [route, GlobalSettings.getTCXscope(subcategory).parentScope, subcategory, 'article', articleType, articleID];
     } else {
-      articleRoute = [route, category, 'article', articleType, articleID];
+      articleRoute = [route, category, subcategory, 'article', articleType, articleID];
     }
     return articleRoute ? articleRoute : ['Error-page'];
   }
 
   static formatExternalArticleRoute(scope, articleType: string, articleID: string) {
-    if (scope == "nfl" || scope == "ncaaf") {
+    if (scope == "nfl" || scope == "ncaaf" || scope == "nba" || scope == "ncaam") {
+      if(scope == "ncaam"){scope = "ncaa";}
       var output = "/" + scope + "/articles/"+ articleType + "/" + articleID;
     }
     else {

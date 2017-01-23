@@ -104,7 +104,7 @@ export class SideScrollSchedule{
         this.titleIcon = this.sideScrollData.current.current_icon;
           break;
       case "business":
-        this.titleText = "Today's Gainers: All Exchanges"
+        this.titleText = "Today's Gainers<span class='hide-mobile'>: All Exchanges</span>";
         this.titleIcon = "fa-briefcase-case-two";
           break;
       case "football":

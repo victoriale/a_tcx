@@ -128,7 +128,7 @@ export class SyndicateArticleService {
         if(typeof trending==='undefined') {
             params.set("random","1");
             this.headerOptions.search=params;
-            let callURL = GlobalSettings.getArticleBatchUrl()+"?&source[]=snt_ai&source[]=tca-curated";
+            let callURL = GlobalSettings.getArticleBatchUrl()+"?&source[]=snt_ai&source[]=tca-curated&source[]=tronc";
             return this._http.get(callURL, this.headerOptions)
                 .map(res => res.json())
                 .map(data => {

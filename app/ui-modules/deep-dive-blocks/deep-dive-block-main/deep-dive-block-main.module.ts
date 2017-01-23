@@ -151,7 +151,7 @@ export class DeepDiveBlockMain implements OnInit {
       var callMethodByIndex={
           0:function(){
                  self.getArticleStackData("breaking",7,false);
-              self.getArticleStackData("sports",6,true);
+                 self.getArticleStackData("sports",6,true);
           },
           1:function(){
               self.getArticleStackData("business",7,false);

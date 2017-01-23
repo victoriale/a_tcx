@@ -40,7 +40,7 @@ export class DeepDiveService {
     params.set("random","1");
     params.set("metaDataOnly","1");
     this.options.search=params;
-    let callURL = GlobalSettings.getArticleBatchUrl()+"?&source[]=snt_ai&source[]=tca-curated";
+    let callURL = GlobalSettings.getArticleBatchUrl()+"?&source[]=snt_ai&source[]=tca-curated&source[]=tronc";
 
     return this.http.get(callURL, this.options)
         .map(res => res.json())

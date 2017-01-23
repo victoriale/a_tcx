@@ -29,6 +29,7 @@ export class DeepDiveSectionFront implements OnInit {
     boxScoresScroll: boolean = true;
     currentBoxScores: any;
     dateParam: any;
+    articlesperPage:any;
     newArray: Array<any> = [];
     videoDataTop: Array<VideoStackData>;
     videoDataBatch: Array<VideoStackData>;
@@ -46,7 +47,7 @@ export class DeepDiveSectionFront implements OnInit {
         var footer = document.getElementById('footer');
         var footerHeight=footer?footer.offsetHeight:0;
 
-        if(window.innerHeight + scrollTop >= bodyHeight ){
+        if(window.innerHeight + scrollTop >= bodyHeight && this.callArticleApi){
             //fire when scrolled into footer
             this.blockIndex = this.blockIndex + 1;
             this.callModules(this.blockIndex);
@@ -54,8 +55,9 @@ export class DeepDiveSectionFront implements OnInit {
     } //onScroll
 
     callModules(pageNum) {
-        this.getDeepDiveVideo(pageNum);
-        this.getArticleStackData(pageNum);
+        //this.getDeepDiveVideo(pageNum);
+        //this.getArticleStackData(pageNum);
+        this.getSectionFrontContentPerScroll(pageNum);
         if (GlobalSettings.getTCXscope(this.scope).showBoxScores) {
             this.getBoxScores(this.dateParam);
         } else {
@@ -65,9 +67,10 @@ export class DeepDiveSectionFront implements OnInit {
 
     ngOnInit() {
         window.scrollTo(0, 0);
+        //this.callModules(this.blockIndex);
         this.createSearchBox(this.scope);
         this.getDateParams();
-        this.callModules(this.blockIndex);
+
     }
 
     ngOnChanges(event) {
@@ -83,72 +86,17 @@ export class DeepDiveSectionFront implements OnInit {
             if (this.dateParam == null) {
                 this.getDateParams();
             }
-            this.blockIndex = 0;
             this.newArray = [];
+            this.blockIndex=0;
             this.callArticleApi = true;
             this.callVideoApi = true;
             this.articleData = null;
             this.createSearchBox(this.scope);
             this.callModules(this.blockIndex);
+
+
         }
     }
-
-    //get all article data on page
-    getArticleStackData(pageNum) {
-        if (this.callArticleApi) {
-            this.callArticleApi = false;
-            //Temp fix until this gets refactored correctly to make a more dynamic call instead of splicing a large call Limit
-            let callLimit = pageNum == 0 ? 13 : this.articleCallLimit;
-            let pageCall = pageNum == 0 ? 1 : pageNum;
-            this.routeSubscription = this._deepDiveData.getDeepDiveBatchService(this.scope, callLimit, pageCall)
-                .subscribe(data => {
-                    if (data) {
-                        this.articleData = this._deepDiveData.transformToArticleStack(data, this.category, this.scope);
-                        var obj = {
-                            stackTop1: this.articleData.length > 0  && pageNum != 1 ? this.articleData.splice(0, 1) : null,//not pageNum 1 so it doesn't repeat on the second set
-                            stackRow1: this.articleData.length > 0  && pageNum != 1 ? this.articleData.splice(0, 6) : null,
-                            recData1: this.articleData.length > 2  && pageNum != 1 ? this.articleData.length >= 3 && this.articleData.length < 6 ? this.articleData.splice(0, 3) : this.articleData.splice(0, 6) : null,
-                            stackTop2: this.articleData.length > 0 ? this.articleData.splice(0, 1) : null,
-                            stackRow2: this.articleData.length > 0 ? this.articleData.splice(0, 6) : null,
-                            stackTop3: this.articleData.length > 0 ? this.articleData.splice(0, 1) : null,
-                            stackRow3: this.articleData.length > 0 ? this.articleData.splice(0, 4) : null,
-                            recData2: this.articleData.length > 2  && pageNum != 1 ? this.articleData.length >= 3 && this.articleData.length < 6 ? this.articleData.splice(0, 3) : this.articleData.splice(0, 6) : null,
-                        };
-                        this.newArray.push(obj);
-                        if(data.length < callLimit){
-                          this.callArticleApi = false;
-                        } else {
-                          this.callArticleApi = true;
-                        }
-                    } else {
-                        this.callArticleApi = false;
-                    }
-                },
-                err => {
-                    console.log("Error getting article data:", err);
-                });
-        }
-    }
-
-    //get all video data on page
-    getDeepDiveVideo(pageNum) {
-        pageNum++;
-        if (this.callVideoApi && pageNum > 0) {
-            this._deepDiveData.getDeepDiveVideoBatchService(this.scope, this.videoCallLimit, pageNum, this.geoLocation).subscribe(
-                data => {
-                    if (data) {
-                        this.videoDataBatch = this._deepDiveData.transformSportVideoBatchData(data, this.scope);
-                        this.callVideoApi = true;
-                    } else {
-                        this.callVideoApi = false;
-                        this.videoDataBatch = null;
-                    }
-                },
-                err => {
-                    console.log("Error getting video batch data:", err);
-                });
-        }
-    } //getDeepDiveVideo
 
     //API for Box Scores
     private getBoxScores(dateParams?) {
@@ -157,6 +105,7 @@ export class DeepDiveSectionFront implements OnInit {
             this.dateParam = dateParams;
         }
         this._boxScoresService.getBoxScores(this.boxScoresData, this.dateParam.scope, this.dateParam, (boxScoresData, currentBoxScores) => {
+
             this.boxScoresData = boxScoresData;
             this.currentBoxScores = currentBoxScores;
             // this.safeCounter = 0;
@@ -263,4 +212,63 @@ export class DeepDiveSectionFront implements OnInit {
             date: moment.tz(currentUnixDate, 'America/New_York').format('YYYY-MM-DD')
         }
     } //getDateParams
+
+    //section front content
+    getSectionFrontContentPerScroll(pageNum){
+        var currentPageObject = new Object();
+        var passPage=pageNum + 1;
+        let pageCall = pageNum;
+        let callLimit = pageNum == 0 ? 13 : this.articleCallLimit;
+        if(this.callVideoApi){
+            this._deepDiveData.getDeepDiveVideoBatchService(this.scope, this.videoCallLimit, passPage, this.geoLocation).subscribe(
+                data => {
+                    try{
+                        if (data) {
+                            if(pageNum!=1){
+                                currentPageObject['videoStack'] = this._deepDiveData.transformSportVideoBatchData(data, this.scope);
+                                this.callVideoApi = true;
+                            } else {
+                                currentPageObject['videoStack']=null
+                            }
+
+                        } else throw new Error(' No video articles for this category')
+                    }catch(e){
+                        this.callVideoApi = false;
+                        currentPageObject['videoStack']=null;
+                        console.log(e.message);
+                    }
+
+                });
+        }
+
+        if(this.callArticleApi){
+            this.routeSubscription=this._deepDiveData.getDeepDiveBatchService(this.scope, callLimit, pageCall)
+                .subscribe(data => {
+                    try{
+                        if (data) {
+                            this.articleData = this._deepDiveData.transformToArticleStack(data, this.category, this.scope);
+                            currentPageObject['stackTop1'] = this.articleData.length&&pageNum!=1?this.articleData.splice(0, 1):null;//not pageNum 1 so it doesn't repeat on the second set
+                            currentPageObject['stackRow1'] = this.articleData.length&&pageNum!=1?this.articleData.splice(0, 6):null;
+                            currentPageObject['recData1'] =  this.articleData.length>3 && pageNum!=1? this.articleData.length < 6 && pageNum!=1? this.articleData.splice(0, 3) : this.articleData.splice(0, 6):null;
+                            currentPageObject['stackTop2'] =  this.articleData.length?this.articleData.splice(0, 1):null;
+                            currentPageObject['stackRow2'] = this.articleData.length?this.articleData.splice(0, 6):null;
+                            currentPageObject['stackTop3'] =  this.articleData.length?this.articleData.splice(0, 1):null;
+                            currentPageObject['stackRow3'] =  this.articleData.length?this.articleData.splice(0, 4):null;
+                            currentPageObject['recData2'] =this.articleData.length>3?this.articleData.length >= 3 && this.articleData.length < 6 ? this.articleData.splice(0, 3) : this.articleData.splice(0, 6):null;
+                            this.newArray.push(currentPageObject);
+                            if(data.length < callLimit){
+                                this.callArticleApi = false;
+                            }
+                        }else throw new Error('Article stack have no articles');
+                    }catch(e){
+                        this.callArticleApi = false;
+                        console.log(e.message);
+                    }
+
+                });
+        }
+
+    }
 }
+
+

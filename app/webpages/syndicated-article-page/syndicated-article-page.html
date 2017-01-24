@@ -17,7 +17,7 @@
                 <!-- <div *ngIf="eventType == 'story'" class="carousel-container">
                   <images-media-carousel [imageData]="imageData" [copyright]="copyright" [imageTitle]="imageTitle"></images-media-carousel>
                 </div> -->
-                <div *ngIf="imageData.length!=0" class="carousel-container" id="rectangleCarousel">
+                <div *ngIf="imageData" class="carousel-container" id="rectangleCarousel">
                     <images-media-carousel [isProfilePage]="false" [imageData]="imageData" [copyright]="copyright" [imageTitle]="imageTitle"></images-media-carousel>
                 </div>
               </section>
@@ -30,7 +30,7 @@
                 <div class="arpt col-xs-12 col-xl-9">
                     <!-- ARTICLE INFORMATION -->
                     <section class="arpt-info row">
-                      <div *ngIf="eventType == 'story' && articleData.publisher" class="arpt-author col-sm-12 col-md-6">Written By: <span class="text-master" [innerHTML]="articleData.author | safeHtml"></span>, &nbsp;<span class="text-master" [innerHTML]="articleData.publisher | safeHtml"></span></div>
+                      <div *ngIf="eventType == 'story' && articleData.publisher" class="arpt-author col-sm-12 col-md-6">Written By: <span class="text-master" [innerHTML]="articleData.author | safeHtml"></span><span class="text-master" [innerHTML]="articleData.publisher | safeHtml"></span></div>
                       <div *ngIf="eventType == 'story' && articleData.publisher" class="arpt-date col-sm-12 col-md-6">Posted on: <span [innerHTML]="articleData.publishedDate | safeHtml"></span></div>
                     </section>
                     <!-- DISPLAY ARTICLE -->

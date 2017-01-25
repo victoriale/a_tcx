@@ -43,7 +43,7 @@ export class DeepDiveBlockMain implements OnInit {
         this.homePageBlocks.forEach(function(val, index) {
             var d = {
                 icon: val != 'video' ? GlobalSettings.getTCXscope(val).icon : 'fa-play-circle',
-                title: val != 'video' ? GlobalFunctions.toTitleCase(GlobalSettings.getTCXscope(val).displayName) : 'Videos',
+                title: val != 'video' ? GlobalFunctions.toTitleCase(GlobalSettings.getTCXscope(val).displayName): 'Videos',
                 route: val != 'video' ? VerticalGlobalFunctions.formatSectionFrontRoute(GlobalSettings.getTCXscope(val).topScope) : null
             }
             sectionNameArray.push(d);

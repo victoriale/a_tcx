@@ -46,6 +46,7 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
     public trendingKeyword:string;
     public callTrendingAPI:boolean=true;
     public currentPage:number=1;
+    public subcategorywidgets:string;
     iframeUrl: any;
     paramsub;
     errorPage:boolean=false;
@@ -70,6 +71,7 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
                 this.eventType= param['articleType'];
                 this.category=param['category'];
                 this.subcategory=param['subCategory']?param['subCategory']:param['category'];
+                this.subcategorywidgets= GlobalSettings.getTCXscope(this.subcategory).parentScope!=null?this.subcategory:null;
                 if (this.eventType == "story" && this.articleID) {
                     this.getSyndicateArticle(this.articleID, partner);
                 } else {

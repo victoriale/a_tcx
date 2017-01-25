@@ -42,14 +42,14 @@
                         <div class="content-exerpt" *ngIf="eventType == 'video'" [innerHTML]="articleData.teaser | safeHtml"></div>
                         <div [ngStyle]="{width: '100%', height:'5px','display':'block'}"></div>
                     </section>
-                    <div class="deep-dive-module"><billboard-module [category]="category" [subCategory]="subcategory"></billboard-module></div>
+                    <div class="deep-dive-module"><billboard-module [category]="category" [subCategory]="subcategorywidgets"></billboard-module></div>
                     <!-- RESPONSIVE WIDGET-->
                     <div class="responsive-widget">
-                        <responsive-widget [category]="category" [subCategory]="subcategory"></responsive-widget>
+                        <responsive-widget [category]="category" [subCategory]="subcategorywidgets"></responsive-widget>
                     </div>
                     <disqus-component *ngIf="!checkPartner"></disqus-component>
 
-                    <div class="deep-dive-module"><chatterbox-module [category]="category" [subCategory]="subcategory"></chatterbox-module></div>
+                    <div class="deep-dive-module"><chatterbox-module [category]="category" [subCategory]="subcategorywidgets"></chatterbox-module></div>
 
                     <div *ngIf="recomendationData" class="other-stories"><i class="fa-heart-o"></i> Other Stories You Will Love </div>
                     <article-block-component [articleBlockData]="recomendationData" [bootstrapGrid]="'col-sm-12 col-md-4'"></article-block-component>
@@ -64,7 +64,7 @@
                 </div>
 
                 <div class="article-widget col-xl-3" id="verticalSideScroller">
-                    <vertical-widget [category]="category" [subCategory]="subcategory"></vertical-widget>
+                    <vertical-widget [category]="category" [subCategory]="subcategorywidgets"></vertical-widget>
                 </div>
             </section>
           </sidekick-wrapper-ai>

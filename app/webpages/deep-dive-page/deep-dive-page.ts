@@ -83,7 +83,7 @@ export class DeepDivePage implements OnInit{
       var secIcon = GlobalSettings.getTCXscope(str).icon;
       return this.sectionName = {
          icon: secIcon ? secIcon : 'fa-news',
-         title: displayName ? displayName : GlobalFunctions.toTitleCase(str)
+         title: displayName ? GlobalFunctions.toTitleCase(displayName.replace(/--/g," ")) : GlobalFunctions.toTitleCase(str.replace(/--/g," "))
        }
     }
 

@@ -98,9 +98,12 @@ export class SyndicateArticleService {
     }
 
     getArticleBatch(category, subcategory,count,trending?,page?){
+
         if(subcategory=="real-estate"){
             subcategory=subcategory.replace(/-/g," ");
         };
+        category = category.replace(/--/g," ");
+        subcategory= subcategory.replace(/--/g," ");
         let params:URLSearchParams=new URLSearchParams();
 
         if(GlobalSettings.getTCXscope(subcategory).topScope == 'basketball' || GlobalSettings.getTCXscope(subcategory).topScope == 'football'||GlobalSettings.getTCXscope(subcategory).topScope == 'baseball'){

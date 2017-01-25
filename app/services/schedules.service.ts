@@ -315,7 +315,7 @@ export class SchedulesService {
         //Configure HTTP Headers
         var headers = this.setToken();
         // var callURL = GlobalSettings.getVerticalEnv('-sports-api.synapsys.us') + "/NBAHoops/call_controller.php?scope=" + scope.toLowerCase() + "&action=tcx&option=tcx_side_scroll&perPage=50&pageNum=1";
-        var callURL = GlobalSettings.getTCXscope(scope).verticalApi + "/NBAHoops/call_controller.php?scope=" + scope.toLowerCase() + "&action=tcx&option=tcx_side_scroll&perPage=25&pageNum=1";
+        var callURL = GlobalSettings.getTCXscope(scope).verticalApi + "/NBAHoops/call_controller.php?scope=" + scope.toLowerCase() + "&action=tcx&option=tcx_side_scroll&perPage=50&pageNum=1";
         //optional week parameters
         return this.http.get(callURL, { headers: headers })
             .map(res => res.json())

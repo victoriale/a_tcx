@@ -30,60 +30,36 @@ export class SyndicateArticleService {
     }
 
     transformMainArticle(data,c,sc,ai,et){
+        data = data[0];
         var imageData=[];
         var imageTitle=[];
         var copyright=[];
-        var artwriter='';
-        data = data[0];
-        var mainArticleData:any={
-            'url':'',
-            'title':'',
-            'author':'',
-            'publisher':'',
-            'imageData':[],
-            'imageTitle':[],
-            'copyright':[],
-            'publishedDate':'',
-            'article':[],
-            'trendingKeyword':'',
-
-        };
-        if(data.is_stock_photo && data.is_stock_photo==true){
-            mainArticleData['is_stock']=true;
-        }else{
-            mainArticleData['is_stock']=false;
-        }
+        var mainArticleData = new Object();
         mainArticleData['url'] = VerticalGlobalFunctions.formatArticleRoute(c, sc, ai, et);
         mainArticleData['title'] = data.title.replace(/\'/g, "'");
         mainArticleData['author'] = data.author ? data.author.replace(/by/gi, "") + ", ": null;
-        mainArticleData['publisher'] = data.publisher;
-        mainArticleData['publishedDate'] = GlobalFunctions.sntGlobalDateFormatting(data.publication_date, 'timeZone');
-        var imageLength = data.article_data.images.length;
+        mainArticleData['publisher'] = data.publisher? data.publisher:null;
+        mainArticleData['publishedDate'] = data.publication_date?GlobalFunctions.sntGlobalDateFormatting(data.publication_date, 'timeZone'):null;
+        var imageLength = data.article_data.images && Array.isArray(data.article_data.images)?data.article_data.images.length:0;
         if(imageLength > 0){
           for (var i = 0; i < imageLength; i++) {
             imageData[imageData.length] = GlobalSettings.getImageUrl(data.article_data.images[i].image_url, GlobalSettings._imgLgScreen);
             copyright[copyright.length] = data.article_data.images[i].image_copyright;
             imageTitle[imageTitle.length] = data.article_data.images[i].image_title;
           }
+        }else if(imageLength==0){
+            imageData[0] = data.image_url? GlobalSettings.getImageUrl(data.image_url, GlobalSettings._imgLgScreen): null;
+            copyright[0] = data.image_copyright? data.image_copyright:null;
+            imageTitle[0] = data.image_title? data.image_title:null;
         }
-        mainArticleData['imageData'] = imageLength > 0 ? imageData : null;
-        mainArticleData['imageTitle'] = imageTitle ? imageTitle : null;
-        mainArticleData['copyright'] = copyright ? copyright : null;
-        mainArticleData['is_stock'] = data.is_stock_photo;
-        if(data.keywords.length > 0 && data.keywords[0] != "none" && data.keywords[0]){
-            if(data.keywords.length > 1 && data.keywords[1] != "none" && data.keywords[1]){
-                mainArticleData['trendingKeyword'] = data.keywords[1];
-            } else {
-                mainArticleData['trendingKeyword']=data.keywords[0];
-            }
-        }else{
-            if(data.subcategory){
-                mainArticleData['trendingKeyword'] = data.subcategory;
-            } else {
-                mainArticleData['trendingKeyword'] = data.category;
-            }
-        }
-        mainArticleData['article'] = data.article_data.article;
+        mainArticleData['imageData'] = imageData.length>0 ? imageData : null;
+        mainArticleData['imageTitle'] = imageTitle.length>0 ? imageTitle : null;
+        mainArticleData['copyright'] = copyright.length>0 ? copyright : null;
+        mainArticleData['article'] = data.article_data.article && Array.isArray(data.article_data.article)? data.article_data.article : null;
+        mainArticleData['istronc'] = data.source=='tronc'?true:false;
+        mainArticleData['linkback_url'] = data.article_data.linkback_url?data.article_data.linkback_url:null;
+
+
         return mainArticleData;
     }
     getSyndicateVideoService(subcategory, articleID){

@@ -12,15 +12,14 @@
             <share-links-component class="articles-page-padding" id="shareLinksBtn" [shareUrl]= "windowUrl"></share-links-component>
           <h1 class="articles-page-title" id="articleMainTitle"><span [innerHTML]="articleData.title | safeHtml"></span></h1>
           <sidekick-wrapper-ai [aiSidekick]="aiSidekick" [scope]="subcategory">
+
               <!-- IF IMAGES ARE AVAILABLE AND NOT VIDEO -->
-              <section *ngIf="eventType == 'story' && is_stock!=true">
-                <!-- <div *ngIf="eventType == 'story'" class="carousel-container">
-                  <images-media-carousel [imageData]="imageData" [copyright]="copyright" [imageTitle]="imageTitle"></images-media-carousel>
-                </div> -->
+              <section *ngIf="eventType == 'story' ">
                 <div *ngIf="imageData" class="carousel-container" id="rectangleCarousel">
                     <images-media-carousel [isProfilePage]="false" [imageData]="imageData" [copyright]="copyright" [imageTitle]="imageTitle"></images-media-carousel>
                 </div>
               </section>
+
               <!-- IF ARTICLE TYPE IS VIDEO -->
               <section *ngIf="eventType == 'video'" class="videoFrame" id="rectangleBoxvideo">
                 <iframe *ngIf="iframeUrl" width="100%" height="100%"  [src]="iframeUrl | safeRUrl" frameborder="0" allowfullscreen></iframe>
@@ -30,18 +29,20 @@
                 <div class="arpt col-xs-12 col-xl-9">
                     <!-- ARTICLE INFORMATION -->
                     <section class="arpt-info row">
-                      <div *ngIf="eventType == 'story' && articleData.publisher" class="arpt-author col-sm-12 col-md-6">Written By: <span class="text-master" [innerHTML]="articleData.author | safeHtml"></span><span class="text-master" [innerHTML]="articleData.publisher | safeHtml"></span></div>
-                      <div *ngIf="eventType == 'story' && articleData.publisher" class="arpt-date col-sm-12 col-md-6">Posted on: <span [innerHTML]="articleData.publishedDate | safeHtml"></span></div>
+                      <div *ngIf="eventType == 'story' && articleData.publisher && articleData.publisher != null " class="arpt-author col-sm-12 col-md-6">Written By: <span class="text-master" [innerHTML]="articleData.author | safeHtml"></span><span class="text-master" [innerHTML]="articleData.publisher | safeHtml"></span></div>
+                      <div *ngIf="eventType == 'story' && articleData.publishedDate && articleData.publishedDate != null " class="arpt-date col-sm-12 col-md-6">Posted on: <span [innerHTML]="articleData.publishedDate | safeHtml"></span></div>
                     </section>
                     <!-- DISPLAY ARTICLE -->
 
                     <section *ngIf="eventType == 'story' || eventType == 'video'" [ngStyle]="{'margin-top': eventType == 'video'? '5px' : '0px'}" class="arpt-main-article">
-                        <div *ngIf="eventType == 'story'">
+                        <div *ngIf="eventType == 'story' && articleData.article != null ">
                             <div class="content-exerpt" *ngFor="let description of articleData.article" [innerHTML]="description | safeHtml"></div>
                           </div>
-                        <div class="content-exerpt" *ngIf="eventType == 'video'" [innerHTML]="articleData.teaser | safeHtml"></div>
-                        <div [ngStyle]="{width: '100%', height:'5px','display':'block'}"></div>
+                        <div class="content-exerpt" *ngIf="eventType == 'video' && articleData.teaser != null " [innerHTML]="articleData.teaser | safeHtml"></div>
+                        <div *ngIf="articleData.istronc" class="fade-in-effect"></div>
+                        <div *ngIf="articleData.istronc" class="tronc-read">Read the Full Story<i class="fa-arrow-right"></i></div>
                     </section>
+                    <div [ngStyle]="{width: '100%', height:'5px','display':'block'}"></div>
                     <div class="deep-dive-module"><billboard-module [category]="category" [subCategory]="subcategorywidgets"></billboard-module></div>
                     <!-- RESPONSIVE WIDGET-->
                     <div class="responsive-widget">

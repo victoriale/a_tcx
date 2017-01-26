@@ -23,11 +23,11 @@ export class HeaderLinksService {
       {
         menuTitle: "REAL ESTATE",
         url: topRoute + '/real-estate'
-      },
-      {
-        menuTitle: "WEATHER",
-        url: topRoute + '/weather'
       }
+      // {
+      //   menuTitle: "WEATHER",
+      //   url: topRoute + '/weather'
+      // }
     ];
 
     return menuData;

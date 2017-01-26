@@ -4,6 +4,7 @@ import { DeepDiveService } from '../../services/deep-dive.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GlobalSettings } from "../../global/global-settings";
 import { GlobalFunctions } from "../../global/global-functions";
+import { VerticalGlobalFunctions } from "../../global/vertical-global-functions";
 import { GeoLocation } from "../../global/global-service";
 
 import { SectionNameData } from "../../fe-core/interfaces/deep-dive.data";
@@ -83,7 +84,7 @@ export class DeepDivePage implements OnInit{
       var secIcon = GlobalSettings.getTCXscope(str).icon;
       return this.sectionName = {
          icon: secIcon ? secIcon : 'fa-news',
-         title: displayName ? GlobalFunctions.toTitleCase(displayName.replace(/--/g," ")) : GlobalFunctions.toTitleCase(str.replace(/--/g," "))
+         title: displayName ? displayName : GlobalFunctions.toTitleCase(str.replace(/--/g," "))
        }
     }
 

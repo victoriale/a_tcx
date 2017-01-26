@@ -93,8 +93,6 @@ export class DeepDiveSectionFront implements OnInit {
             this.articleData = null;
             this.createSearchBox(this.scope);
             this.callModules(this.blockIndex);
-
-
         }
     }
 
@@ -270,5 +268,3 @@ export class DeepDiveSectionFront implements OnInit {
 
     }
 }
-
-

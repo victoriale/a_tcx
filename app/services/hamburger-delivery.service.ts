@@ -18,14 +18,14 @@ export class HamburgerDeliveryService {
         menuTitle: "Home",
         url: topRoute
       },
-      // {
-      //   menuTitle: "Trending",
-      //   url: topRoute + '/trending'
-      // },
       {
-        menuTitle: "Breaking",
-        url: topRoute + '/breaking'
+        menuTitle: "Trending",
+        url: topRoute + '/trending'
       },
+      // {
+      //   menuTitle: "Breaking",
+      //   url: topRoute + '/breaking'
+      // },
       {
         menuTitle: "Sports",
         url: topRoute + '/sports',
@@ -67,29 +67,29 @@ export class HamburgerDeliveryService {
       {
         menuTitle: "Entertainment",
         url: topRoute + '/entertainment',
-        nesterChildren: [
-          {
-            menuTitle: "Television",
-            url: topRoute + '/entertainment/television'
-          },
-          {
-            menuTitle: "Movies",
-            url: topRoute + '/entertainment/movies'
-          },
-          {
-            menuTitle: "Music",
-            url: topRoute + '/entertainment/music'
-          }
-        ]
+        // nesterChildren: [
+        //   {
+        //     menuTitle: "Television",
+        //     url: topRoute + '/entertainment/television'
+        //   },
+        //   {
+        //     menuTitle: "Movies",
+        //     url: topRoute + '/entertainment/movies'
+        //   },
+        //   {
+        //     menuTitle: "Music",
+        //     url: topRoute + '/entertainment/music'
+        //   }
+        // ]
       },
       {
         menuTitle: "Food",
         url: topRoute + '/food'
       },
-      {
-        menuTitle: "Health",
-        url: topRoute + '/health'
-      },
+      // {
+      //   menuTitle: "Health",
+      //   url: topRoute + '/health'
+      // },
       {
         menuTitle: "Lifestyle",
         url: topRoute + '/lifestyle'
@@ -101,15 +101,15 @@ export class HamburgerDeliveryService {
       {
         menuTitle: "Travel",
         url: topRoute + '/travel'
-      },
-      {
-        menuTitle: "Weather",
-        url: topRoute + '/weather'
-      },
-      {
-        menuTitle: "Automotive",
-        url: topRoute + '/automotive'
       }
+      // {
+      //   menuTitle: "Weather",
+      //   url: topRoute + '/weather'
+      // },
+      // {
+      //   menuTitle: "Automotive",
+      //   url: topRoute + '/automotive'
+      // }
     ];
     var menuInfo = [];
 

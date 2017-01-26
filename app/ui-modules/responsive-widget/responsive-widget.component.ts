@@ -25,7 +25,7 @@ export class ResponsiveWidget implements OnInit {
       this.wcategory = this.wcategory;
       this.wsubCategory = this.wsubCategory && this.wsubCategory != this.wcategory && this.wsubCategory != "real-estate" ? this.wsubCategory : "";
     } else {
-      this.wcategory = "breaking";
+      this.wcategory = "trending";
       this.wsubCategory = "";
     }
     this.srcLink = "/app/ads/horizontal_widget.html?category=" + this.wcategory + "&sub_category=" + this.wsubCategory;

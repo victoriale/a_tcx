@@ -37,15 +37,15 @@ export class HeaderComponent implements OnInit {
         this.elementRef = elementRef;
     }
 
-    getBreakingData() {
+    getTrendingData() {
         this._deepDiveData.getDeepDiveBatchService("breaking", 10, 1)
             .subscribe(data => {
                 if (data) {
-                    this.breakingHeadLines = this._deepDiveData.transformToArticleStack(data, "breaking");
+                    this.breakingHeadLines = this._deepDiveData.transformToArticleStack(data, "trending");
                 }
             },
             err => {
-                console.log("Error getting Breaking News data:", err);
+                console.log("Error getting Trending News data:", err);
             });
     }
 
@@ -139,7 +139,7 @@ export class HeaderComponent implements OnInit {
         }else{
           this.homeUrl = ["/news-feed"];
         }
-        this.getBreakingData();
+        this.getTrendingData();
         stButtons.locateElements();
         this._renderer.listenGlobal('document', 'mousedown', (event) => {
 

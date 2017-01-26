@@ -16,17 +16,17 @@ export class DeepDiveBlockMain implements OnInit {
     @Input() geoLocation: string;
     private callApi: boolean = true;
     private commonarticleStack:Array<ArticleStackData>;
-    private breakingStack: Array<ArticleStackData>;
+    private trendingStack: Array<ArticleStackData>;
     private recDataSports: Array<ArticleStackData>;
     private businessStack: Array<ArticleStackData>;
     private politicsStack: Array<ArticleStackData>;
     private recDataEntertain: Array<ArticleStackData>;
     private foodStack: Array<ArticleStackData>;
-    private recDataHealth: Array<ArticleStackData>;
+    // private recDataHealth: Array<ArticleStackData>;
     private lifestyleStack: Array<ArticleStackData>;
     private estateStack: Array<ArticleStackData>;
     private recDataTravel: Array<ArticleStackData>;
-    private weatherStack: Array<ArticleStackData>;
+    // private weatherStack: Array<ArticleStackData>;
     private recDataAuto: Array<ArticleStackData>;
 
     private videoDataBatch1: Array<VideoStackData>;
@@ -35,7 +35,8 @@ export class DeepDiveBlockMain implements OnInit {
     private blockIndex: number = 0;
     private secName: Array<SectionNameData>;
     private batchNum: number = 1;
-    private homePageBlocks = ["breaking", "video", "sports", "business", "politics", "entertainment", "food", "video", "health", "lifestyle", "real estate", "travel", "weather", "video", "automotive"];
+    private homePageBlocks = ["trending", "video", "sports", "business", "politics", "entertainment", "food", "video", "lifestyle", "real-estate", "travel", "video", "automotive"];//"health", "weather"
+
     constructor(private _deepDiveData: DeepDiveService) { }
 
     getSectionNameData() {
@@ -44,7 +45,7 @@ export class DeepDiveBlockMain implements OnInit {
             var d = {
                 icon: val != 'video' ? GlobalSettings.getTCXscope(val).icon : 'fa-play-circle',
                 title: val != 'video' ? GlobalFunctions.toTitleCase(GlobalSettings.getTCXscope(val).displayName): 'Videos',
-                route: val != 'video' ? VerticalGlobalFunctions.formatSectionFrontRoute(GlobalSettings.getTCXscope(val).topScope) : null
+                route: val != 'video' && val != 'automotive' ? VerticalGlobalFunctions.formatSectionFrontRoute(GlobalSettings.getTCXscope(val).topScope) : null
             }
             sectionNameArray.push(d);
         });
@@ -70,8 +71,8 @@ export class DeepDiveBlockMain implements OnInit {
         var _selfscope=this;
         function getobjectStackArray(ctype,carray){
             var objectStackArray = {
-                'breaking':function () {
-                    _selfscope.breakingStack =carray;
+                'trending':function () {
+                    _selfscope.trendingStack =carray;
                 },
                 'sports':function () {
                     _selfscope.recDataSports =carray;
@@ -89,9 +90,9 @@ export class DeepDiveBlockMain implements OnInit {
                 'entertainment': function(){
                     _selfscope.recDataEntertain=carray;
                 },
-                'health': function(){
-                    _selfscope.recDataHealth=carray;
-                },
+                // 'health': function(){
+                //     _selfscope.recDataHealth=carray;
+                // },
                 'lifestyle':function(){
                     _selfscope.lifestyleStack=carray;
                 },
@@ -101,9 +102,9 @@ export class DeepDiveBlockMain implements OnInit {
                 'travel':function(){
                     _selfscope.recDataTravel=carray;
                 },
-                'weather':function(){
-                    _selfscope.weatherStack=carray;
-                },
+                // 'weather':function(){
+                //     _selfscope.weatherStack=carray;
+                // },
                 'automotive':function(){
                     _selfscope.recDataAuto=carray;
                 }
@@ -150,8 +151,8 @@ export class DeepDiveBlockMain implements OnInit {
       var self=this;
       var callMethodByIndex={
           0:function(){
-                 self.getArticleStackData("breaking",7,false);
-                 self.getArticleStackData("sports",6,true);
+              self.getArticleStackData("trending",7,false);
+              self.getArticleStackData("sports",6,true);
           },
           1:function(){
               self.getArticleStackData("business",7,false);
@@ -162,19 +163,15 @@ export class DeepDiveBlockMain implements OnInit {
               self.getArticleStackData("food",7,false);
           },
           3:function(){
-              self.getArticleStackData("health",6,true);
               self.getArticleStackData("lifestyle",7,false);
+              self.getArticleStackData("real-estate",5,false);
           },
           4:function(){
-              self.getArticleStackData("real estate",5,false);
               self.getArticleStackData("travel",6,true);
-          },
-          5:function(){
-              self.getArticleStackData("weather",7,false);
               self.getArticleStackData("automotive",6,true);
           }
       };
-        if(index<6){callMethodByIndex[index]()};
+      if(index<6){callMethodByIndex[index]()};
       if(!this.videoDataBatch1 && this.blockIndex > 2){
         this.getDeepDiveVideo();
       }

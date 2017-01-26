@@ -36,7 +36,6 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
     public imageTitle=[];
     public copyright=[];
     public trendingLength: number = 10;
-    public is_stock:boolean;
     @Input() scope: string;
     public category:string;
     public subcategory: string;
@@ -97,13 +96,12 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
         this._synservice.getSyndicateArticleService(articleID).subscribe(
             data => {
                 try{
-                    if(data.data&& data.data[0].article_data.article) {
+                    if(data.data && data.data[0].article_data.article && data.data[0].title) {
                         this.errorPage=false;
                         this.articleData = this._synservice.transformMainArticle(data.data, this.category, this.subcategory, articleID, this.eventType);
                         this.imageData = this.articleData.imageData;
                         this.imageTitle = this.articleData.imageTitle;
                         this.copyright = this.articleData.copyright;
-                        this.is_stock=this.articleData.is_stock;
                         this.trendingKeyword=this.articleData.trendingKeyword;
                         this.getRecomendationData(this.category,this.subcategory, 4, false);
                         this.getTrendingArticles(this.category,this.subcategory, this.trendingLength, this.eventType, this.articleID, true, this.currentPage);

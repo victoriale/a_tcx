@@ -35,11 +35,16 @@ export class ChatterboxModule implements OnInit {
     ngOnInit() {
       this.getData();
       this.isSmall = document.body.scrollWidth < 600;
+      window.addEventListener("message", this.receiveSize, false);
     }
     ngOnChanges(){
       this.getData();
     }
-    onResize(event) {
-      this.isSmall = document.body.scrollWidth < 600;
+    resizeIframe(obj){
+      obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
+      console.log(obj);
+    }
+    receiveSize(e) {
+        document.getElementById("chatterbox-section").style.height = e.data;
     }
 }

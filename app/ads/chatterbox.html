@@ -10,7 +10,6 @@
         function receiveSize(e) {
             var target = parent.postMessage ? parent : (parent.document.postMessage ? parent.document : undefined);
             var proto = window.location.protocol;
-            console.log(proto);
             var x = proto + "//devapi.synapsys.us";
             var y = proto + "//w1.synapsys.us";
             if (e.origin === x || e.origin === y) {

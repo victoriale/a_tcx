@@ -27,8 +27,8 @@ export class BillboardModule implements OnInit{
         this.billcategory = topScope && topScope != "real estate" ? topScope : 'keyword-' + this.billcategory;
         this.billsubCategory = this.billsubCategory && this.billsubCategory != this.billcategory && this.billcategory != "real-estate" ? this.billsubCategory : "";
       } else {
-        this.category = "trending";
-        this.subCategory = "";
+        this.billcategory = "trending";
+        this.billsubCategory  = "";
       }
       this.srcLink = "/app/ads/billboard.html?category=" + this.billcategory + "&sub_category=" + this.billsubCategory;
     }

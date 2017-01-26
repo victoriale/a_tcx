@@ -74,10 +74,6 @@ export class SyndicateArticleService {
     }
 
     getArticleBatch(category, subcategory,count,trending?,page?){
-
-        if(subcategory=="real-estate"){
-            subcategory=subcategory.replace(/-/g," ");
-        };
         category = category.replace(/--/g," ");
         subcategory= subcategory.replace(/--/g," ");
         let params:URLSearchParams=new URLSearchParams();

@@ -22,9 +22,7 @@ export class DeepDiveService {
   }
 
   getDeepDiveBatchService(category: string, limit: number, page: number, state?: string){
-    if(category=="real-estate"){
-      category=category.replace(/-/g," ");
-    };
+  
     category = category.replace(/--/g," ");
     let params:URLSearchParams=new URLSearchParams();
 
@@ -52,6 +50,7 @@ export class DeepDiveService {
 
   }
   getCarouselData(scope, data, limit, batch, state, callback:Function) {
+    scope = scope.replace(/--/g," ");
     //always returns the first batch of articles
     this.getDeepDiveBatchService(scope, limit, batch, state)
         .subscribe(data=>{
@@ -65,6 +64,7 @@ export class DeepDiveService {
   }
 
   getDeepDiveVideoBatchService(category: string, limit?: number, page?: number, location?: string){
+      category = category.replace(/--/g," ");
       var headers = this.setToken();
       var callURL;
       if(limit === null || typeof limit == 'undefined'){

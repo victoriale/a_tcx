@@ -69,8 +69,10 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
                 this.articleID = param['articleID'];
                 this.eventType= param['articleType'];
                 this.category=param['category'];
+                this.category = this.category.replace(/--/g," ");
                 this.subcategory=param['subCategory']?param['subCategory']:param['category'];
-                this.subcategorywidgets= GlobalSettings.getTCXscope(this.subcategory).parentScope!=null?this.subcategory:null;
+                this.subcategory = this.subcategory.replace(/--/g," ");
+                this.subcategorywidgets = GlobalSettings.getTCXscope(this.subcategory).parentScope!=null?this.subcategory:null;
                 if (this.eventType == "story" && this.articleID) {
                     this.getSyndicateArticle(this.articleID, partner);
                 } else {

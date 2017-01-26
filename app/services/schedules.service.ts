@@ -99,7 +99,7 @@ export class SchedulesService {
                     output.current['location'] = data.city + ', ' + data.state;
                     output.current['city'] = data.city;
                     output.current['current_condition'] = data.current_condition;
-                    output.current['current_icon'] = data.current_icon ? GlobalSettings.getImageUrl(data.current_icon).replace(".svg","_light.svg") : null;
+                    output.current['current_icon'] = data.current_icon ? GlobalSettings.getImageUrl(data.current_icon, GlobalSettings._imgLgLogo).replace(".svg","_light.svg") : null;
                     output.current['current_scope'] = data.current_scope;
                     output.current['description'] = "<span class='text-heavy'>"+data.current_condition+"</span> until "+ moment(data.data[1].unix_timestamp).format("h A z");
                     output.current['current_time'] = moment().format("dddd h:mm A");
@@ -251,7 +251,7 @@ export class SchedulesService {
                 if (data.data != null) {
                     output.current['city'] = data.city;
                     output.current['current_condition'] = data.current_condition;
-                    output.current['current_icon'] = GlobalSettings.getImageUrl(data.current_icon);
+                    output.current['current_icon'] = GlobalSettings.getImageUrl(data.current_icon, GlobalSettings._imgLgLogo);
                     output.current['current_scope'] = data.current_scope;
                     output.current['current_temperature'] = ((data.current_temperature * (9 / 5)) - 459.67).toFixed(0);
                     output.current['state'] = data.state;
@@ -315,7 +315,7 @@ export class SchedulesService {
         //Configure HTTP Headers
         var headers = this.setToken();
         // var callURL = GlobalSettings.getVerticalEnv('-sports-api.synapsys.us') + "/NBAHoops/call_controller.php?scope=" + scope.toLowerCase() + "&action=tcx&option=tcx_side_scroll&perPage=50&pageNum=1";
-        var callURL = GlobalSettings.getTCXscope(scope).verticalApi + "/NBAHoops/call_controller.php?scope=" + scope.toLowerCase() + "&action=tcx&option=tcx_side_scroll&perPage=25&pageNum=1";
+        var callURL = GlobalSettings.getTCXscope(scope).verticalApi + "/NBAHoops/call_controller.php?scope=" + scope.toLowerCase() + "&action=tcx&option=tcx_side_scroll&perPage=50&pageNum=1";
         //optional week parameters
         return this.http.get(callURL, { headers: headers })
             .map(res => res.json())

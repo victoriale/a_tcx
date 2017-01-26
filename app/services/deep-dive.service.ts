@@ -25,6 +25,7 @@ export class DeepDiveService {
     if(category=="real-estate"){
       category=category.replace(/-/g," ");
     };
+    category = category.replace(/--/g," ");
     let params:URLSearchParams=new URLSearchParams();
 
     if(GlobalSettings.getTCXscope(category).topScope == 'basketball' || GlobalSettings.getTCXscope(category).topScope == 'football'||GlobalSettings.getTCXscope(category).topScope == 'baseball'){
@@ -113,6 +114,7 @@ export class DeepDiveService {
         date = date.format('dddd') + ', ' + date.format('MMM') + date.format('. DD, YYYY');
       }
       var keywords = val.keyword ? val.keyword : scope;
+      var keyHyphen=keywords.replace(/ /g,"--")
       var d = {
         id: val.id,
         keyword: keywords,
@@ -120,8 +122,8 @@ export class DeepDiveService {
         time_stamp: date ? date : "",
         video_thumbnail: val.video_thumbnail ? val.video_thumbnail : sampleImage,
         embed_url: val.video_url != null ? val.video_url : null,
-        video_url: VerticalGlobalFunctions.formatArticleRoute(scope, keywords, val.id, "video"),
-        keyUrl: VerticalGlobalFunctions.formatSectionFrontRoute(keywords),
+        video_url: VerticalGlobalFunctions.formatArticleRoute(scope, keyHyphen, val.id, "video"),
+        keyUrl: VerticalGlobalFunctions.formatSectionFrontRoute(keyHyphen),
         teaser: val.teaser ? val.teaser : ""
       }
       videoBatchArray.push(d);
@@ -130,7 +132,7 @@ export class DeepDiveService {
   }// transformDeepDiveVideoBatchData ENDS
 
   // Article Batch Transformed Data
-  transformToArticleStack(data: Array<ArticleStackData>, topcategory?, scope?, imageSize?){
+  transformToArticleStack(data: Array<ArticleStackData>, topcategory?, imageSize?){
     if(data == null){return null;}
     var sampleImage = "/app/public/placeholder_XL.png";
     var articleStackArray = [];
@@ -163,11 +165,19 @@ export class DeepDiveService {
             key = val.category;
           }
         }
+          var keyhyphen=key.replace(/ /g,"--");
         if(val.source == "snt_ai"){// If AI article then redirect to the corresponding vertical
           routeLink = GlobalSettings.getOffsiteLink(val.scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id));
           extLink = true;
         } else {
-          routeLink = topcategory ? VerticalGlobalFunctions.formatArticleRoute(topcategory, key.toLowerCase(), val.article_id, "story") : null;
+         if(val.keywords.length>0){
+             if(topcategory!=val.keywords[0] && val.keywords[0]){
+                 topcategory=val.keywords[0].replace(/ /g,"--");
+             }  else{
+                 topcategory=topcategory;
+             }
+         }
+          routeLink = topcategory ? VerticalGlobalFunctions.formatArticleRoute(topcategory, keyhyphen.toLowerCase(), val.article_id, "story") : null;
           extLink = false;
           author = val.author ? val.author.replace(/by/gi, "") + ", ": null;
           publisher = author ? val.publisher : "Published by: " + val.publisher;
@@ -206,7 +216,7 @@ export class DeepDiveService {
             url: val.image_origin_url ? val.image_origin_url : "/",
             info: (val.image_title ? val.image_title : "") + (val.image_title && val.image_owner ? "/" : "") + (val.image_owner ? val.image_owner : "")
           },
-          keyUrl: key != "all" && key && typeof key != "underfined" ? VerticalGlobalFunctions.formatSectionFrontRoute(key) : [route]
+          keyUrl: key != "all" && key && typeof key != "underfined" ? VerticalGlobalFunctions.formatSectionFrontRoute(keyhyphen.toLowerCase()) : [route]
         }
         articleStackArray.push(articleStackData);
       }
@@ -247,11 +257,20 @@ export class DeepDiveService {
           key = val.category;
         }
       }
+      var keyhyphen=key.replace(/ /g,"--");
+
       if(val.source == "snt_ai"){
         routeLink = GlobalSettings.getOffsiteLink(val.scope, "article", VerticalGlobalFunctions.formatExternalArticleRoute(val.scope, category, val.event_id));
         extLink = true;
       } else {
-        routeLink = VerticalGlobalFunctions.formatArticleRoute(scope, key,val.article_id, "story");
+          if(val.keywords.length>0){
+              if(scope!=val.keywords[0] && val.keywords[0]){
+                  scope=val.keywords[0].replace(/ /g,"--");
+              }  else{
+                  scope=scope;
+              }
+          }
+        routeLink = VerticalGlobalFunctions.formatArticleRoute(scope, keyhyphen.toLowerCase(),val.article_id, "story");
         extLink = false;
       }
 
@@ -265,7 +284,7 @@ export class DeepDiveService {
         title:  "<span> Today's News: </span>",
         headline: val['title'],
         keywords: key ? key : "NEWS",
-        keyUrl: val['keywords'][0] ? VerticalGlobalFunctions.formatSectionFrontRoute(key) : ["/news-feed"],
+        keyUrl: val['keywords'][0] ? VerticalGlobalFunctions.formatSectionFrontRoute(keyhyphen.toLowerCase()) : ["/news-feed"],
         teaser: val['teaser'] ? val['teaser'].replace('_',': ').replace(/<p[^>]*>/g, "") : "",
         article_id:val['article_id'],
         article_url: val['article_url'],

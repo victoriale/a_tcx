@@ -18,7 +18,7 @@ export class BillboardModule implements OnInit{
       if(this.category == "real estate"){this.category = "real-estate";}
       var topScope = GlobalSettings.getTCXscope(this.category).topScope ? GlobalSettings.getTCXscope(this.category).topScope : null;
       if(this.category != "all" && topScope){
-        this.category = topScope ? topScope : 'keyword-' + this.category;
+        this.category = topScope && this.category != "real-estate" ? topScope : 'keyword-' + this.category;
         this.subCategory = this.subCategory && this.subCategory != this.category && this.category != "real-estate" ? this.subCategory : "";
       } else {
         this.category = "breaking";

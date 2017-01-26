@@ -25,11 +25,11 @@ export class DeepDiveService {
   
     category = category.replace(/--/g," ");
     let params:URLSearchParams=new URLSearchParams();
-
-    if(GlobalSettings.getTCXscope(category).topScope == 'basketball' || GlobalSettings.getTCXscope(category).topScope == 'football'||GlobalSettings.getTCXscope(category).topScope == 'baseball'){
+    var checkCategory= GlobalSettings.getTCXscope(category).topScope;
+    if(checkCategory == 'basketball' || checkCategory == 'football'|| checkCategory == 'baseball'){
       params.set("category", "sports");
       params.set("subCategory",category);
-    }else if(category=="breaking"||category=="trending"){
+    }else if(checkCategory != null ){
       params.set("category", category)
     }else{
       params.set("keyword[]",category)

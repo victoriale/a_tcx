@@ -9,7 +9,11 @@
     <script type="text/javascript">
         function receiveSize(e) {
             var target = parent.postMessage ? parent : (parent.document.postMessage ? parent.document : undefined);
-            if (e.origin === "http://devapi.synapsys.us") {
+            var proto = window.location.protocol;
+            console.log(proto);
+            var x = proto + "//devapi.synapsys.us";
+            var y = proto + "//w1.synapsys.us";
+            if (e.origin === x || e.origin === y) {
                 if (typeof target != "undefined" && document.body.scrollHeight) {
                     target.postMessage(e.data + 'px',  "*");
                 }

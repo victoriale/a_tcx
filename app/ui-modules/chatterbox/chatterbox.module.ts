@@ -27,8 +27,8 @@ export class ChatterboxModule implements OnInit {
         this.cbcategory = topScope ? topScope : 'keyword-' + this.cbcategory;
         this.cbsubCategory = this.cbsubCategory && this.cbsubCategory != this.cbcategory && this.cbcategory != "real-estate" ? this.cbsubCategory : "";
       } else {
-        this.category = "trending";
-        this.subCategory = "";
+        this.cbcategory = "trending";
+        this.cbsubCategory = "";
       }
       this.srcLink = "/app/ads/chatterbox.html?category=" + this.cbcategory + "&sub_category=" + this.cbsubCategory;
     }

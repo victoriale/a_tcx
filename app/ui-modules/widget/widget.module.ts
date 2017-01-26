@@ -16,17 +16,22 @@ export class WidgetModule {
     srcLink: string;
     @Input() category: string;
     @Input() subCategory: string;
+    //adding temporary variables in order to avoid making changes to the category and subcategory directly
+    vwcategory:string;
+    vwsubCategory:string;
     getData(){
-      if(this.category == "real estate"){this.category = "real-estate";}
-      var topScope = GlobalSettings.getTCXscope(this.category).topScope ? GlobalSettings.getTCXscope(this.category).topScope : null;
-      if(topScope && this.category != "all"){
-        this.category = topScope ? topScope : 'keyword-' + this.category;
-        this.subCategory = this.subCategory && this.subCategory != this.category && this.category != "real-estate" ? this.subCategory : "";
+        var topScope = GlobalSettings.getTCXscope(this.category).topScope ? GlobalSettings.getTCXscope(this.category).topScope : null;
+        this.vwcategory = this.category=="real estate"? this.category.replace(/ /g,"-"):this.category;
+        this.vwsubCategory = this.subCategory=="real estate"? this.subCategory.replace(/ /g,"-"):this.vwcategory;
+
+      if(topScope && this.vwcategory != "all"){
+          this.vwcategory = this.vwcategory;
+          this.vwsubCategory = this.vwsubCategory && this.vwsubCategory != this.vwcategory && this.vwsubCategory != "real-estate" ? this.vwsubCategory : "";
       } else {
-        this.category = "breaking";
-        this.subCategory = "";
+        this.vwcategory = "breaking";
+        this.vwsubCategory = "";
       }
-      this.srcLink = "/app/ads/vertical_widget.html?category=" + this.category + "&sub_category=" + this.subCategory;
+      this.srcLink = "/app/ads/vertical_widget.html?category=" + this.vwcategory + "&sub_category=" + this.vwsubCategory;
     }
     ngOnInit() {
       this.getData();

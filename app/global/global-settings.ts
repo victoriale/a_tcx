@@ -276,10 +276,10 @@ export class GlobalSettings {
           color:'#009dfb',
           hoverColor: "rgba(48, 152, 255, 0.75)"
         },
-        'real-estate':{
+        'real estate':{
           parentScope: null,
-          scope:'real-estate',
-          topScope: 'real-estate',
+          scope:'real estate',
+          topScope: 'real estate',
           displayName: 'Real Estate',
           verticalApi: this.getVerticalEnv('-joyfulhome-api.synapsys.us'),//dev api is maybe api2.joyfulhome.com
           aiApi: null,
@@ -643,7 +643,7 @@ export class GlobalSettings {
           }
           break;
         //REALESTATE URL
-        case 'real-estate':
+        case 'real estate':
           if (partnerCode != null) {
               key = key ? key.replace(/listing/g, "index") : null;
               if(key == "search"){
@@ -724,7 +724,7 @@ export class GlobalSettings {
           }
           break;
         //REALESTATE URL
-        case 'real-estate':
+        case 'real estate':
           if (partnerCode != null) {
             link = "http://" + this.offSiteEnv(scope) + ".myhousekit.com/" + partnerCode + relativeUrl;
           }

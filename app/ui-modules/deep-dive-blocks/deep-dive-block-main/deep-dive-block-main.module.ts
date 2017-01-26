@@ -36,6 +36,7 @@ export class DeepDiveBlockMain implements OnInit {
     private secName: Array<SectionNameData>;
     private batchNum: number = 1;
     private homePageBlocks = ["trending", "video", "sports", "business", "politics", "entertainment", "food", "video", "lifestyle", "real-estate", "travel", "video", "automotive"];//"health", "weather"
+
     constructor(private _deepDiveData: DeepDiveService) { }
 
     getSectionNameData() {
@@ -95,7 +96,7 @@ export class DeepDiveBlockMain implements OnInit {
                 'lifestyle':function(){
                     _selfscope.lifestyleStack=carray;
                 },
-                'real-estate':function(){
+                'real estate':function(){
                     _selfscope.estateStack=carray;
                 },
                 'travel':function(){

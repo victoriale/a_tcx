@@ -220,10 +220,9 @@ export class DeepDivePage implements OnInit{
             this.carouselGraph = null;
             this.carouselVideo = null;
             this.category = param['category'] ? param['category'] : 'all';
+            this.category = this.category.replace(/--/g," ");
             this.scope = param['subCategory'] ? param['subCategory'] : this.category;
-            if(this.scope == "real estate"){
-              this.scope = "real-estate";
-            }
+            this.scope = this.scope.replace(/--/g," ");
             if(param['subCategory']) {
               this.tcxVars = GlobalSettings.getTCXscope(param['subCategory']);
             } else {

@@ -14,17 +14,23 @@ export class BillboardModule implements OnInit{
     srcLink: string;
     @Input() category: string;
     @Input() subCategory: string;
+    //adding temporary variables in order to avoid making changes to the category and subcategory directly
+    billcategory:string;
+    billsubCategory:string;
+
     getData(){
-      if(this.category == "real estate"){this.category = "real-estate";}
-      var topScope = GlobalSettings.getTCXscope(this.category).topScope ? GlobalSettings.getTCXscope(this.category).topScope : null;
-      if(this.category != "all" && topScope){
-        this.category = topScope && this.category != "real-estate" ? topScope : 'keyword-' + this.category;
-        this.subCategory = this.subCategory && this.subCategory != this.category && this.category != "real-estate" ? this.subCategory : "";
+        var topScope = GlobalSettings.getTCXscope(this.category).topScope ? GlobalSettings.getTCXscope(this.category).topScope : null;
+        this.billcategory = this.category=="real estate"? this.category.replace(/ /g,"-"):this.category;
+        this.billsubCategory = this.subCategory=="real estate"? this.subCategory.replace(/ /g,"-"):this.billcategory;
+
+      if(this.billcategory != "all" && topScope){
+        this.billcategory = topScope && topScope != "real estate" ? topScope : 'keyword-' + this.billcategory;
+        this.billsubCategory = this.billsubCategory && this.billsubCategory != this.billcategory && this.billcategory != "real-estate" ? this.billsubCategory : "";
       } else {
         this.category = "trending";
         this.subCategory = "";
       }
-      this.srcLink = "/app/ads/billboard.html?category=" + this.category + "&sub_category=" + this.subCategory;
+      this.srcLink = "/app/ads/billboard.html?category=" + this.billcategory + "&sub_category=" + this.billsubCategory;
     }
     ngOnInit() {
       this.getData();

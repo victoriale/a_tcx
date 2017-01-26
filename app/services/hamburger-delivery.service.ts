@@ -96,7 +96,7 @@ export class HamburgerDeliveryService {
       },
       {
         menuTitle: "Real Estate",
-        url: topRoute + '/real-estate'
+        url: topRoute + '/real--estate'
       },
       {
         menuTitle: "Travel",

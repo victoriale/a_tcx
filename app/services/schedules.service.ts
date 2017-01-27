@@ -6,9 +6,6 @@ import {CircleImageData} from '../fe-core/components/images/image-data';
 import {VerticalGlobalFunctions} from '../global/vertical-global-functions';
 import {GlobalSettings} from '../global/global-settings';
 import {Conference, Division, SportPageParameters} from '../global/global-interface';
-// import {SchedulesCarouselInput} from '../fe-core/components/schedules-carousel/schedules-carousel.component';
-// import {SchedulesData, SchedulesTableModel, SchedulesTableData, ScheduleTabData} from './schedules.data';
-// import {Gradient} from '../global/global-gradient';
 import {scheduleBoxInput} from '../fe-core/components/schedule-box/schedule-box.component';
 
 declare var moment: any;
@@ -19,10 +16,7 @@ export class SchedulesService {
     // private _apiToken: string = 'BApA7KEfj';
     // private _headerName: string = 'X-SNT-TOKEN';
 
-    constructor(public http: Http) {
-
-    }
-
+    constructor(public http: Http) {}
 
     //Function to set custom headers
     setToken() {
@@ -86,101 +80,101 @@ export class SchedulesService {
                 return data;
             });
     }
-    getWeatherCarousel(scope, selectedLocation) {
-        //Configure HTTP Headers
-        var headers = this.setToken();
-        var callURL = GlobalSettings.getTCXscope('weather').verticalApi + "/tcx/sidescroll/weather/" + selectedLocation + "/" + scope.toLowerCase();
-        //optional week parameters
-        return this.http.get(callURL, { headers: headers })
-            .map(res => res.json())
-            .map(data => {
-                var output = { scopeList: [], blocks: [], current: {} };
-                if (data.data != null) {
-                    output.current['location'] = data.city + ', ' + data.state;
-                    output.current['city'] = data.city;
-                    output.current['current_condition'] = data.current_condition;
-                    output.current['current_icon'] = data.current_icon ? GlobalSettings.getImageUrl(data.current_icon, GlobalSettings._imgLgLogo).replace(".svg","_light.svg") : null;
-                    output.current['current_scope'] = data.current_scope;
-                    output.current['description'] = "<span class='text-heavy'>"+data.current_condition+"</span> until "+ moment(data.data[1].unix_timestamp).format("h A z");
-                    output.current['current_time'] = moment().format("dddd h:mm A");
-                    output.current['current_temperature'] = ((data.current_temperature * (9 / 5)) - 459.67).toFixed(0);
-                    output.current['temperature_low'] = data.temperature_low != null ? ((data.temperature_low * (9 / 5)) - 459.67).toFixed(0) : null;
-                    output.current['temperature_high'] = data.temperature_high != null ? ((data.temperature_high * (9 / 5)) - 459.67).toFixed(0) : null;
-                    output.current['state'] = data.state;
-                    output.current['zipcode'] = data.zipcode;
-                    output.current['background'] = GlobalSettings.getImageUrl(data.background, GlobalSettings._imgWideScreen);
-                    for (var n = 0; n < data.data.length; n++) {
-                        //convert from kelvin to farenheight
-                        let x = Number(data.data[n].unix_timestamp);
-                        let y = Number((data.data[n].temperature * (9 / 5)) - 459.67).toFixed(0);
-                        output.blocks.push({
-                            x: x,
-                            y: Number(y)
-                        });
-                    }
-                    output.current['options'] = {
-                        chart: {
-                            backgroundColor: 'transparent',
-                            type: 'areaspline',
-                            marginLeft: 0,
-                            marginRight: 0,
-                            marginTop: 0,
-                            marginBottom: 0,
-                        },
-                        title: {
-                            text: null
-                        },
-                        legend: {
-                            enabled: false
-                        },
-                        credits: {
-                            enabled: false
-                        },
-                        xAxis: {
-                            visible: false,
-                        },
-                        yAxis: {
-                            visible: false,
-                        },
-                        tooltip: {
-                            enabled: false
-                        },
-                        plotOptions: {
-                            areaspline: {
-                                pointStart: 1940,
-                                fillColor: 'rgba(252, 209, 48, 0.25)',
-                                lineColor: '#ffdf30',
-                                lineWidth: 3,
-                                marker: {
-                                    enabled: false,
-                                    states: {
-                                        hover: {
-                                            enabled: false
-                                        }
-                                    }
-                                },
-                                dataLabels: {
-                                    enabled: true,
-                                    useHTML: true,
-                                    formatter: function() {
-                                        return '<span class="weather-graph-text">' + this.y + '&deg;</span';
-                                    }
-                                },
-                            }
-                        },
-                        series: [{
-                            data: output.blocks,
-                        }]
-                    };
-
-                    return output;
-                }
-                else { // gracefully error if no data is returned
-                    output = this.getDummyGraphResult();
-                    return output;
-                }
-            })
-    }
+    // getWeatherCarousel(scope, selectedLocation) {
+    //     //Configure HTTP Headers
+    //     var headers = this.setToken();
+    //     var callURL = GlobalSettings.getTCXscope('weather').verticalApi + "/tcx/sidescroll/weather/" + selectedLocation + "/" + scope.toLowerCase();
+    //     //optional week parameters
+    //     return this.http.get(callURL, { headers: headers })
+    //         .map(res => res.json())
+    //         .map(data => {
+    //             var output = { scopeList: [], blocks: [], current: {} };
+    //             if (data.data != null) {
+    //                 output.current['location'] = data.city + ', ' + data.state;
+    //                 output.current['city'] = data.city;
+    //                 output.current['current_condition'] = data.current_condition;
+    //                 output.current['current_icon'] = data.current_icon ? GlobalSettings.getImageUrl(data.current_icon, GlobalSettings._imgLgLogo).replace(".svg","_light.svg") : null;
+    //                 output.current['current_scope'] = data.current_scope;
+    //                 output.current['description'] = "<span class='text-heavy'>"+data.current_condition+"</span> until "+ moment(data.data[1].unix_timestamp).format("h A z");
+    //                 output.current['current_time'] = moment().format("dddd h:mm A");
+    //                 output.current['current_temperature'] = ((data.current_temperature * (9 / 5)) - 459.67).toFixed(0);
+    //                 output.current['temperature_low'] = data.temperature_low != null ? ((data.temperature_low * (9 / 5)) - 459.67).toFixed(0) : null;
+    //                 output.current['temperature_high'] = data.temperature_high != null ? ((data.temperature_high * (9 / 5)) - 459.67).toFixed(0) : null;
+    //                 output.current['state'] = data.state;
+    //                 output.current['zipcode'] = data.zipcode;
+    //                 output.current['background'] = GlobalSettings.getImageUrl(data.background, GlobalSettings._imgWideScreen);
+    //                 for (var n = 0; n < data.data.length; n++) {
+    //                     //convert from kelvin to farenheight
+    //                     let x = Number(data.data[n].unix_timestamp);
+    //                     let y = Number((data.data[n].temperature * (9 / 5)) - 459.67).toFixed(0);
+    //                     output.blocks.push({
+    //                         x: x,
+    //                         y: Number(y)
+    //                     });
+    //                 }
+    //                 output.current['options'] = {
+    //                     chart: {
+    //                         backgroundColor: 'transparent',
+    //                         type: 'areaspline',
+    //                         marginLeft: 0,
+    //                         marginRight: 0,
+    //                         marginTop: 0,
+    //                         marginBottom: 0,
+    //                     },
+    //                     title: {
+    //                         text: null
+    //                     },
+    //                     legend: {
+    //                         enabled: false
+    //                     },
+    //                     credits: {
+    //                         enabled: false
+    //                     },
+    //                     xAxis: {
+    //                         visible: false,
+    //                     },
+    //                     yAxis: {
+    //                         visible: false,
+    //                     },
+    //                     tooltip: {
+    //                         enabled: false
+    //                     },
+    //                     plotOptions: {
+    //                         areaspline: {
+    //                             pointStart: 1940,
+    //                             fillColor: 'rgba(252, 209, 48, 0.25)',
+    //                             lineColor: '#ffdf30',
+    //                             lineWidth: 3,
+    //                             marker: {
+    //                                 enabled: false,
+    //                                 states: {
+    //                                     hover: {
+    //                                         enabled: false
+    //                                     }
+    //                                 }
+    //                             },
+    //                             dataLabels: {
+    //                                 enabled: true,
+    //                                 useHTML: true,
+    //                                 formatter: function() {
+    //                                     return '<span class="weather-graph-text">' + this.y + '&deg;</span';
+    //                                 }
+    //                             },
+    //                         }
+    //                     },
+    //                     series: [{
+    //                         data: output.blocks,
+    //                     }]
+    //                 };
+    //
+    //                 return output;
+    //             }
+    //             else { // gracefully error if no data is returned
+    //                 output = this.getDummyGraphResult();
+    //                 return output;
+    //             }
+    //         })
+    // }
 
     //Call made for slider carousel using BoxScore scheduler
     getFinanceData(scope, profile, eventStatus, limit, pageNum, id?) {
@@ -349,14 +343,13 @@ export class SchedulesService {
                     let date = moment(Number(data.data[n].startTime)).format('dddd, MMM. D').toUpperCase();
                     let time = moment(Number(data.data[n].startTime)).format('h:mm A z');
 
-
                     data.data[n].date = date + " &bull; " + time;
                     data.data[n].homeTeamName = data.data[n].lastNameHome;
 
                     data.data[n].awayTeamName = data.data[n].lastNameAway;
                     let fullNameAway = data.data[n].fullNameAway ? data.data[n].fullNameAway.replace(/ /g, "-") : null;
                     let fullNameHome = data.data[n].fullNameHome ? data.data[n].fullNameHome.replace(/ /g, "-"): null;
-                    data.data[n].awayProfileUrl = data.data[n].fullNameAway ? GlobalSettings.getOffsiteLink(scope, "team", fullNameAway, data.data[n].idAway) : null;
+                    data.data[n].awayProfileUrl = data.data[n].fullNameAway && data.data[n].awayDiv == "d1" ? GlobalSettings.getOffsiteLink(scope, "team", fullNameAway, data.data[n].idAway) : null;
                     data.data[n].homeProfileUrl = data.data[n].fullNameHome ? GlobalSettings.getOffsiteLink(scope, "team", fullNameHome, data.data[n].idHome) : null;
                     if (data.data[n].logoUrlAway == "" || data.data[n].logoUrlAway == null) {
                         data.data[n].logoUrlAway = '/app/public/no-image.png';
@@ -373,7 +366,7 @@ export class SchedulesService {
                     data.data[n].awayImageConfig = {
                         imageClass: "image-70",
                         mainImage: {
-                            url: GlobalSettings.getOffsiteLink(scope, "team", fullNameAway, data.data[n].idAway),
+                            url: data.data[n].awayDiv == "d1" ? GlobalSettings.getOffsiteLink(scope, "team", fullNameAway, data.data[n].idAway) : null,
                             imageUrl: data.data[n].logoUrlAway + "?width" + GlobalSettings._imgMdLogo,
                             imageClass: "border-1",
                             hoverText: "<p>View</p> Profile"

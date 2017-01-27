@@ -35,7 +35,8 @@ export class DeepDiveBlockMain implements OnInit {
     private blockIndex: number = 0;
     private secName: Array<SectionNameData>;
     private batchNum: number = 1;
-    private homePageBlocks = ["trending", "video", "sports", "business", "politics", "entertainment", "food", "video", "lifestyle", "real-estate", "travel", "video", "automotive"];//"health", "weather"
+    //TODO update to trending instead of breaking when it's ready
+    private homePageBlocks = ["breaking", "video", "sports", "business", "politics", "entertainment", "food", "video", "lifestyle", "real-estate", "travel", "video", "automotive"];//"health", "weather"
 
     constructor(private _deepDiveData: DeepDiveService) { }
 
@@ -71,7 +72,8 @@ export class DeepDiveBlockMain implements OnInit {
         var _selfscope=this;
         function getobjectStackArray(ctype,carray){
             var objectStackArray = {
-                'trending':function () {
+              //TODO update to trending instead of breaking when it's ready
+                'breaking':function () {
                     _selfscope.trendingStack =carray;
                 },
                 'sports':function () {
@@ -151,7 +153,8 @@ export class DeepDiveBlockMain implements OnInit {
       var self=this;
       var callMethodByIndex={
           0:function(){
-              self.getArticleStackData("trending",7,false);
+              self.getArticleStackData("breaking",7,false);//TODO update to trending instead of breaking when it's ready
+
               self.getArticleStackData("sports",6,true);
           },
           1:function(){

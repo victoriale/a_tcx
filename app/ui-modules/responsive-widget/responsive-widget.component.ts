@@ -10,19 +10,25 @@ export class ResponsiveWidget implements OnInit {
   @Input() embedPlace: string;//not sure why we need this
   @Input() category: string;
   @Input() subCategory: string;
+  //adding temporary variables in order to avoid making changes to the category and subcategory directly
+  wcategory:string;
+  wsubCategory:string;
   windowWidth: number = window.innerWidth;
   srcLink: string;
   getData(){
-    if(this.category == "real estate"){this.category = "real-estate";}
     var topScope = GlobalSettings.getTCXscope(this.category).topScope ? GlobalSettings.getTCXscope(this.category).topScope : null;
-    if(topScope && this.category != "all"){
-      this.category = topScope ? topScope : 'keyword-' + this.category;
-      this.subCategory = this.subCategory && this.subCategory != this.category && this.category != "real-estate" ? this.subCategory : "";
+
+    this.wcategory = this.category=="real estate"? this.category.replace(/ /g,"-"):this.category;
+    this.wsubCategory = this.subCategory=="real estate"? this.subCategory.replace(/ /g,"-"):this.wcategory;
+
+    if(topScope && this.wcategory != "all"){
+      this.wcategory = this.wcategory;
+      this.wsubCategory = this.wsubCategory && this.wsubCategory != this.wcategory && this.wsubCategory != "real-estate" ? this.wsubCategory : "";
     } else {
-      this.category = "breaking";
-      this.subCategory = "";
+      this.wcategory = "trending";
+      this.wsubCategory = "";
     }
-    this.srcLink = "/app/ads/horizontal_widget.html?category=" + this.category + "&sub_category=" + this.subCategory;
+    this.srcLink = "/app/ads/horizontal_widget.html?category=" + this.wcategory + "&sub_category=" + this.wsubCategory;
   }
   ngOnInit() {
     this.getData();

@@ -276,10 +276,10 @@ export class GlobalSettings {
           color:'#009dfb',
           hoverColor: "rgba(48, 152, 255, 0.75)"
         },
-        'real-estate':{
+        'real estate':{
           parentScope: null,
-          scope:'real-estate',
-          topScope: 'real-estate',
+          scope:'real estate',
+          topScope: 'real estate',
           displayName: 'Real Estate',
           verticalApi: this.getVerticalEnv('-joyfulhome-api.synapsys.us'),//dev api is maybe api2.joyfulhome.com
           aiApi: null,
@@ -315,33 +315,33 @@ export class GlobalSettings {
           color:'#00b9e3',
           hoverColor: "rgba(0, 185, 227, 0.75)"
         },
-        'weather':{
-          parentScope: null,
-          scope:'hourly',
-          scopeList: ["10 Day", "5 Day", "Hourly"],
-          topScope: 'weather',
-          displayName: 'Weather',
-          verticalApi: this.getVerticalEnv('-weather.synapsys.us'),
-          aiApi: null,
-          tcxApi: this.getApiUrl(),
-          showEventSlider: true,
-          showBoxScores:false,
-          icon:'fa-cloud',
-          pageType: 2,
-          color:'#ffdf30',
-          hoverColor: "rgba(255, 223, 48, 0.75)"
-        },
+        // 'weather':{
+        //   parentScope: null,
+        //   scope:'hourly',
+        //   scopeList: ["10 Day", "5 Day", "Hourly"],
+        //   topScope: 'weather',
+        //   displayName: 'Weather',
+        //   verticalApi: this.getVerticalEnv('-weather.synapsys.us'),
+        //   aiApi: null,
+        //   tcxApi: this.getApiUrl(),
+        //   showEventSlider: true,
+        //   showBoxScores:false,
+        //   icon:'fa-cloud',
+        //   pageType: 2,
+        //   color:'#ffdf30',
+        //   hoverColor: "rgba(255, 223, 48, 0.75)"
+        // },
         'trending':{
           parentScope: null,
           scope:'trending',
           topScope: 'trending',
-          displayName: 'Trending',
+          displayName: 'Trending News',
           verticalApi: null,
           aiApi: null,
           tcxApi: this.getApiUrl(),
           showEventSlider: false,
           showBoxScores:false,
-          icon:'fa-film',
+          icon:'fa-clock',
           pageType: 3,
           color:'#00b9e3',
           hoverColor: "rgba(0, 185, 227, 0.75)"
@@ -363,8 +363,8 @@ export class GlobalSettings {
         },
         'entertainment':{
           parentScope: null,
-          scope:'all',
-          scopeList: ["Music", "Movies", "Television", "All"],
+          scope:'entertainment',
+          // scopeList: ["Music", "Movies", "Television", "All"],
           topScope: 'entertainment',
           displayName: 'Entertainment',
           verticalApi: null,
@@ -378,57 +378,57 @@ export class GlobalSettings {
           color:'#00b9e3',
           hoverColor: "rgba(0, 185, 227, 0.75)"
         },
-        'television':{
-          parentScope: 'entertainment',
-          scope:'television',
-          scopeList: ["Music", "Movies", "Television", "All"],
-          topScope: 'entertainment',
-          displayName: 'Television',
-          verticalApi: null,
-          aiApi: null,
-          tcxApi: this.getApiUrl(),
-          showEventSlider: false,
-          showBoxScores:false,
-          showSFTopNav: true,
-          icon:'fa-film',
-          pageType: 3,
-          color:'#00b9e3',
-          hoverColor: "rgba(0, 185, 227, 0.75)"
-        },
-        'movies':{
-          parentScope: 'entertainment',
-          scope:'movies',
-          scopeList: ["Music", "Movies", "Television", "All"],
-          topScope: 'entertainment',
-          displayName: 'Movies',
-          verticalApi: null,
-          aiApi: null,
-          tcxApi: this.getApiUrl(),
-          showEventSlider: false,
-          showBoxScores:false,
-          showSFTopNav: true,
-          icon:'fa-film',
-          pageType: 3,
-          color:'#00b9e3',
-          hoverColor: "rgba(0, 185, 227, 0.75)"
-        },
-        'music':{
-          parentScope: 'entertainment',
-          scope:'music',
-          scopeList: ["Music", "Movies", "Television", "All"],
-          topScope: 'entertainment',
-          displayName: 'Music',
-          verticalApi: null,
-          aiApi: null,
-          tcxApi: this.getApiUrl(),
-          showEventSlider: false,
-          showBoxScores:false,
-          showSFTopNav: true,
-          icon:'fa-film',
-          pageType: 3,
-          color:'#00b9e3',
-          hoverColor: "rgba(0, 185, 227, 0.75)"
-        },
+        // 'television':{
+        //   parentScope: 'entertainment',
+        //   scope:'television',
+        //   scopeList: ["Music", "Movies", "Television", "All"],
+        //   topScope: 'entertainment',
+        //   displayName: 'Television',
+        //   verticalApi: null,
+        //   aiApi: null,
+        //   tcxApi: this.getApiUrl(),
+        //   showEventSlider: false,
+        //   showBoxScores:false,
+        //   showSFTopNav: true,
+        //   icon:'fa-film',
+        //   pageType: 3,
+        //   color:'#00b9e3',
+        //   hoverColor: "rgba(0, 185, 227, 0.75)"
+        // },
+        // 'movies':{
+        //   parentScope: 'entertainment',
+        //   scope:'movies',
+        //   scopeList: ["Music", "Movies", "Television", "All"],
+        //   topScope: 'entertainment',
+        //   displayName: 'Movies',
+        //   verticalApi: null,
+        //   aiApi: null,
+        //   tcxApi: this.getApiUrl(),
+        //   showEventSlider: false,
+        //   showBoxScores:false,
+        //   showSFTopNav: true,
+        //   icon:'fa-film',
+        //   pageType: 3,
+        //   color:'#00b9e3',
+        //   hoverColor: "rgba(0, 185, 227, 0.75)"
+        // },
+        // 'music':{
+        //   parentScope: 'entertainment',
+        //   scope:'music',
+        //   scopeList: ["Music", "Movies", "Television", "All"],
+        //   topScope: 'entertainment',
+        //   displayName: 'Music',
+        //   verticalApi: null,
+        //   aiApi: null,
+        //   tcxApi: this.getApiUrl(),
+        //   showEventSlider: false,
+        //   showBoxScores:false,
+        //   showSFTopNav: true,
+        //   icon:'fa-film',
+        //   pageType: 3,
+        //   color:'#00b9e3',
+        //   hoverColor: "rgba(0, 185, 227, 0.75)"
+        // },
         'lifestyle':{
           parentScope: null,
           scope:'lifestyle',
@@ -489,21 +489,21 @@ export class GlobalSettings {
           color:'#ff0101',
           hoverColor: "rgba(255, 1, 1, 0.75)"
         },
-        'health':{
-          parentScope: null,
-          scope:'health',
-          topScope: 'health',
-          displayName: 'Health',
-          verticalApi: null,
-          aiApi: null,
-          tcxApi: this.getApiUrl(),
-          showEventSlider: false,
-          showBoxScores:false,
-          icon:'fa-heartbeat',
-          pageType: 3,
-          color:'#00b9e3',
-          hoverColor: "rgba(0, 185, 227, 0.75)"
-        },
+        // 'health':{
+        //   parentScope: null,
+        //   scope:'health',
+        //   topScope: 'health',
+        //   displayName: 'Health',
+        //   verticalApi: null,
+        //   aiApi: null,
+        //   tcxApi: this.getApiUrl(),
+        //   showEventSlider: false,
+        //   showBoxScores:false,
+        //   icon:'fa-heartbeat',
+        //   pageType: 3,
+        //   color:'#00b9e3',
+        //   hoverColor: "rgba(0, 185, 227, 0.75)"
+        // },
         'automotive':{
           parentScope: null,
           scope:'automotive',
@@ -643,7 +643,7 @@ export class GlobalSettings {
           }
           break;
         //REALESTATE URL
-        case 'real-estate':
+        case 'real estate':
           if (partnerCode != null) {
               key = key ? key.replace(/listing/g, "index") : null;
               if(key == "search"){
@@ -724,7 +724,7 @@ export class GlobalSettings {
           }
           break;
         //REALESTATE URL
-        case 'real-estate':
+        case 'real estate':
           if (partnerCode != null) {
             link = "http://" + this.offSiteEnv(scope) + ".myhousekit.com/" + partnerCode + relativeUrl;
           }

@@ -74,10 +74,6 @@ export class SyndicateArticleService {
     }
 
     getArticleBatch(category, subcategory,count,trending?,page?){
-
-        if(subcategory=="real-estate"){
-            subcategory=subcategory.replace(/-/g," ");
-        };
         category = category.replace(/--/g," ");
         subcategory= subcategory.replace(/--/g," ");
         let params:URLSearchParams=new URLSearchParams();
@@ -90,10 +86,11 @@ export class SyndicateArticleService {
         };
         params.set("count", count.toString());
         params.set("metaDataOnly","1");
+
+        let callURL = GlobalSettings.getArticleBatchUrl()+"?&source[]=snt_ai&source[]=tca-curated&source[]=tronc";
         if(typeof trending==='undefined') {
             params.set("random","1");
-            this.headerOptions.search=params;
-            let callURL = GlobalSettings.getArticleBatchUrl()+"?&source[]=snt_ai&source[]=tca-curated&source[]=tronc";
+            this.headerOptions.search = params;
             return this._http.get(callURL, this.headerOptions)
                 .map(res => res.json())
                 .map(data => {
@@ -102,8 +99,7 @@ export class SyndicateArticleService {
         } else{
             params.set("trending","1");
             params.set("page",page.toString());
-            this.headerOptions.search=params;
-            let callURL = GlobalSettings.getArticleBatchUrl()+"?&source[]=snt_ai&source[]=tca-curated&source[]=tronc";
+            this.headerOptions.search = params;
             return this._http.get(callURL, this.headerOptions)
                 .map(res => res.json())
                 .map(data => {

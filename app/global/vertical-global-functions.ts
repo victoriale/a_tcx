@@ -44,7 +44,7 @@ export class VerticalGlobalFunctions {
         business:{
             rel_link: 'search'+ '/r=',
         },
-        'real-estate':{
+        'real estate':{
             rel_link: 'search' +'/',
         },
     }[scope].rel_link
@@ -65,7 +65,7 @@ export class VerticalGlobalFunctions {
     var sectionFrontRoute: Array<any>;
     let route = this.getWhiteLabel();
     if(category != null){
-      if(category == "real estate"){category = "real-estate";}
+      if(category == "real estate"){category = "real estate";}
       if(typeof GlobalSettings.getTCXscope(category) == "undefined"){
         return category !== null ? [route, category] : [route];
       }
@@ -86,9 +86,6 @@ export class VerticalGlobalFunctions {
     if(category === null){
       return ['Error-page'];
     }
-    if(category=="real-estate"){
-      category=category.replace(/-/g," ");
-    };
 
     if (category==subcategory){
       articleRoute = [route,subcategory, 'article', articleType, articleID];

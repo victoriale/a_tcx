@@ -93,8 +93,6 @@ export class DeepDiveSectionFront implements OnInit {
             this.articleData = null;
             this.createSearchBox(this.scope);
             this.callModules(this.blockIndex);
-
-
         }
     }
 
@@ -162,7 +160,6 @@ export class DeepDiveSectionFront implements OnInit {
     createSearchBox(scope) {
         var modSearchTitle;
         let sportsList;
-        scope = scope == "real estate" ? "real-estate" : scope;//TODO backend should send back both with/without hyphen
         if (this.category == "sports") {
             var titlescope =GlobalSettings.getTCXscope(scope).topScope;
             modSearchTitle = GlobalSettings.getTCXscope(scope).searchTitle + " " + GlobalFunctions.toTitleCase(titlescope);
@@ -270,5 +267,3 @@ export class DeepDiveSectionFront implements OnInit {
 
     }
 }
-
-

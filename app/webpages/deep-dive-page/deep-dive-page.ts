@@ -4,6 +4,7 @@ import { DeepDiveService } from '../../services/deep-dive.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GlobalSettings } from "../../global/global-settings";
 import { GlobalFunctions } from "../../global/global-functions";
+import { VerticalGlobalFunctions } from "../../global/vertical-global-functions";
 import { GeoLocation } from "../../global/global-service";
 
 import { SectionNameData } from "../../fe-core/interfaces/deep-dive.data";
@@ -73,7 +74,7 @@ export class DeepDivePage implements OnInit{
       this._geoLocation.grabLocation().subscribe( res => {
         this.geoLocation = res.state;
         this.selectedLocation = res.city + "-" + res.state;
-        this.getHourlyWeatherData(this.topScope);
+        // this.getHourlyWeatherData(this.topScope);
         this.getSideScroll();
       });
     }
@@ -83,7 +84,7 @@ export class DeepDivePage implements OnInit{
       var secIcon = GlobalSettings.getTCXscope(str).icon;
       return this.sectionName = {
          icon: secIcon ? secIcon : 'fa-news',
-         title: displayName ? GlobalFunctions.toTitleCase(displayName.replace(/--/g," ")) : GlobalFunctions.toTitleCase(str.replace(/--/g," "))
+         title: displayName ? displayName : GlobalFunctions.toTitleCase(str.replace(/--/g," "))
        }
     }
 
@@ -150,7 +151,7 @@ export class DeepDivePage implements OnInit{
     getDataCarousel() {
       let pageScope = this.scope;
       if(this.scope == 'all'){
-        pageScope = 'breaking';
+        pageScope = 'breaking';//TODO need to change to trending when it's ready
       }
       this._deepDiveData.getCarouselData(pageScope, this.carouselData, '15', '1', this.geoLocation, (carData)=>{
         try{
@@ -190,20 +191,20 @@ export class DeepDivePage implements OnInit{
         });
     }
 
-    getHourlyWeatherData(scope){//only if its weather scope that has graph
-      if( scope == 'weather'){//weather requires {city-state} as a parameter
-        this._schedulesService.getWeatherCarousel('hourly', this.selectedLocation).subscribe(
-          data => {
-            this.carouselGraph = data;
-            this.getDataCarousel();
-          },
-          err => {
-            this.carouselGraph = this._schedulesService.getDummyGraphResult();
-            this.getDataCarousel();
-            console.log("Error getting graph batch data:", err);
-          });
-      }
-    }
+    // getHourlyWeatherData(scope){//only if its weather scope that has graph
+    //   if( scope == 'weather'){//weather requires {city-state} as a parameter
+    //     this._schedulesService.getWeatherCarousel('hourly', this.selectedLocation).subscribe(
+    //       data => {
+    //         this.carouselGraph = data;
+    //         this.getDataCarousel();
+    //       },
+    //       err => {
+    //         this.carouselGraph = this._schedulesService.getDummyGraphResult();
+    //         this.getDataCarousel();
+    //         console.log("Error getting graph batch data:", err);
+    //       });
+    //   }
+    // }
 
     ngOnInit(){
       this.initializePage();
@@ -219,10 +220,9 @@ export class DeepDivePage implements OnInit{
             this.carouselGraph = null;
             this.carouselVideo = null;
             this.category = param['category'] ? param['category'] : 'all';
+            this.category = this.category.replace(/--/g," ");
             this.scope = param['subCategory'] ? param['subCategory'] : this.category;
-            if(this.scope == "real estate"){
-              this.scope = "real-estate";
-            }
+            this.scope = this.scope.replace(/--/g," ");
             if(param['subCategory']) {
               this.tcxVars = GlobalSettings.getTCXscope(param['subCategory']);
             } else {

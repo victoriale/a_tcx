@@ -74,7 +74,7 @@ export class DeepDivePage implements OnInit{
       this._geoLocation.grabLocation().subscribe( res => {
         this.geoLocation = res.state;
         this.selectedLocation = res.city + "-" + res.state;
-        this.getHourlyWeatherData(this.topScope);
+        // this.getHourlyWeatherData(this.topScope);
         this.getSideScroll();
       });
     }
@@ -151,7 +151,7 @@ export class DeepDivePage implements OnInit{
     getDataCarousel() {
       let pageScope = this.scope;
       if(this.scope == 'all'){
-        pageScope = 'breaking';
+        pageScope = 'breaking';//TODO need to change to trending when it's ready
       }
       this._deepDiveData.getCarouselData(pageScope, this.carouselData, '15', '1', this.geoLocation, (carData)=>{
         try{
@@ -191,20 +191,20 @@ export class DeepDivePage implements OnInit{
         });
     }
 
-    getHourlyWeatherData(scope){//only if its weather scope that has graph
-      if( scope == 'weather'){//weather requires {city-state} as a parameter
-        this._schedulesService.getWeatherCarousel('hourly', this.selectedLocation).subscribe(
-          data => {
-            this.carouselGraph = data;
-            this.getDataCarousel();
-          },
-          err => {
-            this.carouselGraph = this._schedulesService.getDummyGraphResult();
-            this.getDataCarousel();
-            console.log("Error getting graph batch data:", err);
-          });
-      }
-    }
+    // getHourlyWeatherData(scope){//only if its weather scope that has graph
+    //   if( scope == 'weather'){//weather requires {city-state} as a parameter
+    //     this._schedulesService.getWeatherCarousel('hourly', this.selectedLocation).subscribe(
+    //       data => {
+    //         this.carouselGraph = data;
+    //         this.getDataCarousel();
+    //       },
+    //       err => {
+    //         this.carouselGraph = this._schedulesService.getDummyGraphResult();
+    //         this.getDataCarousel();
+    //         console.log("Error getting graph batch data:", err);
+    //       });
+    //   }
+    // }
 
     ngOnInit(){
       this.initializePage();

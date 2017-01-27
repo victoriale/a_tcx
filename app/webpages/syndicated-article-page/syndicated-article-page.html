@@ -42,6 +42,7 @@
                         <div *ngIf="articleData.istronc" class="fade-in-effect"></div>
                         <a [href] = "articleData.linkback_url" target="_blank" *ngIf="articleData.istronc" class="tronc-read">Read the Full Article<i class="fa-arrow-right"></i></a>
                     </section>
+                    <div *ngIf="!articleData.istronc" class="add-margin"></div>
                     <div class="deep-dive-module"><billboard-module [category]="category" [subCategory]="subcategorywidgets"></billboard-module></div>
                     <!-- RESPONSIVE WIDGET-->
                     <div class="responsive-widget">

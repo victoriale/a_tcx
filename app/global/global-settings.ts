@@ -346,21 +346,21 @@ export class GlobalSettings {
           color:'#00b9e3',
           hoverColor: "rgba(0, 185, 227, 0.75)"
         },
-        // 'breaking':{
-        //   parentScope: null,
-        //   scope:'breaking',
-        //   topScope: 'breaking',
-        //   displayName: 'Breaking News',
-        //   verticalApi: null,
-        //   aiApi: null,
-        //   tcxApi: this.getApiUrl(),
-        //   showEventSlider: false,
-        //   showBoxScores:false,
-        //   icon:'fa-clock',
-        //   pageType: 3,
-        //   color:'#00b9e3',
-        //   hoverColor: "rgba(0, 185, 227, 0.75)"
-        // },
+        'breaking':{
+          parentScope: null,
+          scope:'breaking',
+          topScope: 'breaking',
+          displayName: 'Breaking News',
+          verticalApi: null,
+          aiApi: null,
+          tcxApi: this.getApiUrl(),
+          showEventSlider: false,
+          showBoxScores:false,
+          icon:'fa-clock',
+          pageType: 3,
+          color:'#00b9e3',
+          hoverColor: "rgba(0, 185, 227, 0.75)"
+        },
         'entertainment':{
           parentScope: null,
           scope:'entertainment',

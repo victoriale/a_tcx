@@ -157,8 +157,9 @@ export class DeepDivePage implements OnInit{
         try{
           if(carData){
             this.carouselData = carData;
-          } else throw new Error('No article data available');
+          } else throw new Error('No carousel article data available');
         }catch(e){
+          console.log(e.message);
           this.errorPage = true;
           var self=this;
           var partner = this.partnerID;
@@ -168,7 +169,6 @@ export class DeepDivePage implements OnInit{
               if(partner){
                 self._router.navigateByUrl('/' + partner, 'news');
               } else {
-                console.log("non partner check");
                 self._router.navigateByUrl('/news-feed');
               }
           }, 5000);

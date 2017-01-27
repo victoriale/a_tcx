@@ -36,7 +36,7 @@
 
                     <section *ngIf="eventType == 'story' || eventType == 'video'" [ngStyle]="{'margin-top': eventType == 'video'? '5px' : '0px'}" class="arpt-main-article">
                         <div *ngIf="eventType == 'story' && articleData.article != null ">
-                                <div class="content-exerpt" *ngFor="let description of articleData.article; let last = last" [class.remove-margin]="last" [innerHTML]="description | safeHtml"></div>
+                                <div class="content-exerpt" *ngFor="let description of articleData.article; let last = last" [class.remove-margin]="last && articleData.istronc" [innerHTML]="description | safeHtml"></div>
                           </div>
                         <div class="content-exerpt" *ngIf="eventType == 'video' && articleData.teaser != null " [innerHTML]="articleData.teaser | safeHtml"></div>
                         <div *ngIf="articleData.istronc" class="fade-in-effect"></div>

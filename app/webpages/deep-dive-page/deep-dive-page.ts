@@ -151,7 +151,7 @@ export class DeepDivePage implements OnInit{
     getDataCarousel() {
       let pageScope = this.scope;
       if(this.scope == 'all'){
-        pageScope = 'breaking';//TODO need to change to trending when it's ready
+        pageScope = 'trending';
       }
       this._deepDiveData.getCarouselData(pageScope, this.carouselData, '15', '1', this.geoLocation, (carData)=>{
         try{

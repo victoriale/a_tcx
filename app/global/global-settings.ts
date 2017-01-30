@@ -346,7 +346,7 @@ export class GlobalSettings {
           color:'#00b9e3',
           hoverColor: "rgba(0, 185, 227, 0.75)"
         },
-        'breaking':{
+       /* 'breaking':{
           parentScope: null,
           scope:'breaking',
           topScope: 'breaking',
@@ -360,7 +360,7 @@ export class GlobalSettings {
           pageType: 3,
           color:'#00b9e3',
           hoverColor: "rgba(0, 185, 227, 0.75)"
-        },
+        },*/
         'entertainment':{
           parentScope: null,
           scope:'entertainment',

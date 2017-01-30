@@ -59,8 +59,8 @@
       <responsive-widget [category]="category" [subCategory]="scope"></responsive-widget>
     </div>
     <!-- SEARCH BOX FOR TYPE 1 ONLY-->
-    <div *ngIf="deepDiveType === 1 && scope != 'sports' && first" class="deep-dive-module">
-      <search-box-module [category]="category" [scope]="scope" [searchData]="searchData" (scopeEmit)="changeScope($event)" (userInput)="navigateSearch($event)"></search-box-module>
+    <div *ngIf="deepDiveType === 1 && first" class="deep-dive-module">
+      <search-box-module [category]="category" [scope]="searchBoxScope" [searchData]="searchData" (scopeEmit)="changeScope($event)" (userInput)="navigateSearch($event)"></search-box-module>
     </div>
     <!-- WIDGET FOR TYPE 1 ONLY-->
     <div *ngIf="deepDiveType === 1 && scope != 'sports' && item.recData1" class="responsive-widget">

@@ -22,7 +22,6 @@ export class DeepDiveService {
   }
 
   getDeepDiveBatchService(category: string, limit: number, page: number, state?: string){
-  
     category = category.replace(/--/g," ");
     let params:URLSearchParams=new URLSearchParams();
     var checkCategory= GlobalSettings.getTCXscope(category).topScope;
@@ -41,7 +40,7 @@ export class DeepDiveService {
     this.options.search=params;
     let callURL = GlobalSettings.getArticleBatchUrl()+"?&source[]=snt_ai&source[]=tca-curated&source[]=tronc";
 
-    return this.http.get(callURL, this.options)
+    return this.http.get(callURL, this.options).retry(3)
         .map(res => res.json())
         .map(data => {
           return data.data;

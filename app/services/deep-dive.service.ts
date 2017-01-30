@@ -22,7 +22,7 @@ export class DeepDiveService {
   }
 
   getDeepDiveBatchService(category: string, limit: number, page: number, state?: string){
-  
+
     category = category.replace(/--/g," ");
     let params:URLSearchParams=new URLSearchParams();
     var checkCategory= GlobalSettings.getTCXscope(category).topScope;
@@ -36,7 +36,6 @@ export class DeepDiveService {
     };
     params.set("count", limit.toString());
     params.set("page",page.toString());
-    params.set("random","1");
     params.set("metaDataOnly","1");
     this.options.search=params;
     let callURL = GlobalSettings.getArticleBatchUrl()+"?&source[]=snt_ai&source[]=tca-curated&source[]=tronc";
@@ -46,9 +45,8 @@ export class DeepDiveService {
         .map(data => {
           return data.data;
         })
-
-
   }
+
   getCarouselData(scope, data, limit, batch, state, callback:Function) {
     scope = scope.replace(/--/g," ");
     //always returns the first batch of articles

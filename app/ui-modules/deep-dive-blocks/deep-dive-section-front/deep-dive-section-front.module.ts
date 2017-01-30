@@ -153,7 +153,6 @@ export class DeepDiveSectionFront implements OnInit {
         }
     }
     changeScope(event) {
-        console.log("clicked scope", event);
         this.urlScope = event;
         var addTopScope=GlobalSettings.getTCXscope(event).topScope;
         this.searchData.searchModTitle = GlobalSettings.getTCXscope(event).searchTitle + " " + GlobalFunctions.toTitleCase(addTopScope);

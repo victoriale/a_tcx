@@ -76,7 +76,10 @@
           font-family: lato;
         }
         a:hover {
-          color: @white;
+          @media @tablet{
+            font-weight: 800;
+            color: @white;
+          }
         }
       }
       div:first-of-type {

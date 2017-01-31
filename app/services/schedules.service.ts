@@ -231,11 +231,95 @@ export class SchedulesService {
             });
     }
 
-    getWeatherData(scope, selectedLocation) {
+    getWeatherData(scope,selectedLocation){
+        var headers = this.setToken();
+        var callURL = GlobalSettings.getTCXscope('all').weatherverticalApi + "/tcx/sidescroll/weather/" + selectedLocation + "/" + scope.toLowerCase();
+        return this.http.get(callURL, { headers: headers }).retry(2)
+            .map(res => res.json())
+            .map(data=>{
+                return data
+            })
+
+    }
+
+    transformWeatherData(data,scope){
+        var output = { scopeList: [], blocks: [], current: {} }
+        if (data.data != null) {
+            output.current['city'] = data.city;
+            output.current['current_condition'] = data.current_condition;
+            output.current['current_icon'] = GlobalSettings.getImageUrl(data.current_icon, GlobalSettings._imgLgLogo);
+            output.current['current_scope'] = data.current_scope;
+            output.current['current_temperature'] = ((data.current_temperature * (9 / 5)) - 459.67).toFixed(0);
+            output.current['state'] = data.state;
+            output.current['zipcode'] = data.zipcode;
+            if(scope.toLowerCase()=='hourly') {
+                output.blocks.push(
+                    {
+                        eos: "false",
+                        unix_timestamp: "NOW",
+                        temperature: output.current['current_temperature'] + "&deg;",
+                        icon: output.current['current_icon'],
+                        condition: output.current['current_condition']
+                    }
+                );
+            }
+            for (var n = 0; n < data.data.length; n++) {
+                data.data[n]['eos'] = "false";
+                data.data[n]['icon'] = GlobalSettings.getImageUrl(data.data[n]['icon']);
+                //convert from kelvin to farenheight
+                if (scope.toLowerCase() == "hourly") {
+                    data.data[n].unix_timestamp = moment.unix(data.data[n].unix_timestamp).format("h:mm A z");
+                    data.data[n].temperature = ((data.data[n].temperature * (9 / 5)) - 459.67).toFixed(0) + "&deg;";
+                }
+                else {
+                    if(n==0){
+                            data.data[n].unix_timestamp = "TODAY";
+                            data.data[n].temperature = ((data.data[n].temperature_high * (9 / 5)) - 459.67).toFixed(0) + "&deg; <span class='small-temp'>/ " + ((data.data[n].temperature_low * (9 / 5)) - 459.67).toFixed(0) + "&deg;</span>";
+
+                    }else{
+                        data.data[n].unix_timestamp = moment.unix(data.data[n].unix_timestamp).format("dddd, MMM. DD, YYYY").toUpperCase();
+                        data.data[n].temperature = ((data.data[n].temperature_high * (9 / 5)) - 459.67).toFixed(0) + "&deg; <span class='small-temp'>/ " + ((data.data[n].temperature_low * (9 / 5)) - 459.67).toFixed(0) + "&deg;</span>";
+                    }
+                }
+                output.blocks.push(data.data[n]);
+            }
+            output.blocks.push(
+                {
+                    eos: "true",
+                    icon: "app/public/eos.svg",
+                    mainMessage: "END OF LIST",
+                    subMessage: "The list will now start over."
+                });
+            return output;
+        }
+        else { // gracefully error if no data is returned
+            output = {
+                scopeList: [], blocks: [
+                    {
+                        unix_timestamp: "UH OH!",
+                        condition: "ERROR",
+                        icon: GlobalSettings.getImageUrl("/weather/icons/sharknado_n.svg")
+                    }
+                ], current: {
+                    current_condition: "N/A",
+                    current_icon: GlobalSettings.getImageUrl("/weather/icons/sharknado_n.svg"),
+                    current_temperature: "N/A",
+                    current_scope: "",
+                    state: "N/A",
+                    city: "N/A",
+                }
+            }
+            return output;
+        }
+    }
+
+/*    getWeatherData(scope, selectedLocation) {
         //Configure HTTP Headers
         var headers = this.setToken();
         // var callURL = GlobalSettings.getVerticalEnv('-tcxmedia-api.synapsys.us') + "/sidescroll/weather/" + selectedLocation + "/" + scope.toLowerCase();
         var callURL = GlobalSettings.getTCXscope('all').weatherverticalApi + "/tcx/sidescroll/weather/" + selectedLocation + "/" + scope.toLowerCase();
+
+        console.log(callURL);
         //optional week parameters
         return this.http.get(callURL, { headers: headers })
             .map(res => res.json())
@@ -301,7 +385,7 @@ export class SchedulesService {
                     return output;
                 }
             })
-    }
+    }*/
 
     //Call made for slider carousel using BoxScore scheduler
     getBasketballSchedule(scope, profile, eventStatus, limit, pageNum, id?) {
@@ -511,7 +595,22 @@ export class SchedulesService {
         else if (topScope == "all") {
             this.getWeatherData(scope, selectedLocation)
                 .subscribe(data => {
-                    callback(data);
+                    try{
+                        if(data){
+                            var last_updated= data.last_updated;
+                            var getToday = new Date().getTime()/1000;
+                            var current_difference = GlobalFunctions.compareTimestamps(getToday,last_updated);
+                            if(current_difference<12){
+                                var weatherData = this.transformWeatherData(data,scope);
+                                callback(weatherData);
+                            } else throw new Error("Weather data is not updated since 12 hours! Lat updated" + " " + current_difference + " hours ago")
+
+                      } else throw new Error("No weather data available");
+                    } catch(e){
+                        console.log(e.message);
+                    }
+
+
                 })
         }
 

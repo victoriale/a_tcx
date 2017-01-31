@@ -346,9 +346,10 @@ export class SchedulesService {
                     data.data[n].homeTeamName = data.data[n].lastNameHome;
 
                     data.data[n].awayTeamName = data.data[n].lastNameAway;
+                    var divCheck = data.data[n].awayDiv ? (data.data[n].awayDiv == "d2" ? false : true) : true;
                     let fullNameAway = data.data[n].fullNameAway ? data.data[n].fullNameAway.replace(/ /g, "-") : null;
                     let fullNameHome = data.data[n].fullNameHome ? data.data[n].fullNameHome.replace(/ /g, "-"): null;
-                    data.data[n].awayProfileUrl = data.data[n].fullNameAway && data.data[n].awayDiv == "d1" ? GlobalSettings.getOffsiteLink(scope, "team", fullNameAway, data.data[n].idAway) : null;
+                    data.data[n].awayProfileUrl = data.data[n].fullNameAway && divCheck ? GlobalSettings.getOffsiteLink(scope, "team", fullNameAway, data.data[n].idAway) : null;
                     data.data[n].homeProfileUrl = data.data[n].fullNameHome ? GlobalSettings.getOffsiteLink(scope, "team", fullNameHome, data.data[n].idHome) : null;
                     if (data.data[n].logoUrlAway == "" || data.data[n].logoUrlAway == null) {
                         data.data[n].logoUrlAway = '/app/public/no-image.png';
@@ -365,7 +366,7 @@ export class SchedulesService {
                     data.data[n].awayImageConfig = {
                         imageClass: "image-70",
                         mainImage: {
-                            url: data.data[n].awayDiv == "d1" ? GlobalSettings.getOffsiteLink(scope, "team", fullNameAway, data.data[n].idAway) : null,
+                            url: divCheck ? GlobalSettings.getOffsiteLink(scope, "team", fullNameAway, data.data[n].idAway) : null,
                             imageUrl: data.data[n].logoUrlAway + "?width" + GlobalSettings._imgMdLogo,
                             imageClass: "border-1",
                             hoverText: "<p>View</p> Profile"

@@ -234,11 +234,9 @@ export class SchedulesService {
     getWeatherData(scope,selectedLocation){
         var headers = this.setToken();
         var callURL = GlobalSettings.getTCXscope('all').weatherverticalApi + "/tcx/sidescroll/weather/" + selectedLocation + "/" + scope.toLowerCase();
-        console.log(callURL);
         return this.http.get(callURL, { headers: headers }).retry(2)
             .map(res => res.json())
             .map(data=>{
-                console.log(data);
                 return data
             })
 

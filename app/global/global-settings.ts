@@ -522,17 +522,21 @@ export class GlobalSettings {
         'all':{
           parentScope: null,
           scope:'news-feed',
-          topScope: null,
+            weatherscope:'hourly',
+            scopeList: ["10 Day", "5 Day", "Hourly"],
+          topScope: 'all',
           displayName: null,
           verticalApi: null,
           aiApi: null,
           tcxApi: this.getApiUrl(),
-          showEventSlider: false,
+          showEventSlider: true,
           showBoxScores:false,
           icon:'fa-news',
           pageType: 'all',
           color:'#00b9e3',
-          hoverColor: "rgba(0, 185, 227, 0.75)"
+          hoverColor: "rgba(0, 185, 227, 0.75)",
+          weatherverticalApi:this.getVerticalEnv('-weather.synapsys.us'),
+
         },
         //ABOVE are categories SNTMedia do no have specific verticals for therefore will not have anything linking to a category specific site
       }

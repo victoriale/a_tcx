@@ -173,7 +173,7 @@ export class DeepDiveService {
              if(topcategory!=val.keywords[0] && val.keywords[0]){
                  topcategory=val.keywords[0].replace(/ /g,"--");
              }  else{
-                 topcategory=topcategory;
+                 topcategory=topcategory.replace(/ /g,"--");
              }
          }
           routeLink = topcategory ? VerticalGlobalFunctions.formatArticleRoute(topcategory, keyhyphen.toLowerCase(), val.article_id, "story") : null;

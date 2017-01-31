@@ -102,6 +102,7 @@ export class DeepDivePage implements OnInit{
       if(this.safeCall && this.topScope != null && this.tcxVars.showEventSlider == true){
         this.safeCall = false;
         let changeScope = this.changeScopeVar.toLowerCase() == 'ncaaf'?'fbs':this.changeScopeVar.toLowerCase();
+
         this._schedulesService.setupSlideScroll(this.topScope, this.sideScrollData, changeScope, 'league', 'pregame', this.callLimit, this.callCount, this.selectedLocation, (sideScrollData) => {
           this.scopeList = this.tcxVars.scopeList;
           if (this.tcxVars.showEventSlider) {
@@ -229,7 +230,7 @@ export class DeepDivePage implements OnInit{
               this.tcxVars = GlobalSettings.getTCXscope(this.category);
             }
             this.topScope = this.tcxVars ? this.tcxVars.topScope : this.category;
-            this.changeScopeVar = this.tcxVars.scope;
+            this.changeScopeVar = this.tcxVars.scope=='news-feed'?this.tcxVars.weatherscope?this.tcxVars.weatherscope:this.tcxVars.scope:this.tcxVars.scope;
             this.deepDiveType = GlobalSettings.getTCXscope(this.scope.replace(/ /g, "-")).pageType ? GlobalSettings.getTCXscope(this.scope.replace(/ /g, "-")).pageType : 3;
             this.getGeoLocation();
             this.getDeepDiveVideo();

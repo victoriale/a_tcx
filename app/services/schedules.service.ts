@@ -235,8 +235,7 @@ export class SchedulesService {
         //Configure HTTP Headers
         var headers = this.setToken();
         // var callURL = GlobalSettings.getVerticalEnv('-tcxmedia-api.synapsys.us') + "/sidescroll/weather/" + selectedLocation + "/" + scope.toLowerCase();
-        var callURL = GlobalSettings.getTCXscope('weather').verticalApi + "/tcx/sidescroll/weather/" + selectedLocation + "/" + scope.toLowerCase();
-
+        var callURL = GlobalSettings.getTCXscope('all').weatherverticalApi + "/tcx/sidescroll/weather/" + selectedLocation + "/" + scope.toLowerCase();
         //optional week parameters
         return this.http.get(callURL, { headers: headers })
             .map(res => res.json())
@@ -480,7 +479,6 @@ export class SchedulesService {
 
 
     setupSlideScroll(topScope, data, scope, profile, eventStatus, limit, pageNum, selectedLocation, callback: Function, year?, week?) {
-
         if (topScope == "business") {
             //(scope, profile, eventStatus, limit, pageNum, id?)
             this.getFinanceData(scope, 'league', eventStatus, limit, pageNum)
@@ -510,8 +508,7 @@ export class SchedulesService {
                     callback(data);
                 })
         }
-        else if (topScope == "weather") {
-            //(scope, profile, eventStatus, limit, pageNum, id?)
+        else if (topScope == "all") {
             this.getWeatherData(scope, selectedLocation)
                 .subscribe(data => {
                     callback(data);

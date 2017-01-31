@@ -40,7 +40,7 @@ export class DeepDiveService {
     this.options.search=params;
     let callURL = GlobalSettings.getArticleBatchUrl()+"?&source[]=snt_ai&source[]=tca-curated&source[]=tronc";
 
-    return this.http.get(callURL, this.options)
+    return this.http.get(callURL, this.options).retry(3)
         .map(res => res.json())
         .map(data => {
           return data.data;
@@ -172,7 +172,7 @@ export class DeepDiveService {
              if(topcategory!=val.keywords[0] && val.keywords[0]){
                  topcategory=val.keywords[0].replace(/ /g,"--");
              }  else{
-                 topcategory=topcategory;
+                 topcategory=topcategory.replace(/ /g,"--");
              }
          }
           routeLink = topcategory ? VerticalGlobalFunctions.formatArticleRoute(topcategory, keyhyphen.toLowerCase(), val.article_id, "story") : null;

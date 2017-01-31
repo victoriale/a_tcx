@@ -18,6 +18,7 @@ export class GlobalSettings {
 
     //two different api since there is a possibility that these urls are going to change
     private static _widgetUrl: string = 'w1.synapsys.us';
+    // private static _geoUrl: string = '-waldo.synapsys.us';
     private static _geoUrl: string = 'w1.synapsys.us';
 
     //main domain for all our images
@@ -346,7 +347,7 @@ export class GlobalSettings {
           color:'#00b9e3',
           hoverColor: "rgba(0, 185, 227, 0.75)"
         },
-        'breaking':{
+       /* 'breaking':{
           parentScope: null,
           scope:'breaking',
           topScope: 'breaking',
@@ -360,7 +361,7 @@ export class GlobalSettings {
           pageType: 3,
           color:'#00b9e3',
           hoverColor: "rgba(0, 185, 227, 0.75)"
-        },
+        },*/
         'entertainment':{
           parentScope: null,
           scope:'entertainment',
@@ -522,17 +523,21 @@ export class GlobalSettings {
         'all':{
           parentScope: null,
           scope:'news-feed',
-          topScope: null,
+            weatherscope:'hourly',
+            scopeList: ["10 Day", "5 Day", "Hourly"],
+          topScope: 'all',
           displayName: null,
           verticalApi: null,
           aiApi: null,
           tcxApi: this.getApiUrl(),
-          showEventSlider: false,
+          showEventSlider: true,
           showBoxScores:false,
           icon:'fa-news',
           pageType: 'all',
           color:'#00b9e3',
-          hoverColor: "rgba(0, 185, 227, 0.75)"
+          hoverColor: "rgba(0, 185, 227, 0.75)",
+          weatherverticalApi:this.getVerticalEnv('-weather.synapsys.us'),
+
         },
         //ABOVE are categories SNTMedia do no have specific verticals for therefore will not have anything linking to a category specific site
       }
@@ -781,6 +786,7 @@ export class GlobalSettings {
     }
 
     static getGeoLocation():string {
+        // return this._proto + "//" + this.getEnv(this._env) + this._geoUrl;
         return this._proto + "//" + this._geoUrl;
     }
 

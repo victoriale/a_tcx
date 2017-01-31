@@ -39,6 +39,7 @@ export class DeepDiveSectionFront implements OnInit {
     routeSubscription: any;
     urlScope: any;
     imgSize: number;
+    searchBoxScope:string;
     constructor(private _boxScoresService: BoxScoresService, private _deepDiveData: DeepDiveService) { }
 
     private onScroll(event) {
@@ -158,11 +159,13 @@ export class DeepDiveSectionFront implements OnInit {
         this.searchData.searchSubTitle = GlobalSettings.getTCXscope(event).searchSubTitle;
     }
     createSearchBox(scope) {
+        this.searchBoxScope = scope=="sports"? "nfl":scope;
+
         var modSearchTitle;
         let sportsList;
         if (this.category == "sports") {
-            var titlescope =GlobalSettings.getTCXscope(scope).topScope;
-            modSearchTitle = GlobalSettings.getTCXscope(scope).searchTitle + " " + GlobalFunctions.toTitleCase(titlescope);
+            var titlescope =GlobalSettings.getTCXscope(this.searchBoxScope).topScope;
+            modSearchTitle = GlobalSettings.getTCXscope(this.searchBoxScope).searchTitle + " " + GlobalFunctions.toTitleCase(titlescope);
             sportsList = [
                 {
                     key: 'NFL',
@@ -187,14 +190,14 @@ export class DeepDiveSectionFront implements OnInit {
             ];
         } else {
             sportsList = null;
-            modSearchTitle = GlobalSettings.getTCXscope(scope).searchTitle;
+            modSearchTitle = GlobalSettings.getTCXscope(this.searchBoxScope).searchTitle;
         }
         this.searchData = {
-            category: scope,
+            category: this.searchBoxScope,
             searchModTitle: modSearchTitle,
-            searchSubText: GlobalSettings.getTCXscope(scope).searchSubTitle,
-            searchPlaceHolderText: GlobalSettings.getTCXscope(scope).placeHolderText,
-            searchBackground: GlobalSettings.getTCXscope(scope).searchBackground,
+            searchSubText: GlobalSettings.getTCXscope(this.searchBoxScope).searchSubTitle,
+            searchPlaceHolderText: GlobalSettings.getTCXscope(this.searchBoxScope).placeHolderText,
+            searchBackground: GlobalSettings.getTCXscope(this.searchBoxScope).searchBackground,
             searchScopeDropdown: sportsList
         };
     }

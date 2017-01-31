@@ -20,8 +20,8 @@ export class BillboardModule implements OnInit{
 
     getData(){
         var topScope = GlobalSettings.getTCXscope(this.category).topScope ? GlobalSettings.getTCXscope(this.category).topScope : null;
-        this.billcategory = this.category=="real estate"? this.category.replace(/ /g,"-"):this.category;
-        this.billsubCategory = this.subCategory=="real estate"? this.subCategory.replace(/ /g,"-"):this.billcategory;
+        this.billcategory = this.category == "real estate" ? this.category.replace(/ /g,"-") : this.category;
+        this.billsubCategory = this.subCategory == "real estate"? this.subCategory.replace(/ /g,"-") : this.subCategory;
 
       if(this.billcategory != "all" && topScope){
         this.billcategory = topScope && topScope != "real estate" ? topScope : 'keyword-' + this.billcategory;

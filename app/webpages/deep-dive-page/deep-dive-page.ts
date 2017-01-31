@@ -102,6 +102,7 @@ export class DeepDivePage implements OnInit{
       if(this.safeCall && this.topScope != null && this.tcxVars.showEventSlider == true){
         this.safeCall = false;
         let changeScope = this.changeScopeVar.toLowerCase() == 'ncaaf'?'fbs':this.changeScopeVar.toLowerCase();
+
         this._schedulesService.setupSlideScroll(this.topScope, this.sideScrollData, changeScope, 'league', 'pregame', this.callLimit, this.callCount, this.selectedLocation, (sideScrollData) => {
           this.scopeList = this.tcxVars.scopeList;
           if (this.tcxVars.showEventSlider) {
@@ -151,14 +152,15 @@ export class DeepDivePage implements OnInit{
     getDataCarousel() {
       let pageScope = this.scope;
       if(this.scope == 'all'){
-        pageScope = 'breaking';//TODO need to change to trending when it's ready
+        pageScope = 'trending';
       }
       this._deepDiveData.getCarouselData(pageScope, this.carouselData, '15', '1', this.geoLocation, (carData)=>{
         try{
           if(carData){
             this.carouselData = carData;
-          } else throw new Error('No article data available');
+          } else throw new Error('No carousel article data available');
         }catch(e){
+          console.log(e.message);
           this.errorPage = true;
           var self=this;
           var partner = this.partnerID;
@@ -168,7 +170,6 @@ export class DeepDivePage implements OnInit{
               if(partner){
                 self._router.navigateByUrl('/' + partner, 'news');
               } else {
-                console.log("non partner check");
                 self._router.navigateByUrl('/news-feed');
               }
           }, 5000);
@@ -229,8 +230,8 @@ export class DeepDivePage implements OnInit{
               this.tcxVars = GlobalSettings.getTCXscope(this.category);
             }
             this.topScope = this.tcxVars ? this.tcxVars.topScope : this.category;
-            this.changeScopeVar = this.tcxVars.scope;
-            this.deepDiveType = GlobalSettings.getTCXscope(this.scope.replace(/ /g, "-")).pageType ? GlobalSettings.getTCXscope(this.scope.replace(/ /g, "-")).pageType : 3;
+            this.changeScopeVar = this.tcxVars.scope=='news-feed'?this.tcxVars.weatherscope?this.tcxVars.weatherscope:this.tcxVars.scope:this.tcxVars.scope;
+            this.deepDiveType = GlobalSettings.getTCXscope(this.scope).pageType ? GlobalSettings.getTCXscope(this.scope).pageType : 3;
             this.getGeoLocation();
             this.getDeepDiveVideo();
             this.sectionFrontName(this.scope);

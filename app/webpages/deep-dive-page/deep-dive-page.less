@@ -58,19 +58,17 @@
 }
 
 .dynamic-background-hover{
-  background-color: @tcxImageHover;
+  @media  @tablet{
+    background-color: @tcxImageHover;
+  }
 }
-.dynamic-background{
+.dynamic-background, .dynamic-color{
   background-color: @tcxBlue;
-}
-
-.dynamic-color{
-  color: @tcxBlue;
 }
 
 .dynamic-color-hover{
   &:hover{
-    color: @tcxBlue;
+    @media @tablet{color: @tcxBlue}
   }
 }
 

@@ -22,7 +22,7 @@ export class DeepDiveService {
   }
 
   getDeepDiveBatchService(category: string, limit: number, page: number, state?: string){
-  
+
     category = category.replace(/--/g," ");
     let params:URLSearchParams=new URLSearchParams();
     var checkCategory= GlobalSettings.getTCXscope(category).topScope;
@@ -36,19 +36,17 @@ export class DeepDiveService {
     };
     params.set("count", limit.toString());
     params.set("page",page.toString());
-    params.set("random","1");
     params.set("metaDataOnly","1");
     this.options.search=params;
     let callURL = GlobalSettings.getArticleBatchUrl()+"?&source[]=snt_ai&source[]=tca-curated&source[]=tronc";
 
-    return this.http.get(callURL, this.options)
+    return this.http.get(callURL, this.options).retry(3)
         .map(res => res.json())
         .map(data => {
           return data.data;
         })
-
-
   }
+
   getCarouselData(scope, data, limit, batch, state, callback:Function) {
     scope = scope.replace(/--/g," ");
     //always returns the first batch of articles
@@ -174,7 +172,7 @@ export class DeepDiveService {
              if(topcategory!=val.keywords[0] && val.keywords[0]){
                  topcategory=val.keywords[0].replace(/ /g,"--");
              }  else{
-                 topcategory=topcategory;
+                 topcategory=topcategory.replace(/ /g,"--");
              }
          }
           routeLink = topcategory ? VerticalGlobalFunctions.formatArticleRoute(topcategory, keyhyphen.toLowerCase(), val.article_id, "story") : null;

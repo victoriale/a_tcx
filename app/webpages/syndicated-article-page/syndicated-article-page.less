@@ -245,6 +245,7 @@
     overflow: hidden;
     position: relative;
     text-align: left;
+
     @media @desktop-l{padding-right: 7px}
     &-author {
       margin-bottom: 10px;
@@ -296,8 +297,11 @@
           background-color: @black;
         }
       }
+      a, a:link, a:visited, a:hover, a:active{
+        color: @white;
+      }
       .content-exerpt, .content-exerpt p{
-        line-height: 22px;
+        line-height: 1.2em;
       }
     }
     &-info{
@@ -323,7 +327,7 @@
   min-width: 320px;
 }
 .content-exerpt {
-  margin-bottom:30px;
+  //margin-bottom:30px;
   line-height: 1.2;
   p {line-height: 1.2}
 }
@@ -348,24 +352,37 @@
 }
 .fade-in-effect{
   width: 100%;
-  height:60px;
-  background-color: @white;
-  opacity: 0.9;
+  height:45px;
   display: block;
-  margin-top: -5%;
+  margin-top: -45px;
+  background: linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,1));
+  position: absolute;
+
 }
 .tronc-read{
-  width: 190px;
+  width: 195px;
   height: 35px;
   display: block;
   background-color: @tcxBlue;
   color: @white;
-  padding: 8px 15px;
+  padding: 8px 21px;
+  font-size: 14px;
   border-radius: 3px;
   cursor:pointer;
+  margin-bottom: 30px;
+  margin-top: 15px;
+  &:hover{
+    background-color: @black;
+    color: @white;
+  }
   i{
     position: relative;
     top: 3px;
     left: 5px;
   }
+
+
+}
+.remove-margin{
+  margin-bottom:0px !important;
 }

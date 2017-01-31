@@ -22,13 +22,13 @@ export class WidgetModule {
     getData(){
         var topScope = GlobalSettings.getTCXscope(this.category).topScope ? GlobalSettings.getTCXscope(this.category).topScope : null;
         this.vwcategory = this.category=="real estate"? this.category.replace(/ /g,"-"):this.category;
-        this.vwsubCategory = this.subCategory=="real estate"? this.subCategory.replace(/ /g,"-"):this.vwcategory;
+        this.vwsubCategory = this.subCategory=="real estate"? this.subCategory.replace(/ /g,"-"):this.subCategory;
 
       if(topScope && this.vwcategory != "all"){
           this.vwcategory = this.vwcategory;
           this.vwsubCategory = this.vwsubCategory && this.vwsubCategory != this.vwcategory && this.vwsubCategory != "real-estate" ? this.vwsubCategory : "";
       } else {
-        this.vwcategory = "breaking";
+        this.vwcategory = "trending";
         this.vwsubCategory = "";
       }
       this.srcLink = "/app/ads/vertical_widget.html?category=" + this.vwcategory + "&sub_category=" + this.vwsubCategory;

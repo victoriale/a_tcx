@@ -38,14 +38,19 @@ export class HeaderComponent implements OnInit {
     }
 
     getTrendingData() {
-        this._deepDiveData.getDeepDiveBatchService("breaking", 10, 1)
+        this._deepDiveData.getDeepDiveBatchService("trending", 10, 1)
             .subscribe(data => {
-                if (data) {
-                    this.breakingHeadLines = this._deepDiveData.transformToArticleStack(data, "trending");
+                try{
+                    if (data) {
+                        this.breakingHeadLines = this._deepDiveData.transformToArticleStack(data, "trending");
+                    } else throw new Error('Missing Breaking Headlines Data !!')
                 }
+                catch(e){
+                    console.log(e.message);
+                }
+
             },
             err => {
-                console.log("Error getting Trending News data:", err);
             });
     }
 

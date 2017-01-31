@@ -28,7 +28,7 @@ export class WidgetModule {
           this.vwcategory = this.vwcategory;
           this.vwsubCategory = this.vwsubCategory && this.vwsubCategory != this.vwcategory && this.vwsubCategory != "real-estate" ? this.vwsubCategory : "";
       } else {
-        this.vwcategory = "breaking";
+        this.vwcategory = "trending";
         this.vwsubCategory = "";
       }
       this.srcLink = "/app/ads/vertical_widget.html?category=" + this.vwcategory + "&sub_category=" + this.vwsubCategory;

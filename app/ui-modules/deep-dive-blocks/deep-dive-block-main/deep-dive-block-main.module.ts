@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import { DeepDiveService } from '../../../services/deep-dive.service';
 import { ArticleStackData, VideoStackData, SectionNameData } from "../../../fe-core/interfaces/deep-dive.data";
 import { GlobalSettings } from "../../../global/global-settings";
@@ -14,6 +14,15 @@ declare var moment;
 
 export class DeepDiveBlockMain implements OnInit {
     @Input() geoLocation: string;
+    @Input() sideScrollData:any;
+    @Input() scopeList:any;
+    @Input() scrollLength;
+    @Input() changeScope;
+    @Input() topScope;
+    @Input() pageScope;
+    @Output() emitcount = new EventEmitter();
+    @Output() emitscope = new EventEmitter();
+    @Output() emitLocation = new EventEmitter();
     private callApi: boolean = true;
     private commonarticleStack:Array<ArticleStackData>;
     private trendingStack: Array<ArticleStackData>;
@@ -176,6 +185,18 @@ export class DeepDiveBlockMain implements OnInit {
       if(!this.videoDataBatch1 && this.blockIndex > 2){
         this.getDeepDiveVideo();
       }
+    }
+
+    clickcount(event){
+        this.emitcount.emit(event);
+    }
+
+    scopeType(event){
+        this.emitscope.emit(event);
+    }
+
+    locType(event){
+        this.emitLocation.emit(event);
     }
 
     ngOnInit() {

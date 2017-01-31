@@ -57,7 +57,6 @@ export class SideScrollSchedule{
         this.keyPressReady = false;
         // call api now
         this._schedulesService.getLocationAutocomplete(textEntered, (data) => {
-
           if (data.success == true) {
             this.showError = false;
             this.autocompleteItems = data.data;
@@ -97,8 +96,8 @@ export class SideScrollSchedule{
     if (event.sideScrollData && event.sideScrollData.currentValue.blocks.length > 0) { // only fire this if the actual data is changing
       this.originalBlocks = this.sideScrollData.blocks.slice(0);
       this.usableData = Object.assign({},this.sideScrollData);
-      this.localTopScope = this.topScope;
-      switch(this.topScope) {
+      this.localTopScope = this.topScope=="all"?'weather':this.topScope;
+      switch(this.localTopScope) {
       case "weather":
         this.titleText = "<span class='hide-mobile'>" + this.sideScrollData.current.current_temperature + "°<span class='weather-divider'>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</span></span>" + this.sideScrollData.current.city + ", " + this.sideScrollData.current.state;
         this.titleIcon = this.sideScrollData.current.current_icon;
@@ -120,9 +119,9 @@ export class SideScrollSchedule{
 
   ngOnInit() {
     //Shhhh easter egg here. To activate: type "window.createSharknado()" in your browser console
-    if (this.topScope == "weather") {
+    if (this.topScope == "all") {
       window['createSharknado'] = function() {
-          console.log("Preparing your sharknado...");
+          //console.log("Preparing your sharknado...");
           var image = document.getElementsByClassName("condition-image");
           for (var i = 0; i < image.length; i++) {
             image[i]['src'] = "http://images.synapsys.us/weather/icons/sharknado_n.svg";

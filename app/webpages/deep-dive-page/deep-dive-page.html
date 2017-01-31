@@ -14,10 +14,10 @@
        <div *ngIf="sectionName && deepDiveType != 'all'">
          <section-name-component [topNav]="tcxVars.showSFTopNav" [secName]="sectionName" [scope]="changeScopeVar" [topScope]="topScope" [pageScope]="category" [scopeList]="scopeList"></section-name-component>
        </div>
-       <div *ngIf="sideScrollData && tcxVars.showEventSlider" class="deep-dive-module">
+       <div *ngIf="sideScrollData && tcxVars.showEventSlider && deepDiveType != 'all'" class="deep-dive-module">
          <side-scroll-schedules [topNav]="tcxVars.showSFTopNav" [sideScrollData]="sideScrollData" [scopeList]="scopeList" (count)="scrollCheck($event)" [scrollLength]="scrollLength" [topScope]="topScope" [pageScope]="category" [scope]="changeScopeVar" (changeScope)="changeScope($event)" (changeLocation)="changeLocation($event)"></side-scroll-schedules>
        </div>
-       <deep-dive-block-main *ngIf="deepDiveType == 'all'" [geoLocation]="geoLocation"></deep-dive-block-main>
+       <deep-dive-block-main *ngIf="deepDiveType == 'all'" [geoLocation]="geoLocation" [sideScrollData]="sideScrollData" [scopeList]="scopeList" [scrollLength]="scrollLength" [changeScope]="changeScopeVar" [topScope]="topScope" [pageScope]="category" (emitcount)="scrollCheck($event)" (emitscope)="changeScope($event)" (emitLocation)="changeLocation($event)"></deep-dive-block-main>
        <deep-dive-section-front *ngIf="deepDiveType !== 'all'"
                                 [deepDiveType]="deepDiveType" [scope]="scope"
                                 [category]="category"

@@ -5,16 +5,25 @@
     <section-name-component [secName]="secName[0]"></section-name-component>
     <article-stack-1-module [stackTop]="[trendingStack[0]]" [stackRow]="trendingStack.slice(1,7)"></article-stack-1-module>
   </div>
+
   <!-- RANDOM VIDEO -->
   <!-- VIDEO STACK -->
+
   <div *ngIf="videoDataBatch1" class="deep-dive-module">
     <section-name-component [secName]="secName[1]"></section-name-component>
     <deep-dive-video-module [videoData]="videoDataBatch1"></deep-dive-video-module>
   </div>
+
   <!-- WIDGET -->
   <div *ngIf="trendingStack && videoDataBatch1" class="responsive-widget">
     <responsive-widget [category]="category" [subCategory]="scope"></responsive-widget>
   </div>
+
+    <!--WEATHER SLIDER-->
+    <div *ngIf="sideScrollData" class="deep-dive-module">
+        <side-scroll-schedules [sideScrollData]="sideScrollData" [scopeList]="scopeList" (count)="clickcount($event)" [scrollLength]="scrollLength" [topScope]="topScope" [pageScope]="category" [scope]="changeScope" (changeScope)="scopeType($event)" (changeLocation)="locType($event)"></side-scroll-schedules>
+    </div>
+
   <!-- SPORTS -->
   <!-- SIX PACKS -->
   <div *ngIf="recDataSports" class="deep-dive-module">

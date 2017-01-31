@@ -231,7 +231,7 @@ export class DeepDivePage implements OnInit{
             }
             this.topScope = this.tcxVars ? this.tcxVars.topScope : this.category;
             this.changeScopeVar = this.tcxVars.scope=='news-feed'?this.tcxVars.weatherscope?this.tcxVars.weatherscope:this.tcxVars.scope:this.tcxVars.scope;
-            this.deepDiveType = GlobalSettings.getTCXscope(this.scope.replace(/ /g, "-")).pageType ? GlobalSettings.getTCXscope(this.scope.replace(/ /g, "-")).pageType : 3;
+            this.deepDiveType = GlobalSettings.getTCXscope(this.scope).pageType ? GlobalSettings.getTCXscope(this.scope).pageType : 3;
             this.getGeoLocation();
             this.getDeepDiveVideo();
             this.sectionFrontName(this.scope);

@@ -265,9 +265,10 @@ export class DeepDiveService {
               if(scope!=val.keywords[0] && val.keywords[0]){
                   scope=val.keywords[0].replace(/ /g,"--");
               }  else{
-                  scope=scope;
+                  scope=scope.replace(/ /g,"--");
               }
           }
+
         routeLink = VerticalGlobalFunctions.formatArticleRoute(scope, keyhyphen.toLowerCase(),val.article_id, "story");
         extLink = false;
       }

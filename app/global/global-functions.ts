@@ -692,6 +692,12 @@ export class GlobalFunctions {
         return {month: month, day: day, year: year, time: time, a: a, zone: zone}
     }
 
+    //compare two time stamps and generate difference in hours //TODO can modify this function to generate the differences in minutes seconds and days in future
+    static compareTimestamps(timestamp1,timestamp2){
+        var differenceTime = timestamp1 - timestamp2;
+        return differenceTime/3600;
+    }
+
 
     /**
      * Returns a random list of articles

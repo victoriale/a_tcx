@@ -11,7 +11,6 @@ declare var jQuery:any;
 
 export class ChatterboxModule implements OnInit {
     srcLink: string;
-    isSmall:boolean = false;
     @Input() category: string;
     @Input() subCategory: string;
     //adding temporary variables in order to avoid making changes to the category and subcategory directly
@@ -21,7 +20,7 @@ export class ChatterboxModule implements OnInit {
         var topScope = GlobalSettings.getTCXscope(this.category).topScope ? GlobalSettings.getTCXscope(this.category).topScope : null;
 
         this.cbcategory = this.category=="real estate"? this.category.replace(/ /g,"-"):this.category;
-        this.cbsubCategory = this.subCategory=="real estate"? this.subCategory.replace(/ /g,"-"):this.cbcategory;
+        this.cbsubCategory = this.subCategory=="real estate"? this.subCategory.replace(/ /g,"-"):this.subCategory;
 
       if(topScope && this.cbcategory != "all"){
         this.cbcategory = topScope ? topScope : 'keyword-' + this.cbcategory;
@@ -34,17 +33,12 @@ export class ChatterboxModule implements OnInit {
     }
     ngOnInit() {
       this.getData();
-      this.isSmall = document.body.scrollWidth < 600;
       window.addEventListener("message", this.receiveSize, false);
     }
     ngOnChanges(){
       this.getData();
     }
-    resizeIframe(obj){
-      obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
-      console.log(obj);
-    }
     receiveSize(e) {
-        document.getElementById("chatterbox-section").style.height = e.data;
+      document.getElementById("chatterbox-section").style.height = e.data;
     }
 }

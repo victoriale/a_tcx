@@ -22,7 +22,7 @@ export class WidgetModule {
     getData(){
         var topScope = GlobalSettings.getTCXscope(this.category).topScope ? GlobalSettings.getTCXscope(this.category).topScope : null;
         this.vwcategory = this.category=="real estate"? this.category.replace(/ /g,"-"):this.category;
-        this.vwsubCategory = this.subCategory=="real estate"? this.subCategory.replace(/ /g,"-"):this.vwcategory;
+        this.vwsubCategory = this.subCategory=="real estate"? this.subCategory.replace(/ /g,"-"):this.subCategory;
 
       if(topScope && this.vwcategory != "all"){
           this.vwcategory = this.vwcategory;

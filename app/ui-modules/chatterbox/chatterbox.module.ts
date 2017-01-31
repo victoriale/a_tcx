@@ -20,7 +20,7 @@ export class ChatterboxModule implements OnInit {
         var topScope = GlobalSettings.getTCXscope(this.category).topScope ? GlobalSettings.getTCXscope(this.category).topScope : null;
 
         this.cbcategory = this.category=="real estate"? this.category.replace(/ /g,"-"):this.category;
-        this.cbsubCategory = this.subCategory=="real estate"? this.subCategory.replace(/ /g,"-"):this.cbcategory;
+        this.cbsubCategory = this.subCategory=="real estate"? this.subCategory.replace(/ /g,"-"):this.subCategory;
 
       if(topScope && this.cbcategory != "all"){
         this.cbcategory = topScope ? topScope : 'keyword-' + this.cbcategory;

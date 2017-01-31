@@ -70,13 +70,16 @@
         display: inline-block;
         height: 100%;
         color: @white;
-        padding: 10px 12px;
+        padding: 10px 15px;
         a {
           color: @highlightGrey;
           font-family: lato;
         }
         a:hover {
-          color: @white;
+          @media @tablet{
+            font-weight: 800;
+            color: @white;
+          }
         }
       }
       div:first-of-type {

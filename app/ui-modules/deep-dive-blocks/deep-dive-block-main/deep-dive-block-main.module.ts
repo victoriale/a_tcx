@@ -44,7 +44,7 @@ export class DeepDiveBlockMain implements OnInit {
     private blockIndex: number = 0;
     private secName: Array<SectionNameData>;
     private batchNum: number = 1;
-    private homePageBlocks = ["trending", "video", "sports", "business", "politics", "entertainment", "food", "video", "lifestyle", "real-estate", "travel", "video", "automotive"];//"health", "weather"
+    private homePageBlocks = ["trending", "video", "sports", "business", "politics", "entertainment", "food", "video", "lifestyle", "real estate", "travel", "video", "automotive"];//"health", "weather"
 
     constructor(private _deepDiveData: DeepDiveService) { }
 
@@ -174,7 +174,7 @@ export class DeepDiveBlockMain implements OnInit {
           },
           3:function(){
               self.getArticleStackData("lifestyle",7,false);
-              self.getArticleStackData("real-estate",5,false);
+              self.getArticleStackData("real estate",5,false);
           },
           4:function(){
               self.getArticleStackData("travel",6,true);

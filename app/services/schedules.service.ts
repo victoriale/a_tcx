@@ -252,7 +252,7 @@ export class SchedulesService {
             output.current['current_temperature'] = ((data.current_temperature * (9 / 5)) - 459.67).toFixed(0);
             output.current['state'] = data.state;
             output.current['zipcode'] = data.zipcode;
-            if(scope.toLowerCase()=='hourly') {
+           /* if(scope.toLowerCase()=='hourly') {
                 output.blocks.push(
                     {
                         eos: "false",
@@ -262,14 +262,21 @@ export class SchedulesService {
                         condition: output.current['current_condition']
                     }
                 );
-            }
+            }*/
             for (var n = 0; n < data.data.length; n++) {
                 data.data[n]['eos'] = "false";
                 data.data[n]['icon'] = GlobalSettings.getImageUrl(data.data[n]['icon']);
                 //convert from kelvin to farenheight
                 if (scope.toLowerCase() == "hourly") {
-                    data.data[n].unix_timestamp = moment.unix(data.data[n].unix_timestamp).format("h:mm A z");
-                    data.data[n].temperature = ((data.data[n].temperature * (9 / 5)) - 459.67).toFixed(0) + "&deg;";
+                    if(n==0){
+                        data.data[n].unix_timestamp = "NOW";
+                        data.data[n].temperature = ((data.data[n].temperature * (9 / 5)) - 459.67).toFixed(0) + "&deg;";
+                    }else{
+                        data.data[n].unix_timestamp = moment.unix(data.data[n].unix_timestamp).format("h:mm A z");
+                        data.data[n].temperature = ((data.data[n].temperature * (9 / 5)) - 459.67).toFixed(0) + "&deg;";
+                    }
+
+
                 }
                 else {
                     if(n==0){

@@ -34,12 +34,12 @@ export class BillboardModule implements OnInit{
     }
     ngOnInit() {
       this.getData();
-      this.isSmall = window.innerWidth <= 814;
+      this.isSmall = window.innerWidth <= 728;
     }
     ngOnChanges(){
       this.getData();
     }
     onResize(event) {
-      this.isSmall = event.target.innerWidth <= 814;
+      this.isSmall = event.target.innerWidth <= 728;
     }
 }

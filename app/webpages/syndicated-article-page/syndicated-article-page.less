@@ -288,21 +288,18 @@
     &-main-article{
       .globalDefaultFont(14px,400);
       //margin-bottom: 30px;
+      &-news{
+        a, a:link, a:visited, a:hover, a:active{color: @masterBrandColor}
+      }
       @media @mobile{padding: 0 10px}
       .readMore {
         color: @white;
         padding-left: 10px;
         :hover{
-          color: @white;
           background-color: @black;
         }
       }
-      a, a:link, a:visited, a:hover, a:active{
-        color: @white;
-      }
-      .content-exerpt, .content-exerpt p{
-        line-height: 1.2em;
-      }
+      .content-exerpt, .content-exerpt p{line-height: 1.2em}
     }
     &-info{
       @media @mobile{padding: 0 10px}

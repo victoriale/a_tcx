@@ -58,8 +58,6 @@ export class SyndicateArticleService {
         mainArticleData['article'] = data.article_data.article && Array.isArray(data.article_data.article)? data.article_data.article : null;
         mainArticleData['istronc'] = data.source=='tronc'?true:false;
         mainArticleData['linkback_url'] = data.article_data.linkback_url?data.article_data.linkback_url:null;
-
-
         return mainArticleData;
     }
     getSyndicateVideoService(subcategory, articleID){
@@ -89,7 +87,6 @@ export class SyndicateArticleService {
 
         let callURL = GlobalSettings.getArticleBatchUrl()+"?&source[]=snt_ai&source[]=tca-curated&source[]=tronc";
         if(typeof trending==='undefined') {
-            params.set("random","1");
             this.headerOptions.search = params;
             return this._http.get(callURL, this.headerOptions)
                 .map(res => res.json())

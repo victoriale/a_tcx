@@ -1,5 +1,7 @@
 import {Component, OnInit, HostListener, Renderer} from '@angular/core';
 import {GlobalSettings} from "../../global/global-settings";
+import {SeoService} from "../../global/seo.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'terms-of-service',
@@ -15,7 +17,7 @@ export class TermsOfService implements OnInit{
 
   scrollTopPrev:number = 0;
 
-  constructor(private _render:Renderer){
+  constructor(private _render:Renderer, private _seo:SeoService, private _activatedRoute:ActivatedRoute, private _router:Router){
       window.scrollTo(0, 0);
   }
   goTo(location: string): void {
@@ -28,5 +30,20 @@ export class TermsOfService implements OnInit{
       paragraph: null
 
     }
+  }
+
+  private addMetaTags(){
+    this._seo.removeMetaTags();
+    let metaDesc = GlobalSettings.getPageTitle('Terms Of Service');
+    let link = window.location.href;
+    this._seo.setCanonicalLink(this._activatedRoute.params,this._router);
+    this._seo.setOgTitle('Terms Of Service');
+    this._seo.setOgDesc(metaDesc);
+    this._seo.setOgType('Website');
+    this._seo.setOgUrl(link);
+    this._seo.setOgImage('/app/public/mainLogo.png');
+    this._seo.setTitle('Terms Of Service');
+    this._seo.setMetaDescription(metaDesc);
+    this._seo.setMetaRobots('INDEX, FOLLOW');
   }
 }

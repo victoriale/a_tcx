@@ -112,9 +112,14 @@ export class DeepDiveService {
         date = date.format('dddd') + ', ' + date.format('MMM') + date.format('. DD, YYYY');
       }
       var keywords = val.keyword ? val.keyword : scope;
-      var keyHyphen=keywords.replace(/ /g,"--")
+      var keyHyphen=keywords.replace(/ /g,"--");
+      var keyLink = true;
+      if(keywords.toLowerCase() === scope.toLowerCase()){
+        keyLink = false;
+      }
       var d = {
         id: val.id,
+        keyLink: keyLink,
         keyword: keywords,
         title: val.title ? val.title : "No Title",
         time_stamp: date ? date : "",
@@ -223,6 +228,7 @@ export class DeepDiveService {
   }// transformToArticleStack ENDS
 
   carouselTransformData(arrayData:Array<ArticleStackData>, scope){
+    var setScope = scope;
     var sampleImage = "/app/public/placeholder_XL.png";
     let route = VerticalGlobalFunctions.getWhiteLabel();
     if(arrayData == null || typeof arrayData == 'undefined' || arrayData.length == 0 || arrayData === undefined){
@@ -279,9 +285,13 @@ export class DeepDiveService {
       if(titleTrim.length >= 90){
         titleTrim = val['title'].substr(0,90) + '...';
       }
-
+      var keyLink = true;
+      if(key.toLowerCase() === setScope.toLowerCase()){
+        keyLink = false;
+      }
       let carData = {
         articlelink: routeLink != "" ? routeLink : route,
+        keyLink: keyLink,
         extUrl: extLink,
         source: val.source,
         report_type: val.report_type,

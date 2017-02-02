@@ -176,5 +176,34 @@ gulp.task('buildAndReload', ['build'], reload);
   gulp.watch(['app/**/*', 'index.html', 'master.css'], ['dev-buildAndReload']);
  });
 
- gulp.task('dev-build', ['dev-compile', 'less', 'minify-css', 'copy:libs', 'copy:assets']);
+ /** then bundle */
+ gulp.task('dev-bundle', ['clean', 'copy:libs'], function () {
+     // optional constructor options
+     // sets the baseURL and loads the configuration file
+     var builder = new Builder('', 'dist/lib/system.config.js');
+     /*
+      the parameters of the below buildStatic() method are:
+      - your transcompiled application boot file (the one wich would contain the bootstrap(MyApp, [PROVIDERS]) function - in my case 'dist/app/boot.js'
+      - the output (file into which it would output the bundled code)
+      - options {}
+      */
+     return builder
+         .buildStatic('dist/app/main.js', 'dist/lib/bundle.js', {minify: false, sourceMaps: true, rollup:true})
+         .then(function () {
+             console.log('Build complete');
+         })
+         .catch(function (err) {
+             console.log('Build error');
+             console.log(err);
+         });
+ });
+
+ gulp.task('less', ['clean'], function() {
+     return gulp.src(['./app/**/*.less'])
+         .pipe(concat('master.css'))
+         .pipe(less())
+         .pipe(gulp.dest('dist/app/global/stylesheets'));
+ });
+
+ gulp.task('dev-build', ['dev-compile', 'less', 'minify-css', 'copy:libs', 'copy:assets', 'dev-bundle']);
  gulp.task('dev-buildAndReload', ['dev-build'], reload);

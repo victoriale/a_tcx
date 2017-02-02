@@ -223,6 +223,7 @@ export class DeepDiveService {
   }// transformToArticleStack ENDS
 
   carouselTransformData(arrayData:Array<ArticleStackData>, scope){
+    var setScope = scope;
     var sampleImage = "/app/public/placeholder_XL.png";
     let route = VerticalGlobalFunctions.getWhiteLabel();
     if(arrayData == null || typeof arrayData == 'undefined' || arrayData.length == 0 || arrayData === undefined){
@@ -279,9 +280,13 @@ export class DeepDiveService {
       if(titleTrim.length >= 90){
         titleTrim = val['title'].substr(0,90) + '...';
       }
-
+      var keyLink = true;
+      if(key.toLowerCase() === setScope.toLowerCase()){
+        keyLink = false;
+      }
       let carData = {
         articlelink: routeLink != "" ? routeLink : route,
+        keyLink: keyLink,
         extUrl: extLink,
         source: val.source,
         report_type: val.report_type,

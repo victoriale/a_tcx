@@ -1,5 +1,7 @@
 import {Component, OnInit, HostListener, Renderer} from '@angular/core';
 import {GlobalSettings} from "../../global/global-settings";
+import {SeoService} from "../../global/seo.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'privacy-policy',
@@ -15,7 +17,7 @@ export class PrivacyPolicy implements OnInit{
 
   scrollTopPrev:number = 0;
 
-  constructor(private _render:Renderer){
+  constructor(private _render:Renderer, private _seo:SeoService, private _activatedRoute:ActivatedRoute, private _router:Router){
       window.scrollTo(0, 0);
   }
 
@@ -93,5 +95,20 @@ export class PrivacyPolicy implements OnInit{
         }
       ]
     }
+    this.addMetaTags();
   }
+    private addMetaTags(){
+        this._seo.removeMetaTags();
+        let metaDesc = GlobalSettings.getPageTitle('Privacy Policy');
+        let link = window.location.href;
+        this._seo.setCanonicalLink(this._activatedRoute.params,this._router);
+        this._seo.setOgTitle('Privacy Policy');
+        this._seo.setOgDesc(metaDesc);
+        this._seo.setOgType('Website');
+        this._seo.setOgUrl(link);
+        this._seo.setOgImage('/app/public/mainLogo.png');
+        this._seo.setTitle('Privacy Policy');
+        this._seo.setMetaDescription(metaDesc);
+        this._seo.setMetaRobots('INDEX, FOLLOW');
+    }
 }

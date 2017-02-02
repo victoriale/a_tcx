@@ -112,9 +112,14 @@ export class DeepDiveService {
         date = date.format('dddd') + ', ' + date.format('MMM') + date.format('. DD, YYYY');
       }
       var keywords = val.keyword ? val.keyword : scope;
-      var keyHyphen=keywords.replace(/ /g,"--")
+      var keyHyphen=keywords.replace(/ /g,"--");
+      var keyLink = true;
+      if(keywords.toLowerCase() === scope.toLowerCase()){
+        keyLink = false;
+      }
       var d = {
         id: val.id,
+        keyLink: keyLink,
         keyword: keywords,
         title: val.title ? val.title : "No Title",
         time_stamp: date ? date : "",

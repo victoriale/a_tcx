@@ -5,28 +5,33 @@
   *Optimal Length for Search Engines
   *Roughly 155 Characters
 ***/
-import { Injectable } from '@angular/core';
-import { Title } from '@angular/platform-browser';
+import {Injectable, Inject} from '@angular/core';
+import {Title, DOCUMENT} from '@angular/platform-browser';
 /*import { getDOM } from '@angular/platform-browser/src/dom/dom_adapter';*/
 import { __platform_browser_private__ } from '@angular/platform-browser'
 import {GlobalSettings} from "./global-settings";
+import {getDOM} from "@angular/platform-browser/src/dom/dom_adapter";
 
 @Injectable()
 
 export class SeoService {
   private titleService: Title;
-
   private headElement: HTMLElement;
-
   private metaDescription: HTMLElement;
-
   private canonicalLink: HTMLElement;
+  private document:any;
+  private themeColor:HTMLElement;
 
   private ogTitle: HTMLElement;
   private ogType: HTMLElement;
   private ogUrl: HTMLElement;
   private ogImage: HTMLElement;
   private ogDesc: HTMLElement;
+  private startDate:HTMLElement;
+  private endDate:HTMLElement;
+  private isArticle:HTMLElement;
+
+
   private es_search_type: HTMLElement;
   private es_source: HTMLElement;
   private es_article_id: HTMLElement;
@@ -44,22 +49,28 @@ export class SeoService {
   private es_start_date:HTMLElement;
   private es_search_string:HTMLElement;
 
-
-    private robots: HTMLElement;
+  private robots: HTMLElement;
   private DOM: any;
+
+  constructor(@Inject(DOCUMENT) document:any){
+      this.DOM = getDOM();
+      this.document = document;
+      this.headElement = this.document.head;
+
+  }
 
  /**
   * Inject the Angular 2 Title Service
   * @param titleService
   */
-  constructor(titleService: Title){
+/*  constructor(titleService: Title){
     this.titleService = titleService;
     this.DOM = __platform_browser_private__.getDOM();
 
-   /**
+   /!**
     * get the <head> Element
     * @type {any}
-    */
+    *!/
     this.headElement = this.DOM.query('head');
     this.metaDescription = this.getOrCreateMetaElement('description');
     this.robots = this.getOrCreateMetaElement('robots');
@@ -87,11 +98,8 @@ export class SeoService {
 
 
 
-  }
+  }*/
 
-  public getTitle(): string {
-    return this.titleService.getTitle();
-  }
 
   //sets title to atleast less than 50 characters and will choose the  first 3 words and append site name at end
   public setTitle(newTitle:string) {
@@ -111,23 +119,40 @@ export class SeoService {
           shortTitle = shortTitle + ' | ' + GlobalSettings.getBaseTitle();
       }
 
-      this.titleService.setTitle(shortTitle);
+      this.document.title = shortTitle;
   }
 
   public getMetaDescription(): string {
     return this.metaDescription.getAttribute('content');
   }
 
-  public setMetaDescription(description: string) {
-    let html = description;
-    let div = document.createElement("div");
-    div.innerHTML = html;
-    let truncatedDescription = div.textContent || div.innerText || "";
-    if(truncatedDescription.length > 167){
-      truncatedDescription = truncatedDescription.substring(0, 167);
-      truncatedDescription += '...';
+    private setElementAttribute(el:HTMLElement, name:string, attr:string) {
+        return this.DOM.setAttribute(el, name, attr);
     }
-    this.metaDescription.setAttribute('content', truncatedDescription);
+
+    static checkData(data) {
+        var check;
+        check = !!(data != null && data != "");
+        return check
+    }
+
+
+  public setMetaDescription(description: string) {
+      if (SeoService.checkData(description)) {
+          let html = description;
+          let div = document.createElement("div");
+          div.innerHTML = html;
+          let truncatedDescription = div.textContent || div.innerText || "";
+          if (truncatedDescription.length > 167) {
+              truncatedDescription = truncatedDescription.substring(0, 167);
+              truncatedDescription += '...';
+          }
+          if (!this.document.querySelector('meta[name="description"]')) {
+              this.metaDescription = this.getOrCreateElement('name', 'description', 'meta');
+          }
+          this.setElementAttribute(this.metaDescription, 'content', truncatedDescription);
+      }
+
   }
 
   public getMetaRobots(): string {
@@ -136,122 +161,252 @@ export class SeoService {
 
   //Valid values for the "CONTENT" attribute are: "INDEX", "NOINDEX", "FOLLOW", "NOFOLLOW"
   //http://www.robotstxt.org/meta.html
-  public setMetaRobots(robots: string) {
-    this.robots.setAttribute('content', robots);
-  }
-
-  public setOgTitle(newTitle: string) {
-    this.ogTitle.setAttribute('content', newTitle);
-  }
-  public setOgType(newType: string) {
-    this.ogType.setAttribute('content', newType);
-  }
-  public setOgUrl(url: string) {
-    this.ogUrl.setAttribute('content', url);
-  }
-  public setOgImage(imageUrl: string) {
-    this.ogImage.setAttribute('content', imageUrl);
-  }
-  public setOgDesc(description: string) {
-    this.ogDesc.setAttribute('content', description);
-  }
-    public setSearchType(es_search_type: string){
-      this.es_search_type.setAttribute('content', es_search_type);
-    };
-    public setSource(es_source:string){
-        this.es_source.setAttribute('content', es_source);
-    };
-    public setArticleId(es_article_id){
-        this.es_article_id.setAttribute('content', es_article_id);
-    };
-    public setArticleTitle(es_article_title){
-        this.es_article_title.setAttribute('content', es_article_title);
-
-    };
-    public setKeyword(es_keyword){
-        this.es_keyword.setAttribute('content', es_keyword);
-
-    };
-    public setPublishedDate(es_published_date){
-        this.es_published_date.setAttribute('content',es_published_date);
-
-    };
-    public setAuthor(es_author){
-        this.es_author.setAttribute('content', es_author);
-
-    };
-    public setPublisher(es_publisher){
-        this.es_publisher.setAttribute('content', es_publisher);
-    };
-    public setImageUrl(es_image_url){
-        this.es_image_url.setAttribute('content', es_image_url);
-
-    };
-    public setTeaser(es_article_teaser){
-        this.es_article_teaser.setAttribute('content', es_article_teaser);
-
-    };
-    public setArticleUrl(es_article_url){
-        this.es_article_url.setAttribute('content', es_article_url);
-
-    };
-    public setArticleType(es_article_type){
-        this.es_article_type.setAttribute('content', es_article_type);
-
-    };
-    public setIsArticle(es_is_article){
-        this.es_is_article.setAttribute('content', es_is_article);
-    }
-    public setEndDate(es_end_date){
-        this.es_end_date.setAttribute('content', es_end_date);
-    }
-    public setStartDate(es_start_date){
-        this.es_start_date.setAttribute('content', es_start_date);
-    }
-    public setSearchString(es_search_string){
-        this.es_search_string.setAttribute('content', es_search_string);
+    public setMetaRobots(robots:string) {
+        if (SeoService.checkData(robots)) {
+            if (!this.document.querySelector('meta[name="robots"]')) {
+                this.robots = this.getOrCreateElement('name', 'robots', 'meta');
+            }
+            this.setElementAttribute(this.robots, 'content', robots);
+        }
     }
 
+    public setThemeColor(color:string) {
+        if (SeoService.checkData(color)) {
+            if (!this.document.querySelector('meta[name="themeColor"]')) {
+                this.themeColor = this.getOrCreateElement('name', 'themeColor', 'meta');
+            }
+            this.setElementAttribute(this.themeColor, 'content', color);
+        }
+    }
 
+    public setOgTitle(newTitle:string) {
+        if (SeoService.checkData(newTitle)) {
+            if (!this.document.querySelector('meta[property="og:title"]')) {
+                this.ogTitle = this.getOrCreateElement('property', 'og:title', 'meta');
+            }
+            this.setElementAttribute(this.ogTitle, 'content', newTitle);
+        }
+    }
+
+    public setOgDesc(description:string) {
+        if (SeoService.checkData(description)) {
+            if (!this.document.querySelector('meta[property="og:description"]')) {
+                this.ogDesc = this.getOrCreateElement('property', 'og:description', 'meta');
+            }
+            this.setElementAttribute(this.ogDesc, 'content', description);
+        }
+    }
+
+    public setOgType(newType:string) {
+        if (SeoService.checkData(newType)) {
+            if (!this.document.querySelector('meta[property="og:type"]')) {
+                this.ogType = this.getOrCreateElement('property', 'og:type', 'meta');
+            }
+            this.setElementAttribute(this.ogType, 'content', newType);
+        }
+    }
+
+    public setOgUrl(url:string) {
+        if (SeoService.checkData(url)) {
+            if (!this.document.querySelector('meta[property="og:url"]')) {
+                this.ogUrl = this.getOrCreateElement('property', 'og:url', 'meta');
+            }
+            this.setElementAttribute(this.ogUrl, 'content', url)
+        }
+    }
+    public setOgImage(imageUrl:string) {
+        if (SeoService.checkData(imageUrl)) {
+            if (!this.document.querySelector('meta[property="og:image"]')) {
+                this.ogImage = this.getOrCreateElement('property', 'og:image', 'meta');
+            }
+            this.setElementAttribute(this.ogImage, 'content', imageUrl);
+        }
+    }
+
+    public setKeyword(keyword:string) {
+        if (SeoService.checkData(keyword)) {
+            if (!this.document.querySelector('meta[name="keyword"]')) {
+                this.es_keyword = this.getOrCreateElement('name', 'keyword', 'meta');
+            }
+            this.setElementAttribute(this.es_keyword, 'content', keyword);
+        }
+    }
+
+    public setStartDate(startDate:string) {
+        if (SeoService.checkData(startDate)) {
+            if (!this.document.querySelector('meta[name="start_date"]')) {
+                this.startDate = this.getOrCreateElement('name', 'start_date', 'meta');
+            }
+            this.setElementAttribute(this.startDate, 'content', startDate);
+        }
+    }
+
+    public setEndDate(endDate:string) {
+        if (SeoService.checkData(endDate)) {
+            if (!this.document.querySelector('meta[name="end_date"]')) {
+                this.endDate = this.getOrCreateElement('name', 'end_date', 'meta');
+            }
+            this.setElementAttribute(this.endDate, 'content', endDate);
+        }
+    }
+
+    public setIsArticle(isArticle:string) {
+        if (SeoService.checkData(isArticle)) {
+            if (!this.document.querySelector('meta[name="is_article"]')) {
+                this.isArticle = this.getOrCreateElement('name', 'is_article', 'meta');
+            }
+            this.setElementAttribute(this.isArticle, 'content', isArticle);
+        }
+    }
+
+    public setSearchType(searchType:string) {
+        if (SeoService.checkData(searchType)) {
+            if (!this.document.querySelector('meta[name="search_type"]')) {
+                this.es_search_type = this.getOrCreateElement('name', 'search_type', 'meta');
+            }
+            this.setElementAttribute(this.es_search_type, 'content', searchType);
+        }
+    }
+
+    public setArticleId(articleId:string) {
+        if (SeoService.checkData(articleId)) {
+            if (!this.document.querySelector('meta[name="article_id"]')) {
+                this.es_article_id = this.getOrCreateElement('name', 'article_id', 'meta');
+            }
+            this.setElementAttribute(this.es_article_id, 'content', articleId);
+        }
+    }
+
+    public setArticleTitle(articleTitle:string) {
+        if (SeoService.checkData(articleTitle)) {
+            if (!this.document.querySelector('meta[name="article_title"]')) {
+                this.es_article_title = this.getOrCreateElement('name', 'article_title', 'meta');
+            }
+            this.setElementAttribute(this.es_article_title, 'content', articleTitle);
+        }
+    }
+
+    public setAuthor(author:string) {
+        if (SeoService.checkData(author)) {
+            if (!this.document.querySelector('meta[name="author"]')) {
+                this.es_author = this.getOrCreateElement('name', 'author', 'meta');
+            }
+            this.setElementAttribute(this.es_author, 'content', author);
+        }
+    }
+
+    public setPublisher(publisher:string) {
+        if (SeoService.checkData(publisher)) {
+            if (!this.document.querySelector('meta[name="publisher"]')) {
+                this.es_publisher = this.getOrCreateElement('name', 'publisher', 'meta');
+            }
+            this.setElementAttribute(this.es_publisher, 'content', publisher);
+        }
+    }
+
+    public setArticleUrl(url:string) {
+        if (SeoService.checkData(url)) {
+            if (!this.document.querySelector('meta[name="article_url"]')) {
+                this.es_article_url = this.getOrCreateElement('name', 'article_url', 'meta');
+            }
+            this.setElementAttribute(this.es_article_url, 'content', url);
+        }
+    }
+
+    public setSearchString(searchString:string) {
+        if (SeoService.checkData(searchString)) {
+            if (!this.document.querySelector('meta[name="search_string"]')) {
+                this.es_search_string = this.getOrCreateElement('name', 'search_string', 'meta');
+            }
+            this.setElementAttribute(this.es_search_string, 'content', searchString);
+        }
+    }
+
+    public setSource(source:string) {
+        if (SeoService.checkData(source)) {
+            if (!this.document.querySelector('meta[name="source"]')) {
+                this.es_source = this.getOrCreateElement('name', 'source', 'meta');
+            }
+            this.setElementAttribute(this.es_source, 'content', source);
+        }
+    }
+
+    public setPublishedDate(publishedDate:string) {
+        if (SeoService.checkData(publishedDate)) {
+            if (!this.document.querySelector('meta[name="published_date"]')) {
+                this.es_published_date = this.getOrCreateElement('name', 'published_date', 'meta');
+            }
+            this.setElementAttribute(this.es_published_date, 'content', publishedDate);
+        }
+    }
+
+    public setImageUrl(imageUrl:string) {
+        if (SeoService.checkData(imageUrl)) {
+            if (!this.document.querySelector('meta[name="image_url"]')) {
+                this.es_image_url = this.getOrCreateElement('name', 'image_url', 'meta');
+            }
+            this.setElementAttribute(this.es_image_url, 'content', imageUrl);
+        }
+    }
+
+    public setArticleTeaser(articleTeaser:string) {
+        if (SeoService.checkData(articleTeaser)) {
+            if (!this.document.querySelector('meta[name="article_teaser"]')) {
+                this.es_article_teaser = this.getOrCreateElement('name', 'article_teaser', 'meta');
+            }
+            this.setElementAttribute(this.es_article_teaser, 'content', articleTeaser);
+        }
+    }
+
+    public setArticleType(articleType:string) {
+        var metaTag = this.document.querySelector('meta[name="article_type"]');
+        if (SeoService.checkData(articleType)) {
+            if (!metaTag) {
+                this.es_article_type = this.getOrCreateElement('name', 'article_type', 'meta');
+            }
+            this.setElementAttribute(this.es_article_type, 'content', articleType);
+        }
+    }
 
    /**
     * get the HTML Element when it is in the markup, or create it.
     * @param name
     * @returns {HTMLElement}
     */
-    private getOrCreateMetaElement(name: string): HTMLElement {
-      let el: HTMLElement;
-      el = this.DOM.query('meta[name=' + name + ']');
-      if (el === null) {
-        el = this.DOM.createElement('meta');
-        el.setAttribute('name', name);
-        this.headElement.appendChild(el);
-      }
-      return el;
+   private getOrCreateElement(name:string, attr:string, type:string):HTMLElement {
+       let el:HTMLElement;
+       el = this.DOM.createElement(type);
+       this.setElementAttribute(el, name, attr);
+       if (attr != "canonical") {
+           this.setElementAttribute(el, "rel", "hrl");
+       }
+       this.DOM.insertBefore(this.document.head.lastChild, el);
+       return el;
+   }
+
+
+    public setCanonicalLink(RouteParams, router):HTMLElement {
+        let el:HTMLElement;
+        el = this.DOM.query("link[rel='canonical']");
+        let canonicalLink = window.location.href;
+        if (el === null) {
+            el = this.DOM.createElement('link');
+            el.setAttribute('rel', 'canonical');
+            el.setAttribute('href', canonicalLink);
+            this.headElement.appendChild(el);
+        } else {
+            el.setAttribute('href', canonicalLink);
+        }
+        return el;
     }
-    private getOgMetaElement(name: string): HTMLElement {
-      let el: HTMLElement;
-      el = this.DOM.query('meta[property="' + name + '"]');
-      if (el === null) {
-        el = this.DOM.createElement('meta');
-        el.setAttribute('property', name);
-        this.headElement.appendChild(el);
-      }
-      return el;
+
+    public removeMetaTags() {
+        var element = this.document.getElementsByTagName('meta'), index;
+        for (index = element.length - 1; index >= 0; index--) {
+            if (element[index].getAttribute('rel') == 'hrl') {
+                element[index].parentNode.removeChild(element[index]);
+            }
+        }
     }
-    public setCanonicalLink(relPath): HTMLElement {
-      let el: HTMLElement;
-      el = this.DOM.query("link[rel='canonical']");
-      //given the route by params find the hostComponent page to keep it synchronous
-      //// let pageName = router.parent.currentInstruction.component.routeName;
-      //router deprecated get the route name of the first child in root router outlet
-      let canonicalLink = relPath;
-      if (el === null) {
-        el = this.DOM.createElement('link');
-        el.setAttribute('rel', 'canonical');
-        el.setAttribute('href', canonicalLink);
-        this.headElement.appendChild(el);
-      }
-      return el;
-    }
+
 }

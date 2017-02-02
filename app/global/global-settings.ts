@@ -15,6 +15,7 @@ export class GlobalSettings {
     private static _domainApiUrl:string= "devapi.synapsys.us/widgets/deepdive/bar/domain_api.php?dom=";
 
     private static _partnerApiUrl: string = 'apireal.synapsys.us/listhuv/?action=get_partner_data&domain=';
+    // private static _partnerApiUrl: string = 'dev-synapview.synapsys.us/synapview/?action=get_header_data&vertical=sports&domain='; // sports being passed into vertical to only grab sports
 
     //two different api since there is a possibility that these urls are going to change
     private static _widgetUrl: string = 'w1.synapsys.us';
@@ -32,12 +33,12 @@ export class GlobalSettings {
     private static _partnerHomepageLinkName:string = 'tcxzone';
 
     //links from our share providers that do not change
-    private static _siteTwitterUrl:string = 'https://twitter.com/home?status=';
-    private static _siteFacebookUrl:string = 'https://www.facebook.com/sharer/sharer.php?u=';
-    private static _siteLinkedinUrl:string = 'https://www.linkedin.com/shareArticle?mini=true&url=&title=&summary=&source=';
-    private static _siteGoogleUrl:string = 'https://plus.google.com/share?url=';
-    private static _verticalFacebook: string = 'https://www.facebook.com/TCX-382018522187919';
-    private static _verticalTwitter: string = 'https://twitter.com/tcxmedia';
+    private static _siteTwitterUrl:string = '//twitter.com/home?status=';
+    private static _siteFacebookUrl:string = '//www.facebook.com/sharer/sharer.php?u=';
+    private static _siteLinkedinUrl:string = '//www.linkedin.com/shareArticle?mini=true&url=&title=&summary=&source=';
+    private static _siteGoogleUrl:string = '//plus.google.com/share?url=';
+    private static _verticalFacebook: string = '//www.facebook.com/TCX-382018522187919';
+    private static _verticalTwitter: string = '//twitter.com/tcxmedia';
 
 
     //base titles that will be used to displayed different when on white labeled partner domains
@@ -45,7 +46,7 @@ export class GlobalSettings {
     private static _basePartnerTitle: string = "MyTCX";
 
     //copyright info that is to be manually change whenever a copyright info is needed to be updated
-    private static _estYear: string = " 2016";
+    private static _estYear: string = " 2017";
     private static _copyrightInfo: string = "USA Today Sports Images";
 
     //this is proned to be removed but used as dummy data

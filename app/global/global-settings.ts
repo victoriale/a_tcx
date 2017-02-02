@@ -46,7 +46,7 @@ export class GlobalSettings {
     private static _basePartnerTitle: string = "MyTCX";
 
     //copyright info that is to be manually change whenever a copyright info is needed to be updated
-    private static _estYear: string = " 2016";
+    private static _estYear: string = " 2017";
     private static _copyrightInfo: string = "USA Today Sports Images";
 
     //this is proned to be removed but used as dummy data

@@ -1,7 +1,9 @@
 
 import {Component, HostListener, Renderer} from "@angular/core";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {SearchService} from "../../services/search.service";
+import {GlobalSettings} from "../../global/global-settings";
+import {SeoService} from "../../global/seo.service";
 @Component({
     selector:"search-page",
     templateUrl:"app/webpages/search-page/search-page.html",
@@ -21,7 +23,7 @@ export class SearchPage{
     public scrollTopPrev:number=0;
     filter1:string;
     filter2:string;
-    constructor(private activateRoute:ActivatedRoute, private searchService:SearchService, private _render:Renderer){
+    constructor(private activateRoute:ActivatedRoute, private searchService:SearchService, private _render:Renderer, private _router:Router, private _seo:SeoService){
         this.paramsub=activateRoute.params.subscribe(
             (param :any)=> {
                 this.currentPage=0; //initialize current page to start page (i.e currently 0 in the API)
@@ -32,7 +34,9 @@ export class SearchPage{
             }
         );
     }
-
+    ngOnInit(){
+        this.addMetaTags()
+    }
     ngOnChanges(){}
 
     /* method to get the articles*/
@@ -72,4 +76,19 @@ export class SearchPage{
         this.filter2=e;
         this.getSearchResult(this.userInput,this.currentPage,this.filter1,this.filter2)
          }
+
+    private addMetaTags(){
+        this._seo.removeMetaTags();
+        let metaDesc = GlobalSettings.getPageTitle("Search the most recent news about your favorite sports, movies and read the latest articles on politics, business, travel etc.",'Search Page');
+        let link = window.location.href;
+        this._seo.setCanonicalLink(this.activateRoute.params,this._router);
+        this._seo.setOgTitle('Search Page');
+        this._seo.setOgDesc(metaDesc);
+        this._seo.setOgType('Website');
+        this._seo.setOgUrl(link);
+        this._seo.setOgImage('/app/public/mainLogo.png');
+        this._seo.setTitle('Search Page');
+        this._seo.setMetaDescription(metaDesc);
+        this._seo.setMetaRobots('INDEX, FOLLOW');
+    }
 }

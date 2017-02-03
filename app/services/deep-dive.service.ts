@@ -112,9 +112,14 @@ export class DeepDiveService {
         date = date.format('dddd') + ', ' + date.format('MMM') + date.format('. DD, YYYY');
       }
       var keywords = val.keyword ? val.keyword : scope;
-      var keyHyphen=keywords.replace(/ /g,"--")
+      var keyHyphen=keywords.replace(/ /g,"--");
+      var keyLink = true;
+      if(keywords.toLowerCase() === scope.toLowerCase()){
+        keyLink = false;
+      }
       var d = {
         id: val.id,
+        keyLink: keyLink,
         keyword: keywords,
         title: val.title ? val.title : "No Title",
         time_stamp: date ? date : "",
@@ -223,9 +228,9 @@ export class DeepDiveService {
   }// transformToArticleStack ENDS
 
   carouselTransformData(arrayData:Array<ArticleStackData>, scope){
-
+    var setScope = scope;
+    var sampleImage = "/app/public/placeholder_XL.png";
     let route = VerticalGlobalFunctions.getWhiteLabel();
-
     if(arrayData == null || typeof arrayData == 'undefined' || arrayData.length == 0 || arrayData === undefined){
       return null;
     }
@@ -272,19 +277,30 @@ export class DeepDiveService {
         routeLink = VerticalGlobalFunctions.formatArticleRoute(scope, keyhyphen.toLowerCase(),val.article_id, "story");
         extLink = false;
       }
-
-
+      var teaserTrim = val['teaser'];
+      var titleTrim = val['title'];
+      if(teaserTrim.length >= 200){
+        teaserTrim = val['teaser'].substr(0,200) + '...';
+      }
+      if(titleTrim.length >= 90){
+        titleTrim = val['title'].substr(0,90) + '...';
+      }
+      var keyLink = true;
+      if(key.toLowerCase() === setScope.toLowerCase()){
+        keyLink = false;
+      }
       let carData = {
         articlelink: routeLink != "" ? routeLink : route,
+        keyLink: keyLink,
         extUrl: extLink,
         source: val.source,
         report_type: val.report_type,
-        image_url: GlobalSettings.getImageUrl(val['image_url'], GlobalSettings._imgWideScreen),
+        image_url: val['image_url'] ? GlobalSettings.getImageUrl(val['image_url'], GlobalSettings._imgWideScreen) : sampleImage,
         title:  "<span> Today's News: </span>",
-        headline: val['title'],
+        headline: titleTrim ? titleTrim : "",
         keywords: key ? key : "NEWS",
         keyUrl: val['keywords'][0] ? VerticalGlobalFunctions.formatSectionFrontRoute(keyhyphen.toLowerCase()) : ["/news-feed"],
-        teaser: val['teaser'] ? val['teaser'].replace('_',': ').replace(/<p[^>]*>/g, "") : "",
+        teaser: teaserTrim ? teaserTrim.replace('_',': ').replace(/<p[^>]*>/g, "") : "",
         article_id:val['article_id'],
         article_url: val['article_url'],
         last_updated: val.publication_date,
@@ -294,9 +310,6 @@ export class DeepDiveService {
           info: (val.image_title ? val.image_title : "") + (val.image_title && val.image_owner ? "/" : "") + (val.image_owner ? val.image_owner : "")
         }
       };
-      if(carData['teaser'].length >= 200){
-        carData['teaser'].substr(0,200) + '...';
-      }
       transformData.push(carData);
     });
     return transformData;

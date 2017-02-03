@@ -164,12 +164,12 @@ export class BoxScoresService {
 
 
   // form box scores data
-  transformBoxScores(data, scope?){
+  transformBoxScores(data, scope?) {
     var boxScoreObj = {};
     var newBoxScores = {};
     let currWeekGameDates = {};
 
-    if( data != null ){
+    if( data != null ) {
       let boxScoresData = data.data;
       for ( var gameDate in boxScoresData ) {
         let gameDayInfo:gameDayInfoInterface = data.data[gameDate];
@@ -246,8 +246,7 @@ export class BoxScoresService {
           }
         } //if (boxScoresData[gameDate])
       } // END for ( var gameDate in data.data )
-    }
-
+    } //if( data != null )
 
     var transformedData = {
       currentScope: scope,
@@ -270,7 +269,6 @@ export class BoxScoresService {
       this.getBoxScoresService(scopedDateParam.scope, scopedDateParam.date)
         .subscribe(data => {
           if(data.transformedDate[data.date] != null && data.transformedDate[data.date][0] != null) {
-
             let currentBoxScores = {
               moduleTitle: this.moduleHeader(data.date, profileName),
               gameDate: data.date,
@@ -280,6 +278,7 @@ export class BoxScoresService {
               nextGameDate:data.nextGameDate,
               previousGameDate:data.previousGameDate
             };
+
             currentBoxScores = currentBoxScores.gameInfo != null ? currentBoxScores :null;
             callback(data, currentBoxScores);
           } else {//if initial day fails then recall data
@@ -299,6 +298,7 @@ export class BoxScoresService {
           nextGameDate: boxScoresData.nextGameDate,
           previousGameDate: boxScoresData.previousGameDate
         };
+
         currentBoxScores = currentBoxScores.gameInfo != null ? currentBoxScores :null;
         callback(boxScoresData, currentBoxScores);
       }
@@ -308,24 +308,25 @@ export class BoxScoresService {
   // modifies data to get header data for modules
   aiHeadLine(data, scope?) {
     var boxArray = [];
+    // new
     if (data[0] != null && data[0].featuredReport['article'] && data[0].featuredReport['article'].status != "Error") {
-      data.forEach(function(val, index){
-        let aiContent = val.featuredReport['article']['data'][0];
-        for(var p in aiContent['articleData']){
-          var eventType = aiContent['articleData'][p];
-          var eventId = aiContent.eventId;
-          var title = aiContent.title;
-          var teaser = aiContent.teaser;
-          var date = moment(aiContent.lastUpdated, 'YYYY-MM-DD').format('MMMM D, YYYY');
-          if(aiContent['articleData'][p]['images']['home_images'] != null){
-            var homeImage = GlobalSettings.getImageUrl(aiContent['articleData'][p]['images']['home_images'][0].image_url, GlobalSettings._imgFullScreen);
-          }else{
-            var homeImage = VerticalGlobalFunctions.getBackroundImageUrlWithStockFallback(null);
-          }
-        }
+      data.forEach(function(val, index) {
+        let aiContent = val.featuredReport['article']['data'];
+        for(var p in aiContent) {
+          var eventType = p ? p : null;
+          var eventContent = aiContent[p] ? aiContent[p] : null;
+          var eventId = eventContent.event_id ? eventContent.event_id : null;
+          var title = eventContent.title ? eventContent.title : null;
+          var teaser = eventContent.teaser ? eventContent.teaser : null;
+          var date = eventContent.last_updated ? moment(eventContent.last_updated, 'YYYY-MM-DD').format('MMMM D, YYYY') : null;
+          var homeImage = eventContent.image_url != null ?
+                          GlobalSettings.getImageUrl(aiContent[p].image_url, GlobalSettings._imgFullScreen) :
+                          VerticalGlobalFunctions.getBackroundImageUrlWithStockFallback(null);
+        } //for(var p in aiContent)
         if ( p ) {
           let urlRoute = VerticalGlobalFunctions.formatExternalArticleRoute(scope, p, val.event);
           urlRoute = GlobalSettings.getOffsiteLink(scope, "article", urlRoute);
+
           var Box = {
             eventType: eventType,
             eventId: p,
@@ -344,11 +345,58 @@ export class BoxScoresService {
           }
           boxArray.push(Box);
         } //if ( p )
-      });
+      }); //data.forEach
       return boxArray;
-    } else{
-      return null;
     }
+
+    // older box scores article (THIS CAN BE REMOVED ONCE THE MLB ARTICLES ARE UPDATED)
+    // else if ( data[0] != null && data[0].featuredReport ) {
+    //   data.forEach(function(val, index) {
+    //     var eventId = val.event ? val.event : null;
+    //     var aiContent = val.featuredReport ? val.featuredReport : null;
+    //     var homeImage = val.home.images[0] != null ?
+    //                     val.home.images[0] :
+    //                     VerticalGlobalFunctions.getBackroundImageUrlWithStockFallback(null);
+    //     var awayImage = val.away.images[0] != null ?
+    //                     val.away.images[0] :
+    //                     VerticalGlobalFunctions.getBackroundImageUrlWithStockFallback(null);
+    //     for ( var p in aiContent ) {
+    //       var eventType = p ? p : null;
+    //       var eventContent = aiContent[p] ? aiContent[p] : null;
+    //       var title = eventContent.displayHeadline ? eventContent.displayHeadline : null;
+    //       var teaser = eventContent.displayHeadline ? eventContent.displayHeadline : null;
+    //       var date = eventContent.last_updated ?
+    //                  moment(eventContent.last_updated, 'YYYY-MM-DD').format('MMMM D, YYYY') :
+    //                  null; //no event date returned in this structure
+    //     }
+    //     if ( p ) {
+    //       let urlRoute = VerticalGlobalFunctions.formatExternalArticleRoute(scope, p, val.event);
+    //       urlRoute = GlobalSettings.getOffsiteLink(scope, "article", urlRoute);
+    //
+    //       var Box = {
+    //         eventType: eventType,
+    //         eventId: p,
+    //         keyword: p.replace('-', ' '),
+    //         date: date,
+    //         url: VerticalGlobalFunctions.formatAiArticleRoute(p, val.event),
+    //         title: title,
+    //         teaser: teaser,
+    //         urlRouteArray: urlRoute,
+    //         imageConfig:{
+    //           imageClass: "image-320x180-sm",
+    //           imageUrl: index == 0 ? homeImage : awayImage,
+    //           hoverText: "View Article",
+    //           urlRouteArray: urlRoute
+    //         }
+    //       }
+    //       boxArray.push(Box);
+    //     } //if ( p )
+    //   }); //data.forEach
+    //   return boxArray;
+    // }
+    else {
+      return null;
+    } //if
   } //aiHeadLine
 
   // get data for mod header

@@ -792,11 +792,11 @@ export class GlobalSettings {
     }
 
     static getPartnerApiUrl(partnerID):string {
-        return this._proto + "//"+ this.getEnv(this._env) + this._partnerApiUrl + partnerID;
+        return this._proto + "//"+ this.synapsysENV(this._env) + this._partnerApiUrl + partnerID;
     }
 
     static getGeoLocation():string {
-        return this._proto + "//" + this.getEnv(this._env) + this._geoUrl;
+        return this._proto + "//" + this.synapsysENV(this._env) + this._geoUrl;
         // return this._proto + "//" + this._geoUrl;
     }
 

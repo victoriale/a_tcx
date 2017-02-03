@@ -20,6 +20,7 @@ export class DeepDiveSectionFront implements OnInit {
     @Input() geoLocation: string;
     @Input() category: string;
     @Input() deepDiveType: any;
+    showLoading:boolean;
     articleData: Array<ArticleStackData>;
     articleCallLimit: number = 31;
     callArticleApi: boolean = true;
@@ -215,6 +216,7 @@ export class DeepDiveSectionFront implements OnInit {
 
     //section front content
     getSectionFrontContentPerScroll(pageNum){
+       this.loadingshow=true;
         var currentPageObject = new Object();
         var passPage=pageNum + 1;
         let pageCall = pageNum;
@@ -226,13 +228,16 @@ export class DeepDiveSectionFront implements OnInit {
                         if (data) {
                             if(pageNum!=1){
                                 currentPageObject['videoStack'] = this._deepDiveData.transformSportVideoBatchData(data, this.scope);
+                                this.loadingshow=true;
                                 this.callVideoApi = true;
                             } else {
+                               this.loadingshow=false;
                                 currentPageObject['videoStack']=null
                             }
 
                         } else throw new Error(' No video articles for this category')
                     }catch(e){
+                       this.loadingshow=false;
                         this.callVideoApi = false;
                         currentPageObject['videoStack']=null;
                         console.log(e.message);

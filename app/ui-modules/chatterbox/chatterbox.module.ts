@@ -10,35 +10,42 @@ declare var jQuery:any;
 })
 
 export class ChatterboxModule implements OnInit {
-    srcLink: string;
-    @Input() category: string;
-    @Input() subCategory: string;
+    srcLink:string;
+    @Input() category:string;
+    @Input() subCategory:string;
     //adding temporary variables in order to avoid making changes to the category and subcategory directly
     cbcategory:string;
     cbsubCategory:string;
-    getData(){
+
+    getData() {
         var topScope = GlobalSettings.getTCXscope(this.category).topScope ? GlobalSettings.getTCXscope(this.category).topScope : null;
 
-        this.cbcategory = this.category=="real estate"? this.category.replace(/ /g,"-"):this.category;
-        this.cbsubCategory = this.subCategory=="real estate"? this.subCategory.replace(/ /g,"-"):this.subCategory;
+        this.cbcategory = this.category == "real estate" ? this.category.replace(/ /g, "-") : this.category;
+        this.cbsubCategory = this.subCategory == "real estate" ? this.subCategory.replace(/ /g, "-") : this.subCategory;
 
-      if(topScope && this.cbcategory != "all"){
-        this.cbcategory = topScope ? topScope : 'keyword-' + this.cbcategory;
-        this.cbsubCategory = this.cbsubCategory && this.cbsubCategory != this.cbcategory && this.cbcategory != "real-estate" ? this.cbsubCategory : "";
-      } else {
-        this.cbcategory = "trending";
-        this.cbsubCategory = "";
-      }
-      this.srcLink = "/app/ads/chatterbox.html?category=" + this.cbcategory + "&sub_category=" + this.cbsubCategory;
+        if (topScope && this.cbcategory != "all") {
+            this.cbcategory = topScope ? topScope : 'keyword-' + this.cbcategory;
+            this.cbsubCategory = this.cbsubCategory && this.cbsubCategory != this.cbcategory && this.cbcategory != "real-estate" ? this.cbsubCategory : "";
+        } else {
+            this.cbcategory = "trending";
+            this.cbsubCategory = "";
+        }
+        this.srcLink = "/app/ads/chatterbox.html?category=" + this.cbcategory + "&sub_category=" + this.cbsubCategory;
     }
+
     ngOnInit() {
-      this.getData();
-      window.addEventListener("message", this.receiveSize, false);
+        this.getData();
+        window.addEventListener("message", this.receiveSize, false);
     }
-    ngOnChanges(){
-      this.getData();
+
+    ngOnChanges() {
+        this.getData();
+        window.addEventListener("message", this.receiveSize, false);
     }
+
     receiveSize(e) {
-      document.getElementById("chatterbox-section").style.height = e.data;
+        if (e.data.hasOwnProperty('chatterbox')) {
+            document.getElementById("chatterbox-section").style.height = e.data['chatterbox'];
+        }
     }
 }

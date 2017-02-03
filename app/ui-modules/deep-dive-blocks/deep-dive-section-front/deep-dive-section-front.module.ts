@@ -80,6 +80,7 @@ export class DeepDiveSectionFront implements OnInit {
             if (event.scope.currentValue != event.scope.previousValue) {// if route has changed
                 window.scrollTo(0, 0);
                 this.scope = event.scope.currentValue;
+                this.urlScope = this.scope;
                 this.boxScoresData = null;
                 this.currentBoxScores = null;
                 this.dateParam == null;
@@ -134,11 +135,10 @@ export class DeepDiveSectionFront implements OnInit {
     }
 
     navigateSearch(e) {
-        if (!this.urlScope) {
-            this.urlScope = this.scope;
-        }
+        this.urlScope= this.urlScope == "sports"? this.searchBoxScope : this.urlScope;
         if (e.key == "Enter") {
             if (e.target.value) {
+
                 var rel_url = VerticalGlobalFunctions.createSearchLink(this.urlScope) + e.target.value;
                 var fullSearchUrl = GlobalSettings.getOffsiteLink(this.urlScope, "search", rel_url);
                 window.open(fullSearchUrl);
@@ -152,6 +152,7 @@ export class DeepDiveSectionFront implements OnInit {
             }
 
         }
+
     }
     changeScope(event) {
         this.urlScope = event;
@@ -160,6 +161,7 @@ export class DeepDiveSectionFront implements OnInit {
         this.searchData.searchSubTitle = GlobalSettings.getTCXscope(event).searchSubTitle;
     }
     createSearchBox(scope) {
+
         this.searchBoxScope = scope=="sports"? "nfl":scope;
 
         var modSearchTitle;

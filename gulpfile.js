@@ -50,6 +50,7 @@ gulp.task('copy:libs', ['clean'], function() {
         'node_modules/systemjs/dist/system.src.js',
         'node_modules/systemjs/dist/system-polyfills.js',
         'node_modules/zone.js/dist/zone.js',
+        'node_modules/moment/moment.js',
 
     ]) .pipe(concat('initlib.min.js'))
         .pipe(uglify())
@@ -58,7 +59,7 @@ gulp.task('copy:libs', ['clean'], function() {
 
     gulp.src([
 
-        'node_modules/moment/moment.js',
+
         'node_modules/moment-timezone/builds/moment-timezone-with-data-2010-2020.js',
         'node_modules/fuse.js/src/fuse.min.js',
         'node_modules/hammerjs/hammer.min.js',

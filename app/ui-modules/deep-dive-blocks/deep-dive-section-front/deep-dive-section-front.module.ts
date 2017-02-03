@@ -20,6 +20,7 @@ export class DeepDiveSectionFront implements OnInit {
     @Input() geoLocation: string;
     @Input() category: string;
     @Input() deepDiveType: any;
+    loadingShow:boolean;
     articleData: Array<ArticleStackData>;
     articleCallLimit: number = 31;
     callArticleApi: boolean = true;
@@ -79,6 +80,7 @@ export class DeepDiveSectionFront implements OnInit {
             if (event.scope.currentValue != event.scope.previousValue) {// if route has changed
                 window.scrollTo(0, 0);
                 this.scope = event.scope.currentValue;
+                this.urlScope = this.scope;
                 this.boxScoresData = null;
                 this.currentBoxScores = null;
                 this.dateParam == null;
@@ -133,11 +135,10 @@ export class DeepDiveSectionFront implements OnInit {
     }
 
     navigateSearch(e) {
-        if (!this.urlScope) {
-            this.urlScope = this.scope;
-        }
+        this.urlScope= this.urlScope == "sports"? this.searchBoxScope : this.urlScope;
         if (e.key == "Enter") {
             if (e.target.value) {
+
                 var rel_url = VerticalGlobalFunctions.createSearchLink(this.urlScope) + e.target.value;
                 var fullSearchUrl = GlobalSettings.getOffsiteLink(this.urlScope, "search", rel_url);
                 window.open(fullSearchUrl);
@@ -151,6 +152,7 @@ export class DeepDiveSectionFront implements OnInit {
             }
 
         }
+
     }
     changeScope(event) {
         this.urlScope = event;
@@ -159,6 +161,7 @@ export class DeepDiveSectionFront implements OnInit {
         this.searchData.searchSubTitle = GlobalSettings.getTCXscope(event).searchSubTitle;
     }
     createSearchBox(scope) {
+
         this.searchBoxScope = scope=="sports"? "nfl":scope;
 
         var modSearchTitle;
@@ -215,6 +218,7 @@ export class DeepDiveSectionFront implements OnInit {
 
     //section front content
     getSectionFrontContentPerScroll(pageNum){
+       this.loadingshow=true;
         var currentPageObject = new Object();
         var passPage=pageNum + 1;
         let pageCall = pageNum;
@@ -226,13 +230,16 @@ export class DeepDiveSectionFront implements OnInit {
                         if (data) {
                             if(pageNum!=1){
                                 currentPageObject['videoStack'] = this._deepDiveData.transformSportVideoBatchData(data, this.scope);
+                                this.loadingshow=true;
                                 this.callVideoApi = true;
                             } else {
+                               this.loadingshow=false;
                                 currentPageObject['videoStack']=null
                             }
 
                         } else throw new Error(' No video articles for this category')
                     }catch(e){
+                       this.loadingshow=false;
                         this.callVideoApi = false;
                         currentPageObject['videoStack']=null;
                         console.log(e.message);

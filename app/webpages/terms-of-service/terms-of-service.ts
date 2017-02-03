@@ -30,6 +30,7 @@ export class TermsOfService implements OnInit{
       paragraph: null
 
     }
+    this.addMetaTags();
   }
 
   private addMetaTags(){

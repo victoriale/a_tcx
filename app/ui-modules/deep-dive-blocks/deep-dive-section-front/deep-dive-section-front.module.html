@@ -14,7 +14,8 @@
     </div>
     <!-- SEARCH BOX FOR TYPE 2 ONLY and NOT WEATHER-->
     <div *ngIf="deepDiveType === 2 && first" class="deep-dive-module">
-      <search-box-module [category]="category" [scope]="scope" [searchData]="searchData" (scopeEmit)="changeScope($event)" (userInput)="navigateSearch($event)"></search-box-module>
+      <!-- the scope for the searchBox is not the global scope-->
+      <search-box-module [category]="category" [scope]="searchBoxScope" [searchData]="searchData" (scopeEmit)="changeScope($event)" (userInput)="navigateSearch($event)"></search-box-module>
     </div>
      <!-- BOX SCORE FOR TYPE 1 ONLY-->
     <div *ngIf="scope != 'sports' && deepDiveType === 1 && first" class="deep-dive-boxScores row">
@@ -83,5 +84,5 @@
       <responsive-widget [category]="category" [subCategory]="scope"></responsive-widget>
     </div>
   </div>
-  <load-more-button *ngIf="callApi"></load-more-button>
+  <load-more-button *ngIf="loadingshow"></load-more-button>
 </div>

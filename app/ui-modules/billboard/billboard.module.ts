@@ -9,37 +9,42 @@ declare var jQuery:any;
     templateUrl: './app/ui-modules/billboard/billboard.module.html',
 })
 
-export class BillboardModule implements OnInit{
-    isSmall:boolean = false;
-    srcLink: string;
-    @Input() category: string;
-    @Input() subCategory: string;
+export class BillboardModule implements OnInit {
+    srcLink:string;
+    @Input() category:string;
+    @Input() subCategory:string;
     //adding temporary variables in order to avoid making changes to the category and subcategory directly
     billcategory:string;
     billsubCategory:string;
 
-    getData(){
+    getData() {
         var topScope = GlobalSettings.getTCXscope(this.category).topScope ? GlobalSettings.getTCXscope(this.category).topScope : null;
-        this.billcategory = this.category == "real estate" ? this.category.replace(/ /g,"-") : this.category;
-        this.billsubCategory = this.subCategory == "real estate"? this.subCategory.replace(/ /g,"-") : this.subCategory;
+        this.billcategory = this.category == "real estate" ? this.category.replace(/ /g, "-") : this.category;
+        this.billsubCategory = this.subCategory == "real estate" ? this.subCategory.replace(/ /g, "-") : this.subCategory;
 
-      if(this.billcategory != "all" && topScope){
-        this.billcategory = topScope && topScope != "real estate" ? topScope : 'keyword-' + this.billcategory;
-        this.billsubCategory = this.billsubCategory && this.billsubCategory != this.billcategory && this.billcategory != "real-estate" ? this.billsubCategory : "";
-      } else {
-        this.billcategory = "trending";
-        this.billsubCategory  = "";
-      }
-      this.srcLink = "/app/ads/billboard.html?category=" + this.billcategory + "&sub_category=" + this.billsubCategory;
+        if (this.billcategory != "all" && topScope) {
+            this.billcategory = topScope && topScope != "real estate" ? topScope : 'keyword-' + this.billcategory;
+            this.billsubCategory = this.billsubCategory && this.billsubCategory != this.billcategory && this.billcategory != "real-estate" ? this.billsubCategory : "";
+        } else {
+            this.billcategory = "trending";
+            this.billsubCategory = "";
+        }
+        this.srcLink = "/app/ads/billboard.html?category=" + this.billcategory + "&sub_category=" + this.billsubCategory;
     }
+
     ngOnInit() {
-      this.getData();
-      this.isSmall = window.innerWidth <= 814;
+        this.getData();
+        window.addEventListener("message", this.receiveSize, false);
     }
-    ngOnChanges(){
-      this.getData();
+
+    ngOnChanges() {
+        this.getData();
+        window.addEventListener("message", this.receiveSize, false);
     }
-    onResize(event) {
-      this.isSmall = event.target.innerWidth <= 814;
+
+    receiveSize(e) {
+        if (e.data.hasOwnProperty('billboard')) {
+            document.getElementById("billboard-section").style.height = e.data['billboard'];
+        }
     }
 }

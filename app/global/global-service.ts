@@ -56,20 +56,15 @@ export class GeoLocation{
             )
             .flatMap(
             data => {
-                if (data['results'] != null) {
-                    let partnerScript = data['results'].header.script;
-                    let partnerLocation = data['results']['location']['realestate']['location']['city'][0];
-                    if(!partnerLocation){
-                      partnerLocation = data['results']['location']['realestate']['location_id'];
-                    }
+                if (data[0] != null) {
                     if (!this.geoData) {
                         this.geoData = {};
                     }
                     this.geoData['partner_id'] = partner_id;
-                    this.geoData['partner_script'] = partnerScript;
-                    if (partnerLocation.state && partnerLocation.city) {
-                        this.geoData['state'] = partnerLocation.state;
-                        this.geoData['city'] = partnerLocation.city;
+                    this.geoData['partner_script'] = data[0]['script'];
+                    if (data[0]['state'] && data[0]['city']) {
+                        this.geoData['state'] = data[0]['state'];
+                        this.geoData['city'] = data[0]['city'];
                         return new Observable(observer => {
                             observer.next(this.geoData);
                             observer.complete();

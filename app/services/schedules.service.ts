@@ -440,8 +440,8 @@ export class SchedulesService {
                     var divCheck = data.data[n].awayDiv ? (data.data[n].awayDiv == "d2" ? false : true) : true;
                     let fullNameAway = data.data[n].fullNameAway ? data.data[n].fullNameAway.replace(/ /g, "-") : null;
                     let fullNameHome = data.data[n].fullNameHome ? data.data[n].fullNameHome.replace(/ /g, "-"): null;
-                    data.data[n].awayProfileUrl = data.data[n].fullNameAway && divCheck ? GlobalSettings.getOffsiteLink(scope, "team", fullNameAway, data.data[n].idAway) : null;
-                    data.data[n].homeProfileUrl = data.data[n].fullNameHome ? GlobalSettings.getOffsiteLink(scope, "team", fullNameHome, data.data[n].idHome) : null;
+                    data.data[n].awayLink = data.data[n].fullNameAway && divCheck ? GlobalSettings.getOffsiteLink(scope, "team", fullNameAway, data.data[n].idAway) : null;
+                    data.data[n].homeLink = data.data[n].fullNameHome ? GlobalSettings.getOffsiteLink(scope, "team", fullNameHome, data.data[n].idHome) : null;
                     if (data.data[n].logoUrlAway == "" || data.data[n].logoUrlAway == null) {
                         data.data[n].logoUrlAway = '/app/public/no-image.png';
                     }

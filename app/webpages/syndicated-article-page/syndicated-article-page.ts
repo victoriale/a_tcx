@@ -241,10 +241,16 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
         )
     }
     private metaTags(data, artType) {
+        //This call will remove all meta tags from the head.
+        this._seo.removeMetaTags();
+
+        var metaData = data;
+        var searchString;
+        var searchArray = [];
         let metaDesc = GlobalSettings.getPageTitle('Dive into the most recent news about your favorite sports, movies and read the latest articles on politics, business, travel etc.', 'Articles');
         let link = window.location.href;
 
-        this._seo.setCanonicalLink(link);
+        //this._seo.setCanonicalLink(link);
         this._seo.setOgDesc(metaDesc);
         this._seo.setOgType('Website');
         this._seo.setOgUrl(link);
@@ -253,7 +259,13 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
         this._seo.setMetaDescription(metaDesc);
         this._seo.setMetaRobots('INDEX, NOFOLLOW');
         this._seo.setOgTitle(this.subcategory);
-
+        if(data.keywords && data.keywords.isArray){
+            this._seo.setKeyword(data.keywords[0]);
+            data.keywords.forEach(function (keyword) {
+                searchArray.push(keyword);
+            });
+            searchString = searchArray.join(',');
+        }
 
         if(artType=="story") {
             let image;
@@ -263,6 +275,7 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
                 image=GlobalSettings.getImageUrl("/app/public/placeholder_XL.png");
             }
             let articleAuthor = '';
+
             if (data.author) {
 
                 let authorArray = data.author.split(' ');
@@ -278,29 +291,39 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
                 }
 
             }
-            this._seo.setSource(data.source);
-            this._seo.setArticleTitle(data.title.replace(/\\'/g, "'"));
-            this._seo.setImageUrl(image);
-            this._seo.setArticleUrl(link);
-            this._seo.setArticleType(this.subcategory);
-            this._seo.setArticleId(data.article_id);
-            this._seo.setAuthor(articleAuthor);
-            this._seo.setPublishedDate(data.last_updated);
-            this._seo.setKeyword(data.keywords);
+            this._seo.setCanonicalLink(this.activateRoute.params, this.router);
+            this._seo.setOgTitle(metaData.title);
+            this._seo.setOgDesc(metaDesc);
+            this._seo.setOgType('website');
+            this._seo.setOgUrl(link);
+            this._seo.setTitle(metaData.title);
+            this._seo.setMetaDescription(metaDesc);
+            this._seo.setMetaRobots('INDEX, NOFOLLOW');
+            this._seo.setIsArticle('true');
             this._seo.setSearchType('article');
-            this._seo.setPublisher(data.publisher);
-            this._seo.setSearchString(data.keywords);//should be user input for search
-            data.teaser?this._seo.setTeaser(data.teaser):this._seo.setTeaser(data.article_data.article[0]);
+            this._seo.setSource(metaData.source);
+            this._seo.setArticleId(metaData.article_id);
+            this._seo.setArticleTitle(metaData.title);
+            this._seo.setAuthor(articleAuthor);
+            this._seo.setPublishedDate(metaData.last_updated);
+            this._seo.setPublisher(metaData.publisher);
+            this._seo.setImageUrl(image);
+            this._seo.setArticleTeaser(metaData.teaser.replace(/<ng2-route>|<\/ng2-route>/g, ''));
+            this._seo.setSearchString(searchString);//should be user input for search
+            this._seo.setArticleUrl(link);
+            this._seo.setArticleType(metaData.article_type);
+
+            //data.teaser?this._seo.setTeaser(data.teaser):this._seo.setTeaser(data.article_data.article[0]);
 
         }else{//video pages, etc. not article pages
-            this._seo.setArticleTitle(data.title.replace(/\\'/g, "'"));
+            this._seo.setArticleTitle(metaData.title.replace(/\\'/g, "'"));
             this._seo.setArticleUrl(link);
-            this._seo.setImageUrl(data.video_thumbnail);
-            this._seo.setArticleId(data.id);
-            this._seo.setKeyword(data.keyword);
-            this._seo.setTeaser(data.teaser);
+            this._seo.setImageUrl(metaData.video_thumbnail);
+            this._seo.setArticleId(metaData.id);
+            this._seo.setKeyword(metaData.keyword);
+            //this._seo.setTeaser(data.teaser);
             this._seo.setSearchType('article');
-            this._seo.setSearchString(data.keywords);
+            this._seo.setSearchString(metaData.keywords);
         }
     }
 

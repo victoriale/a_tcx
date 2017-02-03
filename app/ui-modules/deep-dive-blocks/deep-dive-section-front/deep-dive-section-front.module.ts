@@ -229,16 +229,13 @@ export class DeepDiveSectionFront implements OnInit {
                         if (data) {
                             if(pageNum!=1){
                                 currentPageObject['videoStack'] = this._deepDiveData.transformSportVideoBatchData(data, this.scope);
-                                this.loadingShow=true;
                                 this.callVideoApi = true;
                             } else {
-                               this.loadingShow=false;
                                 currentPageObject['videoStack']=null
                             }
 
                         } else throw new Error(' No video articles for this category')
                     }catch(e){
-                       this.loadingShow=false;
                         this.callVideoApi = false;
                         currentPageObject['videoStack']=null;
                         console.log(e.message);
@@ -252,6 +249,7 @@ export class DeepDiveSectionFront implements OnInit {
                 .subscribe(data => {
                     try{
                         if (data) {
+                           this.loadingShow=true;
                             this.articleData = this._deepDiveData.transformToArticleStack(data, this.category, this.scope);
                             currentPageObject['stackTop1'] = this.articleData.length && pageNum != 1 ? this.articleData.splice(0, 1) : null;
                             currentPageObject['stackRow1'] = this.articleData.length && pageNum != 1 ? this.articleData.splice(0, 6) : null;
@@ -264,9 +262,11 @@ export class DeepDiveSectionFront implements OnInit {
                             this.newArray.push(currentPageObject);
                             if(data.length < callLimit){
                                 this.callArticleApi = false;
+                                this.loadingShow=false;
                             }
                         }else throw new Error('Article stack have no articles');
                     }catch(e){
+                        this.loadingShow=false;
                         this.callArticleApi = false;
                         console.log(e.message);
                     }

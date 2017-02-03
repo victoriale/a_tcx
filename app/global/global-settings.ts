@@ -14,13 +14,13 @@ export class GlobalSettings {
     private static _articleBatchUrl:string= "-article-library.synapsys.us/articles";
     private static _domainApiUrl:string= "devapi.synapsys.us/widgets/deepdive/bar/domain_api.php?dom=";
 
-    private static _partnerApiUrl: string = 'apireal.synapsys.us/listhuv/?action=get_partner_data&domain=';
-    // private static _partnerApiUrl: string = 'dev-synapview.synapsys.us/synapview/?action=get_header_data&vertical=sports&domain='; // sports being passed into vertical to only grab sports
+    // private static _partnerApiUrl: string = 'apireal.synapsys.us/listhuv/?action=get_partner_data&domain=';
+    private static _partnerApiUrl: string = 'synapview.synapsys.us/synapview/?action=get_header_data&vertical=sports&domain='; // sports being passed into vertical to only grab sports
 
     //two different api since there is a possibility that these urls are going to change
     private static _widgetUrl: string = 'w1.synapsys.us';
-    // private static _geoUrl: string = '-waldo.synapsys.us';
-    private static _geoUrl: string = 'w1.synapsys.us';
+    private static _geoUrl: string = 'waldo.synapsys.us';
+    // private static _geoUrl: string = 'w1.synapsys.us';
 
     //main domain for all our images
     public static _imageUrl:string = 'images.synapsys.us';
@@ -68,6 +68,15 @@ export class GlobalSettings {
       }
       if (env != "dev" && env !="qa"){
           env = "prod";
+      }
+      return env;
+    }
+
+    static synapsysENV(env:string):string {
+      if (env == "localhost" || env == 'dev' || env == 'qa'){//remove qa when we have qa env setup
+          env = "dev-";
+      }else{
+        env = '';
       }
       return env;
     }
@@ -783,12 +792,12 @@ export class GlobalSettings {
     }
 
     static getPartnerApiUrl(partnerID):string {
-        return this._proto + "//"+ this._partnerApiUrl + partnerID;
+        return this._proto + "//"+ this.getEnv(this._env) + this._partnerApiUrl + partnerID;
     }
 
     static getGeoLocation():string {
-        // return this._proto + "//" + this.getEnv(this._env) + this._geoUrl;
-        return this._proto + "//" + this._geoUrl;
+        return this._proto + "//" + this.getEnv(this._env) + this._geoUrl;
+        // return this._proto + "//" + this._geoUrl;
     }
 
     static widgetUrl():string {

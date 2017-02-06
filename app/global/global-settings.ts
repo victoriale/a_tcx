@@ -816,19 +816,17 @@ export class GlobalSettings {
       return resizePath;
     }
 
-    static getImageUrl(relativePath, width?:number):string {
+    static getImageUrl(relativePath, width:number=1920):string {
       var relPath;
       var domain_env = this.getEnv(this._env);
       if(domain_env =="dev" || domain_env =="qa" ){
         domain_env = "dev";
         relPath = relativePath != null && relativePath != "" ? this._proto + "//" + domain_env  +'-'+ this._imageUrl + relativePath: '/app/public/no-image.png';
-        width = width ? width : 1920;//if null, set limit to 1920 because it should not be over 1920 width
-        relPath += this.resizeImage(width);
-        return relPath;
       }else{
         relPath = relativePath != null && relativePath != "" ? this._proto + "//" + this._imageUrl + relativePath: '/app/public/no-image.png';
-        return relPath;
       }
+      relPath += this.resizeImage(width);
+      return relPath;
     }
 
     static getSportsImageUrl(relativePath, width?:number):string {

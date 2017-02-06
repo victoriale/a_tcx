@@ -92,8 +92,8 @@ export class GeoLocation{
 
     //api to get geo location
     getGeoLocation() {
-        var getGeoLocation = GlobalSettings.getGeoLocation() + '/getlocation/2';
-        //  var getGeoLocation = GlobalSettings.getGeoLocation() + '/listhuv/?action=get_remote_addr2';
+        // var getGeoLocation = GlobalSettings.getGeoLocation() + '/getlocation/2';
+         var getGeoLocation = GlobalSettings.getGeoLocation() + '/listhuv/?action=get_remote_addr2';
         return this.http.get(getGeoLocation)
             .map(res => res.json())
             .map(

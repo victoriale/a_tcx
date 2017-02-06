@@ -19,6 +19,7 @@ export class WidgetModule  implements AfterViewChecked{
     //adding temporary variables in order to avoid making changes to the category and subcategory directly
     vwcategory:string;
     vwsubCategory:string;
+    firstCheck = null;
     getData(){
         var topScope = GlobalSettings.getTCXscope(this.category).topScope ? GlobalSettings.getTCXscope(this.category).topScope : null;
         this.vwcategory = this.category=="real estate"? this.category.replace(/ /g,"-"):this.category;
@@ -35,6 +36,7 @@ export class WidgetModule  implements AfterViewChecked{
     }
     ngOnInit() {
       this.getData();
+
         // this.isProSport = this.scope == 'nfl' ? true: false;
         // var titleHeight = jQuery('.articles-page-title').height();
         // var padding = document.getElementById('pageHeader').offsetHeight;
@@ -61,6 +63,7 @@ export class WidgetModule  implements AfterViewChecked{
     }
     ngOnChanges(){
       this.getData();
+      this.firstCheck = null;
     }
     ngAfterViewChecked():void{
         //Reload an IFRAME without adding to the history
@@ -68,22 +71,26 @@ export class WidgetModule  implements AfterViewChecked{
         var state = document.readyState;
         //check if DOM is completely loaded
         if(state === "complete"){
-            var oldFrame = document.getElementById('widgetframe');
-            var newFrame = document.createElement("iframe");
-            newFrame.id = oldFrame.getAttribute('id');
-            newFrame.style.width = oldFrame.style.width;
-            newFrame.style.height = oldFrame.style.height;
-            newFrame.style.border = oldFrame.style.border;
-            newFrame.style.margin = oldFrame.style.margin;
-            newFrame.style.zIndex = oldFrame.style.zIndex;
-            newFrame.frameBorder = oldFrame.getAttribute('frameBorder');
-            newFrame.scrolling = oldFrame.getAttribute('scrolling');
-            newFrame.setAttribute('allowtransparency', 'true');
-            newFrame.style.display= oldFrame.style.display;
-            newFrame.style.overflow= oldFrame.style.overflow;
-            newFrame.src = this.srcLink;
-            var parent = oldFrame.parentNode;
-            parent.replaceChild(newFrame,oldFrame);
+            if(this.firstCheck == null){
+                var oldFrame = document.getElementById('widgetframe');
+                var newFrame = document.createElement("iframe");
+                newFrame.id = oldFrame.getAttribute('id');
+                newFrame.style.width = oldFrame.style.width;
+                newFrame.style.height = oldFrame.style.height;
+                newFrame.style.border = oldFrame.style.border;
+                newFrame.style.margin = oldFrame.style.margin;
+                newFrame.style.zIndex = oldFrame.style.zIndex;
+                newFrame.frameBorder = oldFrame.getAttribute('frameBorder');
+                newFrame.scrolling = oldFrame.getAttribute('scrolling');
+                newFrame.setAttribute('allowtransparency', 'true');
+                newFrame.style.display= oldFrame.style.display;
+                newFrame.style.overflow= oldFrame.style.overflow;
+                newFrame.src = this.srcLink;
+                var parent = oldFrame.parentNode;
+                parent.replaceChild(newFrame,oldFrame);
+                this.firstCheck=state;
+            }
+
         }
     }
 

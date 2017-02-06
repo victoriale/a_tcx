@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, AfterViewChecked} from '@angular/core';
 import {Http, Headers} from '@angular/http';
 import { GlobalSettings } from "../../global/global-settings";
 
@@ -9,7 +9,7 @@ declare var jQuery:any;
     templateUrl: './app/ui-modules/widget/widget.module.html'
 })
 
-export class WidgetModule {
+export class WidgetModule  implements AfterViewChecked{
     sidekickHeight:number = 0;
     headerHeight:string;
     isProSport:boolean = true;
@@ -62,6 +62,29 @@ export class WidgetModule {
     ngOnChanges(){
       this.getData();
     }
+    ngAfterViewChecked():void{
+        //Reload an IFRAME without adding to the history
+        //Change the src attribute of an iframe element when the iframe is not in the DOM in order to avoid a history push to the browsers history stack,
+        var state = document.readyState;
+        //check if DOM is completely loaded
+        if(state === "complete"){
+            var oldFrame = document.getElementById('widgetframe');
+            var newFrame = document.createElement("iframe");
+            newFrame.id = oldFrame.getAttribute('id');
+            newFrame.width = oldFrame.getAttribute('width');
+            newFrame.height = oldFrame.getAttribute('height');
+            newFrame.frameBorder = oldFrame.getAttribute('frameBorder');
+            newFrame.scrolling = oldFrame.getAttribute('scrolling');
+            newFrame.setAttribute('allowtransparency', 'true');
+            newFrame.style.display= 'block';
+            newFrame.style.overflow= 'hidden';
+            newFrame.src = this.srcLink;
+            var parent = oldFrame.parentNode;
+            parent.replaceChild(newFrame,oldFrame);
+        }
+    }
+
+
     // Page is being scrolled
     onScroll(event) {
         // var partnerHeight = 0;

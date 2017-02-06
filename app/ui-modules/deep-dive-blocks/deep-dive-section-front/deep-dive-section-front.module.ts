@@ -20,7 +20,7 @@ export class DeepDiveSectionFront implements OnInit {
     @Input() geoLocation: string;
     @Input() category: string;
     @Input() deepDiveType: any;
-    loadingShow:boolean;
+    loadingshow:boolean;
     articleData: Array<ArticleStackData>;
     articleCallLimit: number = 31;
     callArticleApi: boolean = true;

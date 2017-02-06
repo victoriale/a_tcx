@@ -181,7 +181,8 @@ export class SchedulesService {
         //Configure HTTP Headers
         var headers = this.setToken();
         // var callURL = GlobalSettings.getVerticalEnv('-finance-api.synapsys.us') + "/call_controller.php?action=tcx&option=tcx_side_scroll";
-        var callURL = GlobalSettings.getTCXscope("business").verticalApi + "/call_controller.php?action=tcx&option=tcx_side_scroll";
+        // var callURL = GlobalSettings.getTCXscope("business").verticalApi + "/call_controller.php?action=tcx&option=tcx_side_scroll";
+        var callURL = "//qa-finance-api.synapsys.us/call_controller.php?action=tcx&option=tcx_side_scroll";
         //optional week parameters
         return this.http.get(callURL, { headers: headers })
             .map(res => res.json())
@@ -192,6 +193,7 @@ export class SchedulesService {
                 }
                 if(scope != 'all'){
                   scope = scope.toUpperCase();
+                  data.data[scope].length = 50;
                 }
                 for (var n = 0; n < data.data[scope].length; n++) {
                     data.data[scope][n].currentStockValue = Number(data.data[scope][n].currentStockValue).toFixed(2);

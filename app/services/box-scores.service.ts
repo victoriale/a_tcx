@@ -318,7 +318,7 @@ export class BoxScoresService {
           var eventId = eventContent.event_id ? eventContent.event_id : null;
           var title = eventContent.title ? eventContent.title : null;
           var teaser = eventContent.teaser ? eventContent.teaser : null;
-          var date = eventContent.last_updated ? moment(eventContent.last_updated, 'YYYY-MM-DD').format('MMMM D, YYYY') : null;
+          var date = eventContent.publication_date || eventContent.last_updated ? moment.unix(eventContent.publication_date, 'YYYY-MM-DD').format('MMMM D, YYYY') : moment.unix(eventContent.last_updated, 'YYYY-MM-DD').format('MMMM D, YYYY');
           var homeImage = eventContent.image_url != null ?
                           GlobalSettings.getImageUrl(aiContent[p].image_url, GlobalSettings._imgFullScreen) :
                           VerticalGlobalFunctions.getBackroundImageUrlWithStockFallback(null);

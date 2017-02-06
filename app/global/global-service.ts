@@ -49,8 +49,7 @@ export class GeoLocation{
       }
 
         var fullUrl = GlobalSettings.getPartnerApiUrl(partner_id);
-        return this.http.get(fullUrl, {
-        })
+        return this.http.get(fullUrl)
             .map(
             res => res.json()
             )
@@ -93,9 +92,9 @@ export class GeoLocation{
 
     //api to get geo location
     getGeoLocation() {
-        // var getGeoLocation = GlobalSettings.getGeoLocation() + '/getlocation/2';
-         var getGeoLocation = GlobalSettings.getGeoLocation() + '/listhuv/?action=get_remote_addr2';
-        return this.http.get(getGeoLocation, {})
+        var getGeoLocation = GlobalSettings.getGeoLocation() + '/getlocation/2';
+        //  var getGeoLocation = GlobalSettings.getGeoLocation() + '/listhuv/?action=get_remote_addr2';
+        return this.http.get(getGeoLocation)
             .map(res => res.json())
             .map(
             data => {
@@ -103,7 +102,7 @@ export class GeoLocation{
                 let state = data[0].state.toLowerCase();
                 let city = data[0].city.replace(/ /g, "%20");
                 let zipcode = data[0].zipcode;
-                if (!this.geoData) {
+                if (this.geoData == null) {
                     this.geoData = {};
                 }
                 this.geoData['state'] = state;

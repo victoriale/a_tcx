@@ -49,15 +49,16 @@ export class GeoLocation{
       }
 
         var fullUrl = GlobalSettings.getPartnerApiUrl(partner_id);
-        return this.http.get(fullUrl, {
-        })
+        return this.http.get(fullUrl)
             .map(
             res => res.json()
             )
             .flatMap(
             data => {
                 if (data[0] != null) {
-
+                    if (!this.geoData) {
+                        this.geoData = {};
+                    }
                     this.geoData['partner_id'] = partner_id;
                     this.geoData['partner_script'] = data[0]['script'];
                     if (data[0]['state'] && data[0]['city']) {
@@ -80,7 +81,7 @@ export class GeoLocation{
     getDomainApi(partner_id){
       var callURL = partner_id && typeof partner_id != 'undefined' ? GlobalSettings.getDomainAPI(partner_id) : null;
       // console.log("callURL", callURL);
-      return this.http.get(callURL)
+      return this.http.get(callURL, {})
       .map(res=>res.json())
       .map(data=>{
         // console.log("DATA", data);
@@ -101,7 +102,9 @@ export class GeoLocation{
                 let state = data[0].state.toLowerCase();
                 let city = data[0].city.replace(/ /g, "%20");
                 let zipcode = data[0].zipcode;
-
+                if (this.geoData == null) {
+                    this.geoData = {};
+                }
                 this.geoData['state'] = state;
                 this.geoData['city'] = city;
                 this.geoData['zipcode'] = zipcode;

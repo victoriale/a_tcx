@@ -17,6 +17,7 @@ export class AppComponent {
             //function that grabs the designated location needed for the client and if a partnerID is sent through then it will also set the partnerID and partnerScript for their Header
             GlobalSettings.storedPartnerId(params.partner_id);
             this.partnerID = params.partner_id;
+            
             this._geoLocation.grabLocation(params.partner_id).subscribe(res => {
               if(res.partner_id){
                 GlobalSettings.storedPartnerId(res.partner_id);

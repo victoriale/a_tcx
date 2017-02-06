@@ -19,8 +19,8 @@ export class GlobalSettings {
 
     //two different api since there is a possibility that these urls are going to change
     private static _widgetUrl: string = 'w1.synapsys.us';
-    private static _geoUrl: string = 'waldo.synapsys.us';
-    // private static _geoUrl: string = 'w1.synapsys.us';
+    // private static _geoUrl: string = 'waldo.synapsys.us';
+    private static _geoUrl: string = 'w1.synapsys.us';
 
     //main domain for all our images
     public static _imageUrl:string = 'images.synapsys.us';
@@ -796,8 +796,8 @@ export class GlobalSettings {
     }
 
     static getGeoLocation():string {
-        return this._proto + "//" + this.synapsysENV(this._env) + this._geoUrl;
-        // return this._proto + "//" + this._geoUrl;
+        // return this._proto + "//" + this.synapsysENV(this._env) + this._geoUrl;
+        return this._proto + "//" + this._geoUrl;
     }
 
     static widgetUrl():string {

@@ -57,9 +57,7 @@ export class GeoLocation{
             .flatMap(
             data => {
                 if (data[0] != null) {
-                    if (!this.geoData) {
-                        this.geoData = {};
-                    }
+
                     this.geoData['partner_id'] = partner_id;
                     this.geoData['partner_script'] = data[0]['script'];
                     if (data[0]['state'] && data[0]['city']) {
@@ -82,7 +80,7 @@ export class GeoLocation{
     getDomainApi(partner_id){
       var callURL = partner_id && typeof partner_id != 'undefined' ? GlobalSettings.getDomainAPI(partner_id) : null;
       // console.log("callURL", callURL);
-      return this.http.get(callURL, {})
+      return this.http.get(callURL)
       .map(res=>res.json())
       .map(data=>{
         // console.log("DATA", data);
@@ -95,7 +93,7 @@ export class GeoLocation{
     getGeoLocation() {
         var getGeoLocation = GlobalSettings.getGeoLocation() + '/getlocation/2';
         //  var getGeoLocation = GlobalSettings.getGeoLocation() + '/listhuv/?action=get_remote_addr2';
-        return this.http.get(getGeoLocation, {})
+        return this.http.get(getGeoLocation)
             .map(res => res.json())
             .map(
             data => {
@@ -103,9 +101,7 @@ export class GeoLocation{
                 let state = data[0].state.toLowerCase();
                 let city = data[0].city.replace(/ /g, "%20");
                 let zipcode = data[0].zipcode;
-                if (!this.geoData) {
-                    this.geoData = {};
-                }
+
                 this.geoData['state'] = state;
                 this.geoData['city'] = city;
                 this.geoData['zipcode'] = zipcode;

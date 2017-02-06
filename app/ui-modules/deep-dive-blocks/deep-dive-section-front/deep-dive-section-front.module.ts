@@ -39,7 +39,6 @@ export class DeepDiveSectionFront implements OnInit {
     searchData: any;
     routeSubscription: any;
     urlScope: any;
-    imgSize: number;
     searchBoxScope:string;
     constructor(private _boxScoresService: BoxScoresService, private _deepDiveData: DeepDiveService) { }
 
@@ -250,7 +249,7 @@ export class DeepDiveSectionFront implements OnInit {
                     try{
                         if (data) {
                            this.loadingShow=true;
-                            this.articleData = this._deepDiveData.transformToArticleStack(data, this.category, this.scope);
+                            this.articleData = this._deepDiveData.transformToArticleStack(data, this.category);
                             currentPageObject['stackTop1'] = this.articleData.length && pageNum != 1 ? this.articleData.splice(0, 1) : null;
                             currentPageObject['stackRow1'] = this.articleData.length && pageNum != 1 ? this.articleData.splice(0, 6) : null;
                             currentPageObject['recData1'] =  this.articleData.length > 3 && pageNum != 1 ? this.articleData.length < 6 && pageNum != 1 ? this.articleData.splice(0, 3) : this.articleData.splice(0, 6) : null;

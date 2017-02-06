@@ -86,13 +86,16 @@ export class VerticalGlobalFunctions {
     if(category === null){
       return ['Error-page'];
     }
-
     if (category==subcategory){
       articleRoute = [route,subcategory, 'article', articleType, articleID];
     } else if(GlobalSettings.getTCXscope(subcategory).parentScope != null){
       articleRoute = [route, GlobalSettings.getTCXscope(subcategory).parentScope, subcategory, 'article', articleType, articleID];
     } else {
-      articleRoute = [route, category, subcategory, 'article', articleType, articleID];
+      if(category == 'news'){
+        articleRoute = [route, subcategory, 'article', articleType, articleID];
+      }else{
+        articleRoute = [route, category, subcategory, 'article', articleType, articleID];
+      }
     }
     return articleRoute ? articleRoute : ['Error-page'];
   }

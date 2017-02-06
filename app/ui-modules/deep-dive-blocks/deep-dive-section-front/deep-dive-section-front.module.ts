@@ -20,6 +20,7 @@ export class DeepDiveSectionFront implements OnInit {
     @Input() geoLocation: string;
     @Input() category: string;
     @Input() deepDiveType: any;
+    loadingShow:boolean;
     articleData: Array<ArticleStackData>;
     articleCallLimit: number = 31;
     callArticleApi: boolean = true;
@@ -38,7 +39,6 @@ export class DeepDiveSectionFront implements OnInit {
     searchData: any;
     routeSubscription: any;
     urlScope: any;
-    imgSize: number;
     searchBoxScope:string;
     constructor(private _boxScoresService: BoxScoresService, private _deepDiveData: DeepDiveService) { }
 
@@ -217,9 +217,9 @@ export class DeepDiveSectionFront implements OnInit {
 
     //section front content
     getSectionFrontContentPerScroll(pageNum){
+       this.loadingShow=true;
         var currentPageObject = new Object();
         var passPage=pageNum + 1;
-        let pageCall = pageNum;
         let callLimit = pageNum == 0 ? 13 : this.articleCallLimit;
         if(this.callVideoApi){
             this._deepDiveData.getDeepDiveVideoBatchService(this.scope, this.videoCallLimit, passPage, this.geoLocation).subscribe(
@@ -244,25 +244,28 @@ export class DeepDiveSectionFront implements OnInit {
         }
 
         if(this.callArticleApi){
-            this.routeSubscription=this._deepDiveData.getDeepDiveBatchService(this.scope, callLimit, pageCall)
+            this.routeSubscription=this._deepDiveData.getDeepDiveBatchService(this.scope, callLimit, passPage)
                 .subscribe(data => {
                     try{
                         if (data) {
-                            this.articleData = this._deepDiveData.transformToArticleStack(data, this.category, this.scope);
-                            currentPageObject['stackTop1'] = this.articleData.length&&pageNum!=1?this.articleData.splice(0, 1):null;//not pageNum 1 so it doesn't repeat on the second set
-                            currentPageObject['stackRow1'] = this.articleData.length&&pageNum!=1?this.articleData.splice(0, 6):null;
-                            currentPageObject['recData1'] =  this.articleData.length>3 && pageNum!=1? this.articleData.length < 6 && pageNum!=1? this.articleData.splice(0, 3) : this.articleData.splice(0, 6):null;
-                            currentPageObject['stackTop2'] =  this.articleData.length?this.articleData.splice(0, 1):null;
-                            currentPageObject['stackRow2'] = this.articleData.length?this.articleData.splice(0, 6):null;
-                            currentPageObject['stackTop3'] =  this.articleData.length?this.articleData.splice(0, 1):null;
-                            currentPageObject['stackRow3'] =  this.articleData.length?this.articleData.splice(0, 4):null;
-                            currentPageObject['recData2'] =this.articleData.length>3?this.articleData.length >= 3 && this.articleData.length < 6 ? this.articleData.splice(0, 3) : this.articleData.splice(0, 6):null;
+                           this.loadingShow=true;
+                            this.articleData = this._deepDiveData.transformToArticleStack(data, this.category);
+                            currentPageObject['stackTop1'] = this.articleData.length && pageNum != 1 ? this.articleData.splice(0, 1) : null;
+                            currentPageObject['stackRow1'] = this.articleData.length && pageNum != 1 ? this.articleData.splice(0, 6) : null;
+                            currentPageObject['recData1'] =  this.articleData.length > 3 && pageNum != 1 ? this.articleData.length < 6 && pageNum != 1 ? this.articleData.splice(0, 3) : this.articleData.splice(0, 6) : null;
+                            currentPageObject['stackTop2'] =  this.articleData.length ? this.articleData.splice(0, 1) : null;
+                            currentPageObject['stackRow2'] = this.articleData.length ? this.articleData.splice(0, 6) : null;
+                            currentPageObject['stackTop3'] =  this.articleData.length ? this.articleData.splice(0, 1) : null;
+                            currentPageObject['stackRow3'] =  this.articleData.length ? this.articleData.splice(0, 4) : null;
+                            currentPageObject['recData2'] = this.articleData.length > 3 ? this.articleData.length >= 3 && this.articleData.length < 6 ? this.articleData.splice(0, 3) : this.articleData.splice(0, 6):null;
                             this.newArray.push(currentPageObject);
                             if(data.length < callLimit){
                                 this.callArticleApi = false;
+                                this.loadingShow=false;
                             }
                         }else throw new Error('Article stack have no articles');
                     }catch(e){
+                        this.loadingShow=false;
                         this.callArticleApi = false;
                         console.log(e.message);
                     }

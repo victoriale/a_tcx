@@ -180,17 +180,13 @@ export class SchedulesService {
     getFinanceData(scope, profile, eventStatus, limit, pageNum, id?) {
         //Configure HTTP Headers
         var headers = this.setToken();
-        // var callURL = GlobalSettings.getVerticalEnv('-finance-api.synapsys.us') + "/call_controller.php?action=tcx&option=tcx_side_scroll";
-        // var callURL = GlobalSettings.getTCXscope("business").verticalApi + "/call_controller.php?action=tcx&option=tcx_side_scroll";
-        var callURL = "//qa-finance-api.synapsys.us/call_controller.php?action=tcx&option=tcx_side_scroll";
+        var callURL = GlobalSettings.getFinanceUrl() + "/call_controller.php?action=tcx&option=tcx_side_scroll";
         //optional week parameters
         return this.http.get(callURL, { headers: headers })
             .map(res => res.json())
             .map(data => {
+              if(data){
                 var output = { scopeList: [], blocks: [] }
-                for (var i = 0; i < data.data.scopeList.length; i++) {
-                    output.scopeList.push(data.data.scopeList[i].toUpperCase());
-                }
                 if(scope != 'all'){
                   scope = scope.toUpperCase();
                   data.data[scope].length = 50;
@@ -228,6 +224,9 @@ export class SchedulesService {
                         subMessage: "The list will now start over."
                     });
                 return output;
+              } else {
+                return null;
+              }
             });
     }
 

@@ -9,7 +9,7 @@ export class GlobalSettings {
     private static _newsUrl:string = 'newsapi.synapsys.us';
 
     private static _apiUrl:string = '-article-library.synapsys.us';
-    private static _articleUrl:string = '-article-library.synapsys.us/tcx';
+    private static _financeUrl:string = '-finance-api.synapsys.us';
     private static _weatherUrl:string = '-weather.synapsys.us/tcx';
 
 
@@ -803,6 +803,10 @@ export class GlobalSettings {
         return this._proto + "//" + this.getEnv(this._env) + this._weatherUrl;
     }
 
+    static getFinanceUrl():string {
+        return this._proto + "//" + this.getEnv(this._env) + this._financeUrl;
+    }
+
     static getFinanceImgUrl():string {
         return this._proto + "//" + this._financeImageUrl + "/images";
     }
@@ -851,7 +855,7 @@ export class GlobalSettings {
     }
 
     static getHeadlineUrl():string {
-        return this._proto + "//" + this.getEnv(this._env) + this._articleUrl;
+        return this._proto + "//" + this.getEnv(this._env) + this._tcxAPI;
     }
 
     static getNewsUrl():string {

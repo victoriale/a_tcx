@@ -1,5 +1,5 @@
 
-import {Component, HostListener, Renderer} from "@angular/core";
+import {Component, HostListener, Renderer, OnDestroy, OnInit, OnChanges} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {SearchService} from "../../services/search.service";
 import {GlobalSettings} from "../../global/global-settings";
@@ -8,7 +8,7 @@ import {SeoService} from "../../global/seo.service";
     selector:"search-page",
     templateUrl:"app/webpages/search-page/search-page.html",
 })
-export class SearchPage{
+export class SearchPage implements OnInit, OnChanges, OnDestroy{
     pageSearchTitle=" Stay Current With The Latest News";
     pageSearchSubTitle="Search for a topic or keyword that interests you!";
     paramsub:any;
@@ -27,10 +27,14 @@ export class SearchPage{
         this.paramsub=activateRoute.params.subscribe(
             (param :any)=> {
                 this.currentPage=0; //initialize current page to start page (i.e currently 0 in the API)
+                this.articleCount = 0;
                 this.userInput= param['userInput'];
-                this.getSearchResult(this.userInput,this.currentPage);
                 this.keywordFilter=this.searchService.getkeyWords(); //get all the keywords for the dropdown
                 this.sortFilter=this.searchService.getSortOptions(); //get all the sort options for the dropdown
+                this.filter1 = 'all';
+                this.filter2 = 'recent';
+                this.getSearchResult(this.userInput,this.currentPage,this.filter1,this.filter2);
+
             }
         );
     }
@@ -43,14 +47,17 @@ export class SearchPage{
     private getSearchResult(i,currentPage,filter1?,filter2?){
         this.searchService.searchArticleService(i,currentPage,filter1,filter2).subscribe(
             data=>{
-                if(data.data.article_data) {
-                    this.searchArticlesData = this.searchService.transformSearchResults(data.data);
-                    this.pageCount=data.data.total_pages;
-                    this.articleCount=this.pageCount*10;
-                }else{
-                    this.searchArticlesData=null;
+                try{
+                    if(data.data.article_data) {
+                        this.searchArticlesData = this.searchService.transformSearchResults(data.data);
+                        this.pageCount=data.data.total_pages;
+                        this.articleCount=this.pageCount*10;
+                    }else throw new Error(" Error getting search results for" + " " + i)
+                }catch(e){
+                     this.searchArticlesData=null;
                     this.pageCount=0;
                     this.articleCount=this.pageCount*10;
+                   console.log(e.message);
                 }
             }
         )

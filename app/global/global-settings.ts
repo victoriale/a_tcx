@@ -9,7 +9,9 @@ export class GlobalSettings {
     private static _newsUrl:string = 'newsapi.synapsys.us';
 
     private static _apiUrl:string = '-article-library.synapsys.us';
-    private static _articleUrl:string = '-article-library.synapsys.us/tcx';
+    private static _financeUrl:string = '-finance-api.synapsys.us';
+    private static _weatherUrl:string = '-weather.synapsys.us/tcx';
+
 
     private static _articleBatchUrl:string= "-article-library.synapsys.us/articles";
     private static _domainApiUrl:string= "devapi.synapsys.us/widgets/deepdive/bar/domain_api.php?dom=";
@@ -25,6 +27,7 @@ export class GlobalSettings {
     //main domain for all our images
     public static _imageUrl:string = 'images.synapsys.us';
     public static _sportsimageUrl:string = 'sports-images.synapsys.us';
+    public static _financeImageUrl:string = 'images.investkit.com';
 
     //this changes per vertical
     private static _homepageUrl:string = '.tcxmedia.com';
@@ -63,10 +66,11 @@ export class GlobalSettings {
     static _imgWideScreen: number = 1920;
 
     static getEnv(env:string):string {
-      if (env == "localhost"){//remove qa when we have qa env setup
+      if(env == "localhost" || env == "dev"){
           env = "dev";
-      }
-      if (env != "dev" && env !="qa"){
+      }else if(env == "qa"){
+          env = "qa";
+      }else{
           env = "prod";
       }
       return env;
@@ -795,6 +799,18 @@ export class GlobalSettings {
         return this._proto + "//"+ this.synapsysENV(this._env) + this._partnerApiUrl + partnerID;
     }
 
+    static getWeatherUrl():string {
+        return this._proto + "//" + this.getEnv(this._env) + this._weatherUrl;
+    }
+
+    static getFinanceUrl():string {
+        return this._proto + "//" + this.getEnv(this._env) + this._financeUrl;
+    }
+
+    static getFinanceImgUrl():string {
+        return this._proto + "//" + this._financeImageUrl + "/images";
+    }
+
     static getGeoLocation():string {
         return this._proto + "//" + this.synapsysENV(this._env) + this._geoUrl;
         // return this._proto + "//" + this._geoUrl;
@@ -839,7 +855,7 @@ export class GlobalSettings {
     }
 
     static getHeadlineUrl():string {
-        return this._proto + "//" + this.getEnv(this._env) + this._articleUrl;
+        return this._proto + "//" + this.getEnv(this._env) + this._tcxAPI;
     }
 
     static getNewsUrl():string {

@@ -43,7 +43,11 @@ export class DeepDiveService {
     return this.http.get(callURL, this.options).retry(3)
         .map(res => res.json())
         .map(data => {
-          return data.data;
+          if(data.data.length > 0){
+            return data.data;
+          } else {
+            return null;
+          }
         })
   }
 
@@ -52,8 +56,10 @@ export class DeepDiveService {
     //always returns the first batch of articles
     this.getDeepDiveBatchService(scope, limit, batch, state)
         .subscribe(data=>{
-              var transformedData = this.carouselTransformData(data, scope);
-              callback(transformedData);
+              if(data){
+                var transformedData = this.carouselTransformData(data, scope);
+                callback(transformedData);
+              }
             },
             err => {
               console.log("Error getting carousel batch data");
@@ -228,12 +234,12 @@ export class DeepDiveService {
   }// transformToArticleStack ENDS
 
   carouselTransformData(arrayData:Array<ArticleStackData>, scope){
-    var setScope = scope;
-    var sampleImage = "/app/public/placeholder_XL.png";
-    let route = VerticalGlobalFunctions.getWhiteLabel();
     if(arrayData == null || typeof arrayData == 'undefined' || arrayData.length == 0 || arrayData === undefined){
       return null;
     }
+    var setScope = scope;
+    var sampleImage = "/app/public/placeholder_XL.png";
+    let route = VerticalGlobalFunctions.getWhiteLabel();
     var transformData = [];
     arrayData.forEach(function(val,index){
       var curdate = new Date();

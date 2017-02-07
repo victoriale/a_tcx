@@ -156,7 +156,7 @@ export class DeepDivePage implements OnInit{
       }
       this._deepDiveData.getCarouselData(pageScope, this.carouselData, '15', '1', this.geoLocation, (carData)=>{
         try{
-          if(carData){
+          if(carData && carData.length > 0){
             this.carouselData = carData;
           } else throw new Error('No carousel article data available');
         }catch(e){

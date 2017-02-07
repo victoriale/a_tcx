@@ -10,6 +10,8 @@ export class GlobalSettings {
 
     private static _apiUrl:string = '-article-library.synapsys.us';
     private static _articleUrl:string = '-article-library.synapsys.us/tcx';
+    private static _weatherUrl:string = '-weather.synapsys.us/tcx';
+
 
     private static _articleBatchUrl:string= "-article-library.synapsys.us/articles";
     private static _domainApiUrl:string= "devapi.synapsys.us/widgets/deepdive/bar/domain_api.php?dom=";
@@ -63,10 +65,11 @@ export class GlobalSettings {
     static _imgWideScreen: number = 1920;
 
     static getEnv(env:string):string {
-      if (env == "localhost"){//remove qa when we have qa env setup
+      if(env == "localhost" || env == "dev"){
           env = "dev";
-      }
-      if (env != "dev" && env !="qa"){
+      }else if(env == "qa"){
+          env = "qa";
+      }else{
           env = "prod";
       }
       return env;
@@ -793,6 +796,10 @@ export class GlobalSettings {
 
     static getPartnerApiUrl(partnerID):string {
         return this._proto + "//"+ this.synapsysENV(this._env) + this._partnerApiUrl + partnerID;
+    }
+
+    static getWeatherUrl():string {
+        return this._proto + "//" + this.getEnv(this._env) + this._weatherUrl;
     }
 
     static getGeoLocation():string {

@@ -636,13 +636,16 @@ export class SchedulesService {
     callLocationAutocomplete(query) {
         //Configure HTTP Headers
         var headers = this.setToken();
-        //var callURL = GlobalSettings.getVerticalEnv('-tcxmedia-api.synapsys.us') + "/sidescroll/weather/availableLocations/" + query;
-        var callURL = GlobalSettings.getTCXscope('weather').verticalApi + "/tcx/sidescroll/weather/availableLocations/" + query;
+        var callURL = GlobalSettings.getWeatherUrl() + "/sidescroll/weather/availableLocations/" + query;
         //optional week parameters
         return this.http.get(callURL, { headers: headers })
             .map(res => res.json())
             .map(data => {
+              if(data){
                 return data;
+              } else {
+                return null;
+              }
             });
     }
 

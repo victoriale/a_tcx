@@ -610,7 +610,7 @@ export class SchedulesService {
                             var last_updated= data.last_updated;
                             var getToday = new Date().getTime()/1000;
                             var current_difference = GlobalFunctions.compareTimestamps(getToday,last_updated);
-                            if(current_difference<12){
+                            if(Number(current_difference)<12){
                                 var weatherData = this.transformWeatherData(data,scope);
                                 callback(weatherData);
                             } else throw new Error("Weather data is not updated since 12 hours! Lat updated" + " " + current_difference + " hours ago")

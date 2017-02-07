@@ -27,6 +27,7 @@ export class GlobalSettings {
     //main domain for all our images
     public static _imageUrl:string = 'images.synapsys.us';
     public static _sportsimageUrl:string = 'sports-images.synapsys.us';
+    public static _financeImageUrl:string = 'images.investkit.com';
 
     //this changes per vertical
     private static _homepageUrl:string = '.tcxmedia.com';
@@ -800,6 +801,10 @@ export class GlobalSettings {
 
     static getWeatherUrl():string {
         return this._proto + "//" + this.getEnv(this._env) + this._weatherUrl;
+    }
+
+    static getFinanceImgUrl():string {
+        return this._proto + "//" + this._financeImageUrl + "/images";
     }
 
     static getGeoLocation():string {

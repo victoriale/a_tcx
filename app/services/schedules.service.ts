@@ -201,21 +201,19 @@ export class SchedulesService {
                     data.data[scope][n].stockChangePercent = Number(data.data[scope][n].stockChangePercent).toFixed(2);
                     if (data.data[scope][n].exchangeName == 'OTC') {
                         data.data[scope][n].profileUrl = "";
-                    }
-                    else {
+                    } else {
                         data.data[scope][n].profileUrl = GlobalSettings.getOffsiteLink("business", "company", data.data[scope][n].companySymbol, data.data[scope][n].companyId, data.data[scope][n].fullCompanyName.replace(/ /g, "-"));
                     }
                     if (data.data[scope][n].logoUrl == "" || data.data[scope][n].logoUrl == null) {
                         data.data[scope][n].logoUrl = '/app/public/no-image.png';
-                    }
-                    else {
-                        data.data[scope][n].logoUrl = "http://images.investkit.com/images/" + data.data[scope][n].logoUrl;
+                    } else {
+                        data.data[scope][n].logoUrl = GlobalSettings.getFinanceImgUrl() + "/" + data.data[scope][n].logoUrl;
                     }
                     data.data[scope][n].imageConfig = {
                         imageClass: "image-70",
                         mainImage: {
                             url: data.data[scope][n].profileUrl,
-                            imageUrl: data.data[scope][n].logoUrl + "?width=" + GlobalSettings._imgMdLogo,
+                            imageUrl: data.data[scope][n].logoUrl + "?width=" + GlobalSettings._imgMdLogo + "&quality=90",
                             imageClass: "border-1",
                             hoverText: "<p>View</p> Profile"
                         }

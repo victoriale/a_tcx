@@ -693,9 +693,9 @@ export class GlobalFunctions {
     }
 
     //compare two time stamps and generate difference in hours //TODO can modify this function to generate the differences in minutes seconds and days in future
-    static compareTimestamps(timestamp1,timestamp2){
+    static compareTimestamps(timestamp1:number,timestamp2:number){
         var differenceTime = timestamp1 - timestamp2;
-        return differenceTime/3600;
+        return Number(differenceTime/3600);
     }
 
 

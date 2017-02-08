@@ -68,13 +68,12 @@ export class DeepDiveBlockMain implements OnInit {
         var footerHeight=footer?footer.offsetHeight:0;
 
         if(window.innerHeight + scrollTop >= bodyHeight ){
-            if(this.blockIndex<6) {
+            if(Number(this.blockIndex)<6) {
                 //fire when scrolled into footer
                 this.blockIndex = this.blockIndex + 1;
                 this.callModules(this.blockIndex);
             }
         };
-
     }
     getArticleStackData(ctype,count,imgMobile:boolean){
         var _selfscope=this;
@@ -124,6 +123,7 @@ export class DeepDiveBlockMain implements OnInit {
         var batchNum=this.batchNum;
         var geoLoc= this.geoLocation;
         this._deepDiveData.getDeepDiveBatchService(ctype,count,batchNum,geoLoc).subscribe(data=>{
+          if(data){
             if(imgMobile==true){
                 data = data.length > 2 ? data.length >=3 && data.length < 6 ? data.splice(0,3) : data.splice(0,6): null;
                 this.commonarticleStack = this._deepDiveData.transformToArticleStack(data, ctype, GlobalSettings._imgMobile);
@@ -132,6 +132,7 @@ export class DeepDiveBlockMain implements OnInit {
                 this.commonarticleStack = this._deepDiveData.transformToArticleStack(data, ctype);
                 getobjectStackArray(ctype, this.commonarticleStack)
             }
+          }
         },
         err=>{
             console.log("Error getting" + ctype + "News data");
@@ -181,7 +182,7 @@ export class DeepDiveBlockMain implements OnInit {
               self.getArticleStackData("automotive",6,true);
           }
       };
-      if(index<6){callMethodByIndex[index]()};
+      if(index<5){callMethodByIndex[index]()};
       if(!this.videoDataBatch1 && this.blockIndex > 2){
         this.getDeepDiveVideo();
       }

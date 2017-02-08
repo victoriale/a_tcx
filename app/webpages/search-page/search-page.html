@@ -5,7 +5,7 @@
     <div class="outer-wrap">
         <div class="search-page-res col-sm-12 col-xl-9">
 
-            <search-filter (emitFilterOption)="chosenFilter1($event)" (emitSortOption)="chosenFilter2($event)" [userInput]="userInput" [keywords]="keywordFilter" [sortingFilter]="sortFilter"></search-filter>
+            <search-filter (emitFilterOption)="chosenFilter1($event)" (emitSortOption)="chosenFilter2($event)" [userInput]="userInput" [keywords]="keywordFilter" [sortingFilter]="sortFilter" [defaultSelectedKey]="filter1" [defaultSortKey]="filter2"></search-filter>
             <search-results (emitPageNum)="getPageOnClick($event)" [totalPages]="pageCount" [articleTotalCount]="articleCount" [searchArticlesData]="searchArticlesData" [userInput]="userInput" [currentPage]="currentPage"></search-results>
 
         </div>

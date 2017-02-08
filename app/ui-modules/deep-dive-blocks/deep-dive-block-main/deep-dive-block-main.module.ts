@@ -182,7 +182,7 @@ export class DeepDiveBlockMain implements OnInit {
               self.getArticleStackData("automotive",6,true);
           }
       };
-      if(index<6){callMethodByIndex[index]()};
+      if(index<5){callMethodByIndex[index]()};
       if(!this.videoDataBatch1 && this.blockIndex > 2){
         this.getDeepDiveVideo();
       }

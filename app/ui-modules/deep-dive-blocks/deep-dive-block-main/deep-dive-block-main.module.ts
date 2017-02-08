@@ -123,16 +123,20 @@ export class DeepDiveBlockMain implements OnInit {
         var batchNum=this.batchNum;
         var geoLoc= this.geoLocation;
         this._deepDiveData.getDeepDiveBatchService(ctype,count,batchNum,geoLoc).subscribe(data=>{
-          if(data){
-            if(imgMobile==true){
-                data = data.length > 2 ? data.length >=3 && data.length < 6 ? data.splice(0,3) : data.splice(0,6): null;
-                this.commonarticleStack = this._deepDiveData.transformToArticleStack(data, ctype, GlobalSettings._imgMobile);
-                getobjectStackArray(ctype, this.commonarticleStack)
-            }else {
-                this.commonarticleStack = this._deepDiveData.transformToArticleStack(data, ctype);
-                getobjectStackArray(ctype, this.commonarticleStack)
+            try{
+                if(data){
+                    if(imgMobile==true){
+                        data = data.length > 2 ? data.length >=3 && data.length < 6 ? data.splice(0,3) : data.splice(0,6): null;
+                        this.commonarticleStack = this._deepDiveData.transformToArticleStack(data, ctype, GlobalSettings._imgMobile);
+                        getobjectStackArray(ctype, this.commonarticleStack)
+                    }else {
+                        this.commonarticleStack = this._deepDiveData.transformToArticleStack(data, ctype);
+                        getobjectStackArray(ctype, this.commonarticleStack)
+                    }
+                }else throw new Error("Error getting" + ctype + "News data");
+            }catch(e){
+                console.log(e.message);
             }
-          }
         },
         err=>{
             console.log("Error getting" + ctype + "News data");
@@ -142,15 +146,21 @@ export class DeepDiveBlockMain implements OnInit {
     getDeepDiveVideo() {
         this._deepDiveData.getDeepDiveVideoBatchService("sports", 15, 1, this.geoLocation)
             .subscribe(data => {
-                if (data.length > 0) {
-                    let videoBatch1 = data.splice(0, 5);
-                    this.videoDataBatch1 = videoBatch1 ? this._deepDiveData.transformSportVideoBatchData(videoBatch1, "sports") : null;
-                    if (data.length > 1) {
-                        let videoBatch2 = data.splice(0, 5);
-                        let videoBatch3 = data.splice(0, 5);
-                        this.videoDataBatch2 = videoBatch2 ? this._deepDiveData.transformSportVideoBatchData(videoBatch2, "sports") : null;
-                        this.videoDataBatch3 = videoBatch3 ? this._deepDiveData.transformSportVideoBatchData(videoBatch3, "sports") : null;
-                    }
+                try{
+                    if(data){
+                        if (data.length > 0) {
+                            let videoBatch1 = data.splice(0, 5);
+                            this.videoDataBatch1 = videoBatch1 ? this._deepDiveData.transformSportVideoBatchData(videoBatch1, "sports") : null;
+                            if (data.length > 1) {
+                                let videoBatch2 = data.splice(0, 5);
+                                let videoBatch3 = data.splice(0, 5);
+                                this.videoDataBatch2 = videoBatch2 ? this._deepDiveData.transformSportVideoBatchData(videoBatch2, "sports") : null;
+                                this.videoDataBatch3 = videoBatch3 ? this._deepDiveData.transformSportVideoBatchData(videoBatch3, "sports") : null;
+                            }
+                        }
+                    }else throw new Error(" Video Articles are missing for sports in the home page");
+                }catch(e){
+                    console.log(e.message);
                 }
             },
             err => {
@@ -183,7 +193,7 @@ export class DeepDiveBlockMain implements OnInit {
           }
       };
       if(index<5){callMethodByIndex[index]()};
-      if(!this.videoDataBatch1 && this.blockIndex > 2){
+      if(!this.videoDataBatch1 && this.blockIndex > 1){
         this.getDeepDiveVideo();
       }
     }

@@ -191,7 +191,7 @@ export class DeepDivePage implements OnInit{
               if(data){
                   this.carouselVideo = this._deepDiveData.transformSportVideoBatchData([data[0]], this.scope);
                   this.getDataCarousel();
-              }else throw new Error("Video batch data is not available for" + " " + this.scope)
+              }else throw new Error("Carousel Video is not available for" + " " + this.scope);
           }catch(e){
               this.carouselVideo = null;
               this.getDataCarousel();

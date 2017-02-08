@@ -153,7 +153,7 @@ export class BoxScoresService {
         return res.json()
       } )
       .map(data => {
-        try{S
+        try{
           if(data){
             var transformedDate = this.transformBoxScores(data.data, scope);
             return {

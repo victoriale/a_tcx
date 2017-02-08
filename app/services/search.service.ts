@@ -36,12 +36,21 @@ export class SearchService{
         else {
             callUrl = this._searchApi + '/' + 'elasticSearch' + '/' + userInput + '/' + 10 + '/' + currentPage;
         }
+        var esUrl;
         return this.http.get(callUrl)
-            .map(res=>res.json())
+            .map(res=>{
+               esUrl =res.url;
+               return res.json()
+            })
             .map(data => {
-             return data;
-            },  err => {
-                console.log('ERROR search results');
+                try{
+                    if(data){
+                        return data;
+                    } else throw new Error(" Failed API call at searchArticleService method : " + esUrl);
+                } catch(e){
+                    console.debug(e.message);
+                }
+
             })
     }
     transformSearchResults(data) {

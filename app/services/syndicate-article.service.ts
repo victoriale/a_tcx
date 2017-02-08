@@ -108,20 +108,20 @@ export class SyndicateArticleService {
         params.set("metaDataOnly","1");
 
         let callURL = GlobalSettings.getArticleBatchUrl()+"?&source[]=snt_ai&source[]=tca-curated&source[]=tronc";
-        var currentrecUrl;
-        var currenttrenUrl;
+        var currentRecUrl;
+        var currentTrenUrl;
         if(typeof trending==='undefined') {
             this.headerOptions.search = params;
             return this._http.get(callURL, this.headerOptions)
                 .map(res =>{
-                    currentrecUrl = res.url;
+                    currentRecUrl = res.url;
                     return res.json()
                 })
                 .map(data => {
                     try{
                         if(data.data){
                             return data.data
-                        } else throw new Error ("Failed API call at getArticleBatch method in recommended article section : " + currentrecUrl);
+                        } else throw new Error ("Failed API call at getArticleBatch method in recommended article section : " + currentRecUrl);
                     }catch(e){
                         console.debug(e.message);
                     }
@@ -132,14 +132,14 @@ export class SyndicateArticleService {
             this.headerOptions.search = params;
             return this._http.get(callURL, this.headerOptions)
                 .map(res =>{
-                    currenttrenUrl = res.url;
+                    currentTrenUrl = res.url;
                     return res.json()
                 })
                 .map(data => {
                     try{
                         if(data.data){
                             return data.data;
-                        } else throw new Error("Failed API call at getArticleBatch method in Trending article section : " + currenttrenUrl);
+                        } else throw new Error("Failed API call at getArticleBatch method in Trending article section : " + currentTrenUrl);
                     }catch(e){
                         console.debug(e.message);
                     }

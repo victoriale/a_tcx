@@ -146,10 +146,10 @@ export class BoxScoresService {
       callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/tcx/boxScores/league/'+scope+'/'+date+'/addAi';
       break;
     }
-    var currentboxscoresUrl;
+    var currentBoxScoresUrl;
     return this.http.get(callURL, {headers: headers})
       .map(res =>{
-        currentboxscoresUrl = res.url;
+        currentBoxScoresUrl = res.url;
         return res.json()
       } )
       .map(data => {
@@ -163,7 +163,7 @@ export class BoxScoresService {
               nextGameDate:transformedDate.nextGameDate,
               previousGameDate:transformedDate.previousGameDate
             }
-          } else throw new Error("Failed API call at getBoxScoresService method : " + currentboxscoresUrl );
+          } else throw new Error("Failed API call at getBoxScoresService method : " + currentBoxScoresUrl );
         }catch(e){
             console.debug(e.message);
         }

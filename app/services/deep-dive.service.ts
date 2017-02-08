@@ -117,7 +117,7 @@ export class DeepDiveService {
         })
         .map(data => {
           try{
-            if(data){
+            if(data.success){
               if(data.data.length > 0){
                 return data.data;
               }else{

@@ -87,13 +87,13 @@ export class WidgetModule  implements AfterViewChecked{
                 newFrame.style.overflow= oldFrame.style.overflow;
                 newFrame.src = this.srcLink;
                 var parent = oldFrame.parentNode;
-                parent.replaceChild(newFrame,oldFrame);
+                parent.removeChild(oldFrame);
+                parent.appendChild(newFrame);
                 this.firstCheck=state;
             }
 
         }
     }
-
 
     // Page is being scrolled
     onScroll(event) {

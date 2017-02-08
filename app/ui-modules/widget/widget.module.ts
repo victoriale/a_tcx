@@ -72,22 +72,24 @@ export class WidgetModule  implements AfterViewChecked{
         //check if DOM is completely loaded
         if(state === "complete"){
             if(this.firstCheck == null){
-                var oldFrame = document.getElementById('widgetframe');
+                var oldFrame = document.getElementById('frameWidgetChild');
+                var parent = document.getElementById('widgetFrame');
+                if(oldFrame!=null){
+                    parent.removeChild(oldFrame);
+                }
                 var newFrame = document.createElement("iframe");
-                newFrame.id = oldFrame.getAttribute('id');
-                newFrame.style.width = oldFrame.style.width;
-                newFrame.style.height = oldFrame.style.height;
-                newFrame.style.border = oldFrame.style.border;
-                newFrame.style.margin = oldFrame.style.margin;
-                newFrame.style.zIndex = oldFrame.style.zIndex;
-                newFrame.frameBorder = oldFrame.getAttribute('frameBorder');
-                newFrame.scrolling = oldFrame.getAttribute('scrolling');
+                newFrame.id = 'frameWidgetChild';
+                newFrame.style.width = '300px';
+                newFrame.style.height ='600px';
+                newFrame.style.border = '0px';
+                newFrame.style.margin = '0px';
+                newFrame.style.zIndex = '0';
+                newFrame.frameBorder = '0';
+                newFrame.scrolling = 'no';
                 newFrame.setAttribute('allowtransparency', 'true');
-                newFrame.style.display= oldFrame.style.display;
-                newFrame.style.overflow= oldFrame.style.overflow;
+                newFrame.style.display= 'block';
+                newFrame.style.overflow= 'hidden';
                 newFrame.src = this.srcLink;
-                var parent = oldFrame.parentNode;
-                parent.removeChild(oldFrame);
                 parent.appendChild(newFrame);
                 this.firstCheck=state;
             }

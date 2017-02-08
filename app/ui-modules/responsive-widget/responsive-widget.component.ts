@@ -1,4 +1,4 @@
-import {Component, Input, Output, ChangeDetectorRef, OnInit} from '@angular/core';
+import {Component, Input, Output, ChangeDetectorRef, OnInit, AfterViewChecked} from '@angular/core';
 import { GlobalSettings } from "../../global/global-settings";
 
 @Component({
@@ -6,7 +6,7 @@ import { GlobalSettings } from "../../global/global-settings";
   templateUrl: './app/ui-modules/responsive-widget/responsive-widget.component.html',
 })
 
-export class ResponsiveWidget implements OnInit {
+export class ResponsiveWidget implements OnInit,AfterViewChecked {
   @Input() embedPlace: string;//not sure why we need this
   @Input() category: string;
   @Input() subCategory: string;
@@ -15,6 +15,7 @@ export class ResponsiveWidget implements OnInit {
   wsubCategory:string;
   windowWidth: number = window.innerWidth;
   srcLink: string;
+  firstCheck=null;
   getData(){
     //Check if category exists in the given list in global settings
     var topScope = GlobalSettings.getTCXscope(this.category).topScope ? GlobalSettings.getTCXscope(this.category).topScope : null;
@@ -38,6 +39,39 @@ export class ResponsiveWidget implements OnInit {
   }
   ngOnChanges(){
     this.getData();
+    this.firstCheck = null;
+  }
+
+  ngAfterViewChecked():void{
+    //Reload an IFRAME without adding to the history
+    //Change the src attribute of an iframe element when the iframe is not in the DOM in order to avoid a history push to the browsers history stack,
+    var state = document.readyState;
+    //check if DOM is completely loaded
+    if(state === "complete"){
+      if(this.firstCheck == null){
+        var oldFrame = document.getElementById('hozWidgetChild');
+        var parent = document.getElementById('horizontalWidgetFrame');
+        if(oldFrame!=null){
+          parent.removeChild(oldFrame);
+        }
+        var newFrame = document.createElement("iframe");
+        newFrame.id = 'hozWidgetChild';
+        newFrame.style.width = '100%';
+        newFrame.style.height ='250px';
+        newFrame.style.border = '0px';
+        newFrame.style.margin = '0px';
+        newFrame.style.zIndex = '0';
+        newFrame.frameBorder = '0';
+        newFrame.scrolling = 'no';
+        newFrame.setAttribute('allowtransparency', 'true');
+        newFrame.style.display= 'block';
+        newFrame.style.overflow= 'hidden';
+        newFrame.src = this.srcLink;
+        parent.appendChild(newFrame);
+        this.firstCheck=state;
+      }
+
+    }
   }
   private onWindowLoadOrResize(event) {
     var windowWidth = event.target.innerWidth;

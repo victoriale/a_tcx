@@ -319,7 +319,7 @@ export class BoxScoresService {
   aiHeadLine(data, scope?) {
     var boxArray = [];
     // new
-    if (data[0] != null && data[0].featuredReport['article'] && data[0].featuredReport['article'].status != "Error") {
+    if (data[0] != null && data[0].featuredReport) {
       data.forEach(function(val, index) {
         let aiContent = val.featuredReport['article']['data'];
         for(var p in aiContent) {

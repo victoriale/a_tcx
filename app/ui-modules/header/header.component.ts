@@ -43,7 +43,7 @@ export class HeaderComponent implements OnInit {
                 try{
                     if (data) {
                         this.breakingHeadLines = this._deepDiveData.transformToArticleStack(data, "trending");
-                    } else throw new Error('Missing Breaking Headlines Data !!')
+                    } else throw new Error('Missing Trending Headlines Data !!')
                 }
                 catch(e){
                     console.log(e.message);

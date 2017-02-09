@@ -77,21 +77,23 @@ export class WidgetModule  implements AfterViewChecked{
                 if(oldFrame!=null){
                     parent.removeChild(oldFrame);
                 }
-                var newFrame = document.createElement("iframe");
-                newFrame.id = 'frameWidgetChild';
-                newFrame.style.width = '300px';
-                newFrame.style.height ='600px';
-                newFrame.style.border = '0px';
-                newFrame.style.margin = '0px';
-                newFrame.style.zIndex = '0';
-                newFrame.frameBorder = '0';
-                newFrame.scrolling = 'no';
-                newFrame.setAttribute('allowtransparency', 'true');
-                newFrame.style.display= 'block';
-                newFrame.style.overflow= 'hidden';
-                newFrame.src = this.srcLink;
-                parent.appendChild(newFrame);
-                this.firstCheck=state;
+                if(parent!= null){
+                    var newFrame = document.createElement("iframe");
+                    newFrame.id = 'frameWidgetChild';
+                    newFrame.style.width = '300px';
+                    newFrame.style.height ='600px';
+                    newFrame.style.border = '0px';
+                    newFrame.style.margin = '0px';
+                    newFrame.style.zIndex = '0';
+                    newFrame.frameBorder = '0';
+                    newFrame.scrolling = 'no';
+                    newFrame.setAttribute('allowtransparency', 'true');
+                    newFrame.style.display= 'block';
+                    newFrame.style.overflow= 'hidden';
+                    newFrame.src = this.srcLink;
+                    parent.appendChild(newFrame);
+                    this.firstCheck=state;
+                }
             }
 
         }

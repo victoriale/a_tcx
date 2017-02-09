@@ -24,9 +24,22 @@ export class SyndicateArticleService {
         params.set("articleID", articleID.toString());
         this.headerOptions.search=params;
         var callURL = this._syndicateUrl;
+        var mainArticleUrl;
         return this._http.get(callURL, this.headerOptions).retry(2)
-            .map(res => res.json())
-            .map(data => data)
+            .map(res => {
+               mainArticleUrl = res.url;
+               return res.json()
+            })
+            .map(data => {
+             try{
+                 if(data){
+                     return data
+                 }else throw new Error ("Failed API call at getSyndicateArticleService method : " + mainArticleUrl );
+
+             }catch(e){
+                 console.debug(e.message);
+             }
+            })
     }
 
     transformMainArticle(data,c,sc,ai,et){
@@ -65,9 +78,18 @@ export class SyndicateArticleService {
         /*var headers = this.setToken();*/
         var callURL = GlobalSettings.getApiUrl() + '/tcx/videoSingle/' +subcategory +'/'+ articleID;
         return this._http.get(callURL)
-            .map(res => res.json())
+            .map(res => {
+                return res.json()
+            })
             .map(data => {
-                return data;
+                try{
+                    if(data){
+                        return data;
+                    } else throw new Error(" Failed API call at getSyndicateVideoService : " + callURL);
+                }catch(e){
+                    console.debug(e.message);
+                }
+
             })
     }
 
@@ -86,21 +108,42 @@ export class SyndicateArticleService {
         params.set("metaDataOnly","1");
 
         let callURL = GlobalSettings.getArticleBatchUrl()+"?&source[]=snt_ai&source[]=tca-curated&source[]=tronc";
+        var currentRecUrl;
+        var currentTrenUrl;
         if(typeof trending==='undefined') {
             this.headerOptions.search = params;
             return this._http.get(callURL, this.headerOptions)
-                .map(res => res.json())
+                .map(res =>{
+                    currentRecUrl = res.url;
+                    return res.json()
+                })
                 .map(data => {
-                    return data.data;
+                    try{
+                        if(data.data){
+                            return data.data
+                        } else throw new Error ("Failed API call at getArticleBatch method in recommended article section : " + currentRecUrl);
+                    }catch(e){
+                        console.debug(e.message);
+                    }
                 })
         } else{
             params.set("trending","1");
             params.set("page",page.toString());
             this.headerOptions.search = params;
             return this._http.get(callURL, this.headerOptions)
-                .map(res => res.json())
+                .map(res =>{
+                    currentTrenUrl = res.url;
+                    return res.json()
+                })
                 .map(data => {
-                    return data.data;
+                    try{
+                        if(data.data){
+                            return data.data;
+                        } else throw new Error("Failed API call at getArticleBatch method in Trending article section : " + currentTrenUrl);
+                    }catch(e){
+                        console.debug(e.message);
+                    }
+
                 })
         }
     }

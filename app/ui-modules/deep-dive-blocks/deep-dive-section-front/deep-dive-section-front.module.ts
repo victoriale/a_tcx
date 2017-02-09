@@ -237,7 +237,6 @@ export class DeepDiveSectionFront implements OnInit {
                     }catch(e){
                         this.callVideoApi = false;
                         currentPageObject['videoStack']=null;
-                        console.log(e.message);
                     }
 
                 });

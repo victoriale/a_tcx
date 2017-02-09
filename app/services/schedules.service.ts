@@ -610,7 +610,7 @@ export class SchedulesService {
                             if(Number(current_difference)<12){
                                 var weatherData = this.transformWeatherData(data,scope);
                                 callback(weatherData);
-                            } else throw new Error("Weather data is not updated since 12 hours! Lat updated" + " " + current_difference + " hours ago")
+                            } else throw new Error("Weather data is not updated since 12 hours! Last updated" + " " + current_difference + " hours ago")
 
                       } else throw new Error("No weather data available");
                     } catch(e){

@@ -6,6 +6,7 @@ import { VideoStackData, ArticleStackData } from "../fe-core/interfaces/deep-div
 import { GlobalFunctions } from "../global/global-functions";
 import { GlobalSettings } from "../global/global-settings";
 import { VerticalGlobalFunctions } from "../global/vertical-global-functions";
+import {getResponseURL} from "@angular/http/src/http_utils";
 
 
 declare var moment;
@@ -39,16 +40,26 @@ export class DeepDiveService {
     params.set("metaDataOnly","1");
     this.options.search=params;
     let callURL = GlobalSettings.getArticleBatchUrl()+"?&source[]=snt_ai&source[]=tca-curated&source[]=tronc";
-
+    var currentUrl;
     return this.http.get(callURL, this.options).retry(3)
-        .map(res => res.json())
-        .map(data => {
-          if(data.data.length > 0){
-            return data.data;
-          } else {
-            return null;
-          }
+        .map(res => {
+          currentUrl = res.url;
+          return res.json()
         })
+        .map(data => {
+        try{
+          if(data.data){
+            if(data.data.length > 0){
+              return data.data;
+            } else {
+              return null;
+            }
+          } else throw new Error("Failed API call at getDeepDiveBatchService method :" + " " + currentUrl )
+        }catch(e){
+          console.debug(e.message);
+        }
+        })
+
   }
 
   getCarouselData(scope, data, limit, batch, state, callback:Function) {
@@ -56,10 +67,14 @@ export class DeepDiveService {
     //always returns the first batch of articles
     this.getDeepDiveBatchService(scope, limit, batch, state)
         .subscribe(data=>{
-              if(data){
-                var transformedData = this.carouselTransformData(data, scope);
-                callback(transformedData);
-              }
+          try{
+            if(data){
+              var transformedData = this.carouselTransformData(data, scope);
+              callback(transformedData);
+            }else throw new Error(" No carousel data available!");
+          }catch(e){
+            console.log(e.message);
+          }
             },
             err => {
               console.log("Error getting carousel batch data");
@@ -94,15 +109,26 @@ export class DeepDiveService {
           callURL += '/' + location;
       }
     }
+    var currentVideoURL;
     return this.http.get(callURL, {headers: headers})
-        .map(res => res.json())
+        .map(res => {
+          currentVideoURL = res.url;
+          return res.json();
+        })
         .map(data => {
-          if(data.data.length > 0){
-            return data.data;
-          }else{
-            return null;
+          try{
+            if(data.success){
+              if(data.data.length > 0){
+                return data.data;
+              }else{
+                return null;
+              }
+            } else throw new Error("Failed API call at getDeepDiveVideoBatchService method :" + " " + currentVideoURL);
+          }catch(e){
+            console.debug(e.message);
           }
         })
+
   }// getDeepDiveVideoBatchService ENDS
 
   transformSportVideoBatchData(data: Array<VideoStackData>, scope?){

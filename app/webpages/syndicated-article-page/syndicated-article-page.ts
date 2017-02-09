@@ -230,7 +230,7 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
                         else{
                             this.loadingshow=false;
                         }
-                    } else throw new Error("Oops! No more Articles")
+                    } else throw new Error("Oops! No more Trending Articles")
                 }catch(e){
                     this.loadingshow=false;
                     this.callTrendingAPI=false;

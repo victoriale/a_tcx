@@ -146,18 +146,28 @@ export class BoxScoresService {
       callURL = GlobalSettings.getTCXscope(scope).verticalApi +'/tcx/boxScores/league/'+scope+'/'+date+'/addAi';
       break;
     }
-
+    var currentBoxScoresUrl;
     return this.http.get(callURL, {headers: headers})
-      .map(res => res.json())
+      .map(res =>{
+        currentBoxScoresUrl = res.url;
+        return res.json()
+      } )
       .map(data => {
-        var transformedDate = this.transformBoxScores(data.data, scope);
-        return {
-          transformedDate: transformedDate.data,
-          aiContent: data.data.aiContent,
-          date: chosenDate,
-          nextGameDate:transformedDate.nextGameDate,
-          previousGameDate:transformedDate.previousGameDate
+        try{
+          if(data){
+            var transformedDate = this.transformBoxScores(data.data, scope);
+            return {
+              transformedDate: transformedDate.data,
+              aiContent: data.data.aiContent,
+              date: chosenDate,
+              nextGameDate:transformedDate.nextGameDate,
+              previousGameDate:transformedDate.previousGameDate
+            }
+          } else throw new Error("Failed API call at getBoxScoresService method : " + currentBoxScoresUrl );
+        }catch(e){
+            console.debug(e.message);
         }
+
       })
   } //getBoxScoresService
 
@@ -309,7 +319,7 @@ export class BoxScoresService {
   aiHeadLine(data, scope?) {
     var boxArray = [];
     // new
-    if (data[0] != null && data[0].featuredReport['article'] && data[0].featuredReport['article'].status != "Error") {
+    if (data[0] != null && data[0].featuredReport) {
       data.forEach(function(val, index) {
         let aiContent = val.featuredReport['article']['data'];
         for(var p in aiContent) {
@@ -442,10 +452,22 @@ export class BoxScoresService {
       callURL = GlobalSettings.getTCXscope(scope).verticalApi + '/league/gameDatesWeekly/'+scope+'/'+date; //TODO when TCX API is sestup
       break;
     }
+    var currentWeekUrl;
     return this.http.get(callURL, {headers: headers})
-      .map(res => res.json())
+      .map(res => {
+        currentWeekUrl = res.url
+        return res.json()
+      })
       .map(data => {
-        return data;
+        try{
+          if(data){
+            return data;
+          } else throw new Error("Failed API call at weekCarousel method : " + currentWeekUrl );
+        }catch(e){
+          console.debug(e.message);
+        }
+
+
       })
   }
 
@@ -475,11 +497,24 @@ export class BoxScoresService {
         callURL = GlobalSettings.getTCXscope(scope).verticalApi + '/league/gameDates/'+scope+'/'+date; //TODO when TCX API is sestup
       break;
     }
+    var currentMonthUrl;
     return this.http.get(callURL, {headers: headers})
-      .map(res => res.json())
-      .map(data => {
-        return data;
-      })
+        .map(res => {
+          currentMonthUrl = res.url;
+          return res.json()
+        })
+        .map(data => {
+          try{
+            if(data){
+              return data;
+            } else throw new Error("Failed API call at weekCarousel method : " + currentMonthUrl);
+          }catch(e){
+            console.debug(e.message);
+          }
+
+
+        })
+
   }
 
   // Format the date for each gameBox

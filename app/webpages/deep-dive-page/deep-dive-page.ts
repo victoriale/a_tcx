@@ -72,10 +72,17 @@ export class DeepDivePage implements OnInit{
     getGeoLocation() {
       //TODO replace once added router guard has been implemented where GeoLocation is required before route generates
       this._geoLocation.grabLocation().subscribe( res => {
-        this.geoLocation = res.state;
-        this.selectedLocation = res.city + "-" + res.state;
-        // this.getHourlyWeatherData(this.topScope);
-        this.getSideScroll();
+          try{
+              if(res){
+                  this.geoLocation = res.state;
+                  this.selectedLocation = res.city + "-" + res.state;
+                  // this.getHourlyWeatherData(this.topScope);
+                  this.getSideScroll();
+              }else throw new Error("Geo Location data unavailable!")
+          }catch(e){
+              console.error(e.message);
+          }
+
       });
     }
 
@@ -161,7 +168,8 @@ export class DeepDivePage implements OnInit{
           } else throw new Error('No carousel article data available');
         }catch(e){
           console.log(e.message);
-          this.errorPage = true;
+          this.carouselData = null;
+/*          this.errorPage = true;
           var self=this;
           var partner = this.partnerID;
           setTimeout(function () {
@@ -172,23 +180,28 @@ export class DeepDivePage implements OnInit{
               } else {
                 self._router.navigateByUrl('/news-feed');
               }
-          }, 5000);
+          }, 5000);*/
         }
       })
     }
 
     getDeepDiveVideo(){
+        let pScope = this.scope;
+        if(this.scope == 'all'){
+            pScope = 'trending';
+        }
       this._deepDiveData.getDeepDiveVideoBatchService(this.scope, 5, 1).subscribe(
         data => {
-          if(data != null){
-            this.carouselVideo = this._deepDiveData.transformSportVideoBatchData([data[0]], this.scope);
+          try{
+              if(data){
+                  this.carouselVideo = this._deepDiveData.transformSportVideoBatchData([data[0]], this.scope);
+                  this.getDataCarousel();
+              }else throw new Error("Carousel Video is not available for" + " " + pScope);
+          }catch(e){
+              this.carouselVideo = null;
+              this.getDataCarousel();
+              console.log(e.message);
           }
-          this.getDataCarousel();
-        },
-        err => {
-          console.log("Error getting video batch data:", err);
-          this.carouselVideo = null;
-          this.getDataCarousel();
         });
     }
 

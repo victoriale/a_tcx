@@ -2,9 +2,9 @@
 //http://www.robotstxt.org/robotstxt.html
 
 /**
-  *Optimal Length for Search Engines
-  *Roughly 155 Characters
-***/
+ *Optimal Length for Search Engines
+ *Roughly 155 Characters
+ ***/
 import {Injectable, Inject} from '@angular/core';
 import {Title, DOCUMENT} from '@angular/platform-browser';
 /*import { getDOM } from '@angular/platform-browser/src/dom/dom_adapter';*/
@@ -15,71 +15,71 @@ import {getDOM} from "@angular/platform-browser/src/dom/dom_adapter";
 @Injectable()
 
 export class SeoService {
-  private titleService: Title;
-  private headElement: HTMLElement;
-  private metaDescription: HTMLElement;
-  private canonicalLink: HTMLElement;
-  private document:any;
-  private themeColor:HTMLElement;
+    private titleService: Title;
+    private headElement: HTMLElement;
+    private metaDescription: HTMLElement;
+    private canonicalLink: HTMLElement;
+    private document:any;
+    private themeColor:HTMLElement;
 
-  private ogTitle: HTMLElement;
-  private ogType: HTMLElement;
-  private ogUrl: HTMLElement;
-  private ogImage: HTMLElement;
-  private ogDesc: HTMLElement;
-  private startDate:HTMLElement;
-  private endDate:HTMLElement;
-  private isArticle:HTMLElement;
+    private ogTitle: HTMLElement;
+    private ogType: HTMLElement;
+    private ogUrl: HTMLElement;
+    private ogImage: HTMLElement;
+    private ogDesc: HTMLElement;
+    private startDate:HTMLElement;
+    private endDate:HTMLElement;
+    private isArticle:HTMLElement;
 
 
-  private es_search_type: HTMLElement;
-  private es_source: HTMLElement;
-  private es_article_id: HTMLElement;
-  private es_article_title: HTMLElement;
-  private es_keyword: HTMLElement;
-  private es_published_date: HTMLElement;
-  private es_author: HTMLElement;
-  private es_publisher: HTMLElement;
-  private es_image_url: HTMLElement;
-  private es_article_teaser: HTMLElement;
-  private es_article_url: HTMLElement;
-  private es_article_type: HTMLElement;
-  private es_is_article:HTMLElement;
-  private es_end_date:HTMLElement;
-  private es_start_date:HTMLElement;
-  private es_search_string:HTMLElement;
+    private es_search_type: HTMLElement;
+    private es_source: HTMLElement;
+    private es_article_id: HTMLElement;
+    private es_article_title: HTMLElement;
+    private es_keyword: HTMLElement;
+    private es_published_date: HTMLElement;
+    private es_author: HTMLElement;
+    private es_publisher: HTMLElement;
+    private es_image_url: HTMLElement;
+    private es_article_teaser: HTMLElement;
+    private es_article_url: HTMLElement;
+    private es_article_type: HTMLElement;
+    private es_is_article:HTMLElement;
+    private es_end_date:HTMLElement;
+    private es_start_date:HTMLElement;
+    private es_search_string:HTMLElement;
 
-  private robots: HTMLElement;
-  private DOM: any;
+    private robots: HTMLElement;
+    private DOM: any;
 
-  constructor(@Inject(DOCUMENT) document:any){
-      this.DOM = getDOM();
-      this.document = document;
-      this.headElement = this.document.head;
+    constructor(@Inject(DOCUMENT) document:any){
+        this.DOM = getDOM();
+        this.document = document;
+        this.headElement = this.document.head;
 
-  }
+    }
 
- /**
-  * Inject the Angular 2 Title Service
-  * @param titleService
-  */
-/*  constructor(titleService: Title){
-    this.titleService = titleService;
-    this.DOM = __platform_browser_private__.getDOM();
+    /**
+     * Inject the Angular 2 Title Service
+     * @param titleService
+     */
+    /*  constructor(titleService: Title){
+     this.titleService = titleService;
+     this.DOM = __platform_browser_private__.getDOM();
 
-   /!**
-    * get the <head> Element
-    * @type {any}
-    *!/
-    this.headElement = this.DOM.query('head');
-    this.metaDescription = this.getOrCreateMetaElement('description');
-    this.robots = this.getOrCreateMetaElement('robots');
-    this.ogTitle = this.getOgMetaElement("og:title");
-    this.ogType = this.getOgMetaElement("og:type");
-    this.ogUrl = this.getOgMetaElement("og:url");
-    this.ogImage = this.getOgMetaElement("og:image");
-    this.ogDesc = this.getOgMetaElement("og:description");
-    this.es_search_type= this.getOrCreateMetaElement('es_search_type');
+     /!**
+     * get the <head> Element
+     * @type {any}
+     *!/
+     this.headElement = this.DOM.query('head');
+     this.metaDescription = this.getOrCreateMetaElement('description');
+     this.robots = this.getOrCreateMetaElement('robots');
+     this.ogTitle = this.getOgMetaElement("og:title");
+     this.ogType = this.getOgMetaElement("og:type");
+     this.ogUrl = this.getOgMetaElement("og:url");
+     this.ogImage = this.getOgMetaElement("og:image");
+     this.ogDesc = this.getOgMetaElement("og:description");
+     this.es_search_type= this.getOrCreateMetaElement('es_search_type');
      this.es_source= this.getOrCreateMetaElement('es_source');
      this.es_article_id= this.getOrCreateMetaElement('es_article_id');
      this.es_article_title= this.getOrCreateMetaElement('es_article_title');
@@ -98,33 +98,33 @@ export class SeoService {
 
 
 
-  }*/
+     }*/
 
 
-  //sets title to atleast less than 50 characters and will choose the  first 3 words and append site name at end
-  public setTitle(newTitle:string) {
-      let splitTitle = newTitle.split(' ');
-      let shortTitle;
+    //sets title to atleast less than 50 characters and will choose the  first 3 words and append site name at end
+    public setTitle(newTitle:string) {
+        let splitTitle = newTitle.split(' ');
+        let shortTitle;
 
-      if (newTitle.length > 50) {
-          splitTitle = splitTitle.splice(0, 3);
-          shortTitle = splitTitle.join(' ');
-      } else {
-          shortTitle = splitTitle.join(' ');
-      }
+        if (newTitle.length > 50) {
+            splitTitle = splitTitle.splice(0, 3);
+            shortTitle = splitTitle.join(' ');
+        } else {
+            shortTitle = splitTitle.join(' ');
+        }
 
-      if (GlobalSettings.getHomeInfo().isPartner) {
-          shortTitle = shortTitle + ' | ' + GlobalSettings.getBasePartnerTitle();
-      } else {
-          shortTitle = shortTitle + ' | ' + GlobalSettings.getBaseTitle();
-      }
+        if (GlobalSettings.getHomeInfo().isPartner) {
+            shortTitle = shortTitle + ' | ' + GlobalSettings.getBasePartnerTitle();
+        } else {
+            shortTitle = shortTitle + ' | ' + GlobalSettings.getBaseTitle();
+        }
 
-      this.document.title = shortTitle;
-  }
+        this.document.title = shortTitle;
+    }
 
-  public getMetaDescription(): string {
-    return this.metaDescription.getAttribute('content');
-  }
+    public getMetaDescription(): string {
+        return this.metaDescription.getAttribute('content');
+    }
 
     private setElementAttribute(el:HTMLElement, name:string, attr:string) {
         return this.DOM.setAttribute(el, name, attr);
@@ -137,30 +137,30 @@ export class SeoService {
     }
 
 
-  public setMetaDescription(description: string) {
-      if (SeoService.checkData(description)) {
-          let html = description;
-          let div = document.createElement("div");
-          div.innerHTML = html;
-          let truncatedDescription = div.textContent || div.innerText || "";
-          if (truncatedDescription.length > 167) {
-              truncatedDescription = truncatedDescription.substring(0, 167);
-              truncatedDescription += '...';
-          }
-          if (!this.document.querySelector('meta[name="description"]')) {
-              this.metaDescription = this.getOrCreateElement('name', 'description', 'meta');
-          }
-          this.setElementAttribute(this.metaDescription, 'content', truncatedDescription);
-      }
+    public setMetaDescription(description: string) {
+        if (SeoService.checkData(description)) {
+            let html = description;
+            let div = document.createElement("div");
+            div.innerHTML = html;
+            let truncatedDescription = div.textContent || div.innerText || "";
+            if (truncatedDescription.length > 167) {
+                truncatedDescription = truncatedDescription.substring(0, 167);
+                truncatedDescription += '...';
+            }
+            if (!this.document.querySelector('meta[name="description"]')) {
+                this.metaDescription = this.getOrCreateElement('name', 'description', 'meta');
+            }
+            this.setElementAttribute(this.metaDescription, 'content', truncatedDescription);
+        }
 
-  }
+    }
 
-  public getMetaRobots(): string {
-    return this.robots.getAttribute('content');
-  }
+    public getMetaRobots(): string {
+        return this.robots.getAttribute('content');
+    }
 
-  //Valid values for the "CONTENT" attribute are: "INDEX", "NOINDEX", "FOLLOW", "NOFOLLOW"
-  //http://www.robotstxt.org/meta.html
+    //Valid values for the "CONTENT" attribute are: "INDEX", "NOINDEX", "FOLLOW", "NOFOLLOW"
+    //http://www.robotstxt.org/meta.html
     public setMetaRobots(robots:string) {
         if (SeoService.checkData(robots)) {
             if (!this.document.querySelector('meta[name="robots"]')) {
@@ -226,7 +226,7 @@ export class SeoService {
     public setKeyword(keyword:string) {
         if (SeoService.checkData(keyword)) {
             if (!this.document.querySelector('meta[name="keyword"]')) {
-                this.es_keyword = this.getOrCreateElement('name', 'keyword', 'meta');
+                this.es_keyword = this.getOrCreateElement('name', 'es_keyword', 'meta');
             }
             this.setElementAttribute(this.es_keyword, 'content', keyword);
         }
@@ -235,7 +235,7 @@ export class SeoService {
     public setStartDate(startDate:string) {
         if (SeoService.checkData(startDate)) {
             if (!this.document.querySelector('meta[name="start_date"]')) {
-                this.startDate = this.getOrCreateElement('name', 'start_date', 'meta');
+                this.es_start_date = this.getOrCreateElement('name', 'es_start_date', 'meta');
             }
             this.setElementAttribute(this.startDate, 'content', startDate);
         }
@@ -244,7 +244,7 @@ export class SeoService {
     public setEndDate(endDate:string) {
         if (SeoService.checkData(endDate)) {
             if (!this.document.querySelector('meta[name="end_date"]')) {
-                this.endDate = this.getOrCreateElement('name', 'end_date', 'meta');
+                this.es_end_date = this.getOrCreateElement('name', 'es_end_date', 'meta');
             }
             this.setElementAttribute(this.endDate, 'content', endDate);
         }
@@ -253,7 +253,7 @@ export class SeoService {
     public setIsArticle(isArticle:string) {
         if (SeoService.checkData(isArticle)) {
             if (!this.document.querySelector('meta[name="is_article"]')) {
-                this.isArticle = this.getOrCreateElement('name', 'is_article', 'meta');
+                this.es_is_article = this.getOrCreateElement('name', 'es_is_article', 'meta');
             }
             this.setElementAttribute(this.isArticle, 'content', isArticle);
         }
@@ -262,7 +262,7 @@ export class SeoService {
     public setSearchType(searchType:string) {
         if (SeoService.checkData(searchType)) {
             if (!this.document.querySelector('meta[name="search_type"]')) {
-                this.es_search_type = this.getOrCreateElement('name', 'search_type', 'meta');
+                this.es_search_type = this.getOrCreateElement('name', 'es_search_type', 'meta');
             }
             this.setElementAttribute(this.es_search_type, 'content', searchType);
         }
@@ -271,7 +271,7 @@ export class SeoService {
     public setArticleId(articleId:string) {
         if (SeoService.checkData(articleId)) {
             if (!this.document.querySelector('meta[name="article_id"]')) {
-                this.es_article_id = this.getOrCreateElement('name', 'article_id', 'meta');
+                this.es_article_id = this.getOrCreateElement('name', 'es_article_id', 'meta');
             }
             this.setElementAttribute(this.es_article_id, 'content', articleId);
         }
@@ -280,7 +280,7 @@ export class SeoService {
     public setArticleTitle(articleTitle:string) {
         if (SeoService.checkData(articleTitle)) {
             if (!this.document.querySelector('meta[name="article_title"]')) {
-                this.es_article_title = this.getOrCreateElement('name', 'article_title', 'meta');
+                this.es_article_title = this.getOrCreateElement('name', 'es_article_title', 'meta');
             }
             this.setElementAttribute(this.es_article_title, 'content', articleTitle);
         }
@@ -289,7 +289,7 @@ export class SeoService {
     public setAuthor(author:string) {
         if (SeoService.checkData(author)) {
             if (!this.document.querySelector('meta[name="author"]')) {
-                this.es_author = this.getOrCreateElement('name', 'author', 'meta');
+                this.es_author = this.getOrCreateElement('name', 'es_author', 'meta');
             }
             this.setElementAttribute(this.es_author, 'content', author);
         }
@@ -298,7 +298,7 @@ export class SeoService {
     public setPublisher(publisher:string) {
         if (SeoService.checkData(publisher)) {
             if (!this.document.querySelector('meta[name="publisher"]')) {
-                this.es_publisher = this.getOrCreateElement('name', 'publisher', 'meta');
+                this.es_publisher = this.getOrCreateElement('name', 'es_publisher', 'meta');
             }
             this.setElementAttribute(this.es_publisher, 'content', publisher);
         }
@@ -307,7 +307,7 @@ export class SeoService {
     public setArticleUrl(url:string) {
         if (SeoService.checkData(url)) {
             if (!this.document.querySelector('meta[name="article_url"]')) {
-                this.es_article_url = this.getOrCreateElement('name', 'article_url', 'meta');
+                this.es_article_url = this.getOrCreateElement('name', 'es_article_url', 'meta');
             }
             this.setElementAttribute(this.es_article_url, 'content', url);
         }
@@ -316,7 +316,7 @@ export class SeoService {
     public setSearchString(searchString:string) {
         if (SeoService.checkData(searchString)) {
             if (!this.document.querySelector('meta[name="search_string"]')) {
-                this.es_search_string = this.getOrCreateElement('name', 'search_string', 'meta');
+                this.es_search_string = this.getOrCreateElement('name', 'es_search_string', 'meta');
             }
             this.setElementAttribute(this.es_search_string, 'content', searchString);
         }
@@ -325,7 +325,7 @@ export class SeoService {
     public setSource(source:string) {
         if (SeoService.checkData(source)) {
             if (!this.document.querySelector('meta[name="source"]')) {
-                this.es_source = this.getOrCreateElement('name', 'source', 'meta');
+                this.es_source = this.getOrCreateElement('name', 'es_source', 'meta');
             }
             this.setElementAttribute(this.es_source, 'content', source);
         }
@@ -334,7 +334,7 @@ export class SeoService {
     public setPublishedDate(publishedDate:string) {
         if (SeoService.checkData(publishedDate)) {
             if (!this.document.querySelector('meta[name="published_date"]')) {
-                this.es_published_date = this.getOrCreateElement('name', 'published_date', 'meta');
+                this.es_published_date = this.getOrCreateElement('name', 'es_published_date', 'meta');
             }
             this.setElementAttribute(this.es_published_date, 'content', publishedDate);
         }
@@ -343,7 +343,7 @@ export class SeoService {
     public setImageUrl(imageUrl:string) {
         if (SeoService.checkData(imageUrl)) {
             if (!this.document.querySelector('meta[name="image_url"]')) {
-                this.es_image_url = this.getOrCreateElement('name', 'image_url', 'meta');
+                this.es_image_url = this.getOrCreateElement('name', 'es_image_url', 'meta');
             }
             this.setElementAttribute(this.es_image_url, 'content', imageUrl);
         }
@@ -352,7 +352,7 @@ export class SeoService {
     public setArticleTeaser(articleTeaser:string) {
         if (SeoService.checkData(articleTeaser)) {
             if (!this.document.querySelector('meta[name="article_teaser"]')) {
-                this.es_article_teaser = this.getOrCreateElement('name', 'article_teaser', 'meta');
+                this.es_article_teaser = this.getOrCreateElement('name', 'es_article_teaser', 'meta');
             }
             this.setElementAttribute(this.es_article_teaser, 'content', articleTeaser);
         }
@@ -362,27 +362,27 @@ export class SeoService {
         var metaTag = this.document.querySelector('meta[name="article_type"]');
         if (SeoService.checkData(articleType)) {
             if (!metaTag) {
-                this.es_article_type = this.getOrCreateElement('name', 'article_type', 'meta');
+                this.es_article_type = this.getOrCreateElement('name', 'es_article_type', 'meta');
             }
             this.setElementAttribute(this.es_article_type, 'content', articleType);
         }
     }
 
-   /**
-    * get the HTML Element when it is in the markup, or create it.
-    * @param name
-    * @returns {HTMLElement}
-    */
-   private getOrCreateElement(name:string, attr:string, type:string):HTMLElement {
-       let el:HTMLElement;
-       el = this.DOM.createElement(type);
-       this.setElementAttribute(el, name, attr);
-       if (attr != "canonical") {
-           this.setElementAttribute(el, "rel", "hrl");
-       }
-       this.DOM.insertBefore(this.document.head.lastChild, el);
-       return el;
-   }
+    /**
+     * get the HTML Element when it is in the markup, or create it.
+     * @param name
+     * @returns {HTMLElement}
+     */
+    private getOrCreateElement(name:string, attr:string, type:string):HTMLElement {
+        let el:HTMLElement;
+        el = this.DOM.createElement(type);
+        this.setElementAttribute(el, name, attr);
+        if (attr != "canonical") {
+            this.setElementAttribute(el, "rel", "tcx");
+        }
+        this.DOM.insertBefore(this.document.head.lastChild, el);
+        return el;
+    }
 
 
     public setCanonicalLink(RouteParams, router):HTMLElement {

@@ -75,7 +75,10 @@ export class GeoLocation{
                 // return data;
             }
             )
-            .share();
+            .share()
+            .catch((error:any) => {
+                return Observable.throw(new Error(error.status));
+            });
     }
 
     getDomainApi(partner_id){
@@ -110,7 +113,10 @@ export class GeoLocation{
                 this.geoData['zipcode'] = zipcode;
                 return this.geoData;
             })
-            .share();
+            .share()
+            .catch((error:any) => {
+                return Observable.throw(new Error(error.status));
+            });
     };
 
     grabLocation(partnerID?: string) {

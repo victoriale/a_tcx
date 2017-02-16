@@ -60,6 +60,9 @@ export class SchedulesService {
                 } catch(e){
                     console.debug(e.message);
                 }
+            })
+            .catch((error:any) => {
+                return Observable.throw(new Error(error.status));
             });
     }
 
@@ -90,6 +93,9 @@ export class SchedulesService {
                 } catch(e){
                     console.debug(e.message);
                 }
+            })
+            .catch((error:any) => {
+                return Observable.throw(new Error(error.status));
             });
     }
     // getWeatherCarousel(scope, selectedLocation) {
@@ -239,6 +245,9 @@ export class SchedulesService {
               } else {
                 return null;
               }
+            })
+            .catch((error:any) => {
+                return Observable.throw(new Error(error.status));
             });
     }
 
@@ -255,6 +264,9 @@ export class SchedulesService {
                 } catch(e){
                     console.debug(e.message);
                 }
+            })
+            .catch((error:any) => {
+                return Observable.throw(new Error(error.status));
             })
 
     }
@@ -499,6 +511,9 @@ export class SchedulesService {
                         subMessage: "The list will now start over."
                     });
                 return output;
+            })
+            .catch((error:any) => {
+                return Observable.throw(new Error(error.status));
             });
     }
 
@@ -583,6 +598,9 @@ export class SchedulesService {
                         subMessage: "The list will now start over."
                     });
                 return output;
+            })
+            .catch((error:any) => {
+                return Observable.throw(new Error(error.status));
             });
     }
 
@@ -661,6 +679,9 @@ export class SchedulesService {
               } else {
                 return null;
               }
+            })
+            .catch((error:any) => {
+                return Observable.throw(new Error(error.status));
             });
     }
 

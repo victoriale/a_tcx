@@ -52,6 +52,9 @@ export class SearchService{
                 }
 
             })
+            .catch((error:any) => {
+                return Observable.throw(new Error(error.status));
+            })
     }
     transformSearchResults(data) {
         data=data.article_data;

@@ -53,7 +53,16 @@ export class SchedulesService {
         return this.http.get(callURL, { headers: headers })
             .map(res => res.json())
             .map(data => {
-                return data;
+                try{
+                    if(data){
+                        return data;
+                    } else throw new Error(" Failed API call at getSchedule method : " + callURL);
+                } catch(e){
+                    console.debug(e.message);
+                }
+            })
+            .catch((error:any) => {
+                return Observable.throw(new Error(error.status));
             });
     }
 
@@ -77,7 +86,16 @@ export class SchedulesService {
         return this.http.get(callURL, { headers: headers })
             .map(res => res.json())
             .map(data => {
-                return data;
+                try{
+                    if(data){
+                        return data;
+                    } else throw new Error(" Failed API call at getBoxSchedule method : " + callURL);
+                } catch(e){
+                    console.debug(e.message);
+                }
+            })
+            .catch((error:any) => {
+                return Observable.throw(new Error(error.status));
             });
     }
     // getWeatherCarousel(scope, selectedLocation) {
@@ -227,6 +245,9 @@ export class SchedulesService {
               } else {
                 return null;
               }
+            })
+            .catch((error:any) => {
+                return Observable.throw(new Error(error.status));
             });
     }
 
@@ -236,7 +257,16 @@ export class SchedulesService {
         return this.http.get(callURL, { headers: headers }).retry(2)
             .map(res => res.json())
             .map(data=>{
-                return data
+                try{
+                    if(data){
+                        return data;
+                    } else throw new Error(" Failed API call at getWeatherData method : " + callURL);
+                } catch(e){
+                    console.debug(e.message);
+                }
+            })
+            .catch((error:any) => {
+                return Observable.throw(new Error(error.status));
             })
 
     }
@@ -481,6 +511,9 @@ export class SchedulesService {
                         subMessage: "The list will now start over."
                     });
                 return output;
+            })
+            .catch((error:any) => {
+                return Observable.throw(new Error(error.status));
             });
     }
 
@@ -565,6 +598,9 @@ export class SchedulesService {
                         subMessage: "The list will now start over."
                     });
                 return output;
+            })
+            .catch((error:any) => {
+                return Observable.throw(new Error(error.status));
             });
     }
 
@@ -643,6 +679,9 @@ export class SchedulesService {
               } else {
                 return null;
               }
+            })
+            .catch((error:any) => {
+                return Observable.throw(new Error(error.status));
             });
     }
 

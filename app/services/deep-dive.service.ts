@@ -60,6 +60,10 @@ export class DeepDiveService {
         }
         })
 
+        .catch((error:any) => {
+            return Observable.throw(new Error(error.status));
+        })
+
   }
 
   getCarouselData(scope, data, limit, batch, state, callback:Function) {
@@ -127,6 +131,9 @@ export class DeepDiveService {
           }catch(e){
             console.debug(e.message);
           }
+        })
+        .catch((error:any) => {
+            return Observable.throw(new Error(error.status));
         })
 
   }// getDeepDiveVideoBatchService ENDS

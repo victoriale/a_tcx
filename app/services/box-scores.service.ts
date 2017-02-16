@@ -169,6 +169,9 @@ export class BoxScoresService {
         }
 
       })
+        .catch((error:any) => {
+          return Observable.throw(new Error(error.status));
+        })
   } //getBoxScoresService
 
 
@@ -469,6 +472,10 @@ export class BoxScoresService {
 
 
       })
+        .catch((error:any) => {
+          return Observable.throw(new Error(error.status));
+        })
+
   }
 
   // get data for monthly calendar dropdown
@@ -513,6 +520,9 @@ export class BoxScoresService {
           }
 
 
+        })
+        .catch((error:any) => {
+          return Observable.throw(new Error(error.status));
         })
 
   }

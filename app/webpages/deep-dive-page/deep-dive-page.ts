@@ -233,6 +233,7 @@ export class DeepDivePage implements OnInit{
           (param:any) => {
             this.carouselGraph = null;
             this.carouselVideo = null;
+            this.carouselData = null;
             this.category = param['category'] ? param['category'] : 'all';
             this.category = this.category.replace(/--/g," ");
             this.scope = param['subCategory'] ? param['subCategory'] : this.category;

@@ -3,6 +3,7 @@ import {Http, Headers, URLSearchParams, RequestOptions} from "@angular/http";
 import { GlobalSettings } from "../global/global-settings";
 import { Injectable } from "@angular/core";
 import {GlobalFunctions} from "../global/global-functions";
+import {Observable} from 'rxjs/Rx';
 
 declare var moment;
 
@@ -39,6 +40,9 @@ export class SyndicateArticleService {
              }catch(e){
                  console.debug(e.message);
              }
+            })
+            .catch((error:any) => {
+                return Observable.throw(new Error(error.status));
             })
     }
 
@@ -91,6 +95,9 @@ export class SyndicateArticleService {
                 }
 
             })
+            .catch((error:any) => {
+                return Observable.throw(new Error(error.status));
+            })
     }
 
     getArticleBatch(category, subcategory,count,trending?,page?){
@@ -126,6 +133,9 @@ export class SyndicateArticleService {
                         console.debug(e.message);
                     }
                 })
+                .catch((error:any) => {
+                    return Observable.throw(new Error(error.status));
+                })
         } else{
             params.set("trending","1");
             params.set("page",page.toString());
@@ -144,6 +154,9 @@ export class SyndicateArticleService {
                         console.debug(e.message);
                     }
 
+                })
+                .catch((error:any) => {
+                    return Observable.throw(new Error(error.status));
                 })
         }
     }

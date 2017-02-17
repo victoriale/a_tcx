@@ -406,4 +406,18 @@ export class SeoService {
         }
     }
 
+    public elasticSearchUserAgent(){
+      // preRender && PhantomJS or sntCrawler && nutch are specific keywords found when prerender or SNT crawler is being used to crawler the site for Elastic search
+      let preRender = navigator.userAgent.indexOf("Prerender") > 0;
+      let phantomJS = navigator.userAgent.indexOf("PhantomJS") > 0;
+      let sntCrawler = navigator.userAgent.indexOf("SNTCrawler") > 0;
+      let nutch = navigator.userAgent.indexOf("Nutch") > 0;
+
+      if( (preRender && phantomJS) || (sntCrawler && nutch) ){
+        return true;
+      }else{
+        return false;
+      }
+    }
+
 }

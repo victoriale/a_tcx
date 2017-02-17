@@ -9,7 +9,7 @@
 
         <!-- ARTICLE PAGE BEGINS -->
         <span *ngIf="articleData">
-            <share-links-component class="articles-page-padding" id="shareLinksBtn" [shareUrl]= "windowUrl"></share-links-component>
+            <share-links-component *ngIf="!isCrawler" class="articles-page-padding" id="shareLinksBtn" [shareUrl]= "windowUrl"></share-links-component>
           <h1 class="articles-page-title" id="articleMainTitle"><span [innerHTML]="articleData.title | safeHtml"></span></h1>
           <sidekick-wrapper-ai [aiSidekick]="aiSidekick" [scope]="subcategory">
 
@@ -42,19 +42,22 @@
                         <div *ngIf="articleData.istronc" class="fade-in-effect"></div>
                         <a [href] = "articleData.linkback_url" target="_blank" *ngIf="articleData.istronc" class="tronc-read">Read the Full Article<i class="fa-arrow-right"></i></a>
                     </section>
-                    <div class="deep-dive-module"><billboard-module [category]="category" [subCategory]="subcategorywidgets"></billboard-module></div>
+
+
+                    <div *ngIf="!isCrawler" class="deep-dive-module"><billboard-module [category]="category" [subCategory]="subcategorywidgets"></billboard-module></div>
                     <!-- RESPONSIVE WIDGET-->
-                    <div class="responsive-widget">
+                    <div *ngIf="!isCrawler" class="responsive-widget">
                         <responsive-widget [category]="category" [subCategory]="subcategorywidgets"></responsive-widget>
                     </div>
-                    <disqus-component *ngIf="!checkPartner"></disqus-component>
+                    <disqus-component *ngIf="!checkPartner && !isCrawler"></disqus-component>
 
-                    <div class="deep-dive-module"><chatterbox-module [category]="category" [subCategory]="subcategorywidgets"></chatterbox-module></div>
+                    <div *ngIf="!isCrawler" class="deep-dive-module"><chatterbox-module [category]="category" [subCategory]="subcategorywidgets"></chatterbox-module></div>
 
-                    <div *ngIf="recomendationData" class="other-stories"><i class="fa-heart-o"></i> Other Stories You Will Love </div>
-                    <article-block-component [articleBlockData]="recomendationData" [bootstrapGrid]="'col-sm-12 col-md-4'"></article-block-component>
+                    <div *ngIf="recomendationData && !isCrawler" class="other-stories"><i class="fa-heart-o"></i> Other Stories You Will Love </div>
+                    <article-block-component *ngIf="!isCrawler" [articleBlockData]="recomendationData" [bootstrapGrid]="'col-sm-12 col-md-4'"></article-block-component>
 
-                    <trending-component [scope]="subcategory"
+                    <trending-component *ngIf="!isCrawler"
+                                        [scope]="subcategory"
                                         [currentArticleId]="articleID"
                                         [eventType]="eventType"
                                         [geoLocation]="geoLocation"
@@ -63,7 +66,7 @@
                     </trending-component>
                 </div>
 
-                <div class="article-widget col-xl-3" id="verticalSideScroller">
+                <div *ngIf="!isCrawler" class="article-widget col-xl-3" id="verticalSideScroller">
                     <vertical-widget [category]="category" [subCategory]="subcategorywidgets"></vertical-widget>
                 </div>
             </section>

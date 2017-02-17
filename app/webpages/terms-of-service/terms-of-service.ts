@@ -45,6 +45,6 @@ export class TermsOfService implements OnInit{
     this._seo.setOgImage('/app/public/mainLogo.png');
     this._seo.setTitle('Terms Of Service');
     this._seo.setMetaDescription(metaDesc);
-    this._seo.setMetaRobots('INDEX, FOLLOW');
+    this._seo.setMetaRobots('INDEX, NOFOLLOW');
   }
 }

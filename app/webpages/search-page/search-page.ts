@@ -96,6 +96,6 @@ export class SearchPage implements OnInit, OnChanges, OnDestroy{
         this._seo.setOgImage('/app/public/mainLogo.png');
         this._seo.setTitle('Search Page');
         this._seo.setMetaDescription(metaDesc);
-        this._seo.setMetaRobots('INDEX, FOLLOW');
+        this._seo.setMetaRobots('INDEX, NOFOLLOW');
     }
 }

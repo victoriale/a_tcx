@@ -296,9 +296,6 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
             }
             this._seo.setCanonicalLink(this.activateRoute.params, this.router);
             this._seo.setOgTitle(metaData.title);
-            this._seo.setOgDesc(metaDesc);
-            this._seo.setOgType('website');
-            this._seo.setOgUrl(link);
             this._seo.setTitle(metaData.title);
             this._seo.setMetaDescription(metaDesc);
             this._seo.setMetaRobots('INDEX, NOFOLLOW');
@@ -306,7 +303,7 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
             this._seo.setSearchType('article');
             this._seo.setSource(metaData.source);
             this._seo.setArticleId(metaData.article_id);
-            this._seo.setArticleTitle(metaData.title);
+            this._seo.setPageTitle(metaData.title);
             this._seo.setAuthor(articleAuthor);
             this._seo.setPublishedDate(metaData.last_updated);
             this._seo.setPublisher(metaData.publisher);
@@ -319,7 +316,7 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
             //data.teaser?this._seo.setTeaser(data.teaser):this._seo.setTeaser(data.article_data.article[0]);
 
         }else{//video pages, etc. not article pages
-            this._seo.setArticleTitle(metaData.title.replace(/\\'/g, "'"));
+            this._seo.setPageTitle(metaData.title.replace(/\\'/g, "'"));
             this._seo.setArticleUrl(link);
             this._seo.setImageUrl(metaData.video_thumbnail);
             this._seo.setArticleId(metaData.id);

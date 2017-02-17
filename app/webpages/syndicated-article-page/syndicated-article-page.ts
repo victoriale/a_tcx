@@ -243,8 +243,6 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
     private metaTags(data, artType) {
         //This call will remove all meta tags from the head.
         this._seo.removeMetaTags();
-        console.log(data);
-
         var metaData = data;
         var searchString;
         var searchArray = [];

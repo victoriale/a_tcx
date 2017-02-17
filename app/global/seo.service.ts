@@ -220,7 +220,7 @@ export class SeoService {
         }
     }
 
-    public setKeyword(keyword:string) {
+    public setCategory(keyword:string) {
         if (SeoService.checkData(keyword)) {
             if (!this.document.querySelector('meta[name="es_category"]')) {
                 this.es_category = this.getOrCreateElement('name', 'es_category', 'meta');
@@ -256,7 +256,7 @@ export class SeoService {
         }
     }
 
-    public setSearchType(searchType:string) {
+    public setPageType(searchType:string) {
         if (SeoService.checkData(searchType)) {
             if (!this.document.querySelector('meta[name="es_page_type"]')) {
                 this.es_page_type = this.getOrCreateElement('name', 'es_page_type', 'meta');

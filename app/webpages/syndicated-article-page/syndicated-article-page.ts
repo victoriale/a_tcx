@@ -243,7 +243,6 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
     private metaTags(data, artType) {
         //This call will remove all meta tags from the head.
         this._seo.removeMetaTags();
-
         var metaData = data;
         var searchString;
         var searchArray = [];
@@ -259,13 +258,14 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
         this._seo.setMetaDescription(metaDesc);
         this._seo.setMetaRobots('INDEX, NOFOLLOW');
         this._seo.setOgTitle(this.subcategory);
-        if(data.keywords && data.keywords.isArray){
+        //searchArray.push(metaData.title);
+        if(data.keywords){
             this._seo.setKeyword(data.keywords[0]);
             data.keywords.forEach(function (keyword) {
                 searchArray.push(keyword);
             });
-            searchString = searchArray.join(',');
         }
+        searchString = searchArray.join(',');
 
         if(artType=="story") {
             let image;

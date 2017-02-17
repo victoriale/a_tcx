@@ -113,5 +113,6 @@ export class PrivacyPolicy implements OnInit{
         this._seo.setMetaRobots('INDEX, NOFOLLOW');
         this._seo.setPageTitle(title);
         this._seo.setPageType('Privacy Policy Page');
+        this._seo.setPageUrl(link);
     }
 }

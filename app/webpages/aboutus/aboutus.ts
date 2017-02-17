@@ -48,5 +48,6 @@ export class AboutUsPage implements OnInit{
     this._seo.setMetaRobots('INDEX, NOFOLLOW');
       this._seo.setPageTitle(title);
       this._seo.setPageType('About Us Page');
+      this._seo.setPageUrl(link);
   }
 }

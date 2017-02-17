@@ -49,6 +49,8 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
     iframeUrl: any;
     paramsub;
     errorPage:boolean=false;
+    private isCrawler: boolean = false;
+
     constructor(
         private _synservice:SyndicateArticleService,
         private activateRoute:ActivatedRoute,
@@ -59,6 +61,7 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
         private _location:Location
     ){
         this.checkPartner = GlobalSettings.getHomeInfo().isPartner;
+        this.isCrawler = this._seo.elasticSearchUserAgent();
         this.initializePage(this.partnerID);
     }
 

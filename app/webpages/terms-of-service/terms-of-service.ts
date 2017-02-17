@@ -49,6 +49,7 @@ export class TermsOfService implements OnInit{
     this._seo.setMetaRobots('INDEX, NOFOLLOW');
     this._seo.setPageTitle(title);
     this._seo.setPageType('Terms of service page');
+      this._seo.setPageUrl(link);
 
   }
 }

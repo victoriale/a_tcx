@@ -99,6 +99,7 @@ export class SearchPage implements OnInit, OnChanges, OnDestroy{
         this._seo.setMetaDescription(metaDesc);
         this._seo.setMetaRobots('INDEX, NOFOLLOW');
         this._seo.setPageTitle(title);
-        this._seo.setPageType('Search Page')
+        this._seo.setPageType('Search Page');
+        this._seo.setPageUrl(link);
     }
 }

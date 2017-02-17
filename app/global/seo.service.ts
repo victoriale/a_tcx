@@ -301,7 +301,7 @@ export class SeoService {
         }
     }
 
-    public setArticleUrl(url:string) {
+    public setPageUrl(url:string) {
         if (SeoService.checkData(url)) {
             if (!this.document.querySelector('meta[name="es_page_url"]')) {
                 this.es_page_url = this.getOrCreateElement('name', 'es_page_url', 'meta');

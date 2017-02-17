@@ -310,14 +310,14 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
             this._seo.setImageUrl(image);
             this._seo.setArticleTeaser(metaData.teaser.replace(/<ng2-route>|<\/ng2-route>/g, ''));
             this._seo.setSearchString(searchString);//should be user input for search
-            this._seo.setArticleUrl(link);
+            this._seo.setPageUrl(link);
             this._seo.setArticleType(metaData.article_type);
 
             //data.teaser?this._seo.setTeaser(data.teaser):this._seo.setTeaser(data.article_data.article[0]);
 
         }else{//video pages, etc. not article pages
             this._seo.setPageTitle(metaData.title.replace(/\\'/g, "'"));
-            this._seo.setArticleUrl(link);
+            this._seo.setPageUrl(link);
             this._seo.setImageUrl(metaData.video_thumbnail);
             this._seo.setArticleId(metaData.id);
             this._seo.setCategory(metaData.keyword);

@@ -147,6 +147,7 @@ export class DeepDivePage implements OnInit{
         this._seo.setPageType('Deep Dive Page');
         this._seo.setCategory(this.category);
         this._seo.setMetaRobots('INDEX, NOFOLLOW');
+        this._seo.setPageUrl(link);
     }
 
     changeScope($event) {

@@ -34,6 +34,7 @@ export class TermsOfService implements OnInit{
   }
 
   private addMetaTags(){
+    var title = 'Terms Of Service'
     this._seo.removeMetaTags();
     let metaDesc = GlobalSettings.getPageTitle('Terms Of Service');
     let link = window.location.href;
@@ -43,8 +44,12 @@ export class TermsOfService implements OnInit{
     this._seo.setOgType('Website');
     this._seo.setOgUrl(link);
     this._seo.setOgImage('/app/public/mainLogo.png');
-    this._seo.setTitle('Terms Of Service');
+    this._seo.setTitle(title);
     this._seo.setMetaDescription(metaDesc);
     this._seo.setMetaRobots('INDEX, NOFOLLOW');
+    this._seo.setPageTitle(title);
+    this._seo.setPageType('Terms of service page');
+      this._seo.setPageUrl(link);
+
   }
 }

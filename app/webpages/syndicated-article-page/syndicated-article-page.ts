@@ -261,9 +261,9 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
         this._seo.setMetaDescription(metaDesc);
         this._seo.setMetaRobots('INDEX, NOFOLLOW');
         this._seo.setOgTitle(this.subcategory);
+        this._seo.setCategory(this.category);
         //searchArray.push(metaData.title);
         if(data.keywords){
-            this._seo.setKeyword(data.keywords[0]);
             data.keywords.forEach(function (keyword) {
                 searchArray.push(keyword);
             });
@@ -296,36 +296,33 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
             }
             this._seo.setCanonicalLink(this.activateRoute.params, this.router);
             this._seo.setOgTitle(metaData.title);
-            this._seo.setOgDesc(metaDesc);
-            this._seo.setOgType('website');
-            this._seo.setOgUrl(link);
             this._seo.setTitle(metaData.title);
             this._seo.setMetaDescription(metaDesc);
             this._seo.setMetaRobots('INDEX, NOFOLLOW');
             this._seo.setIsArticle('true');
-            this._seo.setSearchType('article');
+            this._seo.setPageType('article');
             this._seo.setSource(metaData.source);
             this._seo.setArticleId(metaData.article_id);
-            this._seo.setArticleTitle(metaData.title);
+            this._seo.setPageTitle(metaData.title);
             this._seo.setAuthor(articleAuthor);
             this._seo.setPublishedDate(metaData.last_updated);
             this._seo.setPublisher(metaData.publisher);
             this._seo.setImageUrl(image);
             this._seo.setArticleTeaser(metaData.teaser.replace(/<ng2-route>|<\/ng2-route>/g, ''));
             this._seo.setSearchString(searchString);//should be user input for search
-            this._seo.setArticleUrl(link);
+            this._seo.setPageUrl(link);
             this._seo.setArticleType(metaData.article_type);
 
             //data.teaser?this._seo.setTeaser(data.teaser):this._seo.setTeaser(data.article_data.article[0]);
 
         }else{//video pages, etc. not article pages
-            this._seo.setArticleTitle(metaData.title.replace(/\\'/g, "'"));
-            this._seo.setArticleUrl(link);
+            this._seo.setPageTitle(metaData.title.replace(/\\'/g, "'"));
+            this._seo.setPageUrl(link);
             this._seo.setImageUrl(metaData.video_thumbnail);
             this._seo.setArticleId(metaData.id);
-            this._seo.setKeyword(metaData.keyword);
+            this._seo.setCategory(metaData.keyword);
             //this._seo.setTeaser(data.teaser);
-            this._seo.setSearchType('article');
+            this._seo.setPageType('video article');
             this._seo.setSearchString(metaData.keywords);
         }
     }

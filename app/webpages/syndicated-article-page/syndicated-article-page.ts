@@ -261,9 +261,9 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
         this._seo.setMetaDescription(metaDesc);
         this._seo.setMetaRobots('INDEX, NOFOLLOW');
         this._seo.setOgTitle(this.subcategory);
+        this._seo.setCategory(this.category);
         //searchArray.push(metaData.title);
         if(data.keywords){
-            this._seo.setKeyword(data.keywords[0]);
             data.keywords.forEach(function (keyword) {
                 searchArray.push(keyword);
             });
@@ -300,7 +300,7 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
             this._seo.setMetaDescription(metaDesc);
             this._seo.setMetaRobots('INDEX, NOFOLLOW');
             this._seo.setIsArticle('true');
-            this._seo.setSearchType('article');
+            this._seo.setPageType('article');
             this._seo.setSource(metaData.source);
             this._seo.setArticleId(metaData.article_id);
             this._seo.setPageTitle(metaData.title);
@@ -320,9 +320,9 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
             this._seo.setArticleUrl(link);
             this._seo.setImageUrl(metaData.video_thumbnail);
             this._seo.setArticleId(metaData.id);
-            this._seo.setKeyword(metaData.keyword);
+            this._seo.setCategory(metaData.keyword);
             //this._seo.setTeaser(data.teaser);
-            this._seo.setSearchType('article');
+            this._seo.setPageType('video article');
             this._seo.setSearchString(metaData.keywords);
         }
     }

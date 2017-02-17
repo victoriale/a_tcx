@@ -33,17 +33,20 @@ export class AboutUsPage implements OnInit{
   }
 
   private addMetaTags(){
+    var title = "About Us"
     this._seo.removeMetaTags();
     let metaDesc = GlobalSettings.getPageTitle('Dive into the most recent news about your favorite sports, movies and read the latest articles on politics, business, travel etc.', 'About Us');
     let link = window.location.href;
     this._seo.setCanonicalLink(this._activatedRoute.params,this._router);
-   this._seo.setOgTitle('About Us');
+   this._seo.setOgTitle(title);
     this._seo.setOgDesc(metaDesc);
     this._seo.setOgType('Website');
     this._seo.setOgUrl(link);
     this._seo.setOgImage('/app/public/mainLogo.png');
-      this._seo.setTitle('About Us');
+      this._seo.setTitle(title);
     this._seo.setMetaDescription(metaDesc);
     this._seo.setMetaRobots('INDEX, NOFOLLOW');
+      this._seo.setPageTitle(title);
+      this._seo.setPageType('About Us Page');
   }
 }

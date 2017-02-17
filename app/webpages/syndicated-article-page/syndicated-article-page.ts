@@ -258,7 +258,7 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
         this._seo.setMetaDescription(metaDesc);
         this._seo.setMetaRobots('INDEX, NOFOLLOW');
         this._seo.setOgTitle(this.subcategory);
-        searchArray.push(metaData.title);
+        //searchArray.push(metaData.title);
         if(data.keywords){
             this._seo.setKeyword(data.keywords[0]);
             data.keywords.forEach(function (keyword) {

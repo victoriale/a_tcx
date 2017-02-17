@@ -403,7 +403,7 @@ export class SeoService {
     public removeMetaTags() {
         var element = this.document.getElementsByTagName('meta'), index;
         for (index = element.length - 1; index >= 0; index--) {
-            if (element[index].getAttribute('rel') == 'hrl') {
+            if (element[index].getAttribute('rel') == 'tcx') {
                 element[index].parentNode.removeChild(element[index]);
             }
         }

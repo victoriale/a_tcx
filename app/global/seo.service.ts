@@ -225,7 +225,7 @@ export class SeoService {
 
     public setKeyword(keyword:string) {
         if (SeoService.checkData(keyword)) {
-            if (!this.document.querySelector('meta[name="keyword"]')) {
+            if (!this.document.querySelector('meta[name="es_keyword"]')) {
                 this.es_keyword = this.getOrCreateElement('name', 'es_keyword', 'meta');
             }
             this.setElementAttribute(this.es_keyword, 'content', keyword);

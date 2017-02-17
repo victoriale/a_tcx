@@ -109,6 +109,6 @@ export class PrivacyPolicy implements OnInit{
         this._seo.setOgImage('/app/public/mainLogo.png');
         this._seo.setTitle('Privacy Policy');
         this._seo.setMetaDescription(metaDesc);
-        this._seo.setMetaRobots('INDEX, FOLLOW');
+        this._seo.setMetaRobots('INDEX, NOFOLLOW');
     }
 }

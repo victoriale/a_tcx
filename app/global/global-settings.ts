@@ -11,6 +11,7 @@ export class GlobalSettings {
     private static _apiUrl:string = '-article-library.synapsys.us';
     private static _financeUrl:string = '-finance-api.synapsys.us';
     private static _weatherUrl:string = '-weather.synapsys.us/tcx';
+    private static _searchAPIUrl:string ='-search-api.synapsys.us';
 
 
     private static _articleBatchUrl:string= "-article-library.synapsys.us/articles";
@@ -794,6 +795,9 @@ export class GlobalSettings {
     static getApiUrl():string {
         return this._proto + "//" + this.getEnv(this._env) + this._apiUrl;
     }
+  static getSearchAPIUrl():string {
+    return this._proto + "//" + this.getEnv(this._env) + this._searchAPIUrl;
+  }
 
     static getPartnerApiUrl(partnerID):string {
         return this._proto + "//"+ this.synapsysENV(this._env) + this._partnerApiUrl + partnerID;

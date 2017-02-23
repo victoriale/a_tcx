@@ -9,7 +9,7 @@ declare let Fuse: any;
 
 @Injectable()
 export class SearchService{
-    private _searchApi:string=GlobalSettings.getApiUrl();
+    private _searchApi:string=GlobalSettings.getSearchAPIUrl();
     constructor(private http: Http, private _router:Router){}
 
     searchArticleService(userInput,currentPage,filter1?,filter2?){
@@ -17,7 +17,7 @@ export class SearchService{
         //if user clicked on any of the dropdown filters then filter 1 and filer 2 has respected values to add to API
         if( filter1 || filter2 ){
 
-            callUrl = this._searchApi + '/' + 'elasticSearch' + '/' + userInput + '/' + 10 + '/' + currentPage + '?';
+            callUrl = this._searchApi + '/' + 'articles' + '/' + userInput + '/' + 10 + '/' + currentPage + '?';
 
             if(filter2 && filter2 != "none" && filter2 != undefined){
 

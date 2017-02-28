@@ -50,28 +50,37 @@ export class ResponsiveWidget implements OnInit,AfterViewChecked {
     //check if DOM is completely loaded
     if(state === "complete"){
       if(this.firstCheckhoz == null){
-        var oldFrame = document.getElementById('hozWidgetChild');
-        var parent = document.getElementById('horizontalWidgetFrame');
-        if(oldFrame!=null){
-          parent.removeChild(oldFrame);
+        var parentElementArray = document.getElementsByClassName('widgethoz');
+
+        var parentDivs = Array.prototype.filter.call(parentElementArray, function(singleDiv){
+          return singleDiv
+        });
+        for(var i=0;i<parentDivs.length;i++){
+
+          var oldFrame = parentDivs[i].firstElementChild;
+          var parent =parentDivs[i];
+          if(oldFrame!=null){
+            parent.removeChild(oldFrame);
+          }
+          if(parent!=null){
+            var newFrame = document.createElement("iframe");
+            newFrame.id = 'hozWidgetChild';
+            newFrame.style.width = '100%';
+            newFrame.style.height ='250px';
+            newFrame.style.border = '0px';
+            newFrame.style.margin = '0px';
+            newFrame.style.zIndex = '0';
+            newFrame.frameBorder = '0';
+            newFrame.scrolling = 'no';
+            newFrame.setAttribute('allowtransparency', 'true');
+            newFrame.style.display= 'block';
+            newFrame.style.overflow= 'hidden';
+            newFrame.src = this.srcLink;
+            parent.appendChild(newFrame);
+            this.firstCheckhoz=state;
+          }
         }
-        if(parent!=null){
-          var newFrame = document.createElement("iframe");
-          newFrame.id = 'hozWidgetChild';
-          newFrame.style.width = '100%';
-          newFrame.style.height ='250px';
-          newFrame.style.border = '0px';
-          newFrame.style.margin = '0px';
-          newFrame.style.zIndex = '0';
-          newFrame.frameBorder = '0';
-          newFrame.scrolling = 'no';
-          newFrame.setAttribute('allowtransparency', 'true');
-          newFrame.style.display= 'block';
-          newFrame.style.overflow= 'hidden';
-          newFrame.src = this.srcLink;
-          parent.appendChild(newFrame);
-          this.firstCheckhoz=state;
-        }
+
 
 
       }

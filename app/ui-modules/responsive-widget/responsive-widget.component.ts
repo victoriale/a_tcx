@@ -15,7 +15,7 @@ export class ResponsiveWidget implements OnInit,AfterViewChecked {
   wsubCategory:string;
   windowWidth: number = window.innerWidth;
   srcLink: string;
-  firstCheckhoz=null;
+  firstCheckHoz=null;
 
   getData(){
     //Check if category exists in the given list in global settings
@@ -40,7 +40,7 @@ export class ResponsiveWidget implements OnInit,AfterViewChecked {
   }
   ngOnChanges(){
     this.getData();
-    this.firstCheckhoz= null;
+    this.firstCheckHoz= null;
   }
 
   ngAfterViewChecked():void{
@@ -49,29 +49,38 @@ export class ResponsiveWidget implements OnInit,AfterViewChecked {
     var state = document.readyState;
     //check if DOM is completely loaded
     if(state === "complete"){
-      if(this.firstCheckhoz == null){
-        var oldFrame = document.getElementById('hozWidgetChild');
-        var parent = document.getElementById('horizontalWidgetFrame');
-        if(oldFrame!=null){
-          parent.removeChild(oldFrame);
+      if(this.firstCheckHoz == null){
+        var parentElementArray = document.getElementsByClassName('widgetHoz');
+
+        var parentDivs = Array.prototype.filter.call(parentElementArray, function(singleDiv){
+          return singleDiv
+        });
+        for(var i=0;i<parentDivs.length;i++){
+
+          var oldFrame = parentDivs[i].firstElementChild;
+          var parent =parentDivs[i];
+          if(oldFrame!=null){
+            parent.removeChild(oldFrame);
+          }
+          if(parent!=null){
+            var newFrame = document.createElement("iframe");
+            newFrame.id = 'hozWidgetChild';
+            newFrame.style.width = '100%';
+            newFrame.style.height ='250px';
+            newFrame.style.border = '0px';
+            newFrame.style.margin = '0px';
+            newFrame.style.zIndex = '0';
+            newFrame.frameBorder = '0';
+            newFrame.scrolling = 'no';
+            newFrame.setAttribute('allowtransparency', 'true');
+            newFrame.style.display= 'block';
+            newFrame.style.overflow= 'hidden';
+            newFrame.src = this.srcLink;
+            parent.appendChild(newFrame);
+            this.firstCheckHoz=state;
+          }
         }
-        if(parent!=null){
-          var newFrame = document.createElement("iframe");
-          newFrame.id = 'hozWidgetChild';
-          newFrame.style.width = '100%';
-          newFrame.style.height ='250px';
-          newFrame.style.border = '0px';
-          newFrame.style.margin = '0px';
-          newFrame.style.zIndex = '0';
-          newFrame.frameBorder = '0';
-          newFrame.scrolling = 'no';
-          newFrame.setAttribute('allowtransparency', 'true');
-          newFrame.style.display= 'block';
-          newFrame.style.overflow= 'hidden';
-          newFrame.src = this.srcLink;
-          parent.appendChild(newFrame);
-          this.firstCheckhoz=state;
-        }
+
 
 
       }

@@ -72,7 +72,7 @@ export class WidgetModule  implements AfterViewChecked{
         //check if DOM is completely loaded
         if(state === "complete"){
             if(this.firstCheck == null){
-                var parentArray = document.getElementsByClassName('widgetmain');
+                var parentArray = document.getElementsByClassName('widgetMain');
                 var parentDiv= Array.prototype.filter.call( parentArray, function(singleDiv){
                     return singleDiv
                 });

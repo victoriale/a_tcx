@@ -15,7 +15,7 @@ export class ResponsiveWidget implements OnInit,AfterViewChecked {
   wsubCategory:string;
   windowWidth: number = window.innerWidth;
   srcLink: string;
-  firstCheckhoz=null;
+  firstCheckHoz=null;
 
   getData(){
     //Check if category exists in the given list in global settings
@@ -40,7 +40,7 @@ export class ResponsiveWidget implements OnInit,AfterViewChecked {
   }
   ngOnChanges(){
     this.getData();
-    this.firstCheckhoz= null;
+    this.firstCheckHoz= null;
   }
 
   ngAfterViewChecked():void{
@@ -49,8 +49,8 @@ export class ResponsiveWidget implements OnInit,AfterViewChecked {
     var state = document.readyState;
     //check if DOM is completely loaded
     if(state === "complete"){
-      if(this.firstCheckhoz == null){
-        var parentElementArray = document.getElementsByClassName('widgethoz');
+      if(this.firstCheckHoz == null){
+        var parentElementArray = document.getElementsByClassName('widgetHoz');
 
         var parentDivs = Array.prototype.filter.call(parentElementArray, function(singleDiv){
           return singleDiv
@@ -77,7 +77,7 @@ export class ResponsiveWidget implements OnInit,AfterViewChecked {
             newFrame.style.overflow= 'hidden';
             newFrame.src = this.srcLink;
             parent.appendChild(newFrame);
-            this.firstCheckhoz=state;
+            this.firstCheckHoz=state;
           }
         }
 

@@ -124,7 +124,7 @@ export class SideScrollSchedule{
           //console.log("Preparing your sharknado...");
           var image = document.getElementsByClassName("condition-image");
           for (var i = 0; i < image.length; i++) {
-            image[i]['src'] = "http://images.synapsys.us/weather/icons/sharknado_n.svg";
+            image[i]['src'] = "//images.synapsys.us/weather/icons/sharknado_n.svg";
           }
           var condition = document.getElementsByClassName("condition");
           for (var u = 0; u < condition.length; u++) {

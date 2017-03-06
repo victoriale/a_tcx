@@ -15,7 +15,7 @@ export class GlobalSettings {
 
 
     private static _articleBatchUrl:string= "-article-library.synapsys.us/articles";
-    private static _domainApiUrl:string= "devapi.synapsys.us/widgets/deepdive/bar/domain_api.php?dom=";
+    private static _domainApiUrl:string= "w1.synapsys.us/widgets/deepdive/bar/domain_api.php?dom=";
 
     // private static _partnerApiUrl: string = 'apireal.synapsys.us/listhuv/?action=get_partner_data&domain=';
     private static _partnerApiUrl: string = 'synapview.synapsys.us/synapview/?action=get_header_data&vertical=sports&domain='; // sports being passed into vertical to only grab sports

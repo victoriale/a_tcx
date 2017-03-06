@@ -203,7 +203,8 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
                         this.recomendationData = this._synservice.transformToRecArticles(data,c, subc,this.eventType, this.articleID);
                     }else throw new Error("Error getting recommended Articles")
                 } catch(e){
-                    console.log(e.message);
+                    
+                    (e.message);
                 }
 
             });
@@ -245,7 +246,6 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
     }
     private metaTags(data, artType) {
         //This call will remove all meta tags from the head.
-        console.log("DATA", data);
         this._seo.removeMetaTags();
         var metaData = data;
         var searchString;

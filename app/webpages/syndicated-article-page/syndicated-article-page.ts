@@ -203,7 +203,8 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
                         this.recomendationData = this._synservice.transformToRecArticles(data,c, subc,this.eventType, this.articleID);
                     }else throw new Error("Error getting recommended Articles")
                 } catch(e){
-                    console.log(e.message);
+                    
+                    (e.message);
                 }
 
             });
@@ -309,7 +310,7 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
             this._seo.setPublisher(metaData.publisher);
             this._seo.setImageUrl(image);
             this._seo.setArticleTeaser(metaData.teaser.replace(/<ng2-route>|<\/ng2-route>/g, ''));
-            this._seo.setSearchString(searchString);//should be user input for search
+            this._seo.setKeyword(searchString);//should be user input for search
             this._seo.setPageUrl(link);
             this._seo.setArticleType(metaData.article_type);
 
@@ -319,11 +320,15 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
             this._seo.setPageTitle(metaData.title.replace(/\\'/g, "'"));
             this._seo.setPageUrl(link);
             this._seo.setImageUrl(metaData.video_thumbnail);
+            this._seo.setPublishedDate(metaData.time_stamp);
             this._seo.setArticleId(metaData.id);
             this._seo.setCategory(metaData.keyword);
-            //this._seo.setTeaser(data.teaser);
+            this._seo.setArticleTeaser(data.teaser);
+            this._seo.setIsArticle('false');
             this._seo.setPageType('video article');
-            this._seo.setSearchString(metaData.keywords);
+            this._seo.setPublisher("sendtonews.com");
+            this._seo.setSource(metaData.video_url);
+            this._seo.setKeyword(metaData.keyword);
         }
     }
 

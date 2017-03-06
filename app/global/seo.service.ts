@@ -220,12 +220,12 @@ export class SeoService {
         }
     }
 
-    public setCategory(keyword:string) {
-        if (SeoService.checkData(keyword)) {
+    public setCategory(category:string) {
+        if (SeoService.checkData(category)) {
             if (!this.document.querySelector('meta[name="es_category"]')) {
                 this.es_category = this.getOrCreateElement('name', 'es_category', 'meta');
             }
-            this.setElementAttribute(this.es_category, 'content', keyword);
+            this.setElementAttribute(this.es_category, 'content', category);
         }
     }
 
@@ -310,12 +310,12 @@ export class SeoService {
         }
     }
 
-    public setSearchString(searchString:string) {
-        if (SeoService.checkData(searchString)) {
+    public setKeyword(keywords:string) {
+        if (SeoService.checkData(keywords)) {
             if (!this.document.querySelector('meta[name="es_keywords"]')) {
                 this.es_keywords = this.getOrCreateElement('name', 'es_keywords', 'meta');
             }
-            this.setElementAttribute(this.es_keywords, 'content', searchString);
+            this.setElementAttribute(this.es_keywords, 'content', keywords);
         }
     }
 

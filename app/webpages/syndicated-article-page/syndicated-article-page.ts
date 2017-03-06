@@ -203,8 +203,7 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
                         this.recomendationData = this._synservice.transformToRecArticles(data,c, subc,this.eventType, this.articleID);
                     }else throw new Error("Error getting recommended Articles")
                 } catch(e){
-                    
-                    (e.message);
+                    console.log(e.message);
                 }
 
             });

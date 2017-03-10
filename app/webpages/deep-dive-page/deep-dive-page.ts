@@ -129,12 +129,98 @@ export class DeepDivePage implements OnInit{
       }
     }
 
+    createUniqueMetaDesc(scope){
+        console.log(scope);
+        var genScope = GlobalSettings.getTCXscope(this.scope).topScope;
+        var scopeTitleCase = GlobalFunctions.toTitleCase(genScope);
+
+        var currentPageScope = {
+            "all":{
+                pageTitle: "Featured Articles",
+                pageDescription:GlobalSettings.getPageTitle('Dive into the most recent news about your favorite movies, sports including football, baseball, basketball and read the latest articles on politics, business, travel , food etc.', 'Deep Dive'),
+            },
+            "food":{
+                pageTitle: "Delicious "+ scopeTitleCase +" Recipes and Articles",
+                pageDescription: "Learn everything about your best-loved dish and stay up to date on news related to your favorite restaurants. Get Fit and Healthy by paying attention to the latest discoveries on food"
+            },
+            "sports":{
+                pageTitle: "Latest News and Videos on all " + scopeTitleCase,
+                pageDescription: "Current Trending and latest articles on different sports categories that includes but not limited to football (NFL and NCAAF), basketball (NBA and NCAAM) and baseball (MLB) all around the world"
+            },
+            "business":{
+                pageTitle:  scopeTitleCase + " Information",
+                pageDescription: "Get the breaking financial, business news and know the current trends in today's stock market "
+
+            },
+            "entertainment":{
+                pageTitle: "All about Celebrities, Movies and Music",
+                pageDescription: "Have fun reading articles about your favorite celebrities, TV shows, latest movies and great music"
+
+            },
+            "politics":{
+                pageTitle: "Government and " + scopeTitleCase,
+                pageDescription: "Be informed with the latest US politics. Dive into vast collection of articles related to state governors, white house, congress, etc."
+
+            },
+            "lifestyle":{
+                pageTitle: "Fascinating " + scopeTitleCase + " Articles",
+                pageDescription: "Read featured news on modern lifestyle including tremendous articles on wide range of topics like health, culture, history etc."
+
+            },
+            "real estate":{
+                pageTitle: scopeTitleCase + " News",
+                pageDescription: "Articles giving detailed analysis on real estate worth reading. Discover unique homes and houses for sale in your area"
+
+            },
+            "travel":{
+                pageTitle: "Next Big Trip? All about travelling",
+                pageDescription: "Articles that inspire to plan your next big trip. If you are a person who loves to travel then this is definitely the spot for you. Checkout interesting collection of travel news and articles"
+
+            },
+            "trending":{
+                pageTitle: "Trending stories",
+                pageDescription: "Combination of the most trending and prominent articles for users to read and gain insights on their interests",
+
+            },
+            "nfl":{
+                pageTitle: "National Football League, NFL",
+                pageDescription: "This page contains news about "+ scopeTitleCase+ ". Get the latest scores, videos and articles about your favorite NFL teams and players",
+            },
+            "ncaaf": {
+                pageTitle: "College Football News",
+                pageDescription: "This page is all about college football featured articles, trending news, video reports etc. Get the latest NCAAF scores and news about your favorite teams and players",
+            },
+            "nba":{
+                pageTitle: "National Basketball Association",
+                pageDescription: "Checkout the top NBA stories, latest scores, interesting articles on your favorite teams and players",
+            },
+            "ncaam":{
+                pageTitle: "College Basketball News",
+                pageDescription: "Know more about college Basketball: Featured articles, trending news, video reports etc. Get the latest NCAAM scores and news about your favorite teams and players ",
+            },
+            "mlb":{
+                pageTitle: "Major League Baseball",
+                pageDescription: "News, photos, videos, scores, teams, players and latest information about Major League Baseball, MLB",
+            }
+
+
+
+        }
+        return currentPageScope[scope];
+
+       /* if(scope == "all"){
+            return GlobalSettings.getPageTitle('Dive into the most recent news about your favorite movies, sports including football, baseball, basketball and read the latest articles on politics, business, travel , food etc.', 'Deep Dive');
+        } else{
+            return GlobalSettings.getPageTitle('Combination of the most trending and prominent articles related to ' + GlobalSettings.getTCXscope(this.scope).topScope + ' for users to read and gain insights on their interests', 'Deep Dive');
+        }*/
+    }
+
     private addMetaTags(){
         this._seo.removeMetaTags();
-        let metaDesc = GlobalSettings.getPageTitle('Dive into the most recent news about your favorite sports, movies and read the latest articles on politics, business, travel etc.', 'Deep Dive');
+        let metaDesc = this.createUniqueMetaDesc(this.scope).pageDescription;
         let link = window.location.href;
-        let title = this.scope != "all" ? GlobalSettings.getTCXscope(this.scope).displayName : "Home";
-        title += " Deep Dive";
+        let genTitle = GlobalSettings.getTCXscope(this.scope).topScope;
+        let title = this.createUniqueMetaDesc(this.scope).pageTitle;
         this._seo.setCanonicalLink(this._activatedRoute.params,this._router);
         this.scope=="all"?this._seo.setOgTitle('TCX Deep Dive'): this._seo.setOgTitle(this.scope);
         this._seo.setOgDesc(metaDesc);
@@ -148,6 +234,7 @@ export class DeepDivePage implements OnInit{
         this._seo.setCategory(this.category);
         this._seo.setMetaRobots('INDEX, NOFOLLOW');
         this._seo.setPageUrl(link);
+        this._seo.setPageDescription(metaDesc)
     }
 
     changeScope($event) {

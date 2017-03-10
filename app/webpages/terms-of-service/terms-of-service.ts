@@ -50,6 +50,7 @@ export class TermsOfService implements OnInit{
     this._seo.setPageTitle(title);
     this._seo.setPageType('Terms of service page');
       this._seo.setPageUrl(link);
+      this._seo.setPageDescription(metaDesc);
 
   }
 }

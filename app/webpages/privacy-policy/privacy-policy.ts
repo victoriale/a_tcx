@@ -98,9 +98,9 @@ export class PrivacyPolicy implements OnInit{
     this.addMetaTags();
   }
     private addMetaTags(){
-        var title = "Privacy Policy";
+        var title = this.aboutUsData.title;
         this._seo.removeMetaTags();
-        let metaDesc = GlobalSettings.getPageTitle('Privacy Policy');
+        let metaDesc = GlobalSettings.getPageTitle(this.aboutUsData.paragraph[0].info[0],'Privacy Policy');
         let link = window.location.href;
         this._seo.setCanonicalLink(this._activatedRoute.params,this._router);
         this._seo.setOgTitle(title);
@@ -114,5 +114,7 @@ export class PrivacyPolicy implements OnInit{
         this._seo.setPageTitle(title);
         this._seo.setPageType('Privacy Policy Page');
         this._seo.setPageUrl(link);
+        this._seo.setPageDescription(metaDesc);
+
     }
 }

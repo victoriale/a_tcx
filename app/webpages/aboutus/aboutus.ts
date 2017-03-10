@@ -33,9 +33,9 @@ export class AboutUsPage implements OnInit{
   }
 
   private addMetaTags(){
-    var title = "About Us"
+    var title = this.aboutUsData.title;
     this._seo.removeMetaTags();
-    let metaDesc = GlobalSettings.getPageTitle('Dive into the most recent news about your favorite sports, movies and read the latest articles on politics, business, travel etc.', 'About Us');
+    let metaDesc = GlobalSettings.getPageTitle(this.aboutUsData.paragraph[0].info[0],'About Us');
     let link = window.location.href;
     this._seo.setCanonicalLink(this._activatedRoute.params,this._router);
    this._seo.setOgTitle(title);
@@ -49,5 +49,6 @@ export class AboutUsPage implements OnInit{
       this._seo.setPageTitle(title);
       this._seo.setPageType('About Us Page');
       this._seo.setPageUrl(link);
+      this._seo.setPageDescription(metaDesc);
   }
 }

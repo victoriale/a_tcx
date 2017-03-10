@@ -308,7 +308,7 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
             this._seo.setPublishedDate(metaData.last_updated);
             this._seo.setPublisher(metaData.publisher);
             this._seo.setImageUrl(image);
-            this._seo.setArticleTeaser(metaData.teaser.replace(/<ng2-route>|<\/ng2-route>/g, ''));
+            this._seo.setPageDescription(metaData.teaser.replace(/<ng2-route>|<\/ng2-route>/g, ''));
             this._seo.setKeyword(searchString);//should be user input for search
             this._seo.setPageUrl(link);
             this._seo.setArticleType(metaData.article_type);
@@ -318,11 +318,12 @@ export class SyndicatedArticlePage implements OnDestroy, AfterViewInit{
         }else{//video pages, etc. not article pages
             this._seo.setPageTitle(metaData.title.replace(/\\'/g, "'"));
             this._seo.setPageUrl(link);
+            this._seo.setTitle(metaData.title);
             this._seo.setImageUrl(metaData.video_thumbnail);
             this._seo.setPublishedDate(metaData.time_stamp);
             this._seo.setArticleId(metaData.id);
             this._seo.setCategory(metaData.keyword);
-            this._seo.setArticleTeaser(data.teaser);
+            this._seo.setPageDescription(data.teaser);
             this._seo.setIsArticle('false');
             this._seo.setPageType('video article');
             this._seo.setPublisher("sendtonews.com");

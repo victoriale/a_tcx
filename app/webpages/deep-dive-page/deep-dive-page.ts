@@ -130,7 +130,6 @@ export class DeepDivePage implements OnInit{
     }
 
     createUniqueMetaDesc(scope){
-        console.log(scope);
         var genScope = GlobalSettings.getTCXscope(this.scope).topScope;
         var scopeTitleCase = GlobalFunctions.toTitleCase(genScope);
 
